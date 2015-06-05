@@ -1,12 +1,8 @@
 'use strict'
 
 import React from 'react'
+import './styles/main.styl'
 
-const Hello = React.createClass({
-  displayName: 'hello',
-  render () {
-    return <div>Hello, {this.props.name}</div>
-  }
-})
+import Home from '../pages/home.js'
 
-React.render(<Hello name='world'/>, document.body)
+React.render(<Home/>, document.body)

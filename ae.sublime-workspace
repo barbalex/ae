@@ -1,0 +1,1259 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"webpack",
+				"webpack-dev-server"
+			],
+			[
+				"l",
+				"length"
+			],
+			[
+				"_user",
+				"_usersDb"
+			],
+			[
+				"proj",
+				"projectDbName"
+			],
+			[
+				"sec",
+				"securityDoc"
+			],
+			[
+				"se",
+				"securityDoc"
+			],
+			[
+				"mess",
+				"messageDb"
+			],
+			[
+				"ot",
+				"otherUsersDocs"
+			],
+			[
+				"pro",
+				"projectDbName"
+			],
+			[
+				"ob",
+				"object"
+			],
+			[
+				"loc",
+				"localDb"
+			],
+			[
+				"hie",
+				"hierarchies"
+			],
+			[
+				"hier",
+				"hierarchies"
+			],
+			[
+				"obj",
+				"objectsByTypeIndex"
+			],
+			[
+				"rootO",
+				"rootObject"
+			],
+			[
+				"proje",
+				"projectDbName"
+			],
+			[
+				"user",
+				"userDocnameKeys"
+			],
+			[
+				"userDo",
+				"userDocnames"
+			],
+			[
+				"gulp",
+				"gulp-tasks"
+			],
+			[
+				"jquer",
+				"jquery-ui"
+			],
+			[
+				"signin",
+				"signindata"
+			],
+			[
+				"sign",
+				"signindata"
+			],
+			[
+				"pa",
+				"password2"
+			],
+			[
+				"pass",
+				"password2"
+			],
+			[
+				"js",
+				"jstreeObject"
+			],
+			[
+				"des",
+				"descendantHierarchies"
+			],
+			[
+				"hi",
+				"hierarchy"
+			],
+			[
+				"d",
+				"databaseId"
+			],
+			[
+				"che",
+				"checkboxGroup"
+			],
+			[
+				"field",
+				"fieldValueList"
+			],
+			[
+				"value",
+				"valueObjectList"
+			],
+			[
+				"val",
+				"valueList"
+			],
+			[
+				"adj",
+				"adjustedHeight"
+			],
+			[
+				"temp",
+				"templateObject"
+			],
+			[
+				"re",
+				"results"
+			],
+			[
+				"map",
+				"mapHierarchyToJstreeData"
+			],
+			[
+				"he",
+				"hierarchy"
+			],
+			[
+				"la",
+				"layersArray"
+			],
+			[
+				"tpop",
+				"tpopkontrzaehl"
+			],
+			[
+				"del",
+				"deltaY"
+			],
+			[
+				"tpo",
+				"tpopArray"
+			],
+			[
+				"max",
+				"max-height"
+			],
+			[
+				"ret",
+				"returnWert"
+			],
+			[
+				"Pop",
+				"PopMassnBerId"
+			],
+			[
+				"lee",
+				"leereZaehleinheit"
+			],
+			[
+				"massnb",
+				"massnberText"
+			],
+			[
+				"get",
+				"getZaehleinheiten"
+			],
+			[
+				"erstell",
+				"erstelleTree"
+			],
+			[
+				"latl",
+				"latlng2"
+			],
+			[
+				"ak",
+				"aktiverNode"
+			],
+			[
+				"info",
+				"infowindow_beob"
+			],
+			[
+				"Con",
+				"Content-Type"
+			],
+			[
+				"ini",
+				"initiiereIndex"
+			],
+			[
+				"nodeT",
+				"nodeText2"
+			],
+			[
+				"Inser",
+				"insertIntoTblAktionsplan"
+			],
+			[
+				"feldkontr",
+				"feldkontrZaehleinheit"
+			],
+			[
+				"node",
+				"nodeText"
+			],
+			[
+				"tpopf",
+				"tpopFeldkontrListe"
+			],
+			[
+				"tpopm",
+				"tpopMassnBerListe"
+			],
+			[
+				"str",
+				"strukturtyp"
+			],
+			[
+				"initiiereT",
+				"initiiereTPopFeldkontr"
+			],
+			[
+				"massnber",
+				"massnberVonPop"
+			],
+			[
+				"vor",
+				"voranzustellendeNullen"
+			],
+			[
+				"Z",
+				"ZielId"
+			],
+			[
+				"legene",
+				"legende_url"
+			],
+			[
+				"eigene_",
+				"eigene_ebenen_string"
+			],
+			[
+				"fea",
+				"features"
+			],
+			[
+				"strc",
+				"strict"
+			],
+			[
+				"rb",
+				"rgba()"
+			],
+			[
+				"popu",
+				"popup_id_array"
+			],
+			[
+				"overl",
+				"overlays"
+			],
+			[
+				"zeigeF",
+				"zeigeFeatureInfo"
+			],
+			[
+				"feat",
+				"feature"
+			],
+			[
+				"entfern",
+				"entferneApfloraLayer"
+			],
+			[
+				"my",
+				"my_label"
+			],
+			[
+				"marker_s",
+				"marker_style_markiert"
+			],
+			[
+				"zus",
+				"zusammenfassend"
+			],
+			[
+				"Ur",
+				"Ursprungsdatensammlung"
+			],
+			[
+				"beste",
+				"bestehende_es"
+			],
+			[
+				"mar",
+				"margin-top"
+			],
+			[
+				"hPr",
+				"hProjektListe"
+			],
+			[
+				"op",
+				"option"
+			],
+			[
+				"htmlC",
+				"HtmlContainerBody"
+			],
+			[
+				"ind",
+				"indexpos_hierarchisch"
+			],
+			[
+				"index",
+				"indexpos_einfach"
+			],
+			[
+				"rem",
+				"removeDoc"
+			],
+			[
+				"sess",
+				"sessionStorage"
+			],
+			[
+				"table",
+				"table_id"
+			],
+			[
+				"löschePro",
+				"löscheProjekt_2"
+			],
+			[
+				"strin",
+				"stringify"
+			],
+			[
+				"qry",
+				"qryLrMethode"
+			],
+			[
+				"LrD",
+				"LrDocs"
+			],
+			[
+				"und",
+				"undelete"
+			],
+			[
+				"apziel_von",
+				"apziel_von_ordner_apziel"
+			],
+			[
+				"insertTPopFe",
+				"insertTPopFeldKontrKopie_3"
+			],
+			[
+				"deleteTPop",
+				"deleteTPopFeldKontr"
+			],
+			[
+				"insert",
+				"insertTPopFeldKontr_3"
+			],
+			[
+				"insertTPop",
+				"insertTPopFeldKontrKopie_2"
+			],
+			[
+				"ordne",
+				"ordneBeobachtungZu_3"
+			],
+			[
+				"ordn",
+				"ordneBeobachtungZu_2"
+			],
+			[
+				"fuege",
+				"fuegeTPopEin_3"
+			],
+			[
+				"getTPo",
+				"getTPopMassnBer"
+			],
+			[
+				"berj_",
+				"berj_ber_id"
+			],
+			[
+				"indber",
+				"indber_ind_kuerzel"
+			],
+			[
+				"löschen_m",
+				"löschen_meldung_meldung"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "package.json",
+			"settings":
+			{
+				"buffer_size": 1015,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/app.js",
+			"settings":
+			{
+				"buffer_size": 247,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "webpack.config.js",
+			"settings":
+			{
+				"buffer_size": 355,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/styles/main.styl",
+			"settings":
+			{
+				"buffer_size": 31,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 81.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"Package Control: install",
+				"Package Control: Install Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"lint",
+				"SublimeLinter: Next Error"
+			],
+			[
+				"pack",
+				"Preferences: Browse Packages"
+			]
+		],
+		"width": 416.0
+	},
+	"console":
+	{
+		"height": 558.0,
+		"history":
+		[
+			"import urllib.request,os; pr='Preferences.sublime-settings'; ip='ignored_packages'; n='Package Control'; s=sublime.load_settings(pr); ig=s.get(ip); ig.append(n); s.set(ip,ig); sublime.save_settings('Preferences.sublime-settings'); pf=n+'.sublime-package'; urllib.request.install_opener(urllib.request.build_opener(urllib.request.ProxyHandler())); by=urllib.request.urlopen('https://packagecontrol.io/'+pf.replace(' ','%20')).read(); open(os.path.join(sublime.installed_packages_path(),pf),'wb').write(by); ig.remove(n); s.set(ip,ig); sublime.save_settings(pr); print('Package Control: 3.0.0 upgrade successful!')",
+			"import urllib.request,os; pr='Preferences.sublime-settings'; ip='ignored_packages'; n='Package Control'; s=sublime.load_settings(pr); ig=s.get(ip); ig.append(",
+			"import urllib.request,os; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); open(os.path.join(ipp, pf), 'wb').write(urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ','%20')).read())"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Users/alex/ae",
+		"/C/Users/alex/ae/src",
+		"/C/Users/alex/ae/src/styles"
+	],
+	"file_history":
+	[
+		"/C/Users/alex/ae/.gitignore",
+		"/C/Users/alex/ae/readme.md",
+		"/C/Users/alex/ae/webpack.config.js",
+		"/C/Users/alex/ae/gulp-tasks/cleanPublic.js",
+		"/C/Users/alex/ae/gulpfile.js",
+		"/C/Users/alex/oi_pg/modules/createSecurityDoc.js",
+		"/C/Users/alex/oi_pg/modules/deleteDatabase.js",
+		"/C/Users/alex/oi_pg/modules/getUserDbName.js",
+		"/C/Users/alex/oi_pg/modules/listenToChangesIn_usersDb.js",
+		"/C/Users/alex/oi_pg/modules/listenToChangesInMessageDb.js",
+		"/C/Users/alex/oi_pg/modules/listenToChangesInUsersDbs.js",
+		"/C/Users/alex/oi_pg/modules/listenToDbChanges.js",
+		"/C/Users/alex/oi_pg/modules/removeUsersProjectDbs.js",
+		"/C/Users/alex/oi_pg/modules/handleChangesInUserDb.js",
+		"/C/Users/alex/oi_pg/modules/handleDbChanges.js",
+		"/C/Users/alex/oi_pg/modules/handleChangesIn_usersDb.js",
+		"/C/Users/alex/oi_pg/modules/handleChangesInMessageDb.js",
+		"/C/Users/alex/oi_pg/modules/updateUserDoc.js",
+		"/C/Users/alex/oi_pg/package.json",
+		"/F/Google Drive/ortinfo/geo-testdaten/Tabletversuch/Grundlagen/Basisplan/up4945.tfw",
+		"/C/Users/alex/AppData/Local/Temp/Temp1_release-1600-x64-gdal-1-11-1-mapserver-6-4-1.zip/read-me.txt",
+		"/F/Google Drive/ortinfo/geo-testdaten/Tabletversuch/Grundlagen/Basisplan/up4945_2.vrt",
+		"/F/Google Drive/ortinfo/geo-testdaten/Tabletversuch/Grundlagen/Basisplan/up4945.vrt",
+		"/F/Google Drive/ortinfo/geo-testdaten/Tabletversuch/Grundlagen/Basisplan/up4945.TAB",
+		"/C/Users/alex/Downloads/NE1_LR_LC/NE1_LR_LC/NE1_LR_LC.prj",
+		"/C/Users/alex/Downloads/NE1_LR_LC/NE1_LR_LC/NE1_LR_LC.tfw",
+		"/C/Users/alex/Downloads/NE1_LR_LC/NE1_LR_LC/NE1_LR_LC.VERSION.txt",
+		"/F/Google Drive/ortinfo/geo-testdaten/Tabletversuch/Grundlagen/Ortho/1194-43.TAB",
+		"/F/Google Drive/ortinfo/geo-testdaten/Tabletversuch/Grundlagen/Ortho/1194-43.tfw",
+		"/C/Users/alex/oi_pg/modules/createProjectDb.js",
+		"/C/Users/alex/oi_pg/modules/handleChangesInProjectDb.js",
+		"/C/Users/alex/oi_pg/modules/addRoleToUsersDb.js",
+		"/C/Users/alex/oi_pg/modules/listenToChangesInProjectDbs.js",
+		"/C/Users/alex/oi_pg/modules/removeUsersDocsAndProjects.js",
+		"/C/Users/alex/oi/server.js",
+		"/C/Users/alex/oi/src/modules/syncWithRemoteDb.js",
+		"/C/Users/alex/oi/src/modules/handleChanges.js",
+		"/C/Users/alex/oi/src/modules/syncWithRemoteDbs.js",
+		"/C/Users/alex/oi/src/modules/deleteObjectAndChildren.js",
+		"/C/Users/alex/oi/src/modules/form/saveObjectValue.js",
+		"/C/Users/alex/oi/src/modules/handleExternalObjectChanges.js",
+		"/C/Users/alex/oi/src/modules/setupEvents.js",
+		"/C/Users/alex/oi/src/modules/event/onClickFormDelete.js",
+		"/C/Users/alex/oi/src/modules/deleteObjectFromModel.js",
+		"/C/Users/alex/oi_pg/index.js",
+		"/C/Users/alex/oi/style/oi.css",
+		"/C/Users/alex/oi/index.html",
+		"/C/Users/alex/oi/src/modules/nav/createTree.js",
+		"/C/Users/alex/oi/src/modules/nav/generateDataForTree.js",
+		"/C/Users/alex/oi/src/modules/nav/initiateNav.js",
+		"/C/Users/alex/oi_testdata/index.js",
+		"/C/Users/alex/oi/src/oi_browserified.js",
+		"/C/Users/alex/oi/src/modules/handleUsersChanges.js",
+		"/C/Users/alex/oi/src/modules/syncWithRemoteUserDb.js",
+		"/C/Users/alex/oi/src/modules/event/onScrollTab.js",
+		"/C/Users/alex/oi/src/modules/setWidthOfTabs.js",
+		"/C/Users/alex/oi/src/modules/alsoResizeReverse.js",
+		"/C/Users/alex/oi/src/modules/nav/treeContextmenuItems.js",
+		"/C/Users/alex/oi/src/modules/nav/getModelData.js",
+		"/C/Users/alex/oi/src/modules/nav/getDataFromDb.js",
+		"/C/Users/alex/oi/oi.appcache",
+		"/C/Users/alex/oi/src/oi.js",
+		"/C/Users/alex/oi/src/modules/event/onKeypressSigninWithModal.js",
+		"/C/Users/alex/oi/gulp-tasks/createManifest.js",
+		"/C/Users/alex/oi/gulp-tasks/watch.js",
+		"/C/Users/alex/oi/gulp-tasks/dev_1.js",
+		"/C/Users/alex/oi/.gitignore",
+		"/C/Users/alex/oi/src/modules/configuration.js",
+		"/C/Users/alex/oi/couchpass.json",
+		"/C/Users/alex/oi_pg/modules/handleProjectChangesInDb.js",
+		"/C/Users/alex/oi/src/modules/nav/createObjectsByTypeIndex.js",
+		"/C/Users/alex/oi/src/modules/nav/addDataOfProjectToModel.js",
+		"/C/Users/alex/oi/src/modules/nav/openSigninModal.js",
+		"/C/Users/alex/oi/src/modules/nav/signIn.js",
+		"/C/Users/alex/oi/src/modules/nav/objectsByTypeIndex.js",
+		"/C/Users/alex/oi/src/modules/nav/getProjectNames.js",
+		"/C/Users/alex/oi_testdata/package.json",
+		"/C/Users/alex/oi/src/modules/nav/sync.js",
+		"/C/Users/alex/oi/src/modules/nav/syncWithRemoteUserDb.js",
+		"/C/Users/alex/oi/src/modules/nav/createDatabaseId.js",
+		"/C/Users/alex/Downloads/apber.sql",
+		"/C/Users/alex/Downloads/apber.csv",
+		"/C/Users/alex/oi/src/modules/nav/initiateChangeStreams.js",
+		"/C/Users/alex/oi/src/modules/nav/initiateChangeStream.js",
+		"/C/Users/alex/oi/src/modules/nav/createChildHierarchiesOfObject.js",
+		"/C/Users/alex/oi_testdata/.gitignore",
+		"/C/Users/alex/oi_testdata/.gitattributes",
+		"/C/Users/alex/oi_beispielsdaten_laden/index.js",
+		"/C/Users/alex/oi/src/modules/event/onClickNavFormSort.js",
+		"/C/Users/alex/oi/src/modules/form/saveHierarchy.js",
+		"/C/Users/alex/oi/src/modules/form/initiateForm.js",
+		"/C/Users/alex/oi/src/modules/event/onClickSigninWithModalSignupCheckbox.js",
+		"/C/Users/alex/oi/src/modules/initiateResizables.js",
+		"/C/Users/alex/oi/src/modules/getHierarchyOfObject.js",
+		"/C/Users/alex/oi/templates/checkboxGroup.hdb",
+		"/C/Users/alex/oi/templates/optionGroup.hdb",
+		"/C/Users/alex/oi/templates/select.hdb",
+		"/C/Users/alex/oi/templates/textarea.hdb",
+		"/C/Users/alex/oi/templates/input.hdb",
+		"/C/Users/alex/oi/templates/checkbox.hdb",
+		"/C/Users/alex/oi/src/modules/nav/createObjectsByUserTypeIndex.js",
+		"/C/Users/alex/oi/src/modules/nav/signUp.js",
+		"/C/Users/alex/oi/src/modules/nav/getLogin.js",
+		"/C/Users/alex/oi/gulp-tasks/dev_when_watch_1.js",
+		"/C/Users/alex/oi/package.json",
+		"/C/Users/alex/oi/gulp-tasks/dev_when_watch_2.js",
+		"/C/Users/alex/oi/gulp-tasks/dev_style.js",
+		"/C/Users/alex/oi/gulp-tasks/dev_3.js",
+		"/C/Users/alex/oi/gulp-tasks/dev_2.js",
+		"/C/Users/alex/oi/gulp-tasks/manifest.js",
+		"/C/Users/alex/oi/gulp-tasks/dev_when_watch_3.js",
+		"/C/Users/alex/oi/gulp-tasks/dev_4.js",
+		"/C/Users/alex/oi/gulp-tasks/default.js",
+		"/C/Users/alex/oi/src/modules/nav/changesFilter.js",
+		"/C/Users/alex/oi/src/modules/syncPouch.js",
+		"/C/Users/alex/oi/src/modules/nav/objectsByUserTypeIndex.js",
+		"/C/Users/alex/oi/src/modules/nav/signInOrUp.js",
+		"/C/Users/alex/oi/src/modules/nav/changedObjectsIndex.js",
+		"/C/Users/alex/oi/src/modules/nav/initiateForeignChangeQuery.js",
+		"/C/Users/alex/oi/src/modules/nav/foreignChangedIndex.js",
+		"/C/Users/alex/oi/src/modules/pouchDbOptions.js",
+		"/C/Users/alex/oi/src/modules/nav/hierarchiesIndex.js",
+		"/C/Users/alex/oi/src/modules/createNewObject.js",
+		"/C/Users/alex/oi/gulp-tasks/dev_src.js",
+		"/C/Users/alex/oi/src/pouchdb.authentication.js",
+		"/C/Users/alex/oi/src/modules/validateEmail.js",
+		"/C/Users/alex/oi/src/modules/nav/signup.js",
+		"/C/Users/alex/oi/src/modules/askYesNoWithModal.js"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 147.0,
+		"where_history":
+		[
+			"C:\\Users\\alex\\oi_pg",
+			"C:\\Users\\alex\\oi, -oi_browserified.js, -oi_built.js, -bootstrap.js, -jquery-ui.js, -jquery.js, -jstree.js, -bootstrap.css, -oi_built.css, -jstree.css, -perfect-scrollbar.css, -perfect-scrollbar.js, -npm-debug.log, -font-awesome.css, -jquery-ui.css, -jquery-ui.structure.css",
+			"C:\\Users\\alex\\oi, -oi_browserified.js, -oi_built.js, -bootstrap.js, -jquery-ui.js, -jquery.js, -jstree.js, -bootstrap.css, -oi_built.css, -jstree.css, -perfect-scrollbar.css, -perfect-scrollbar.js, -npm-debug.log, -font-awesome.css, -jquery-ui.css",
+			"C:\\Users\\alex\\oi, -oi_browserified.js, -oi_built.js, -bootstrap.js, -jquery-ui.js, -jquery.js, -jstree.js, -bootstrap.css, -oi_built.css, -jstree.css, -perfect-scrollbar.css, -perfect-scrollbar.js, -npm-debug.log, -font-awesome.css",
+			"C:\\Users\\alex\\oi, -oi_browserified.js, -oi_built.js, -bootstrap.js, -jquery-ui.js, -jquery.js, -jstree.js, -bootstrap.css, -oi_built.css, -jstree.css, -perfect-scrollbar.css, -perfect-scrollbar.js, -npm-debug.log",
+			"C:\\Users\\alex\\oi, -oi_browserified.js, -oi_built.js, -bootstrap.js, -jquery-ui.js, -jquery.js, -jstree.js, -bootstrap.css, -oi_built.css, -jstree.css, -perfect-scrollbar.css, -perfect-scrollbar.js, npm-debug.log",
+			"C:\\Users\\alex\\oi, -oi_browserified.js, -oi_built.js, -bootstrap.js, -jquery-ui.js, -jquery.js, -jstree.js, -bootstrap.css, -oi_built.css, -jstree.css, -perfect-scrollbar.css, -perfect-scrollbar.js",
+			"C:\\Users\\alex\\oi, -oi_browserified.js, -oi_built.js, -bootstrap.js, -jquery-ui.js, -jquery.js, -jstree.js, -bootstrap.css, -oi_built.css, -jstree.css, -perfect-scrollbar.css",
+			"C:\\Users\\alex\\oi, -oi_browserified.js, -oi_built.js, -bootstrap.js, -jquery-ui.js, -jquery.js, -jstree.js, -bootstrap.css, -oi_built.css, -jstree.css",
+			"C:\\Users\\alex\\oi, -oi_browserified.js, -oi_built.js, -bootstrap.js, -jquery-ui.js, -jquery.js, -jstree.js, -bootstrap.css",
+			"C:\\Users\\alex\\oi, -oi_browserified.js, -oi_built.js, -bootstrap.js, -jquery-ui.js, -jquery.js, -jstree.js",
+			"C:\\Users\\alex\\oi, -oi_browserified.js, -oi_built.js",
+			"C:\\Users\\alex\\oi -oi_browserified.js, -oi_built.js",
+			"C:\\Users\\alex\\oi",
+			"C:\\Users\\alex\\apflora, -apflora_built.js, -apflora_browserified.js, -apflora_built.css, -main_built.css, -jquery-ui.js, -jquery.hotkeys.js, -jquery.js, -jquery.jstree.js, -markerwithlabel.js, -underscore.js, -hammer.js, -jquery-migrate.js, -jquery.cookie.js, -jquery.fileDownload.js, -jquery.hammer.js, -jquery.qtip.js, -jquery.ui.touch-punch.js, -jsuri.js, -markerclusterer.js, -proj4.js, -ruler.js, -ApFloraAdmin.accdb, -ApFloraAdminNeu.accdb, -workspace.xml, -backbone.js, -alex.xml, -EvabGeoDB_apflora.mdb, -EvabGeoDB_Template.mdb, -apflora.qgs, -tabellenUmbenennen.sql, -FileSaver.js, -handlebars.js, -apflora_struktur.sql, -20141221NeueNamenDbUndTabellen.txt, -renameTables.sql",
+			"C:\\Users\\alex\\apflora, -apflora_built.js, -apflora_browserified.js, -apflora_built.css, -main_built.css, -jquery-ui.js, -jquery.hotkeys.js, -jquery.js, -jquery.jstree.js, -markerwithlabel.js, -underscore.js, -hammer.js, -jquery-migrate.js, -jquery.cookie.js, -jquery.fileDownload.js, -jquery.hammer.js, -jquery.qtip.js, -jquery.ui.touch-punch.js, -jsuri.js, -markerclusterer.js, -proj4.js, -ruler.js, -ApFloraAdmin.accdb, -ApFloraAdminNeu.accdb, -workspace.xml, -backbone.js, -alex.xml, -Beziehungen.accdb, -EvabGeoDB_apflora.mdb, -EvabGeoDB_Template.mdb, -apflora.qgs, -tabellenUmbenennen.sql, -FileSaver.js, -handlebars.js, -apflora_struktur.sql, -20141221NeueNamenDbUndTabellen.txt, -renameTables.sql",
+			"C:\\Users\\alex\\apflora, -apflora_built.js, -apflora_browserified.js, -apflora_built.css, -main_built.css, -jquery-ui.js, -jquery.hotkeys.js, -jquery.js, -jquery.jstree.js, -markerwithlabel.js, -underscore.js, -hammer.js, -jquery-migrate.js, -jquery.cookie.js, -jquery.fileDownload.js, -jquery.hammer.js, -jquery.qtip.js, -jquery.ui.touch-punch.js, -jsuri.js, -markerclusterer.js, -proj4.js, -ruler.js, -ApFloraAdmin.accdb, -ApFloraAdminNeu.accdb, -workspace.xml, -backbone.js, -alex.xml, -Beziehungen.accdb, -EvabGeoDB_apflora.mdb, -EvabGeoDB_Template.mdb, -apflora.qgs, -tabellenUmbenennen.sql, -FileSaver.js, -handlebars.js, -apflora_struktur.sql, -20141221NeueNamenDbUndTabellen.txt",
+			"C:\\Users\\alex\\apflora, -apflora_built.js, -apflora_browserified.js, -apflora_built.css, -main_built.css, -jquery-ui.js, -jquery.hotkeys.js, -jquery.js, -jquery.jstree.js, -markerwithlabel.js, -underscore.js, -hammer.js, -jquery-migrate.js, -jquery.cookie.js, -jquery.fileDownload.js, -jquery.hammer.js, -jquery.qtip.js, -jquery.ui.touch-punch.js, -jsuri.js, -markerclusterer.js, -proj4.js, -ruler.js, -ApFloraAdmin.accdb, -ApFloraAdminNeu.accdb, -workspace.xml, -backbone.js, -alex.xml, -Beziehungen.accdb, -EvabGeoDB_apflora.mdb, -EvabGeoDB_Template.mdb, -apflora.qgs, -tabellenUmbenennen.sql, -FileSaver.js, -handlebars.js, -apflora_struktur.sql, -'2014 12 21 Neue Namen DB und Tabellen.txt'",
+			"C:\\Users\\alex\\apflora, -apflora_built.js, -apflora_browserified.js, -apflora_built.css, -main_built.css, -jquery-ui.js, -jquery.hotkeys.js, -jquery.js, -jquery.jstree.js, -markerwithlabel.js, -underscore.js, -hammer.js, -jquery-migrate.js, -jquery.cookie.js, -jquery.fileDownload.js, -jquery.hammer.js, -jquery.qtip.js, -jquery.ui.touch-punch.js, -jsuri.js, -markerclusterer.js, -proj4.js, -ruler.js, -ApFloraAdmin.accdb, -ApFloraAdminNeu.accdb, -workspace.xml, -backbone.js, -alex.xml, -Beziehungen.accdb, -EvabGeoDB_apflora.mdb, -EvabGeoDB_Template.mdb, -apflora.qgs, -tabellenUmbenennen.sql, -FileSaver.js, -handlebars.js, -apflora_struktur.sql",
+			"C:\\Users\\alex\\apflora, -apflora_built.js, -apflora_browserified.js, -apflora_built.css, -main_built.css, -jquery-ui.js, -jquery.hotkeys.js, -jquery.js, -jquery.jstree.js, -markerwithlabel.js, -underscore.js, -hammer.js, -jquery-migrate.js, -jquery.cookie.js, -jquery.fileDownload.js, -jquery.hammer.js, -jquery.qtip.js, -jquery.ui.touch-punch.js, -jsuri.js, -markerclusterer.js, -proj4.js, -ruler.js, -ApFloraAdmin.accdb, -ApFloraAdminNeu.accdb, -workspace.xml, -backbone.js, -alex.xml, -Beziehungen.accdb, -EvabGeoDB_apflora.mdb, -EvabGeoDB_Template.mdb, -apflora.qgs, -tabellenUmbenennen.sql, -FileSaver.js, -handlebars.js",
+			"C:\\Users\\alex\\apflora, -apflora_built.js, -apflora_browserified.js, -apflora_built.css, -main_built.css, -jquery-ui.js, -jquery.hotkeys.js, -jquery.js, -jquery.jstree.js, -markerwithlabel.js, -underscore.js, -hammer.js, -jquery-migrate.js, -jquery.cookie.js, -jquery.fileDownload.js, -jquery.hammer.js, -jquery.qtip.js, -jquery.ui.touch-punch.js, -jsuri.js, -markerclusterer.js, -proj4.js, -ruler.js, -ApFloraAdmin.accdb, -ApFloraAdminNeu.accdb, -workspace.xml, -backbone.js, -alex.xml, -Beziehungen.accdb, -EvabGeoDB_apflora.mdb, -EvabGeoDB_Template.mdb, -apflora.qgs, -tabellenUmbenennen.sql, -react.js, -FileSaver.js",
+			"C:\\Users\\alex\\apflora, -apflora_built.js, -apflora_browserified.js, -apflora_built.css, -main_built.css, -jquery-ui.js, -jquery.hotkeys.js, -jquery.js, -jquery.jstree.js, -markerwithlabel.js, -underscore.js, -hammer.js, -jquery-migrate.js, -jquery.cookie.js, -jquery.fileDownload.js, -jquery.hammer.js, -jquery.qtip.js, -jquery.ui.touch-punch.js, -jsuri.js, -markerclusterer.js, -proj4.js, -ruler.js, -ApFloraAdmin.accdb, -ApFloraAdminNeu.accdb, -workspace.xml, -backbone.js, -alex.xml, -Beziehungen.accdb, -EvabGeoDB_apflora.mdb, -EvabGeoDB_Template.mdb, -apflora.qgs, -tabellenUmbenennen.sql, -react.js",
+			"C:\\Users\\alex\\apflora, -apflora_built.js, -apflora_browserified.js, -apflora_built.css, -main_built.css, -jquery-ui.js, -jquery.hotkeys.js, -jquery.js, -jquery.jstree.js, -markerwithlabel.js, -underscore.js, -hammer.js, -jquery-migrate.js, -jquery.cookie.js, -jquery.fileDownload.js, -jquery.hammer.js, -jquery.qtip.js, -jquery.ui.touch-punch.js, -jsuri.js, -markerclusterer.js, -proj4.js, -ruler.js, -ApFloraAdmin.accdb, -ApFloraAdminNeu.accdb, -workspace.xml, -backbone.js, -alex.xml, -Beziehungen.accdb, -EvabGeoDB_apflora.mdb, -EvabGeoDB_Template.mdb, -apflora.qgs, -tabellenUmbenennen.sql",
+			"C:\\Users\\alex\\apflora, -apflora_built.js, -apflora_browserified.js, -apflora_built.css, -main_built.css, -jquery-ui.js, -jquery.hotkeys.js, -jquery.js, -jquery.jstree.js, -markerwithlabel.js, -underscore.js, -hammer.js, -jquery-migrate.js, -jquery.cookie.js, -jquery.fileDownload.js, -jquery.hammer.js, -jquery.qtip.js, -jquery.ui.touch-punch.js, -jsuri.js, -markerclusterer.js, -proj4.js, -ruler.js, -ApFloraAdmin.accdb, -workspace.xml, -backbone.js, -alex.xml, -Beziehungen.accdb, -EvabGeoDB_apflora.mdb, -EvabGeoDB_Template.mdb, -apflora.qgs, -tabellenUmbenennen.sql",
+			"C:\\Users\\alex\\apflora, -apflora_built.js, -apflora_browserified.js, -apflora_built.css, -main_built.css, -jquery-ui.js, -jquery.hotkeys.js, -jquery.js, -jquery.jstree.js, -markerwithlabel.js, -underscore.js, -hammer.js, -jquery-migrate.js, -jquery.cookie.js, -jquery.fileDownload.js, -jquery.hammer.js, -jquery.qtip.js, -jquery.ui.touch-punch.js, -jsuri.js, -markerclusterer.js, -proj4.js, -ruler.js, -ApFloraAdmin.accdb, -workspace.xml, -backbone.js, -alex.xml, -Beziehungen.accdb, -EvabGeoDB_apflora.mdb, -EvabGeoDB_Template.mdb, -apflora.qgs",
+			"C:\\Users\\alex\\apflora, -apflora_built.js, -apflora_browserified.js, -apflora_built.css, -main_built.css, -jquery-ui.js, -jquery.hotkeys.js, -jquery.js, -jquery.jstree.js, -markerwithlabel.js, -underscore.js, -hammer.js, -jquery-migrate.js, -jquery.cookie.js, -jquery.fileDownload.js, -jquery.hammer.js, -jquery.qtip.js, -jquery.ui.touch-punch.js, -jsuri.js, -markerclusterer.js, -proj4.js, -ruler.js, -ApFloraAdmin.accdb, -workspace.xml, -backbone.js, -alex.xml, -Beziehungen.accdb, -EvabGeoDB_apflora.mdb, -EvabGeoDB_Template.mdb",
+			"C:\\Users\\alex\\apflora",
+			"C:\\Users\\alex\\apflora\\queries",
+			"C:\\Users\\alex\\apflora\\src\\modules",
+			"C:\\Users\\alex\\apflora",
+			"C:\\Users\\alex\\apflora\\src\\modules",
+			"C:\\Users\\alex\\apflora",
+			"C:\\Users\\alex\\apflora, -'\\.idea\\workspace.xml'",
+			"C:\\Users\\alex\\apflora, -\\.idea\\workspace.xml",
+			"C:\\Users\\alex\\apflora, -/.idea/workspace.xml",
+			"C:\\Users\\alex\\apflora, -'/.idea/workspace.xml'",
+			"C:\\Users\\alex\\apflora, -'/.idea/*'",
+			"C:\\Users\\alex\\apflora, -'/.idea*'",
+			"C:\\Users\\alex\\apflora, -'.idea\\workspace.xml'",
+			"C:\\Users\\alex\\apflora, -'/.idea\\workspace.xml'",
+			"C:\\Users\\alex\\apflora, -/.idea\\workspace.xml",
+			"C:\\Users\\alex\\apflora, -.idea\\workspace.xml",
+			"C:\\Users\\alex\\apflora -.idea\\workspace.xml",
+			"C:\\Users\\alex\\apflora",
+			"C:\\Users\\alex\\EvabMobile",
+			"C:\\Users\\alex\\ab",
+			"C:\\Users\\alex\\apflora, -main.js, -jquery.js, -jquery.jstree.js",
+			"C:\\Users\\alex\\apflora, -main.js, -jquery.js",
+			"C:\\Users\\alex\\apflora, -main.js, -jqery.js",
+			"C:\\Users\\alex\\apflora, -main.js",
+			"C:\\Users\\alex\\apflora\\php, -main.js",
+			"C:\\Users\\alex\\apflora, -main.js",
+			"C:\\Users\\alex\\apflora, -main.js, -C:\\Users\\alex\\apflora\\node_modules",
+			"C:\\Users\\alex\\apflora, -main.js, -\\node_modules",
+			"C:\\Users\\alex\\apflora, -main.js, -/node_modules",
+			"C:\\Users\\alex\\apflora, -main.js, -node_modules",
+			"C:\\Users\\alex\\apflora, -main.js",
+			"C:\\Users\\alex\\apflora",
+			"C:\\Users\\alex\\apflora,-main.js",
+			"C:\\Users\\alex\\apflora",
+			"C:\\Users\\alex\\artendb\\views",
+			"C:\\Users\\alex\\artendb",
+			"C:\\Users\\alex\\EvabMobile",
+			"C:\\Users\\alex\\artendb/views",
+			"C:\\Users\\alex\\EvabMobile",
+			"C:\\Users\\alex\\artendb",
+			"C:\\Users\\alex\\EvabMobile",
+			"C:\\Users\\alex\\artendb",
+			"C:\\Users\\alex\\artendb_import",
+			"C:\\Users\\alex\\apflora",
+			"C:\\Users\\alex\\apflora\\php",
+			"C:\\Users\\alex\\apflora",
+			"C:\\Users\\alex\\EvabMobile",
+			"C:\\Users\\alex\\apflora",
+			"C:\\Users\\alex\\artendb\\lists",
+			"C:\\Users\\alex\\artendb\\views",
+			"C:\\Users\\alex\\artendb"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"^",
+			"nano",
+			"updateUserDoc",
+			"/*jslint node: true, browser: true, nomen: true, todo: true */\n",
+			"error getting last version of user doc:",
+			"handleChangesIn_usersDb: error creating new user database",
+			"new user doc, not setting roles",
+			"getProjectNamesToInitiateUi",
+			"onCreatedUserDb",
+			"handleChangesIn_usersDb",
+			"createSecurityDoc",
+			"deleteDatabase",
+			"securityDoc",
+			"indexOf",
+			"roleAdded",
+			"created new user db:",
+			"err",
+			"_",
+			"deleteDatabase",
+			"createSecurityDoc",
+			"removeUsersProjectDbs",
+			"userDoc",
+			"revOfOldDoc",
+			"revisions",
+			"err",
+			"revHash",
+			"handleDbChanges: userName before passing to getUserDbName:",
+			"handleChangesIn_usersDb: userName before passing to getUserDbName:",
+			"handleDbChanges: body.rows before passing to getUserDbName:",
+			"handleDbChanges: isUserDb:",
+			"getUserDbName",
+			"listenToChangesInUsersDbs",
+			"GLOBAL",
+			"toLowerCase().replace",
+			"GLOBAL",
+			"error getting doc version before changed:",
+			"removeUsersProjectDbs",
+			"handleChangesInProjectDb",
+			"handleChangesInUserDb",
+			"listenToChangesInMessageDb",
+			"handleChangesInProjectDb",
+			"usersToAddRole",
+			"usersToRemoveRole",
+			"roleName",
+			"projectDbName",
+			"removeRoleFromUsersDb",
+			"usersDB",
+			"projectDb",
+			"removeUsersProjectDbs",
+			"replace",
+			"listenToChangesInMessageDb",
+			"listenToChangesInProjectDbs",
+			"securityDoc",
+			"removeUsersProjects",
+			"removeUsersDocsAndProjects",
+			"userDocs",
+			"removeUsersDocsAndProjects",
+			"users",
+			"addRoleToUsersDb",
+			"users",
+			"signinWithModalSignupCheckbox",
+			"userName",
+			"userDb",
+			"change.id",
+			"beob_evab",
+			"tblBeobEvab",
+			".rev",
+			"_at_",
+			"_AT_",
+			"userDb",
+			"userDbName",
+			"usersDB",
+			"deleteDatabase",
+			"oiDb",
+			"oiUserDoc",
+			"listenToChangesOfDbs",
+			"projectDb",
+			"projectDbs",
+			"projectDbNameDb",
+			"projectDbName",
+			"nano.db.destroy",
+			"projectDbName",
+			"listenToChangesIn_users_Db",
+			"handleUserChanges",
+			"listenToChangesInUsersDb",
+			"listenToChangesOfUsers",
+			"listenToChangesOfProjectDbs",
+			"handleProjectChangesInProjectDb",
+			"handleProjectChangesInDb",
+			"listenToChangesOfDbs",
+			"doc.deleted:",
+			"projectDb",
+			"handleChanges",
+			"[Formulare]![ind_erfassung]",
+			"formContent",
+			"changes",
+			"scrolling tab",
+			"f (event.which === 13) {",
+			"_",
+			"couchpass",
+			"passWord",
+			"_local",
+			"configuration",
+			"couch.passWord",
+			"couchpass",
+			"handleUsersChanges",
+			"addDataOfProjectToModel",
+			"callbackFromAddData",
+			"localDb",
+			"createObjectsByTypeIndex",
+			"callbackFromAddData",
+			"createObjectsByUserTypeIndex",
+			"objects_by_type",
+			"objectsByUserTypeIndex",
+			"objects_by_user_type",
+			"signindata:",
+			"getProjectNames",
+			"new PouchDB",
+			"results from getting model data:",
+			"hierarchies_o1o",
+			"./configuration",
+			"../handleUsersChanges",
+			"getModelDataOfProject",
+			"$",
+			"sync",
+			"initiateChangeStreams",
+			"createDatabaseId",
+			"sync"
+		],
+		"highlight": false,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"",
+			"projectDbName",
+			"error",
+			"revOfOldDoc",
+			"roleAdded",
+			"_usersDb",
+			"userDb",
+			"listenToChangesInMessageDb",
+			"removeUsersProjectDbs",
+			"removeUsersProjects",
+			"otherUsersDocs",
+			"change.doc.name",
+			"beob_evab",
+			"_at_",
+			"_usersDb",
+			"userdbUserDoc",
+			"listenToChangesInUsersDbs",
+			"userDb",
+			"userDbs",
+			"userDb",
+			"userDbName",
+			"listenToChangesIn_usersDb",
+			"handleChangesIn_usersDb",
+			"listenToChangesIn_users_Db",
+			"listenToChangesInUsersDb",
+			"listenToChangesInProjectDbs",
+			"handleChangesInProjectDb",
+			"handleProjectChangesInProjectDb",
+			"listenToChangesOfProjectDbs",
+			"[Berichte]![ber_ind_erfassung]",
+			"callback",
+			"db",
+			"createObjectsByTypeIndex",
+			"objectsByTypeIndex",
+			"objects_by_type",
+			"addDataOfProjectToModel",
+			"sync",
+			"syncWithRemoteDb",
+			"options",
+			"doc",
+			"remoteDb",
+			"initiateChangeStreams",
+			"project_o1o",
+			"project_o10o",
+			"o10o",
+			"\"projId\": \"o1o\",",
+			"\"projId\": \"o10o\",",
+			"o1o",
+			"oldDoc",
+			"doc",
+			"oi.appcache",
+			"localDb",
+			"remoteDb",
+			"localDb",
+			"objects_by_user_type",
+			"remoteDb",
+			"objects_changed",
+			"changedObjectsIndex",
+			"objectsByUserTypeIndex",
+			"new PouchDB('http://localhost:5984/oi', pouchDbOptions)",
+			"new PouchDB(pouchDbOptions)",
+			"signinWithModalSigninButton",
+			"signinWithModalSignin",
+			"error",
+			"signin",
+			"email",
+			"error",
+			"$navContent",
+			"",
+			"onScrollTab",
+			"onClickFormDelete",
+			"onClickFormNew",
+			"id",
+			"tree",
+			"onTabScroll",
+			"$formContent",
+			"handleExternalObjectChanges",
+			"getObject",
+			"getHierarchy",
+			"deleteObjectFromModel",
+			"createNewObjectFromObject",
+			"createNewObjectFromHierarchy",
+			"$formContent",
+			"tree",
+			"deleteObjectAndChildren",
+			"pouchDbOptions",
+			"",
+			"newObjectNode",
+			"./fonts",
+			"hierarchyId",
+			"objectId",
+			"getHierarchyWithId",
+			"createNewObject",
+			"childHierarchiesData",
+			"createTreeNodeObject",
+			"id",
+			"\"lastEdited\": {\"date\": \"02.01.2015\", \"user\": \"z@z.ch\", \"database\": null},",
+			"\"lastEdited\": {\"date\": \"02.01.2015\", \"user\": \"z@z.ch\", \"databaseInstance\": null},",
+			"\"lastEditedBy\": {\"date\": \"02.01.2015\", \"user\": \"z@z.ch\", \"databaseInstance\": null},",
+			"tinyscrollbar_images",
+			"\"type\": \"hierarchy\",",
+			"\"type\": \"object\"",
+			"inputDataType",
+			"\"inputDataType\":",
+			"\"inputType\"",
+			"setValues",
+			"possibleValues",
+			"that",
+			"$that",
+			"",
+			"optionGroup",
+			"object",
+			"key",
+			"object",
+			"correspondingHierarchy",
+			"window.oi.objects",
+			"",
+			"addCheckedToValueList",
+			"fieldValueArray",
+			"valueArray",
+			"hierarchy",
+			"object",
+			"\"label\": \"",
+			"\"projIds\": [",
+			"createObjectsData",
+			"objectsData",
+			"createTopHierarchies",
+			"createDescendantHierarchiesOfObject"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": false
+	},
+	"folders":
+	[
+		{
+			"path": "C:\\Users\\alex\\ae"
+		}
+	],
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "package.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1015,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								865,
+								865
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "src/app.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 247,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								47,
+								47
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "webpack.config.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 355,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								355,
+								355
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/styles/main.styl",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 31,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								31,
+								31
+							]
+						],
+						"settings":
+						{
+							"auto_name": "",
+							"syntax": "Packages/CSS/CSS.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"default_dir": "C:\\Users\\alex\\ae\\src",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 35.0
+	},
+	"input":
+	{
+		"height": 40.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 34.0
+	},
+	"pinned_build_system": "",
+	"project": "",
+	"replace":
+	{
+		"height": 80.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 392.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 416.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 350.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
