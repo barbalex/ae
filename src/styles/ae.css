@@ -561,7 +561,7 @@ h5 a {
     opacity: 0.8;
 }
 
-.btn.disabled {
+.btn-group [disabled] {
     /* bootstrap macht 0.85, das ist nur schwer sichtbar */
     opacity: 0.5;
 }
