@@ -1,8 +1,15 @@
 'use strict'
 
-import React from 'react'
+import app from 'ampersand-app'
 import './styles/main.styl'
+import Router from './router.js'
 
-import Home from '../pages/home.js'
+window.app = app // expose app to the browser console
 
-React.render(<Home/>, document.body)
+app.extend({
+  init () {
+    this.router = new Router()
+  }
+})
+
+app.init()

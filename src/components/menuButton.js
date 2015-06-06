@@ -3,8 +3,8 @@
 import React from 'react'
 import DropdownButton from 'react-bootstrap/lib/DropdownButton'
 import MenuItem from 'react-bootstrap/lib/MenuItem'
-import searchGoogleImagesOfObject from '../searchGoogleImages'
-import searchWikipediaArticlesOfObject from '../searchWikipediaArticles'
+// import searchGoogleImagesOfObject from '../searchGoogleImages'
+// import searchWikipediaArticlesOfObject from '../searchWikipediaArticles'
 
 export default React.createClass({
   displayName: 'MenuButton',
