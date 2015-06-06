@@ -5,9 +5,11 @@ import Router from 'react-router'
 // import Favicon from 'react-favicon'
 import MenuButton from './components/menuButton'
 import Menu from './components/menu'
+import FourOhFourPage from './pages/fourOhFour'
+import EmptyPage from './pages/empty'
 
-// const DefaultRoute = Router.DefaultRoute
-// const NotFoundRoute = Router.NotFoundRoute
+const DefaultRoute = Router.DefaultRoute
+const NotFoundRoute = Router.NotFoundRoute
 // const Link = Router.Link
 const Route = Router.Route
 const RouteHandler = Router.RouteHandler
@@ -29,6 +31,8 @@ export default function () {
 
   const routes = (
     <Route handler={App} path='/'>
+      <DefaultRoute handler={EmptyPage}/>
+      <NotFoundRoute handler={FourOhFourPage}/>
     </Route>
   )
 

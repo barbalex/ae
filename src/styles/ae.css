@@ -52,8 +52,6 @@ body {
     padding: 0 0 0 0;
     position: relative;
     width: 100%;
-    /* zu Beginn nicht anzeigen */
-    display: none;
 }
 
 /*
