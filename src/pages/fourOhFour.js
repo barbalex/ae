@@ -9,7 +9,7 @@ export default React.createClass({
     return (
       <div>
         <fieldset id='forms'>
-          <h1>:-(<br/><br/>Für diese URL ist keine Seite vorgesehen</h1>
+          <h1>Für diese URL ist keine Seite vorgesehen<br/><br/>:-(</h1>
         </fieldset>
       </div>
     )
