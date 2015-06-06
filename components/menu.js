@@ -1,15 +1,50 @@
 'use strict'
 
 import React from 'react'
+import $ from 'jquery'
+import Button from 'react-bootstrap/lib/Button'
+import Home from '../pages/home.js'
 
 export default React.createClass({
   displayName: 'Menu',
+
+  getInitialState () {
+    return {
+      // ??
+    }
+  },
+
+  resize () {
+    console.log('resize was clicked')
+    // TODO: use props to pass object
+    $('body').toggleClass('force-mobile')
+    /* previously:
+    var windowHeight = $(window).height(),
+      $body = $('body')
+
+    $body.toggleClass('force-mobile')
+    if ($body.hasClass('force-mobile')) {
+      // Spalten sind untereinander. Baum 91px weniger hoch, damit Formulare zum raufschieben immer erreicht werden können
+      $('.baum').css('max-height', windowHeight - 252)
+      // button rechts ausrichten
+      $('#btnResize')
+        .css('margin-right', '0px')
+        .attr('data-original-title', 'in zwei Spalten anzeigen')
+    } else {
+      $('.baum').css('max-height', windowHeight - 161)
+      // button an anderen Schaltflächen ausrichten
+      $('#btnResize')
+        .css('margin-right', '6px')
+        .attr('data-original-title', 'ganze Breite nutzen')
+    }
+    */
+  },
 
   render () {
     return (
       <fieldset id='menu' className='menu' style={{/*display:none*/}}>
         <div>
-          <button id='btnResize' type='button' className='btn btn-sm btn-default pull-right' data-toggle='tooltip' data-placement='left' title='ganze Breite nutzen'><span className='glyphicon glyphicon-resize-horizontal'></span></button>
+          <Button id='btnResize' className='pull-right' data-toggle='tooltip' data-placement='left' title='ganze Breite nutzen' bsSize='small' onClick={this.resize}><span className='glyphicon glyphicon-resize-horizontal'></span></Button>
           <div id='menu-div'>
             <div id='gruppe_label'>Gruppe wählen:</div>
           </div>
