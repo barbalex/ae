@@ -3,7 +3,7 @@
 import React from 'react'
 import $ from 'jquery'
 import Button from 'react-bootstrap/lib/Button'
-import Home from '../pages/home.js'
+import Home from '../../pages/home.js'
 
 export default React.createClass({
   displayName: 'Menu',

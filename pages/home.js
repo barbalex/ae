@@ -1,8 +1,8 @@
 'use strict'
 
 import React from 'react'
-import MenuButton from '../components/menuButton'
-import Menu from '../components/menu'
+import MenuButton from '../src/components/menuButton'
+import Menu from '../src/components/menu'
 
 export default React.createClass({
   displayName: 'HomePage',
