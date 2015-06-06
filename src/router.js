@@ -2,11 +2,12 @@
 
 import React from 'react'
 import Router from 'react-router'
-// import Favicon from 'react-favicon'
+import Favicon from 'react-favicon'
 import MenuButton from './components/menuButton'
 import Menu from './components/menu'
 import FourOhFourPage from './pages/fourOhFour'
 import EmptyPage from './pages/empty'
+import FaviconImage from '../img/aster_144.png'
 
 const DefaultRoute = Router.DefaultRoute
 const NotFoundRoute = Router.NotFoundRoute
@@ -21,6 +22,7 @@ export default function () {
     render () {
       return (
         <div>
+          <Favicon url={[FaviconImage]}/>
           <MenuButton/>
           <Menu/>
           <RouteHandler/>
