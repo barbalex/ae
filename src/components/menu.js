@@ -3,6 +3,7 @@
 import React from 'react'
 import $ from 'jquery'
 import Button from 'react-bootstrap/lib/Button'
+import ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
 
 // let windowHeight = $(window).height()
 const bodyElement = $('body')
@@ -49,6 +50,15 @@ export default React.createClass({
           <div id='menu-div'>
             <div id='gruppe_label'>Gruppe wählen:</div>
           </div>
+
+          <ButtonGroup id='gruppe' className='btn-group' data-toggle='buttons'>
+            <Button bsStyle='primary' className='gruppe' Gruppe='Fauna'>Fauna</Button>
+            <Button bsStyle='primary' className='gruppe' Gruppe='Flora'>Flora</Button>
+            <Button bsStyle='primary' className='gruppe' Gruppe='Moose'>Moose</Button>
+            <Button bsStyle='primary' className='gruppe' Gruppe='Macromycetes'>Pilze</Button>
+            <Button bsStyle='primary' className='gruppe' Gruppe='Lebensräume'>Lebensräume</Button>
+          </ButtonGroup>
+
           <div id='gruppe' className='btn-group' data-toggle='buttons'>
             <label className='btn btn-primary gruppe' Gruppe='Fauna'>
               <input type='radio'>Fauna</input>
