@@ -62,12 +62,12 @@ export default React.createClass({
           <div id='menu-div'>
             <div id='gruppe_label'>Gruppe wählen:</div>
           </div>
-          <ButtonGroup id='gruppe' className='btn-group' data-toggle='buttons' style={{width: 100 + '%'}}>
-            <Button bsStyle='primary' className='gruppe' Gruppe='Fauna' onClick={this.showFauna}>Fauna</Button>
-            <Button bsStyle='primary' className='gruppe' Gruppe='Flora' onClick={this.showFlora}>Flora</Button>
-            <Button bsStyle='primary' className='gruppe' Gruppe='Moose' onClick={this.showMoose}>Moose</Button>
-            <Button bsStyle='primary' className='gruppe' Gruppe='Macromycetes' onClick={this.showPilze}>Pilze</Button>
-            <Button bsStyle='primary' className='gruppe' Gruppe='Lebensräume' onClick={this.showLr}>Lebensräume</Button>
+          <ButtonGroup id='gruppe' className='gruppeButtonGroup'>
+            <Button bsStyle='primary' className='gruppe' onClick={this.showFauna} Gruppe='Fauna'>Fauna</Button>
+            <Button bsStyle='primary' className='gruppe' onClick={this.showFlora} Gruppe='Flora'>Flora</Button>
+            <Button bsStyle='primary' className='gruppe' onClick={this.showMoose} Gruppe='Moose'>Moose</Button>
+            <Button bsStyle='primary' className='gruppe' onClick={this.showPilze} Gruppe='Macromycetes'>Pilze</Button>
+            <Button bsStyle='primary' className='gruppe' onClick={this.showLr} Gruppe='Lebensräume'>Lebensräume</Button>
           </ButtonGroup>
         </div>
         <Filter
