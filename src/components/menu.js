@@ -6,13 +6,20 @@ import ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
 import Input from 'react-bootstrap/lib/Input'
 import Glyphicon from 'react-bootstrap/lib/Glyphicon'
 import ResizeButton from './resizeButton'
+import Filter from 'react-select'
 
 const searchGlyphicon = <Glyphicon glyph='search' />
+let searchOptions = []
 
 export default React.createClass({
   displayName: 'Menu',
 
   getInitialState () {
+    // creat mock species
+    for (var i = 0; i < 20000; i++) {
+      searchOptions.push({value: i, label: 'Art_' + i})
+    }
+
     return {
       // ??
     }
@@ -43,6 +50,10 @@ export default React.createClass({
     // TODO
   },
 
+  filter (val) {
+    console.log('filtered:', val)
+  },
+
   render () {
     return (
       <fieldset id='menu' className='menu'>
@@ -59,23 +70,11 @@ export default React.createClass({
             <Button bsStyle='primary' className='gruppe' Gruppe='Lebensräume' onClick={this.showLr}>Lebensräume</Button>
           </ButtonGroup>
         </div>
-        <Input id='suchen' type='text' placeholder='filtern' className='suchfeld' bsSize='small' addonBefore={searchGlyphicon}/>
-
-        <div id='suchenFauna' className='input-group input-group-xs suchen'>
-          <input id='suchfeldFauna' className='form-control input-sm suchfeld' type='text' placeholder='filtern'/>
-        </div>
-        <div id='suchenFlora' className='input-group input-group-xs suchen'>
-          <input id='suchfeldFlora' className='form-control input-sm suchfeld' type='text' placeholder='filtern'/>
-        </div>
-        <div id='suchenMoose' className='input-group input-group-xs suchen'>
-          <input id='suchfeldMoose' className='form-control input-sm suchfeld' type='text' placeholder='filtern'/>
-        </div>
-        <div id='suchenMacromycetes' className='input-group input-group-xs suchen'>
-          <input id='suchfeldMacromycetes' className='form-control input-sm suchfeld' type='text' placeholder='filtern'/>
-        </div>
-        <div id='suchenLebensräume' className='input-group input-group-xs suchen'>
-          <input id='suchfeldLebensräume' className='form-control input-sm suchfeld' type='text' placeholder='filtern'/>
-        </div>
+        <Filter
+          name='test'
+          placeholder='filtern'
+          options={searchOptions}
+          onChange={this.filter}/>
 
         <div id='treeMitteilung' style={{display: 'none'}}>hole Daten...</div>
         <div id='treeFaunaBeschriftung' className='treeBeschriftung'></div>
