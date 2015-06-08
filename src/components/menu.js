@@ -18,6 +18,31 @@ export default React.createClass({
     }
   },
 
+  showFauna () {
+    console.log('showFauna clicked')
+    // TODO
+  },
+
+  showFlora () {
+    console.log('showFlora clicked')
+    // TODO
+  },
+
+  showMoose () {
+    console.log('showMoose clicked')
+    // TODO
+  },
+
+  showPilze () {
+    console.log('showPilze clicked')
+    // TODO
+  },
+
+  showLr () {
+    console.log('showLr clicked')
+    // TODO
+  },
+
   render () {
     return (
       <fieldset id='menu' className='menu'>
