@@ -16,7 +16,7 @@ export default React.createClass({
 
   getInitialState () {
     // creat mock species
-    for (var i = 0; i < 20000; i++) {
+    for (var i = 0; i < 200; i++) {
       searchOptions.push({value: i, label: 'Art_' + i})
     }
 
@@ -73,6 +73,8 @@ export default React.createClass({
         <Filter
           name='test'
           placeholder='filtern'
+          noResultsText='keine Treffer'
+          multi={true}
           options={searchOptions}
           onChange={this.filter}/>
 

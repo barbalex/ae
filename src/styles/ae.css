@@ -172,6 +172,14 @@ body {
     text-overflow: ellipsis;
 }
 
+#menu .Select-menu-outer {
+    max-height: none;
+}
+
+#menu .Select-menu {
+    max-height: 400px;
+}
+
 /* gesuchte Einträge formattieren */
 .jstree-search {
     color: #CC012A !important;
