@@ -100,7 +100,7 @@ export default React.createClass({
             <MenuItem><a href='//github.com/FNSKtZH/artendb' target='_blank'>Code</a></MenuItem>
             <MenuItem><a href='//github.com/FNSKtZH/artendb/commits/master' target='_blank'>Letzte Änderungen</a></MenuItem>
             <MenuItem><a href='mailto:alex@gabriel-software.ch'>Email an Autor</a></MenuItem>
-            <MenuItem><a href='https://twitter.com/arteigenschaft' className='twitter-follow-button' data-lang='de' data-dnt='true' target='_blank'>auf Twitter folgen</a></MenuItem>
+            <MenuItem><a href='https://twitter.com/arteigenschaft' target='_blank'>auf Twitter folgen</a></MenuItem>
           </DropdownButton>
         </div>
       </div>
