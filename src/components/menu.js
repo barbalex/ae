@@ -1,14 +1,12 @@
 'use strict'
 
 import React from 'react'
+import app from 'ampersand-app'
 import Button from 'react-bootstrap/lib/Button'
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
-import Input from 'react-bootstrap/lib/Input'
-import Glyphicon from 'react-bootstrap/lib/Glyphicon'
 import ResizeButton from './resizeButton'
 import Filter from 'react-select'
 
-const searchGlyphicon = <Glyphicon glyph='search' />
 let searchOptions = []
 
 export default React.createClass({
@@ -28,6 +26,8 @@ export default React.createClass({
   showFauna () {
     console.log('showFauna clicked')
     // TODO
+    // call action initializeFaunaStore
+    app.Actions.initializeFaunaStore()
   },
 
   showFlora () {
