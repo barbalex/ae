@@ -7,7 +7,8 @@ import Reflux from 'reflux'
   // Thus the flow is: User interaction -> component calls action -> store reacts and triggers -> components update
 
 export default function () {
-  return Reflux.createActions([
-    'showObjectForm'
-  ])
+  // asyncResult creates child actions 'completed' and 'failed'
+  return Reflux.createActions({
+    asyncResult: true
+  })
 }
