@@ -29,12 +29,11 @@ export default React.createClass({
       <Button
         id='btnResize'
         className='pull-right'
+        /* this is for tooltip-extension
         data-toggle='tooltip'
-        data-placement='left'
+        data-placement='left'*/
         title={bodyElement.hasClass('force-mobile') ? 'in zwei Spalten anzeigen' : 'ganze Breite nutzen'}
         bsSize='small'
-        /* mobil: rechts ausrichten, desktop: an den anderren Schaltflächen ausrichten */
-        style = {{marginRight: bodyElement.hasClass('force-mobile') ? 0 : 6 + 'px'}}
         onClick={this.resize}>
         <span className='glyphicon glyphicon-resize-horizontal'></span>
       </Button>

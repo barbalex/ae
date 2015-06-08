@@ -1,13 +1,13 @@
 'use strict'
 
 import React from 'react'
-import $ from 'jquery'
 import Button from 'react-bootstrap/lib/Button'
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
+import Input from 'react-bootstrap/lib/Input'
+import Glyphicon from 'react-bootstrap/lib/Glyphicon'
 import ResizeButton from './resizeButton'
 
-// let windowHeight = $(window).height()
-const bodyElement = $('body')
+const searchGlyphicon = <Glyphicon glyph='search' />
 
 export default React.createClass({
   displayName: 'Menu',
@@ -51,7 +51,7 @@ export default React.createClass({
           <div id='menu-div'>
             <div id='gruppe_label'>Gruppe wählen:</div>
           </div>
-          <ButtonGroup id='gruppe' className='btn-group' data-toggle='buttons'>
+          <ButtonGroup id='gruppe' className='btn-group' data-toggle='buttons' style={{width: 100 + '%'}}>
             <Button bsStyle='primary' className='gruppe' Gruppe='Fauna' onClick={this.showFauna}>Fauna</Button>
             <Button bsStyle='primary' className='gruppe' Gruppe='Flora' onClick={this.showFlora}>Flora</Button>
             <Button bsStyle='primary' className='gruppe' Gruppe='Moose' onClick={this.showMoose}>Moose</Button>
@@ -59,6 +59,8 @@ export default React.createClass({
             <Button bsStyle='primary' className='gruppe' Gruppe='Lebensräume' onClick={this.showLr}>Lebensräume</Button>
           </ButtonGroup>
         </div>
+        <Input id='suchen' type='text' placeholder='filtern' className='suchfeld' bsSize='small' addonBefore={searchGlyphicon}/>
+
         <div id='suchenFauna' className='input-group input-group-xs suchen'>
           <input id='suchfeldFauna' className='form-control input-sm suchfeld' type='text' placeholder='filtern'/>
         </div>
@@ -74,6 +76,7 @@ export default React.createClass({
         <div id='suchenLebensräume' className='input-group input-group-xs suchen'>
           <input id='suchfeldLebensräume' className='form-control input-sm suchfeld' type='text' placeholder='filtern'/>
         </div>
+
         <div id='treeMitteilung' style={{display: 'none'}}>hole Daten...</div>
         <div id='treeFaunaBeschriftung' className='treeBeschriftung'></div>
         <div id='treeFloraBeschriftung' className='treeBeschriftung'></div>

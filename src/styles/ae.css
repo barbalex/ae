@@ -165,14 +165,7 @@ body {
 **weil twitter typeahead sie sonst verändert
 */
 #menu .suchfeld {
-    /* Styling mit Lupe links im Suchfeld
-    width: 319px;
-    border-top-right-radius: 3px;
-    border-bottom-right-radius: 3px;*/
-
-    /* Styling ohne Lupe links im Suchfeld */
-    width: 354px;
-    border-radius: 3px;
+    /*width: 320px;*/
     background-color: #FFFFFF !important;
     font-size: 14px !important;
 
