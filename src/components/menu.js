@@ -79,6 +79,9 @@ export default React.createClass({
           onChange={this.filter}/>
 
         <div id='treeMitteilung' style={{display: 'none'}}>hole Daten...</div>
+        <div className='treeBeschriftung'></div>
+        <div className='baum'></div>
+
         <div id='treeFaunaBeschriftung' className='treeBeschriftung'></div>
         <div id='treeFloraBeschriftung' className='treeBeschriftung'></div>
         <div id='treeMooseBeschriftung' className='treeBeschriftung'></div>

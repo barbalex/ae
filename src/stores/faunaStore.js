@@ -8,8 +8,9 @@ export default function (Actions) {
       this.listenTo(Actions.initializeFaunaStore.completed, this.output)
     },
 
-    output (result) {
-      console.log('faunaStore got result:', result)
+    output (data) {
+      // console.log('faunaStore got data:', data)
+      this.trigger(data)
     }
   })
 }
