@@ -26,7 +26,6 @@ export default React.createClass({
   },
 
   showFauna () {
-    console.log('showFauna clicked')
     // cancel listeners to stores
     this.unsubscribe
     // call action initializeFaunaStore
