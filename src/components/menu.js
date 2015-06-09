@@ -2,51 +2,45 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import 'reflux'
 import Button from 'react-bootstrap/lib/Button'
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
-import ResizeButton from './resizeButton'
-import Filter from 'react-select'
+import ResizeButton from './resizeButton.js'
+import Filter from './filter.js'
 import TreeFauna from './treeFauna.js'
 
-let searchOptions = []
-
 export default React.createClass({
-  // mixins: [Reflux.listenTo(faunaStore, 'onFaunaStoreChange')],
-
   displayName: 'Menu',
 
   getInitialState () {
-    // creat mock species
-    for (var i = 0; i < 200; i++) {
-      searchOptions.push({value: i, label: 'Art_' + i})
-    }
-
     return {
       // ??
     }
   },
 
   componentDidMount () {
-    // this.unsubscribe = app.Stores.faunaStore.listen(this.onFaunaStoreChange)
-    // console.log('menu: faunaStore=', window.Stores.faunaStore)
+    // can't subscribe to store here because store is different depending on group chosen
   },
 
   componentWillUnmount () {
-    // this.unsubscribe
+    this.unsubscribe
   },
 
   showFauna () {
     console.log('showFauna clicked')
-    // TODO
+    // cancel listeners to stores
+    this.unsubscribe
     // call action initializeFaunaStore
     app.Actions.initializeFaunaStore()
-    // render treeFauna in tree
-    React.render(<TreeFauna/>, document.getElementById('tree'))
+    // start listening to the store
+    this.unsubscribe = window.faunaStore.listen(this.onFaunaStoreChange)
+    // TODO: show that fetching data
   },
 
   onFaunaStoreChange (data) {
-    console.log('fauaStore changed, data:', data)
+    // TODO: insert Filter
+    React.render(<Filter data={data}/>, document.getElementById('filter'))
+    // turn of to test filter
+    // React.render(<TreeFauna data={data}/>, document.getElementById('tree'))
   },
 
   showFlora () {
@@ -69,10 +63,6 @@ export default React.createClass({
     // TODO
   },
 
-  filter (val) {
-    console.log('filtered:', val)
-  },
-
   render () {
     return (
       <fieldset id='menu' className='menu'>
@@ -89,12 +79,7 @@ export default React.createClass({
             <Button bsStyle='primary' className='gruppe' onClick={this.showLr} Gruppe='Lebensräume'>Lebensräume</Button>
           </ButtonGroup>
         </div>
-        <Filter
-          name='test'
-          placeholder='filtern'
-          noResultsText='keine Treffer'
-          options={searchOptions}
-          onChange={this.filter}/>
+        <div id='filter'></div>
 
         <div id='treeMitteilung' style={{display: 'none'}}>hole Daten...</div>
         <div className='treeBeschriftung'></div>

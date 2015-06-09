@@ -3,9 +3,8 @@
 import Reflux from 'reflux'
 
 export default function (Actions) {
-  let Stores = {}
 
-  Stores.faunaStore = Reflux.createStore({
+  window.faunaStore = Reflux.createStore({
     listenables: Actions,
 
     onInitializeFaunaStoreCompleted (data) {
@@ -14,7 +13,5 @@ export default function (Actions) {
     }
   })
 
-  console.log('stores.js: Stores:', Stores)
-
-  return Stores
+  //return Stores
 }

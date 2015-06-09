@@ -12,10 +12,8 @@ import React from 'react'
 export default React.createClass({
   displayName: 'Tree',
 
-  getInitialState () {
-    return {
-      // build level 1 nodes
-    }
+  propTypes: {
+    data: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
   },
 
   onClickNode () {
@@ -27,9 +25,15 @@ export default React.createClass({
   },
 
   render () {
+    const objects = this.props.data
+      .map(function (object) {
+        return (
+          <p key={object._id}>{object.Taxonomie.Eigenschaften['Artname vollständig']}</p>
+        )
+      })
     return (
       <div className='baum'>
-        <p>This should be a tree</p>
+        {objects}
       </div>
     )
   }

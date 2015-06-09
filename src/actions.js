@@ -18,7 +18,7 @@ export default function () {
     // get fauna from db
     const db = new PouchDB(pouchUrl(), function (error, response) {
       if (error) { return console.log('error instantiating remote db') }
-      db.query('artendb/fauna', { include_docs: true }).then(function (result) {
+      db.query('artendb/faunaNachName', { include_docs: true }).then(function (result) {
         const docs = result.rows.map(function (row) {
           return row.doc
         })
