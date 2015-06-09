@@ -1,44 +1,45 @@
 'use strict'
 
 export default function (object) {
-  let googleBilderLink = ''
+  let googleBilderLink = 'https://www.google.ch/search?num=10&hl=de&site=imghp&tbm=isch&source=hp&bih=824&q="'
+  const tax = object.Taxonomie.Eigenschaften
 
   switch (object.Gruppe) {
     case 'Flora':
-      googleBilderLink = 'https://www.google.ch/search?num=10&hl=de&site=imghp&tbm=isch&source=hp&bih=824&q="' + object.Taxonomie.Eigenschaften.Artname + '"'
-      if (object.Taxonomie.Eigenschaften['Name Deutsch']) {
-        googleBilderLink += '+OR+"' + object.Taxonomie.Eigenschaften['Name Deutsch'] + '"'
+      googleBilderLink += tax.Artname + '"'
+      if (tax['Name Deutsch']) {
+        googleBilderLink += `+OR+" + ${tax['Name Deutsch']} + "`
       }
-      if (object.Taxonomie.Eigenschaften['Name Französisch']) {
-        googleBilderLink += '+OR+"' + object.Taxonomie.Eigenschaften['Name Französisch'] + '"'
+      if (tax['Name Französisch']) {
+        googleBilderLink += '+OR+"' + tax['Name Französisch'] + '"'
       }
-      if (object.Taxonomie.Eigenschaften['Name Italienisch']) {
-        googleBilderLink += '+OR+"' + object.Taxonomie.Eigenschaften['Name Italienisch'] + '"'
+      if (tax['Name Italienisch']) {
+        googleBilderLink += '+OR+"' + tax['Name Italienisch'] + '"'
       }
       break
     case 'Fauna':
-      googleBilderLink = 'https://www.google.ch/search?num=10&hl=de&site=imghp&tbm=isch&source=hp&bih=824&q="' + object.Taxonomie.Eigenschaften.Artname + '"'
-      if (object.Taxonomie.Eigenschaften['Name Deutsch']) {
-        googleBilderLink += '+OR+"' + object.Taxonomie.Eigenschaften['Name Deutsch'] + '"'
+      googleBilderLink += tax.Artname + '"'
+      if (tax['Name Deutsch']) {
+        googleBilderLink += '+OR+"' + tax['Name Deutsch'] + '"'
       }
-      if (object.Taxonomie.Eigenschaften['Name Französisch']) {
-        googleBilderLink += '+OR+"' + object.Taxonomie.Eigenschaften['Name Französisch'] + '"'
+      if (tax['Name Französisch']) {
+        googleBilderLink += '+OR+"' + tax['Name Französisch'] + '"'
       }
-      if (object.Taxonomie.Eigenschaften['Name Italienisch']) {
-        googleBilderLink += '+OR"' + object.Taxonomie.Eigenschaften['Name Italienisch'] + '"'
+      if (tax['Name Italienisch']) {
+        googleBilderLink += '+OR"' + tax['Name Italienisch'] + '"'
       }
       break
     case 'Moose':
-      googleBilderLink = 'https://www.google.ch/search?num=10&hl=de&site=imghp&tbm=isch&source=hp&bih=824&q="' + object.Taxonomie.Eigenschaften.Gattung + ' ' + object.Taxonomie.Eigenschaften.Art + '"'
+      googleBilderLink += tax.Gattung + ' ' + tax.Art + '"'
       break
     case 'Macromycetes':
-      googleBilderLink = 'https://www.google.ch/search?num=10&hl=de&site=imghp&tbm=isch&source=hp&bih=824&q="' + object.Taxonomie.Eigenschaften.Name + '"'
-      if (object.Taxonomie.Eigenschaften['Name Deutsch']) {
-        googleBilderLink += '+OR+"' + object.Taxonomie.Eigenschaften['Name Deutsch'] + '"'
+      googleBilderLink += tax.Name + '"'
+      if (tax['Name Deutsch']) {
+        googleBilderLink += '+OR+"' + tax['Name Deutsch'] + '"'
       }
       break
     case 'Lebensräume':
-      googleBilderLink = 'https://www.google.ch/search?num=10&hl=de&site=imghp&tbm=isch&source=hp&bih=824&q="' + object.Taxonomie.Eigenschaften.Einheit
+      googleBilderLink += tax.Einheit
       break
   }
 

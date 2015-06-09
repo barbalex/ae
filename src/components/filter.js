@@ -1,11 +1,12 @@
 /*
- * 
+ * gets all objects
+ * builds an array of objects needed by the filter component to create the list of filterable objects
+ * returns the filter component
  */
 'use strict'
 
 import React from 'react'
 import Filter from 'react-select'
-import compareObjectsByArtname from '../modules/compareObjectsByArtname'
 
 export default React.createClass({
   displayName: 'Filter',
@@ -24,19 +25,20 @@ export default React.createClass({
         // make sure every fauna has a name
         // dont use others for filtering
         if (object.Taxonomie && object.Taxonomie.Eigenschaften && object.Taxonomie.Eigenschaften['Artname vollständig']) {
-          return { value: object._id, label: object.Taxonomie.Eigenschaften['Artname vollständig'] }
+          return {
+            value: object._id,
+            label: object.Taxonomie.Eigenschaften['Artname vollständig']
+          }
         }
       })
 
-    // objects.sort(compareObjectsByArtname)
-
     return (
       <Filter
-          name='test'
-          placeholder='filtern'
-          noResultsText='keine Treffer'
-          options={objects}
-          onChange={this.filter}/>
+        name='test'
+        placeholder='filtern'
+        noResultsText='keine Treffer'
+        options={objects}
+        onChange={this.filter}/>
     )
   }
 })

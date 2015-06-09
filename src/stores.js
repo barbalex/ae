@@ -3,7 +3,6 @@
 import Reflux from 'reflux'
 
 export default function (Actions) {
-
   window.faunaStore = Reflux.createStore({
     listenables: Actions,
 
@@ -12,6 +11,4 @@ export default function (Actions) {
       this.trigger(data)
     }
   })
-
-  //return Stores
 }
