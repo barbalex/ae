@@ -1,15 +1,20 @@
 'use strict'
 
-import React from 'react'
 import app from 'ampersand-app'
+import React from 'react'
+import Reflux from 'reflux'
 import Button from 'react-bootstrap/lib/Button'
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
 import ResizeButton from './resizeButton'
 import Filter from 'react-select'
+import TreeFauna from './treeFauna.js'
+import faunaStore from '../stores/faunaStore.js'
 
 let searchOptions = []
 
 export default React.createClass({
+  // mixins: [Reflux.listenTo(faunaStore, 'onFaunaStoreChange')],
+
   displayName: 'Menu',
 
   getInitialState () {
@@ -28,6 +33,12 @@ export default React.createClass({
     // TODO
     // call action initializeFaunaStore
     app.Actions.initializeFaunaStore()
+    // render treeFauna in tree
+    React.render(<TreeFauna/>, document.getElementById('tree'))
+  },
+
+  onFaunaStoreChange (data) {
+    console.log('fauaStore changed, data:', data)
   },
 
   showFlora () {
@@ -74,24 +85,13 @@ export default React.createClass({
           name='test'
           placeholder='filtern'
           noResultsText='keine Treffer'
-          multi={true}
           options={searchOptions}
           onChange={this.filter}/>
 
         <div id='treeMitteilung' style={{display: 'none'}}>hole Daten...</div>
         <div className='treeBeschriftung'></div>
-        <div className='baum'></div>
+        <div id='tree' className='baum'></div>
 
-        <div id='treeFaunaBeschriftung' className='treeBeschriftung'></div>
-        <div id='treeFloraBeschriftung' className='treeBeschriftung'></div>
-        <div id='treeMooseBeschriftung' className='treeBeschriftung'></div>
-        <div id='treeMacromycetesBeschriftung' className='treeBeschriftung'></div>
-        <div id='treeLebensräumeBeschriftung' className='treeBeschriftung'></div>
-        <div id='treeFauna' className='baum'></div>
-        <div id='treeFlora' className='baum'></div>
-        <div id='treeMoose' className='baum'></div>
-        <div id='treeMacromycetes' className='baum'></div>
-        <div id='treeLebensräume' className='baum'></div>
       </fieldset>
     )
   }
