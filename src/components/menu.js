@@ -2,13 +2,12 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import Reflux from 'reflux'
+import 'reflux'
 import Button from 'react-bootstrap/lib/Button'
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
 import ResizeButton from './resizeButton'
 import Filter from 'react-select'
 import TreeFauna from './treeFauna.js'
-import faunaStore from '../stores/faunaStore.js'
 
 let searchOptions = []
 
@@ -26,6 +25,15 @@ export default React.createClass({
     return {
       // ??
     }
+  },
+
+  componentDidMount () {
+    // this.unsubscribe = app.Stores.faunaStore.listen(this.onFaunaStoreChange)
+    // console.log('menu: faunaStore=', window.Stores.faunaStore)
+  },
+
+  componentWillUnmount () {
+    // this.unsubscribe
   },
 
   showFauna () {

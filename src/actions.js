@@ -3,11 +3,10 @@
 import Reflux from 'reflux'
 import PouchDB from 'pouchdb'
 import pouchUrl from './modules/getCouchUrl.js'
-import initiateFaunaStore from './stores/faunaStore.js'
 
-  // Each action is like an event channel for one specific event. Actions are called by components.
-  // The store is listening to all actions, and the components in turn are listening to the store.
-  // Thus the flow is: User interaction -> component calls action -> store reacts and triggers -> components update
+// Each action is like an event channel for one specific event. Actions are called by components.
+// The store is listening to all actions, and the components in turn are listening to the store.
+// Thus the flow is: User interaction -> component calls action -> store reacts and triggers -> components update
 
 export default function () {
   // asyncResult creates child actions 'completed' and 'failed'
@@ -30,15 +29,13 @@ export default function () {
     })
   })
 
-  Actions.initializeFaunaStore.completed.listen(function (result) {
-    // console.log('result', result)
+  Actions.initializeFaunaStore.completed.listen(function (data) {
+    return data
   })
 
   Actions.initializeFaunaStore.failed.listen(function (error) {
     console.log('error', error)
   })
-
-  initiateFaunaStore(Actions)
 
   return Actions
 }
