@@ -1,6 +1,6 @@
 /*
  * needs this information to load:
- * - fauna-objects from the faunaStore (props)
+ * - fauna-objects from the faunaCollectionStore (props)
  * - if/which node/object is active (state)
  *   represented by an object consisting of:
  *   {1_klasse, 2_ordnung, 3_familie, 4_id}
@@ -33,47 +33,40 @@ export default React.createClass({
 
   render () {
     const level = this.props.level
-    let arrayOfKlasseNumPairs
-    let treeObjects
+    let level1Nodes
+    let level1LiNodes
 
     switch (level) {
     case 1:
-      arrayOfKlasseNumPairs = _.chain(this.props.data)
+      level1LiNodes = _.chain(this.props.data)
+      // make an object {klasse1: num, klasse2: num}
         .countBy(function (object) {
           if (object.Taxonomie && object.Taxonomie.Eigenschaften && object.Taxonomie.Eigenschaften.Klasse) {
             return object.Taxonomie.Eigenschaften.Klasse
           }
         })
+        // convert to array of arrays so it can be sorted
         .pairs()
         .sortBy(function (pair) {
           return pair[0]
         })
-        .value()
-
-      /*const objKlassesNumbers = _.countBy(this.props.data, function (object) {
-        if (object.Taxonomie && object.Taxonomie.Eigenschaften && object.Taxonomie.Eigenschaften.Klasse) {
-          return object.Taxonomie.Eigenschaften.Klasse
-        }
-      })
-      const klassesNumbersPairs = _.pairs(objKlassesNumbers)
-      const klassesNumbersPairsSorted = _.sortBy(klassesNumbersPairs, function (pair) {
-        return pair[0]
-      })
-
-      console.log('objKlassesNumbers:', objKlassesNumbers)
-      console.log('klassesNumbersPairs:', klassesNumbersPairs)
-      console.log('klassesNumbersPairsSorted:', klassesNumbersPairsSorted)*/
-
-      treeObjects = arrayOfKlasseNumPairs.map(function (pair) {
+        // map to needed elements
+        .map(function (pair) {
           return (
-            <p key={pair[0]}>{pair[0]} ({pair[1]})</p>
+            <li key={pair[0]}>{pair[0]} ({pair[1]})</li>
           )
         })
+        .value()
+      level1Nodes = (
+        <ul className='level0'>
+          {level1LiNodes}
+        </ul>
+      )
       break
     }
     return (
       <div className='baum'>
-        {treeObjects}
+        {level1Nodes}
       </div>
     )
   }

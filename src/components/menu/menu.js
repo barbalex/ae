@@ -5,7 +5,7 @@ import React from 'react'
 import Button from 'react-bootstrap/lib/Button'
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
 import ResizeButton from './resizeButton.js'
-// import Filter from './filter.js'
+import Filter from './filter.js'
 import TreeFauna from './treeFauna.js'
 
 export default React.createClass({
@@ -28,16 +28,16 @@ export default React.createClass({
   showFauna () {
     // cancel listeners to stores
     this.unsubscribe
-    // call action initializeFaunaStore
-    app.Actions.initializeFaunaStore()
+    // call action initializeFaunaCollectionStore
+    app.Actions.initializeFaunaCollectionStore()
     // start listening to the store
-    this.unsubscribe = window.faunaStore.listen(this.onFaunaStoreChange)
+    this.unsubscribe = window.faunaCollectionStore.listen(this.onFaunaStoreChange)
     // TODO: show that fetching data
   },
 
   onFaunaStoreChange (data) {
     // TODO: insert Filter
-    // React.render(<Filter data={data}/>, document.getElementById('filter'))
+    React.render(<Filter data={data}/>, document.getElementById('filter'))
     // turn of to test filter
     React.render(<TreeFauna data={data} level={1}/>, document.getElementById('tree'))
   },

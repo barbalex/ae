@@ -4,9 +4,9 @@ import React from 'react'
 import Router from 'react-router'
 import Favicon from 'react-favicon'
 import MenuButton from './components/menuButton'
-import Menu from './components/menu'
-import FourOhFourPage from './pages/fourOhFour'
-import EmptyPage from './pages/empty'
+import Menu from './components/menu/menu.js'
+import FourOhFourPage from './components/form/fourOhFour.js'
+import EmptyPage from './components/form/empty.js'
 import FaviconImage from '../img/aster_144.png'
 
 const DefaultRoute = Router.DefaultRoute

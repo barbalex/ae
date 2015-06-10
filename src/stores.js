@@ -3,12 +3,17 @@
 import Reflux from 'reflux'
 
 export default function (Actions) {
-  window.faunaStore = Reflux.createStore({
+  window.faunaCollectionStore = Reflux.createStore({
     listenables: Actions,
 
     onInitializeFaunaStoreCompleted (data) {
-      // console.log('faunaStore got data:', data)
       this.trigger(data)
     }
+  })
+
+  window.faunaStore = Reflux.createStore({
+    listenables: Actions,
+
+
   })
 }

@@ -10,11 +10,14 @@ import pouchUrl from './modules/getCouchUrl.js'
 
 export default function () {
   // asyncResult creates child actions 'completed' and 'failed'
-  let Actions = Reflux.createActions({
-    initializeFaunaStore: {children: ['completed', 'failed']}
+  let Actions
+  let initializeFaunaStore
+
+  Actions = Reflux.createActions({
+    initializeFaunaCollectionStore: {children: ['completed', 'failed']}
   })
 
-  Actions.initializeFaunaStore.listen(function () {
+  Actions.initializeFaunaCollectionStore.listen(function () {
     // get fauna from db
     const db = new PouchDB(pouchUrl(), function (error, response) {
       if (error) { return console.log('error instantiating remote db') }
@@ -22,19 +25,11 @@ export default function () {
         const docs = result.rows.map(function (row) {
           return row.doc
         })
-        Actions.initializeFaunaStore.completed(docs)
+        Actions.initializeFaunaCollectionStore.completed(docs)
       }).catch(function (error) {
-        Actions.initializeFaunaStore.failed(error)
+        Actions.initializeFaunaCollectionStore.failed(error)
       })
     })
-  })
-
-  Actions.initializeFaunaStore.completed.listen(function (data) {
-    return data
-  })
-
-  Actions.initializeFaunaStore.failed.listen(function (error) {
-    console.log('error', error)
   })
 
   return Actions
