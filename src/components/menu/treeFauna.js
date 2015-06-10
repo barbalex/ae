@@ -1,6 +1,6 @@
 /*
  * needs this information to load:
- * - fauna-objects from the faunaCollectionStore (props)
+ * - fauna-objects from the faunaStore (props)
  * - if/which node/object is active (state)
  *   represented by an object consisting of:
  *   {1_klasse, 2_ordnung, 3_familie, 4_id}

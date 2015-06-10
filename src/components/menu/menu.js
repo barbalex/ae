@@ -25,18 +25,17 @@ export default React.createClass({
     this.unsubscribe
   },
 
-  showFauna () {
+  showObject () {
     // cancel listeners to stores
     this.unsubscribe
-    // call action initializeFaunaCollectionStore
-    app.Actions.initializeFaunaCollectionStore()
+    // call action loadFaunaStore
+    app.Actions.loadFaunaStore()
     // start listening to the store
-    this.unsubscribe = window.faunaCollectionStore.listen(this.onFaunaCollectionStoreChange)
+    this.unsubscribe = window.faunaStore.listen(this.onFaunaStoreChange)
     // TODO: show that fetching data
   },
 
-  onFaunaCollectionStoreChange (data) {
-    // TODO: insert Filter
+  onFaunaStoreChange (data) {
     React.render(<Filter data={data}/>, document.getElementById('filter'))
     // turn of to test filter
     React.render(<TreeFauna data={data} level={1}/>, document.getElementById('tree'))
@@ -71,7 +70,7 @@ export default React.createClass({
             <div id='gruppe_label'>Gruppe wählen:</div>
           </div>
           <ButtonGroup id='gruppe' className='gruppeButtonGroup'>
-            <Button bsStyle='primary' className='gruppe' onClick={this.showFauna} Gruppe='Fauna'>Fauna</Button>
+            <Button bsStyle='primary' className='gruppe' onClick={this.showObject} Gruppe='Fauna'>Fauna</Button>
             <Button bsStyle='primary' className='gruppe' onClick={this.showFlora} Gruppe='Flora'>Flora</Button>
             <Button bsStyle='primary' className='gruppe' onClick={this.showMoose} Gruppe='Moose'>Moose</Button>
             <Button bsStyle='primary' className='gruppe' onClick={this.showPilze} Gruppe='Macromycetes'>Pilze</Button>

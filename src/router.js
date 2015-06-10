@@ -15,7 +15,7 @@ const NotFoundRoute = Router.NotFoundRoute
 const Route = Router.Route
 const RouteHandler = Router.RouteHandler
 
-export default function () {
+export default function createRouter () {
   const App = React.createClass({
     displayName: 'HomePage',
 
@@ -33,12 +33,22 @@ export default function () {
 
   const routes = (
     <Route handler={App} path='/'>
+      <Route path='/objekte/:guid' handler={ObjectPage}/>
       <DefaultRoute handler={EmptyPage}/>
       <NotFoundRoute handler={FourOhFourPage}/>
     </Route>
   )
 
-  Router.run(routes, Router.HistoryLocation, function (Handler) {
+  const router = Router.create({
+    routes: routes,
+    location: Router.HistoryLocation
+  })
+
+  router.run(function (Handler) {
     React.render(<Handler/>, document.body)
   })
+
+  // make router accessible te enable transitionTo
+  // see: http://rackt.github.io/react-router/#Router.create
+  window.router = router
 }

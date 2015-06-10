@@ -8,6 +8,7 @@
 import app from 'ampersand-app'
 import React from 'react'
 import Filter from 'react-select'
+import _ from 'underscore'
 
 export default React.createClass({
   displayName: 'Filter',
@@ -16,9 +17,17 @@ export default React.createClass({
     data: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
   },
 
-  filter (val) {
-    console.log('filtered:', val)
-    app.Actions.showFauna(val)
+  filter (guid) {
+    console.log('filtered:', guid)
+    // get the object to pass
+    const objectToPass = _.find(this.props.data, function (object) {
+      return object._id === guid
+    })
+
+    console.log('app:', app)
+    console.log('app.router:', app.router)
+
+    window.router.transitionTo('/objekte/' + guid)
   },
 
   render () {
