@@ -16,9 +16,11 @@ export default React.createClass({
 
   render () {
     return (
-      <div>
-        <fieldset id='forms'/>
-      </div>
+      <fieldset id='forms'>
+        <form className='form form-horizontal' autoComplete='off'>
+          <div id='formContent'></div>
+        </form>
+      </fieldset>
     )
   }
 })

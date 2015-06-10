@@ -7,9 +7,8 @@ export default React.createClass({
 
   render () {
     return (
-      <div>
-        <fieldset id='forms'/>
-      </div>
+      <fieldset id='forms'>
+      </fieldset>
     )
   }
 })
