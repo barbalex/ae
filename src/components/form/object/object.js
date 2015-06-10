@@ -2,7 +2,7 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-// import _ from 'underscore'
+import forEach from 'lodash/collection/foreach'
 import Eigenschaftensammlung from './eigenschaftensammlung.js'
 
 export default React.createClass({
@@ -40,7 +40,7 @@ export default React.createClass({
     // let guidsOfSynonyms
     // divide property collections in regular and taxonomic
     if (object.Beziehungssammlungen.length > 0) {
-      _.each(object.Beziehungssammlungen, function (bs) {
+      forEach(object.Beziehungssammlungen, function (bs) {
         if (bs.Typ === 'taxonomisch') {
           taxBs.push(bs)
         } else {

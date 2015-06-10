@@ -8,7 +8,7 @@
 'use strict'
 
 import React from 'react'
-import _ from 'underscore'
+import chain from 'lodash/chain/chain'
 
 export default React.createClass({
   displayName: 'Tree',
@@ -38,7 +38,7 @@ export default React.createClass({
 
     switch (level) {
     case 1:
-      level1LiNodes = _.chain(this.props.data)
+      level1LiNodes = chain(this.props.data)
       // make an object {klasse1: num, klasse2: num}
         .countBy(function (object) {
           if (object.Taxonomie && object.Taxonomie.Eigenschaften && object.Taxonomie.Eigenschaften.Klasse) {

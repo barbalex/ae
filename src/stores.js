@@ -1,10 +1,16 @@
 'use strict'
 
 import Reflux from 'reflux'
-import _ from 'underscore'
+import indexBy from 'lodash/collection/indexBy'
+import assign from 'lodash/object/assign'
 
 export default function (Actions) {
   window.faunaStore = Reflux.createStore({
+    // This store caches the requested item in the items property
+    // When all the items are loaded,
+    // it will set the loaded property to true
+    // so that the store consumers (e.g. a jsx component)
+    // will know if a API request is needed
     listenables: Actions,
 
     items: {},
@@ -18,7 +24,7 @@ export default function (Actions) {
     onLoadFaunaStoreCompleted (items) {
       if (items instanceof Array) {
         // loaded all items
-        items = _.indexBy(items, '_id')
+        items = indexBy(items, '_id')
         this.loaded = true
       }
       assign(this.items, items)
