@@ -5,6 +5,7 @@
  */
 'use strict'
 
+import app from 'ampersand-app'
 import React from 'react'
 import Filter from 'react-select'
 
@@ -17,6 +18,7 @@ export default React.createClass({
 
   filter (val) {
     console.log('filtered:', val)
+    app.Actions.showFauna(val)
   },
 
   render () {

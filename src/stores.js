@@ -6,7 +6,7 @@ export default function (Actions) {
   window.faunaCollectionStore = Reflux.createStore({
     listenables: Actions,
 
-    onInitializeFaunaStoreCompleted (data) {
+    onInitializeFaunaCollectionStoreCompleted (data) {
       this.trigger(data)
     }
   })

@@ -31,11 +31,11 @@ export default React.createClass({
     // call action initializeFaunaCollectionStore
     app.Actions.initializeFaunaCollectionStore()
     // start listening to the store
-    this.unsubscribe = window.faunaCollectionStore.listen(this.onFaunaStoreChange)
+    this.unsubscribe = window.faunaCollectionStore.listen(this.onFaunaCollectionStoreChange)
     // TODO: show that fetching data
   },
 
-  onFaunaStoreChange (data) {
+  onFaunaCollectionStoreChange (data) {
     // TODO: insert Filter
     React.render(<Filter data={data}/>, document.getElementById('filter'))
     // turn of to test filter

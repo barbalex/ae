@@ -11,7 +11,7 @@ import pouchUrl from './modules/getCouchUrl.js'
 export default function () {
   // asyncResult creates child actions 'completed' and 'failed'
   let Actions
-  let initializeFaunaStore
+  let showFauna
 
   Actions = Reflux.createActions({
     initializeFaunaCollectionStore: {children: ['completed', 'failed']}
@@ -31,6 +31,8 @@ export default function () {
       })
     })
   })
+
+  Actions.showFauna = Reflux.createAction()
 
   return Actions
 }

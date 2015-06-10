@@ -7,11 +7,11 @@ import MenuButton from './components/menuButton'
 import Menu from './components/menu/menu.js'
 import FourOhFourPage from './components/form/fourOhFour.js'
 import EmptyPage from './components/form/empty.js'
+import ObjectPage from './components/form/object/object.js'
 import FaviconImage from '../img/aster_144.png'
 
 const DefaultRoute = Router.DefaultRoute
 const NotFoundRoute = Router.NotFoundRoute
-// const Link = Router.Link
 const Route = Router.Route
 const RouteHandler = Router.RouteHandler
 
