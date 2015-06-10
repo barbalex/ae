@@ -33,7 +33,7 @@ export default function createRouter () {
 
   const routes = (
     <Route handler={App} path='/'>
-      <Route path='/objekte/:guid' handler={ObjectPage}/>
+      <Route path='/:guid' handler={ObjectPage}/>
       <DefaultRoute handler={EmptyPage}/>
       <NotFoundRoute handler={FourOhFourPage}/>
     </Route>

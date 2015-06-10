@@ -8,13 +8,13 @@
 'use strict'
 
 import React from 'react'
-import chain from 'lodash/chain/chain'
+import _ from 'lodash'
 
 export default React.createClass({
   displayName: 'Tree',
 
   propTypes: {
-    data: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
+    items: React.PropTypes.object.isRequired
   },
 
   getInitialState () {
@@ -38,8 +38,8 @@ export default React.createClass({
 
     switch (level) {
     case 1:
-      level1LiNodes = chain(this.props.data)
-      // make an object {klasse1: num, klasse2: num}
+      level1LiNodes = _.chain(this.props.items)
+        // make an object {klasse1: num, klasse2: num}
         .countBy(function (object) {
           if (object.Taxonomie && object.Taxonomie.Eigenschaften && object.Taxonomie.Eigenschaften.Klasse) {
             return object.Taxonomie.Eigenschaften.Klasse

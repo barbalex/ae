@@ -154,18 +154,18 @@ body {
  * gruppe-button-group
  */
 
-#gruppe {
+#menu .btn-group {
   margin-top:    5px;
   margin-bottom: 5px;
   margin-left:   0;
   position: relative;
 }
 
-#gruppe .active {
+#menu .btn-group .active {
   background-color: #222 !important;
 }
 
-#gruppe_label {
+#gruppeLabel {
   position: relative;
   left: 68px;
   top:   8px;

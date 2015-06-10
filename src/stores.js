@@ -17,6 +17,8 @@ export default function (Actions) {
 
     loaded: false,
 
+    // the object component uses this method
+    // to get the object
     get (guid) {
       return this.items[guid]
     },

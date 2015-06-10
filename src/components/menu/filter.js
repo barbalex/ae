@@ -7,22 +7,21 @@
 
 import React from 'react'
 import Filter from 'react-select'
+import values from 'lodash/object/values'
 
 export default React.createClass({
   displayName: 'Filter',
 
   propTypes: {
-    data: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
+    items: React.PropTypes.object.isRequired
   },
 
   filter (guid) {
-    console.log('filtered:', guid)
-
-    window.router.transitionTo('/objekte/' + guid)
+    window.router.transitionTo('/fauna/' + guid)
   },
 
   render () {
-    const objects = this.props.data
+    const objects = values(this.props.items)
       .map(function (object) {
         // make sure every fauna has a name
         // dont use others for filtering

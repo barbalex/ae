@@ -22,23 +22,25 @@ export default React.createClass({
   },
 
   componentWillUnmount () {
-    this.unsubscribe
+    this.unsubscribeFaunaStore
   },
 
-  showObject () {
+  showFauna () {
     // cancel listeners to stores
-    this.unsubscribe
-    // call action loadFaunaStore
-    app.Actions.loadFaunaStore()
+    this.unsubscribeFaunaStore
+    // loadFaunaStore if necessary
+    if (!window.faunaStore.loaded) {
+      app.Actions.loadFaunaStore()
+    }
     // start listening to the store
-    this.unsubscribe = window.faunaStore.listen(this.onFaunaStoreChange)
+    this.unsubscribeFaunaStore = window.faunaStore.listen(this.onFaunaStoreChange)
     // TODO: show that fetching data
   },
 
-  onFaunaStoreChange (data) {
-    React.render(<Filter data={data}/>, document.getElementById('filter'))
+  onFaunaStoreChange (items) {
+    React.render(<Filter items={items}/>, document.getElementById('filter'))
     // turn of to test filter
-    React.render(<TreeFauna data={data} level={1}/>, document.getElementById('tree'))
+    React.render(<TreeFauna items={items} level={1}/>, document.getElementById('tree'))
   },
 
   showFlora () {
@@ -67,14 +69,14 @@ export default React.createClass({
         <div>
           <ResizeButton/>
           <div id='menu-div'>
-            <div id='gruppe_label'>Gruppe wählen:</div>
+            <div id='gruppeLabel'>Gruppe wählen:</div>
           </div>
-          <ButtonGroup id='gruppe' className='gruppeButtonGroup'>
-            <Button bsStyle='primary' className='gruppe' onClick={this.showObject} Gruppe='Fauna'>Fauna</Button>
-            <Button bsStyle='primary' className='gruppe' onClick={this.showFlora} Gruppe='Flora'>Flora</Button>
-            <Button bsStyle='primary' className='gruppe' onClick={this.showMoose} Gruppe='Moose'>Moose</Button>
-            <Button bsStyle='primary' className='gruppe' onClick={this.showPilze} Gruppe='Macromycetes'>Pilze</Button>
-            <Button bsStyle='primary' className='gruppe' onClick={this.showLr} Gruppe='Lebensräume'>Lebensräume</Button>
+          <ButtonGroup>
+            <Button bsStyle='primary' onClick={this.showFauna}>Fauna</Button>
+            <Button bsStyle='primary' onClick={this.showFlora}>Flora</Button>
+            <Button bsStyle='primary' onClick={this.showMoose}>Moose</Button>
+            <Button bsStyle='primary' onClick={this.showPilze}>Pilze</Button>
+            <Button bsStyle='primary' onClick={this.showLr}>Lebensräume</Button>
           </ButtonGroup>
         </div>
         <div id='filter'></div>

@@ -2,38 +2,62 @@
 
 import app from 'ampersand-app'
 import React from 'react'
+import { ListenerMixin } from 'reflux'
 import forEach from 'lodash/collection/foreach'
 import Eigenschaftensammlung from './eigenschaftensammlung.js'
 
 export default React.createClass({
   displayName: 'Object',
 
-  getInitialState () {
-    // have guid
-    // need the object
+  mixins: [ListenerMixin],
 
+  getInitialState () {
+    const store = this.getStore()
+    const items = store.getInitialState().items
     return {
-      // ??
+      loading: !store.getInitialState().items,
+      items: items
     }
   },
 
   propTypes: {
-    data: React.PropTypes.object.isRequired
+    param: React.PropTypes.object.isRequired
   },
 
   componentDidMount () {
-    // get's handed the guid from react-router
-    const guid = this.props.param.guid
-    // start listening to the store
-    this.unsubscribe = window.faunaStore.listen(this.onFaunaStoreChange)
+    const store = this.getStore()
+    this.listenTo(store, this.handleLoadItemsComplete)
+    if (!store.get(this.props.param.guid)) {
+      this.getItem()
+    }
   },
 
-  componentWillUnmount () {
-    this.unsubscribe
+  getStore () {
+    return window[this.props.param.gruppe + 'Store']
+  },
+
+  getGuid () {
+    return this.props.param.guid
+  },
+
+  getItem () {
+    this.setState({ loading: true}, () => {
+      app.Actions.loadFaunaStore(this.props.param.guid)
+    })
+  },
+
+  handleLoadItemsComplete (items) {
+    this.setState({
+      loading: false,
+      items: items
+    })
   },
 
   render () {
-    const object = this.props.object
+    if (this.state.loading) {
+      return <p>Lade Daten...</p>
+    }
+
     /*let objektBs = []  // regular property collections
     let taxBs = [] // taxonomic property collections
     let bsNamen
