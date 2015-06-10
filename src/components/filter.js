@@ -34,7 +34,6 @@ export default React.createClass({
 
     return (
       <Filter
-        name='test'
         placeholder='filtern'
         noResultsText='keine Treffer'
         options={objects}
