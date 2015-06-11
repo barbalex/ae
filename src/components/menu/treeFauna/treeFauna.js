@@ -1,15 +1,15 @@
 /*
  * needs this information to load:
- * - fauna-objects from the faunaStore (props)
- * - if/which node/object is active (state)
- *   represented by an object 'treeState' consisting of:
- *   {1_klasse, 2_ordnung, 3_familie, 4_guid}
+ * - fauna-items from the faunaStore (this.props.items)
+ * - if/which node/object is active (this.props.treeState)
+ *   represented by an object consisting of:
+ *   {klasse: xxx, ordnung: xxx, familie: xxx, guid: xxx}
  */
 'use strict'
 
 import React from 'react'
 import _ from 'lodash'
-import Level2Nodes from './Level2Nodes'
+import Level2Nodes from './Level2Nodes.js'
 
 const TreeFauna = React.createClass({
   displayName: 'Tree',
@@ -26,8 +26,6 @@ const TreeFauna = React.createClass({
   },
 
   onClickNode (klasse) {
-    console.log('treeFauna: Klasse clicked:', klasse)
-
     const treeState = { klasse: klasse, ordnung: null, familie: null, guid: null }
     const items = this.props.items
 
@@ -56,17 +54,10 @@ const TreeFauna = React.createClass({
       .map(function (pair) {
         if (pair[0] === treeState.klasse) {
           // dieser Node soll offen sein
-          // items mit dieser Klasse filtern
-          const itemsWithKlasse = _.pick(items, function (item) {
-            if (item.Taxonomie && item.Taxonomie.Eigenschaften && item.Taxonomie.Eigenschaften.Klasse && item.Taxonomie.Eigenschaften.Klasse === treeState.klasse) {
-              return true
-            }
-          })
-
           return (
             <li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>
               {pair[0]} ({pair[1]})
-              <Level2Nodes items={itemsWithKlasse} treeState={treeState}/>
+              <Level2Nodes items={items} treeState={treeState}/>
             </li>
           )
         }
