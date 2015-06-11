@@ -2,6 +2,7 @@
 
 import app from 'ampersand-app'
 import React from 'react'
+import Router from 'react-router'
 import { ListenerMixin } from 'reflux'
 import forEach from 'lodash/collection/foreach'
 import Eigenschaftensammlung from './eigenschaftensammlung.js'
@@ -9,40 +10,45 @@ import Eigenschaftensammlung from './eigenschaftensammlung.js'
 export default React.createClass({
   displayName: 'Object',
 
-  mixins: [ListenerMixin],
+  mixins: [ListenerMixin, Router.State],
 
   getInitialState () {
-    const store = this.getStore()
-    const items = store.getInitialState().items
+    // const store = this.getStore()
+    // const items = store.getInitialState().items
+
+    console.log('object: getParams:', this.getParams())
+    console.log('object: getRoutes:', this.getRoutes())
+    console.log('object: getQuery:', this.getQuery())
+
     return {
-      loading: !store.getInitialState().items,
-      items: items
+      /*loading: !store.getInitialState().items,
+      items: items*/
     }
   },
 
   propTypes: {
-    param: React.PropTypes.object.isRequired
+    // param: React.PropTypes.object.isRequired
   },
 
   componentDidMount () {
-    const store = this.getStore()
+    /*const store = this.getStore()
     this.listenTo(store, this.handleLoadItemsComplete)
     if (!store.get(this.props.param.guid)) {
       this.getItem()
-    }
+    }*/
   },
 
   getStore () {
-    return window[this.props.param.gruppe + 'Store']
+    // return window[this.props.param.gruppe + 'Store']
   },
 
   getGuid () {
-    return this.props.param.guid
+    // return this.props.param.guid
   },
 
   getItem () {
     this.setState({ loading: true}, () => {
-      app.Actions.loadFaunaStore(this.props.param.guid)
+      // app.Actions.loadFaunaStore(this.props.param.guid)
     })
   },
 
@@ -85,7 +91,7 @@ export default React.createClass({
         <form className='form form-horizontal' autoComplete='off'>
           <div id='formContent'>
             <h4>Taxonomie:</h4>
-            <Eigenschaftensammlung esTyp='Taxonomie' object={object} eigenschaftensammlung={object.Name}/>
+            {/*<Eigenschaftensammlung esTyp='Taxonomie' object={object} eigenschaftensammlung={object.Name}/>*/}
             {/*taxonomischeBeziehungssammlungen*/}
 
           </div>

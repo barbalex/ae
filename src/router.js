@@ -32,8 +32,8 @@ export default function createRouter () {
   })
 
   const routes = (
-    <Route handler={App} path='/'>
-      <Route path='/:gruppe/:guid' handler={ObjectPage}/>
+    <Route name='home' handler={App} path='/'>
+      <Route name='fauna' path='/fauna' handler={ObjectPage}/>
       <DefaultRoute handler={EmptyPage}/>
       <NotFoundRoute handler={FourOhFourPage}/>
     </Route>

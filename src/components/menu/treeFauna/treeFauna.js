@@ -19,12 +19,6 @@ const TreeFauna = React.createClass({
     treeState: React.PropTypes.object.isRequired
   },
 
-  getInitialState () {
-    console.log('treeFauna: treeState:', this.props.treeState)
-    console.log('treeFauna: items:', this.props.items)
-    return null
-  },
-
   onClickNode (klasse) {
     const treeState = { klasse: klasse, ordnung: null, familie: null, guid: null }
     const items = this.props.items

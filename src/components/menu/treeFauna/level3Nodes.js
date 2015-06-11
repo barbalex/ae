@@ -20,12 +20,6 @@ export default React.createClass({
     treeState: React.PropTypes.object.isRequired
   },
 
-  getInitialState () {
-    console.log('level3Nodes: treeState:', this.props.treeState)
-    console.log('level3Nodes: items:', this.props.items)
-    return null
-  },
-
   onClickNode (familie) {
     console.log('level3Nodes: familie clicked:', familie)
 
