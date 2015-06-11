@@ -8,20 +8,19 @@
 'use strict'
 
 import React from 'react'
-import Router from 'react-router'
+import {State} from 'react-router'
 import _ from 'lodash'
-import TreeFauna from './fauna.js'
+import FaunaOrdnung from './s3.js'
 
 export default React.createClass({
-  displayName: 'faunaOrdnung',
+  displayName: 'FaunaKlasse',
 
-  mixins: [Router.State],
+  mixins: [State],
 
   propTypes: {
     items: React.PropTypes.object.isRequired,
     klasse: React.PropTypes.string.isRequired,
-    ordnung: React.PropTypes.string.isRequired,
-    familie: React.PropTypes.string
+    ordnung: React.PropTypes.string
   },
 
   getInitialState () {
@@ -29,13 +28,12 @@ export default React.createClass({
     return {
       items: window.faunaStore.getItems(),
       klasse: params.klasse,
-      ordnung: params.ordnung,
-      familie: null
+      ordnung: null
     }
   },
 
-  onClickNode (familie) {
-    window.router.transitionTo(`/fauna/${this.props.klasse}/${ordnung}/${familie}`)
+  onClickNode (ordnung) {
+    window.router.transitionTo(`/fauna/${this.props.klasse}/${ordnung}`)
   },
 
   render () {
@@ -43,20 +41,19 @@ export default React.createClass({
     const that = this
     const items = this.props.items
     const klasse = this.props.klasse
-    const ordnung = this.props.ordnung
 
-    // items nach Klasse und Ordnung filtern
-    const itemsWithOrdnung = _.pick(items, function (item) {
-      if (item.Taxonomie && item.Taxonomie.Eigenschaften && item.Taxonomie.Eigenschaften.Klasse && item.Taxonomie.Eigenschaften.Klasse === klasse && item.Taxonomie.Eigenschaften.Ordnung && item.Taxonomie.Eigenschaften.Ordnung === ordnung) {
+    // items nach Klasse filtern
+    const itemsWithKlasse = _.pick(items, function (item) {
+      if (item.Taxonomie && item.Taxonomie.Eigenschaften && item.Taxonomie.Eigenschaften.Klasse && item.Taxonomie.Eigenschaften.Klasse === klasse) {
         return true
       }
     })
 
-    nodes = _.chain(itemsWithOrdnung)
+    nodes = _.chain(itemsWithKlasse)
       // make an object {ordnung1: num, ordnung2: num}
       .countBy(function (item) {
-        if (item.Taxonomie.Eigenschaften.Familie) {
-          return item.Taxonomie.Eigenschaften.Familie
+        if (item.Taxonomie.Eigenschaften.Ordnung) {
+          return item.Taxonomie.Eigenschaften.Ordnung
         }
       })
       // convert to array of arrays so it can be sorted
@@ -66,16 +63,26 @@ export default React.createClass({
       })
       // map to needed elements
       .map(function (pair) {
+        /*if (pair[0] === treeState.ordnung) {
+          // dieser Node soll offen sein
+          return (
+            <li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>
+              {pair[0]} ({pair[1]})
+              <FaunaOrdnung items={items} treeState={treeState}/>
+            </li>
+          )
+        }*/
         return (
           <li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>
             {pair[0]} ({pair[1]})
+            <FaunaOrdnung/>
           </li>
         )
       })
       .value()
 
     return (
-      <ul className='level3'>
+      <ul className='level2'>
         {nodes}
       </ul>
     )

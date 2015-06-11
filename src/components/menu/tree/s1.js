@@ -3,33 +3,36 @@
  * - fauna-items from the faunaStore (this.props.items)
  * - if/which node/object is active (this.props.treeState)
  *   represented by an object consisting of:
- *   {klasse: xxx, ordnung: xxx, familie: xxx, guid: xxx}
+ *   {s2: xxx, ordnung: xxx, familie: xxx, guid: xxx}
  */
 'use strict'
 
 import React from 'react'
-import {State} from 'react-router'
+import { State } from 'react-router'
 import { ListenerMixin } from 'reflux'
 import _ from 'lodash'
-import FaunaKlasse from './faunaKlasse.js'
+import S2 from './s2.js'
+import routingStructure from '../../../routingStructure.js'
 
 const store = window.faunaStore
 
-const TreeFauna = React.createClass({
+const TreeS1 = React.createClass({
   displayName: 'Fauna',
 
   mixins: [ListenerMixin, State],
 
   propTypes: {
     items: React.PropTypes.object.isRequired,
-    klasse: React.PropTypes.string
+    s2: React.PropTypes.string
   },
 
   getInitialState () {
-    console.log('window.faunaStore.getItems', store.getItems())
+    // console.log('window.faunaStore.getItems', store.getItems())
+    const params = this.getParams()
     return {
       items: store.getItems(),
-      klasse: null
+      s1: params.s1,
+      s2: null
     }
   },
 
@@ -38,21 +41,21 @@ const TreeFauna = React.createClass({
   },
 
   onStoreChange (items) {
-    console.log('fauna: faunaStore changed, items:', items)
+    console.log('s1: store changed, items:', items)
     this.setState({
       items: items
     })
   },
 
-  onClickNode (klasse) {
-    window.router.transitionTo(`/fauna/${klasse}`)
+  onClickNode (s2) {
+    window.router.transitionTo(`/${this.props.s1}/${s2}`)
   },
 
   render () {
     let nodes
     const that = this
     const items = this.props.items
-    const klasse = this.props.klasse
+    const s2 = this.props.s2
 
     nodes = _.chain(items)
       // make an object {klasse1: num, klasse2: num}
@@ -68,12 +71,12 @@ const TreeFauna = React.createClass({
       })
       // map to needed elements
       .map(function (pair) {
-        if (pair[0] === klasse) {
+        if (pair[0] === s2) {
           // dieser Node soll offen sein
           return (
             <li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>
               {pair[0]} ({pair[1]})
-              <FaunaKlasse/>
+              <S2/>
             </li>
           )
         }
@@ -95,4 +98,4 @@ const TreeFauna = React.createClass({
   }
 })
 
-export default TreeFauna
+export default TreeS1

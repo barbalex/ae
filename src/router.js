@@ -1,5 +1,6 @@
 'use strict'
 
+import app from 'ampersand-app'
 import React from 'react'
 import Router from 'react-router'
 
@@ -9,10 +10,10 @@ import Menu from './components/menu/menu.js'
 import Objekt from './components/main/object/object.js'
 import FourOhFour from './components/main/fourOhFour.js'
 import Empty from './components/main/empty.js'
-import Fauna from './components/menu/treeFauna/fauna.js'
-import FaunaKlasse from './components/menu/treeFauna/faunaKlasse.js'
-import FaunaOrdnung from './components/menu/treeFauna/faunaOrdnung.js'
-import FaunaFamilie from './components/menu/treeFauna/faunaFamilie.js'
+import S1 from './components/menu/tree/s1.js'
+import S2 from './components/menu/tree/s2.js'
+import S3 from './components/menu/tree/s3.js'
+import S4 from './components/menu/tree/s4.js'
 import FaviconImage from '../img/aster_144.png'
 
 const DefaultRoute = Router.DefaultRoute
@@ -21,8 +22,8 @@ const Route = Router.Route
 const RouteHandler = Router.RouteHandler
 
 export default function createRouter () {
-  const App = React.createClass({
-    displayName: 'App',
+  const Appy = React.createClass({
+    displayName: 'Appy',
 
     render () {
       return (
@@ -38,12 +39,12 @@ export default function createRouter () {
   })
 
   const routes = (
-    <Route name='start' path='/' handler={App}>
-      <Route name='fauna' path='/fauna' handler={Fauna}/>
-      <Route name='faunaKlasse' path='/fauna/:klasse' handler={FaunaKlasse}/>
-      <Route name='faunaOrdnung' path='/fauna/:klasse/:ordnung' handler={FaunaOrdnung}/>
-      <Route name='faunaFamilie' path='/fauna/:klasse/:ordnung/:familie' handler={FaunaFamilie}/>
-      <Route name='faunaObjekt' path='/fauna/:klasse/:ordnung/:familie/:objekt' handler={Objekt}/>
+    <Route name='start' path='/' handler={Appy}>
+      <Route name='s1' path='/:s1' handler={S1}/>
+      <Route name='s2' path='/:s1/:s2' handler={S2}/>
+      <Route name='s3' path='/:s1/:s2/:s3' handler={S3}/>
+      <Route name='s4' path='/:s1/:s2/:s3/:s4' handler={S4}/>
+      <Route name='faunaObjekt' path='/:s1/:s2/:s3/:s4/:s5' handler={Objekt}/>
       <DefaultRoute handler={Empty}/>
       <NotFoundRoute handler={FourOhFour}/>
     </Route>
@@ -54,8 +55,9 @@ export default function createRouter () {
     location: Router.HistoryLocation
   })
 
-  router.run(function (Handler) {
+  router.run(function (Handler, state) {
     React.render(<Handler/>, document.body)
+    app.Actions.transition(state.params)
   })
 
   // make router accessible te enable transitionTo

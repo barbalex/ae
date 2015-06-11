@@ -10,8 +10,8 @@ window.app = app // expose app to the browser console
 
 app.extend({
   init () {
-    this.router = new Router()
     this.Actions = actions()
+    this.router = new Router()
     stores(this.Actions)
   }
 })

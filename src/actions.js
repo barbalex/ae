@@ -39,5 +39,11 @@ export default function () {
     // get the object
   })
 
+  Actions.transition = Reflux.createAction()
+
+  Actions.transition.listen(function (params) {
+    console.log('transition with params:', params)
+  })
+
   return Actions
 }

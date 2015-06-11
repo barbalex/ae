@@ -1,8 +1,7 @@
 'use strict'
 
 import Reflux from 'reflux'
-import indexBy from 'lodash/collection/indexBy'
-import assign from 'lodash/object/assign'
+import _ from 'lodash'
 
 export default function (Actions) {
   window.faunaStore = Reflux.createStore({
@@ -30,11 +29,16 @@ export default function (Actions) {
     onLoadFaunaStoreCompleted (items) {
       if (items instanceof Array) {
         // loaded all items
-        items = indexBy(items, '_id')
+        items = _.indexBy(items, '_id')
         this.loaded = true
       }
-      assign(this.items, items)
+      _.assign(this.items, items)
       this.trigger(this.items)
+    },
+
+    // trigger view refresh an any url transition
+    onTransition () {
+      this.trigger(this.item)
     }
   })
 }
