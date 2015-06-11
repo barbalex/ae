@@ -8,37 +8,46 @@
 'use strict'
 
 import React from 'react'
+import Router from 'react-router'
 import _ from 'lodash'
 import TreeFauna from './fauna.js'
 
 export default React.createClass({
   displayName: 'faunaOrdnung',
 
+  mixins: [Router.State],
+
   propTypes: {
     items: React.PropTypes.object.isRequired,
-    treeState: React.PropTypes.object.isRequired
+    klasse: React.PropTypes.string.isRequired,
+    ordnung: React.PropTypes.string.isRequired,
+    familie: React.PropTypes.string
+  },
+
+  getInitialState () {
+    const params = this.getParams()
+    return {
+      items: window.faunaStore.getItems(),
+      klasse: params.klasse,
+      ordnung: params.ordnung,
+      familie: null
+    }
   },
 
   onClickNode (familie) {
-    console.log('faunaOrdnung: familie clicked:', familie)
-
-    const treeState = this.props.treeState
-    treeState.familie = familie
-    const items = this.props.items
-
-    React.render(<TreeFauna items={items} treeState={treeState}/>, document.getElementById('tree'))
-    React.forceUpdate()
+    window.router.transitionTo(`/fauna/${this.props.klasse}/${ordnung}/${familie}`)
   },
 
   render () {
     let nodes
     const that = this
     const items = this.props.items
-    const treeState = this.props.treeState
+    const klasse = this.props.klasse
+    const ordnung = this.props.ordnung
 
     // items nach Klasse und Ordnung filtern
     const itemsWithOrdnung = _.pick(items, function (item) {
-      if (item.Taxonomie && item.Taxonomie.Eigenschaften && item.Taxonomie.Eigenschaften.Klasse && item.Taxonomie.Eigenschaften.Klasse === treeState.klasse && item.Taxonomie.Eigenschaften.Ordnung && item.Taxonomie.Eigenschaften.Ordnung === treeState.ordnung) {
+      if (item.Taxonomie && item.Taxonomie.Eigenschaften && item.Taxonomie.Eigenschaften.Klasse && item.Taxonomie.Eigenschaften.Klasse === klasse && item.Taxonomie.Eigenschaften.Ordnung && item.Taxonomie.Eigenschaften.Ordnung === ordnung) {
         return true
       }
     })
@@ -57,15 +66,6 @@ export default React.createClass({
       })
       // map to needed elements
       .map(function (pair) {
-        if (pair[0] === treeState.familie) {
-          // dieser Node soll offen sein
-          return (
-            <li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>
-              {pair[0]} ({pair[1]})
-              {/*<Level4Nodes items={items} treeState={treeState}/>*/}
-            </li>
-          )
-        }
         return (
           <li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>
             {pair[0]} ({pair[1]})

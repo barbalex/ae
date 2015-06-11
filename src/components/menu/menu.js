@@ -34,6 +34,8 @@ export default React.createClass({
     }
     // start listening to the store
     this.unsubscribeFaunaStore = window.faunaStore.listen(this.onFaunaStoreChange)
+    // navigate to /fauna
+    window.router.transitionTo(`/fauna`)
     // TODO: show that fetching data
   },
 

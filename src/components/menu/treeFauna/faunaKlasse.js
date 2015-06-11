@@ -8,38 +8,43 @@
 'use strict'
 
 import React from 'react'
+import {State} from 'react-router'
 import _ from 'lodash'
 import FaunaOrdnung from './faunaOrdnung.js'
-import TreeFauna from './fauna.js'
 
 export default React.createClass({
   displayName: 'FaunaKlasse',
 
+  mixins: [State],
+
   propTypes: {
     items: React.PropTypes.object.isRequired,
-    treeState: React.PropTypes.object.isRequired
+    klasse: React.PropTypes.string.isRequired,
+    ordnung: React.PropTypes.string
+  },
+
+  getInitialState () {
+    const params = this.getParams()
+    return {
+      items: window.faunaStore.getItems(),
+      klasse: params.klasse,
+      ordnung: null
+    }
   },
 
   onClickNode (ordnung) {
-    const treeState = this.props.treeState
-    treeState.ordnung = ordnung
-    const items = this.props.items
-
-    console.log('faunaKlasse: treeState passed to TreeFauna:', treeState)
-
-    React.render(<TreeFauna items={items} treeState={treeState}/>, document.getElementById('tree'))
-    React.forceUpdate()
+    window.router.transitionTo(`/fauna/${this.props.klasse}/${ordnung}`)
   },
 
   render () {
     let nodes
     const that = this
     const items = this.props.items
-    const treeState = this.props.treeState
+    const klasse = this.props.klasse
 
     // items nach Klasse filtern
     const itemsWithKlasse = _.pick(items, function (item) {
-      if (item.Taxonomie && item.Taxonomie.Eigenschaften && item.Taxonomie.Eigenschaften.Klasse && item.Taxonomie.Eigenschaften.Klasse === treeState.klasse) {
+      if (item.Taxonomie && item.Taxonomie.Eigenschaften && item.Taxonomie.Eigenschaften.Klasse && item.Taxonomie.Eigenschaften.Klasse === klasse) {
         return true
       }
     })
@@ -58,7 +63,7 @@ export default React.createClass({
       })
       // map to needed elements
       .map(function (pair) {
-        if (pair[0] === treeState.ordnung) {
+        /*if (pair[0] === treeState.ordnung) {
           // dieser Node soll offen sein
           return (
             <li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>
@@ -66,10 +71,11 @@ export default React.createClass({
               <FaunaOrdnung items={items} treeState={treeState}/>
             </li>
           )
-        }
+        }*/
         return (
           <li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>
             {pair[0]} ({pair[1]})
+            <FaunaOrdnung/>
           </li>
         )
       })

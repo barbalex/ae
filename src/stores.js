@@ -23,6 +23,10 @@ export default function (Actions) {
       return this.items[guid]
     },
 
+    getItems () {
+      return this.items
+    },
+
     onLoadFaunaStoreCompleted (items) {
       if (items instanceof Array) {
         // loaded all items

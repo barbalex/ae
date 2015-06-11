@@ -2,15 +2,18 @@
 
 import React from 'react'
 import Router from 'react-router'
+
+import Favicon from 'react-favicon'
+import MenuButton from './components/menuButton'
+import Menu from './components/menu/menu.js'
+import Objekt from './components/main/object/object.js'
 import FourOhFour from './components/main/fourOhFour.js'
 import Empty from './components/main/empty.js'
-import Home from './components/home.js'
 import Fauna from './components/menu/treeFauna/fauna.js'
 import FaunaKlasse from './components/menu/treeFauna/faunaKlasse.js'
 import FaunaOrdnung from './components/menu/treeFauna/faunaOrdnung.js'
 import FaunaFamilie from './components/menu/treeFauna/faunaFamilie.js'
-
-import Objekt from './components/main/object/object.js'
+import FaviconImage from '../img/aster_144.png'
 
 const DefaultRoute = Router.DefaultRoute
 const NotFoundRoute = Router.NotFoundRoute
@@ -24,6 +27,10 @@ export default function createRouter () {
     render () {
       return (
         <div>
+          <Favicon url={[FaviconImage]}/>
+          <MenuButton/>
+          <Menu/>
+          {/*<Objekt/>*/}
           <RouteHandler/>
         </div>
       )
@@ -31,8 +38,7 @@ export default function createRouter () {
   })
 
   const routes = (
-    <Route name='start' handler={App}>
-      <Route name='home' path='/' handler={Home}/>
+    <Route name='start' path='/' handler={App}>
       <Route name='fauna' path='/fauna' handler={Fauna}/>
       <Route name='faunaKlasse' path='/fauna/:klasse' handler={FaunaKlasse}/>
       <Route name='faunaOrdnung' path='/fauna/:klasse/:ordnung' handler={FaunaOrdnung}/>

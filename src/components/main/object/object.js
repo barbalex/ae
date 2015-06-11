@@ -16,10 +16,6 @@ export default React.createClass({
     // const store = this.getStore()
     // const items = store.getInitialState().items
 
-    console.log('object: getParams:', this.getParams())
-    console.log('object: getRoutes:', this.getRoutes())
-    console.log('object: getQuery:', this.getQuery())
-
     return {
       /*loading: !store.getInitialState().items,
       items: items*/
