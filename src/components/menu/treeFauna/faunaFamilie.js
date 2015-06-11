@@ -9,11 +9,10 @@
 
 import React from 'react'
 import _ from 'lodash'
-// import Level4Nodes from './Level4Nodes.js'
-import TreeFauna from './treeFauna.js'
+import TreeFauna from './fauna.js'
 
 export default React.createClass({
-  displayName: 'TreeLevel4Nodes',
+  displayName: 'FaunaFamilie',
 
   propTypes: {
     items: React.PropTypes.object.isRequired,
@@ -21,7 +20,7 @@ export default React.createClass({
   },
 
   onClickNode (guid) {
-    console.log('level3Nodes: guid clicked:', guid)
+    console.log('faunaObjekt: guid clicked:', guid)
     // TODO: open form
   },
 

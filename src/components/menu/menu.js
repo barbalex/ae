@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/lib/Button'
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
 import ResizeButton from './resizeButton.js'
 import Filter from './filter.js'
-import TreeFauna from './treeFauna/treeFauna.js'
+import TreeFauna from './treeFauna/fauna.js'
 
 export default React.createClass({
   displayName: 'Menu',

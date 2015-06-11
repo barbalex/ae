@@ -2,13 +2,15 @@
 
 import React from 'react'
 import Router from 'react-router'
-import Favicon from 'react-favicon'
-import MenuButton from './components/menuButton'
-import Menu from './components/menu/menu.js'
-import FourOhFourPage from './components/form/fourOhFour.js'
-import EmptyPage from './components/form/empty.js'
-import ObjectPage from './components/form/object/object.js'
-import FaviconImage from '../img/aster_144.png'
+import FourOhFour from './components/main/fourOhFour.js'
+import Empty from './components/main/empty.js'
+import Home from './components/home.js'
+import Fauna from './components/menu/treeFauna/fauna.js'
+import FaunaKlasse from './components/menu/treeFauna/faunaKlasse.js'
+import FaunaOrdnung from './components/menu/treeFauna/faunaOrdnung.js'
+import FaunaFamilie from './components/menu/treeFauna/faunaFamilie.js'
+
+import Objekt from './components/main/object/object.js'
 
 const DefaultRoute = Router.DefaultRoute
 const NotFoundRoute = Router.NotFoundRoute
@@ -17,14 +19,11 @@ const RouteHandler = Router.RouteHandler
 
 export default function createRouter () {
   const App = React.createClass({
-    displayName: 'HomePage',
+    displayName: 'App',
 
     render () {
       return (
         <div>
-          <Favicon url={[FaviconImage]}/>
-          <MenuButton/>
-          <Menu/>
           <RouteHandler/>
         </div>
       )
@@ -32,10 +31,15 @@ export default function createRouter () {
   })
 
   const routes = (
-    <Route name='home' handler={App} path='/'>
-      <Route name='fauna' path='/fauna' handler={ObjectPage}/>
-      <DefaultRoute handler={EmptyPage}/>
-      <NotFoundRoute handler={FourOhFourPage}/>
+    <Route name='start' handler={App}>
+      <Route name='home' path='/' handler={Home}/>
+      <Route name='fauna' path='/fauna' handler={Fauna}/>
+      <Route name='faunaKlasse' path='/fauna/:klasse' handler={FaunaKlasse}/>
+      <Route name='faunaOrdnung' path='/fauna/:klasse/:ordnung' handler={FaunaOrdnung}/>
+      <Route name='faunaFamilie' path='/fauna/:klasse/:ordnung/:familie' handler={FaunaFamilie}/>
+      <Route name='faunaObjekt' path='/fauna/:klasse/:ordnung/:familie/:objekt' handler={Objekt}/>
+      <DefaultRoute handler={Empty}/>
+      <NotFoundRoute handler={FourOhFour}/>
     </Route>
   )
 

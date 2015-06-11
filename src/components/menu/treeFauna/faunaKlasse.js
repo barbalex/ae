@@ -9,11 +9,11 @@
 
 import React from 'react'
 import _ from 'lodash'
-import Level3Nodes from './Level3Nodes.js'
-import TreeFauna from './treeFauna.js'
+import FaunaOrdnung from './faunaOrdnung.js'
+import TreeFauna from './fauna.js'
 
 export default React.createClass({
-  displayName: 'TreeLevel2Nodes',
+  displayName: 'FaunaKlasse',
 
   propTypes: {
     items: React.PropTypes.object.isRequired,
@@ -25,7 +25,7 @@ export default React.createClass({
     treeState.ordnung = ordnung
     const items = this.props.items
 
-    console.log('level2Nodes: treeState passed to TreeFauna:', treeState)
+    console.log('faunaKlasse: treeState passed to TreeFauna:', treeState)
 
     React.render(<TreeFauna items={items} treeState={treeState}/>, document.getElementById('tree'))
     React.forceUpdate()
@@ -63,7 +63,7 @@ export default React.createClass({
           return (
             <li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>
               {pair[0]} ({pair[1]})
-              <Level3Nodes items={items} treeState={treeState}/>
+              <FaunaOrdnung items={items} treeState={treeState}/>
             </li>
           )
         }

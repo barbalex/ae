@@ -1,6 +1,6 @@
 /*
  * needs this information to load:
- * - fauna-items from the faunaStore (this.props.items)
+ * - fauna-items for this klasse from the faunaStore (this.props.items)
  * - if/which node/object is active (this.props.treeState)
  *   represented by an object consisting of:
  *   {klasse: xxx, ordnung: xxx, familie: xxx, guid: xxx}
@@ -9,21 +9,25 @@
 
 import React from 'react'
 import _ from 'lodash'
-import Level2Nodes from './Level2Nodes.js'
+import TreeFauna from './fauna.js'
 
-const TreeFauna = React.createClass({
-  displayName: 'Tree',
+export default React.createClass({
+  displayName: 'faunaOrdnung',
 
   propTypes: {
     items: React.PropTypes.object.isRequired,
     treeState: React.PropTypes.object.isRequired
   },
 
-  onClickNode (klasse) {
-    const treeState = { klasse: klasse, ordnung: null, familie: null, guid: null }
+  onClickNode (familie) {
+    console.log('faunaOrdnung: familie clicked:', familie)
+
+    const treeState = this.props.treeState
+    treeState.familie = familie
     const items = this.props.items
 
     React.render(<TreeFauna items={items} treeState={treeState}/>, document.getElementById('tree'))
+    React.forceUpdate()
   },
 
   render () {
@@ -32,11 +36,18 @@ const TreeFauna = React.createClass({
     const items = this.props.items
     const treeState = this.props.treeState
 
-    nodes = _.chain(items)
-      // make an object {klasse1: num, klasse2: num}
+    // items nach Klasse und Ordnung filtern
+    const itemsWithOrdnung = _.pick(items, function (item) {
+      if (item.Taxonomie && item.Taxonomie.Eigenschaften && item.Taxonomie.Eigenschaften.Klasse && item.Taxonomie.Eigenschaften.Klasse === treeState.klasse && item.Taxonomie.Eigenschaften.Ordnung && item.Taxonomie.Eigenschaften.Ordnung === treeState.ordnung) {
+        return true
+      }
+    })
+
+    nodes = _.chain(itemsWithOrdnung)
+      // make an object {ordnung1: num, ordnung2: num}
       .countBy(function (item) {
-        if (item.Taxonomie && item.Taxonomie.Eigenschaften && item.Taxonomie.Eigenschaften.Klasse) {
-          return item.Taxonomie.Eigenschaften.Klasse
+        if (item.Taxonomie.Eigenschaften.Familie) {
+          return item.Taxonomie.Eigenschaften.Familie
         }
       })
       // convert to array of arrays so it can be sorted
@@ -46,12 +57,12 @@ const TreeFauna = React.createClass({
       })
       // map to needed elements
       .map(function (pair) {
-        if (pair[0] === treeState.klasse) {
+        if (pair[0] === treeState.familie) {
           // dieser Node soll offen sein
           return (
             <li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>
               {pair[0]} ({pair[1]})
-              <Level2Nodes items={items} treeState={treeState}/>
+              {/*<Level4Nodes items={items} treeState={treeState}/>*/}
             </li>
           )
         }
@@ -64,13 +75,9 @@ const TreeFauna = React.createClass({
       .value()
 
     return (
-      <div className='baum'>
-        <ul className='level1'>
-          {nodes}
-        </ul>
-      </div>
+      <ul className='level3'>
+        {nodes}
+      </ul>
     )
   }
 })
-
-export default TreeFauna

@@ -17,7 +17,11 @@ export default React.createClass({
   },
 
   filter (guid) {
-    window.router.transitionTo('/fauna/' + guid)
+    const objekt = window.faunaStore.get(guid)
+    const klasse = objekt.Taxonomie.Eigenschaften.Klasse
+    const ordnung = objekt.Taxonomie.Eigenschaften.Ordnung
+    const familie = objekt.Taxonomie.Eigenschaften.Familie
+    window.router.transitionTo(`/fauna/${klasse}/${ordnung}/${familie}/${guid}`)
   },
 
   render () {
