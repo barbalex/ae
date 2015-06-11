@@ -5,7 +5,9 @@
  *
  * 2. MENU.....................die linke Spalte
  *    allgemein / querbeet
- *    filter          ........Vorschläge beim Suchen
+ *    gruppe buttongroup
+ *    tree
+ *    filter
  * 
  * 3. FORMS....................die rechte Spalte
  *    allgemein / querbeet
@@ -150,9 +152,12 @@ body {
   outline: none;
 }
 
-/*
- * gruppe-button-group
- */
+
+
+/*--------------------------------*\
+    2. #MENU
+       #gruppe buttongroup
+\*--------------------------------*/
 
 #menu .btn-group {
   margin-top:    5px;
@@ -173,6 +178,13 @@ body {
   width: 250px;
 }
 
+
+
+/*--------------------------------*\
+    2. #MENU
+       #tree
+\*--------------------------------*/
+
 .treeBeschriftung {
   margin-bottom: 1px;
 }
@@ -183,6 +195,10 @@ body {
 #menu .baum ul.level0 {
   padding-left: 4px;
   margin-bottom: 0;
+}
+
+#menu .baum li {
+  cursor: pointer;
 }
 
 

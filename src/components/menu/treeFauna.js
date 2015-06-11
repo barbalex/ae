@@ -23,6 +23,11 @@ export default React.createClass({
     }
   },
 
+  onClickLevel1Node (klasse) {
+    // get Ordnungen of this Klass
+    console.log('treeFauna: Klasse clicked:', klasse)
+  },
+
   onClickNode () {
     // get level of clicked node
 
@@ -35,6 +40,7 @@ export default React.createClass({
     const level = this.props.level
     let level1Nodes
     let level1LiNodes
+    const that = this
 
     switch (level) {
     case 1:
@@ -53,7 +59,7 @@ export default React.createClass({
         // map to needed elements
         .map(function (pair) {
           return (
-            <li key={pair[0]}>{pair[0]} ({pair[1]})</li>
+            <li key={pair[0]} onClick={that.onClickLevel1Node.bind(that, pair[0])}>{pair[0]} ({pair[1]})</li>
           )
         })
         .value()
