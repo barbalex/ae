@@ -9,8 +9,9 @@
 
 import React from 'react'
 import _ from 'lodash'
+import Level2Nodes from './Level2Nodes'
 
-export default React.createClass({
+const TreeFauna = React.createClass({
   displayName: 'Tree',
 
   propTypes: {
@@ -21,62 +22,70 @@ export default React.createClass({
   getInitialState () {
     console.log('treeFauna: treeState:', this.props.treeState)
     console.log('treeFauna: items:', this.props.items)
-    return {
-      
-    }
+    return null
   },
 
-  onClickLevel1Node (klasse) {
-    // get Ordnungen of this Klass
+  onClickNode (klasse) {
     console.log('treeFauna: Klasse clicked:', klasse)
-  },
 
-  onClickNode () {
-    // get level of clicked node
+    const treeState = { klasse: klasse, ordnung: null, familie: null, guid: null }
+    const items = this.props.items
 
-    // get next level for clicked node
-
-    // if level 4 render form
+    React.render(<TreeFauna items={items} treeState={treeState}/>, document.getElementById('tree'))
   },
 
   render () {
-    const level = this.props.level
-    let level1Nodes
-    let level1LiNodes
+    let nodes
     const that = this
+    const items = this.props.items
+    const treeState = this.props.treeState
 
-    switch (level) {
-    case 1:
-      level1LiNodes = _.chain(this.props.items)
-        // make an object {klasse1: num, klasse2: num}
-        .countBy(function (object) {
-          if (object.Taxonomie && object.Taxonomie.Eigenschaften && object.Taxonomie.Eigenschaften.Klasse) {
-            return object.Taxonomie.Eigenschaften.Klasse
-          }
-        })
-        // convert to array of arrays so it can be sorted
-        .pairs()
-        .sortBy(function (pair) {
-          return pair[0]
-        })
-        // map to needed elements
-        .map(function (pair) {
+    nodes = _.chain(items)
+      // make an object {klasse1: num, klasse2: num}
+      .countBy(function (item) {
+        if (item.Taxonomie && item.Taxonomie.Eigenschaften && item.Taxonomie.Eigenschaften.Klasse) {
+          return item.Taxonomie.Eigenschaften.Klasse
+        }
+      })
+      // convert to array of arrays so it can be sorted
+      .pairs()
+      .sortBy(function (pair) {
+        return pair[0]
+      })
+      // map to needed elements
+      .map(function (pair) {
+        if (pair[0] === treeState.klasse) {
+          // dieser Node soll offen sein
+          // items mit dieser Klasse filtern
+          const itemsWithKlasse = _.pick(items, function (item) {
+            if (item.Taxonomie && item.Taxonomie.Eigenschaften && item.Taxonomie.Eigenschaften.Klasse && item.Taxonomie.Eigenschaften.Klasse === treeState.klasse) {
+              return true
+            }
+          })
+
           return (
-            <li key={pair[0]} onClick={that.onClickLevel1Node.bind(that, pair[0])}>{pair[0]} ({pair[1]})</li>
+            <li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>
+              {pair[0]} ({pair[1]})
+              <Level2Nodes items={itemsWithKlasse} treeState={treeState}/>
+            </li>
           )
-        })
-        .value()
-      level1Nodes = (
-        <ul className='level0'>
-          {level1LiNodes}
-        </ul>
-      )
-      break
-    }
+        }
+        return (
+          <li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>
+            {pair[0]} ({pair[1]})
+          </li>
+        )
+      })
+      .value()
+
     return (
       <div className='baum'>
-        {level1Nodes}
+        <ul className='level1'>
+          {nodes}
+        </ul>
       </div>
     )
   }
 })
+
+export default TreeFauna

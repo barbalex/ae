@@ -190,15 +190,15 @@ body {
 }
 #menu .baum li {
   list-style-type: none;
+  cursor: pointer;
   margin: 4px 0;
 }
-#menu .baum ul.level0 {
+#menu .baum ul.level1 {
   padding-left: 4px;
   margin-bottom: 0;
 }
-
-#menu .baum li {
-  cursor: pointer;
+#menu .baum ul {
+  padding-left: 30px;
 }
 
 
