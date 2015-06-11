@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/lib/Button'
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
 import ResizeButton from './resizeButton.js'
 import Filter from './filter.js'
-import TreeFauna from './treeFauna.js'
+import TreeFauna from './treeFauna/treeFauna.js'
 
 export default React.createClass({
   displayName: 'Menu',
@@ -39,8 +39,8 @@ export default React.createClass({
 
   onFaunaStoreChange (items) {
     React.render(<Filter items={items}/>, document.getElementById('filter'))
-    // turn of to test filter
-    React.render(<TreeFauna items={items} level={1}/>, document.getElementById('tree'))
+    const treeState = { klasse: null, ordnung: null, familie: null, guid: null }
+    React.render(<TreeFauna items={items} treeState={treeState}/>, document.getElementById('tree'))
   },
 
   showFlora () {

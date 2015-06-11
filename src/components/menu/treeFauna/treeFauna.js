@@ -2,8 +2,8 @@
  * needs this information to load:
  * - fauna-objects from the faunaStore (props)
  * - if/which node/object is active (state)
- *   represented by an object consisting of:
- *   {1_klasse, 2_ordnung, 3_familie, 4_id}
+ *   represented by an object 'treeState' consisting of:
+ *   {1_klasse, 2_ordnung, 3_familie, 4_guid}
  */
 'use strict'
 
@@ -14,10 +14,13 @@ export default React.createClass({
   displayName: 'Tree',
 
   propTypes: {
-    items: React.PropTypes.object.isRequired
+    items: React.PropTypes.object.isRequired,
+    treeState: React.PropTypes.object.isRequired
   },
 
   getInitialState () {
+    console.log('treeFauna: treeState:', this.props.treeState)
+    console.log('treeFauna: items:', this.props.items)
     return {
       
     }
