@@ -27,6 +27,7 @@ export default function (Actions) {
     },
 
     onLoadFaunaStoreCompleted (items) {
+      // console.log('faunaStore: load completed')
       if (items instanceof Array) {
         // loaded all items
         items = _.indexBy(items, '_id')
@@ -36,9 +37,17 @@ export default function (Actions) {
       this.trigger(this.items)
     },
 
-    // trigger view refresh an any url transition
-    onTransition () {
-      this.trigger(this.item)
+    onLoadFaunaStoreFailed (error) {
+      console.log('faunaStore: loading items failed with error: ', error)
+    },
+
+    getInitialState () {
+      return this.items
     }
+
+    // trigger view refresh on any url transition
+    /*onTransition () {
+      this.trigger(this.item)
+    }*/
   })
 }

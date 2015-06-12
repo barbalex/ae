@@ -13,7 +13,7 @@ import _ from 'lodash'
 import FaunaOrdnung from './s3.js'
 
 export default React.createClass({
-  displayName: 'FaunaKlasse',
+  displayName: 'TreeLevel2',
 
   mixins: [State],
 

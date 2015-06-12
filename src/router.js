@@ -22,8 +22,8 @@ const Route = Router.Route
 const RouteHandler = Router.RouteHandler
 
 export default function createRouter () {
-  const Appy = React.createClass({
-    displayName: 'Appy',
+  const Apphandler = React.createClass({
+    displayName: 'Apphandler',
 
     render () {
       return (
@@ -39,7 +39,7 @@ export default function createRouter () {
   })
 
   const routes = (
-    <Route name='start' path='/' handler={Appy}>
+    <Route name='start' path='/' handler={Apphandler}>
       <Route name='s1' path='/:s1' handler={S1}/>
       <Route name='s2' path='/:s1/:s2' handler={S2}/>
       <Route name='s3' path='/:s1/:s2/:s3' handler={S3}/>
@@ -57,7 +57,7 @@ export default function createRouter () {
 
   router.run(function (Handler, state) {
     React.render(<Handler/>, document.body)
-    app.Actions.transition(state.params)
+    // app.Actions.transition(state.params)
   })
 
   // make router accessible te enable transitionTo

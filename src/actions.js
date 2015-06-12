@@ -1,5 +1,6 @@
 'use strict'
 
+import app from 'ampersand-app'
 import Reflux from 'reflux'
 import PouchDB from 'pouchdb'
 import pouchUrl from './modules/getCouchUrl.js'
@@ -18,32 +19,39 @@ export default function () {
   })
 
   Actions.loadFaunaStore.listen(function () {
-    // get fauna from db
-    const db = new PouchDB(pouchUrl(), function (error, response) {
-      if (error) { return console.log('error instantiating remote db') }
-      db.query('artendb/faunaNachName', { include_docs: true }).then(function (result) {
-        const docs = result.rows.map(function (row) {
-          return row.doc
+    // problem: this action can get called several times while it is already fetching data
+    // > make shure data is only fetched if faunaStore is not yet loaded and not loading right now
+    if (!window.faunaStore.loaded && !app.loadingFaunaStore) {
+      app.loadingFaunaStore = true
+      // get fauna from db
+      const db = new PouchDB(pouchUrl(), function (error, response) {
+        if (error) { return console.log('error instantiating remote db') }
+        db.query('artendb/faunaNachName', { include_docs: true }).then(function (result) {
+          app.loadingFaunaStore = false
+          const docs = result.rows.map(function (row) {
+            return row.doc
+          })
+          Actions.loadFaunaStore.completed(docs)
+        }).catch(function (error) {
+          app.loadingFaunaStore = false
+          Actions.loadFaunaStore.failed(error)
         })
-        Actions.loadFaunaStore.completed(docs)
-      }).catch(function (error) {
-        Actions.loadFaunaStore.failed(error)
       })
-    })
+    }
   })
 
   Actions.showObject = Reflux.createAction()
 
+  // Actions.transition = Reflux.createAction()
+
+  // not needed but for testing useful:
   Actions.showObject.listen(function (object) {
     console.log('actions: showObject with object:', object)
-    // get the object
   })
 
-  Actions.transition = Reflux.createAction()
-
-  Actions.transition.listen(function (params) {
+  /*Actions.transition.listen(function (params) {
     console.log('transition with params:', params)
-  })
+  })*/
 
   return Actions
 }

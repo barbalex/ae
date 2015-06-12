@@ -13,7 +13,7 @@ import _ from 'lodash'
 import TreeFauna from './s1.js'
 
 export default React.createClass({
-  displayName: 'faunaOrdnung',
+  displayName: 'TreeLevel3',
 
   mixins: [Router.State],
 

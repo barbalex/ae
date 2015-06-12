@@ -12,7 +12,7 @@ import _ from 'lodash'
 import TreeFauna from './s1.js'
 
 export default React.createClass({
-  displayName: 'FaunaFamilie',
+  displayName: 'TreeLevel4',
 
   propTypes: {
     items: React.PropTypes.object.isRequired,

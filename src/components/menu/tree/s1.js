@@ -7,44 +7,59 @@
  */
 'use strict'
 
+import app from 'ampersand-app'
 import React from 'react'
 import { State } from 'react-router'
 import { ListenerMixin } from 'reflux'
 import _ from 'lodash'
 import S2 from './s2.js'
-import routingStructure from '../../../routingStructure.js'
 
-const store = window.faunaStore
+export default React.createClass({
+  displayName: 'TreeLevel1',
 
-const TreeS1 = React.createClass({
-  displayName: 'Fauna',
-
+  // ListenerMixin provides the listenTo method for the React component,
+  // that works much like the one found in the Reflux's stores,
+  // and handles the listeners during mount and unmount for you.
+  // You also get the same listenToMany method as the store has.
   mixins: [ListenerMixin, State],
 
   propTypes: {
     items: React.PropTypes.object.isRequired,
+    s1: React.PropTypes.string.isRequired,
     s2: React.PropTypes.string
   },
 
   getInitialState () {
-    // console.log('window.faunaStore.getItems', store.getItems())
     const params = this.getParams()
     return {
-      items: store.getItems(),
+      loading: !window.faunaStore.loaded,
+      items: window.faunaStore.getInitialState(),
       s1: params.s1,
       s2: null
     }
   },
 
   componentDidMount () {
-    this.listenTo(store, this.onStoreChange)
+    this.listenTo(window.faunaStore, this.onStoreChange)
+
+    const params = this.getParams()
+    console.log('s1: params.s1:', params.s1)
+    switch (params.s1) {
+    case 'fauna':
+      // loadFaunaStore if necessary
+      if (!window.faunaStore.loaded) app.Actions.loadFaunaStore()
+      break
+    }
   },
 
   onStoreChange (items) {
-    console.log('s1: store changed, items:', items)
+    // console.log('s1: store changed, items:', items)
     this.setState({
+      loading: false,
       items: items
     })
+    // console.log('s1: this.props.items', this.props.items)
+    // console.log('s1: this.props.s1', this.props.s1)
   },
 
   onClickNode (s2) {
@@ -53,6 +68,8 @@ const TreeS1 = React.createClass({
 
   render () {
     let nodes
+    let tree
+    let loadingMessage
     const that = this
     const items = this.props.items
     const s2 = this.props.s2
@@ -76,7 +93,7 @@ const TreeS1 = React.createClass({
           return (
             <li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>
               {pair[0]} ({pair[1]})
-              <S2/>
+              {/*<S2/>*/}
             </li>
           )
         }
@@ -88,14 +105,24 @@ const TreeS1 = React.createClass({
       })
       .value()
 
-    return (
+    tree = (
       <div className='baum'>
         <ul className='level1'>
           {nodes}
         </ul>
       </div>
     )
+
+    loadingMessage = <p>Lade Daten...</p>
+
+    return (
+      <div>
+        <div id='treeMitteilung' style={{display: 'none'}}>hole Daten...</div>
+        <div className='treeBeschriftung'></div>
+        <div id='tree' className='baum'>
+          {this.state.loading ? loadingMessage : tree}
+        </div>
+      </div>
+    )
   }
 })
-
-export default TreeS1

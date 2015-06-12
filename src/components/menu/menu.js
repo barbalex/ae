@@ -1,48 +1,20 @@
 'use strict'
 
-import app from 'ampersand-app'
 import React from 'react'
+import { State } from 'react-router'
 import Button from 'react-bootstrap/lib/Button'
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
 import ResizeButton from './resizeButton.js'
 import Filter from './filter.js'
-import Tree from './tree/s1.js'
+import S1 from './tree/s1.js'
 
 export default React.createClass({
   displayName: 'Menu',
 
-  getInitialState () {
-    return {
-      // ??
-    }
-  },
-
-  componentDidMount () {
-    // can't subscribe to store here because store is different depending on group chosen
-  },
-
-  componentWillUnmount () {
-    this.unsubscribeFaunaStore
-  },
+  mixins: [State],
 
   showFauna () {
-    // cancel listeners to stores
-    this.unsubscribeFaunaStore
-    // loadFaunaStore if necessary
-    if (!window.faunaStore.loaded) {
-      app.Actions.loadFaunaStore()
-    }
-    // start listening to the store
-    this.unsubscribeFaunaStore = window.faunaStore.listen(this.onFaunaStoreChange)
-    // navigate to /fauna
     window.router.transitionTo(`/fauna`)
-    // TODO: show that fetching data
-  },
-
-  onFaunaStoreChange (items) {
-    React.render(<Filter items={items}/>, document.getElementById('filter'))
-    const treeState = { klasse: null, ordnung: null, familie: null, guid: null }
-    React.render(<Tree items={items} treeState={treeState}/>, document.getElementById('tree'))
   },
 
   showFlora () {
@@ -66,6 +38,7 @@ export default React.createClass({
   },
 
   render () {
+    const params = this.getParams()
     return (
       <fieldset id='menu' className='menu'>
         <div>
@@ -81,12 +54,8 @@ export default React.createClass({
             <Button bsStyle='primary' onClick={this.showLr}>Lebensräume</Button>
           </ButtonGroup>
         </div>
-        <div id='filter'></div>
-
-        <div id='treeMitteilung' style={{display: 'none'}}>hole Daten...</div>
-        <div className='treeBeschriftung'></div>
-        <div id='tree' className='baum'></div>
-
+        {/*<div id='filter'>{params.s1 ? <Filter/> : ''}</div>*/}
+        {params.s1 ? <S1/> : ''}
       </fieldset>
     )
   }
