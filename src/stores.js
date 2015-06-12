@@ -43,10 +43,10 @@ export default function (Actions) {
 
     getInitialState () {
       return this.items
-    }
+    }/*,
 
     // trigger view refresh on any url transition
-    /*onTransition () {
+    onTransition () {
       this.trigger(this.item)
     }*/
   })

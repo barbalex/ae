@@ -35,7 +35,7 @@ export default React.createClass({
   },
 
   onClickNode (familie) {
-    window.router.transitionTo(`/fauna/${this.props.klasse}/${ordnung}/${familie}`)
+    window.router.transitionTo(`/Fauna/${this.props.klasse}/${ordnung}/${familie}`)
   },
 
   render () {

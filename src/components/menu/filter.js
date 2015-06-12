@@ -31,7 +31,7 @@ export default React.createClass({
   componentDidMount () {
     const params = this.getParams()
     switch (params.s1) {
-    case 'fauna':
+    case 'Fauna':
       this.listenTo(window.faunaStore, this.onStoreChange)
       // loadFaunaStore if necessary
       if (!window.faunaStore.loaded) app.Actions.loadFaunaStore()
@@ -51,7 +51,7 @@ export default React.createClass({
     const klasse = objekt.Taxonomie.Eigenschaften.Klasse
     const ordnung = objekt.Taxonomie.Eigenschaften.Ordnung
     const familie = objekt.Taxonomie.Eigenschaften.Familie
-    window.router.transitionTo(`/fauna/${klasse}/${ordnung}/${familie}/${guid}`)
+    window.router.transitionTo(`/Fauna/${klasse}/${ordnung}/${familie}/${guid}`)
   },
 
   render () {

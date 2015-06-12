@@ -14,7 +14,7 @@ export default React.createClass({
   mixins: [State],
 
   showFauna () {
-    window.router.transitionTo(`/fauna`)
+    window.router.transitionTo(`/Fauna`)
   },
 
   showFlora () {

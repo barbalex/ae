@@ -1,10 +1,3 @@
-/*
- * needs this information to load:
- * - fauna-items from the faunaStore (this.state.items)
- * - if/which node/object is active (this.state.treeState)
- *   represented by an object consisting of:
- *   {s2: xxx, ordnung: xxx, familie: xxx, guid: xxx}
- */
 'use strict'
 
 import app from 'ampersand-app'
@@ -24,6 +17,7 @@ export default React.createClass({
   mixins: [ListenerMixin, State],
 
   propTypes: {
+    loading: React.PropTypes.bool.isRequired,
     items: React.PropTypes.object.isRequired,
     s1: React.PropTypes.string.isRequired,
     s2: React.PropTypes.string
@@ -35,14 +29,14 @@ export default React.createClass({
       loading: !window.faunaStore.loaded,
       items: window.faunaStore.getInitialState(),
       s1: params.s1,
-      s2: null
+      s2: params.s2
     }
   },
 
   componentDidMount () {
     const params = this.getParams()
     switch (params.s1) {
-    case 'fauna':
+    case 'Fauna':
       this.listenTo(window.faunaStore, this.onStoreChange)
       // loadFaunaStore if necessary
       if (!window.faunaStore.loaded) app.Actions.loadFaunaStore()
@@ -59,6 +53,7 @@ export default React.createClass({
 
   onClickNode (s2) {
     window.router.transitionTo(`/${this.state.s1}/${s2}`)
+    this.forceUpdate()
   },
 
   render () {
@@ -88,13 +83,14 @@ export default React.createClass({
           return (
             <li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>
               {pair[0]} ({pair[1]})
-              {/*<S2/>*/}
+              <S2/>
             </li>
           )
         }
         return (
           <li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>
             {pair[0]} ({pair[1]})
+            {pair[0] === s2 ? <S2/> : ''}
           </li>
         )
       })

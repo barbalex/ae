@@ -1,53 +1,85 @@
 /*
  * needs this information to load:
- * - fauna-items for this klasse from the faunaStore (this.props.items)
- * - if/which node/object is active (this.props.treeState)
+ * - fauna-items for this s1 from the faunaStore (this.state.items)
+ * - if/which node/object is active (this.state.treeState)
  *   represented by an object consisting of:
- *   {klasse: xxx, ordnung: xxx, familie: xxx, guid: xxx}
+ *   {s1: xxx, s2: xxx, familie: xxx, guid: xxx}
  */
 'use strict'
 
+import app from 'ampersand-app'
 import React from 'react'
 import {State} from 'react-router'
+import { ListenerMixin } from 'reflux'
 import _ from 'lodash'
-import FaunaOrdnung from './s3.js'
+import S3 from './s3.js'
 
 export default React.createClass({
   displayName: 'TreeLevel2',
 
-  mixins: [State],
+  // ListenerMixin provides the listenTo method for the React component,
+  // that works much like the one found in the Reflux's stores,
+  // and handles the listeners during mount and unmount for you.
+  // You also get the same listenToMany method as the store has.
+  mixins: [ListenerMixin, State],
 
   propTypes: {
+    loading: React.PropTypes.bool.isRequired,
     items: React.PropTypes.object.isRequired,
-    klasse: React.PropTypes.string.isRequired,
-    ordnung: React.PropTypes.string
+    s1: React.PropTypes.string.isRequired,
+    s2: React.PropTypes.string
   },
 
   getInitialState () {
     const params = this.getParams()
     return {
-      items: window.faunaStore.getItems(),
-      klasse: params.klasse,
-      ordnung: null
+      loading: !window.faunaStore.loaded,
+      items: window.faunaStore.getInitialState(),
+      s1: params.s1,
+      s2: params.s2
     }
   },
 
-  onClickNode (ordnung) {
-    window.router.transitionTo(`/fauna/${this.props.klasse}/${ordnung}`)
+  componentDidMount () {
+    const params = this.getParams()
+    switch (params.s1) {
+    case 'Fauna':
+      this.listenTo(window.faunaStore, this.onStoreChange)
+      // loadFaunaStore if necessary
+      if (!window.faunaStore.loaded) app.Actions.loadFaunaStore()
+      break
+    }
+  },
+
+  onStoreChange (items) {
+    this.setState({
+      loading: false,
+      items: items
+    })
+  },
+
+  onClickNode (s3) {
+    window.router.transitionTo(`/${this.state.s1}/${this.state.s2}/${s3}`)
   },
 
   render () {
     let nodes
     const that = this
-    const items = this.props.items
-    const klasse = this.props.klasse
+    const items = this.state.items
+    const s2 = this.state.s2
+
+    console.log('s1: rendering')
+    console.log('s1: items:', items)
+    console.log('s1: s2:', s2)
 
     // items nach Klasse filtern
     const itemsWithKlasse = _.pick(items, function (item) {
-      if (item.Taxonomie && item.Taxonomie.Eigenschaften && item.Taxonomie.Eigenschaften.Klasse && item.Taxonomie.Eigenschaften.Klasse === klasse) {
+      if (item.Taxonomie && item.Taxonomie.Eigenschaften && item.Taxonomie.Eigenschaften.Klasse && item.Taxonomie.Eigenschaften.Klasse === s2) {
         return true
       }
     })
+
+    console.log('s1: itemsWithKlasse:', itemsWithKlasse)
 
     nodes = _.chain(itemsWithKlasse)
       // make an object {ordnung1: num, ordnung2: num}
@@ -63,19 +95,19 @@ export default React.createClass({
       })
       // map to needed elements
       .map(function (pair) {
-        /*if (pair[0] === treeState.ordnung) {
+        /*if (pair[0] === treeState.s2) {
           // dieser Node soll offen sein
           return (
             <li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>
               {pair[0]} ({pair[1]})
-              <FaunaOrdnung items={items} treeState={treeState}/>
+              <S3 items={items} treeState={treeState}/>
             </li>
           )
         }*/
         return (
           <li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>
             {pair[0]} ({pair[1]})
-            <FaunaOrdnung/>
+            {/*<S3/>*/}
           </li>
         )
       })
