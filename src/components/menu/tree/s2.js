@@ -91,18 +91,10 @@ export default React.createClass({
       .map(function (pair) {
         return (
           <li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>
-            {pair[0]} ({pair[1]})
+            <div>{pair[0]} ({pair[1]})</div>
             {pair[0] === s3 ? <S3/> : null}
           </li>
         )
-        /*return (
-          <li key={pair[0]}>
-            <Link to='s3' params={{s1: s1, s2: s2, s3: pair[0]}}>
-              {pair[0]} ({pair[1]})
-              {pair[0] === s3 ? <S3/> : null}
-            </Link>
-          </li>
-        )*/
       })
       .value()
 

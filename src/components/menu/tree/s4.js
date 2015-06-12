@@ -96,7 +96,7 @@ export default React.createClass({
       .map(function (pair) {
         return (
           <li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>
-            {pair[0]} ({pair[1]})
+            <div>{pair[0]} ({pair[1]})</div>
             {/*pair[0] === s5 ? <S5/> : null*/}
           </li>
         )

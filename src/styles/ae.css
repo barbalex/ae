@@ -190,8 +190,16 @@ body {
 }
 #menu .baum li {
   list-style-type: none;
+  
+}
+#menu .baum li div {
   cursor: pointer;
-  margin: 4px 0;
+}
+#menu .baum li div:hover {
+  background-color: #FFFF90;
+}
+#menu .baum li div {
+  padding: 2px 0;
 }
 #menu .baum ul.level1 {
   padding-left: 4px;
