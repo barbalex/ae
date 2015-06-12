@@ -29,7 +29,8 @@ export default React.createClass({
       loading: !window.faunaStore.loaded,
       items: window.faunaStore.getInitialState(),
       s1: params.s1,
-      s2: params.s2
+      s2: params.s2,
+      s3: params.s3
     }
   },
 
@@ -52,8 +53,8 @@ export default React.createClass({
   },
 
   onClickNode (s2) {
+    this.setState({s2: s2})
     window.router.transitionTo(`/${this.state.s1}/${s2}`)
-    this.forceUpdate()
   },
 
   render () {

@@ -68,18 +68,12 @@ export default React.createClass({
     const items = this.state.items
     const s2 = this.state.s2
 
-    console.log('s1: rendering')
-    console.log('s1: items:', items)
-    console.log('s1: s2:', s2)
-
     // items nach Klasse filtern
     const itemsWithKlasse = _.pick(items, function (item) {
       if (item.Taxonomie && item.Taxonomie.Eigenschaften && item.Taxonomie.Eigenschaften.Klasse && item.Taxonomie.Eigenschaften.Klasse === s2) {
         return true
       }
     })
-
-    console.log('s1: itemsWithKlasse:', itemsWithKlasse)
 
     nodes = _.chain(itemsWithKlasse)
       // make an object {ordnung1: num, ordnung2: num}
