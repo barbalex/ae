@@ -51,7 +51,7 @@ export default React.createClass({
     const klasse = objekt.Taxonomie.Eigenschaften.Klasse
     const ordnung = objekt.Taxonomie.Eigenschaften.Ordnung
     const familie = objekt.Taxonomie.Eigenschaften.Familie
-    window.router.transitionTo(`/Fauna/${klasse}/${ordnung}/${familie}/${guid}`)
+    app.router.transitionTo(`/Fauna/${klasse}/${ordnung}/${familie}/${guid}`)
   },
 
   render () {

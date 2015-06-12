@@ -12,7 +12,7 @@ app.extend({
   init () {
     this.Actions = actions()
     stores(this.Actions)
-    this.router = new Router()
+    this.router = Router
   }
 })
 

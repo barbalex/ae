@@ -22,10 +22,6 @@ export default function (Actions) {
       return this.items[guid]
     },
 
-    getItems () {
-      return this.items
-    },
-
     onLoadFaunaStoreCompleted (items) {
       // console.log('faunaStore: load completed')
       if (items instanceof Array) {

@@ -21,46 +21,72 @@ const NotFoundRoute = Router.NotFoundRoute
 const Route = Router.Route
 const RouteHandler = Router.RouteHandler
 
-export default function createRouter () {
-  const Apphandler = React.createClass({
-    displayName: 'Apphandler',
+const Apphandler = React.createClass({
+  displayName: 'Apphandler',
 
-    render () {
-      return (
-        <div>
-          <Favicon url={[FaviconImage]}/>
-          <MenuButton/>
-          <Menu/>
-          {/*<Objekt/>*/}
-          <RouteHandler/>
-        </div>
-      )
-    }
-  })
+  render () {
+    return (
+      <div>
+        <Favicon url={[FaviconImage]}/>
+        <MenuButton/>
+        <Menu/>
+        {/*<Objekt/>*/}
+        <RouteHandler/>
+      </div>
+    )
+  }
+})
 
-  const routes = (
-    <Route name='start' path='/' handler={Apphandler}>
-      <Route name='s1' path='/:s1' handler={S1}/>
-      <Route name='s2' path='/:s1/:s2' handler={S2}/>
-      <Route name='s3' path='/:s1/:s2/:s3' handler={S3}/>
-      <Route name='s4' path='/:s1/:s2/:s3/:s4' handler={S4}/>
-      <Route name='faunaObjekt' path='/:s1/:s2/:s3/:s4/:s5' handler={Objekt}/>
-      <DefaultRoute handler={Empty}/>
-      <NotFoundRoute handler={FourOhFour}/>
-    </Route>
-  )
+const routes = (
+  <Route name='start' path='/' handler={Apphandler}>
+    <Route name='s1' path='/:s1' handler={S1}/>
+    <Route name='s2' path='/:s1/:s2' handler={S2}/>
+    <Route name='s3' path='/:s1/:s2/:s3' handler={S3}/>
+    <Route name='s4' path='/:s1/:s2/:s3/:s4' handler={S4}/>
+    <Route name='s5' path='/:s1/:s2/:s3/:s4/:s5' handler={Objekt}/>
+    <DefaultRoute handler={Empty}/>
+    <NotFoundRoute handler={FourOhFour}/>
+  </Route>
+)
 
-  const router = Router.create({
-    routes: routes,
-    location: Router.HistoryLocation
-  })
+export default {
+  getCurrentPath () {
+    return router.getCurrentPath()
+  },
 
-  router.run(function (Handler, state) {
-    React.render(<Handler/>, document.body)
-    // app.Actions.transition(state.params)
-  })
+  makePath (to, params, query) {
+    return router.makePath(to, params, query)
+  },
 
-  // make router accessible te enable transitionTo
-  // see: http://rackt.github.io/react-router/#Router.create
-  window.router = router
+  makeHref (to, params, query) {
+    return router.makeHref(to, params, query)
+  },
+
+  transitionTo (to, params, query) {
+    router.transitionTo(to, params, query)
+  },
+
+  replaceWith (to, params, query) {
+    router.replaceWith(to, params, query)
+  },
+
+  goBack () {
+    router.goBack()
+  },
+
+  run (render) {
+    router.run((Handler, state) => {
+      render(Handler, state)
+    })
+  }
 }
+
+const router = Router.create({
+  routes: routes,
+  location: Router.HistoryLocation
+})
+
+router.run(function (Handler, state) {
+  React.render(<Handler/>, document.body)
+  // app.Actions.transition(state.params)
+})

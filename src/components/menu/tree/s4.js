@@ -58,7 +58,8 @@ export default React.createClass({
 
   onClickNode (s5) {
     this.setState({s5: s5})
-    window.router.transitionTo(`/${this.state.s1}/${this.state.s2}/${this.state.s3}/${this.state.s4}/${s5}`)
+    const url = `/${this.state.s1}/${this.state.s2}/${this.state.s3}/${this.state.s4}/${s5}`
+    app.router.transitionTo(url)
   },
 
   render () {
@@ -68,16 +69,18 @@ export default React.createClass({
     const s2 = this.state.s2
     const s3 = this.state.s3
     const s4 = this.state.s4
-    // const s5 = this.state.s5
+    const s5 = this.state.s5
 
-    // items nach Klasse und Ordnung filtern
-    const itemsWithFamilie = _.pick(items, function (item) {
+    // items nach s2, s3 und s4 filtern (in Fauna: Klasse, Ordnung und Familie)
+    const itemsWithS4 = _.pick(items, function (item) {
       if (item.Taxonomie && item.Taxonomie.Eigenschaften && item.Taxonomie.Eigenschaften.Klasse && item.Taxonomie.Eigenschaften.Klasse === s2 && item.Taxonomie.Eigenschaften.Ordnung && item.Taxonomie.Eigenschaften.Ordnung === s3 && item.Taxonomie.Eigenschaften.Familie && item.Taxonomie.Eigenschaften.Familie === s4) {
         return true
       }
     })
 
-    nodes = _.chain(itemsWithFamilie)
+    console.log('s4: itemsWithS4', itemsWithS4)
+
+    nodes = _.chain(itemsWithS4)
       // make an object {ordnung1: num, ordnung2: num}
       .countBy(function (item) {
         if (item.Taxonomie.Eigenschaften['Artname vollständig']) {

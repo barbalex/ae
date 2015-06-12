@@ -1,5 +1,6 @@
 'use strict'
 
+import app from 'ampersand-app'
 import React from 'react'
 import { State } from 'react-router'
 import Button from 'react-bootstrap/lib/Button'
@@ -14,7 +15,7 @@ export default React.createClass({
   mixins: [State],
 
   showFauna () {
-    window.router.transitionTo(`/Fauna`)
+    app.router.transitionTo(`/Fauna`)
   },
 
   showFlora () {

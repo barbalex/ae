@@ -2,53 +2,55 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import Router from 'react-router'
+import { State } from 'react-router'
 import { ListenerMixin } from 'reflux'
-import forEach from 'lodash/collection/foreach'
+import _ from 'lodash'
 import Eigenschaftensammlung from './eigenschaftensammlung.js'
 
 export default React.createClass({
   displayName: 'Object',
 
-  mixins: [ListenerMixin, Router.State],
+  // ListenerMixin provides the listenTo method for the React component,
+  // that works much like the one found in the Reflux's stores,
+  // and handles the listeners during mount and unmount for you.
+  // You also get the same listenToMany method as the store has.
+  mixins: [ListenerMixin, State],
+
+  propTypes: {
+    loading: React.PropTypes.bool,
+    items: React.PropTypes.object,
+    s1: React.PropTypes.string,
+    s2: React.PropTypes.string,
+    s3: React.PropTypes.string,
+    s4: React.PropTypes.string,
+    s5: React.PropTypes.string  // in Fauna guid
+  },
 
   getInitialState () {
-    // const store = this.getStore()
-    // const items = store.getInitialState().items
-
+    const params = this.getParams()
     return {
-      /*loading: !store.getInitialState().items,
-      items: items*/
+      loading: !window.faunaStore.loaded,
+      items: window.faunaStore.getInitialState(),
+      s1: params.s1,
+      s2: params.s2,
+      s3: params.s3,
+      s4: params.s4,
+      s5: params.s5  // in Fauna guid
     }
   },
 
-  propTypes: {
-    // param: React.PropTypes.object.isRequired
-  },
-
   componentDidMount () {
-    /*const store = this.getStore()
-    this.listenTo(store, this.handleLoadItemsComplete)
-    if (!store.get(this.props.param.guid)) {
-      this.getItem()
-    }*/
+    const params = this.getParams()
+    switch (params.s1) {
+    case 'Fauna':
+      this.listenTo(window.faunaStore, this.onStoreChange)
+      // loadFaunaStore if necessary
+      if (!window.faunaStore.loaded) app.Actions.loadFaunaStore()
+      break
+    }
   },
 
-  getStore () {
-    // return window[this.props.param.gruppe + 'Store']
-  },
-
-  getGuid () {
-    // return this.props.param.guid
-  },
-
-  getItem () {
-    this.setState({ loading: true}, () => {
-      // app.Actions.loadFaunaStore(this.props.param.guid)
-    })
-  },
-
-  handleLoadItemsComplete (items) {
+  onStoreChange (items) {
     this.setState({
       loading: false,
       items: items
@@ -66,7 +68,7 @@ export default React.createClass({
     // let guidsOfSynonyms
     // divide property collections in regular and taxonomic
     if (object.Beziehungssammlungen.length > 0) {
-      forEach(object.Beziehungssammlungen, function (bs) {
+      _.forEach(object.Beziehungssammlungen, function (bs) {
         if (bs.Typ === 'taxonomisch') {
           taxBs.push(bs)
         } else {

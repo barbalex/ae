@@ -2,7 +2,7 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import { State } from 'react-router'
+import { State, Link } from 'react-router'
 import { ListenerMixin } from 'reflux'
 import _ from 'lodash'
 import S3 from './s3.js'
@@ -55,24 +55,27 @@ export default React.createClass({
 
   onClickNode (s3) {
     this.setState({s3: s3})
-    window.router.transitionTo(`/${this.state.s1}/${this.state.s2}/${s3}`)
+    const url = `/${this.state.s1}/${this.state.s2}/${s3}`
+    console.log('s2: url', url)
+    app.router.transitionTo(url)
   },
 
   render () {
     let nodes
     const that = this
     const items = this.state.items
+    const s1 = this.state.s1
     const s2 = this.state.s2
     const s3 = this.state.s3
 
-    // items nach Klasse filtern
-    const itemsWithKlasse = _.pick(items, function (item) {
+    // items nach S2 filtern (in Fauna: Klasse)
+    const itemsWithS2 = _.pick(items, function (item) {
       if (item.Taxonomie && item.Taxonomie.Eigenschaften && item.Taxonomie.Eigenschaften.Klasse && item.Taxonomie.Eigenschaften.Klasse === s2) {
         return true
       }
     })
 
-    nodes = _.chain(itemsWithKlasse)
+    nodes = _.chain(itemsWithS2)
       // make an object {ordnung1: num, ordnung2: num}
       .countBy(function (item) {
         if (item.Taxonomie.Eigenschaften.Ordnung) {
@@ -92,6 +95,14 @@ export default React.createClass({
             {pair[0] === s3 ? <S3/> : null}
           </li>
         )
+        /*return (
+          <li key={pair[0]}>
+            <Link to='s3' params={{s1: s1, s2: s2, s3: pair[0]}}>
+              {pair[0]} ({pair[1]})
+              {pair[0] === s3 ? <S3/> : null}
+            </Link>
+          </li>
+        )*/
       })
       .value()
 

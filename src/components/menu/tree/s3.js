@@ -57,7 +57,9 @@ export default React.createClass({
 
   onClickNode (s4) {
     this.setState({s4: s4})
-    window.router.transitionTo(`/${this.state.s1}/${this.state.s2}/${this.state.s3}/${s4}`)
+    const url = `/${this.state.s1}/${this.state.s2}/${this.state.s3}/${s4}`
+    console.log('s3: url', url)
+    app.router.transitionTo(url)
   },
 
   render () {
@@ -68,14 +70,14 @@ export default React.createClass({
     const s3 = this.state.s3
     const s4 = this.state.s4
 
-    // items nach Klasse und Ordnung filtern
-    const itemsWithOrdnung = _.pick(items, function (item) {
+    // items nach S2 und S3 filtern (in Fauna Klasse und Ordnung)
+    const itemsWithS3 = _.pick(items, function (item) {
       if (item.Taxonomie && item.Taxonomie.Eigenschaften && item.Taxonomie.Eigenschaften.Klasse && item.Taxonomie.Eigenschaften.Klasse === s2 && item.Taxonomie.Eigenschaften.Ordnung && item.Taxonomie.Eigenschaften.Ordnung === s3) {
         return true
       }
     })
 
-    nodes = _.chain(itemsWithOrdnung)
+    nodes = _.chain(itemsWithS3)
       // make an object {ordnung1: num, ordnung2: num}
       .countBy(function (item) {
         if (item.Taxonomie.Eigenschaften.Familie) {
