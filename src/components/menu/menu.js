@@ -54,7 +54,7 @@ export default React.createClass({
             <Button bsStyle='primary' onClick={this.showLr}>Lebensräume</Button>
           </ButtonGroup>
         </div>
-        {/*<div id='filter'>{params.s1 ? <Filter/> : ''}</div>*/}
+        {params.s1 ? <Filter/> : ''}
         {params.s1 ? <S1/> : ''}
       </fieldset>
     )

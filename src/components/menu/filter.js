@@ -5,15 +5,45 @@
  */
 'use strict'
 
+import app from 'ampersand-app'
 import React from 'react'
 import Filter from 'react-select'
+import { State } from 'react-router'
+import { ListenerMixin } from 'reflux'
 import values from 'lodash/object/values'
 
 export default React.createClass({
   displayName: 'Filter',
 
+  mixins: [ListenerMixin, State],
+
   propTypes: {
     items: React.PropTypes.object.isRequired
+  },
+
+  getInitialState () {
+    return {
+      loading: !window.faunaStore.loaded,
+      items: window.faunaStore.getInitialState()
+    }
+  },
+
+  componentDidMount () {
+    const params = this.getParams()
+    switch (params.s1) {
+    case 'fauna':
+      this.listenTo(window.faunaStore, this.onStoreChange)
+      // loadFaunaStore if necessary
+      if (!window.faunaStore.loaded) app.Actions.loadFaunaStore()
+      break
+    }
+  },
+
+  onStoreChange (items) {
+    this.setState({
+      loading: false,
+      items: items
+    })
   },
 
   filter (guid) {
@@ -25,7 +55,7 @@ export default React.createClass({
   },
 
   render () {
-    const objects = values(this.props.items)
+    const objects = values(this.state.items)
       .map(function (object) {
         // make sure every fauna has a name
         // dont use others for filtering
@@ -37,12 +67,20 @@ export default React.createClass({
         }
       })
 
-    return (
+    const filter = (
       <Filter
         placeholder='filtern'
         noResultsText='keine Treffer'
         options={objects}
         onChange={this.filter}/>
+    )
+
+    const nothing = <div/>
+
+    return (
+      <div id='filter'>
+        {this.state.loading ? nothing : filter}
+      </div>
     )
   }
 })

@@ -1,7 +1,7 @@
 /*
  * needs this information to load:
- * - fauna-items from the faunaStore (this.props.items)
- * - if/which node/object is active (this.props.treeState)
+ * - fauna-items from the faunaStore (this.state.items)
+ * - if/which node/object is active (this.state.treeState)
  *   represented by an object consisting of:
  *   {s2: xxx, ordnung: xxx, familie: xxx, guid: xxx}
  */
@@ -40,12 +40,10 @@ export default React.createClass({
   },
 
   componentDidMount () {
-    this.listenTo(window.faunaStore, this.onStoreChange)
-
     const params = this.getParams()
-    console.log('s1: params.s1:', params.s1)
     switch (params.s1) {
     case 'fauna':
+      this.listenTo(window.faunaStore, this.onStoreChange)
       // loadFaunaStore if necessary
       if (!window.faunaStore.loaded) app.Actions.loadFaunaStore()
       break
@@ -53,17 +51,14 @@ export default React.createClass({
   },
 
   onStoreChange (items) {
-    // console.log('s1: store changed, items:', items)
     this.setState({
       loading: false,
       items: items
     })
-    // console.log('s1: this.props.items', this.props.items)
-    // console.log('s1: this.props.s1', this.props.s1)
   },
 
   onClickNode (s2) {
-    window.router.transitionTo(`/${this.props.s1}/${s2}`)
+    window.router.transitionTo(`/${this.state.s1}/${s2}`)
   },
 
   render () {
@@ -71,8 +66,8 @@ export default React.createClass({
     let tree
     let loadingMessage
     const that = this
-    const items = this.props.items
-    const s2 = this.props.s2
+    const items = this.state.items
+    const s2 = this.state.s2
 
     nodes = _.chain(items)
       // make an object {klasse1: num, klasse2: num}
@@ -117,7 +112,6 @@ export default React.createClass({
 
     return (
       <div>
-        <div id='treeMitteilung' style={{display: 'none'}}>hole Daten...</div>
         <div className='treeBeschriftung'></div>
         <div id='tree' className='baum'>
           {this.state.loading ? loadingMessage : tree}
