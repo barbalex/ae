@@ -5,6 +5,8 @@ import React from 'react'
 import Router from 'react-router'
 import routes from './routes.js'
 
+console.log('router: routes:', routes())
+
 // return all the router methods
 // to build an instance in app
 export default {
