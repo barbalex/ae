@@ -8,6 +8,8 @@ import stores from './stores'
 
 window.app = app // expose app to the browser console
 
+console.log('app.js running')
+
 app.extend({
   init () {
     this.Actions = actions()
