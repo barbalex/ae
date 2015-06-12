@@ -59,7 +59,7 @@ export default React.createClass({
   onClickNode (s5) {
     this.setState({s5: s5})
     const url = `/${this.state.s1}/${this.state.s2}/${this.state.s3}/${this.state.s4}/${s5}`
-    app.router.transitionTo(url)
+    window.router.transitionTo(url)
   },
 
   render () {

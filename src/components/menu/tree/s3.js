@@ -59,7 +59,7 @@ export default React.createClass({
     this.setState({s4: s4})
     const url = `/${this.state.s1}/${this.state.s2}/${this.state.s3}/${s4}`
     console.log('s3: url', url)
-    app.router.transitionTo(url)
+    window.router.transitionTo(url)
   },
 
   render () {

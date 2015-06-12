@@ -53,7 +53,7 @@ export default React.createClass({
 
   onClickNode (s2) {
     this.setState({s2: s2})
-    app.router.transitionTo(`/${this.state.s1}/${s2}`)
+    window.router.transitionTo(`/${this.state.s1}/${s2}`)
   },
 
   render () {
