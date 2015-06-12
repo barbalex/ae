@@ -90,3 +90,5 @@ router.run(function (Handler, state) {
   React.render(<Handler/>, document.body)
   // app.Actions.transition(state.params)
 })
+
+window.router = router
