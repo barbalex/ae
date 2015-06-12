@@ -92,7 +92,7 @@ export default React.createClass({
         return (
           <li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>
             {pair[0]} ({pair[1]})
-            {/*pair[0] === s4 ? <S4/> : null*/}
+            {pair[0] === s4 ? <S4/> : null}
           </li>
         )
       })

@@ -1,38 +1,78 @@
-/*
- * needs this information to load:
- * - fauna-items for this klasse from the faunaStore (this.props.items)
- * - if/which node/object is active (this.props.treeState)
- *   represented by an object consisting of:
- *   {klasse: xxx, ordnung: xxx, familie: xxx, guid: xxx}
- */
 'use strict'
 
+import app from 'ampersand-app'
 import React from 'react'
+import { State } from 'react-router'
+import { ListenerMixin } from 'reflux'
 import _ from 'lodash'
-import TreeFauna from './s1.js'
 
 export default React.createClass({
   displayName: 'TreeLevel4',
 
+  // ListenerMixin provides the listenTo method for the React component,
+  // that works much like the one found in the Reflux's stores,
+  // and handles the listeners during mount and unmount for you.
+  // You also get the same listenToMany method as the store has.
+  mixins: [ListenerMixin, State],
+
   propTypes: {
-    items: React.PropTypes.object.isRequired,
-    treeState: React.PropTypes.object.isRequired
+    loading: React.PropTypes.bool,
+    items: React.PropTypes.object,
+    s1: React.PropTypes.string,
+    s2: React.PropTypes.string,
+    s3: React.PropTypes.string,
+    s4: React.PropTypes.string,
+    s5: React.PropTypes.string  // in Fauna guid
   },
 
-  onClickNode (guid) {
-    console.log('faunaObjekt: guid clicked:', guid)
-    // TODO: open form
+  getInitialState () {
+    const params = this.getParams()
+    return {
+      loading: !window.faunaStore.loaded,
+      items: window.faunaStore.getInitialState(),
+      s1: params.s1,
+      s2: params.s2,
+      s3: params.s3,
+      s4: params.s4,
+      s5: params.s5  // in Fauna guid
+    }
+  },
+
+  componentDidMount () {
+    const params = this.getParams()
+    switch (params.s1) {
+    case 'Fauna':
+      this.listenTo(window.faunaStore, this.onStoreChange)
+      // loadFaunaStore if necessary
+      if (!window.faunaStore.loaded) app.Actions.loadFaunaStore()
+      break
+    }
+  },
+
+  onStoreChange (items) {
+    this.setState({
+      loading: false,
+      items: items
+    })
+  },
+
+  onClickNode (s5) {
+    this.setState({s5: s5})
+    window.router.transitionTo(`/${this.state.s1}/${this.state.s2}/${this.state.s3}/${this.state.s4}/${s5}`)
   },
 
   render () {
     let nodes
     const that = this
-    const items = this.props.items
-    const treeState = this.props.treeState
+    const items = this.state.items
+    const s2 = this.state.s2
+    const s3 = this.state.s3
+    const s4 = this.state.s4
+    // const s5 = this.state.s5
 
     // items nach Klasse und Ordnung filtern
     const itemsWithFamilie = _.pick(items, function (item) {
-      if (item.Taxonomie && item.Taxonomie.Eigenschaften && item.Taxonomie.Eigenschaften.Klasse && item.Taxonomie.Eigenschaften.Klasse === treeState.klasse && item.Taxonomie.Eigenschaften.Ordnung && item.Taxonomie.Eigenschaften.Ordnung === treeState.ordnung && item.Taxonomie.Eigenschaften.Familie && item.Taxonomie.Eigenschaften.Familie === treeState.familie) {
+      if (item.Taxonomie && item.Taxonomie.Eigenschaften && item.Taxonomie.Eigenschaften.Klasse && item.Taxonomie.Eigenschaften.Klasse === s2 && item.Taxonomie.Eigenschaften.Ordnung && item.Taxonomie.Eigenschaften.Ordnung === s3 && item.Taxonomie.Eigenschaften.Familie && item.Taxonomie.Eigenschaften.Familie === s4) {
         return true
       }
     })
@@ -54,6 +94,7 @@ export default React.createClass({
         return (
           <li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>
             {pair[0]} ({pair[1]})
+            {/*pair[0] === s5 ? <S5/> : null*/}
           </li>
         )
       })
