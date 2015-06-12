@@ -17,9 +17,9 @@ export default React.createClass({
   mixins: [ListenerMixin, State],
 
   propTypes: {
-    loading: React.PropTypes.bool.isRequired,
-    items: React.PropTypes.object.isRequired,
-    s1: React.PropTypes.string.isRequired,
+    loading: React.PropTypes.bool,
+    items: React.PropTypes.object,
+    s1: React.PropTypes.string,
     s2: React.PropTypes.string
   },
 
@@ -29,8 +29,7 @@ export default React.createClass({
       loading: !window.faunaStore.loaded,
       items: window.faunaStore.getInitialState(),
       s1: params.s1,
-      s2: params.s2,
-      s3: params.s3
+      s2: params.s2
     }
   },
 
@@ -79,19 +78,10 @@ export default React.createClass({
       })
       // map to needed elements
       .map(function (pair) {
-        if (pair[0] === s2) {
-          // dieser Node soll offen sein
-          return (
-            <li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>
-              {pair[0]} ({pair[1]})
-              <S2/>
-            </li>
-          )
-        }
         return (
           <li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>
             {pair[0]} ({pair[1]})
-            {pair[0] === s2 ? <S2/> : ''}
+            {pair[0] === s2 ? <S2/> : null}
           </li>
         )
       })

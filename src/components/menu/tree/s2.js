@@ -1,15 +1,8 @@
-/*
- * needs this information to load:
- * - fauna-items for this s1 from the faunaStore (this.state.items)
- * - if/which node/object is active (this.state.treeState)
- *   represented by an object consisting of:
- *   {s1: xxx, s2: xxx, familie: xxx, guid: xxx}
- */
 'use strict'
 
 import app from 'ampersand-app'
 import React from 'react'
-import {State} from 'react-router'
+import { State } from 'react-router'
 import { ListenerMixin } from 'reflux'
 import _ from 'lodash'
 import S3 from './s3.js'
@@ -24,10 +17,11 @@ export default React.createClass({
   mixins: [ListenerMixin, State],
 
   propTypes: {
-    loading: React.PropTypes.bool.isRequired,
-    items: React.PropTypes.object.isRequired,
-    s1: React.PropTypes.string.isRequired,
-    s2: React.PropTypes.string
+    loading: React.PropTypes.bool,
+    items: React.PropTypes.object,
+    s1: React.PropTypes.string,
+    s2: React.PropTypes.string,
+    s3: React.PropTypes.string
   },
 
   getInitialState () {
@@ -36,7 +30,8 @@ export default React.createClass({
       loading: !window.faunaStore.loaded,
       items: window.faunaStore.getInitialState(),
       s1: params.s1,
-      s2: params.s2
+      s2: params.s2,
+      s3: params.s3
     }
   },
 
@@ -59,6 +54,7 @@ export default React.createClass({
   },
 
   onClickNode (s3) {
+    this.setState({s3: s3})
     window.router.transitionTo(`/${this.state.s1}/${this.state.s2}/${s3}`)
   },
 
@@ -67,6 +63,7 @@ export default React.createClass({
     const that = this
     const items = this.state.items
     const s2 = this.state.s2
+    const s3 = this.state.s3
 
     // items nach Klasse filtern
     const itemsWithKlasse = _.pick(items, function (item) {
@@ -89,19 +86,10 @@ export default React.createClass({
       })
       // map to needed elements
       .map(function (pair) {
-        /*if (pair[0] === treeState.s2) {
-          // dieser Node soll offen sein
-          return (
-            <li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>
-              {pair[0]} ({pair[1]})
-              <S3 items={items} treeState={treeState}/>
-            </li>
-          )
-        }*/
         return (
           <li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>
             {pair[0]} ({pair[1]})
-            {/*<S3/>*/}
+            {pair[0] === s3 ? <S3/> : null}
           </li>
         )
       })

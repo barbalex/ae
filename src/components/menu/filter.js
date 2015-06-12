@@ -18,7 +18,7 @@ export default React.createClass({
   mixins: [ListenerMixin, State],
 
   propTypes: {
-    items: React.PropTypes.object.isRequired
+    items: React.PropTypes.object
   },
 
   getInitialState () {
