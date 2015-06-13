@@ -2,10 +2,11 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import { State } from 'react-router'
+import { State, Navigation } from 'react-router'
 import { ListenerMixin } from 'reflux'
 import _ from 'lodash'
 import S2 from './s2.js'
+import FourOhFour from '../../main/fourOhFour.js'
 
 export default React.createClass({
   displayName: 'TreeLevel1',
@@ -14,34 +15,28 @@ export default React.createClass({
   // that works much like the one found in the Reflux's stores,
   // and handles the listeners during mount and unmount for you.
   // You also get the same listenToMany method as the store has.
-  mixins: [ListenerMixin, State],
+  mixins: [ListenerMixin, State, Navigation],
 
   propTypes: {
     loading: React.PropTypes.bool,
     items: React.PropTypes.object,
-    s1: React.PropTypes.string,
     s2: React.PropTypes.string
   },
 
   getInitialState () {
+    console.log('treeFauna getInitialState called')
     const params = this.getParams()
     return {
       loading: !window.faunaStore.loaded,
       items: window.faunaStore.getInitialState(),
-      s1: params.s1,
       s2: params.s2
     }
   },
 
   componentDidMount () {
-    const params = this.getParams()
-    switch (params.s1) {
-    case 'Fauna':
-      this.listenTo(window.faunaStore, this.onStoreChange)
-      // loadFaunaStore if necessary
-      if (!window.faunaStore.loaded) app.Actions.loadFaunaStore()
-      break
-    }
+    this.listenTo(window.faunaStore, this.onStoreChange)
+    // loadFaunaStore if necessary
+    if (!window.faunaStore.loaded) app.Actions.loadFaunaStore()
   },
 
   onStoreChange (items) {
@@ -53,7 +48,7 @@ export default React.createClass({
 
   onClickNode (s2) {
     this.setState({s2: s2})
-    window.router.transitionTo(`/${this.state.s1}/${s2}`)
+    window.router.transitionTo(`/Fauna/${s2}`)
   },
 
   render () {
@@ -77,6 +72,7 @@ export default React.createClass({
         return pair[0]
       })
       // map to needed elements
+      // div arount Text is for interacting wich the li element
       .map(function (pair) {
         return (
           <li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>

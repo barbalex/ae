@@ -2,7 +2,7 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import { State, Link } from 'react-router'
+import { State, Navigation } from 'react-router'
 import { ListenerMixin } from 'reflux'
 import _ from 'lodash'
 import S3 from './s3.js'
@@ -14,7 +14,7 @@ export default React.createClass({
   // that works much like the one found in the Reflux's stores,
   // and handles the listeners during mount and unmount for you.
   // You also get the same listenToMany method as the store has.
-  mixins: [ListenerMixin, State],
+  mixins: [ListenerMixin, State, Navigation],
 
   propTypes: {
     loading: React.PropTypes.bool,
@@ -25,6 +25,7 @@ export default React.createClass({
   },
 
   getInitialState () {
+    console.log('s2 getInitialState called')
     const params = this.getParams()
     return {
       loading: !window.faunaStore.loaded,
@@ -58,13 +59,13 @@ export default React.createClass({
     const url = `/${this.state.s1}/${this.state.s2}/${s3}`
     console.log('s2: url', url)
     window.router.transitionTo(url)
+    //this.forceUpdate()
   },
 
   render () {
     let nodes
     const that = this
     const items = this.state.items
-    const s1 = this.state.s1
     const s2 = this.state.s2
     const s3 = this.state.s3
 
@@ -88,6 +89,7 @@ export default React.createClass({
         return pair[0]
       })
       // map to needed elements
+      // div arount Text is for interacting wich the li element
       .map(function (pair) {
         return (
           <li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>

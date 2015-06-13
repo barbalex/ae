@@ -7,7 +7,7 @@ export default React.createClass({
 
   render () {
     return (
-      <fieldset id='forms'>
+      <fieldset id='main'>
         <h1>Sorry: Für diese URL existiert keine Seite</h1>
       </fieldset>
     )

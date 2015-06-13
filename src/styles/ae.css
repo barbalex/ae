@@ -46,8 +46,8 @@ body {
   z-index: 5;
 }
 
-#forms {
-  /* wenn forms unter menu kommt muss ein margin vorhanden sein */
+#main {
+  /* wenn main unter menu kommt muss ein margin vorhanden sein */
   margin:0 0 7px 0;
   /* bootstrap-glyphicons.css vergibt Eigenschaften > korrigieren */
   border: none;
@@ -87,7 +87,7 @@ body {
     position: fixed;
   }
 
-  body:not(.force-mobile) #forms {
+  body:not(.force-mobile) #main {
     /* nach rechts schieben */
     -ms-transform: translate(391px,0px);
     -webkit-transform: translate(391px,0px);
@@ -499,8 +499,6 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 
 .form {
   margin-left: auto;
-  /* verhindern, dass auf dem Handy beim Erstaufruf das Formular aufblitzt */
-  display: none;
 }
 
 /* vertikalen Abstand zwischen Feldern verkleinern */

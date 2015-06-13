@@ -1,24 +1,20 @@
 'use strict'
 
 import React from 'react'
-import { RouteHandler } from 'react-router'
-
-import MenuButton from './menuButton'
+import Main from './main/main.js'
 import Menu from './menu/menu.js'
 import FaviconImage from '../../img/aster_144.png'
 import Favicon from 'react-favicon'
 
 export default React.createClass({
-  displayName: 'Apphandler',
+  displayName: 'Home',
 
   render () {
     return (
       <div>
         <Favicon url={[FaviconImage]}/>
-        <MenuButton/>
         <Menu/>
-        {/*<Objekt/>*/}
-        <RouteHandler/>
+        <Main/>
       </div>
     )
   }

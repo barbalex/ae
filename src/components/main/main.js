@@ -4,8 +4,6 @@ import app from 'ampersand-app'
 import React from 'react'
 import { State } from 'react-router'
 import { ListenerMixin } from 'reflux'
-import _ from 'lodash'
-import Eigenschaftensammlung from './eigenschaftensammlung.js'
 
 export default React.createClass({
   displayName: 'Object',
@@ -58,45 +56,10 @@ export default React.createClass({
   },
 
   render () {
-    if (this.state.loading) {
-      return (
-        <fieldset id='main'>
-          <p>Lade Daten...</p>
-        </fieldset>
-      )
-    }
-
-    /*let objektBs = []  // regular property collections
-    let taxBs = [] // taxonomic property collections
-    let bsNamen
-    // let guidsOfSynonyms
-    // divide property collections in regular and taxonomic
-    if (object.Beziehungssammlungen.length > 0) {
-      _.forEach(object.Beziehungssammlungen, function (bs) {
-        if (bs.Typ === 'taxonomisch') {
-          taxBs.push(bs)
-        } else {
-          objektBs.push(bs)
-        }
-        // list names of property collections
-        // later it will be necessary to check if a property collection is already shown
-        bsNamen.push(bs.Name)
-      })
-    }*/
-    // add taxonomic property collections
-    // want defined order
-    /*if (taxBs.length > 0) {
-
-    }*/
     return (
       <fieldset id='main'>
         <form className='form form-horizontal' autoComplete='off'>
-          <div id='formContent'>
-            <h4>Taxonomie:</h4>
-            {/*<Eigenschaftensammlung esTyp='Taxonomie' object={object} eigenschaftensammlung={object.Name}/>*/}
-            {/*taxonomischeBeziehungssammlungen*/}
-
-          </div>
+          <p>i am main</p>
         </form>
       </fieldset>
     )
