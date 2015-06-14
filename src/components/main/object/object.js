@@ -4,6 +4,7 @@ import app from 'ampersand-app'
 import React from 'react'
 import { State } from 'react-router'
 import { ListenerMixin } from 'reflux'
+import Inspector from 'react-json-inspector'
 import _ from 'lodash'
 import Eigenschaftensammlung from './eigenschaftensammlung.js'
 
@@ -86,6 +87,8 @@ export default React.createClass({
         <form className='form form-horizontal' autoComplete='off'>
           <div id='formContent'>
             <h4>Taxonomie:</h4>
+            {/*<p>{JSON.stringify(this.state.items[this.state.s5], null, '   ')}</p>*/}
+            <Inspector data={this.state.items[this.state.s5]}/>
             {/*<Eigenschaftensammlung esTyp='Taxonomie' object={object} eigenschaftensammlung={object.Name}/>*/}
             {/*taxonomischeBeziehungssammlungen*/}
 

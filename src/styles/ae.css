@@ -529,7 +529,7 @@ input[type=file] {
   height: 20px;
 }
 
-label {
+label:not(.json-inspector__line) {
   /* nicht nötig, wenn checkbox mit label beschrieben wird*/
   line-height: 15px !important;
   float: left !important;

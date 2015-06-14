@@ -33,6 +33,7 @@
     "react-bootstrap": "0.23.2",
     "react-favicon": "0.0.3",
     "react-hot-loader": "1.2.7",
+    "react-json-inspector": "^5.1.0",
     "react-router": "0.13.3",
     "react-select": "0.4.9",
     "reflux": "0.2.8",
