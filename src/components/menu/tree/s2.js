@@ -19,32 +19,25 @@ export default React.createClass({
   propTypes: {
     loading: React.PropTypes.bool,
     items: React.PropTypes.object,
-    s1: React.PropTypes.string,
     s2: React.PropTypes.string,
     s3: React.PropTypes.string
   },
 
   getInitialState () {
-    console.log('s2 getInitialState called')
+    // console.log('s2 getInitialState called')
     const params = this.getParams()
     return {
       loading: !window.faunaStore.loaded,
       items: window.faunaStore.getInitialState(),
-      s1: params.s1,
       s2: params.s2,
       s3: params.s3
     }
   },
 
   componentDidMount () {
-    const params = this.getParams()
-    switch (params.s1) {
-    case 'Fauna':
-      this.listenTo(window.faunaStore, this.onStoreChange)
-      // loadFaunaStore if necessary
-      if (!window.faunaStore.loaded) app.Actions.loadFaunaStore()
-      break
-    }
+    this.listenTo(window.faunaStore, this.onStoreChange)
+    // loadFaunaStore if necessary
+    if (!window.faunaStore.loaded) app.Actions.loadFaunaStore()
   },
 
   onStoreChange (items) {
@@ -54,12 +47,13 @@ export default React.createClass({
     })
   },
 
-  onClickNode (s3) {
+  onClickNode (s3, event) {
+    event.stopPropagation()
     this.setState({s3: s3})
-    const url = `/${this.state.s1}/${this.state.s2}/${s3}`
-    console.log('s2: url', url)
+    const url = `/Fauna/${this.state.s2}/${s3}`
+    console.log('s2: url:', url)
     window.router.transitionTo(url)
-    //this.forceUpdate()
+    this.forceUpdate()
   },
 
   render () {

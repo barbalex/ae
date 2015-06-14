@@ -17,7 +17,6 @@ export default React.createClass({
   propTypes: {
     loading: React.PropTypes.bool,
     items: React.PropTypes.object,
-    s1: React.PropTypes.string,
     s2: React.PropTypes.string,
     s3: React.PropTypes.string,
     s4: React.PropTypes.string,
@@ -29,7 +28,6 @@ export default React.createClass({
     return {
       loading: !window.faunaStore.loaded,
       items: window.faunaStore.getInitialState(),
-      s1: params.s1,
       s2: params.s2,
       s3: params.s3,
       s4: params.s4,
@@ -38,14 +36,9 @@ export default React.createClass({
   },
 
   componentDidMount () {
-    const params = this.getParams()
-    switch (params.s1) {
-    case 'Fauna':
-      this.listenTo(window.faunaStore, this.onStoreChange)
-      // loadFaunaStore if necessary
-      if (!window.faunaStore.loaded) app.Actions.loadFaunaStore()
-      break
-    }
+    this.listenTo(window.faunaStore, this.onStoreChange)
+    // loadFaunaStore if necessary
+    if (!window.faunaStore.loaded) app.Actions.loadFaunaStore()
   },
 
   onStoreChange (items) {

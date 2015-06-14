@@ -29,14 +29,9 @@ export default React.createClass({
   },
 
   componentDidMount () {
-    const params = this.getParams()
-    switch (params.s1) {
-    case 'Fauna':
-      this.listenTo(window.faunaStore, this.onStoreChange)
-      // loadFaunaStore if necessary
-      if (!window.faunaStore.loaded) app.Actions.loadFaunaStore()
-      break
-    }
+    this.listenTo(window.faunaStore, this.onStoreChange)
+    // loadFaunaStore if necessary
+    if (!window.faunaStore.loaded) app.Actions.loadFaunaStore()
   },
 
   onStoreChange (items) {

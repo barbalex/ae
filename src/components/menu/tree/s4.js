@@ -18,7 +18,6 @@ export default React.createClass({
   propTypes: {
     loading: React.PropTypes.bool,
     items: React.PropTypes.object,
-    s1: React.PropTypes.string,
     s2: React.PropTypes.string,
     s3: React.PropTypes.string,
     s4: React.PropTypes.string,
@@ -26,12 +25,11 @@ export default React.createClass({
   },
 
   getInitialState () {
-    console.log('s4 getInitialState called')
+    // console.log('s4 getInitialState called')
     const params = this.getParams()
     return {
       loading: !window.faunaStore.loaded,
       items: window.faunaStore.getInitialState(),
-      s1: params.s1,
       s2: params.s2,
       s3: params.s3,
       s4: params.s4,
@@ -40,14 +38,9 @@ export default React.createClass({
   },
 
   componentDidMount () {
-    const params = this.getParams()
-    switch (params.s1) {
-    case 'Fauna':
-      this.listenTo(window.faunaStore, this.onStoreChange)
-      // loadFaunaStore if necessary
-      if (!window.faunaStore.loaded) app.Actions.loadFaunaStore()
-      break
-    }
+    this.listenTo(window.faunaStore, this.onStoreChange)
+    // loadFaunaStore if necessary
+    if (!window.faunaStore.loaded) app.Actions.loadFaunaStore()
   },
 
   onStoreChange (items) {
@@ -57,10 +50,12 @@ export default React.createClass({
     })
   },
 
-  onClickNode (s5) {
+  onClickNode (s5, event) {
+    event.stopPropagation()
     this.setState({s5: s5})
-    const url = `/${this.state.s1}/${this.state.s2}/${this.state.s3}/${this.state.s4}/${s5}`
+    const url = `/Fauna/${this.state.s2}/${this.state.s3}/${this.state.s4}/${s5}`
     window.router.transitionTo(url)
+    this.forceUpdate()
   },
 
   render () {
@@ -70,7 +65,6 @@ export default React.createClass({
     const s2 = this.state.s2
     const s3 = this.state.s3
     const s4 = this.state.s4
-    const s5 = this.state.s5
 
     // items nach s2, s3 und s4 filtern (in Fauna: Klasse, Ordnung und Familie)
     const itemsWithS4 = _.pick(items, function (item) {
@@ -79,27 +73,22 @@ export default React.createClass({
       }
     })
 
-    console.log('s4: itemsWithS4', itemsWithS4)
-
     nodes = _.chain(itemsWithS4)
       // make an object {ordnung1: num, ordnung2: num}
-      .countBy(function (item) {
+      .map(function (item) {
         if (item.Taxonomie.Eigenschaften['Artname vollständig']) {
-          return item.Taxonomie.Eigenschaften['Artname vollständig']
+          return [item._id, item.Taxonomie.Eigenschaften['Artname vollständig']]
         }
       })
-      // convert to array of arrays so it can be sorted
-      .pairs()
       .sortBy(function (pair) {
-        return pair[0]
+        return pair[1]
       })
       // map to needed elements
       // div arount Text is for interacting wich the li element
       .map(function (pair) {
         return (
           <li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>
-            <div>{pair[0]} ({pair[1]})</div>
-            {/*pair[0] === s5 ? <S5/> : null*/}
+            <div>{pair[1]}</div>
           </li>
         )
       })
