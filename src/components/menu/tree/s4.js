@@ -55,7 +55,6 @@ export default React.createClass({
     this.setState({s5: s5})
     const url = `/Fauna/${this.state.s2}/${this.state.s3}/${this.state.s4}/${s5}`
     window.router.transitionTo(url)
-    this.forceUpdate()
   },
 
   render () {

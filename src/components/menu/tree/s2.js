@@ -51,9 +51,7 @@ export default React.createClass({
     event.stopPropagation()
     this.setState({s3: s3})
     const url = `/Fauna/${this.state.s2}/${s3}`
-    console.log('s2: url:', url)
     window.router.transitionTo(url)
-    this.forceUpdate()
   },
 
   render () {

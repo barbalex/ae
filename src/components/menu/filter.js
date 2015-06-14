@@ -8,14 +8,14 @@
 import app from 'ampersand-app'
 import React from 'react'
 import Filter from 'react-select'
-import { State } from 'react-router'
+import { State, Navigation } from 'react-router'
 import { ListenerMixin } from 'reflux'
 import values from 'lodash/object/values'
 
 export default React.createClass({
   displayName: 'Filter',
 
-  mixins: [ListenerMixin, State],
+  mixins: [ListenerMixin, State, Navigation],
 
   propTypes: {
     items: React.PropTypes.object
@@ -47,6 +47,7 @@ export default React.createClass({
     const ordnung = objekt.Taxonomie.Eigenschaften.Ordnung
     const familie = objekt.Taxonomie.Eigenschaften.Familie
     window.router.transitionTo(`/Fauna/${klasse}/${ordnung}/${familie}/${guid}`)
+    this.forceUpdate()
   },
 
   render () {

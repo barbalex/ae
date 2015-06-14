@@ -86,8 +86,7 @@ export default React.createClass({
       <fieldset id='main'>
         <form className='form form-horizontal' autoComplete='off'>
           <div id='formContent'>
-            <h4>Taxonomie:</h4>
-            {/*<p>{JSON.stringify(this.state.items[this.state.s5], null, '   ')}</p>*/}
+            {/*<h4>Taxonomie:</h4>*/}
             <Inspector data={this.state.items[this.state.s5]}/>
             {/*<Eigenschaftensammlung esTyp='Taxonomie' object={object} eigenschaftensammlung={object.Name}/>*/}
             {/*taxonomischeBeziehungssammlungen*/}
