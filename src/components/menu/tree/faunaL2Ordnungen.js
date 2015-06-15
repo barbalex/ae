@@ -2,7 +2,7 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import { State, Navigation } from 'react-router'
+import { State, Navigation, Link } from 'react-router'
 import { ListenerMixin } from 'reflux'
 import _ from 'lodash'
 import FaunaL3Familien from './faunaL3Familien.js'
@@ -29,8 +29,8 @@ export default React.createClass({
     return {
       loading: !window.faunaStore.loaded,
       items: window.faunaStore.getInitialState(),
-      faunaL2Ordnung: params.faunaL2Ordnung,
-      faunaL3Familie: params.faunaL3Familie
+      faunaL2Ordnung: this.props.faunaL2Ordnung? this.props.faunaL2Ordnung : params.faunaL2Ordnung,
+      faunaL3Familie: ''
     }
   },
 
@@ -57,9 +57,13 @@ export default React.createClass({
   render () {
     let nodes
     const that = this
-    const items = this.state.items
-    const faunaL2Ordnung = this.state.faunaL2Ordnung
-    const faunaL3Familie = this.state.faunaL3Familie
+    const items = this.props.items
+    const faunaL2Ordnung = this.props.faunaL2Ordnung
+    const faunaL3Familie = this.props.faunaL3Familie
+    const params = {
+      'faunaL2Ordnung': faunaL2Ordnung,
+      'faunaL3Familie': faunaL3Familie
+    }
 
     // items nach FaunaL2Ordnungen filtern (in Fauna: Klasse)
     const itemsWithS2 = _.pick(items, function (item) {
@@ -84,13 +88,15 @@ export default React.createClass({
       // div arount Text is for interacting wich the li element
       .map(function (pair) {
         return (
-          <li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>
-            <div
-              className={pair[0] === faunaL3Familie ? 'active' : null}
-            >
-              {pair[0]} ({pair[1]})
-            </div>
-            {pair[0] === faunaL3Familie ? <FaunaL3Familien/> : null}
+          <li key={pair[0]}>
+            <Link to='faunaL3Familie' params={params}>
+              <div
+                className={pair[0] === faunaL3Familie ? 'active' : null}
+              >
+                {pair[0]} ({pair[1]})
+              </div>
+              {pair[0] === faunaL3Familie ? <FaunaL3Familien/> : null}
+            </Link>
           </li>
         )
       })

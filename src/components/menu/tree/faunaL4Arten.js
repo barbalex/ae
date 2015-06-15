@@ -2,12 +2,13 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import { State, Navigation } from 'react-router'
+import { State, Navigation, Link } from 'react-router'
 import { ListenerMixin } from 'reflux'
 import _ from 'lodash'
+import Objekt from '../../main/object/object.js'
 
 export default React.createClass({
-  displayName: 'TreeLevel4',
+  displayName: 'FaunaL4Arten',
 
   // ListenerMixin provides the listenTo method for the React component,
   // that works much like the one found in the Reflux's stores,
@@ -29,11 +30,11 @@ export default React.createClass({
     const params = this.getParams()
     return {
       loading: !window.faunaStore.loaded,
-      items: window.faunaStore.getInitialState(),
-      faunaL2Ordnung: params.faunaL2Ordnung,
-      faunaL3Familie: params.faunaL3Familie,
-      faunaL4Art: params.faunaL4Art,
-      faunaL5Objekt: params.faunaL5Objekt  // in Fauna guid
+      items: this.props.items ? this.props.items : window.faunaStore.getInitialState(),
+      faunaL2Ordnung: this.props.faunaL2Ordnung ? this.props.faunaL2Ordnung : params.faunaL2Ordnung,
+      faunaL3Familie: this.props.faunaL3Familie ? this.props.faunaL3Familie : params.faunaL3Familie,
+      faunaL4Art: this.props.faunaL4Art ? this.props.faunaL4Art : params.faunaL4Art,
+      faunaL5Objekt: this.props.faunaL5Objekt ? this.props.faunaL5Objekt : params.faunaL5Objekt  // in Fauna guid
     }
   },
 
@@ -53,8 +54,17 @@ export default React.createClass({
   onClickNode (faunaL5Objekt, event) {
     event.stopPropagation()
     this.setState({faunaL5Objekt: faunaL5Objekt})
-    const url = `/Fauna/${this.state.faunaL2Ordnung}/${this.state.faunaL3Familie}/${this.state.faunaL4Art}/${faunaL5Objekt}`
-    window.router.transitionTo(url)
+    {/*const url = `/Fauna/${this.state.faunaL2Ordnung}/${this.state.faunaL3Familie}/${this.state.faunaL4Art}/${faunaL5Objekt}`
+        window.router.transitionTo(url)*/}
+    React.render(
+      <Objekt
+        items={this.state.items}
+        faunaL2Ordnung={this.state.faunaL2Ordnung}
+        faunaL3Familie={this.state.faunaL3Familie}
+        faunaL4Art={this.state.faunaL4Art}
+        faunaL5Objekt={faunaL5Objekt}/>,
+      document.getElementById('main')
+    )
   },
 
   render () {
@@ -86,13 +96,31 @@ export default React.createClass({
       // map to needed elements
       // div arount Text is for interacting wich the li element
       .map(function (pair) {
+        const url = `/Fauna/${faunaL2Ordnung}/${faunaL3Familie}/${faunaL4Art}/${pair[0]}`
+        const params = {
+          'faunaL2Ordnung': faunaL2Ordnung,
+          'faunaL3Familie': faunaL3Familie,
+          'faunaL4Art': faunaL4Art,
+          'faunaL5Objekt': pair[0]
+        }
+        console.log('faunaL4Arten: params:', params)
+        console.log('faunaL4Arten: faunaL5Objekt:', faunaL5Objekt)
         return (
-          <li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>
+          /*<li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>
             <div
               className={pair[0] === faunaL5Objekt ? 'active' : null}
             >
               {pair[1]}
             </div>
+          </li>*/
+          <li key={pair[0]}>
+            <Link to='faunaL5Objekt' params={params}>
+              <div
+                className={pair[0] === faunaL5Objekt ? 'active' : null}
+              >
+                {pair[1]}
+              </div>
+            </Link>
           </li>
         )
       })
