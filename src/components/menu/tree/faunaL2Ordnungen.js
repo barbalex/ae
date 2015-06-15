@@ -5,7 +5,7 @@ import React from 'react'
 import { State, Navigation } from 'react-router'
 import { ListenerMixin } from 'reflux'
 import _ from 'lodash'
-import S3 from './s3.js'
+import S3 from './faunaL3Familien.js'
 
 export default React.createClass({
   displayName: 'TreeLevel2',
@@ -19,18 +19,18 @@ export default React.createClass({
   propTypes: {
     loading: React.PropTypes.bool,
     items: React.PropTypes.object,
-    s2: React.PropTypes.string,
-    s3: React.PropTypes.string
+    faunaL2Ordnung: React.PropTypes.string,
+    faunaL3Familie: React.PropTypes.string
   },
 
   getInitialState () {
-    // console.log('s2 getInitialState called')
+    // console.log('faunaL2Ordnung getInitialState called')
     const params = this.getParams()
     return {
       loading: !window.faunaStore.loaded,
       items: window.faunaStore.getInitialState(),
-      s2: params.s2,
-      s3: params.s3
+      faunaL2Ordnung: params.faunaL2Ordnung,
+      faunaL3Familie: params.faunaL3Familie
     }
   },
 
@@ -47,10 +47,10 @@ export default React.createClass({
     })
   },
 
-  onClickNode (s3, event) {
+  onClickNode (faunaL3Familie, event) {
     event.stopPropagation()
-    this.setState({s3: s3})
-    const url = `/Fauna/${this.state.s2}/${s3}`
+    this.setState({faunaL3Familie: faunaL3Familie})
+    const url = `/Fauna/${this.state.faunaL2Ordnung}/${faunaL3Familie}`
     window.router.transitionTo(url)
   },
 
@@ -58,12 +58,12 @@ export default React.createClass({
     let nodes
     const that = this
     const items = this.state.items
-    const s2 = this.state.s2
-    const s3 = this.state.s3
+    const faunaL2Ordnung = this.state.faunaL2Ordnung
+    const faunaL3Familie = this.state.faunaL3Familie
 
-    // items nach S2 filtern (in Fauna: Klasse)
+    // items nach FaunaL2Ordnungen filtern (in Fauna: Klasse)
     const itemsWithS2 = _.pick(items, function (item) {
-      if (item.Taxonomie && item.Taxonomie.Eigenschaften && item.Taxonomie.Eigenschaften.Klasse && item.Taxonomie.Eigenschaften.Klasse === s2) {
+      if (item.Taxonomie && item.Taxonomie.Eigenschaften && item.Taxonomie.Eigenschaften.Klasse && item.Taxonomie.Eigenschaften.Klasse === faunaL2Ordnung) {
         return true
       }
     })
@@ -86,7 +86,7 @@ export default React.createClass({
         return (
           <li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>
             <div>{pair[0]} ({pair[1]})</div>
-            {pair[0] === s3 ? <S3/> : null}
+            {pair[0] === faunaL3Familie ? <S3/> : null}
           </li>
         )
       })

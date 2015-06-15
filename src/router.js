@@ -6,10 +6,10 @@ import Router from 'react-router'
 
 import Home from './components/home.js'
 // import FourOhFour from './components/main/fourOhFour.js'
-import FaunaTreeLevel1 from './components/menu/tree/faunaLevel1.js'
-import S2 from './components/menu/tree/s2.js'
-import S3 from './components/menu/tree/s3.js'
-import S4 from './components/menu/tree/s4.js'
+import FaunaL1Klassen from './components/menu/tree/faunaL1Klassen.js'
+import FaunaL2Ordnungen from './components/menu/tree/faunaL2Ordnungen.js'
+import S3 from './components/menu/tree/faunaL3Familien.js'
+import FaunaL4Arten from './components/menu/tree/faunaL4Arten.js'
 import Objekt from './components/main/object/object.js'
 
 const DefaultRoute = Router.DefaultRoute
@@ -19,10 +19,10 @@ const Route = Router.Route
 export default function () {
   const routes = (
     <Route name='home' path='/' handler={Home}>
-      <Route name='fauna' path='Fauna' handler={FaunaTreeLevel1}>
-        <Route name='s2' path=':s2' handler={S2}>
-          <Route name='s3' path=':s3' handler={S3}>
-            <Route name='s4' path=':s4' handler={S4}>
+      <Route name='fauna' path='Fauna' handler={FaunaL1Klassen}>
+        <Route name='FaunaL2Ordnungen' path=':faunaL2Ordnung' handler={FaunaL2Ordnungen}>
+          <Route name='faunaL3Familie' path=':faunaL3Familie' handler={S3}>
+            <Route name='faunaL4Art' path=':faunaL4Art' handler={FaunaL4Arten}>
               <Route name='s5' path=':s5' handler={Objekt}/>
             </Route>
           </Route>

@@ -5,9 +5,11 @@ import React from 'react'
 import { State, Navigation } from 'react-router'
 import { ListenerMixin } from 'reflux'
 import _ from 'lodash'
+import FaunaL2Ordnungen from './faunaL2Ordnungen.js'
+import FourOhFour from '../../main/fourOhFour.js'
 
 export default React.createClass({
-  displayName: 'TreeLevel4',
+  displayName: 'TreeLevel1',
 
   // ListenerMixin provides the listenTo method for the React component,
   // that works much like the one found in the Reflux's stores,
@@ -18,22 +20,16 @@ export default React.createClass({
   propTypes: {
     loading: React.PropTypes.bool,
     items: React.PropTypes.object,
-    s2: React.PropTypes.string,
-    s3: React.PropTypes.string,
-    s4: React.PropTypes.string,
-    s5: React.PropTypes.string  // in Fauna guid
+    faunaL2Ordnung: React.PropTypes.string
   },
 
   getInitialState () {
-    // console.log('s4 getInitialState called')
+    console.log('treeFauna getInitialState called')
     const params = this.getParams()
     return {
       loading: !window.faunaStore.loaded,
       items: window.faunaStore.getInitialState(),
-      s2: params.s2,
-      s3: params.s3,
-      s4: params.s4,
-      s5: params.s5  // in Fauna guid
+      faunaL2Ordnung: params.faunaL2Ordnung
     }
   },
 
@@ -50,53 +46,60 @@ export default React.createClass({
     })
   },
 
-  onClickNode (s5, event) {
-    event.stopPropagation()
-    this.setState({s5: s5})
-    const url = `/Fauna/${this.state.s2}/${this.state.s3}/${this.state.s4}/${s5}`
-    window.router.transitionTo(url)
+  onClickNode (faunaL2Ordnung) {
+    this.setState({faunaL2Ordnung: faunaL2Ordnung})
+    window.router.transitionTo(`/Fauna/${faunaL2Ordnung}`)
   },
 
   render () {
     let nodes
+    let tree
+    let loadingMessage
     const that = this
     const items = this.state.items
-    const s2 = this.state.s2
-    const s3 = this.state.s3
-    const s4 = this.state.s4
+    const faunaL2Ordnung = this.state.faunaL2Ordnung
 
-    // items nach s2, s3 und s4 filtern (in Fauna: Klasse, Ordnung und Familie)
-    const itemsWithS4 = _.pick(items, function (item) {
-      if (item.Taxonomie && item.Taxonomie.Eigenschaften && item.Taxonomie.Eigenschaften.Klasse && item.Taxonomie.Eigenschaften.Klasse === s2 && item.Taxonomie.Eigenschaften.Ordnung && item.Taxonomie.Eigenschaften.Ordnung === s3 && item.Taxonomie.Eigenschaften.Familie && item.Taxonomie.Eigenschaften.Familie === s4) {
-        return true
-      }
-    })
-
-    nodes = _.chain(itemsWithS4)
-      // make an object {ordnung1: num, ordnung2: num}
-      .map(function (item) {
-        if (item.Taxonomie.Eigenschaften['Artname vollständig']) {
-          return [item._id, item.Taxonomie.Eigenschaften['Artname vollständig']]
+    nodes = _.chain(items)
+      // make an object {klasse1: num, klasse2: num}
+      .countBy(function (item) {
+        if (item.Taxonomie && item.Taxonomie.Eigenschaften && item.Taxonomie.Eigenschaften.Klasse) {
+          return item.Taxonomie.Eigenschaften.Klasse
         }
       })
+      // convert to array of arrays so it can be sorted
+      .pairs()
       .sortBy(function (pair) {
-        return pair[1]
+        return pair[0]
       })
       // map to needed elements
       // div arount Text is for interacting wich the li element
       .map(function (pair) {
         return (
           <li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>
-            <div>{pair[1]}</div>
+            <div>{pair[0]} ({pair[1]})</div>
+            {pair[0] === faunaL2Ordnung ? <FaunaL2Ordnungen/> : null}
           </li>
         )
       })
       .value()
 
+    tree = (
+      <div className='baum'>
+        <ul className='level1'>
+          {nodes}
+        </ul>
+      </div>
+    )
+
+    loadingMessage = <p>Lade Daten...</p>
+
     return (
-      <ul className='level4'>
-        {nodes}
-      </ul>
+      <div>
+        <div className='treeBeschriftung'></div>
+        <div id='tree' className='baum'>
+          {this.state.loading ? loadingMessage : tree}
+        </div>
+      </div>
     )
   }
 })

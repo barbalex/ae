@@ -5,10 +5,9 @@ import React from 'react'
 import { State, Navigation } from 'react-router'
 import { ListenerMixin } from 'reflux'
 import _ from 'lodash'
-import S4 from './s4.js'
 
 export default React.createClass({
-  displayName: 'TreeLevel3',
+  displayName: 'TreeLevel4',
 
   // ListenerMixin provides the listenTo method for the React component,
   // that works much like the one found in the Reflux's stores,
@@ -19,20 +18,22 @@ export default React.createClass({
   propTypes: {
     loading: React.PropTypes.bool,
     items: React.PropTypes.object,
-    s2: React.PropTypes.string,
-    s3: React.PropTypes.string,
-    s4: React.PropTypes.string
+    faunaL2Ordnung: React.PropTypes.string,
+    faunaL3Familie: React.PropTypes.string,
+    faunaL4Art: React.PropTypes.string,
+    s5: React.PropTypes.string  // in Fauna guid
   },
 
   getInitialState () {
-    // console.log('s3 getInitialState called')
+    // console.log('faunaL4Arten getInitialState called')
     const params = this.getParams()
     return {
       loading: !window.faunaStore.loaded,
       items: window.faunaStore.getInitialState(),
-      s2: params.s2,
-      s3: params.s3,
-      s4: params.s4
+      faunaL2Ordnung: params.faunaL2Ordnung,
+      faunaL3Familie: params.faunaL3Familie,
+      faunaL4Art: params.faunaL4Art,
+      s5: params.s5  // in Fauna guid
     }
   },
 
@@ -49,10 +50,10 @@ export default React.createClass({
     })
   },
 
-  onClickNode (s4, event) {
+  onClickNode (s5, event) {
     event.stopPropagation()
-    this.setState({s4: s4})
-    const url = `/Fauna/${this.state.s2}/${this.state.s3}/${s4}`
+    this.setState({s5: s5})
+    const url = `/Fauna/${this.state.faunaL2Ordnung}/${this.state.faunaL3Familie}/${this.state.faunaL4Art}/${s5}`
     window.router.transitionTo(url)
   },
 
@@ -60,43 +61,40 @@ export default React.createClass({
     let nodes
     const that = this
     const items = this.state.items
-    const s2 = this.state.s2
-    const s3 = this.state.s3
-    const s4 = this.state.s4
+    const faunaL2Ordnung = this.state.faunaL2Ordnung
+    const faunaL3Familie = this.state.faunaL3Familie
+    const faunaL4Art = this.state.faunaL4Art
 
-    // items nach S2 und S3 filtern (in Fauna Klasse und Ordnung)
-    const itemsWithS3 = _.pick(items, function (item) {
-      if (item.Taxonomie && item.Taxonomie.Eigenschaften && item.Taxonomie.Eigenschaften.Klasse && item.Taxonomie.Eigenschaften.Klasse === s2 && item.Taxonomie.Eigenschaften.Ordnung && item.Taxonomie.Eigenschaften.Ordnung === s3) {
+    // items nach faunaL2Ordnung, faunaL3Familie und faunaL4Art filtern (in Fauna: Klasse, Ordnung und Familie)
+    const itemsWithS4 = _.pick(items, function (item) {
+      if (item.Taxonomie && item.Taxonomie.Eigenschaften && item.Taxonomie.Eigenschaften.Klasse && item.Taxonomie.Eigenschaften.Klasse === faunaL2Ordnung && item.Taxonomie.Eigenschaften.Ordnung && item.Taxonomie.Eigenschaften.Ordnung === faunaL3Familie && item.Taxonomie.Eigenschaften.Familie && item.Taxonomie.Eigenschaften.Familie === faunaL4Art) {
         return true
       }
     })
 
-    nodes = _.chain(itemsWithS3)
+    nodes = _.chain(itemsWithS4)
       // make an object {ordnung1: num, ordnung2: num}
-      .countBy(function (item) {
-        if (item.Taxonomie.Eigenschaften.Familie) {
-          return item.Taxonomie.Eigenschaften.Familie
+      .map(function (item) {
+        if (item.Taxonomie.Eigenschaften['Artname vollständig']) {
+          return [item._id, item.Taxonomie.Eigenschaften['Artname vollständig']]
         }
       })
-      // convert to array of arrays so it can be sorted
-      .pairs()
       .sortBy(function (pair) {
-        return pair[0]
+        return pair[1]
       })
       // map to needed elements
       // div arount Text is for interacting wich the li element
       .map(function (pair) {
         return (
           <li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>
-            <div>{pair[0]} ({pair[1]})</div>
-            {pair[0] === s4 ? <S4/> : null}
+            <div>{pair[1]}</div>
           </li>
         )
       })
       .value()
 
     return (
-      <ul className='level3'>
+      <ul className='level4'>
         {nodes}
       </ul>
     )

@@ -20,9 +20,9 @@ export default React.createClass({
   propTypes: {
     loading: React.PropTypes.bool,
     items: React.PropTypes.object,
-    s2: React.PropTypes.string,
-    s3: React.PropTypes.string,
-    s4: React.PropTypes.string,
+    faunaL2Ordnung: React.PropTypes.string,
+    faunaL3Familie: React.PropTypes.string,
+    faunaL4Art: React.PropTypes.string,
     s5: React.PropTypes.string  // in Fauna guid
   },
 
@@ -31,9 +31,9 @@ export default React.createClass({
     return {
       loading: !window.faunaStore.loaded,
       items: window.faunaStore.getInitialState(),
-      s2: params.s2,
-      s3: params.s3,
-      s4: params.s4,
+      faunaL2Ordnung: params.faunaL2Ordnung,
+      faunaL3Familie: params.faunaL3Familie,
+      faunaL4Art: params.faunaL4Art,
       s5: params.s5  // in Fauna guid
     }
   },

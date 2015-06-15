@@ -5,11 +5,10 @@ import React from 'react'
 import { State, Navigation } from 'react-router'
 import { ListenerMixin } from 'reflux'
 import _ from 'lodash'
-import S2 from './s2.js'
-import FourOhFour from '../../main/fourOhFour.js'
+import FaunaL4Arten from './faunaL4Arten.js'
 
 export default React.createClass({
-  displayName: 'TreeLevel1',
+  displayName: 'TreeLevel3',
 
   // ListenerMixin provides the listenTo method for the React component,
   // that works much like the one found in the Reflux's stores,
@@ -20,16 +19,20 @@ export default React.createClass({
   propTypes: {
     loading: React.PropTypes.bool,
     items: React.PropTypes.object,
-    s2: React.PropTypes.string
+    faunaL2Ordnung: React.PropTypes.string,
+    faunaL3Familie: React.PropTypes.string,
+    faunaL4Art: React.PropTypes.string
   },
 
   getInitialState () {
-    console.log('treeFauna getInitialState called')
+    // console.log('faunaL3Familien getInitialState called')
     const params = this.getParams()
     return {
       loading: !window.faunaStore.loaded,
       items: window.faunaStore.getInitialState(),
-      s2: params.s2
+      faunaL2Ordnung: params.faunaL2Ordnung,
+      faunaL3Familie: params.faunaL3Familie,
+      faunaL4Art: params.faunaL4Art
     }
   },
 
@@ -46,24 +49,33 @@ export default React.createClass({
     })
   },
 
-  onClickNode (s2) {
-    this.setState({s2: s2})
-    window.router.transitionTo(`/Fauna/${s2}`)
+  onClickNode (faunaL4Art, event) {
+    event.stopPropagation()
+    this.setState({faunaL4Art: faunaL4Art})
+    const url = `/Fauna/${this.state.faunaL2Ordnung}/${this.state.faunaL3Familie}/${faunaL4Art}`
+    window.router.transitionTo(url)
   },
 
   render () {
     let nodes
-    let tree
-    let loadingMessage
     const that = this
     const items = this.state.items
-    const s2 = this.state.s2
+    const faunaL2Ordnung = this.state.faunaL2Ordnung
+    const faunaL3Familie = this.state.faunaL3Familie
+    const faunaL4Art = this.state.faunaL4Art
 
-    nodes = _.chain(items)
-      // make an object {klasse1: num, klasse2: num}
+    // items nach FaunaL2Ordnungen und S3 filtern (in Fauna Klasse und Ordnung)
+    const itemsWithS3 = _.pick(items, function (item) {
+      if (item.Taxonomie && item.Taxonomie.Eigenschaften && item.Taxonomie.Eigenschaften.Klasse && item.Taxonomie.Eigenschaften.Klasse === faunaL2Ordnung && item.Taxonomie.Eigenschaften.Ordnung && item.Taxonomie.Eigenschaften.Ordnung === faunaL3Familie) {
+        return true
+      }
+    })
+
+    nodes = _.chain(itemsWithS3)
+      // make an object {ordnung1: num, ordnung2: num}
       .countBy(function (item) {
-        if (item.Taxonomie && item.Taxonomie.Eigenschaften && item.Taxonomie.Eigenschaften.Klasse) {
-          return item.Taxonomie.Eigenschaften.Klasse
+        if (item.Taxonomie.Eigenschaften.Familie) {
+          return item.Taxonomie.Eigenschaften.Familie
         }
       })
       // convert to array of arrays so it can be sorted
@@ -77,29 +89,16 @@ export default React.createClass({
         return (
           <li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>
             <div>{pair[0]} ({pair[1]})</div>
-            {pair[0] === s2 ? <S2/> : null}
+            {pair[0] === faunaL4Art ? <FaunaL4Arten/> : null}
           </li>
         )
       })
       .value()
 
-    tree = (
-      <div className='baum'>
-        <ul className='level1'>
-          {nodes}
-        </ul>
-      </div>
-    )
-
-    loadingMessage = <p>Lade Daten...</p>
-
     return (
-      <div>
-        <div className='treeBeschriftung'></div>
-        <div id='tree' className='baum'>
-          {this.state.loading ? loadingMessage : tree}
-        </div>
-      </div>
+      <ul className='level3'>
+        {nodes}
+      </ul>
     )
   }
 })
