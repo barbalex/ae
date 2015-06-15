@@ -21,7 +21,7 @@ export default React.createClass({
     faunaL2Ordnung: React.PropTypes.string,
     faunaL3Familie: React.PropTypes.string,
     faunaL4Art: React.PropTypes.string,
-    FaunaL5Objekt: React.PropTypes.string  // in Fauna guid
+    faunaL5Objekt: React.PropTypes.string  // in Fauna guid
   },
 
   getInitialState () {
@@ -33,7 +33,7 @@ export default React.createClass({
       faunaL2Ordnung: params.faunaL2Ordnung,
       faunaL3Familie: params.faunaL3Familie,
       faunaL4Art: params.faunaL4Art,
-      FaunaL5Objekt: params.FaunaL5Objekt  // in Fauna guid
+      faunaL5Objekt: params.faunaL5Objekt  // in Fauna guid
     }
   },
 
@@ -50,10 +50,10 @@ export default React.createClass({
     })
   },
 
-  onClickNode (FaunaL5Objekt, event) {
+  onClickNode (faunaL5Objekt, event) {
     event.stopPropagation()
-    this.setState({FaunaL5Objekt: FaunaL5Objekt})
-    const url = `/Fauna/${this.state.faunaL2Ordnung}/${this.state.faunaL3Familie}/${this.state.faunaL4Art}/${FaunaL5Objekt}`
+    this.setState({faunaL5Objekt: faunaL5Objekt})
+    const url = `/Fauna/${this.state.faunaL2Ordnung}/${this.state.faunaL3Familie}/${this.state.faunaL4Art}/${faunaL5Objekt}`
     window.router.transitionTo(url)
   },
 
@@ -64,6 +64,7 @@ export default React.createClass({
     const faunaL2Ordnung = this.state.faunaL2Ordnung
     const faunaL3Familie = this.state.faunaL3Familie
     const faunaL4Art = this.state.faunaL4Art
+    const faunaL5Objekt = this.state.faunaL5Objekt
 
     // items nach faunaL2Ordnung, faunaL3Familie und faunaL4Art filtern (in Fauna: Klasse, Ordnung und Familie)
     const itemsWithS4 = _.pick(items, function (item) {
@@ -87,7 +88,11 @@ export default React.createClass({
       .map(function (pair) {
         return (
           <li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>
-            <div>{pair[1]}</div>
+            <div
+              className={pair[0] === faunaL5Objekt ? 'active' : null}
+            >
+              {pair[1]}
+            </div>
           </li>
         )
       })

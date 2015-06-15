@@ -23,7 +23,7 @@ export default function () {
         <Route name='FaunaL2Ordnungen' path=':faunaL2Ordnung' handler={FaunaL2Ordnungen}>
           <Route name='faunaL3Familie' path=':faunaL3Familie' handler={FaunaL3Familien}>
             <Route name='faunaL4Art' path=':faunaL4Art' handler={FaunaL4Arten}>
-              <Route name='FaunaL5Objekt' path=':FaunaL5Objekt' handler={Objekt}/>
+              <Route name='faunaL5Objekt' path=':faunaL5Objekt' handler={Objekt}/>
             </Route>
           </Route>
         </Route>

@@ -85,7 +85,11 @@ export default React.createClass({
       .map(function (pair) {
         return (
           <li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>
-            <div>{pair[0]} ({pair[1]})</div>
+            <div
+              className={pair[0] === faunaL3Familie ? 'active' : null}
+            >
+              {pair[0]} ({pair[1]})
+            </div>
             {pair[0] === faunaL3Familie ? <FaunaL3Familien/> : null}
           </li>
         )
