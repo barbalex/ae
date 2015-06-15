@@ -1,0 +1,59 @@
+[
+  {
+    '_id': 'Fauna_CSCF_(2009)',
+    'Typ': 'DsMetadata',
+    'Name': 'CSCF (2009)',
+    'Gruppe': 'Fauna',
+    'HierarchieTyp': 'Felder',
+    'HierarchieFelder': [
+      'Klasse',
+      'Ordnung',
+      'Familie',
+      'Artname vollständig'
+    ]
+  },
+  {
+    '_id': 'Flora_SISFIndex2_(2005)',
+    'Typ': 'DsMetadata',
+    'Name': 'SISF Index 2 (2005)',
+    'Gruppe': 'Flora',
+    'HierarchieTyp': 'Felder',
+    'HierarchieFelder': [
+      'Familie',
+      'Gattung',
+      'Artname vollständig'
+    ]
+  },
+  {
+    '_id': 'Moose_NISM_(2010)',
+    'Typ': 'DsMetadata',
+    'Name': 'NISM (2010)',
+    'Gruppe': 'Moose',
+    'HierarchieTyp': 'Felder',
+    'HierarchieFelder': [
+      'Klasse',
+      'Familie',
+      'Gattung',
+      'Artname vollständig'
+    ]
+  },
+  {
+    '_id': 'Macromycetes_Swissfunghi_(2011)',
+    'Typ': 'DsMetadata',
+    'Name': 'Swissfunghi (2011)',
+    'Gruppe': 'Macromycetes',
+    'HierarchieTyp': 'Felder',
+    'HierarchieFelder': [
+      'Gattung',
+      'Artname vollständig'
+    ]
+  },
+  {
+    '_id': 'Lebensräume_CH_Delarze_(2008)_Allgemeine_Umgebung_(Areale)',
+    'Typ': 'DsMetadata',
+    'Name': 'CH Delarze (2008): Allgemeine Umgebung (Areale)',
+    'Gruppe': 'Lebensräume',
+    'HierarchieTyp': 'Parent',
+    'ParentGuid': 'Parent.GUID'
+  }
+]
