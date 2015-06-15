@@ -20,7 +20,7 @@ export default React.createClass({
     faunaL2Ordnung: React.PropTypes.string,
     faunaL3Familie: React.PropTypes.string,
     faunaL4Art: React.PropTypes.string,
-    s5: React.PropTypes.string  // in Fauna guid
+    FaunaL5Objekt: React.PropTypes.string  // in Fauna guid
   },
 
   getInitialState () {
@@ -31,7 +31,7 @@ export default React.createClass({
       faunaL2Ordnung: params.faunaL2Ordnung,
       faunaL3Familie: params.faunaL3Familie,
       faunaL4Art: params.faunaL4Art,
-      s5: params.s5  // in Fauna guid
+      FaunaL5Objekt: params.FaunaL5Objekt  // in Fauna guid
     }
   },
 

@@ -8,7 +8,7 @@ import Home from './components/home.js'
 // import FourOhFour from './components/main/fourOhFour.js'
 import FaunaL1Klassen from './components/menu/tree/faunaL1Klassen.js'
 import FaunaL2Ordnungen from './components/menu/tree/faunaL2Ordnungen.js'
-import S3 from './components/menu/tree/faunaL3Familien.js'
+import FaunaL3Familien from './components/menu/tree/faunaL3Familien.js'
 import FaunaL4Arten from './components/menu/tree/faunaL4Arten.js'
 import Objekt from './components/main/object/object.js'
 
@@ -21,9 +21,9 @@ export default function () {
     <Route name='home' path='/' handler={Home}>
       <Route name='fauna' path='Fauna' handler={FaunaL1Klassen}>
         <Route name='FaunaL2Ordnungen' path=':faunaL2Ordnung' handler={FaunaL2Ordnungen}>
-          <Route name='faunaL3Familie' path=':faunaL3Familie' handler={S3}>
+          <Route name='faunaL3Familie' path=':faunaL3Familie' handler={FaunaL3Familien}>
             <Route name='faunaL4Art' path=':faunaL4Art' handler={FaunaL4Arten}>
-              <Route name='s5' path=':s5' handler={Objekt}/>
+              <Route name='FaunaL5Objekt' path=':FaunaL5Objekt' handler={Objekt}/>
             </Route>
           </Route>
         </Route>

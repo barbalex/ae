@@ -5,7 +5,7 @@ import React from 'react'
 import { State, Navigation } from 'react-router'
 import { ListenerMixin } from 'reflux'
 import _ from 'lodash'
-import S3 from './faunaL3Familien.js'
+import FaunaL3Familien from './faunaL3Familien.js'
 
 export default React.createClass({
   displayName: 'TreeLevel2',
@@ -86,7 +86,7 @@ export default React.createClass({
         return (
           <li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>
             <div>{pair[0]} ({pair[1]})</div>
-            {pair[0] === faunaL3Familie ? <S3/> : null}
+            {pair[0] === faunaL3Familie ? <FaunaL3Familien/> : null}
           </li>
         )
       })

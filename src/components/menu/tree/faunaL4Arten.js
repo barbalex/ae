@@ -21,11 +21,11 @@ export default React.createClass({
     faunaL2Ordnung: React.PropTypes.string,
     faunaL3Familie: React.PropTypes.string,
     faunaL4Art: React.PropTypes.string,
-    s5: React.PropTypes.string  // in Fauna guid
+    FaunaL5Objekt: React.PropTypes.string  // in Fauna guid
   },
 
   getInitialState () {
-    // console.log('faunaL4Arten getInitialState called')
+    // console.log('faunaL4Arten: getInitialState called')
     const params = this.getParams()
     return {
       loading: !window.faunaStore.loaded,
@@ -33,7 +33,7 @@ export default React.createClass({
       faunaL2Ordnung: params.faunaL2Ordnung,
       faunaL3Familie: params.faunaL3Familie,
       faunaL4Art: params.faunaL4Art,
-      s5: params.s5  // in Fauna guid
+      FaunaL5Objekt: params.FaunaL5Objekt  // in Fauna guid
     }
   },
 
@@ -50,10 +50,10 @@ export default React.createClass({
     })
   },
 
-  onClickNode (s5, event) {
+  onClickNode (FaunaL5Objekt, event) {
     event.stopPropagation()
-    this.setState({s5: s5})
-    const url = `/Fauna/${this.state.faunaL2Ordnung}/${this.state.faunaL3Familie}/${this.state.faunaL4Art}/${s5}`
+    this.setState({FaunaL5Objekt: FaunaL5Objekt})
+    const url = `/Fauna/${this.state.faunaL2Ordnung}/${this.state.faunaL3Familie}/${this.state.faunaL4Art}/${FaunaL5Objekt}`
     window.router.transitionTo(url)
   },
 

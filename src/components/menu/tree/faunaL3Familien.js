@@ -64,7 +64,7 @@ export default React.createClass({
     const faunaL3Familie = this.state.faunaL3Familie
     const faunaL4Art = this.state.faunaL4Art
 
-    // items nach FaunaL2Ordnungen und S3 filtern (in Fauna Klasse und Ordnung)
+    // items nach FaunaL2Ordnungen und FaunaL3Familien filtern (in Fauna Klasse und Ordnung)
     const itemsWithS3 = _.pick(items, function (item) {
       if (item.Taxonomie && item.Taxonomie.Eigenschaften && item.Taxonomie.Eigenschaften.Klasse && item.Taxonomie.Eigenschaften.Klasse === faunaL2Ordnung && item.Taxonomie.Eigenschaften.Ordnung && item.Taxonomie.Eigenschaften.Ordnung === faunaL3Familie) {
         return true
