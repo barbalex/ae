@@ -19,11 +19,11 @@ const Route = Router.Route
 export default function () {
   const routes = (
     <Route name='home' path='/' handler={Home}>
-      <Route name='faunaL1Klassen' path='Fauna' handler={FaunaL1Klassen}>
-        <Route name='faunaL2Ordnungen' path=':faunaL1Klasse' handler={FaunaL2Ordnungen}>
-          <Route name='faunaL3Familie' path=':faunaL2Ordnung' handler={FaunaL3Familien}>
-            <Route name='faunaL4Art' path=':faunaL3Familie' handler={FaunaL4Arten}>
-              <Route name='faunaL5Objekt' path=':faunaL4Art' handler={Objekt}/>
+      <Route name='fauna' path='Fauna' handler={FaunaL1Klassen}>
+        <Route name='FaunaL2Ordnungen' path=':faunaL2Ordnung' handler={FaunaL2Ordnungen}>
+          <Route name='faunaL3Familie' path=':faunaL3Familie' handler={FaunaL3Familien}>
+            <Route name='faunaL4Art' path=':faunaL4Art' handler={FaunaL4Arten}>
+              <Route name='faunaL5Objekt' path=':faunaL5Objekt' handler={Objekt}/>
             </Route>
           </Route>
         </Route>

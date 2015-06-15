@@ -2,12 +2,11 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import Router from 'react-router'
+import { State } from 'react-router'
 import { ListenerMixin } from 'reflux'
 import Inspector from 'react-json-inspector'
 import _ from 'lodash'
 import Eigenschaftensammlung from './eigenschaftensammlung.js'
-// const router = window.router
 
 export default React.createClass({
   displayName: 'Object',
@@ -16,7 +15,7 @@ export default React.createClass({
   // that works much like the one found in the Reflux's stores,
   // and handles the listeners during mount and unmount for you.
   // You also get the same listenToMany method as the store has.
-  mixins: [ListenerMixin, Router.State],
+  mixins: [ListenerMixin, State],
 
   propTypes: {
     loading: React.PropTypes.bool,
@@ -29,14 +28,13 @@ export default React.createClass({
 
   getInitialState () {
     const params = this.getParams()
-    console.log('object: faunaL5Objekt:', this.props.faunaL5Objekt)
     return {
       loading: !window.faunaStore.loaded,
-      items: this.props.items ? this.props.items : window.faunaStore.getInitialState(),
-      faunaL2Ordnung: this.props.faunaL2Ordnung ? this.props.faunaL2Ordnung : params.faunaL2Ordnung,
-      faunaL3Familie: this.props.faunaL3Familie ? this.props.faunaL3Familie : params.faunaL3Familie,
-      faunaL4Art: this.props.faunaL4Art ? this.props.faunaL4Art : params.faunaL4Art,
-      faunaL5Objekt: this.props.faunaL5Objekt ? this.props.faunaL5Objekt : params.faunaL5Objekt  // in Fauna guid
+      items: window.faunaStore.getInitialState(),
+      faunaL2Ordnung: params.faunaL2Ordnung,
+      faunaL3Familie: params.faunaL3Familie,
+      faunaL4Art: params.faunaL4Art,
+      faunaL5Objekt: params.faunaL5Objekt  // in Fauna guid
     }
   },
 
@@ -54,13 +52,11 @@ export default React.createClass({
   },
 
   render () {
-    const items = this.state.items
-    const faunaL5Objekt = this.state.faunaL5Objekt
-    console.log('object: faunaL5Objekt:', faunaL5Objekt)
-    console.log('object: items[faunaL5Objekt]', items[faunaL5Objekt])
     if (this.state.loading) {
       return (
-        <p>Lade Daten...</p>
+        <fieldset id='main'>
+          <p>Lade Daten...</p>
+        </fieldset>
       )
     }
 
@@ -87,15 +83,17 @@ export default React.createClass({
 
     }*/
     return (
-      <form className='form form-horizontal' autoComplete='off'>
-        <div id='formContent'>
-          {/*<h4>Taxonomie:</h4>*/}
-          <Inspector data={items[faunaL5Objekt]}/>
-          {/*<Eigenschaftensammlung esTyp='Taxonomie' object={object} eigenschaftensammlung={object.Name}/>*/}
-          {/*taxonomischeBeziehungssammlungen*/}
+      <fieldset id='main'>
+        <form className='form form-horizontal' autoComplete='off'>
+          <div id='formContent'>
+            {/*<h4>Taxonomie:</h4>*/}
+            <Inspector data={this.state.items[this.state.faunaL5Objekt]}/>
+            {/*<Eigenschaftensammlung esTyp='Taxonomie' object={object} eigenschaftensammlung={object.Name}/>*/}
+            {/*taxonomischeBeziehungssammlungen*/}
 
-        </div>
-      </form>
+          </div>
+        </form>
+      </fieldset>
     )
   }
 })

@@ -2,7 +2,7 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import { State, Navigation, Link } from 'react-router'
+import { State, Navigation } from 'react-router'
 import { ListenerMixin } from 'reflux'
 import _ from 'lodash'
 import FaunaL2Ordnungen from './faunaL2Ordnungen.js'
@@ -20,18 +20,16 @@ export default React.createClass({
   propTypes: {
     loading: React.PropTypes.bool,
     items: React.PropTypes.object,
-    faunaL1Klasse: React.PropTypes.string
+    faunaL2Ordnung: React.PropTypes.string
   },
 
   getInitialState () {
-    console.log('faunaL1Klassen: getInitialState called')
-    console.log('faunaL1Klassen: this.props:', this.props)
-    console.log('faunaL1Klassen: this.state:', this.state)
+    // console.log('treeFauna getInitialState called')
     const params = this.getParams()
     return {
       loading: !window.faunaStore.loaded,
       items: window.faunaStore.getInitialState(),
-      faunaL1Klasse: params && params.faunaL1Klasse ? params.faunaL1Klasse : ''
+      faunaL2Ordnung: params.faunaL2Ordnung
     }
   },
 
@@ -48,20 +46,18 @@ export default React.createClass({
     })
   },
 
-  onClickNode (faunaL1Klasse) {
-    this.setState({faunaL1Klasse: faunaL1Klasse})
-    window.router.transitionTo(`/Fauna/${faunaL1Klasse}`)
+  onClickNode (faunaL2Ordnung) {
+    this.setState({faunaL2Ordnung: faunaL2Ordnung})
+    window.router.transitionTo(`/Fauna/${faunaL2Ordnung}`)
   },
 
   render () {
     let nodes
     let tree
     let loadingMessage
+    const that = this
     const items = this.state.items
-    const faunaL1Klasse = this.state.faunaL1Klasse
-
-    console.log('faunaL1Klassen: render called')
-    console.log('faunaL1Klassen: items:', items)
+    const faunaL2Ordnung = this.state.faunaL2Ordnung
 
     nodes = _.chain(items)
       // make an object {klasse1: num, klasse2: num}
@@ -79,15 +75,13 @@ export default React.createClass({
       // div arount Text is for interacting wich the li element
       .map(function (pair) {
         return (
-          <li key={pair[0]}>
-            <Link to='FaunaL2Ordnungen' params={{ 'faunaL1Klasse': pair[0] }}>
-              <div
-                className={pair[0] === faunaL1Klasse ? 'active' : null}
-              >
-                {pair[0]} ({pair[1]})
-              </div>
-              {pair[0] === faunaL1Klasse ? <FaunaL2Ordnungen/> : null}
-            </Link>
+          <li key={pair[0]} onClick={that.onClickNode.bind(that, pair[0])}>
+            <div
+              className={pair[0] === faunaL2Ordnung ? 'active' : null}
+            >
+              {pair[0]} ({pair[1]})
+            </div>
+            {pair[0] === faunaL2Ordnung ? <FaunaL2Ordnungen/> : null}
           </li>
         )
       })

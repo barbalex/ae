@@ -1,7 +1,7 @@
 'use strict'
 
 import React from 'react'
-import { State, Navigation, RouteHandler, Link } from 'react-router'
+import { State, Navigation, RouteHandler } from 'react-router'
 import _ from 'lodash'
 import Button from 'react-bootstrap/lib/Button'
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
@@ -18,6 +18,10 @@ export default React.createClass({
   displayName: 'Home',
 
   mixins: [State, Navigation],
+
+  showFauna () {
+    window.router.transitionTo(`/Fauna`)
+  },
 
   showFlora () {
     console.log('showFlora clicked')
@@ -57,9 +61,7 @@ export default React.createClass({
               <div id='gruppeLabel'>Gruppe wählen:</div>
             </div>
             <ButtonGroup>
-              <Button bsStyle='primary'>
-                <Link to='faunaL1Klassen'>Fauna</Link>
-              </Button>
+              <Button bsStyle='primary' onClick={this.showFauna}>Fauna</Button>
               <Button bsStyle='primary' onClick={this.showFlora}>Flora</Button>
               <Button bsStyle='primary' onClick={this.showMoose}>Moose</Button>
               <Button bsStyle='primary' onClick={this.showPilze}>Pilze</Button>
@@ -69,7 +71,7 @@ export default React.createClass({
           {isFilterable ? <Filter/> : ''}
           {this.isActive('fauna') ? <FaunaTreeLevel1/> : ''}
         </fieldset>
-        {/*<Objekt/>*/}
+        <Objekt/>
         {/*<RouteHandler/>*/}
       </div>
     )
