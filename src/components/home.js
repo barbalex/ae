@@ -72,7 +72,7 @@ export default React.createClass({
           {this.isActive('fauna') ? <FaunaTreeLevel1/> : ''}
         </fieldset>
         <Objekt/>
-        <RouteHandler/>
+        {/*<RouteHandler/>*/}
       </div>
     )
   }
