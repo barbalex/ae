@@ -14,6 +14,8 @@ export default function (Actions) {
 
     items: {},
 
+    hierarchyObject: {},
+
     loaded: false,
 
     // the object component uses this method
@@ -22,7 +24,7 @@ export default function (Actions) {
       return this.items[guid]
     },
 
-    onLoadFaunaStoreCompleted (items) {
+    onLoadFaunaStoreCompleted (items, hierarchyObject) {
       // console.log('faunaStore: load completed')
       if (items instanceof Array) {
         // loaded all items
@@ -30,6 +32,7 @@ export default function (Actions) {
         this.loaded = true
       }
       _.assign(this.items, items)
+      _.assign(this.hierarchyObject, hierarchyObject)
       this.trigger(this.items)
     },
 
