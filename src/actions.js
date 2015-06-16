@@ -46,14 +46,11 @@ export default function () {
             return db.get(dsMetadataId, { include_docs: true })
           })
           .then(function (doc) {
-            let hierarchyObject
             // lookup type
-            if (doc.HierarchieTyp === 'Felder') hierarchyObject = buildHierarchyObjectForFelder(objects, doc)
-            if (doc.HierarchieTyp === 'Parent') { /* do something else*/ }
+            if (doc.HierarchieTyp === 'Felder') buildHierarchyObjectForFelder(objects, doc)
+            if (doc.HierarchieTyp === 'Parent') { /* TODO */ }
 
-            console.log('faunaStore: hierarchyObject:', hierarchyObject)
-
-            Actions.loadFaunaStore.completed(objects, hierarchyObject)
+            Actions.loadFaunaStore.completed(objects, window.hierarchyObject)
           })
           .catch(function (error) {
             app.loadingFaunaStore = false
