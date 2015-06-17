@@ -21,6 +21,7 @@ export default function (Actions) {
     // the object component uses this method
     // to get the object
     getItem (gruppe, guid) {
+      if (!this.loaded || !this.items || !this.items[gruppe] || !this.items[gruppe][guid]) return {}
       return this.items[gruppe][guid]
     },
 

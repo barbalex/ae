@@ -8,16 +8,33 @@ import ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
 import MenuButton from './menu/menuButton'
 import ResizeButton from './menu/resizeButton.js'
 import Filter from './menu/filter.js'
-import FaunaTreeLevel1 from './menu/tree/faunaL1Klassen.js'
 import FaviconImage from '../../img/aster_144.png'
 import Favicon from 'react-favicon'
 import Objekt from './main/object/object.js'
 import TreeFromHierarchyObject from './menu/tree/treeFromHierarchyObject.js'
 
+const router = window.router
+
 export default React.createClass({
   displayName: 'Home',
 
   mixins: [State, Navigation],
+
+  propTypes: {
+    gruppe: React.PropTypes.string,
+    guid: React.PropTypes.string
+  },
+
+  getInitialState () {
+    const params = this.getParams()
+    const gruppe = this.props.gruppe || params.gruppe
+    const guid = this.props.guid || params.guid || null
+
+    return {
+      gruppe: gruppe,
+      guid: guid
+    }
+  },
 
   showFauna () {
     window.router.transitionTo(`/Fauna`)
@@ -74,9 +91,9 @@ export default React.createClass({
             </ButtonGroup>
           </div>
           {isFilterable ? <Filter/> : ''}
-          {/*this.isActive('fauna') ? <FaunaTreeLevel1/> : ''*/}
           {isFilterable ? <TreeFromHierarchyObject/> : ''}
         </fieldset>
+        {/*this.state.guid ? <Objekt/> : ''*/}
         <Objekt/>
         {/*<RouteHandler/>*/}
       </div>

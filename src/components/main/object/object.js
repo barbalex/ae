@@ -19,39 +19,51 @@ export default React.createClass({
 
   propTypes: {
     loading: React.PropTypes.bool,
-    items: React.PropTypes.object,
-    faunaL2Ordnung: React.PropTypes.string,
-    faunaL3Familie: React.PropTypes.string,
-    faunaL4Art: React.PropTypes.string,
-    faunaL5Objekt: React.PropTypes.string  // in Fauna guid
+    item: React.PropTypes.object,
+    gruppe: React.PropTypes.string,
+    guid: React.PropTypes.string
   },
 
   getInitialState () {
     const params = this.getParams()
+    const gruppe = params.gruppe
+    const guid = params.guid
+    const item = window.objectStore.getItem(gruppe, guid)
+
+    console.log('object.js: gruppe', gruppe)
+    console.log('object.js: guid', guid)
+    console.log('object.js: item', item)
+
     return {
       loading: !window.objectStore.loaded,
-      items: window.objectStore.getItemsOfGruppe('Fauna'),
-      faunaL2Ordnung: params.faunaL2Ordnung,
-      faunaL3Familie: params.faunaL3Familie,
-      faunaL4Art: params.faunaL4Art,
-      faunaL5Objekt: params.faunaL5Objekt  // in Fauna guid
+      item: item,
+      gruppe: gruppe,
+      guid: guid
     }
   },
 
   componentDidMount () {
     this.listenTo(window.objectStore, this.onStoreChange)
     // loadObjectStore if necessary
-    if (!window.objectStore.loaded) app.Actions.loadObjectStore('Fauna')
+    if (!window.objectStore.loaded) app.Actions.loadObjectStore(this.state.gruppe)
   },
 
-  onStoreChange (items) {
-    this.setState({
-      loading: false,
-      items: items['Fauna']
-    })
+  onStoreChange (items, hierarchyObject) {
+    this.getInitialState()
   },
 
   render () {
+    const params = this.getParams()
+    const guid = params.guid
+    const gruppe = params.gruppe
+    const item = window.objectStore.getItem(gruppe, guid)
+
+    if (!guid) {
+      return (
+        <fieldset id='main'>
+        </fieldset>
+      )
+    }
     if (this.state.loading) {
       return (
         <fieldset id='main'>
@@ -87,7 +99,7 @@ export default React.createClass({
         <form className='form form-horizontal' autoComplete='off'>
           <div id='formContent'>
             {/*<h4>Taxonomie:</h4>*/}
-            <Inspector data={this.state.items[this.state.faunaL5Objekt]}/>
+            <Inspector data={item}/>
             {/*<Eigenschaftensammlung esTyp='Taxonomie' object={object} eigenschaftensammlung={object.Name}/>*/}
             {/*taxonomischeBeziehungssammlungen*/}
 

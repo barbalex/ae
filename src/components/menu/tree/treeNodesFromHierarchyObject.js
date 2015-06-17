@@ -16,7 +16,7 @@ const Nodes = React.createClass({
 
   propTypes: {
     loading: React.PropTypes.bool,
-    hO: React.PropTypes.object,  // = hierarchy-object OF THIS LEVEL
+    hO: React.PropTypes.node,  // = hierarchy-object OF THIS LEVEL
     level: React.PropTypes.number,
     activeKey: React.PropTypes.string,
     gruppe: React.PropTypes.string,
@@ -24,25 +24,30 @@ const Nodes = React.createClass({
   },
 
   getInitialState () {
-    // must be passed from parent component
+
+    console.log('treeNodesFromHierarchyObject getInitialState called')
+
     const params = this.getParams()
     return {
       loading: !window.objectStore.loaded,
       hO: this.props.hO,
       level: this.props.level,
-      activeKey: '',
-      gruppe: params.gruppe,
-      guid: this.props.guid || null
+      activeKey: this.props.activeKey || '',
+      gruppe: this.props.gruppe || params.gruppe,
+      guid: this.props.guid || params.guid || null
     }
   },
 
   onClickNode (key, event) {
     event.stopPropagation()
-    if (typeof this.state.hO[key] === 'object') {
+    const hO = this.state.hO
+    const gruppe = this.state.gruppe
+
+    if (typeof hO[key] === 'object') {
       this.setState({activeKey: key})
     } else {
-      this.setState({activeKey: key, guid: key})
-      window.router.transitionTo(`/${this.state.gruppe}/${this.state.hO[key]}`)
+      this.setState({activeKey: key})
+      window.router.transitionTo(`/${gruppe}/${hO[key]}`)
     }
   },
 
@@ -62,7 +67,8 @@ const Nodes = React.createClass({
         return (
           <li key={key} onClick={that.onClickNode.bind(that, key)}>
             <div className={key === activeKey ? 'active' : null}>{key}</div>
-            {(key === activeKey && typeof hO[key] === 'object') || (guid && key !== guid) ? <Nodes level={level + 1} hO={hO[key]} gruppe={gruppe} guid={guid}/> : null}
+            {(key === activeKey && typeof hO[key] === 'object') || (guid && key !== guid) ? <Nodes level={level + 1} hO={hO[key]} gruppe={gruppe} guid={guid} activeKey={key}/> : null}
+          {/*(key === activeKey && typeof hO[key] === 'object') || (guid && key !== guid) ? <Nodes level={level + 1} hO={hO[key]} gruppe={gruppe} guid={guid}/> : null*/}
           </li>
         )
       })

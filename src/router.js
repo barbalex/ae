@@ -21,7 +21,7 @@ export default function () {
   const routes = (
     <Route name='home' path='/' handler={Home}>
       <Route name='gruppe' path=':gruppe' handler={TreeFromHierarchyObject}>
-        <Route name='object' path=':guid' handler={TreeFromHierarchyObject}/>
+        <Route name='object' path=':guid' handler={Objekt}/>
       </Route>
       /*<Route name='fauna' path='Fauna' handler={FaunaL1Klassen}>
         <Route name='FaunaL2Ordnungen' path=':faunaL2Ordnung' handler={FaunaL2Ordnungen}>

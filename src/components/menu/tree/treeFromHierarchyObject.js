@@ -23,12 +23,15 @@ export default React.createClass({
   },
 
   getInitialState () {
-    // console.log('treeFromHierarchyObject getInitialState called')
+
+    console.log('treeFromHierarchyObject getInitialState called')
+    
     const params = this.getParams()
+    const gruppe = params.gruppe
     return {
       loading: !window.objectStore.loaded,
-      hO: window.objectStore.getHierarchyOfGruppe(params.gruppe),
-      gruppe: params.gruppe,
+      hO: window.objectStore.getHierarchyOfGruppe(gruppe),
+      gruppe: gruppe,
       guid: params.guid || null
     }
   },
@@ -40,31 +43,32 @@ export default React.createClass({
   },
 
   onStoreChange (items, hO) {
+    const gruppe = this.state.gruppe
     this.setState({
       loading: false,
-      hO: hO[this.state.gruppe]
+      hO: hO[gruppe]
     })
   },
 
   render () {
-    let tree
-    let loadingMessage
+    const hO = this.state.hO
+    const gruppe = this.state.gruppe
+    const guid = this.state.guid
+    const loading = this.state.loading
 
-    // console.log('treeFromHierarchyObject.js: this.state.hO:', this.state.hO)
-
-    tree = (
+    const tree = (
       <div className='baum'>
-        <Nodes level={1} hO={this.state.hO} gruppe={this.state.gruppe} guid={this.state.guid}/>
+        <Nodes level={1} hO={hO} gruppe={gruppe} guid={guid}/>
       </div>
     )
 
-    loadingMessage = <p>Lade Daten...</p>
+    const loadingMessage = <p>Lade Daten...</p>
 
     return (
       <div>
         <div className='treeBeschriftung'></div>
         <div id='tree' className='baum'>
-          {this.state.loading ? loadingMessage : tree}
+          {loading ? loadingMessage : tree}
         </div>
       </div>
     )
