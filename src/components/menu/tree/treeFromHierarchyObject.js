@@ -5,6 +5,7 @@ import React from 'react'
 import { State, Navigation } from 'react-router'
 import { ListenerMixin } from 'reflux'
 import Nodes from './treeNodesFromHierarchyObject.js'
+import isGuid from '../../../modules/isGuid.js'
 
 export default React.createClass({
   displayName: 'TreeLevel1',
@@ -23,16 +24,13 @@ export default React.createClass({
   },
 
   getInitialState () {
-
-    console.log('treeFromHierarchyObject getInitialState called')
-    
-    const params = this.getParams()
-    const gruppe = params.gruppe
+    const pathString = this.getParams().splat
+    const path = pathString.split('/')
+    const gruppe = this.props.gruppe || path[0]
     return {
       loading: !window.objectStore.loaded,
       hO: window.objectStore.getHierarchyOfGruppe(gruppe),
-      gruppe: gruppe,
-      guid: params.guid || null
+      gruppe: gruppe
     }
   },
 
@@ -53,12 +51,11 @@ export default React.createClass({
   render () {
     const hO = this.state.hO
     const gruppe = this.state.gruppe
-    const guid = this.state.guid
     const loading = this.state.loading
 
     const tree = (
       <div className='baum'>
-        <Nodes level={1} hO={hO} gruppe={gruppe} guid={guid}/>
+        <Nodes level={1} hO={hO} gruppe={gruppe}/>
       </div>
     )
 

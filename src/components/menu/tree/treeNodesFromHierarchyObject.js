@@ -4,6 +4,7 @@ import React from 'react'
 import { State, Navigation } from 'react-router'
 import { ListenerMixin } from 'reflux'
 import _ from 'lodash'
+import isGuid from '../../../modules/isGuid.js'
 
 const Nodes = React.createClass({
   displayName: 'TreeLowerLevel',
@@ -16,6 +17,7 @@ const Nodes = React.createClass({
 
   propTypes: {
     loading: React.PropTypes.bool,
+    path: React.PropTypes.array,
     hO: React.PropTypes.node,  // = hierarchy-object OF THIS LEVEL
     level: React.PropTypes.number,
     activeKey: React.PropTypes.string,
@@ -24,31 +26,42 @@ const Nodes = React.createClass({
   },
 
   getInitialState () {
+    const pathString = this.getParams().splat
+    const path = pathString.split('/')
+    const gruppe = this.props.gruppe || path[0]
+    const lastPathElement = path[path.length - 1]
+    const guid = isGuid(lastPathElement) ? lastPathElement : null
+    const level = this.props.level
+    const activeKey = path[level] || ''
 
-    console.log('treeNodesFromHierarchyObject getInitialState called')
-
-    const params = this.getParams()
     return {
       loading: !window.objectStore.loaded,
+      path: path,
       hO: this.props.hO,
-      level: this.props.level,
-      activeKey: this.props.activeKey || '',
-      gruppe: this.props.gruppe || params.gruppe,
-      guid: this.props.guid || params.guid || null
+      level: level,  // could calculate it as path.length
+      activeKey: activeKey,
+      gruppe: gruppe,
+      guid: guid
     }
   },
 
-  onClickNode (key, event) {
+  onClickNode (key, level, event) {
     event.stopPropagation()
     const hO = this.state.hO
-    const gruppe = this.state.gruppe
+    const path = this.state.path
+    // keep path elements below level clicked
+    const pathElements = _.slice(path, 0, level)
+    // get string of the element clicked
+    const newPathElement = typeof hO[key] === 'object' ? key : hO[key]
+    // add it to the path
+    pathElements.push(newPathElement)
+    // convert array to url string
+    const newPath = pathElements.join('/')
+    // create url string
+    const newUrl = `/${newPath}`
 
-    if (typeof hO[key] === 'object') {
-      this.setState({activeKey: key})
-    } else {
-      this.setState({activeKey: key})
-      window.router.transitionTo(`/${gruppe}/${hO[key]}`)
-    }
+    this.setState({activeKey: key})
+    window.router.transitionTo(newUrl)
   },
 
   render () {
@@ -65,10 +78,9 @@ const Nodes = React.createClass({
       .sort()
       .map(function (key) {
         return (
-          <li key={key} onClick={that.onClickNode.bind(that, key)}>
+          <li level={level} key={key} onClick={that.onClickNode.bind(that, key, level)}>
             <div className={key === activeKey ? 'active' : null}>{key}</div>
-            {(key === activeKey && typeof hO[key] === 'object') || (guid && key !== guid) ? <Nodes level={level + 1} hO={hO[key]} gruppe={gruppe} guid={guid} activeKey={key}/> : null}
-          {/*(key === activeKey && typeof hO[key] === 'object') || (guid && key !== guid) ? <Nodes level={level + 1} hO={hO[key]} gruppe={gruppe} guid={guid}/> : null*/}
+            {(key === activeKey && typeof hO[key] === 'object') || (guid && key !== guid) ? <Nodes level={level + 1} hO={hO[key]} gruppe={gruppe} guid={guid} activeKey={activeKey}/> : null}
           </li>
         )
       })

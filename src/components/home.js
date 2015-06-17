@@ -12,6 +12,7 @@ import FaviconImage from '../../img/aster_144.png'
 import Favicon from 'react-favicon'
 import Objekt from './main/object/object.js'
 import TreeFromHierarchyObject from './menu/tree/treeFromHierarchyObject.js'
+import isGuid from '../modules/isGuid.js'
 
 const router = window.router
 
@@ -26,9 +27,11 @@ export default React.createClass({
   },
 
   getInitialState () {
-    const params = this.getParams()
-    const gruppe = this.props.gruppe || params.gruppe
-    const guid = this.props.guid || params.guid || null
+    const pathString = this.getParams().splat
+    const path = pathString.split('/')
+    const gruppe = this.props.gruppe || path[0]
+    const lastPathElement = path[path.length - 1]
+    const guid = isGuid(lastPathElement) ? lastPathElement : null
 
     return {
       gruppe: gruppe,
@@ -62,12 +65,11 @@ export default React.createClass({
 
   render () {
     // find out if Filter shall be shown
-    const activeRoutes = this.getRoutes()
-    const activeRoutesNames = _.pluck(activeRoutes, 'name')
-    // const filterableRouteNames = ['fauna', 'flora', 'moose', 'pilze', 'lr']
-    const filterableRouteNames = ['gruppe']
-    const activeFilterableRouteNames = _.intersection(activeRoutesNames, filterableRouteNames)
-    const isFilterable = activeFilterableRouteNames.length > 0
+    const pathString = this.getParams().splat
+    const path = pathString.split('/')
+    const gruppe = path[0]
+    const filterableRouteNames = ['Fauna', 'Flora', 'Moose', 'Pilze', 'Lebensräume']
+    const isFilterable = _.includes(filterableRouteNames, gruppe)
 
     // console.log('home.js: activeRoutesNames:', activeRoutesNames)
     // console.log('home.js: isFilterable:', isFilterable)
