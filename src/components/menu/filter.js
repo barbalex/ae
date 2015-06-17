@@ -26,7 +26,7 @@ export default React.createClass({
     const params = this.getParams()
     const gruppe = params.gruppe || 'Fauna'
     return {
-      loading: !window.objectStore.loaded,
+      loading: !window.objectStore.loaded[gruppe],
       items: window.objectStore.getItemsOfGruppe(gruppe),
       gruppe: gruppe
     }
@@ -35,7 +35,7 @@ export default React.createClass({
   componentDidMount () {
     this.listenTo(window.objectStore, this.onStoreChange)
     // loadObjectStore if necessary
-    if (!window.objectStore.loaded) app.Actions.loadObjectStore(this.state.gruppe)
+    if (!window.objectStore.loaded[this.state.gruppe]) app.Actions.loadObjectStore(this.state.gruppe)
   },
 
   onStoreChange (items) {

@@ -5,7 +5,6 @@ import React from 'react'
 import { State, Navigation } from 'react-router'
 import { ListenerMixin } from 'reflux'
 import Nodes from './treeNodesFromHierarchyObject.js'
-import isGuid from '../../../modules/isGuid.js'
 
 export default React.createClass({
   displayName: 'TreeLevel1',
@@ -28,7 +27,7 @@ export default React.createClass({
     const path = pathString.split('/')
     const gruppe = this.props.gruppe || path[0]
     return {
-      loading: !window.objectStore.loaded,
+      loading: !window.objectStore.loaded[gruppe],
       hO: window.objectStore.getHierarchyOfGruppe(gruppe),
       gruppe: gruppe
     }
@@ -37,7 +36,7 @@ export default React.createClass({
   componentDidMount () {
     this.listenTo(window.objectStore, this.onStoreChange)
     // loadObjectStore if necessary
-    if (!window.objectStore.loaded) app.Actions.loadObjectStore()
+    if (!window.objectStore.loaded[this.state.gruppe]) app.Actions.loadObjectStore(this.state.gruppe)
   },
 
   onStoreChange (items, hO) {

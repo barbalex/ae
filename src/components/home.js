@@ -11,10 +11,8 @@ import Filter from './menu/filter.js'
 import FaviconImage from '../../img/aster_144.png'
 import Favicon from 'react-favicon'
 import Objekt from './main/object/object.js'
-import TreeFromHierarchyObject from './menu/tree/treeFromHierarchyObject.js'
+import TreeFromHierarchyObject from './menu/treeFromHierarchyObject.js'
 import isGuid from '../modules/isGuid.js'
-
-const router = window.router
 
 export default React.createClass({
   displayName: 'Home',
@@ -44,18 +42,15 @@ export default React.createClass({
   },
 
   showFlora () {
-    console.log('showFlora clicked')
-    // TODO
+    window.router.transitionTo(`/Flora`)
   },
 
   showMoose () {
-    console.log('showMoose clicked')
-    // TODO
+    window.router.transitionTo(`/Moose`)
   },
 
   showPilze () {
-    console.log('showPilze clicked')
-    // TODO
+    window.router.transitionTo(`/Pilze`)
   },
 
   showLr () {

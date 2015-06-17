@@ -16,12 +16,17 @@ export default function (Actions) {
 
     hierarchyObject: {},
 
-    loaded: false,
+    loaded: {
+      'Fauna': false,
+      'Flora': false,
+      'Moose': false,
+      'Pilze': false
+    },
 
     // the object component uses this method
     // to get the object
     getItem (gruppe, guid) {
-      if (!this.loaded || !this.items || !this.items[gruppe] || !this.items[gruppe][guid]) return {}
+      if (!this.loaded[gruppe] || !this.items || !this.items[gruppe] || !this.items[gruppe][guid]) return {}
       return this.items[gruppe][guid]
     },
 
@@ -45,7 +50,7 @@ export default function (Actions) {
       if (items instanceof Array) {
         // loaded all items
         items = _.indexBy(items, '_id')
-        this.loaded = true
+        this.loaded[gruppe] = true
       }
       this.items[gruppe] = {}
       _.assign(this.items[gruppe], items)

@@ -22,14 +22,15 @@ export default function () {
   Actions.loadObjectStore.listen(function (gruppe) {
     // problem: this action can get called several times while it is already fetching data
     // > make shure data is only fetched if objectStore is not yet loaded and not loading right now
-    if (!window.objectStore.loaded && !app.loadingObjectStore && gruppe) {
+    if (!window.objectStore.loaded[gruppe] && !app.loadingObjectStore && gruppe) {
       let objects = []
       app.loadingObjectStore = true
+      const viewName = 'artendb/' + gruppe.toLowerCase() + 'NachName'
       // get fauna from db
       const db = new PouchDB(pouchUrl(), function (error, response) {
         if (error) { return console.log('error instantiating remote db') }
         // get fauna from db
-        db.query('artendb/faunaNachName', { include_docs: true })
+        db.query(viewName, { include_docs: true })
           .then(function (result) {
             // extract objects from result
             app.loadingObjectStore = false
@@ -41,7 +42,7 @@ export default function () {
             const object0 = objects[0]
             const Gruppe = object0.Gruppe
             const dsName = object0.Taxonomie.Name
-            const dsMetadataId = (Gruppe + '_' + dsName).replace(':', '_').replace(' ', '_')
+            const dsMetadataId = (Gruppe + '_' + dsName).replace(' ', '_').replace(':', '_')
 
             return db.get(dsMetadataId, { include_docs: true })
           })

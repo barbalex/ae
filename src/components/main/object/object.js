@@ -35,7 +35,7 @@ export default React.createClass({
     console.log('object.js: item', item)
 
     return {
-      loading: !window.objectStore.loaded,
+      loading: !window.objectStore.loaded[gruppe],
       item: item,
       gruppe: gruppe,
       guid: guid
@@ -45,7 +45,7 @@ export default React.createClass({
   componentDidMount () {
     this.listenTo(window.objectStore, this.onStoreChange)
     // loadObjectStore if necessary
-    if (!window.objectStore.loaded) app.Actions.loadObjectStore(this.state.gruppe)
+    if (!window.objectStore.loaded[this.state.gruppe]) app.Actions.loadObjectStore(this.state.gruppe)
   },
 
   onStoreChange (items, hierarchyObject) {

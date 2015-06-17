@@ -4,7 +4,7 @@ import React from 'react'
 import { State, Navigation } from 'react-router'
 import { ListenerMixin } from 'reflux'
 import _ from 'lodash'
-import isGuid from '../../../modules/isGuid.js'
+import isGuid from '../../modules/isGuid.js'
 
 const Nodes = React.createClass({
   displayName: 'TreeLowerLevel',
@@ -35,7 +35,7 @@ const Nodes = React.createClass({
     const activeKey = path[level] || ''
 
     return {
-      loading: !window.objectStore.loaded,
+      loading: !window.objectStore.loaded[gruppe],
       path: path,
       hO: this.props.hO,
       level: level,  // could calculate it as path.length
