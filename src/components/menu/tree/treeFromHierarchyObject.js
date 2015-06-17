@@ -4,7 +4,6 @@ import app from 'ampersand-app'
 import React from 'react'
 import { State, Navigation } from 'react-router'
 import { ListenerMixin } from 'reflux'
-import _ from 'lodash'
 import Nodes from './treeNodesFromHierarchyObject.js'
 
 export default React.createClass({
@@ -24,27 +23,26 @@ export default React.createClass({
   },
 
   getInitialState () {
-    // console.log('treeFauna getInitialState called')
+    // console.log('treeFromHierarchyObject getInitialState called')
     const params = this.getParams()
     return {
       loading: !window.objectStore.loaded,
       hO: window.objectStore.getHierarchyOfGruppe(params.gruppe),
       gruppe: params.gruppe,
-      guid: params.guid
+      guid: params.guid || null
     }
   },
 
   componentDidMount () {
     this.listenTo(window.objectStore, this.onStoreChange)
     // loadObjectStore if necessary
-    if (!window.objectStore.loaded) app.Actions.loadHierarchyStore()
+    if (!window.objectStore.loaded) app.Actions.loadObjectStore()
   },
 
-  onStoreChange (hO) {
-    console.log('treeFromHierarchyObject.js: store has changed, hO:', hO)
+  onStoreChange (items, hO) {
     this.setState({
       loading: false,
-      hO: hO
+      hO: hO[this.state.gruppe]
     })
   },
 
@@ -52,11 +50,11 @@ export default React.createClass({
     let tree
     let loadingMessage
 
+    // console.log('treeFromHierarchyObject.js: this.state.hO:', this.state.hO)
+
     tree = (
       <div className='baum'>
-        <ul className='level1'>
-          <Nodes level={1} hO={this.state.hO} gruppe={this.state.gruppe} guid={this.state.guid}/>
-        </ul>
+        <Nodes level={1} hO={this.state.hO} gruppe={this.state.gruppe} guid={this.state.guid}/>
       </div>
     )
 

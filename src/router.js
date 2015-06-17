@@ -20,7 +20,10 @@ const Route = Router.Route
 export default function () {
   const routes = (
     <Route name='home' path='/' handler={Home}>
-      <Route name='fauna' path='Fauna' handler={FaunaL1Klassen}>
+      <Route name='gruppe' path=':gruppe' handler={TreeFromHierarchyObject}>
+        <Route name='object' path=':guid' handler={TreeFromHierarchyObject}/>
+      </Route>
+      /*<Route name='fauna' path='Fauna' handler={FaunaL1Klassen}>
         <Route name='FaunaL2Ordnungen' path=':faunaL2Ordnung' handler={FaunaL2Ordnungen}>
           <Route name='faunaL3Familie' path=':faunaL3Familie' handler={FaunaL3Familien}>
             <Route name='faunaL4Art' path=':faunaL4Art' handler={FaunaL4Arten}>
@@ -28,10 +31,7 @@ export default function () {
             </Route>
           </Route>
         </Route>
-        /*<Route name='gruppe' path=':gruppe' handler={TreeFromHierarchyObject}>
-          <Route name='object' path=':guid' handler={TreeFromHierarchyObject}/>
-        </Route>*/
-      </Route>
+      </Route>*/
       {/*<DefaultRoute handler={Home}/>*/}
       {/*<NotFoundRoute handler={FourOhFour}/>*/}
     </Route>

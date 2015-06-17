@@ -12,6 +12,7 @@ import FaunaTreeLevel1 from './menu/tree/faunaL1Klassen.js'
 import FaviconImage from '../../img/aster_144.png'
 import Favicon from 'react-favicon'
 import Objekt from './main/object/object.js'
+import TreeFromHierarchyObject from './menu/tree/treeFromHierarchyObject.js'
 
 export default React.createClass({
   displayName: 'Home',
@@ -46,9 +47,14 @@ export default React.createClass({
     // find out if Filter shall be shown
     const activeRoutes = this.getRoutes()
     const activeRoutesNames = _.pluck(activeRoutes, 'name')
-    const filterableRouteNames = ['fauna', 'flora', 'moose', 'pilze', 'lr']
+    // const filterableRouteNames = ['fauna', 'flora', 'moose', 'pilze', 'lr']
+    const filterableRouteNames = ['gruppe']
     const activeFilterableRouteNames = _.intersection(activeRoutesNames, filterableRouteNames)
     const isFilterable = activeFilterableRouteNames.length > 0
+
+    // console.log('home.js: activeRoutesNames:', activeRoutesNames)
+    // console.log('home.js: isFilterable:', isFilterable)
+
     return (
       <div>
         <Favicon url={[FaviconImage]}/>
@@ -68,7 +74,8 @@ export default React.createClass({
             </ButtonGroup>
           </div>
           {isFilterable ? <Filter/> : ''}
-          {this.isActive('fauna') ? <FaunaTreeLevel1/> : ''}
+          {/*this.isActive('fauna') ? <FaunaTreeLevel1/> : ''*/}
+          {isFilterable ? <TreeFromHierarchyObject/> : ''}
         </fieldset>
         <Objekt/>
         {/*<RouteHandler/>*/}

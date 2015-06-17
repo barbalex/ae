@@ -39,8 +39,6 @@ export default React.createClass({
   },
 
   onStoreChange (items) {
-    console.log('filter.js: store has changed, items of gruppe:', items[this.state.gruppe])
-    console.log('filter.js: store has changed, this.state.gruppe:', this.state.gruppe)
     this.setState({
       loading: false,
       items: items[this.state.gruppe]

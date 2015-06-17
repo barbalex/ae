@@ -40,7 +40,6 @@ export default React.createClass({
   },
 
   onStoreChange (items) {
-    console.log('faunaL1Klassen.js: store has changed, items:', items['Fauna'])
     this.setState({
       loading: false,
       items: items['Fauna']

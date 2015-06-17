@@ -6,7 +6,7 @@ import { ListenerMixin } from 'reflux'
 import _ from 'lodash'
 
 const Nodes = React.createClass({
-  displayName: 'TreeLevel1',
+  displayName: 'TreeLowerLevel',
 
   // ListenerMixin provides the listenTo method for the React component,
   // that works much like the one found in the Reflux's stores,
@@ -25,23 +25,25 @@ const Nodes = React.createClass({
 
   getInitialState () {
     // must be passed from parent component
+    const params = this.getParams()
     return {
-      loading: !window.hierarchyStore.loaded,
+      loading: !window.objectStore.loaded,
       hO: this.props.hO,
       level: this.props.level,
       activeKey: '',
-      gruppe: this.props.gruppe,
-      guid: this.props.gruppe
+      gruppe: params.gruppe,
+      guid: this.props.guid || null
     }
   },
 
-  onClickHierarchyNode (activeKey) {
-    this.setState({activeKey: activeKey})
-    // TODO: Render next level = treeFromHierarchyObject
-  },
-
-  onClickObjectNode (guid) {
-    // TODO: render form
+  onClickNode (key, event) {
+    event.stopPropagation()
+    if (typeof this.state.hO[key] === 'object') {
+      this.setState({activeKey: key})
+    } else {
+      this.setState({activeKey: key, guid: key})
+      window.router.transitionTo(`/${this.state.gruppe}/${this.state.hO[key]}`)
+    }
   },
 
   render () {
@@ -49,29 +51,25 @@ const Nodes = React.createClass({
     const that = this
     const hO = this.state.hO
     const activeKey = this.state.activeKey
+    const guid = this.state.guid
+    const gruppe = this.state.gruppe
+    const level = this.state.level
 
     nodes = _.chain(hO)
       .keys()
+      .sort()
       .map(function (key) {
-        // TODO: if guid and value = guid return different
-        if (this.state.guid) {
-          return (
-            <li key={hO[key]} onClick={that.onClickObjectNode.bind(that, hO[key])}>
-              <div className={key === activeKey ? 'active' : null}>{key}</div>
-            </li>
-          )
-        }
         return (
-          <li key={key} onClick={that.onClickHierarchyNode.bind(that, key)}>
+          <li key={key} onClick={that.onClickNode.bind(that, key)}>
             <div className={key === activeKey ? 'active' : null}>{key}</div>
-            {key === activeKey ? <Nodes level={this.state.level + 1} hO={this.state.hO[key]} gruppe={this.state.gruppe} guid={this.state.guid}/> : null}
+            {(key === activeKey && typeof hO[key] === 'object') || (guid && key !== guid) ? <Nodes level={level + 1} hO={hO[key]} gruppe={gruppe} guid={guid}/> : null}
           </li>
         )
       })
       .value()
 
     return (
-      <ul className={this.state.level}>
+      <ul className={'level' + level}>
         {nodes}
       </ul>
     )

@@ -22,9 +22,6 @@ export default function () {
   Actions.loadObjectStore.listen(function (gruppe) {
     // problem: this action can get called several times while it is already fetching data
     // > make shure data is only fetched if objectStore is not yet loaded and not loading right now
-
-    console.log('actions loadObjectStore gruppe passed:', gruppe)
-
     if (!window.objectStore.loaded && !app.loadingObjectStore && gruppe) {
       let objects = []
       app.loadingObjectStore = true
@@ -55,8 +52,6 @@ export default function () {
             if (doc.HierarchieTyp === 'Felder') hierarchyObject = buildHierarchyObjectForFelder(objects, doc)
             if (doc.HierarchieTyp === 'Parent') { /* TODO */ }
 
-            console.log('actions loadObjectStore gruppe:', gruppe)
-
             Actions.loadObjectStore.completed(objects, hierarchyObject, gruppe)
           })
           .catch(function (error) {
@@ -69,16 +64,10 @@ export default function () {
 
   Actions.showObject = Reflux.createAction()
 
-  // Actions.transition = Reflux.createAction()
-
   // not needed but for testing useful:
   Actions.showObject.listen(function (object) {
     console.log('actions: showObject with object:', object)
   })
-
-  /*Actions.transition.listen(function (params) {
-    console.log('transition with params:', params)
-  })*/
 
   return Actions
 }

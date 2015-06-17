@@ -41,12 +41,6 @@ export default function (Actions) {
     },
 
     onLoadObjectStoreCompleted (items, hierarchyObject, gruppe) {
-
-      // console.log('stores objectStore onLoadObjectStoreCompleted: gruppe:', gruppe)
-      // console.log('stores objectStore onLoadObjectStoreCompleted: items:', items)
-      // console.log('stores objectStore onLoadObjectStoreCompleted: hierarchyObject:', hierarchyObject)
-
-      // console.log('objectStore: load completed')
       if (items instanceof Array) {
         // loaded all items
         items = _.indexBy(items, '_id')
@@ -54,11 +48,9 @@ export default function (Actions) {
       }
       this.items[gruppe] = {}
       _.assign(this.items[gruppe], items)
-      console.log('stores objectStore onLoadObjectStoreCompleted: this.items', this.items)
       this.hierarchyObject[gruppe] = {}
       _.assign(this.hierarchyObject[gruppe], hierarchyObject)
-      console.log('stores objectStore onLoadObjectStoreCompleted: this.hierarchyObject', this.hierarchyObject)
-      this.trigger(this.items)
+      this.trigger(this.items, this.hierarchyObject)
     },
 
     onLoadObjectStoreFailed (error) {
