@@ -15,16 +15,19 @@ export default function () {
   let Actions
 
   Actions = Reflux.createActions({
-    loadFaunaStore: {children: ['completed', 'failed']},
+    loadObjectStore: {children: ['completed', 'failed']},
     showObject: {children: ['completed', 'failed']}
   })
 
-  Actions.loadFaunaStore.listen(function () {
+  Actions.loadObjectStore.listen(function (gruppe) {
     // problem: this action can get called several times while it is already fetching data
-    // > make shure data is only fetched if faunaStore is not yet loaded and not loading right now
-    if (!window.faunaStore.loaded && !app.loadingFaunaStore) {
+    // > make shure data is only fetched if objectStore is not yet loaded and not loading right now
+
+    console.log('actions loadObjectStore gruppe passed:', gruppe)
+
+    if (!window.objectStore.loaded && !app.loadingObjectStore && gruppe) {
       let objects = []
-      app.loadingFaunaStore = true
+      app.loadingObjectStore = true
       // get fauna from db
       const db = new PouchDB(pouchUrl(), function (error, response) {
         if (error) { return console.log('error instantiating remote db') }
@@ -32,7 +35,7 @@ export default function () {
         db.query('artendb/faunaNachName', { include_docs: true })
           .then(function (result) {
             // extract objects from result
-            app.loadingFaunaStore = false
+            app.loadingObjectStore = false
             objects = result.rows.map(function (row) {
               return row.doc
             })
@@ -46,15 +49,19 @@ export default function () {
             return db.get(dsMetadataId, { include_docs: true })
           })
           .then(function (doc) {
+
             // lookup type
-            if (doc.HierarchieTyp === 'Felder') buildHierarchyObjectForFelder(objects, doc)
+            let hierarchyObject
+            if (doc.HierarchieTyp === 'Felder') hierarchyObject = buildHierarchyObjectForFelder(objects, doc)
             if (doc.HierarchieTyp === 'Parent') { /* TODO */ }
 
-            Actions.loadFaunaStore.completed(objects, window.hierarchyObject)
+            console.log('actions loadObjectStore gruppe:', gruppe)
+
+            Actions.loadObjectStore.completed(objects, hierarchyObject, gruppe)
           })
           .catch(function (error) {
-            app.loadingFaunaStore = false
-            Actions.loadFaunaStore.failed(error)
+            app.loadingObjectStore = false
+            Actions.loadObjectStore.failed(error)
           })
       })
     }

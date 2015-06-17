@@ -27,22 +27,23 @@ export default React.createClass({
     // console.log('treeFauna getInitialState called')
     const params = this.getParams()
     return {
-      loading: !window.faunaStore.loaded,
-      items: window.faunaStore.getInitialState(),
+      loading: !window.objectStore.loaded,
+      items: window.objectStore.getItemsOfGruppe('Fauna'),
       faunaL2Ordnung: params.faunaL2Ordnung
     }
   },
 
   componentDidMount () {
-    this.listenTo(window.faunaStore, this.onStoreChange)
-    // loadFaunaStore if necessary
-    if (!window.faunaStore.loaded) app.Actions.loadFaunaStore()
+    this.listenTo(window.objectStore, this.onStoreChange)
+    // loadObjectStore if necessary
+    if (!window.objectStore.loaded) app.Actions.loadObjectStore('Fauna')
   },
 
   onStoreChange (items) {
+    console.log('faunaL1Klassen.js: store has changed, items:', items['Fauna'])
     this.setState({
       loading: false,
-      items: items
+      items: items['Fauna']
     })
   },
 

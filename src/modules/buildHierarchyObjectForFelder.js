@@ -52,8 +52,9 @@ export default function (objects, hierarchieDoc) {
   let level = 1
   hierarchieFelder = hierarchieDoc.HierarchieFelder
   const object0 = objects[0]
-  const gruppe = object0.Gruppe.toLowerCase()
+  const gruppe = object0.Gruppe
   app.hierarchieObject = app.hierarchieObject || {}
   app.hierarchieObject[gruppe] = {}
   buildNextLevel([], level, objects, gruppe)
+  return app.hierarchieObject[gruppe]
 }

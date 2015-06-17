@@ -11,6 +11,7 @@ import FaunaL2Ordnungen from './components/menu/tree/faunaL2Ordnungen.js'
 import FaunaL3Familien from './components/menu/tree/faunaL3Familien.js'
 import FaunaL4Arten from './components/menu/tree/faunaL4Arten.js'
 import Objekt from './components/main/object/object.js'
+import TreeFromHierarchyObject from './components/menu/tree/treeFromHierarchyObject.js'
 
 const DefaultRoute = Router.DefaultRoute
 const NotFoundRoute = Router.NotFoundRoute
@@ -27,6 +28,9 @@ export default function () {
             </Route>
           </Route>
         </Route>
+        /*<Route name='gruppe' path=':gruppe' handler={TreeFromHierarchyObject}>
+          <Route name='object' path=':guid' handler={TreeFromHierarchyObject}/>
+        </Route>*/
       </Route>
       {/*<DefaultRoute handler={Home}/>*/}
       {/*<NotFoundRoute handler={FourOhFour}/>*/}
@@ -40,7 +44,6 @@ export default function () {
 
   router.run(function (Handler, state) {
     React.render(<Handler/>, document.body)
-    // app.Actions.transition(state.params)
   })
 
   window.router = router

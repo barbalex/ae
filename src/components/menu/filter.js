@@ -18,31 +18,38 @@ export default React.createClass({
   mixins: [ListenerMixin, State, Navigation],
 
   propTypes: {
-    items: React.PropTypes.object
+    items: React.PropTypes.object,
+    gruppe: React.PropTypes.string
   },
 
   getInitialState () {
+    const params = this.getParams()
+    const gruppe = params.gruppe || 'Fauna'
     return {
-      loading: !window.faunaStore.loaded,
-      items: window.faunaStore.getInitialState()
+      loading: !window.objectStore.loaded,
+      items: window.objectStore.getItemsOfGruppe(gruppe),
+      gruppe: gruppe
     }
   },
 
   componentDidMount () {
-    this.listenTo(window.faunaStore, this.onStoreChange)
-    // loadFaunaStore if necessary
-    if (!window.faunaStore.loaded) app.Actions.loadFaunaStore()
+    this.listenTo(window.objectStore, this.onStoreChange)
+    // loadObjectStore if necessary
+    if (!window.objectStore.loaded) app.Actions.loadObjectStore(this.state.gruppe)
   },
 
   onStoreChange (items) {
+    console.log('filter.js: store has changed, items of gruppe:', items[this.state.gruppe])
+    console.log('filter.js: store has changed, this.state.gruppe:', this.state.gruppe)
     this.setState({
       loading: false,
-      items: items
+      items: items[this.state.gruppe]
     })
   },
 
   filter (guid) {
-    const objekt = window.faunaStore.get(guid)
+    const gruppe = this.state.gruppe
+    const objekt = window.objectStore.getItem(gruppe, guid)
     const klasse = objekt.Taxonomie.Eigenschaften.Klasse
     const ordnung = objekt.Taxonomie.Eigenschaften.Ordnung
     const familie = objekt.Taxonomie.Eigenschaften.Familie
