@@ -30,8 +30,8 @@ export default React.createClass({
     const path = pathString.split('/')
     const gruppe = this.props.gruppe || path[0]
     const lastPathElement = path[path.length - 1]
-    const guid = isGuid(lastPathElement) ? lastPathElement : null
-    const item = window.objectStore.getItem(gruppe, guid)
+    const guid = this.props.guid || (isGuid(lastPathElement) ? lastPathElement : null)
+    const item = guid ? window.objectStore.getItem(gruppe, guid) : null
 
     console.log('object.js: gruppe', gruppe)
     console.log('object.js: guid', guid)
@@ -45,7 +45,7 @@ export default React.createClass({
     }
   },
 
-  /*componentDidMount () {
+  componentDidMount () {
     this.listenTo(window.objectStore, this.onStoreChange)
     // loadObjectStore if necessary
     if (!window.objectStore.loaded[this.state.gruppe]) app.Actions.loadObjectStore(this.state.gruppe)
@@ -53,7 +53,7 @@ export default React.createClass({
 
   onStoreChange (items, hierarchyObject) {
     this.getInitialState()
-  },*/
+  },
 
   render () {
     const guid = this.state.guid

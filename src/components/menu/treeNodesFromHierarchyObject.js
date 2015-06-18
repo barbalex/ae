@@ -69,10 +69,13 @@ const Nodes = React.createClass({
   render () {
     let nodes
     const that = this
+    const pathString = this.getParams().splat
+    const path = pathString.split('/')
+    const gruppe = this.state.gruppe || path[0]
+    const lastPathElement = path[path.length - 1]
+    const guid = this.state.guid/* || (isGuid(lastPathElement) ? lastPathElement : null)*/
     const hO = this.state.hO
     const activeKey = this.state.activeKey
-    const guid = this.state.guid
-    const gruppe = this.state.gruppe
     const level = this.state.level
 
     nodes = _.chain(hO)
@@ -81,7 +84,7 @@ const Nodes = React.createClass({
       .map(function (key) {
         return (
           <li level={level} key={key} onClick={that.onClickNode.bind(that, key, level)}>
-            <Glyphicon glyph={key === activeKey ? 'triangle-bottom' : 'triangle-right'} onClick={that.onClickNode.bind(that, key, level)}/>
+            <Glyphicon glyph={key === activeKey ? (typeof hO[key] !== 'object' ? 'forward' : 'triangle-bottom') : 'triangle-right'} onClick={that.onClickNode.bind(that, key, level)}/>
             <div className={key === activeKey ? 'active' : null}>{key}</div>
             {(key === activeKey && typeof hO[key] === 'object') || (guid && key !== guid) ? <Nodes level={level + 1} hO={hO[key]} gruppe={gruppe} guid={guid} activeKey={activeKey}/> : null}
           </li>

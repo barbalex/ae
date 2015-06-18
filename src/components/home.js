@@ -67,19 +67,24 @@ export default React.createClass({
     this.setState({ gruppe: gruppe })
     // TODO: only works on first click
     this.transitionTo(`/${gruppe}`)
-    this.render()
+    // this.render()
     // this.getInitialState()
     // this.forceUpdate()
   },
 
   render () {
     // find out if Filter shall be shown
-    const gruppe = this.state.gruppe
+    const pathString = this.getParams().splat
+    const path = pathString.split('/')
+    const gruppe = this.state.gruppe || path[0]
+    const lastPathElement = path[path.length - 1]
+    const guid = this.state.guid || isGuid(lastPathElement) ? lastPathElement : null
     const filterableRouteNames = ['Fauna', 'Flora', 'Moose', 'Pilze', 'Lebensräume']
     const isFilterable = _.includes(filterableRouteNames, gruppe)
     const hO = this.state.hO
 
     console.log('home.js: gruppe:', gruppe)
+    console.log('home.js: guid:', guid)
     console.log('home.js: isFilterable:', isFilterable)
 
     return (
@@ -103,8 +108,7 @@ export default React.createClass({
           {isFilterable ? <Filter/> : ''}
           {isFilterable ? <TreeFromHierarchyObject gruppe={gruppe} hO={hO}/> : ''}
         </fieldset>
-        {/*this.state.guid ? <Objekt/> : ''*/}
-        <Objekt/>
+        {this.state.guid ? <Objekt gruppe={gruppe} guid={guid}/> : ''}
         {/*<RouteHandler/>*/}
       </div>
     )
