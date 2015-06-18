@@ -199,7 +199,8 @@ body {
     padding-right: 15px;
 }
 #tree li {
-  list-style-type: none;
+  /*list-style-type: none;*/
+  list-style: square inside url('data:image/gif;base64,R0lGODlhBQAKAIABAAAAAP///yH5BAEAAAEALAAAAAAFAAoAAAIIjI+ZwKwPUQEAOw==')
   
 }
 #tree li div {
@@ -213,6 +214,8 @@ body {
 }
 #tree li div {
   padding: 2px 0;
+  display: inline-block;
+  margin-left: 3px;
 }
 #tree ul.level1 {
   padding-left: 4px;

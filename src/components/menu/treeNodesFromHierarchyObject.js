@@ -3,6 +3,7 @@
 import React from 'react'
 import { State, Navigation } from 'react-router'
 import { ListenerMixin } from 'reflux'
+import { Glyphicon } from 'react-bootstrap'
 import _ from 'lodash'
 import isGuid from '../../modules/isGuid.js'
 
@@ -80,6 +81,7 @@ const Nodes = React.createClass({
       .map(function (key) {
         return (
           <li level={level} key={key} onClick={that.onClickNode.bind(that, key, level)}>
+            <Glyphicon bsSize='small' glyph='play'/>
             <div className={key === activeKey ? 'active' : null}>{key}</div>
             {(key === activeKey && typeof hO[key] === 'object') || (guid && key !== guid) ? <Nodes level={level + 1} hO={hO[key]} gruppe={gruppe} guid={guid} activeKey={activeKey}/> : null}
           </li>
