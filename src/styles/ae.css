@@ -199,12 +199,16 @@ body {
     padding-right: 15px;
 }
 #tree li {
-  /*list-style-type: none;*/
-  list-style: square inside url('data:image/gif;base64,R0lGODlhBQAKAIABAAAAAP///yH5BAEAAAEALAAAAAAFAAoAAAIIjI+ZwKwPUQEAOw==')
-  
+  list-style-type: none;
+  white-space: nowrap;
 }
 #tree li div {
+  line-height: 16px;
+  padding: 2px 0;
+  display: inline-block;
+  margin-left: 3px;
   cursor: pointer;
+  white-space: normal;
 }
 #tree li div:hover {
   background-color: #FFFF90;
@@ -212,10 +216,8 @@ body {
 #tree li div.active {
   font-weight: bold;
 }
-#tree li div {
-  padding: 2px 0;
-  display: inline-block;
-  margin-left: 3px;
+#tree li span {
+  cursor: pointer;
 }
 #tree ul.level1 {
   padding-left: 4px;
@@ -223,6 +225,12 @@ body {
 }
 #tree ul {
   padding-left: 20px;
+}
+#tree span.glyphicon {
+ font-size: 0.7em;
+ position: relative;
+ top: 4px;
+ vertical-align: top;
 }
 
 

@@ -81,7 +81,7 @@ const Nodes = React.createClass({
       .map(function (key) {
         return (
           <li level={level} key={key} onClick={that.onClickNode.bind(that, key, level)}>
-            <Glyphicon bsSize='small' glyph='play'/>
+            <Glyphicon glyph={key === activeKey ? 'triangle-bottom' : 'triangle-right'} onClick={that.onClickNode.bind(that, key, level)}/>
             <div className={key === activeKey ? 'active' : null}>{key}</div>
             {(key === activeKey && typeof hO[key] === 'object') || (guid && key !== guid) ? <Nodes level={level + 1} hO={hO[key]} gruppe={gruppe} guid={guid} activeKey={activeKey}/> : null}
           </li>
