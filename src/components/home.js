@@ -57,19 +57,27 @@ export default React.createClass({
   },
 
   onStoreChange (items, hO) {
+    console.log('home.js: store has changed')
     this.setState({
       loading: false,
       hO: hO
     })
+    this.forceUpdate()
   },
 
   onClickGruppe (gruppe) {
-    this.setState({ gruppe: gruppe })
+    this.setState({
+      loading: !window.objectStore.loaded[gruppe],
+      gruppe: gruppe,
+      hO: window.objectStore.getHierarchyOfGruppe(gruppe),
+      guid: null
+    })
     // TODO: only works on first click
+    if (!window.objectStore.loaded[gruppe]) app.Actions.loadObjectStore(gruppe)
     this.transitionTo(`/${gruppe}`)
     // this.render()
     // this.getInitialState()
-    // this.forceUpdate()
+    this.forceUpdate()
   },
 
   render () {

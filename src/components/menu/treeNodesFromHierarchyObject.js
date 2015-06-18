@@ -1,5 +1,6 @@
 'use strict'
 
+import app from 'ampersand-app'
 import React from 'react'
 import { State, Navigation } from 'react-router'
 import { ListenerMixin } from 'reflux'
@@ -47,6 +48,28 @@ const Nodes = React.createClass({
     }
   },
 
+  componentDidMount () {
+    this.listenTo(window.objectStore, this.onStoreChange)
+    // loadObjectStore if necessary
+    if (!window.objectStore.loaded[this.state.gruppe]) app.Actions.loadObjectStore(this.state.gruppe)
+  },
+
+  onStoreChange (items, hO) {
+    console.log('treeFromHierarchyObject.js: store has changed')
+
+    const pathString = this.getParams().splat
+    const path = pathString.split('/')
+    const gruppe = path[0]
+    const lastPathElement = path[path.length - 1]
+    const guid = isGuid(lastPathElement) ? lastPathElement : null
+    this.setState({
+      loading: !window.objectStore.loaded[gruppe],
+      hO: hO[gruppe],
+      guid: guid
+    })
+    this.forceUpdate()
+  },
+
   onClickNode (key, level, event) {
     event.stopPropagation()
     const hO = this.state.hO
@@ -71,7 +94,7 @@ const Nodes = React.createClass({
     const that = this
     const pathString = this.getParams().splat
     const path = pathString.split('/')
-    const gruppe = this.state.gruppe || path[0]
+    const gruppe = path[0]
     // const lastPathElement = path[path.length - 1]
     const guid = this.state.guid/* || (isGuid(lastPathElement) ? lastPathElement : null)*/
     const hO = this.state.hO

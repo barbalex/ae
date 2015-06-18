@@ -58,9 +58,9 @@ export default function () {
             if (doc.HierarchieTyp === 'Felder') hierarchyObject = buildHierarchyObjectForFelder(objects, doc)
             if (doc.HierarchieTyp === 'Parent') { /* TODO */ }
 
-            console.log('actions.js: hierarchyObject:', hierarchyObject)
+            // console.log('actions.js: hierarchyObject:', hierarchyObject)
             console.log('actions.js: gruppe:', gruppe)
-            console.log('actions.js: objects:', objects)
+            // console.log('actions.js: objects:', objects)
 
             Actions.loadObjectStore.completed(objects, hierarchyObject, gruppe)
           })

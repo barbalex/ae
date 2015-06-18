@@ -49,11 +49,19 @@ export default React.createClass({
   },
 
   onStoreChange (items, hO) {
-    const gruppe = this.state.gruppe
+    console.log('treeFromHierarchyObject.js: store has changed')
+
+    const pathString = this.getParams().splat
+    const path = pathString.split('/')
+    const gruppe = path[0]
+    const lastPathElement = path[path.length - 1]
+    const guid = isGuid(lastPathElement) ? lastPathElement : null
     this.setState({
-      loading: false,
-      hO: hO[gruppe]
+      loading: !window.objectStore.loaded[gruppe],
+      hO: hO[gruppe],
+      guid: guid
     })
+    this.forceUpdate()
   },
 
   render () {
