@@ -15,6 +15,7 @@ import Favicon from 'react-favicon'
 import Objekt from './main/object/object.js'
 import TreeFromHierarchyObject from './menu/treeFromHierarchyObject.js'
 import isGuid from '../modules/isGuid.js'
+import setTreeHeight from '../modules/setTreeHeight.js'
 
 export default React.createClass({
   displayName: 'Home',
@@ -47,6 +48,12 @@ export default React.createClass({
     this.listenTo(window.objectStore, this.onStoreChange)
     // loadObjectStore if necessary
     if (!window.objectStore.loaded[this.state.gruppe]) app.Actions.loadObjectStore(this.state.gruppe)
+    setTreeHeight()
+    window.addEventListener('resize', setTreeHeight())
+  },
+
+  componentWillUnmount () {
+    window.removeEventListener('resize')
   },
 
   onStoreChange (items, hO) {
