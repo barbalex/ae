@@ -38,6 +38,7 @@ export default React.createClass({
     const hO = window.objectStore.getHierarchyOfGruppe(gruppe)
 
     return {
+      loading: !window.objectStore.loaded[gruppe],
       gruppe: gruppe,
       guid: guid,
       hO: hO
@@ -58,14 +59,18 @@ export default React.createClass({
 
   onStoreChange (items, hO) {
     console.log('home.js: store has changed')
+    console.log('home.js: gruppe', this.state.gruppe)
     this.setState({
-      loading: false,
+      loading: !window.objectStore.loaded[this.state.gruppe],
       hO: hO
     })
     this.forceUpdate()
   },
 
   onClickGruppe (gruppe) {
+    console.log('home.js: clicked gruppe', gruppe)
+    console.log('home.js, onClickGruppe: loading', !window.objectStore.loaded[gruppe])
+
     this.setState({
       loading: !window.objectStore.loaded[gruppe],
       gruppe: gruppe,
@@ -74,9 +79,8 @@ export default React.createClass({
     })
     // TODO: only works on first click
     if (!window.objectStore.loaded[gruppe]) app.Actions.loadObjectStore(gruppe)
-    this.transitionTo(`/${gruppe}`)
+    // this.transitionTo(`/${gruppe}`)
     // this.render()
-    // this.getInitialState()
     this.forceUpdate()
   },
 
@@ -90,10 +94,12 @@ export default React.createClass({
     const filterableRouteNames = ['Fauna', 'Flora', 'Moose', 'Pilze', 'Lebensräume']
     const isFilterable = _.includes(filterableRouteNames, gruppe)
     const hO = this.state.hO
+    const loading = this.state.loading
 
-    console.log('home.js: gruppe:', gruppe)
-    console.log('home.js: guid:', guid)
-    console.log('home.js: isFilterable:', isFilterable)
+    console.log('home.js, render: gruppe:', gruppe)
+    // console.log('home.js, render: guid:', guid)
+    console.log('home.js, render: loading:', loading)
+    // console.log('home.js: isFilterable:', isFilterable)
 
     return (
       <div>
@@ -114,7 +120,7 @@ export default React.createClass({
             </ButtonGroup>
           </div>
           {isFilterable ? <Filter/> : ''}
-          {isFilterable ? <TreeFromHierarchyObject gruppe={gruppe} hO={hO}/> : ''}
+          {isFilterable ? <TreeFromHierarchyObject loading={loading} gruppe={gruppe} hO={hO}/> : ''}
         </fieldset>
         {guid ? <Objekt gruppe={gruppe} guid={guid}/> : ''}
         {/*<RouteHandler/>*/}

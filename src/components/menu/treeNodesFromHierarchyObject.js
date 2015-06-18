@@ -54,17 +54,16 @@ const Nodes = React.createClass({
     if (!window.objectStore.loaded[this.state.gruppe]) app.Actions.loadObjectStore(this.state.gruppe)
   },
 
-  onStoreChange (items, hO) {
+  onStoreChange (items, hO, gruppe) {
     console.log('treeFromHierarchyObject.js: store has changed')
 
     const pathString = this.getParams().splat
     const path = pathString.split('/')
-    const gruppe = path[0]
     const lastPathElement = path[path.length - 1]
     const guid = isGuid(lastPathElement) ? lastPathElement : null
     this.setState({
       loading: !window.objectStore.loaded[gruppe],
-      hO: hO/*[gruppe]*/,
+      hO: hO,
       guid: guid
     })
     this.forceUpdate()
@@ -75,7 +74,7 @@ const Nodes = React.createClass({
     const hO = this.state.hO
     const path = this.state.path
     // keep path elements below level clicked
-    const pathElements = _.slice(path, 0, level)
+    const pathElements = _.slice(path, 0, level - 1)
     // get string of the element clicked
     const newPathElement = typeof hO[key] === 'object' ? key : hO[key]
     // add it to the path

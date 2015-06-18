@@ -48,17 +48,17 @@ export default React.createClass({
     if (!window.objectStore.loaded[this.state.gruppe]) app.Actions.loadObjectStore(this.state.gruppe)
   },
 
-  onStoreChange (items, hO) {
-    console.log('treeFromHierarchyObject.js: store has changed')
+  onStoreChange (items, hO, gruppe) {
+    console.log('treeFromHierarchyObject.js, onStoreChange: store has changed')
+    console.log('treeFromHierarchyObject.js, onStoreChange: gruppe', gruppe)
 
     const pathString = this.getParams().splat
     const path = pathString.split('/')
-    const gruppe = path[0]
     const lastPathElement = path[path.length - 1]
     const guid = isGuid(lastPathElement) ? lastPathElement : null
     this.setState({
       loading: !window.objectStore.loaded[gruppe],
-      hO: hO/*[gruppe]*/,
+      hO: hO,
       guid: guid
     })
     this.forceUpdate()
@@ -68,7 +68,7 @@ export default React.createClass({
     const hO = this.state.hO
     const gruppe = this.state.gruppe
     const guid = this.state.guid
-    const loading = this.state.loading
+    const loading = !window.objectStore.loaded[gruppe]
 
     const tree = (
       <div>
@@ -80,10 +80,10 @@ export default React.createClass({
 
     return (
       <div>
-        <div className='treeBeschriftung'></div>
         <div id='tree' className='baum'>
-          {loading ? loadingMessage : tree}
+          {tree}
         </div>
+        {loading ? loadingMessage : ''}
       </div>
     )
   }

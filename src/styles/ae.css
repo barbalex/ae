@@ -189,9 +189,6 @@ body {
        #tree
 \*--------------------------------*/
 
-.treeBeschriftung {
-  margin-bottom: 1px;
-}
 #tree {
     overflow:   auto;
     overflow-x: hidden;

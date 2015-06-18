@@ -46,6 +46,12 @@ export default function (Actions) {
       return this.hierarchyObject[gruppe]
     },
 
+    onLoadObjectStore (gruppe) {
+      console.log('stores.js, onLoadObjectStore: param', gruppe)
+      // trigger change because of loaded state
+      this.trigger(this.items, this.hierarchyObject, gruppe)
+    },
+
     onLoadObjectStoreCompleted (items, hierarchyObject, gruppe) {
 
       // console.log('stores.js onLoadObjectStoreCompleted: items:', items)
@@ -75,7 +81,7 @@ export default function (Actions) {
       // console.log('stores.js onLoadObjectStoreCompleted: this.items:', this.items)
       // console.log('stores.js onLoadObjectStoreCompleted: this.hierarchyObject:', this.hierarchyObject)
 
-      this.trigger(this.items, this.hierarchyObject)
+      this.trigger(this.items, this.hierarchyObject, gruppe)
     },
 
     onLoadObjectStoreFailed (error) {
