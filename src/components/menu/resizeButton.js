@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/lib/Button'
 import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger'
 import Tooltip from 'react-bootstrap/lib/Tooltip'
 
-// let windowHeight = $(window).height()
+let windowHeight = $(window).height()
 const bodyElement = $('body')
 
 export default React.createClass({
@@ -16,13 +16,12 @@ export default React.createClass({
     bodyElement.toggleClass('force-mobile')
     // TODO: manage max-height of tree when toggling
     // so form can always be reached and dragged up
-    /* previosly:
-    if ($body.hasClass('force-mobile')) {
+    if (bodyElement.hasClass('force-mobile')) {
       // Spalten sind untereinander. Baum 91px weniger hoch, damit Formulare zum raufschieben immer erreicht werden können
-      $('.baum').css('max-height', windowHeight - 252)
+      $('#tree').css('max-height', windowHeight - 226)
     } else {
-      $('.baum').css('max-height', windowHeight - 161)
-    }*/
+      $('#tree').css('max-height', windowHeight - 143)
+    }
     this.forceUpdate()
   },
 

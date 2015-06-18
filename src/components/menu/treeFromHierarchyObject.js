@@ -58,7 +58,7 @@ export default React.createClass({
     const loading = this.state.loading
 
     const tree = (
-      <div className='baum'>
+      <div>
         <Nodes level={1} gruppe={gruppe} hO={hO}/>
       </div>
     )

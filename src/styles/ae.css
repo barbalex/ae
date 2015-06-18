@@ -192,27 +192,33 @@ body {
 .treeBeschriftung {
   margin-bottom: 1px;
 }
-#menu .baum li {
+#tree {
+    overflow:   auto;
+    overflow-x: hidden;
+    /* verhindern, das Text hinter dem Scrollbalken verschwindet */
+    padding-right: 15px;
+}
+#tree li {
   list-style-type: none;
   
 }
-#menu .baum li div {
+#tree li div {
   cursor: pointer;
 }
-#menu .baum li div:hover {
+#tree li div:hover {
   background-color: #FFFF90;
 }
-#menu .baum li div.active {
+#tree li div.active {
   font-weight: bold;
 }
-#menu .baum li div {
+#tree li div {
   padding: 2px 0;
 }
-#menu .baum ul.level1 {
+#tree ul.level1 {
   padding-left: 4px;
   margin-bottom: 0;
 }
-#menu .baum ul {
+#tree ul {
   padding-left: 20px;
 }
 

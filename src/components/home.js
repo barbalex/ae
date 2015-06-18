@@ -9,7 +9,7 @@ import Button from 'react-bootstrap/lib/Button'
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
 import MenuButton from './menu/menuButton'
 import ResizeButton from './menu/resizeButton.js'
-// import Filter from './menu/filter.js'
+import Filter from './menu/filter.js'
 import FaviconImage from '../../img/aster_144.png'
 import Favicon from 'react-favicon'
 import Objekt from './main/object/object.js'
@@ -60,6 +60,7 @@ export default React.createClass({
     this.setState({ gruppe: gruppe })
     // TODO: only works on first click
     this.transitionTo(`/${gruppe}`)
+    this.render()
     // this.getInitialState()
     // this.forceUpdate()
   },
@@ -92,7 +93,7 @@ export default React.createClass({
               <Button bsStyle='primary' onClick={this.onClickGruppe.bind(this, 'Lebensräume')}>Lebensräume</Button>
             </ButtonGroup>
           </div>
-          {/*isFilterable ? <Filter/> : ''*/}
+          {isFilterable ? <Filter/> : ''}
           {isFilterable ? <TreeFromHierarchyObject gruppe={gruppe} hO={hO}/> : ''}
         </fieldset>
         {/*this.state.guid ? <Objekt/> : ''*/}
