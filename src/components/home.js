@@ -78,7 +78,7 @@ export default React.createClass({
     const path = pathString.split('/')
     const gruppe = this.state.gruppe || path[0]
     const lastPathElement = path[path.length - 1]
-    const guid = this.state.guid || isGuid(lastPathElement) ? lastPathElement : null
+    const guid = /*this.state.guid || */isGuid(lastPathElement) ? lastPathElement : null
     const filterableRouteNames = ['Fauna', 'Flora', 'Moose', 'Pilze', 'Lebensräume']
     const isFilterable = _.includes(filterableRouteNames, gruppe)
     const hO = this.state.hO
@@ -108,7 +108,7 @@ export default React.createClass({
           {isFilterable ? <Filter/> : ''}
           {isFilterable ? <TreeFromHierarchyObject gruppe={gruppe} hO={hO}/> : ''}
         </fieldset>
-        {this.state.guid ? <Objekt gruppe={gruppe} guid={guid}/> : ''}
+        {guid ? <Objekt gruppe={gruppe} guid={guid}/> : ''}
         {/*<RouteHandler/>*/}
       </div>
     )
