@@ -64,7 +64,7 @@ const Nodes = React.createClass({
     const guid = isGuid(lastPathElement) ? lastPathElement : null
     this.setState({
       loading: !window.objectStore.loaded[gruppe],
-      hO: hO[gruppe],
+      hO: hO/*[gruppe]*/,
       guid: guid
     })
     this.forceUpdate()
