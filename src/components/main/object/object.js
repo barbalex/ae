@@ -52,7 +52,18 @@ export default React.createClass({
   },
 
   onStoreChange (items, hierarchyObject) {
-    this.getInitialState()
+    const pathString = this.getParams().splat
+    const path = pathString.split('/')
+    const gruppe = path[0]
+    const lastPathElement = path[path.length - 1]
+    const guid = isGuid(lastPathElement) ? lastPathElement : null
+    const item = guid ? window.objectStore.getItem(gruppe, guid) : null
+    this.setState({
+      loading: !window.objectStore.loaded[gruppe],
+      item: item,
+      gruppe: gruppe,
+      guid: guid
+    })
   },
 
   render () {
