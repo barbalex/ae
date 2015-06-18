@@ -22,6 +22,10 @@ export default function () {
   Actions.loadObjectStore.listen(function (gruppe) {
     // problem: this action can get called several times while it is already fetching data
     // > make shure data is only fetched if objectStore is not yet loaded and not loading right now
+    console.log('actions loadObjectStore: gruppe:', gruppe)
+    console.log('actions loadObjectStore: window.objectStore.loaded[gruppe]:', window.objectStore.loaded[gruppe])
+    console.log('actions loadObjectStore: app.loadingObjectStore:', app.loadingObjectStore)
+
     if (!window.objectStore.loaded[gruppe] && !app.loadingObjectStore && gruppe) {
       let objects = []
       app.loadingObjectStore = true
@@ -37,21 +41,26 @@ export default function () {
             objects = result.rows.map(function (row) {
               return row.doc
             })
-
             // build hierarchy
-            const object0 = objects[0]
-            const Gruppe = object0.Gruppe
-            const dsName = object0.Taxonomie.Name
-            const dsMetadataId = (Gruppe + '_' + dsName).replace(' ', '_').replace(':', '_')
-
-            return db.get(dsMetadataId, { include_docs: true })
+            const dsName = objects[0].Taxonomie.Name
+            return db.query('artendb/dsMetadataNachDsName', { key: dsName, include_docs: true })
           })
-          .then(function (doc) {
+          .then(function (result) {
+            // extract metadata doc from result
+            const doc = result.rows.map(function (row) {
+              return row.doc
+            })[0]
+
+            console.log('actions dsMetatata doc:', doc)
 
             // lookup type
             let hierarchyObject
             if (doc.HierarchieTyp === 'Felder') hierarchyObject = buildHierarchyObjectForFelder(objects, doc)
             if (doc.HierarchieTyp === 'Parent') { /* TODO */ }
+
+            console.log('actions.js: hierarchyObject:', hierarchyObject)
+            console.log('actions.js: gruppe:', gruppe)
+            console.log('actions.js: objects:', objects)
 
             Actions.loadObjectStore.completed(objects, hierarchyObject, gruppe)
           })

@@ -33,11 +33,12 @@ const Nodes = React.createClass({
     const guid = isGuid(lastPathElement) ? lastPathElement : null
     const level = this.props.level
     const activeKey = path[level] || ''
+    const hO = this.props.hO
 
     return {
       loading: !window.objectStore.loaded[gruppe],
       path: path,
-      hO: this.props.hO,
+      hO: hO,
       level: level,  // could calculate it as path.length
       activeKey: activeKey,
       gruppe: gruppe,
@@ -61,7 +62,7 @@ const Nodes = React.createClass({
     const newUrl = `/${newPath}`
 
     this.setState({activeKey: key})
-    window.router.transitionTo(newUrl)
+    this.transitionTo(newUrl)
   },
 
   render () {

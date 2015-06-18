@@ -26,9 +26,14 @@ export default React.createClass({
     const pathString = this.getParams().splat
     const path = pathString.split('/')
     const gruppe = this.props.gruppe || path[0]
+    const hO = this.props.hO || window.objectStore.getHierarchy()
+
+    console.log('treeFromHierarchyObject: path[0]', path[0])
+    console.log('treeFromHierarchyObject: this.props.gruppe', this.props.gruppe)
+
     return {
       loading: !window.objectStore.loaded[gruppe],
-      hO: window.objectStore.getHierarchyOfGruppe(gruppe),
+      hO: hO,
       gruppe: gruppe
     }
   },
@@ -54,7 +59,7 @@ export default React.createClass({
 
     const tree = (
       <div className='baum'>
-        <Nodes level={1} hO={hO} gruppe={gruppe}/>
+        <Nodes level={1} gruppe={gruppe} hO={hO}/>
       </div>
     )
 
