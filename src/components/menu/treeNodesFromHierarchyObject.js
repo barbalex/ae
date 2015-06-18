@@ -70,7 +70,7 @@ const Nodes = React.createClass({
     this.forceUpdate()
   },
 
-  onClickNode (key, level, event) {
+  onClickNode (key, activeKey, level, event) {
     event.stopPropagation()
     const hO = this.state.hO
     const path = this.state.path
@@ -85,7 +85,14 @@ const Nodes = React.createClass({
     // create url string
     const newUrl = `/${newPath}`
 
-    this.setState({activeKey: key})
+    console.log('key clicked', key)
+    console.log('activeKey', activeKey)
+
+    if (key === activeKey) {
+      this.setState({activeKey: null})
+    } else {
+      this.setState({activeKey: key})
+    }
     this.transitionTo(newUrl)
   },
 
@@ -106,8 +113,8 @@ const Nodes = React.createClass({
       .sort()
       .map(function (key) {
         return (
-          <li level={level} key={key} onClick={that.onClickNode.bind(that, key, level)}>
-            <Glyphicon glyph={key === activeKey ? (typeof hO[key] !== 'object' ? 'forward' : 'triangle-bottom') : 'triangle-right'} onClick={that.onClickNode.bind(that, key, level)}/>
+          <li level={level} key={key} onClick={that.onClickNode.bind(that, key, activeKey, level)}>
+            <Glyphicon glyph={key === activeKey ? (typeof hO[key] !== 'object' ? 'forward' : 'triangle-bottom') : 'triangle-right'} onClick={that.onClickNode.bind(that, key, activeKey, level)}/>
             <div className={key === activeKey ? 'active' : null}>{key}</div>
             {(key === activeKey && typeof hO[key] === 'object') || (guid && key !== guid) ? <Nodes level={level + 1} hO={hO[key]} gruppe={gruppe} guid={guid} activeKey={activeKey}/> : null}
           </li>
