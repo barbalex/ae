@@ -184,6 +184,30 @@ body {
 
 
 
+
+/*--------------------------------*\
+    2. #MENU
+       #filter
+\*--------------------------------*/
+
+/* want higher dropdown when it opens */
+#menu .Select-menu-outer {
+  max-height: none;
+}
+#menu .Select-menu {
+  max-height: 400px;
+}
+
+#filter .Select-option {
+  padding: 2px 10px;
+}
+
+#filter {
+  margin-bottom: 4px;
+}
+
+
+
 /*--------------------------------*\
     2. #MENU
        #tree
@@ -231,26 +255,6 @@ body {
  position: relative;
  top: 5px;
  vertical-align: top;
-}
-
-
-
-
-/*--------------------------------*\
-    2. #MENU
-       #filter
-\*--------------------------------*/
-
-/* want higher dropdown when it opens */
-#menu .Select-menu-outer {
-  max-height: none;
-}
-#menu .Select-menu {
-  max-height: 400px;
-}
-
-#filter .Select-option {
-  padding: 2px 10px;
 }
 
 

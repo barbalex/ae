@@ -18,25 +18,23 @@ export default React.createClass({
 
   propTypes: {
     hO: React.PropTypes.object,  // = hierarchy-object
-    gruppe: React.PropTypes.string,
-    guid: React.PropTypes.string
+    gruppe: React.PropTypes.string
   },
 
   getInitialState () {
     const pathString = this.getParams().splat
     const path = pathString.split('/')
-    const gruppe = this.props.gruppe || path[0]
-    const lastPathElement = path[path.length - 1]
-    const guid = this.props.guid || (isGuid(lastPathElement) ? lastPathElement : null)
-    const hO = this.props.hO || window.objectStore.getHierarchy()
+    // const gruppe = this.props.gruppe  // always gets passed down from home.js
+    const gruppe = path[0]
+    const hO = window.objectStore.getHierarchy()
 
-    console.log('treeFromHierarchyObject: path[0]', path[0])
-    console.log('treeFromHierarchyObject: this.props.gruppe', this.props.gruppe)
+    // console.log('treeFromHierarchyObject: path[0]', path[0])
+    // console.log('treeFromHierarchyObject: this.props.gruppe', this.props.gruppe)
+    console.log('treeFromHierarchyObject.js getInitialState')
 
     return {
       hO: hO,
-      gruppe: gruppe,
-      guid: guid
+      gruppe: gruppe
     }
   },
 
@@ -48,29 +46,23 @@ export default React.createClass({
 
   onStoreChange (items, hO, gruppe) {
     console.log('treeFromHierarchyObject.js, onStoreChange: store has changed')
-    console.log('treeFromHierarchyObject.js, onStoreChange: gruppe', gruppe)
+    // console.log('treeFromHierarchyObject.js, onStoreChange: gruppe', gruppe)
 
-    const pathString = this.getParams().splat
-    const path = pathString.split('/')
-    const lastPathElement = path[path.length - 1]
-    const guid = isGuid(lastPathElement) ? lastPathElement : null
     this.setState({
       hO: hO,
-      guid: guid
+      gruppe: gruppe
     })
     this.forceUpdate()
   },
 
   render () {
     const hO = this.state.hO
-    const gruppe = this.state.gruppe
-    const guid = this.state.guid
     const loading = app.loadingObjectStore && app.loadingObjectStore.length > 0
     const loadingGruppe = loading ? app.loadingObjectStore[0] : 'Daten'
 
     const tree = (
       <div>
-        <Nodes level={1} guid={guid} gruppe={gruppe} hO={hO}/>
+        <Nodes hO={hO}/>
       </div>
     )
 

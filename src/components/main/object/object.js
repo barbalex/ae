@@ -28,7 +28,7 @@ export default React.createClass({
   getInitialState () {
     const pathString = this.getParams().splat
     const path = pathString.split('/')
-    const gruppe = this.props.gruppe || path[0]
+    const gruppe = path[0]
     const lastPathElement = path[path.length - 1]
     const guid = this.props.guid || (isGuid(lastPathElement) ? lastPathElement : null)
     const item = guid ? window.objectStore.getItem(gruppe, guid) : null

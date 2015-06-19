@@ -23,8 +23,9 @@ export default React.createClass({
   },
 
   getInitialState () {
-    const params = this.getParams()
-    const gruppe = params.gruppe || 'Fauna'
+    const pathString = this.getParams().splat
+    const path = pathString.split('/')
+    const gruppe = path[0]
     return {
       loading: !window.objectStore.loaded[gruppe],
       items: window.objectStore.getItemsOfGruppe(gruppe),

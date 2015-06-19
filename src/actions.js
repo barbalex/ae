@@ -25,9 +25,11 @@ export default function () {
     if (!gruppe) return false
     // problem: this action can get called several times while it is already fetching data
     // > make shure data is only fetched if objectStore is not yet loaded and not loading right now
-    console.log('actions loadObjectStore: gruppe:', gruppe)
-    console.log('actions loadObjectStore: window.objectStore.loaded[gruppe]:', window.objectStore.loaded[gruppe])
-    console.log('actions loadObjectStore: app.loadingObjectStore:', app.loadingObjectStore)
+
+    // console.log('actions loadObjectStore: gruppe:', gruppe)
+    // console.log('actions loadObjectStore: window.objectStore.loaded[gruppe]:', window.objectStore.loaded[gruppe])
+
+    // console.log('actions loadObjectStore: app.loadingObjectStore:', app.loadingObjectStore)
     // loadingObjectStore contains an Array of the groups being loaded right now
     app.loadingObjectStore = app.loadObjectStore || []
 
@@ -55,7 +57,7 @@ export default function () {
               return row.doc
             })[0]
 
-            console.log('actions dsMetatata doc:', doc)
+            // console.log('actions dsMetatata doc:', doc)
 
             // lookup type
             let hierarchyObject
@@ -63,7 +65,7 @@ export default function () {
             if (doc.HierarchieTyp === 'Parent') { /* TODO */ }
 
             // console.log('actions.js: hierarchyObject:', hierarchyObject)
-            console.log('actions.js: gruppe:', gruppe)
+            // console.log('actions.js: gruppe:', gruppe)
             // console.log('actions.js: objects:', objects)
 
             Actions.loadObjectStore.completed(gruppe, objects, hierarchyObject)

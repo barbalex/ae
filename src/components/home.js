@@ -3,7 +3,7 @@
 import app from 'ampersand-app'
 import { ListenerMixin } from 'reflux'
 import React from 'react'
-import { State, Navigation, RouteHandler } from 'react-router'
+import { State, Navigation } from 'react-router'
 import _ from 'lodash'
 import Button from 'react-bootstrap/lib/Button'
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
@@ -23,32 +23,22 @@ export default React.createClass({
   mixins: [ListenerMixin, State, Navigation],
 
   propTypes: {
-    gruppe: React.PropTypes.string,
-    guid: React.PropTypes.string,
-    items: React.PropTypes.object,
-    hO: React.PropTypes.object
+    gruppe: React.PropTypes.string
   },
 
   getInitialState () {
     const pathString = this.getParams().splat
     const path = pathString.split('/')
-    const gruppe = this.props.gruppe || path[0]
-    const lastPathElement = path[path.length - 1]
-    const guid = isGuid(lastPathElement) ? lastPathElement : null
-    const hO = window.objectStore.getHierarchyOfGruppe(gruppe)
+    const gruppe = path[0]
+
+    console.log('home.js getInitialState')
 
     return {
-      loading: !window.objectStore.loaded[gruppe],
-      gruppe: gruppe,
-      guid: guid,
-      hO: hO
+      gruppe: gruppe
     }
   },
 
   componentDidMount () {
-    this.listenTo(window.objectStore, this.onStoreChange)
-    // loadObjectStore if necessary
-    if (!window.objectStore.loaded[this.state.gruppe]) app.Actions.loadObjectStore(this.state.gruppe)
     setTreeHeight()
     window.addEventListener('resize', setTreeHeight())
   },
@@ -57,49 +47,30 @@ export default React.createClass({
     window.removeEventListener('resize')
   },
 
-  onStoreChange (items, hO) {
-    console.log('home.js: store has changed')
-    console.log('home.js: gruppe', this.state.gruppe)
-    this.setState({
-      loading: !window.objectStore.loaded[this.state.gruppe],
-      hO: hO
-    })
-    this.forceUpdate()
-  },
-
   onClickGruppe (gruppe) {
-    console.log('home.js: clicked gruppe', gruppe)
-    console.log('home.js, onClickGruppe: loading', !window.objectStore.loaded[gruppe])
+    // console.log('home.js: clicked gruppe', gruppe)
+    // console.log('home.js, onClickGruppe: loading', !window.objectStore.loaded[gruppe])
 
-    this.setState({
-      loading: !window.objectStore.loaded[gruppe],
-      gruppe: gruppe,
-      hO: window.objectStore.getHierarchyOfGruppe(gruppe),
-      guid: null
-    })
-    // TODO: only works on first click
+    this.setState({ gruppe: gruppe })
+    // load this gruppe if that hasn't happened yet
     if (!window.objectStore.loaded[gruppe]) app.Actions.loadObjectStore(gruppe)
-    // this.transitionTo(`/${gruppe}`)
+    this.transitionTo(`/${gruppe}`)
     // this.render()
     this.forceUpdate()
   },
 
   render () {
     // find out if Filter shall be shown
+    const gruppe = this.state.gruppe
     const pathString = this.getParams().splat
     const path = pathString.split('/')
-    const gruppe = this.state.gruppe || path[0]
     const lastPathElement = path[path.length - 1]
-    const guid = /*this.state.guid || */isGuid(lastPathElement) ? lastPathElement : null
+    const guid = isGuid(lastPathElement) ? lastPathElement : null
     const filterableRouteNames = ['Fauna', 'Flora', 'Moose', 'Pilze', 'Lebensräume']
     const isFilterable = _.includes(filterableRouteNames, gruppe)
-    const hO = this.state.hO
-    const loading = this.state.loading
 
-    console.log('home.js, render: gruppe:', gruppe)
-    // console.log('home.js, render: guid:', guid)
-    console.log('home.js, render: loading:', loading)
-    // console.log('home.js: isFilterable:', isFilterable)
+    // console.log('home.js, render: gruppe:', gruppe)
+    // console.log('home.js, render: isFilterable:', isFilterable)
 
     return (
       <div>
@@ -120,10 +91,9 @@ export default React.createClass({
             </ButtonGroup>
           </div>
           {isFilterable ? <Filter/> : ''}
-          {isFilterable ? <TreeFromHierarchyObject loading={loading} gruppe={gruppe} hO={hO}/> : ''}
+          {isFilterable ? <TreeFromHierarchyObject/> : ''}
         </fieldset>
-        {guid ? <Objekt gruppe={gruppe} guid={guid}/> : ''}
-        {/*<RouteHandler/>*/}
+        {guid ? <Objekt/> : ''}
       </div>
     )
   }
