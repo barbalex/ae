@@ -47,8 +47,6 @@ export default React.createClass({
 
   componentDidMount () {
     this.listenTo(window.objectStore, this.onStoreChange)
-    // loadObjectStore if necessary
-    if (!window.objectStore.loaded[this.state.gruppe]) app.Actions.loadObjectStore(this.state.gruppe)
   },
 
   onStoreChange (items, hierarchyObject) {

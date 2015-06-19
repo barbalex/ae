@@ -41,6 +41,7 @@ export default React.createClass({
   componentDidMount () {
     setTreeHeight()
     window.addEventListener('resize', setTreeHeight())
+    if (!window.objectStore.loaded[this.state.gruppe]) app.Actions.loadObjectStore(this.state.gruppe)
   },
 
   componentWillUnmount () {

@@ -42,7 +42,6 @@ const Nodes = React.createClass({
     console.log('treeNodesFromHierarchyObject.js getInitialState: activeKey', activeKey)
 
     return {
-      path: path,
       hO: hO,
       level: level,
       activeKey: activeKey,
@@ -53,13 +52,20 @@ const Nodes = React.createClass({
 
   componentDidMount () {
     this.listenTo(window.objectStore, this.onStoreChange)
-    // loadObjectStore if necessary
-    if (!window.objectStore.loaded[this.state.gruppe]) app.Actions.loadObjectStore(this.state.gruppe)
   },
 
   onStoreChange (items, hO, gruppe) {
-    console.log('treeNodesFromHierarchyObject.js: store has changed')
+    console.log('treeNodesFromHierarchyObject.js, onStoreChange: gruppe', gruppe)
     // don't set state of hO - it get's passed down by parent component
+    // do set activeKey > the new store is focused in tree
+    const pathString = this.getParams().splat
+    const path = pathString.split('/')
+    const level = this.props.level || path.length
+    const activeKey = path[level - 1] || ''
+    this.setState({
+      gruppe: gruppe,
+      activeKey: activeKey
+    })
     this.forceUpdate()
   },
 
