@@ -4,9 +4,10 @@ import app from 'ampersand-app'
 import { ListenerMixin } from 'reflux'
 import React from 'react'
 import { State, Navigation } from 'react-router'
+import { Input } from 'react-bootstrap'
 import _ from 'lodash'
-import Button from 'react-bootstrap/lib/Button'
-import ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
+// import Button from 'react-bootstrap/lib/Button'
+// import ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
 import MenuButton from './menu/menuButton'
 import ResizeButton from './menu/resizeButton.js'
 import Filter from './menu/filter.js'
@@ -20,7 +21,7 @@ import setTreeHeight from '../modules/setTreeHeight.js'
 const gruppen = ['Fauna', 'Flora', 'Moose', 'Pilze', 'Lebensräume']
 
 function button (that, gruppe) {
-  return <Button key={gruppe} bsStyle='primary' onClick={that.onClickGruppe.bind(that, gruppe)}>{gruppe}</Button>
+  return <Input key={gruppe} type='checkbox' label={gruppe} onClick={that.onClickGruppe.bind(that, gruppe)} />
 }
 
 function createButtons (that) {
@@ -99,25 +100,23 @@ export default React.createClass({
     const path = pathString.split('/')
     const lastPathElement = path[path.length - 1]
     const guid = isGuid(lastPathElement) ? lastPathElement : null
-    const isFilterable = _.includes(gruppen, gruppe)
+    const isGroup = _.includes(gruppen, gruppe)
 
     return (
       <div>
         <Favicon url={[FaviconImage]}/>
-        <MenuButton/>
-        <fieldset id='menu' className='menu'>
-          <div>
+        <div id='menu' className='menu'>
+          <div id='menuLine'>
+            <MenuButton/>
             <ResizeButton/>
-            <div id='menu-div'>
-              <div id='gruppeLabel'>Gruppe wählen:</div>
-            </div>
-            <ButtonGroup>
-              {createButtons(this)}
-            </ButtonGroup>
           </div>
-          {isFilterable ? <Filter/> : ''}
-          {isFilterable ? <TreeFromHierarchyObject/> : ''}
-        </fieldset>
+          <div>Gruppe laden:</div>
+          <div id='groupCheckboxes'>
+            {createButtons(this)}
+          </div>
+          {isGroup ? <Filter/> : ''}
+          {isGroup ? <TreeFromHierarchyObject/> : ''}
+        </div>
         {guid ? <Objekt/> : ''}
       </div>
     )
