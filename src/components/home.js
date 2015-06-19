@@ -30,12 +30,13 @@ export default React.createClass({
     const pathString = this.getParams().splat
     const path = pathString.split('/')
     const gruppe = path[0]
-
-    console.log('home.js getInitialState')
-
-    return {
+    const state = {
       gruppe: gruppe
     }
+
+    console.log('home.js getInitialState: state', state)
+
+    return state
   },
 
   componentDidMount () {

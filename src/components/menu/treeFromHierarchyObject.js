@@ -5,15 +5,10 @@ import React from 'react'
 import { State, Navigation } from 'react-router'
 import { ListenerMixin } from 'reflux'
 import Nodes from './treeNodesFromHierarchyObject.js'
-import isGuid from '../../modules/isGuid.js'
 
 export default React.createClass({
   displayName: 'TreeLevel1',
 
-  // ListenerMixin provides the listenTo method for the React component,
-  // that works much like the one found in the Reflux's stores,
-  // and handles the listeners during mount and unmount for you.
-  // You also get the same listenToMany method as the store has.
   mixins: [ListenerMixin, State, Navigation],
 
   propTypes: {
@@ -24,18 +19,16 @@ export default React.createClass({
   getInitialState () {
     const pathString = this.getParams().splat
     const path = pathString.split('/')
-    // const gruppe = this.props.gruppe  // always gets passed down from home.js
     const gruppe = path[0]
     const hO = window.objectStore.getHierarchy()
-
-    // console.log('treeFromHierarchyObject: path[0]', path[0])
-    // console.log('treeFromHierarchyObject: this.props.gruppe', this.props.gruppe)
-    console.log('treeFromHierarchyObject.js getInitialState')
-
-    return {
+    const state = {
       hO: hO,
       gruppe: gruppe
     }
+
+    console.log('treeFromHierarchyObject.js getInitialState: state', state)
+
+    return state
   },
 
   componentDidMount () {
@@ -43,7 +36,7 @@ export default React.createClass({
   },
 
   onStoreChange (items, hO, gruppe) {
-    console.log('treeFromHierarchyObject.js, onStoreChange: store has changed')
+    // console.log('treeFromHierarchyObject.js, onStoreChange: store has changed')
     // console.log('treeFromHierarchyObject.js, onStoreChange: gruppe', gruppe)
 
     this.setState({

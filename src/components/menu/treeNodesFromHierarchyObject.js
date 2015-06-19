@@ -18,7 +18,6 @@ const Nodes = React.createClass({
   mixins: [ListenerMixin, State, Navigation],
 
   propTypes: {
-    path: React.PropTypes.array,
     hO: React.PropTypes.node,  // = hierarchy-object OF THIS LEVEL
     level: React.PropTypes.number,
     activeKey: React.PropTypes.string,
@@ -35,19 +34,17 @@ const Nodes = React.createClass({
     const level = this.props.level || path.length
     const activeKey = path[level - 1] || ''
     const hO = this.props.hO
-
-    // console.log('treeNodesFromHierarchyObject.js getInitialState: pathString', pathString)
-    // console.log('treeNodesFromHierarchyObject.js getInitialState: path', path)
-    console.log('treeNodesFromHierarchyObject.js getInitialState: level', level)
-    console.log('treeNodesFromHierarchyObject.js getInitialState: activeKey', activeKey)
-
-    return {
+    const state = {
       hO: hO,
       level: level,
       activeKey: activeKey,
       gruppe: gruppe,
       guid: guid
     }
+
+    console.log('treeNodesFromHierarchyObject.js getInitialState: state', state)
+
+    return state
   },
 
   componentDidMount () {
@@ -72,8 +69,7 @@ const Nodes = React.createClass({
   onClickNode (params, event) {
     event.stopPropagation()
 
-    console.log('treeNodesFromHierarchyObject.js onClickNode: params', params)
-    console.log('treeNodesFromHierarchyObject.js onClickNode: this.state.activeKey', this.state.activeKey)
+    // console.log('treeNodesFromHierarchyObject.js onClickNode: params', params)
 
     const pathString = this.getParams().splat
     const path = pathString.split('/')
