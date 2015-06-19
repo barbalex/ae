@@ -17,7 +17,6 @@ export default React.createClass({
   mixins: [ListenerMixin, State, Navigation],
 
   propTypes: {
-    loading: React.PropTypes.bool,
     hO: React.PropTypes.object,  // = hierarchy-object
     gruppe: React.PropTypes.string,
     guid: React.PropTypes.string
@@ -35,7 +34,6 @@ export default React.createClass({
     console.log('treeFromHierarchyObject: this.props.gruppe', this.props.gruppe)
 
     return {
-      loading: !window.objectStore.loaded[gruppe],
       hO: hO,
       gruppe: gruppe,
       guid: guid
@@ -57,7 +55,6 @@ export default React.createClass({
     const lastPathElement = path[path.length - 1]
     const guid = isGuid(lastPathElement) ? lastPathElement : null
     this.setState({
-      loading: !window.objectStore.loaded[gruppe],
       hO: hO,
       guid: guid
     })
@@ -68,7 +65,8 @@ export default React.createClass({
     const hO = this.state.hO
     const gruppe = this.state.gruppe
     const guid = this.state.guid
-    const loading = !window.objectStore.loaded[gruppe]
+    const loading = app.loadingObjectStore && app.loadingObjectStore.length > 0
+    const loadingGruppe = loading ? app.loadingObjectStore[0] : 'Daten'
 
     const tree = (
       <div>
@@ -76,7 +74,7 @@ export default React.createClass({
       </div>
     )
 
-    const loadingMessage = <p>Lade Daten...</p>
+    const loadingMessage = <p>Lade {loadingGruppe}...</p>
 
     return (
       <div>

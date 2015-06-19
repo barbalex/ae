@@ -216,6 +216,9 @@ body {
 #tree li span {
   cursor: pointer;
 }
+#tree + p {
+  padding-left: 4px;
+}
 #tree ul.level1 {
   padding-left: 4px;
   margin-bottom: 0;

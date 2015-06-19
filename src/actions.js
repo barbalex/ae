@@ -3,6 +3,7 @@
 import app from 'ampersand-app'
 import Reflux from 'reflux'
 import PouchDB from 'pouchdb'
+import _ from 'lodash'
 import pouchUrl from './modules/getCouchUrl.js'
 import buildHierarchyObjectForFelder from './modules/buildHierarchyObjectForFelder.js'
 
@@ -20,15 +21,19 @@ export default function () {
   })
 
   Actions.loadObjectStore.listen(function (gruppe) {
+    // make shure gruppe was passed
+    if (!gruppe) return false
     // problem: this action can get called several times while it is already fetching data
     // > make shure data is only fetched if objectStore is not yet loaded and not loading right now
     console.log('actions loadObjectStore: gruppe:', gruppe)
     console.log('actions loadObjectStore: window.objectStore.loaded[gruppe]:', window.objectStore.loaded[gruppe])
     console.log('actions loadObjectStore: app.loadingObjectStore:', app.loadingObjectStore)
+    // loadingObjectStore contains an Array of the groups being loaded right now
+    app.loadingObjectStore = app.loadObjectStore || []
 
-    if (!window.objectStore.loaded[gruppe] && !app.loadingObjectStore && gruppe) {
+    if (!window.objectStore.loaded[gruppe] && !_.includes(app.loadingObjectStore, gruppe) && gruppe) {
       let objects = []
-      app.loadingObjectStore = true
+      app.loadingObjectStore.push(gruppe)
       const viewName = 'artendb/' + gruppe.toLowerCase() + 'NachName'
       // get fauna from db
       const db = new PouchDB(pouchUrl(), function (error, response) {
@@ -37,7 +42,6 @@ export default function () {
         db.query(viewName, { include_docs: true })
           .then(function (result) {
             // extract objects from result
-            app.loadingObjectStore = false
             objects = result.rows.map(function (row) {
               return row.doc
             })
@@ -62,7 +66,7 @@ export default function () {
             console.log('actions.js: gruppe:', gruppe)
             // console.log('actions.js: objects:', objects)
 
-            Actions.loadObjectStore.completed(objects, hierarchyObject, gruppe)
+            Actions.loadObjectStore.completed(gruppe, objects, hierarchyObject)
           })
           .catch(function (error) {
             app.loadingObjectStore = false

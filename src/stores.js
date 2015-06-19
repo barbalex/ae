@@ -1,5 +1,6 @@
 'use strict'
 
+import app from 'ampersand-app'
 import Reflux from 'reflux'
 import _ from 'lodash'
 
@@ -52,8 +53,7 @@ export default function (Actions) {
       this.trigger(this.items, this.hierarchyObject, gruppe)
     },
 
-    onLoadObjectStoreCompleted (items, hierarchyObject, gruppe) {
-
+    onLoadObjectStoreCompleted (gruppe, items, hierarchyObject) {
       // console.log('stores.js onLoadObjectStoreCompleted: items:', items)
       // console.log('stores.js onLoadObjectStoreCompleted: hierarchyObject:', hierarchyObject)
       console.log('stores.js onLoadObjectStoreCompleted: gruppe:', gruppe)
@@ -76,6 +76,9 @@ export default function (Actions) {
       // console.log('stores.js onLoadObjectStoreCompleted: this.hierarchyObject[gruppe] before assigning:', this.hierarchyObject[gruppe])
 
       _.assign(this.hierarchyObject[gruppe], hierarchyObject)
+
+      // signal that this group is not being loaded any more
+      app.loadingObjectStore = _.without(app.loadingObjectStore, gruppe)
 
       // console.log('stores.js onLoadObjectStoreCompleted: this.hierarchyObject[gruppe] after assigning:', this.hierarchyObject[gruppe])
       // console.log('stores.js onLoadObjectStoreCompleted: this.items:', this.items)
