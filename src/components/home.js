@@ -17,21 +17,39 @@ import TreeFromHierarchyObject from './menu/treeFromHierarchyObject.js'
 import isGuid from '../modules/isGuid.js'
 import setTreeHeight from '../modules/setTreeHeight.js'
 
+const gruppen = ['Fauna', 'Flora', 'Moose', 'Pilze', 'Lebensräume']
+
+function button (that, gruppe) {
+  return <Button key={gruppe} bsStyle='primary' onClick={that.onClickGruppe.bind(that, gruppe)}>{gruppe}</Button>
+}
+
+function createButtons (that) {
+  const groupsNotLoaded = _.difference(gruppen, that.state.groupsLoaded)
+  return _.map(groupsNotLoaded, function (gruppe) {
+    return button(that, gruppe)
+  })
+}
+
 export default React.createClass({
   displayName: 'Home',
 
   mixins: [ListenerMixin, State, Navigation],
 
   propTypes: {
-    gruppe: React.PropTypes.string
+    gruppe: React.PropTypes.string,
+    groupsLoaded: React.PropTypes.array
   },
 
   getInitialState () {
     const pathString = this.getParams().splat
     const path = pathString.split('/')
     const gruppe = path[0]
+    const groupsLoaded = window.objectStore.getGroupsLoaded()
+    groupsLoaded.push(gruppe)
+
     const state = {
-      gruppe: gruppe
+      gruppe: gruppe,
+      groupsLoaded: groupsLoaded
     }
 
     console.log('home.js getInitialState: state', state)
@@ -49,11 +67,24 @@ export default React.createClass({
     window.removeEventListener('resize')
   },
 
+  onStoreChange (items, hO, gruppe) {
+    const groupsLoaded = this.state.groupsLoaded
+    groupsLoaded.push(gruppe)
+    this.setState({
+      groupsLoaded: groupsLoaded
+    })
+    this.forceUpdate()
+  },
+
   onClickGruppe (gruppe) {
     // console.log('home.js: clicked gruppe', gruppe)
     // console.log('home.js, onClickGruppe: loading', !window.objectStore.loaded[gruppe])
-
-    this.setState({ gruppe: gruppe })
+    const groupsLoaded = this.state.groupsLoaded
+    groupsLoaded.push(gruppe)
+    this.setState({
+      gruppe: gruppe,
+      groupsLoaded: groupsLoaded
+    })
     // load this gruppe if that hasn't happened yet
     if (!window.objectStore.loaded[gruppe]) app.Actions.loadObjectStore(gruppe)
     this.transitionTo(`/${gruppe}`)
@@ -68,11 +99,7 @@ export default React.createClass({
     const path = pathString.split('/')
     const lastPathElement = path[path.length - 1]
     const guid = isGuid(lastPathElement) ? lastPathElement : null
-    const filterableRouteNames = ['Fauna', 'Flora', 'Moose', 'Pilze', 'Lebensräume']
-    const isFilterable = _.includes(filterableRouteNames, gruppe)
-
-    // console.log('home.js, render: gruppe:', gruppe)
-    // console.log('home.js, render: isFilterable:', isFilterable)
+    const isFilterable = _.includes(gruppen, gruppe)
 
     return (
       <div>
@@ -85,11 +112,7 @@ export default React.createClass({
               <div id='gruppeLabel'>Gruppe wählen:</div>
             </div>
             <ButtonGroup>
-              <Button bsStyle='primary' onClick={this.onClickGruppe.bind(this, 'Fauna')}>Fauna</Button>
-              <Button bsStyle='primary' onClick={this.onClickGruppe.bind(this, 'Flora')}>Flora</Button>
-              <Button bsStyle='primary' onClick={this.onClickGruppe.bind(this, 'Moose')}>Moose</Button>
-              <Button bsStyle='primary' onClick={this.onClickGruppe.bind(this, 'Pilze')}>Pilze</Button>
-              <Button bsStyle='primary' onClick={this.onClickGruppe.bind(this, 'Lebensräume')}>Lebensräume</Button>
+              {createButtons(this)}
             </ButtonGroup>
           </div>
           {isFilterable ? <Filter/> : ''}

@@ -5,7 +5,6 @@
  */
 'use strict'
 
-import app from 'ampersand-app'
 import React from 'react'
 import Filter from 'react-select'
 import { State, Navigation } from 'react-router'

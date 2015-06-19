@@ -31,6 +31,11 @@ export default function (Actions) {
       return this.items[gruppe][guid]
     },
 
+    getGroupsLoaded () {
+      console.log('objectStore getGroupsLoaded: ', _.keys(this.items))
+      return _.keys(this.items)
+    },
+
     getItems () {
       return this.items
     },

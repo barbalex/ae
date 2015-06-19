@@ -56,13 +56,8 @@ const Nodes = React.createClass({
     console.log('treeNodesFromHierarchyObject.js, onStoreChange: gruppe', gruppe)
     // don't set state of hO - it get's passed down by parent component
     // do set activeKey > the new store is focused in tree
-    const pathString = this.getParams().splat
-    const path = pathString.split('/')
-    const level = this.props.level || path.length
-    const activeKey = level - 1 || ''
     this.setState({
-      gruppe: gruppe/*,
-      activeKey: activeKey*/
+      gruppe: gruppe
     })
     this.forceUpdate()
   },
