@@ -51,13 +51,12 @@ export default React.createClass({
 
   render () {
     const hO = this.state.hO
-    const activeKey = this.state.activeKey
     const loading = app.loadingObjectStore && app.loadingObjectStore.length > 0
     const loadingGruppe = loading ? app.loadingObjectStore[0] : 'Daten'
 
     const tree = (
       <div>
-        <Nodes hO={hO} activeKey={activeKey}/>
+        <Nodes hO={hO} level={1}/>
       </div>
     )
 

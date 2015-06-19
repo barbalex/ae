@@ -32,7 +32,7 @@ const Nodes = React.createClass({
     const lastPathElement = path[path.length - 1]
     const guid = isGuid(lastPathElement) ? lastPathElement : null
     const level = this.props.level || path.length
-    const activeKey = this.props.activeKey || path[level - 1] || ''
+    const activeKey = path[level - 1] || ''
     const hO = this.props.hO
     const state = {
       hO: hO,
@@ -100,10 +100,6 @@ const Nodes = React.createClass({
     const that = this
     const { guid, hO, activeKey, level } = this.state
 
-    const pathString = this.getParams().splat
-    const path = pathString.split('/')
-    const nextActiveKey = path[level - 1] || ''
-
     // console.log('treeNodesFromHierarchyObject.js render: activeKey', activeKey)
 
     nodes = _.chain(hO)
@@ -114,7 +110,7 @@ const Nodes = React.createClass({
           <li level={level} key={key} onClick={that.onClickNode.bind(that, {'key': key, 'activeKey': activeKey, 'level': level})}>
             <Glyphicon glyph={key === activeKey ? (typeof hO[key] !== 'object' ? 'forward' : 'triangle-bottom') : (typeof hO[key] !== 'object' ? 'minus' : 'triangle-right')} onClick={that.onClickNode.bind(that, {'key': key, 'activeKey': activeKey, 'level': level})}/>
             <div className={key === activeKey ? 'active' : null}>{key}</div>
-            {(key === activeKey && typeof hO[key] === 'object') || (guid && key !== guid) ? <Nodes activeKey={nextActiveKey} level={level + 1} hO={hO[key]}/> : null}
+            {(key === activeKey && typeof hO[key] === 'object') || (guid && key !== guid) ? <Nodes level={level + 1} hO={hO[key]}/> : null}
           </li>
         )
       })
