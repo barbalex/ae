@@ -7,6 +7,7 @@ import { ListenerMixin } from 'reflux'
 import { Glyphicon } from 'react-bootstrap'
 import _ from 'lodash'
 import isGuid from '../../modules/isGuid.js'
+import setTreeHeight from '../../modules/setTreeHeight.js'
 
 const Nodes = React.createClass({
   displayName: 'TreeLowerLevel',
@@ -48,6 +49,7 @@ const Nodes = React.createClass({
   },
 
   componentDidMount () {
+    setTreeHeight()
     this.listenTo(window.objectStore, this.onStoreChange)
   },
 
@@ -73,11 +75,11 @@ const Nodes = React.createClass({
 
     const pathString = this.getParams().splat
     const path = pathString.split('/')
-    const { key, activeKey, openClickedNode, level } = params
+    const { key, activeKey, level } = params
     const hO = this.state.hO
     // keep path elements below level clicked
     const pathElements = _.slice(path, 0, level - 1)  // TODO WRONG
-    if (openClickedNode) {
+    if (key !== activeKey) {
       // get string of the element clicked
       const newPathElement = typeof hO[key] === 'object' ? key : hO[key]
       // add it to the path
@@ -106,8 +108,8 @@ const Nodes = React.createClass({
       .sort()
       .map(function (key) {
         return (
-          <li level={level} key={key} onClick={that.onClickNode.bind(that, {'key': key, 'activeKey': activeKey, 'openClickedNode': true, 'level': level})}>
-            <Glyphicon glyph={key === activeKey ? (typeof hO[key] !== 'object' ? 'forward' : 'triangle-bottom') : 'triangle-right'} onClick={that.onClickNode.bind(that, {'key': key, 'activeKey': activeKey, 'openClickedNode': false, 'level': level})}/>
+          <li level={level} key={key} onClick={that.onClickNode.bind(that, {'key': key, 'activeKey': activeKey, 'level': level})}>
+            <Glyphicon glyph={key === activeKey ? (typeof hO[key] !== 'object' ? 'forward' : 'triangle-bottom') : (typeof hO[key] !== 'object' ? 'minus' : 'triangle-right')} onClick={that.onClickNode.bind(that, {'key': key, 'activeKey': activeKey, 'level': level})}/>
             <div className={key === activeKey ? 'active' : null}>{key}</div>
             {(key === activeKey && typeof hO[key] === 'object') || (guid && key !== guid) ? <Nodes level={level + 1} hO={hO[key]}/> : null}
           </li>

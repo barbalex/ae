@@ -53,17 +53,16 @@ export default React.createClass({
     const item = guid ? window.objectStore.getItem(gruppe, guid) : null
     this.setState({
       loading: !window.objectStore.loaded[gruppe],
-      item: item,
-      gruppe: gruppe
+      item: item
     })
   },
 
   render () {
     const pathString = this.getParams().splat
     const path = pathString.split('/')
-    const gruppe = path[0]
     const lastPathElement = path[path.length - 1]
     const guid = isGuid(lastPathElement) ? lastPathElement : null
+    const gruppe = this.state.gruppe
     const item = window.objectStore.getItem(gruppe, guid)
 
     if (!guid) {
