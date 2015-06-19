@@ -13,7 +13,8 @@ export default React.createClass({
 
   propTypes: {
     hO: React.PropTypes.object,  // = hierarchy-object
-    gruppe: React.PropTypes.string
+    gruppe: React.PropTypes.string,
+    activeKey: React.PropTypes.string
   },
 
   getInitialState () {
@@ -21,9 +22,11 @@ export default React.createClass({
     const path = pathString.split('/')
     const gruppe = path[0]
     const hO = window.objectStore.getHierarchy()
+    const activeKey = gruppe
     const state = {
       hO: hO,
-      gruppe: gruppe
+      gruppe: gruppe,
+      activeKey: activeKey
     }
 
     console.log('treeFromHierarchyObject.js getInitialState: state', state)
@@ -48,12 +51,13 @@ export default React.createClass({
 
   render () {
     const hO = this.state.hO
+    const activeKey = this.state.activeKey
     const loading = app.loadingObjectStore && app.loadingObjectStore.length > 0
     const loadingGruppe = loading ? app.loadingObjectStore[0] : 'Daten'
 
     const tree = (
       <div>
-        <Nodes hO={hO}/>
+        <Nodes hO={hO} activeKey={activeKey}/>
       </div>
     )
 
