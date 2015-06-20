@@ -5,7 +5,6 @@ import { State, Navigation } from 'react-router'
 import { ListenerMixin } from 'reflux'
 import { Glyphicon } from 'react-bootstrap'
 import _ from 'lodash'
-import isGuid from '../../modules/isGuid.js'
 import setTreeHeight from '../../modules/setTreeHeight.js'
 
 const Nodes = React.createClass({
@@ -21,16 +20,13 @@ const Nodes = React.createClass({
     hO: React.PropTypes.node,  // = hierarchy-object OF THIS LEVEL
     level: React.PropTypes.number,
     activeKey: React.PropTypes.string,
-    gruppe: React.PropTypes.string,
-    guid: React.PropTypes.string
+    gruppe: React.PropTypes.string
   },
 
   getInitialState () {
     const pathString = this.getParams().splat
     const path = pathString.split('/')
     const gruppe = path[0]
-    const lastPathElement = path[path.length - 1]
-    const guid = isGuid(lastPathElement) ? lastPathElement : null
     const level = this.props.level || path.length
     const activeKey = path[level - 1] || ''
     const hO = this.props.hO
@@ -38,8 +34,7 @@ const Nodes = React.createClass({
       hO: hO,
       level: level,
       activeKey: activeKey,
-      gruppe: gruppe,
-      guid: guid
+      gruppe: gruppe
     }
 
     // console.log('treeNodesFromHierarchyObject.js getInitialState: state', state)
@@ -92,20 +87,21 @@ const Nodes = React.createClass({
   render () {
     let nodes
     const that = this
-    const { guid, hO, activeKey, level } = this.state
-
-    console.log('treeNodesFromHierarchyObject.js render: activeKey', activeKey)
+    const { hO, activeKey, level } = this.state
 
     nodes = _.chain(hO)
       .keys()
       .sort()
       .map(function (key) {
-        console.log('treeNodesFromHierarchyObject.js render: key', key)
+        const keyIsActive = key === activeKey || hO[key] === activeKey
+        const keyIsObject = typeof hO[key] === 'string'
+        const glyph = keyIsActive ? (keyIsObject ? 'forward' : 'triangle-bottom') : (keyIsObject ? 'minus' : 'triangle-right')
+        const onClickNode = that.onClickNode.bind(that, {'key': key, 'activeKey': activeKey, 'level': level})
         return (
-          <li level={level} key={key} onClick={that.onClickNode.bind(that, {'key': key, 'activeKey': activeKey, 'level': level})}>
-            <Glyphicon glyph={key === activeKey ? (typeof hO[key] !== 'object' ? 'forward' : 'triangle-bottom') : (typeof hO[key] !== 'object' ? 'minus' : 'triangle-right')} onClick={that.onClickNode.bind(that, {'key': key, 'activeKey': activeKey, 'level': level})}/>
-            <div className={key === activeKey ? 'active' : null}>{key}</div>
-            {(key === activeKey && typeof hO[key] === 'object') /*|| (guid && key !== guid)*/ ? <Nodes level={level + 1} hO={hO[key]}/> : null}
+          <li level={level} key={key} onClick={onClickNode}>
+            <Glyphicon glyph={glyph} onClick={onClickNode}/>
+            <div className={keyIsActive ? 'active' : null}>{key}</div>
+            {(key === activeKey && !keyIsObject) ? <Nodes level={level + 1} hO={hO[key]}/> : null}
           </li>
         )
       })
