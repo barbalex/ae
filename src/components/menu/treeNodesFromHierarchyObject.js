@@ -42,7 +42,7 @@ const Nodes = React.createClass({
       guid: guid
     }
 
-    console.log('treeNodesFromHierarchyObject.js getInitialState: state', state)
+    // console.log('treeNodesFromHierarchyObject.js getInitialState: state', state)
 
     return state
   },
@@ -53,7 +53,6 @@ const Nodes = React.createClass({
   },
 
   onStoreChange (items, hO, gruppe) {
-    console.log('treeNodesFromHierarchyObject.js, onStoreChange: gruppe', gruppe)
     // don't set state of hO - it get's passed down by parent component
     // do set activeKey > the new store is focused in tree
     this.setState({
@@ -95,17 +94,18 @@ const Nodes = React.createClass({
     const that = this
     const { guid, hO, activeKey, level } = this.state
 
-    // console.log('treeNodesFromHierarchyObject.js render: activeKey', activeKey)
+    console.log('treeNodesFromHierarchyObject.js render: activeKey', activeKey)
 
     nodes = _.chain(hO)
       .keys()
       .sort()
       .map(function (key) {
+        console.log('treeNodesFromHierarchyObject.js render: key', key)
         return (
           <li level={level} key={key} onClick={that.onClickNode.bind(that, {'key': key, 'activeKey': activeKey, 'level': level})}>
             <Glyphicon glyph={key === activeKey ? (typeof hO[key] !== 'object' ? 'forward' : 'triangle-bottom') : (typeof hO[key] !== 'object' ? 'minus' : 'triangle-right')} onClick={that.onClickNode.bind(that, {'key': key, 'activeKey': activeKey, 'level': level})}/>
             <div className={key === activeKey ? 'active' : null}>{key}</div>
-            {(key === activeKey && typeof hO[key] === 'object') || (guid && key !== guid) ? <Nodes level={level + 1} hO={hO[key]}/> : null}
+            {(key === activeKey && typeof hO[key] === 'object') /*|| (guid && key !== guid)*/ ? <Nodes level={level + 1} hO={hO[key]}/> : null}
           </li>
         )
       })

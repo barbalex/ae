@@ -29,7 +29,7 @@ export default React.createClass({
       activeKey: activeKey
     }
 
-    console.log('treeFromHierarchyObject.js getInitialState: state', state)
+    // console.log('treeFromHierarchyObject.js getInitialState: state', state)
 
     return state
   },

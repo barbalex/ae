@@ -67,7 +67,7 @@ export default React.createClass({
       groupsLoaded: groupsLoaded
     }
 
-    console.log('home.js getInitialState: state', state)
+    // console.log('home.js getInitialState: state', state)
 
     return state
   },

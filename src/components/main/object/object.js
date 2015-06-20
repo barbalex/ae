@@ -39,7 +39,7 @@ export default React.createClass({
       guid: guid
     }
 
-    console.log('object.js, getInitialState: state', state)
+    // console.log('object.js, getInitialState: state', state)
 
     return state
   },
