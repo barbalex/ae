@@ -31,6 +31,20 @@ function createButtons (that) {
   })
 }
 
+function createGruppen (that) {
+  const groupsNotLoaded = _.difference(gruppen, that.state.groupsLoaded)
+  if (groupsNotLoaded.length > 0) {
+    return (
+      <div id='groups'>
+        <div id='groupCheckboxesTitle'>Gruppe laden:</div>
+        <div id='groupCheckboxes'>
+          {createButtons(that)}
+        </div>
+      </div>
+    )
+  }
+}
+
 export default React.createClass({
   displayName: 'Home',
 
@@ -110,10 +124,7 @@ export default React.createClass({
             <MenuButton/>
             <ResizeButton/>
           </div>
-          <div>Gruppe laden:</div>
-          <div id='groupCheckboxes'>
-            {createButtons(this)}
-          </div>
+          {createGruppen(this)}
           {isGroup ? <Filter/> : ''}
           {isGroup ? <TreeFromHierarchyObject/> : ''}
         </div>
