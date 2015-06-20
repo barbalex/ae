@@ -36,7 +36,7 @@ function createGruppen (that) {
   if (groupsNotLoaded.length > 0) {
     return (
       <div id='groups'>
-        <div id='groupCheckboxesTitle'>Gruppe laden:</div>
+        <div id='groupCheckboxesTitle'>Gruppen laden:</div>
         <div id='groupCheckboxes'>
           {createButtons(that)}
         </div>
