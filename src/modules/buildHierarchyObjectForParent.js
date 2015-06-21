@@ -18,7 +18,8 @@ import app from 'ampersand-app'
 import _ from 'lodash'
 import passPropertyToHierarchieObject from './passPropertyToHierarchieObject.js'
 
-let hierarchieFelder = []
+const gruppe = 'Lebensräume'
+let property = {}
 
 function buildNodeName (object, level) {
   if (level === 1) {
@@ -28,45 +29,30 @@ function buildNodeName (object, level) {
   }
 }
 
-function buildNextLevel (path, level, objectsOfThisKey) {
+function buildNextLevel (path, level, property, objects) {
   // get level objects
-  const objectsOfLevel = _.indexBy(objectsOfThisKey, function (object) {
-    return 
+  const objectsOfNextLevel = _.indexBy(objects, function (object) {
+    return object.Taxonomie.Parent.GUID === parentObject._id
   })
-
-  // group objects by this level
-  const feld = hierarchieFelder[level - 1]
-  let property = {}
-
-  if (hierarchieFelder.length === level) {
-    // last level > build keys
-    _.forEach(objectsOfThisKey, function (object) {
-      property[object.Taxonomie.Eigenschaften[feld]] = object._id
-    })
-    passPropertyToHierarchieObject(property, path, gruppe)
-  } else {
-    // hierarchy level > build keys with indexBy
-    property = _.groupBy(objectsOfThisKey, function (object) {
-      return object.Taxonomie.Eigenschaften[hierarchieFelder[level - 1]]
-    })
-    passPropertyToHierarchieObject(property, path, gruppe)
-
-    // then build next level for each key
-    level++
-    _.forEach(property, function (value, key) {
-      let nextPath = _.clone(path)
-      nextPath.push(key)
-      buildNextLevel(nextPath, level, value, gruppe)
-    })
-  }
+  _.forEach(objectsOfNextLevel, function (object) {
+    path.push()
+    buildNextLevel(object, level, objects)
+  })
 }
 
 export default function (objects, hierarchieDoc) {
   let level = 1
   // build first level
-  const objectsOfLevel = _.indexBy(objects, function (object) {
-    return 
+  const propertiesOfLevel1 = _.indexBy(objects, function (object) {
+    return object.Taxonomie.Name
   })
-  buildNextLevel([], level, objects)
+  // get next level built
+  _.forEach(propertiesOfLevel1, function (property) {
+    const path = []
+    path.push(property)
+    passPropertyToHierarchieObject(property, path, gruppe)
+    buildNextLevel(path, level, property, objects)
+  })
+
   return app.hierarchieObject.Lebensräume
 }
