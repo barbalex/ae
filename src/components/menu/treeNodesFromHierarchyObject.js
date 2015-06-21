@@ -97,6 +97,7 @@ const Nodes = React.createClass({
         const keyIsObject = typeof hO[key] === 'string'
         const glyph = keyIsActive ? (keyIsObject ? 'forward' : 'triangle-bottom') : (keyIsObject ? 'minus' : 'triangle-right')
         const onClickNode = that.onClickNode.bind(that, {'key': key, 'activeKey': activeKey, 'level': level})
+
         return (
           <li level={level} key={key} onClick={onClickNode}>
             <Glyphicon glyph={glyph} onClick={onClickNode}/>

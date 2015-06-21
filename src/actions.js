@@ -6,6 +6,7 @@ import PouchDB from 'pouchdb'
 import _ from 'lodash'
 import pouchUrl from './modules/getCouchUrl.js'
 import buildHierarchyObjectForFelder from './modules/buildHierarchyObjectForFelder.js'
+import buildHierarchyObjectForParent from './modules/buildHierarchyObjectForParent.js'
 
 // Each action is like an event channel for one specific event. Actions are called by components.
 // The store is listening to all actions, and the components in turn are listening to the store.
@@ -36,7 +37,8 @@ export default function () {
     if (!window.objectStore.loaded[gruppe] && !_.includes(app.loadingObjectStore, gruppe) && gruppe) {
       let objects = []
       app.loadingObjectStore.push(gruppe)
-      const viewName = 'artendb/' + gruppe.toLowerCase() + 'NachName'
+      const viewGruppePrefix = gruppe === 'Lebensräume' ? 'lr' : gruppe.toLowerCase()
+      const viewName = 'artendb/' + viewGruppePrefix + 'NachName'
       // get fauna from db
       const db = new PouchDB(pouchUrl(), function (error, response) {
         if (error) { return console.log('error instantiating remote db') }
@@ -48,8 +50,11 @@ export default function () {
               return row.doc
             })
             // build hierarchy
+            // if Gruppe = LR get dsMetadataDoc of Delarze
             const dsName = objects[0].Taxonomie.Name
-            return db.query('artendb/dsMetadataNachDsName', { key: dsName, include_docs: true })
+            const key = objects[0].Gruppe === 'Lebensräume' ? 'CH Delarze (2008): Allgemeine Umgebung (Areale)' : dsName
+
+            return db.query('artendb/dsMetadataNachDsName', { key: key, include_docs: true })
           })
           .then(function (result) {
             // extract metadata doc from result
@@ -57,12 +62,10 @@ export default function () {
               return row.doc
             })[0]
 
-            // console.log('actions dsMetatata doc:', doc)
-
             // lookup type
             let hierarchyObject
             if (doc.HierarchieTyp === 'Felder') hierarchyObject = buildHierarchyObjectForFelder(objects, doc)
-            if (doc.HierarchieTyp === 'Parent') { /* TODO */ }
+            if (doc.HierarchieTyp === 'Parent') hierarchyObject = buildHierarchyObjectForParent(objects, doc)
 
             // console.log('actions.js: hierarchyObject:', hierarchyObject)
             // console.log('actions.js: gruppe:', gruppe)
