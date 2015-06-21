@@ -30,7 +30,9 @@ function buildNodeName (object, level) {
 
 function buildNextLevel (path, level, objectsOfThisKey) {
   // get level objects
-  
+  const objectsOfLevel = _.indexBy(objectsOfThisKey, function (object) {
+    return 
+  })
 
   // group objects by this level
   const feld = hierarchieFelder[level - 1]
@@ -61,6 +63,10 @@ function buildNextLevel (path, level, objectsOfThisKey) {
 
 export default function (objects, hierarchieDoc) {
   let level = 1
+  // build first level
+  const objectsOfLevel = _.indexBy(objects, function (object) {
+    return 
+  })
   buildNextLevel([], level, objects)
   return app.hierarchieObject.Lebensräume
 }
