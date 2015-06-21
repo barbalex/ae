@@ -19,40 +19,56 @@ import _ from 'lodash'
 import passPropertyToHierarchieObject from './passPropertyToHierarchieObject.js'
 
 const gruppe = 'Lebensräume'
-let property = {}
 
 function buildKeyName (object) {
-  return object.Taxonomie.Eigenschaften.Label + ': ' + object.Taxonomie.Eigenschaften.Einheit
+  if (object && object.Taxonomie && object.Taxonomie.Eigenschaften && object.Taxonomie.Eigenschaften.Label && object.Taxonomie.Eigenschaften.Einheit) {
+    return object.Taxonomie.Eigenschaften.Label + ': ' + object.Taxonomie.Eigenschaften.Einheit
+  }
+  return '(unbekannte Einheit)'
 }
 
 function buildNextLevel (path, level, objects) {
+
+  console.log('buildHierarchyObjectForParent.js: number of objects at level ' + level + ' and path ' + path + ':', objects.length)
+
   // get level objects
   const propertiesOfNextLevel = _.indexBy(objects, function (object) {
     return buildKeyName(object)
   })
+
+  console.log('buildHierarchyObjectForParent.js: propertiesOfNextLevel', propertiesOfNextLevel)
+
   _.forEach(propertiesOfNextLevel, function (objects, key) {
     path.push(key)
-    buildNextLevel(path, level, objects)
+    passPropertyToHierarchieObject(key, path, gruppe)
+    buildNextLevel(path, level + 1, objects)
   })
 }
 
 export default function (objects, hierarchieDoc) {
   let level = 1
   // build first level
-  const propertiesOfLevel1 = _.indexBy(objects, function (object) {
+  const propertiesOfLevel1 = _.groupBy(objects, function (object) {
     return object.Taxonomie.Name
   })
-  // get objects of first level
-  const objectsOfLevel1 = _.indexBy(objects, function (object) {
-    return object._id === object.Taxonomie.Eigenschaften.Parent.GUID
-  })
+
+  console.log('buildHierarchyObjectForParent.js: propertiesOfLevel1', propertiesOfLevel1)
+  console.log('buildHierarchyObjectForParent.js: number of objects at level ' + level + ':', objects.length)
+
+  app.hierarchieObject = app.hierarchieObject || {}
+  app.hierarchieObject[gruppe] = {}
+
   // get next level built
   _.forEach(propertiesOfLevel1, function (objects, key) {
+
+    console.log('buildHierarchyObjectForParent.js: forEach propertiesOfLevel1: key', key)
+    console.log('buildHierarchyObjectForParent.js: forEach propertiesOfLevel1: objects', objects)
+
     const path = []
     path.push(key)
     passPropertyToHierarchieObject(key, path, gruppe)
-    buildNextLevel(path, level, objects)
+    buildNextLevel(path, level + 1, objects)
   })
 
-  return app.hierarchieObject.Lebensräume
+  return app.hierarchieObject[gruppe]
 }
