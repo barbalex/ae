@@ -52,10 +52,7 @@ export default function (Actions) {
       return this.hierarchyObject[gruppe]
     },
 
-    onLoadObjectStore (gruppe) {
-      // console.log('stores.js, onLoadObjectStore: param', gruppe)
-
-      // trigger change because of loaded state
+    onLoadObjectStore (gruppe) {// trigger change because of loaded state
       this.trigger(this.items, this.hierarchyObject, gruppe)
     },
 
@@ -70,26 +67,13 @@ export default function (Actions) {
         this.loaded[gruppe] = true
       }
       this.items[gruppe] = {}
-
-      // console.log('stores.js onLoadObjectStoreCompleted: this.items[gruppe] before assigning:', this.items[gruppe])
-
       _.assign(this.items[gruppe], items)
-
-      // console.log('stores.js onLoadObjectStoreCompleted: this.items[gruppe] after assigning:', this.items[gruppe])
-
       this.hierarchyObject[gruppe] = {}
-
-      // console.log('stores.js onLoadObjectStoreCompleted: this.hierarchyObject[gruppe] before assigning:', this.hierarchyObject[gruppe])
-
       _.assign(this.hierarchyObject[gruppe], hierarchyObject)
 
       // signal that this group is not being loaded any more
       app.loadingObjectStore = _.without(app.loadingObjectStore, gruppe)
-
-      // console.log('stores.js onLoadObjectStoreCompleted: this.hierarchyObject[gruppe] after assigning:', this.hierarchyObject[gruppe])
-      // console.log('stores.js onLoadObjectStoreCompleted: this.items:', this.items)
-      // console.log('stores.js onLoadObjectStoreCompleted: this.hierarchyObject:', this.hierarchyObject)
-
+      // tell views that data has changed
       this.trigger(this.items, this.hierarchyObject, gruppe)
     },
 

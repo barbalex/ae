@@ -13,6 +13,9 @@ export default function () {
   const windowHeight = $(window).height()
   const forceMobile = $('body').hasClass('force-mobile')
 
+  // TODO: make height dependent from height of the element to choose groups from
+  // because that can disapear
+
   if ($(window).width() > 1000 && !forceMobile) {
     $('#tree').css('max-height', windowHeight - 169)
     $('#main').css('transform', 'translate(391px, 0)')

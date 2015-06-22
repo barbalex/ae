@@ -9,7 +9,8 @@ import React from 'react'
 import { Typeahead } from 'react-typeahead'
 import { State, Navigation } from 'react-router'
 import { ListenerMixin } from 'reflux'
-import values from 'lodash/object/values'
+import { Glyphicon } from 'react-bootstrap'
+import _ from 'lodash'
 
 export default React.createClass({
   displayName: 'Filter',
@@ -43,9 +44,15 @@ export default React.createClass({
     })
   },
 
+  onClickRemove () {
+    console.log('filter.js: clicked remove')
+    // this.forceUpdate()
+  },
+
   filter (result) {
 
     console.log('filter.js: result filtered:', result)
+
     /*const gruppe = this.state.gruppe
     const objekt = window.objectStore.getItem(gruppe, guid)
     const klasse = objekt.Taxonomie.Eigenschaften.Klasse
@@ -78,19 +85,30 @@ export default React.createClass({
       options = options.concat(groupOptions)
     })
 
+    const removeGlyphStyle = {
+      fontSize: 14 + 'px',
+      position: 'absolute',
+      right: 2 + 'px',
+      top: 3 + 'px',
+      padding: 7 + 'px'
+    }
+
     const filter = (
-      <Typeahead
-        placeholder={'filtern'}
-        maxVisible={10}
-        options={options}
-        filterOption={'label'}
-        displayOption={'label'}
-        onOptionSelected={this.filter}
-        customClasses={{
-          'input': ['form-control'],
-          'results': ['list-group'],
-          'listItem': ['list-group-item']
+      <div style={{position: 'relative'}}>
+        <Glyphicon glyph={'remove'} style={removeGlyphStyle} onClick={this.onClickRemove}/>
+        <Typeahead
+          placeholder={'filtern'}
+          maxVisible={10}
+          options={options}
+          filterOption={'label'}
+          displayOption={'label'}
+          onOptionSelected={this.filter}
+          customClasses={{
+            'input': ['form-control'],
+            'results': ['list-group'],
+            'listItem': ['list-group-item']
         }}/>
+        </div>
     )
 
     const nothing = <div/>
