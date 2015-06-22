@@ -49,7 +49,6 @@ export default function (Actions) {
     },
 
     getGroupsLoaded () {
-      console.log('objectStore getGroupsLoaded: ', _.keys(this.items))
       return _.keys(this.items)
     },
 

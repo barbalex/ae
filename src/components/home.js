@@ -103,7 +103,6 @@ export default React.createClass({
     // load this gruppe if that hasn't happened yet
     if (!window.objectStore.loaded[gruppe]) app.Actions.loadObjectStore(gruppe)
     this.transitionTo(`/${gruppe}`)
-    // this.render()
     this.forceUpdate()
   },
 

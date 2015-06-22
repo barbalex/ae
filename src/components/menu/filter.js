@@ -11,7 +11,7 @@ import { State, Navigation } from 'react-router'
 import { ListenerMixin } from 'reflux'
 import { Glyphicon } from 'react-bootstrap'
 import _ from 'lodash'
-import $ from 'jquery'
+import getPathFromGuid from '../../modules/getPathFromGuid.js'
 
 export default React.createClass({
   displayName: 'Filter',
@@ -49,22 +49,11 @@ export default React.createClass({
     console.log('filter.js: clicked remove')
     // this.forceUpdate()
     React.findDOMNode(this.refs.typeahead).focus()
-    // React.findDOMNode(this.refs.typeahead).val('')
   },
 
   filter (result) {
-
-    console.log('filter.js: result filtered:', result)
-    // $('#filter').find('input').focus()
-    
-
-    /*const gruppe = this.state.gruppe
-    const objekt = window.objectStore.getItem(gruppe, guid)
-    const klasse = objekt.Taxonomie.Eigenschaften.Klasse
-    const ordnung = objekt.Taxonomie.Eigenschaften.Ordnung
-    const familie = objekt.Taxonomie.Eigenschaften.Familie
-    window.router.transitionTo(`/Fauna/${klasse}/${ordnung}/${familie}/${guid}`)
-    this.forceUpdate()*/
+    const url = getPathFromGuid(result.value)
+    window.router.transitionTo(url)
   },
 
   render () {
