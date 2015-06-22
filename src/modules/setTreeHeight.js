@@ -1,5 +1,5 @@
 /*
- * setzs max-height of tree
+ * sets max-height of tree
  * usually makes it as high as page
  * when mobile less so the lower area can be dragged up
  * status of forceMobile can be passed
