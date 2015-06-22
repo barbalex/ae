@@ -15,8 +15,10 @@ export default function () {
 
   if ($(window).width() > 1000 && !forceMobile) {
     $('#tree').css('max-height', windowHeight - 169)
+    $('#main').css('transform', 'translate(391px, 0)')
   } else {
     // Spalten sind untereinander. Baum weniger hoch, damit Formulare zum raufschieben immer erreicht werden können
     $('#tree').css('max-height', windowHeight - 226)
+    $('#main').css('transform', 'translate(0, 535px)')
   }
 }
