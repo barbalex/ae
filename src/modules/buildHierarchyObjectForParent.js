@@ -20,55 +20,54 @@ import passPropertyToHierarchieObject from './passPropertyToHierarchieObject.js'
 
 const gruppe = 'Lebensräume'
 
-function buildKeyName (object) {
-  if (object && object.Taxonomie && object.Taxonomie.Eigenschaften && object.Taxonomie.Eigenschaften.Label && object.Taxonomie.Eigenschaften.Einheit) {
-    return object.Taxonomie.Eigenschaften.Label + ': ' + object.Taxonomie.Eigenschaften.Einheit
+function buildNextLevel (property, path, objects) {
+  if (objects.length > 0) {
+    let nextPath = _.clone(path)
+    nextPath.push(property)
+    const level = nextPath.length
+
+    const propertiesOfNextLevel = _.groupBy(objects, function (object) {
+      if (object.Taxonomie && object.Taxonomie.Eigenschaften && object.Taxonomie.Eigenschaften.Hierarchie && object.Taxonomie.Eigenschaften.Hierarchie[level] && object.Taxonomie.Eigenschaften.Hierarchie[level].Name) return object.Taxonomie.Eigenschaften.Hierarchie[level].Name
+    })
+
+    console.log('buildHierarchyObjectForParent.js: ' + Object.keys(propertiesOfNextLevel).length + ' properties of Level ' + level + ':', propertiesOfNextLevel)
+
+    // if (propertiesOfNextLevel['undefined']) delete propertiesOfNextLevel.undefined
+
+    passPropertyToHierarchieObject(propertiesOfNextLevel, nextPath, gruppe)
+
+    // console.log('buildHierarchyObjectForParent.js: propertiesOfNextLevel', propertiesOfNextLevel)
+
+    /*_.forEach(propertiesOfNextLevel, function (values, property) {
+      buildNextLevel(property, path, values)
+    })*/
   }
-  return '(unbekannte Einheit)'
 }
 
-function buildNextLevel (path, level, objects) {
+export default function (objects) {
 
-  console.log('buildHierarchyObjectForParent.js: number of objects at level ' + level + ' and path ' + path + ':', objects.length)
+  // console.log('buildHierarchyObjectForParent.js: objects', objects)
 
-  // get level objects
-  const propertiesOfNextLevel = _.indexBy(objects, function (object) {
-    return buildKeyName(object)
-  })
-
-  console.log('buildHierarchyObjectForParent.js: propertiesOfNextLevel', propertiesOfNextLevel)
-
-  _.forEach(propertiesOfNextLevel, function (objects, key) {
-    path.push(key)
-    passPropertyToHierarchieObject(key, path, gruppe)
-    buildNextLevel(path, level + 1, objects)
-  })
-}
-
-export default function (objects, hierarchieDoc) {
-  let level = 1
-  // build first level
-  const propertiesOfLevel1 = _.groupBy(objects, function (object) {
-    return object.Taxonomie.Name
-  })
-
-  console.log('buildHierarchyObjectForParent.js: propertiesOfLevel1', propertiesOfLevel1)
-  console.log('buildHierarchyObjectForParent.js: number of objects at level ' + level + ':', objects.length)
-
+  // prepare hierarchieObject
   app.hierarchieObject = app.hierarchieObject || {}
   app.hierarchieObject[gruppe] = {}
 
-  // get next level built
-  _.forEach(propertiesOfLevel1, function (objects, key) {
-
-    console.log('buildHierarchyObjectForParent.js: forEach propertiesOfLevel1: key', key)
-    console.log('buildHierarchyObjectForParent.js: forEach propertiesOfLevel1: objects', objects)
-
-    const path = []
-    path.push(key)
-    passPropertyToHierarchieObject(key, path, gruppe)
-    buildNextLevel(path, level + 1, objects)
+  // build first level
+  const propertiesOfLevel1 = _.groupBy(objects, function (object) {
+    if (object.Taxonomie && object.Taxonomie.Name) return object.Taxonomie.Name
   })
+
+  console.log('buildHierarchyObjectForParent.js: ' + Object.keys(propertiesOfLevel1).length + ' properties of Level 1:', propertiesOfLevel1)
+
+  const path = []
+  passPropertyToHierarchieObject(propertiesOfLevel1, path, gruppe)
+
+  buildNextLevel('Agrofutura (2004): Wiesenkartierschlüssel', path, propertiesOfLevel1['Agrofutura (2004): Wiesenkartierschlüssel'])
+
+  // get next level built
+  /*_.forEach(propertiesOfLevel1, function (values, property) {
+    buildNextLevel(property, path, values)
+  })*/
 
   return app.hierarchieObject[gruppe]
 }
