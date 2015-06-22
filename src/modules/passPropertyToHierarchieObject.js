@@ -10,14 +10,15 @@ import app from 'ampersand-app'
 export default function (property, path, gruppe) {
   let ho = app.hierarchieObject[gruppe]
 
-  console.log('passPropertyToHierarchieObject.js: gruppe', gruppe)
-  console.log('passPropertyToHierarchieObject.js: property', property)
-  console.log('passPropertyToHierarchieObject.js: path', path)
-  console.log('passPropertyToHierarchieObject.js: path.length', path.length)
-  console.log('passPropertyToHierarchieObject.js: path[0]', path[0])
+  // console.log('passPropertyToHierarchieObject.js: ho before', ho)
   // console.log('passPropertyToHierarchieObject.js: gruppe', gruppe)
-  console.log('passPropertyToHierarchieObject.js: ho[path[0]]', ho[path[0]])
-  console.log('passPropertyToHierarchieObject.js: ho[Agrofutura (2004): Wiesenkartierschlüssel]', app.hierarchieObject[gruppe]['Agrofutura (2004): Wiesenkartierschlüssel'])
+  // console.log('passPropertyToHierarchieObject.js: property', property)
+  // console.log('passPropertyToHierarchieObject.js: path', path)
+  // console.log('passPropertyToHierarchieObject.js: path.length', path.length)
+  // console.log('passPropertyToHierarchieObject.js: path[0]', path[0])
+  // console.log('passPropertyToHierarchieObject.js: gruppe', gruppe)
+  // console.log('passPropertyToHierarchieObject.js: ho[path[0]]', ho[path[0]])
+  // console.log('passPropertyToHierarchieObject.js: ho[Agrofutura (2004): Wiesenkartierschlüssel]', app.hierarchieObject[gruppe]['Agrofutura (2004): Wiesenkartierschlüssel'])
 
   switch (path.length) {
   case 0:
@@ -49,6 +50,6 @@ export default function (property, path, gruppe) {
     break
   }
 
-  console.log('passPropertyToHierarchieObject.js: ho', ho)
+  // console.log('passPropertyToHierarchieObject.js: ho', ho)
 
 }
