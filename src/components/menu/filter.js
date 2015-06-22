@@ -6,7 +6,7 @@
 'use strict'
 
 import React from 'react'
-import Filter from 'react-select'
+import { Typeahead } from 'react-typeahead'
 import { State, Navigation } from 'react-router'
 import { ListenerMixin } from 'reflux'
 import values from 'lodash/object/values'
@@ -27,7 +27,7 @@ export default React.createClass({
     const gruppe = path[0]
     return {
       loading: !window.objectStore.loaded[gruppe],
-      items: window.objectStore.getItemsOfGruppe(gruppe),
+      items: window.objectStore.getItems(),
       gruppe: gruppe
     }
   },
@@ -39,39 +39,56 @@ export default React.createClass({
   onStoreChange (items) {
     this.setState({
       loading: false,
-      items: items[this.state.gruppe]
+      items: items
     })
   },
 
   filter (guid) {
-    const gruppe = this.state.gruppe
+
+    console.log('filter.js: object filtered:', guid)
+    /*const gruppe = this.state.gruppe
     const objekt = window.objectStore.getItem(gruppe, guid)
     const klasse = objekt.Taxonomie.Eigenschaften.Klasse
     const ordnung = objekt.Taxonomie.Eigenschaften.Ordnung
     const familie = objekt.Taxonomie.Eigenschaften.Familie
     window.router.transitionTo(`/Fauna/${klasse}/${ordnung}/${familie}/${guid}`)
-    this.forceUpdate()
+    this.forceUpdate()*/
   },
 
   render () {
-    const objects = values(this.state.items)
-      .map(function (object) {
+    let options = []
+
+    // get all keys of groups
+    _.forEach(this.state.items, function (value, key) {
+      // value is an object with key = guid for all lr-objects
+      // _.values(value) is an array of all objects
+      const objectArray = _.values(value)
+
+      const groupOptions = _.map(objectArray, function (object) {
         // make sure every fauna has a name
         // dont use others for filtering
         if (object.Taxonomie && object.Taxonomie.Eigenschaften && object.Taxonomie.Eigenschaften['Artname vollständig']) {
           return {
-            value: object._id,
-            label: object.Taxonomie.Eigenschaften['Artname vollständig']
+            'value': object._id,
+            'label': object.Taxonomie.Eigenschaften['Artname vollständig']
           }
         }
       })
+      // add the options of this gruppe to all options
+      options = options.concat(groupOptions)
+    })
+
+    console.log('filter.js: options:', options)
+    console.log('filter.js: options.length:', options.length)
 
     const filter = (
-      <Filter
-        placeholder='filtern'
-        noResultsText='keine Treffer'
-        options={objects}
-        onChange={this.filter}/>
+      <Typeahead
+        placeholder={'filtern'}
+        maxVisible={20}
+        options={options}
+        filterOption={'label'}
+        displayOption={'label'}
+        onOptionSelected={this.filter}/>
     )
 
     const nothing = <div/>
