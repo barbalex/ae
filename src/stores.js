@@ -17,6 +17,8 @@ export default function (Actions) {
 
     hierarchyObject: {},
 
+    dsMetadata: {},
+
     loaded: {
       'Fauna': false,
       'Flora': false,
@@ -29,6 +31,21 @@ export default function (Actions) {
     getItem (gruppe, guid) {
       if (!this.loaded[gruppe] || !this.items || !this.items[gruppe] || !this.items[gruppe][guid]) return {}
       return this.items[gruppe][guid]
+    },
+
+    getAllItems () {
+      let items = {}
+      _.forEach(this.items, function (value, key) {
+        // _.values(value) is an array of all items
+        // const itemsArray = _.values(value)
+        // items = items.concat(itemsArray)
+        _.assign(items, value)
+      })
+      return items
+    },
+
+    getItemByGuid (guid) {
+      return this.getAllItems()[guid]
     },
 
     getGroupsLoaded () {
@@ -52,11 +69,15 @@ export default function (Actions) {
       return this.hierarchyObject[gruppe]
     },
 
+    getDsMetadata () {
+      return this.dsMetadata
+    },
+
     onLoadObjectStore (gruppe) {// trigger change because of loaded state
       this.trigger(this.items, this.hierarchyObject, gruppe)
     },
 
-    onLoadObjectStoreCompleted (gruppe, items, hierarchyObject) {
+    onLoadObjectStoreCompleted (gruppe, items, hierarchyObject, dsMetadata) {
       // console.log('stores.js onLoadObjectStoreCompleted: items:', items)
       // console.log('stores.js onLoadObjectStoreCompleted: hierarchyObject:', hierarchyObject)
       // console.log('stores.js onLoadObjectStoreCompleted: gruppe:', gruppe)
@@ -70,6 +91,7 @@ export default function (Actions) {
       _.assign(this.items[gruppe], items)
       this.hierarchyObject[gruppe] = {}
       _.assign(this.hierarchyObject[gruppe], hierarchyObject)
+      _.assign(this.dsMetadata, _.indexBy(dsMetadata, 'Name'))
 
       // signal that this group is not being loaded any more
       app.loadingObjectStore = _.without(app.loadingObjectStore, gruppe)

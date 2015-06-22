@@ -11,6 +11,7 @@ import { State, Navigation } from 'react-router'
 import { ListenerMixin } from 'reflux'
 import { Glyphicon } from 'react-bootstrap'
 import _ from 'lodash'
+import $ from 'jquery'
 
 export default React.createClass({
   displayName: 'Filter',
@@ -47,11 +48,15 @@ export default React.createClass({
   onClickRemove () {
     console.log('filter.js: clicked remove')
     // this.forceUpdate()
+    React.findDOMNode(this.refs.typeahead).focus()
+    // React.findDOMNode(this.refs.typeahead).val('')
   },
 
   filter (result) {
 
     console.log('filter.js: result filtered:', result)
+    // $('#filter').find('input').focus()
+    
 
     /*const gruppe = this.state.gruppe
     const objekt = window.objectStore.getItem(gruppe, guid)
@@ -86,17 +91,19 @@ export default React.createClass({
     })
 
     const removeGlyphStyle = {
-      fontSize: 14 + 'px',
+      fontSize: 13 + 'px',
       position: 'absolute',
       right: 2 + 'px',
       top: 3 + 'px',
-      padding: 7 + 'px'
+      padding: 7 + 'px',
+      color: '#333'
     }
 
     const filter = (
       <div style={{position: 'relative'}}>
         <Glyphicon glyph={'remove'} style={removeGlyphStyle} onClick={this.onClickRemove}/>
         <Typeahead
+          ref={'typeahead'}
           placeholder={'filtern'}
           maxVisible={10}
           options={options}

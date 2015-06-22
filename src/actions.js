@@ -50,28 +50,29 @@ export default function () {
               return row.doc
             })
             // build hierarchy
-            // if Gruppe = LR get dsMetadataDoc of Delarze
-            const dsName = objects[0].Taxonomie.Name
-            const key = objects[0].Gruppe === 'Lebensräume' ? 'CH Delarze (2008): Allgemeine Umgebung (Areale)' : dsName
-
-            return db.query('artendb/dsMetadataNachDsName', { key: key, include_docs: true })
+            return db.query('artendb/dsMetadataNachDsName', { include_docs: true })
           })
           .then(function (result) {
             // extract metadata doc from result
-            const doc = result.rows.map(function (row) {
+            const dsMetadata = result.rows.map(function (row) {
               return row.doc
-            })[0]
+            })
+
+            const dsName = objects[0].Taxonomie.Name
+            const dsMetadataDoc = _.find(dsMetadata, function (doc) {
+              // if Gruppe = LR get dsMetadataDoc of Delarze
+              if (objects[0].Gruppe === 'Lebensräume') {
+                return doc.Name === 'CH Delarze (2008): Allgemeine Umgebung (Areale)'
+              }
+              return doc.Name === dsName
+            })
 
             // lookup type
             let hierarchyObject
-            if (doc.HierarchieTyp === 'Felder') hierarchyObject = buildHierarchyObjectForFelder(objects, doc)
-            if (doc.HierarchieTyp === 'Parent') hierarchyObject = buildHierarchyObjectForParent(objects, doc)
+            if (dsMetadataDoc.HierarchieTyp === 'Felder') hierarchyObject = buildHierarchyObjectForFelder(objects, dsMetadataDoc)
+            if (dsMetadataDoc.HierarchieTyp === 'Parent') hierarchyObject = buildHierarchyObjectForParent(objects, dsMetadataDoc)
 
-            // console.log('actions.js: hierarchyObject:', hierarchyObject)
-            // console.log('actions.js: gruppe:', gruppe)
-            // console.log('actions.js: objects:', objects)
-
-            Actions.loadObjectStore.completed(gruppe, objects, hierarchyObject)
+            Actions.loadObjectStore.completed(gruppe, objects, hierarchyObject, dsMetadata)
           })
           .catch(function (error) {
             app.loadingObjectStore = false
