@@ -1,5 +1,4 @@
 @import '../../node_modules/bootstrap/dist/css/bootstrap.css'
-@import '../../node_modules/react-select/dist/default.css'
 @import '../../node_modules/react-json-inspector/json-inspector.css'
 
 /*
@@ -66,6 +65,8 @@ body
   background-color: #FFFFF0
   // auf chrome liegt Menu ohne z-index unter Accordion
   z-index: 1
+  position: fixed
+  width: calc(100% - 14px)
 
 /* über 1000px nebeneinander
    force-mobile: damit kann die Mobil-Sicht manuell gewählt werden */
@@ -81,24 +82,6 @@ body
 
     /* Breite berechnen */
     width: calc(100% - 391px)
-
-  /* In Chrome ab 7.2013 verbreitert node-Text im Baum das menu-div! */
-  body:not(.force-mobile) #menu [level="1"]
-    width: 320px
-
-  body:not(.force-mobile) #menu [level="2"]
-    width: 302px
-
-  body:not(.force-mobile) #menu [level="3"]
-    width: 284px
-
-  body:not(.force-mobile) #menu [level="4"]
-    width: 266px
-
-  body:not(.force-mobile) #menu [level="5"]
-    width: 248px
-
-
 
 
 
@@ -169,7 +152,19 @@ body
 #filter .Select-option
   padding: 2px 10px
 
+#filter ul
+  margin-bottom: 0
+  position: absolute
+  z-index: 100
+  width: calc(100% - 16px)
 
+#filter ul li
+  padding-top: 3px
+  padding-bottom: 3px
+  border-top: 1px solid #F2F2F2
+
+#filter ul li a
+  color: #5F5F5F
 
 /*--------------------------------*\
     2. #MENU

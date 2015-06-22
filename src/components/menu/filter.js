@@ -43,9 +43,9 @@ export default React.createClass({
     })
   },
 
-  filter (guid) {
+  filter (result) {
 
-    console.log('filter.js: object filtered:', guid)
+    console.log('filter.js: result filtered:', result)
     /*const gruppe = this.state.gruppe
     const objekt = window.objectStore.getItem(gruppe, guid)
     const klasse = objekt.Taxonomie.Eigenschaften.Klasse
@@ -78,17 +78,19 @@ export default React.createClass({
       options = options.concat(groupOptions)
     })
 
-    console.log('filter.js: options:', options)
-    console.log('filter.js: options.length:', options.length)
-
     const filter = (
       <Typeahead
         placeholder={'filtern'}
-        maxVisible={20}
+        maxVisible={10}
         options={options}
         filterOption={'label'}
         displayOption={'label'}
-        onOptionSelected={this.filter}/>
+        onOptionSelected={this.filter}
+        customClasses={{
+          'input': ['form-control'],
+          'results': ['list-group'],
+          'listItem': ['list-group-item']
+        }}/>
     )
 
     const nothing = <div/>
