@@ -22,13 +22,12 @@ export default function (fieldName, fieldValue, inputType, esType, esName) {
     },
 
     getInitialState () {
-      const state = {
+      return {
         fieldName: fieldName,
         fieldValue: fieldValue,
         esType: esType,
         esName: esName
       }
-      return state
     },
 
     render () {

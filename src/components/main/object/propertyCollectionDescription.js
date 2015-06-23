@@ -1,3 +1,10 @@
+/*
+ * when the property collections properties are shown in the form
+ * the user sees a short description of the property collection at the top
+ * the user can expand this description
+ * this component creates this description
+ */
+
 'use strict'
 
 import React from 'react'
@@ -94,7 +101,5 @@ export default function (esOderBs) {
         </div>
       )
     }
-
-
   })
 }
