@@ -1,6 +1,6 @@
 /*
  * gets fieldName, fieldValue, esType and esName
- * returns a component with label and link
+ * returns a component with label and textarea
  */
 
 'use strict'
@@ -8,7 +8,7 @@
 import React from 'react'
 import { State } from 'react-router'
 
-export default function (fieldName, fieldValue, inputType, esType, esName) {
+export default function (fieldName, fieldValue, esType, esName) {
   return React.createClass({
     displayName: 'FieldInputText',
 
@@ -40,16 +40,17 @@ export default function (fieldName, fieldValue, inputType, esType, esName) {
             >
               {fieldName}
             </label>
-            <input
-              className={'controls form-control input-sm'}
+            <textarea
+              className={'controls form-control'}
               dsTyp={esType}
               dsName={esName}
               id={fieldName}
               name={fieldName}
               type={inputType}
-              value={fieldValue}
               readOnly={'readonly'}
-            />
+            >
+              {fieldValue}
+            </textarea>
         </div>
       )
     }
