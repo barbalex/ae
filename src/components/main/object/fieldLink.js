@@ -29,8 +29,8 @@ export default function (fieldName, fieldValue, esType, esName) {
 
   render () {
     return (
-      <div className="form-group">
-          <label className="control-label" for={fieldName + ':'}>{fieldName}</label>
+      <div className='form-group'>
+          <label className='control-label' for={fieldName + ':'}>{fieldName}</label>
       </div>
     )
   }
