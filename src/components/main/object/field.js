@@ -8,6 +8,7 @@
 import FieldLink from './fieldLink.js'
 import FieldInput from './fieldInput.js'
 import FieldTextarea from './fieldTextarea.js'
+import FieldBoolean from './fieldBoolean.js'
 
 export default function (fieldName, fieldValue, esType, esName) {
   if ((typeof fieldValue === 'string' && fieldValue.slice(0, 7) === 'http://') || (typeof fieldValue === 'string' && fieldValue.slice(0, 8) === 'https://') || (typeof fieldValue === 'string' && fieldValue.slice(0, 2) === '//')) {

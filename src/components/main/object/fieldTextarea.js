@@ -36,9 +36,9 @@ export default function (fieldName, fieldValue, esType, esName) {
         <div className='form-group'>
             <label
               className='control-label'
-              htmlFor={fieldName + ':'}
+              htmlFor={fieldName}
             >
-              {fieldName}
+              {fieldName + ':'}
             </label>
             <textarea
               className={'controls form-control'}

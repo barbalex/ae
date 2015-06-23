@@ -1,6 +1,6 @@
 /*
  * gets fieldName, fieldValue, esType and esName
- * returns a component with label and link
+ * returns a component with label and checkbox
  */
 
 'use strict'
@@ -8,9 +8,9 @@
 import React from 'react'
 import { State } from 'react-router'
 
-export default function (fieldName, fieldValue, esType, esName) {
+export default function (fieldName, fieldValue, inputType, esType, esName) {
   return React.createClass({
-    displayName: 'FieldLink',
+    displayName: 'FieldInputText',
 
     mixins: [State],
 
@@ -40,21 +40,16 @@ export default function (fieldName, fieldValue, esType, esName) {
             >
               {fieldName + ':'}
             </label>
-            <p>
-              <a href={fieldValue}>
-                <input
-                  className={'controls form-control input-sm'}
-                  dsTyp={esType}
-                  dsName={esName}
-                  id={fieldName}
-                  name={fieldName}
-                  type={'text'}
-                  value={fieldValue}
-                  readOnly={'readonly'}
-                  style={{'cursor': 'pointer'}}
-                />
-              </a>
-            </p>
+            <input
+              className={'controls form-control input-sm'}
+              dsTyp={esType}
+              dsName={esName}
+              id={fieldName}
+              name={fieldName}
+              type={'checkbox'}
+              checked={fieldValue}
+              readOnly={'readonly'}
+            />
         </div>
       )
     }
