@@ -63,7 +63,7 @@ export default React.createClass({
     const lastPathElement = path[path.length - 1]
     const guid = isGuid(lastPathElement) ? lastPathElement : null
     const gruppe = this.state.gruppe
-    const item = window.objectStore.getItem(gruppe, guid)
+    const object = window.objectStore.getItem(gruppe, guid)
 
     if (!guid) {
       return (
@@ -79,7 +79,7 @@ export default React.createClass({
       )
     }
 
-    /*let objektBs = []  // regular property collections
+    let objektBs = []  // regular property collections
     let taxBs = [] // taxonomic property collections
     let bsNamen
     // let guidsOfSynonyms
@@ -95,18 +95,18 @@ export default React.createClass({
         // later it will be necessary to check if a property collection is already shown
         bsNamen.push(bs.Name)
       })
-    }*/
+    }
     // add taxonomic property collections
     // want defined order
-    /*if (taxBs.length > 0) {
+    if (taxBs.length > 0) {
 
-    }*/
+    }
     return (
       <fieldset id='main'>
         <form className='form form-horizontal' autoComplete='off'>
           <div id='formContent'>
             {/*<h4>Taxonomie:</h4>*/}
-            <Inspector data={item}/>
+            <Inspector data={object}/>
             {/*<Eigenschaftensammlung esTyp='Taxonomie' object={object} eigenschaftensammlung={object.Name}/>*/}
             {/*taxonomischeBeziehungssammlungen*/}
 
