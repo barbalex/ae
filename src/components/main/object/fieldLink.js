@@ -27,12 +27,27 @@ export default function (fieldName, fieldValue, esType, esName) {
       return state
     },
 
-  render () {
-    return (
-      <div className='form-group'>
-          <label className='control-label' for={fieldName + ':'}>{fieldName}</label>
-      </div>
-    )
-  }
+    render () {
+      return (
+        <div className='form-group'>
+            <label className='control-label' htmlFor={fieldName + ':'}>{fieldName}</label>
+            <p>
+              <a href={fieldValue}>
+                <input
+                  className={'controls form-control input-sm'}
+                  dsTyp={esType}
+                  dsName={esName}
+                  id={fieldName}
+                  name={fieldName}
+                  type={'text'}
+                  value={fieldValue}
+                  readOnly={'readonly'}
+                  style={{'cursor': 'pointer'}}
+                />
+              </a>
+            </p>
+        </div>
+      )
+    }
   })
 }
