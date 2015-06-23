@@ -5,6 +5,8 @@
 
 'use strict'
 
+import FieldLink from './fieldLink.js'
+
 export default function (fieldName, fieldValue, esType, esName) {
   if ((typeof fieldValue === 'string' && fieldValue.slice(0, 7) === 'http://') || (typeof fieldValue === 'string' && fieldValue.slice(0, 8) === 'https://') || (typeof fieldValue === 'string' && fieldValue.slice(0, 2) === '//')) {
     // www-Links als Link darstellen
