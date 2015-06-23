@@ -1,5 +1,5 @@
 /*
- * when the property collections properties are shown in the form
+ * when the property or relation collection's properties are shown in the form
  * the user sees a short description of the property collection at the top
  * the user can expand this description
  * this component creates this description
@@ -12,60 +12,60 @@ import { ListenerMixin } from 'reflux'
 import { State } from 'react-router'
 import Autolinker from 'autolinker'
 
-export default function (esOderBs) {
+export default function (pc) {
   return React.createClass({
     displayName: 'EsBeschreibung',
 
     mixins: [ListenerMixin, State],
 
     propTypes: {
-      esOderBs: React.PropTypes.object
+      pc: React.PropTypes.object
     },
 
     getInitialState () {
       return {
-        esOderBs: esOderBs
+        pc: pc
       }
     },
 
     render () {
-      const esOderBs = this.state.esOderBs
+      const pc = this.state.pc
       const mehr = ''
 
       const datenstand = (
         <div className='dsBeschreibungZeile'>
           <div>Stand:</div>
-          <div>{esOderBs.Datenstand}</div>
+          <div>{pc.Datenstand}</div>
         </div>
       )
 
       const nutzunbsbedingungen = (
         <div className='dsBeschreibungZeile'>
           <div>Nutzungs-<br/>bedingungen:</div>
-          <div>{esOderBs.Nutzungsbedingungen}</div>
+          <div>{pc.Nutzungsbedingungen}</div>
         </div>
       )
 
       const link = (
         <div className='dsBeschreibungZeile'>
           <div>Link:</div>
-          <div>{Autolinker.link(esOderBs.Link)}</div>
+          <div>{Autolinker.link(pc.Link)}</div>
         </div>
       )
 
       const importiertVon = (
         <div className='dsBeschreibungZeile'>
           <div>Importiert von:</div>
-          <div>{Autolinker.link(esOderBs['importiert von'])}</div>
+          <div>{Autolinker.link(pc['importiert von'])}</div>
         </div>
       )
 
       const ursprungsEs = ''
-      if (esOderBs.Ursprungsdatensammlung) {
+      if (pc.Ursprungsdatensammlung) {
         ursprungsEs = (
           <div className='dsBeschreibungZeile'>
             <div>Zus.-fassend:</div>
-            <div>Diese Datensammlung fasst die Daten mehrerer Eigenschaftensammlungen in einer zusammen.<br/>Die angezeigten Informationen stammen aus der Eigenschaftensammlung {'"' + esOderBs.Ursprungsdatensammlung + '"'}</div>
+            <div>Diese Datensammlung fasst die Daten mehrerer Eigenschaftensammlungen in einer zusammen.<br/>Die angezeigten Informationen stammen aus der Eigenschaftensammlung {'"' + pc.Ursprungsdatensammlung + '"'}</div>
           </div>
         )
       } else {
@@ -77,16 +77,16 @@ export default function (esOderBs) {
         )
       }
 
-      if (esOderBs.Datenstand || esOderBs.Nutzungsbedingungen || esOderBs.Link || (esOderBs.zusammenfassend && esOderBs.Ursprungsdatensammlung)) {
+      if (pc.Datenstand || pc.Nutzungsbedingungen || pc.Link || (pc.zusammenfassend && pc.Ursprungsdatensammlung)) {
         mehr = (
           <div>
-            {esOderBs.Beschreibung ? (<a href='#' className='showNextHidden'>...mehr</a>) : (<a href='#' className='showNextHidden'>Beschreibung der Datensammlung anzeigen</a>)}
+            {pc.Beschreibung ? (<a href='#' className='showNextHidden'>...mehr</a>) : (<a href='#' className='showNextHidden'>Beschreibung der Datensammlung anzeigen</a>)}
             <div className='adb-hidden'>
-              {esOderBs.Datenstand ? datenstand : ''}
-              {esOderBs.Nutzungsbedingungen ? nutzunbsbedingungen : ''}
-              {esOderBs.Link ? link : ''}
-              {esOderBs['importiert von'] ? importiertVon : ''}
-              {esOderBs.zusammenfassend ? ursprungsEs : ''}
+              {pc.Datenstand ? datenstand : ''}
+              {pc.Nutzungsbedingungen ? nutzunbsbedingungen : ''}
+              {pc.Link ? link : ''}
+              {pc['importiert von'] ? importiertVon : ''}
+              {pc.zusammenfassend ? ursprungsEs : ''}
             </div>
           </div>
         )
@@ -95,7 +95,7 @@ export default function (esOderBs) {
       return (
         <div>
           <div className='Datensammlung beschreibungDatensammlung'>
-            {esOderBs.Beschreibung}
+            {pc.Beschreibung}
             {mehr}
           </div>
         </div>
