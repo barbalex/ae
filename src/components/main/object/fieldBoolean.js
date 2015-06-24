@@ -7,6 +7,7 @@
 
 import React from 'react'
 import { State } from 'react-router'
+import { Input } from 'react-bootstrap'
 
 export default React.createClass({
   displayName: 'FieldInputText',
@@ -36,24 +37,17 @@ export default React.createClass({
     const pcName = this.state.pcName
 
     return (
-      <div className='form-group'>
-          <label
-            className='control-label'
-            htmlFor={fieldName}
-          >
-            {fieldName + ':'}
-          </label>
-          <input
-            className={'controls form-control input-sm'}
-            dsTyp={pcType}
-            dsName={pcName}
-            id={fieldName}
-            name={fieldName}
-            type={'checkbox'}
-            checked={fieldValue}
-            readOnly={'readonly'}
-          />
-      </div>
+      <Input
+        type='checkbox'
+        label={fieldName + ':'}
+        dsTyp={pcType}
+        dsName={pcName}
+        id={fieldName}
+        name={fieldName}
+        checked={fieldValue}
+        readOnly={'readonly'}
+        className={'controls'}
+      />
     )
   }
 })

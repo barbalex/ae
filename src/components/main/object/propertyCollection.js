@@ -12,7 +12,7 @@ import replaceInvalidCharactersInIdNames from '../../../modules/replaceInvalidCh
 import PropertyCollectionDescription from './propertyCollectionDescription.js'
 import LinkToSameGroup from './linkToSameGroup.js'
 import LinksToSameGroup from './linksToSameGroup.js'
-import FieldTextarea from './fieldTextarea.js'
+import FieldInput from './fieldInput.js'
 import hierarchyStringFromHierarchyArray from './hierarchyStringFromHierarchyArray.js'
 import Field from './field.js'
 
@@ -38,11 +38,11 @@ const buildFieldForProperty = function (propertyCollection, object, value, key, 
   if (key === 'Hierarchie' && object.Gruppe === 'Lebensräume' && _.isArray(value)) {
     // Namen kommagetrennt anzeigen
     const hierarchieString = hierarchyStringFromHierarchyArray(value)
-    return <FieldTextarea key={key} fieldName={key} fieldValue={hierarchieString} pcType={pcType} pcName={pcName} />
+    return <FieldInput key={key} fieldName={key} fieldValue={hierarchieString} inputType={'textarea'} pcType={pcType} pcName={pcName} />
   }
   if (_.isArray(value)) {
     // dieses Feld enthält einen Array von Werten
-    return <FieldTextarea key={key} fieldName={key} fieldValue={value.toString()} pcType={pcType} pcName={pcName} />
+    return <FieldInput key={key} fieldName={key} fieldValue={value.toString()} inputType={'textarea'} pcType={pcType} pcName={pcName} />
   }
   return <Field key={key} fieldName={key} fieldValue={value} pcType={pcType} pcName={pcName} />
 }
