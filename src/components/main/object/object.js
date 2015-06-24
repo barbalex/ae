@@ -6,7 +6,7 @@ import { State } from 'react-router'
 import { ListenerMixin } from 'reflux'
 import Inspector from 'react-json-inspector'
 import _ from 'lodash'
-import Eigenschaftensammlung from './eigenschaftensammlung.js'
+import PropertyCollection from './propertyCollection.js'
 import isGuid from '../../../modules/isGuid.js'
 
 export default React.createClass({
@@ -107,7 +107,7 @@ export default React.createClass({
           <div id='formContent'>
             {/*<h4>Taxonomie:</h4>*/}
             <Inspector data={object}/>
-            {/*<Eigenschaftensammlung esTyp='Taxonomie' object={object} eigenschaftensammlung={object.Name}/>*/}
+            {/*<PropertyCollection esTyp='Taxonomie' object={object} eigenschaftensammlung={object.Name}/>*/}
             {/*taxonomischeBeziehungssammlungen*/}
 
           </div>

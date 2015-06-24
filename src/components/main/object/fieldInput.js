@@ -1,5 +1,5 @@
 /*
- * gets fieldName, fieldValue, inputType, esType and esName
+ * gets fieldName, fieldValue, inputType, pcType and pcName
  * returns a component with label and input
  */
 
@@ -8,50 +8,55 @@
 import React from 'react'
 import { State } from 'react-router'
 
-export default function (fieldName, fieldValue, inputType, esType, esName) {
-  return React.createClass({
-    displayName: 'FieldInputText',
+export default React.createClass({
+  displayName: 'FieldInputText',
 
-    mixins: [State],
+  mixins: [State],
 
-    propTypes: {
-      fieldName: React.PropTypes.string,
-      fieldValue: React.PropTypes.string,
-      esType: React.PropTypes.string,
-      esName: React.PropTypes.string
-    },
+  propTypes: {
+    fieldName: React.PropTypes.string,
+    fieldValue: React.PropTypes.string,
+    inputType: React.PropTypes.string,
+    pcType: React.PropTypes.string,
+    pcName: React.PropTypes.string
+  },
 
-    getInitialState () {
-      const state = {
-        fieldName: fieldName,
-        fieldValue: fieldValue,
-        esType: esType,
-        esName: esName
-      }
-      return state
-    },
-
-    render () {
-      return (
-        <div className='form-group'>
-            <label
-              className='control-label'
-              htmlFor={fieldName}
-            >
-              {fieldName + ':'}
-            </label>
-            <input
-              className={'controls form-control input-sm'}
-              dsTyp={esType}
-              dsName={esName}
-              id={fieldName}
-              name={fieldName}
-              type={inputType}
-              value={fieldValue}
-              readOnly={'readonly'}
-            />
-        </div>
-      )
+  getInitialState () {
+    return {
+      fieldName: this.props.fieldName,
+      fieldValue: this.props.fieldValue,
+      inputType: this.props.inputType,
+      pcType: this.props.pcType,
+      pcName: this.props.pcName
     }
-  })
-}
+  },
+
+  render () {
+    const fieldName = this.state.fieldName
+    const fieldValue = this.state.fieldValue
+    const inputType = this.state.inputType
+    const pcType = this.state.pcType
+    const pcName = this.state.pcName
+
+    return (
+      <div className='form-group'>
+          <label
+            className='control-label'
+            htmlFor={fieldName}
+          >
+            {fieldName + ':'}
+          </label>
+          <input
+            className={'controls form-control input-sm'}
+            dsTyp={pcType}
+            dsName={pcName}
+            id={fieldName}
+            name={fieldName}
+            type={inputType}
+            value={fieldValue}
+            readOnly={'readonly'}
+          />
+      </div>
+    )
+  }
+})

@@ -9,45 +9,43 @@ import React from 'react'
 import { State } from 'react-router'
 import _ from 'lodash'
 
-export default function (fieldName, objects) {
-  return React.createClass({
-    displayName: 'FieldLinkToSameGroup',
+export default React.createClass({
+  displayName: 'FieldLinkToSameGroup',
 
-    mixins: [State],
+  mixins: [State],
 
-    propTypes: {
-      fieldName: React.PropTypes.string,
-      objects: React.PropTypes.arrayOf(React.PropTypes.object)
-    },
+  propTypes: {
+    fieldName: React.PropTypes.string,
+    objects: React.PropTypes.arrayOf(React.PropTypes.object)
+  },
 
-    getInitialState () {
-      return {
-        fieldName: fieldName,
-        objects: objects
-      }
-    },
-
-    render () {
-      const linkArray = _.map(objects, function (object) {
-        return (
-          <p className='form-control-static controls feldtext'>
-            <a href='#' className='linkZuArtGleicherGruppe' ArtId={object.guid}>
-              {object.Name}
-            </a>
-          </p>
-        )
-      })
-
-      return (
-        <div className='form-group'>
-          <label className='control-label'>
-            {fieldName + ':'}
-          </label>
-          <span className='feldtext controls'>
-            {linkArray}
-          </span>
-        </div>
-      )
+  getInitialState () {
+    return {
+      fieldName: this.props.fieldName,
+      objects: this.props.objects
     }
-  })
-}
+  },
+
+  render () {
+    const linkArray = _.map(this.state.objects, function (object) {
+      return (
+        <p className='form-control-static controls feldtext'>
+          <a href='#' className='linkZuArtGleicherGruppe' ArtId={object.guid}>
+            {object.Name}
+          </a>
+        </p>
+      )
+    })
+
+    return (
+      <div className='form-group'>
+        <label className='control-label'>
+          {this.state.fieldName + ':'}
+        </label>
+        <span className='feldtext controls'>
+          {linkArray}
+        </span>
+      </div>
+    )
+  }
+})

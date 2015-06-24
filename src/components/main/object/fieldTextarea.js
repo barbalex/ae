@@ -1,5 +1,5 @@
 /*
- * gets fieldName, fieldValue, esType and esName
+ * gets fieldName, fieldValue, pcType and pcName
  * returns a component with label and textarea
  */
 
@@ -8,51 +8,49 @@
 import React from 'react'
 import { State } from 'react-router'
 
-export default function (fieldName, fieldValue, esType, esName) {
-  return React.createClass({
-    displayName: 'FieldInputText',
+export default React.createClass({
+  displayName: 'FieldInputText',
 
-    mixins: [State],
+  mixins: [State],
 
-    propTypes: {
-      fieldName: React.PropTypes.string,
-      fieldValue: React.PropTypes.string,
-      esType: React.PropTypes.string,
-      esName: React.PropTypes.string
-    },
+  propTypes: {
+    fieldName: React.PropTypes.string,
+    fieldValue: React.PropTypes.string,
+    pcType: React.PropTypes.string,
+    pcName: React.PropTypes.string
+  },
 
-    getInitialState () {
-      const state = {
-        fieldName: fieldName,
-        fieldValue: fieldValue,
-        esType: esType,
-        esName: esName
-      }
-      return state
-    },
-
-    render () {
-      return (
-        <div className='form-group'>
-            <label
-              className='control-label'
-              htmlFor={fieldName}
-            >
-              {fieldName + ':'}
-            </label>
-            <textarea
-              className={'controls form-control'}
-              dsTyp={esType}
-              dsName={esName}
-              id={fieldName}
-              name={fieldName}
-              type={inputType}
-              readOnly={'readonly'}
-            >
-              {fieldValue}
-            </textarea>
-        </div>
-      )
+  getInitialState () {
+    return {
+      fieldName: this.props.fieldName,
+      fieldValue: this.props.fieldValue,
+      pcType: this.props.pcType,
+      pcName: this.props.pcName
     }
-  })
-}
+  },
+
+  render () {
+    const fieldName = this.state.fieldName
+    return (
+      <div className='form-group'>
+          <label
+            className='control-label'
+            htmlFor={fieldName}
+          >
+            {fieldName + ':'}
+          </label>
+          <textarea
+            className={'controls form-control'}
+            dsTyp={this.state.pcType}
+            dsName={this.state.pcName}
+            id={fieldName}
+            name={fieldName}
+            type={this.state.inputType}
+            readOnly={'readonly'}
+          >
+            {this.state.fieldValue}
+          </textarea>
+      </div>
+    )
+  }
+})
