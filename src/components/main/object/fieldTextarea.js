@@ -47,9 +47,8 @@ export default React.createClass({
             name={fieldName}
             type={this.state.inputType}
             readOnly={'readonly'}
-          >
-            {this.state.fieldValue}
-          </textarea>
+            defaultValue={this.state.fieldValue}
+          />
       </div>
     )
   }

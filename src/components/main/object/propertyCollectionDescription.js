@@ -29,7 +29,7 @@ export default React.createClass({
 
   render () {
     const pc = this.state.pc
-    const mehr = ''
+    let mehr = ''
 
     const datenstand = (
       <div className='dsBeschreibungZeile'>
@@ -45,21 +45,27 @@ export default React.createClass({
       </div>
     )
 
-    const link = (
-      <div className='dsBeschreibungZeile'>
-        <div>Link:</div>
-        <div>{Autolinker.link(pc.Link)}</div>
-      </div>
-    )
+    let link = ''
+    if (pc.Link) {
+      link = (
+        <div className='dsBeschreibungZeile'>
+          <div>Link:</div>
+          <div>{Autolinker.link(pc.Link)}</div>
+        </div>
+      )
+    }
 
-    const importiertVon = (
-      <div className='dsBeschreibungZeile'>
-        <div>Importiert von:</div>
-        <div>{Autolinker.link(pc['importiert von'])}</div>
-      </div>
-    )
+    let importiertVon = ''
+    if (pc['importiert von']) {
+      importiertVon = (
+        <div className='dsBeschreibungZeile'>
+          <div>Importiert von:</div>
+          <div>{Autolinker.link(pc['importiert von'])}</div>
+        </div>
+      )
+    }
 
-    const ursprungsEs = ''
+    let ursprungsEs = ''
     if (pc.Ursprungsdatensammlung) {
       ursprungsEs = (
         <div className='dsBeschreibungZeile'>

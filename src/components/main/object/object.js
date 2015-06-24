@@ -81,7 +81,7 @@ export default React.createClass({
 
     let objektBs = []  // regular property collections
     let taxBs = [] // taxonomic property collections
-    let bsNamen
+    let bsNamen = []
     // let guidsOfSynonyms
     // divide property collections in regular and taxonomic
     if (object.Beziehungssammlungen.length > 0) {
@@ -105,11 +105,10 @@ export default React.createClass({
       <fieldset id='main'>
         <form className='form form-horizontal' autoComplete='off'>
           <div id='formContent'>
-            {/*<h4>Taxonomie:</h4>*/}
-            <Inspector data={object}/>
-            {/*<PropertyCollection esTyp='Taxonomie' object={object} eigenschaftensammlung={object.Name}/>*/}
+            <h4>Taxonomie:</h4>
+            <PropertyCollection pcType='Taxonomie' object={object} propertyCollection={object.Taxonomie}/>
             {/*taxonomischeBeziehungssammlungen*/}
-
+            {/*<Inspector data={object}/>*/}
           </div>
         </form>
       </fieldset>
