@@ -18,18 +18,27 @@ export default React.createClass({
   mixins: [ListenerMixin, State],
 
   propTypes: {
-    pc: React.PropTypes.object
+    pc: React.PropTypes.object,
+    visible: React.PropTypes.boolean
   },
 
   getInitialState () {
     return {
-      pc: this.props.pc
+      pc: this.props.pc,
+      visible: false
     }
+  },
+
+  onClick () {
+    this.setState({
+      visible: !this.state.visible
+    })
   },
 
   render () {
     const pc = this.state.pc
     let mehr = ''
+    const visible = this.state.visible
 
     const datenstand = (
       <div className='dsBeschreibungZeile'>
@@ -50,7 +59,7 @@ export default React.createClass({
       link = (
         <div className='dsBeschreibungZeile'>
           <div>Link:</div>
-          <div>{Autolinker.link(pc.Link)}</div>
+          <a href={pc.Link} target={'_blank'}>{pc.Link}</a>
         </div>
       )
     }
@@ -85,8 +94,8 @@ export default React.createClass({
     if (pc.Datenstand || pc.Nutzungsbedingungen || pc.Link || (pc.zusammenfassend && pc.Ursprungsdatensammlung)) {
       mehr = (
         <div>
-          {pc.Beschreibung ? (<a href='#' className='showNextHidden'>...mehr</a>) : (<a href='#' className='showNextHidden'>Beschreibung der Datensammlung anzeigen</a>)}
-          <div className='adb-hidden'>
+          {<a href='#' onClick={this.onClick} className='showNextHidden'>{pc.Beschreibung ? (visible ? '..weniger' : '...mehr') : 'Beschreibung der Datensammlung anzeigen'}</a>}
+          <div style={{display: visible ? 'block' : 'none'}}>
             {pc.Datenstand ? datenstand : ''}
             {pc.Nutzungsbedingungen ? nutzunbsbedingungen : ''}
             {pc.Link ? link : ''}
@@ -100,7 +109,7 @@ export default React.createClass({
     return (
       <div>
         <div className='Datensammlung beschreibungDatensammlung'>
-          {pc.Beschreibung}
+          <div style={{float: 'left', marginRight: 3 + 'px'}}>{pc.Beschreibung}</div>
           {mehr}
         </div>
       </div>
