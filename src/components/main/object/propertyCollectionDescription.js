@@ -13,32 +13,32 @@ import { State } from 'react-router'
 import Autolinker from 'autolinker'
 
 export default React.createClass({
-  displayName: 'EsBeschreibung',
+  displayName: 'PropertyCollectionDescription',
 
   mixins: [ListenerMixin, State],
 
   propTypes: {
     pc: React.PropTypes.object,
-    visible: React.PropTypes.boolean
+    isVisible: React.PropTypes.boolean
   },
 
   getInitialState () {
     return {
       pc: this.props.pc,
-      visible: false
+      isVisible: false
     }
   },
 
   onClick () {
     this.setState({
-      visible: !this.state.visible
+      isVisible: !this.state.isVisible
     })
   },
 
   render () {
     const pc = this.state.pc
     let mehr = ''
-    const visible = this.state.visible
+    const isVisible = this.state.isVisible
 
     const datenstand = (
       <div className='dsBeschreibungZeile'>
@@ -94,8 +94,8 @@ export default React.createClass({
     if (pc.Datenstand || pc.Nutzungsbedingungen || pc.Link || (pc.zusammenfassend && pc.Ursprungsdatensammlung)) {
       mehr = (
         <div>
-          {<a href='#' onClick={this.onClick} className='showNextHidden'>{pc.Beschreibung ? (visible ? '..weniger' : '...mehr') : 'Beschreibung der Datensammlung anzeigen'}</a>}
-          <div style={{display: visible ? 'block' : 'none'}}>
+          {<a href='#' onClick={this.onClick} className='showNextHidden'>{pc.Beschreibung ? (isVisible ? '..weniger' : '...mehr') : 'Beschreibung der Datensammlung anzeigen'}</a>}
+          <div style={{display: isVisible ? 'block' : 'none'}}>
             {pc.Datenstand ? datenstand : ''}
             {pc.Nutzungsbedingungen ? nutzunbsbedingungen : ''}
             {pc.Link ? link : ''}
