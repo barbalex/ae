@@ -93,7 +93,7 @@ export default React.createClass({
 
     if (pc.Datenstand || pc.Nutzungsbedingungen || pc.Link || (pc.zusammenfassend && pc.Ursprungsdatensammlung)) {
       mehr = (
-        <div>
+        <span>
           {<a href='#' onClick={this.onClick} className='showNextHidden'>{pc.Beschreibung ? (isVisible ? '..weniger' : '...mehr') : 'Beschreibung der Datensammlung anzeigen'}</a>}
           <div style={{display: isVisible ? 'block' : 'none'}}>
             {pc.Datenstand ? datenstand : ''}
@@ -102,14 +102,14 @@ export default React.createClass({
             {pc['importiert von'] ? importiertVon : ''}
             {pc.zusammenfassend ? ursprungsEs : ''}
           </div>
-        </div>
+        </span>
       )
     }
 
     return (
       <div>
         <div className='Datensammlung beschreibungDatensammlung'>
-          <div style={{float: 'left', marginRight: 3 + 'px'}}>{pc.Beschreibung}</div>
+          <span style={{marginRight: 3 + 'px'}}>{pc.Beschreibung}</span>
           {mehr}
         </div>
       </div>
