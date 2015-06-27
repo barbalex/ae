@@ -101,6 +101,18 @@ export default React.createClass({
     if (taxBs.length > 0) {
 
     }
+    let propertyCollections = null
+    if (object.Eigenschaftensammlungen.length > 0) {
+      const pcs = _.map(object.Eigenschaftensammlungen, function (pc) {
+        return <PropertyCollection key={pc.Name} pcType='Datensammlung' object={object} propertyCollection={pc}/>
+      })
+      propertyCollections = (
+        <div>
+          <h4>Eigenschaften:</h4>
+          {pcs}
+        </div>
+      )
+    }
     return (
       <fieldset id='main'>
         <form className='form form-horizontal' autoComplete='off'>
@@ -108,6 +120,7 @@ export default React.createClass({
             <h4>Taxonomie:</h4>
             <PropertyCollection pcType='Taxonomie' object={object} propertyCollection={object.Taxonomie}/>
             {/*taxonomischeBeziehungssammlungen*/}
+            {propertyCollections ? propertyCollections : ''}
             {/*<Inspector data={object}/>*/}
           </div>
         </form>
