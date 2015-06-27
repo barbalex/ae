@@ -37,19 +37,18 @@ export default React.createClass({
     const pcName = this.state.pcName
 
     return (
-      <div>
+      <div className='form-group'>
         <label htmlFor={fieldName} className='control-label'>
           <span>{fieldName + ':'}</span>
         </label>
         <Textarea
-          bsSize='small'
           dsTyp={pcType}
           dsName={pcName}
           id={fieldName}
           name={fieldName}
-          value={fieldValue}
           readOnly={'readonly'}
           className={'controls form-control'}
+          defaultValue={fieldValue}
         />
       </div>
     )

@@ -44,7 +44,7 @@ const buildFieldForProperty = function (propertyCollection, object, value, key, 
     // dieses Feld enthält einen Array von Werten
     return <FieldInput key={key} fieldName={key} fieldValue={value.toString()} inputType={'textarea'} pcType={pcType} pcName={pcName} />
   }
-  return <Field key={key} fieldName={key} fieldValue={value} pcType={pcType} pcName={pcName} />
+  return <Field key={key} fieldName={key} fieldValue={value.toString()} pcType={pcType} pcName={pcName} />
 }
 
 export default React.createClass({
@@ -106,7 +106,7 @@ export default React.createClass({
           {object.Gruppe === 'Lebensräume' && pcType === 'Taxonomie' ? editToolbar : ''}
           <PropertyCollectionDescription pc={propertyCollection} />
           <div>
-            {pcType === 'Taxonomie' ? <Field fieldName={'GUID'} fieldValue={object._id} pcType={pcType} pcName={'Taxonomie'} /> : ''}
+            {pcType === 'Taxonomie' ? <Field fieldName={'GUID'} fieldValue={object._id} pcType={pcType} pcName={pcName} /> : ''}
             {properties}
           </div>
         </Panel>
