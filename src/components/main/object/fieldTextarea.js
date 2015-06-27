@@ -1,13 +1,13 @@
 /*
- * gets fieldName, fieldValue, pcType and pcName
- * returns a component with label and checkbox
+ * gets fieldName, fieldValue, inputType, pcType and pcName
+ * returns a component with label and input
  */
 
 'use strict'
 
 import React from 'react'
 import { State } from 'react-router'
-import { Input } from 'react-bootstrap'
+import Textarea from 'react-textarea-autosize'
 
 export default React.createClass({
   displayName: 'FieldInputText',
@@ -37,16 +37,21 @@ export default React.createClass({
     const pcName = this.state.pcName
 
     return (
-      <Input
-        type='checkbox'
-        label={fieldName + ':'}
-        dsTyp={pcType}
-        dsName={pcName}
-        id={fieldName}
-        name={fieldName}
-        checked={fieldValue}
-        readOnly={'readonly'}
-      />
+      <div>
+        <label htmlFor={fieldName} className='control-label'>
+          <span>{fieldName + ':'}</span>
+        </label>
+        <Textarea
+          bsSize='small'
+          dsTyp={pcType}
+          dsName={pcName}
+          id={fieldName}
+          name={fieldName}
+          value={fieldValue}
+          readOnly={'readonly'}
+          className={'controls form-control'}
+        />
+      </div>
     )
   }
 })

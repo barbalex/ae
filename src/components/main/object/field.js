@@ -10,6 +10,7 @@ import { State } from 'react-router'
 import FieldLink from './fieldLink.js'
 import FieldInput from './fieldInput.js'
 import FieldBoolean from './fieldBoolean.js'
+import FieldTextarea from './fieldTextarea.js'
 
 export default React.createClass({
   displayName: 'Field',
@@ -46,7 +47,7 @@ export default React.createClass({
       return <FieldInput fieldName={fieldName} fieldValue={fieldValue} inputType={'text'} pcType={pcType} pcName={pcName} />
     }
     if (typeof fieldValue === 'string' && fieldValue.length >= 45) {
-      return <FieldInput fieldName={fieldName} fieldValue={fieldValue} inputType={'textarea'} pcType={pcType} pcName={pcName} />
+      return <FieldTextarea fieldName={fieldName} fieldValue={fieldValue} pcType={pcType} pcName={pcName} />
     }
     if (typeof fieldValue === 'number') {
       return <FieldInput fieldName={fieldName} fieldValue={fieldValue} inputType={'number'} pcType={pcType} pcName={pcName} />
