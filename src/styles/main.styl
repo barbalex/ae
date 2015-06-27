@@ -238,7 +238,7 @@ body
   margin-bottom:  0
 
 /* Gradient, um die panels zu stylen */
-.panel-heading-gradient
+.panel-heading
   background-color: #FFFFD8
   background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFFFE0), to(#FFFFD8))
   background-image: -webkit-linear-gradient(top, #FFFFE0, #FFFFD8)
@@ -253,8 +253,10 @@ body
 .panel-body hr
   margin: 11px 0
 
-input[readonly="readonly"], textarea[readonly="readonly"]
-  background-color: #ffffff !important
+input[readonly], textarea[readonly]
+  // background-color: #ffffff !important
+  background-color: #FFFFF9 !important
+  cursor: not-allowed
 
 #main label,
 #importDs label,
@@ -269,6 +271,7 @@ input[readonly="readonly"], textarea[readonly="readonly"]
   margin-bottom: 0
   /* Trennung ermöglichen */
   hyphens: auto
+  font-size: 14px
 
 a
   color: #016ca2

@@ -19,7 +19,7 @@ export default React.createClass({
 
   propTypes: {
     pc: React.PropTypes.object,
-    isVisible: React.PropTypes.boolean
+    isVisible: React.PropTypes.bool
   },
 
   getInitialState () {

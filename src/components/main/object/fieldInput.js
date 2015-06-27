@@ -43,6 +43,7 @@ export default React.createClass({
       <Input
         type={inputType}
         label={fieldName + ':'}
+         bsSize='small'
         dsTyp={pcType}
         dsName={pcName}
         id={fieldName}

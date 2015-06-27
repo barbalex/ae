@@ -102,11 +102,13 @@ export default React.createClass({
 
     return (
       <Accordion>
-        <Panel header={propertyCollection.Name} className='felderspalte' eventKey='1'>
+        <Panel header={propertyCollection.Name} eventKey='1'>
           {object.Gruppe === 'Lebensräume' && pcType === 'Taxonomie' ? editToolbar : ''}
           <PropertyCollectionDescription pc={propertyCollection} />
-          {pcType === 'Taxonomie' ? <Field fieldName={'GUID'} fieldValue={object._id} pcType={pcType} pcName={'Taxonomie'} /> : ''}
-          {properties}
+          <div>
+            {pcType === 'Taxonomie' ? <Field fieldName={'GUID'} fieldValue={object._id} pcType={pcType} pcName={'Taxonomie'} /> : ''}
+            {properties}
+          </div>
         </Panel>
       </Accordion>
     )
