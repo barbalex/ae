@@ -47,7 +47,8 @@ export default React.createClass({
       return <FieldInput fieldName={fieldName} fieldValue={fieldValue} inputType={'text'} pcType={pcType} pcName={pcName} />
     }
     if (typeof fieldValue === 'string' && fieldValue.length >= 45) {
-      return <FieldTextarea fieldName={fieldName} fieldValue={fieldValue} pcType={pcType} pcName={pcName} />
+      // return <FieldTextarea fieldName={fieldName} fieldValue={fieldValue} pcType={pcType} pcName={pcName} />
+      return <FieldInput fieldName={fieldName} fieldValue={fieldValue} inputType={'textarea'} pcType={pcType} pcName={pcName} />
     }
     if (typeof fieldValue === 'number') {
       return <FieldInput fieldName={fieldName} fieldValue={fieldValue} inputType={'number'} pcType={pcType} pcName={pcName} />
