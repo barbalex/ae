@@ -25,7 +25,7 @@ const buildFieldForProperty = function (propertyCollection, object, value, key, 
     return ''
   }
   if (((key === 'Offizielle Art' || key === 'Eingeschlossen in' || key === 'Synonym von') && object.Gruppe === 'Flora') || (key === 'Akzeptierte Referenz' && object.Gruppe === 'Moose')) {
-    // build as link
+    // build as single link
     return <LinkToSameGroup key={key} fieldName={key} guid ={object._id} objectName={value.Name} />
   }
   if ((key === 'Gültige Namen' || key === 'Eingeschlossene Arten' || key === 'Synonyme') && object.Gruppe === 'Flora') {
@@ -36,12 +36,12 @@ const buildFieldForProperty = function (propertyCollection, object, value, key, 
     // don't show this field
   }
   if (key === 'Hierarchie' && object.Gruppe === 'Lebensräume' && _.isArray(value)) {
-    // Namen kommagetrennt anzeigen
+    // show names separated by new line
     const hierarchieString = hierarchyStringFromHierarchyArray(value)
     return <FieldInput key={key} fieldName={key} fieldValue={hierarchieString} inputType={'textarea'} pcType={pcType} pcName={pcName} />
   }
   if (_.isArray(value)) {
-    // dieses Feld enthält einen Array von Werten
+    // this field contains an array of values
     return <FieldInput key={key} fieldName={key} fieldValue={value.toString()} inputType={'textarea'} pcType={pcType} pcName={pcName} />
   }
   return <Field key={key} fieldName={key} fieldValue={value.toString()} pcType={pcType} pcName={pcName} />
@@ -60,9 +60,9 @@ export default React.createClass({
 
   getInitialState () {
 
-    console.log('propertyCollection.js: this.props.pcType:', this.props.pcType)
-    console.log('propertyCollection.js: this.props.object:', this.props.object)
-    console.log('propertyCollection.js: this.props.propertyCollection:', this.props.propertyCollection)
+    // console.log('propertyCollection.js: this.props.pcType:', this.props.pcType)
+    // console.log('propertyCollection.js: this.props.object:', this.props.object)
+    // console.log('propertyCollection.js: this.props.propertyCollection:', this.props.propertyCollection)
 
     return {
       pcType: this.props.pcType,

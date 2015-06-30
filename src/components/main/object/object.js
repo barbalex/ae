@@ -1,12 +1,13 @@
 'use strict'
 
-import app from 'ampersand-app'
+// import app from 'ampersand-app'
 import React from 'react'
 import { State } from 'react-router'
 import { ListenerMixin } from 'reflux'
-import Inspector from 'react-json-inspector'
+// import Inspector from 'react-json-inspector'
 import _ from 'lodash'
 import PropertyCollection from './propertyCollection.js'
+import RelationCollection from './relationCollection.js'
 import isGuid from '../../../modules/isGuid.js'
 
 export default React.createClass({
@@ -65,7 +66,7 @@ export default React.createClass({
     const gruppe = this.state.gruppe
     const object = window.objectStore.getItem(gruppe, guid)
 
-    if (!guid) {
+    if (!object || !guid) {
       return (
         <fieldset id='main'>
         </fieldset>
@@ -84,7 +85,7 @@ export default React.createClass({
     let bsNamen = []
     // let guidsOfSynonyms
     // divide property collections in regular and taxonomic
-    if (object.Beziehungssammlungen.length > 0) {
+    if (object.Beziehungssammlungen && object.Beziehungssammlungen.length > 0) {
       _.forEach(object.Beziehungssammlungen, function (bs) {
         if (bs.Typ === 'taxonomisch') {
           taxBs.push(bs)
@@ -96,13 +97,16 @@ export default React.createClass({
         bsNamen.push(bs.Name)
       })
     }
+
     // add taxonomic property collections
     // want defined order
     if (taxBs.length > 0) {
 
     }
+
+    // add property collections
     let propertyCollections = null
-    if (object.Eigenschaftensammlungen.length > 0) {
+    if (object.Eigenschaftensammlungen && object.Eigenschaftensammlungen.length > 0) {
       const pcs = _.map(object.Eigenschaftensammlungen, function (pc) {
         return <PropertyCollection key={pc.Name} pcType='Datensammlung' object={object} propertyCollection={pc}/>
       })
@@ -113,6 +117,21 @@ export default React.createClass({
         </div>
       )
     }
+
+    // add relation collections
+    let relationCollections = null
+    if (objektBs.length > 0) {
+      const rcs = _.map(objektBs, function (rc) {
+        return <RelationCollection key={rc.Name} object={object} relationCollection={rc} />
+      })
+      relationCollections = (
+        <div>
+          <h4>Beziehungen:</h4>
+          {rcs}
+        </div>
+      )
+    }
+
     return (
       <fieldset id='main'>
         <form className='form form-horizontal' autoComplete='off'>
@@ -121,6 +140,7 @@ export default React.createClass({
             <PropertyCollection pcType='Taxonomie' object={object} propertyCollection={object.Taxonomie}/>
             {/*taxonomischeBeziehungssammlungen*/}
             {propertyCollections ? propertyCollections : ''}
+            {relationCollections ? relationCollections : ''}
             {/*<Inspector data={object}/>*/}
           </div>
         </form>
