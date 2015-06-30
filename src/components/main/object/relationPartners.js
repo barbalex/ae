@@ -34,9 +34,10 @@ export default React.createClass({
         // label field with Rolle if it exists
         const label = bezPartner.Rolle ? bezPartner.Rolle : 'Beziehungspartner'
         const value = bezPartner.Gruppe + ': ' + (bezPartner.Taxonomie ? bezPartner.Taxonomie + ' > ' : '') + bezPartner.Name
-        const url = window.location.origin + getPathFromGuid(bezPartner.GUID)
+        // can't use getPathFromGuid because it is possible that the relation partner's group was not loaded yet
+        const url = window.location.origin + '/' + bezPartner.GUID
 
-        return <TextLink label={label} value={value} url={url} />
+        return <TextLink key={label} label={label} value={value} url={url} />
       })
     }
 

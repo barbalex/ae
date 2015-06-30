@@ -4,7 +4,12 @@ import app from 'ampersand-app'
 import React from 'react'
 import { State, Navigation } from 'react-router'
 import { ListenerMixin } from 'reflux'
+import _ from 'lodash'
+import PouchDB from 'pouchdb'
+import pouchUrl from '../../modules/getCouchUrl.js'
 import Nodes from './treeNodesFromHierarchyObject.js'
+import isGuid from '../../modules/isGuid.js'
+import getPathFromGuid from '../../modules/getPathFromGuid.js'
 
 export default React.createClass({
   displayName: 'TreeLevel1',
@@ -20,9 +25,86 @@ export default React.createClass({
   getInitialState () {
     const pathString = this.getParams().splat
     const path = pathString.split('/')
-    const gruppe = path[0]
-    const hO = window.objectStore.getHierarchy()
-    const activeKey = gruppe
+    // guidPath is when only a guid is contained in url
+    const isGuidPath = path.length === 1 && isGuid(path[0])
+    const that = this
+    let gruppe = null
+    let hO = null
+    let activeKey = null
+
+    console.log('treeFromHierarchyObject.js, getInitialState: isGuidPath:', isGuidPath)
+
+    if (isGuidPath) {
+      // constuct path from object with guid
+      // it's possible that this object's group has not yet been loaded
+      const guid = path[0]
+      const object = window.objectStore.getItemByGuid(guid)
+
+      if (object) {
+
+        // console.log('treeFromHierarchyObject.js, got object loaded, transitioning')
+
+        // navigate to the new url
+        const url = getPathFromGuid(guid)
+        this.transitionTo(url)
+      } else {
+
+        // console.log('treeFromHierarchyObject.js, goint to load object')
+
+        // get Object from remote
+        const couchUrl = pouchUrl()
+        const db = new PouchDB(couchUrl, function (error, response) {
+          if (error) { return console.log('error instantiating remote db: ', error) }
+          db.get(guid, { include_docs: true })
+            .then(function (object) {
+              const taxonomieForMetadata = object.Gruppe === 'Lebensräume' ? 'CH Delarze (2008): Allgemeine Umgebung (Areale)' : object.Taxonomie.Name
+
+              console.log('treeFromHierarchyObject.js: object:', object)
+
+              // check if metadata is here
+              const metaData = window.objectStore.getDsMetadata()
+
+              console.log('treeFromHierarchyObject.js: metaData in objectStore:', metaData)
+
+              if (metaData && metaData[taxonomieForMetadata]) {
+
+                console.log('treeFromHierarchyObject.js: calling getPathFromGuid with guid and object')
+
+                // navigate to the new url
+                const url = getPathFromGuid(guid, object)
+                that.transitionTo(url)
+              } else {
+                db.query('artendb/dsMetadataNachDsName', { include_docs: true })
+                  .then(function (result) {
+                    // extract metadata doc from result
+                    const metaDataDoc = result.rows.map(function (row) {
+                      return row.doc
+                    })
+                    const metaData = _.indexBy(metaDataDoc, 'Name')
+
+                    console.log('treeFromHierarchyObject.js: got metaData:', metaData)
+
+                    // navigate to the new url
+                    const url = getPathFromGuid(guid, object, metaData[taxonomieForMetadata])
+                    // that.transitionTo(url)
+                    window.open(url, '_self')
+                  })
+                  .catch(function (err) {
+                    console.log('error fetching metadata:', err)
+                  })
+              }
+            })
+            .catch(function (err) {
+              console.log('error fetching doc from ' + couchUrl + ' with guid ' + guid + ':', err)
+            })
+        })
+      }
+    } else {
+      gruppe = path[0]
+      hO = window.objectStore.getHierarchy()
+      activeKey = gruppe
+    }
+
     const state = {
       hO: hO,
       gruppe: gruppe,

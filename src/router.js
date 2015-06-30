@@ -16,7 +16,7 @@ const Route = Router.Route
 export default function () {
   const routes = (
     <Route name='home' path='/' handler={Home}>
-      <Route name='gruppe' path='*' handler={TreeFromHierarchyObject}/>
+      <Route name='gruppe' path='/*' handler={TreeFromHierarchyObject}/>
       {/*<DefaultRoute handler={Home}/>*/}
       {/*<NotFoundRoute handler={FourOhFour}/>*/}
     </Route>

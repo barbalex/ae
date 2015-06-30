@@ -52,19 +52,23 @@ export default React.createClass({
 
   propTypes: {
     gruppe: React.PropTypes.string,
-    groupsLoaded: React.PropTypes.array
+    groupsLoaded: React.PropTypes.array,
+    isGuidPath: React.PropTypes.bool
   },
 
   getInitialState () {
     const pathString = this.getParams().splat
     const path = pathString.split('/')
-    const gruppe = path[0]
+    // guidPath is when only a guid is contained in url
+    const isGuidPath = path.length === 1 && isGuid(path[0])
     const groupsLoaded = window.objectStore.getGroupsLoaded()
-    groupsLoaded.push(gruppe)
+    const gruppe = isGuidPath ? null : path[0]
+    if (!isGuidPath) groupsLoaded.push(gruppe)
 
     const state = {
       gruppe: gruppe,
-      groupsLoaded: groupsLoaded
+      groupsLoaded: groupsLoaded,
+      isGuidPath: isGuidPath
     }
 
     // console.log('home.js getInitialState: state', state)
@@ -75,7 +79,7 @@ export default React.createClass({
   componentDidMount () {
     setTreeHeight()
     window.addEventListener('resize', setTreeHeight())
-    if (!window.objectStore.loaded[this.state.gruppe]) app.Actions.loadObjectStore(this.state.gruppe)
+    if (!this.state.isGuidPath && !window.objectStore.loaded[this.state.gruppe]) app.Actions.loadObjectStore(this.state.gruppe)
   },
 
   componentWillUnmount () {
@@ -109,25 +113,22 @@ export default React.createClass({
   render () {
     // find out if Filter shall be shown
     const gruppe = this.state.gruppe
-    const pathString = this.getParams().splat
-    const path = pathString.split('/')
-    const lastPathElement = path[path.length - 1]
-    const guid = isGuid(lastPathElement) ? lastPathElement : null
     const isGroup = _.includes(gruppen, gruppe)
+    const isGuidPath = this.state.isGuidPath
 
     return (
       <div>
         <Favicon url={[FaviconImage]}/>
         <div id='menu' className='menu'>
           <div id='menuLine'>
-            <MenuButton/>
-            <ResizeButton/>
+            <MenuButton />
+            <ResizeButton />
           </div>
           {createGruppen(this)}
-          {isGroup ? <Filter/> : ''}
-          {isGroup ? <TreeFromHierarchyObject/> : ''}
+          {isGroup ? <Filter /> : ''}
+          {isGroup || isGuidPath ? <TreeFromHierarchyObject /> : ''}
         </div>
-        {guid ? <Objekt/> : ''}
+        <Objekt />
       </div>
     )
   }

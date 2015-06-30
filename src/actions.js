@@ -27,7 +27,7 @@ export default function () {
     // problem: this action can get called several times while it is already fetching data
     // > make shure data is only fetched if objectStore is not yet loaded and not loading right now
 
-    // console.log('actions loadObjectStore: gruppe:', gruppe)
+    console.log('actions loadObjectStore: gruppe:', gruppe)
     // console.log('actions loadObjectStore: window.objectStore.loaded[gruppe]:', window.objectStore.loaded[gruppe])
 
     // console.log('actions loadObjectStore: app.loadingObjectStore:', app.loadingObjectStore)

@@ -26,10 +26,12 @@ const Nodes = React.createClass({
   getInitialState () {
     const pathString = this.getParams().splat
     const path = pathString.split('/')
+    // construct variables from path
     const gruppe = path[0]
     const level = this.props.level || path.length
     const activeKey = path[level - 1] || ''
     const hO = this.props.hO
+
     const state = {
       hO: hO,
       level: level,
