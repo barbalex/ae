@@ -62,7 +62,7 @@ export default React.createClass({
     // guidPath is when only a guid is contained in url
     const isGuidPath = path.length === 1 && isGuid(path[0])
     const groupsLoaded = window.objectStore.getGroupsLoaded()
-    const gruppe = isGuidPath ? null : path[0]
+    const gruppe = isGuidPath ? null : path[0]  // GET GRUPPE FROM OBJECT
     if (!isGuidPath) groupsLoaded.push(gruppe)
 
     const state = {
@@ -71,7 +71,7 @@ export default React.createClass({
       isGuidPath: isGuidPath
     }
 
-    // console.log('home.js getInitialState: state', state)
+    console.log('home.js getInitialState: state', state)
 
     return state
   },
@@ -79,7 +79,7 @@ export default React.createClass({
   componentDidMount () {
     setTreeHeight()
     window.addEventListener('resize', setTreeHeight())
-    if (!this.state.isGuidPath && !window.objectStore.loaded[this.state.gruppe]) app.Actions.loadObjectStore(this.state.gruppe)
+    if (this.state.gruppe && !window.objectStore.loaded[this.state.gruppe]) app.Actions.loadObjectStore(this.state.gruppe)
   },
 
   componentWillUnmount () {
@@ -96,8 +96,6 @@ export default React.createClass({
   },
 
   onClickGruppe (gruppe) {
-    // console.log('home.js: clicked gruppe', gruppe)
-    // console.log('home.js, onClickGruppe: loading', !window.objectStore.loaded[gruppe])
     const groupsLoaded = this.state.groupsLoaded
     groupsLoaded.push(gruppe)
     this.setState({
@@ -115,6 +113,8 @@ export default React.createClass({
     const gruppe = this.state.gruppe
     const isGroup = _.includes(gruppen, gruppe)
     const isGuidPath = this.state.isGuidPath
+
+    console.log('home.js is rendered')
 
     return (
       <div>

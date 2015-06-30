@@ -5,6 +5,30 @@ import Reflux from 'reflux'
 import _ from 'lodash'
 
 export default function (Actions) {
+  window.activeItemStore = Reflux.createStore({
+    listenables: Actions,
+
+    item: {},
+
+    getItem () {
+      return this.item
+    },
+
+    onLoadActiveItemStore () {
+      this.trigger(this.item)
+    },
+
+    onLoadActiveItemStoreCompleted (item) {
+      
+      // tell views that data has changed
+      this.trigger(this.item)
+    },
+
+    onLoadObjectStoreFailed (error) {
+      console.log('objectStore: loading items failed with error: ', error)
+    }
+  })
+
   window.objectStore = Reflux.createStore({
     // This store caches the requested item in the items property
     // When all the items are loaded,
@@ -36,9 +60,6 @@ export default function (Actions) {
     getAllItems () {
       let items = {}
       _.forEach(this.items, function (value, key) {
-        // _.values(value) is an array of all items
-        // const itemsArray = _.values(value)
-        // items = items.concat(itemsArray)
         _.assign(items, value)
       })
       return items

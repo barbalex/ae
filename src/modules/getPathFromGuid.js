@@ -12,15 +12,16 @@ import _ from 'lodash'
 
 export default function (guid, object, metaData) {
 
-  console.log('getPathFromGuid.js callec with guid:', guid)
-  console.log('getPathFromGuid.js callec with object:', object)
-  console.log('getPathFromGuid.js callec with metaData:', metaData)
+  console.log('getPathFromGuid.js called with guid:', guid)
 
   let pathArray = []
   const store = window.objectStore
   object = object || store.getItemByGuid(guid)
   const dsName = object.Gruppe === 'Lebensräume' ? 'Lebensräume_CH_Delarze_(2008)_Allgemeine_Umgebung_(Areale)' : object.Taxonomie.Name
   metaData = metaData || store.getDsMetadata()[dsName]
+
+  console.log('getPathFromGuid.js: object:', object)
+  console.log('getPathFromGuid.js: metaData:', metaData)
 
   pathArray.push(object.Gruppe)
 
