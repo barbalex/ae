@@ -29,7 +29,8 @@ export default React.createClass({
     }
   },
 
-  onClick () {
+  onClick (event) {
+    event.preventDefault()
     this.setState({
       isVisible: !this.state.isVisible
     })
