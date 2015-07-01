@@ -14,7 +14,7 @@ import RelationFields from './relationFields.js'
 import sortRelationsByName from '../../../modules/sortRelationsByName.js'
 
 export default React.createClass({
-  displayName: 'PropertyCollection',
+  displayName: 'RelationCollection',
 
   mixins: [State],
 

@@ -28,13 +28,14 @@ export default React.createClass({
 
   getInitialState () {
     const pathString = this.getParams().splat
-    const path = pathString.split('/')
+    const path = pathString.split('/')// guidPath is when only a guid is contained in url
+    const isGuidPath = path.length === 1 && isGuid(path[0])
     const gruppe = path[0]
     const lastPathElement = path[path.length - 1]
     const guid = isGuid(lastPathElement) ? lastPathElement : null
     const item = guid ? window.objectStore.getItem(gruppe, guid) : null
     const state = {
-      loading: !window.objectStore.loaded[gruppe],
+      loading: isGuidPath || !window.objectStore.loaded[gruppe],
       item: item,
       gruppe: gruppe,
       guid: guid
@@ -50,10 +51,16 @@ export default React.createClass({
   },
 
   onStoreChange (items, hierarchyObject) {
-    const { gruppe, guid } = this.state
+    const pathString = this.getParams().splat
+    const path = pathString.split('/')  // guidPath is when only a guid is contained in url
+    const lastPathElement = path[path.length - 1]
+    const guid = isGuid(lastPathElement) ? lastPathElement : null
+    const gruppe = path[0]
     const item = guid ? window.objectStore.getItem(gruppe, guid) : null
+
+    const isGuidPath = path.length === 1 && isGuid(path[0])
     this.setState({
-      loading: !window.objectStore.loaded[gruppe],
+      loading: isGuidPath || !window.objectStore.loaded[gruppe],
       item: item
     })
   },
@@ -108,6 +115,9 @@ export default React.createClass({
     let propertyCollections = null
     if (object.Eigenschaftensammlungen && object.Eigenschaftensammlungen.length > 0) {
       const pcs = _.map(object.Eigenschaftensammlungen, function (pc) {
+
+        console.log('object.js, render: pc passed to PropertyCollection:', pc)
+
         return <PropertyCollection key={pc.Name} pcType='Datensammlung' object={object} propertyCollection={pc}/>
       })
       propertyCollections = (
@@ -132,12 +142,14 @@ export default React.createClass({
       )
     }
 
+    console.log('object.js, render: Taxonomie-pc passed to PropertyCollection:', object.Taxonomie)
+
     return (
       <fieldset id='main'>
         <form className='form form-horizontal' autoComplete='off'>
           <div id='formContent'>
             <h4>Taxonomie:</h4>
-            <PropertyCollection pcType='Taxonomie' object={object} propertyCollection={object.Taxonomie}/>
+            {object.Taxonomie ? <PropertyCollection pcType='Taxonomie' object={object} propertyCollection={object.Taxonomie}/> : ''}
             {/*taxonomischeBeziehungssammlungen*/}
             {propertyCollections ? propertyCollections : ''}
             {relationCollections ? relationCollections : ''}

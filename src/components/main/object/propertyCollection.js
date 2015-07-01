@@ -62,7 +62,7 @@ export default React.createClass({
 
     // console.log('propertyCollection.js: this.props.pcType:', this.props.pcType)
     // console.log('propertyCollection.js: this.props.object:', this.props.object)
-    // console.log('propertyCollection.js: this.props.propertyCollection:', this.props.propertyCollection)
+    console.log('propertyCollection.js, getInitialState: this.props.propertyCollection:', this.props.propertyCollection)
 
     return {
       pcType: this.props.pcType,
@@ -72,6 +72,9 @@ export default React.createClass({
   },
 
   render () {
+
+    console.log('propertyCollection.js, render: propertyCollection:', this.state.propertyCollection)
+
     const propertyCollection = this.state.propertyCollection
     const pcName = replaceInvalidCharactersInIdNames(propertyCollection.Name)
     const pcType = this.state.pcType

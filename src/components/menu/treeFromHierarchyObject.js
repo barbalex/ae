@@ -229,6 +229,9 @@ export default React.createClass({
 
         // navigate to the new url
         const url = getPathFromGuid(guid)
+        this.setState({
+          gruppe: object.Gruppe
+        })
         this.transitionTo(url)
         this.forceUpdate()
       }
