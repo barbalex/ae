@@ -5,8 +5,10 @@ import Reflux from 'reflux'
 import _ from 'lodash'
 
 export default function (Actions) {
-  window.activeItemStore = Reflux.createStore({
+  window.activeObjectStore = Reflux.createStore({
     listenables: Actions,
+
+    loaded: false,
 
     item: {},
 
@@ -14,18 +16,17 @@ export default function (Actions) {
       return this.item
     },
 
-    onLoadActiveItemStore () {
+    onLoadActiveObjectStore (item) {
+      // pass this on so ui can express it already
       this.trigger(this.item)
     },
 
-    onLoadActiveItemStoreCompleted (item) {
-      
+    onLoadActiveObjectStoreCompleted (item, metaData) {
+      // item can be an object or {}
+      this.item = item
+      this.loaded = _.keys(item).length > 0
       // tell views that data has changed
-      this.trigger(this.item)
-    },
-
-    onLoadObjectStoreFailed (error) {
-      console.log('objectStore: loading items failed with error: ', error)
+      this.trigger(item)
     }
   })
 
@@ -121,6 +122,10 @@ export default function (Actions) {
 
     onLoadObjectStoreFailed (error) {
       console.log('objectStore: loading items failed with error: ', error)
+    },
+
+    onLoadActiveObjectStoreCompleted (item, metaData) {
+      if (metaData) _.assign(this.dsMetadata, metaData)
     },
 
     getInitialState () {

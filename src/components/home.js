@@ -53,7 +53,9 @@ export default React.createClass({
   propTypes: {
     gruppe: React.PropTypes.string,
     groupsLoaded: React.PropTypes.array,
-    isGuidPath: React.PropTypes.bool
+    isGuidPath: React.PropTypes.bool,
+    pathEndsWithGuid: React.PropTypes.bool,
+    guid: React.PropTypes.string
   },
 
   getInitialState () {
@@ -64,11 +66,15 @@ export default React.createClass({
     const groupsLoaded = window.objectStore.getGroupsLoaded()
     const gruppe = isGuidPath ? null : path[0]  // GET GRUPPE FROM OBJECT
     if (!isGuidPath) groupsLoaded.push(gruppe)
+    const pathEndsWithGuid = isGuid(path[path.length - 1])
+    const guid = pathEndsWithGuid ? path[path.length - 1] : null
 
     const state = {
       gruppe: gruppe,
       groupsLoaded: groupsLoaded,
-      isGuidPath: isGuidPath
+      isGuidPath: isGuidPath,
+      pathEndsWithGuid: pathEndsWithGuid,
+      guid: guid
     }
 
     console.log('home.js getInitialState: state', state)
@@ -80,17 +86,28 @@ export default React.createClass({
     setTreeHeight()
     window.addEventListener('resize', setTreeHeight())
     if (this.state.gruppe && !window.objectStore.loaded[this.state.gruppe]) app.Actions.loadObjectStore(this.state.gruppe)
+    if (this.state.pathEndsWithGuid) app.Actions.loadActiveObjectStore(this.state.guid)
+    this.listenTo(window.objectStore, this.onObjectStoreChange)
+    this.listenTo(window.activeObjectStore, this.onActiveObjectStoreChange)
   },
 
   componentWillUnmount () {
     window.removeEventListener('resize')
   },
 
-  onStoreChange (items, hO, gruppe) {
+  onObjectStoreChange (items, hO, gruppe) {
     const groupsLoaded = this.state.groupsLoaded
     groupsLoaded.push(gruppe)
     this.setState({
       groupsLoaded: groupsLoaded
+    })
+    this.forceUpdate()
+  },
+
+  onActiveObjectStoreChange (object) {
+    this.setState({
+      pathEndsWithGuid: !!object._id,
+      guid: object._id ? object._id : null
     })
     this.forceUpdate()
   },
@@ -113,6 +130,7 @@ export default React.createClass({
     const gruppe = this.state.gruppe
     const isGroup = _.includes(gruppen, gruppe)
     const isGuidPath = this.state.isGuidPath
+    const guid = this.state.guid
 
     console.log('home.js is rendered')
 
@@ -128,7 +146,7 @@ export default React.createClass({
           {isGroup ? <Filter /> : ''}
           {isGroup || isGuidPath ? <TreeFromHierarchyObject /> : ''}
         </div>
-        <Objekt />
+        <Objekt guid={guid} />
       </div>
     )
   }

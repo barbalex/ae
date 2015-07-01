@@ -37,29 +37,8 @@ export default React.createClass({
 
   onClickUrl (event) {
     event.preventDefault()
-    const gruppe = this.state.gruppe
     const guid = this.state.guid
-    if (gruppe && guid) {
-      if (window.objectStore.loaded[gruppe]) {
-        // group is already loaded, can directly transition
-        const url = getPathFromGuid(guid)
-
-        console.log('textLink.js: group ' + gruppe + ' is loaded. Transitioning to ', url)
-
-        this.transitionTo(url)
-        this.forceUpdate()
-      } else {
-
-        console.log('textLink.js: group ' + gruppe + ' is NOT loaded. Loading it and transitioning to /' + guid)
-
-        app.Actions.loadObjectStore(gruppe)
-        this.transitionTo('/' + guid)
-        this.forceUpdate()
-      }
-    } else {
-      this.transitionTo(this.state.url)
-      this.forceUpdate()
-    }
+    if (guid) app.Actions.loadActiveItemStore(guid)
   },
 
   render () {

@@ -8,7 +8,6 @@ import { ListenerMixin } from 'reflux'
 import _ from 'lodash'
 import PropertyCollection from './propertyCollection.js'
 import RelationCollection from './relationCollection.js'
-import isGuid from '../../../modules/isGuid.js'
 
 export default React.createClass({
   displayName: 'Object',
@@ -21,24 +20,17 @@ export default React.createClass({
 
   propTypes: {
     loading: React.PropTypes.bool,
-    item: React.PropTypes.object,
-    gruppe: React.PropTypes.string,
-    guid: React.PropTypes.string
+    guid: React.PropTypes.string,
+    object: React.PropTypes.object
   },
 
   getInitialState () {
-    const pathString = this.getParams().splat
-    const path = pathString.split('/')// guidPath is when only a guid is contained in url
-    const isGuidPath = path.length === 1 && isGuid(path[0])
-    const gruppe = path[0]
-    const lastPathElement = path[path.length - 1]
-    const guid = isGuid(lastPathElement) ? lastPathElement : null
-    const item = guid ? window.objectStore.getItem(gruppe, guid) : null
+    const guid = this.props.guid
+    const object = window.activeObjectStore.getItem()
     const state = {
-      loading: isGuidPath || !window.objectStore.loaded[gruppe],
-      item: item,
-      gruppe: gruppe,
-      guid: guid
+      loading: !window.activeObjectStore.loaded,
+      guid: guid,
+      object: object
     }
 
     // console.log('object.js, getInitialState: state', state)
@@ -47,39 +39,27 @@ export default React.createClass({
   },
 
   componentDidMount () {
-    this.listenTo(window.objectStore, this.onStoreChange)
+    this.listenTo(window.activeObjectStore, this.onActiveObjectStoreChange)
   },
 
-  onStoreChange (items, hierarchyObject) {
-    const pathString = this.getParams().splat
-    const path = pathString.split('/')  // guidPath is when only a guid is contained in url
-    const lastPathElement = path[path.length - 1]
-    const guid = isGuid(lastPathElement) ? lastPathElement : null
-    const gruppe = path[0]
-    const item = guid ? window.objectStore.getItem(gruppe, guid) : null
-
-    const isGuidPath = path.length === 1 && isGuid(path[0])
+  onActiveObjectStoreChange (object, metaData) {
     this.setState({
-      loading: isGuidPath || !window.objectStore.loaded[gruppe],
-      item: item
+      loading: _.keys(object).length > 0,
+      object: object
     })
   },
 
   render () {
-    const pathString = this.getParams().splat
-    const path = pathString.split('/')
-    const lastPathElement = path[path.length - 1]
-    const guid = isGuid(lastPathElement) ? lastPathElement : null
-    const gruppe = this.state.gruppe
-    const object = window.objectStore.getItem(gruppe, guid)
+    const object = this.state.object
+    const loading = this.state.loading
 
-    if (!object || !guid) {
+    if (!object) {
       return (
         <fieldset id='main'>
         </fieldset>
       )
     }
-    if (this.state.loading) {
+    if (loading) {
       return (
         <fieldset id='main'>
           <p>Lade Daten...</p>

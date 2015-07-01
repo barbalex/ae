@@ -5,6 +5,7 @@
  */
 'use strict'
 
+import app from 'ampersand-app'
 import React from 'react'
 import { Typeahead } from 'react-typeahead'
 import { State, Navigation } from 'react-router'
@@ -12,7 +13,7 @@ import { ListenerMixin } from 'reflux'
 import { Glyphicon } from 'react-bootstrap'
 import _ from 'lodash'
 import getPathFromGuid from '../../modules/getPathFromGuid.js'
-import Home from '../home.js'
+// import Home from '../home.js'
 
 export default React.createClass({
   displayName: 'Filter',
@@ -53,7 +54,9 @@ export default React.createClass({
   },
 
   filter (result) {
-    const url = getPathFromGuid(result.value)
+    const guid = result.value
+    const url = getPathFromGuid(guid)
+    app.Actions.loadActiveItemStore(guid)
     window.router.transitionTo(url)
     // TODO: get tree to render
     // this.forceUpdate()
