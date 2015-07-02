@@ -40,7 +40,8 @@ export default React.createClass({
       gruppe: gruppe,
       guid: guid,
       activeKey: activeKey,
-      isGuidPath: isGuidPath
+      isGuidPath: isGuidPath,
+      path: path
     }
 
     console.log('treeFromHierarchyObject.js getInitialState: state', state)

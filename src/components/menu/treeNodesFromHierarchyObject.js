@@ -23,12 +23,12 @@ const Nodes = React.createClass({
     activeKey: React.PropTypes.string,
     gruppe: React.PropTypes.string,
     guid: React.PropTypes.string,
-    path: React.PropTypes.array
+    path: React.PropTypes.array,
+    level: React.PropTypes.number
   },
 
   getInitialState () {
-    const { hO, gruppe, guid, path } = this.props
-    const level = path.length
+    const { hO, gruppe, guid, path, level } = this.props
     // if this level is the guid, it's name needs to be gotten
     let activeKey = path[level - 1] || ''
     if (isGuid(activeKey)) {
@@ -42,7 +42,8 @@ const Nodes = React.createClass({
       activeKey: activeKey,
       gruppe: gruppe,
       guid: guid,
-      path: path
+      path: path,
+      level: level
     }
 
     console.log('treeNodesFromHierarchyObject.js getInitialState: state', state)
@@ -84,24 +85,23 @@ const Nodes = React.createClass({
     console.log('treeNodesFromHierarchyObject.js onClickNode: params', params)
     console.log('treeNodesFromHierarchyObject.js onClickNode: this.state before', this.state)
 
-    const { hO, activeKey, path} = this.state
-    const level = path.length
+    const { hO, activeKey} = this.state
     let newActiveKey
-    const { key, guid } = params
+    const { key, guid, level } = params
 
     // TODO: GO ON REMOVING LEVEL FROM STATE, WORKING WITH PATH
     // TODO: THEN REMOVE FROM STATE WHAT IS NOT CHANGED IN COMPONENT
-    
+
     // keep path elements below level clicked
-    const pathElements = _.slice(path, 0, level - 1)
+    let path = _.slice(this.state.path, 0, level - 1)
     if (key !== activeKey) {
       // get string of the element clicked
       const newPathElement = typeof hO[key] === 'object' ? key : hO[key]
       // add it to the path
-      pathElements.push(newPathElement)
+      path.push(newPathElement)
     }
     // convert array to url string
-    const newPath = pathElements.join('/')
+    const newPath = path.join('/')
     // create url string
     const newUrl = `/${newPath}`
 
@@ -120,7 +120,8 @@ const Nodes = React.createClass({
 
     this.setState({
       activeKey: newActiveKey,
-      guid: guid
+      guid: guid,
+      path: path
     }, console.log('treeNodesFromHierarchyObject.js onClickNode: this.state after', this.state))
 
     if (this.state.guid !== guid) app.Actions.loadActiveObjectStore(guid)
@@ -135,8 +136,7 @@ const Nodes = React.createClass({
 
     let nodes
     const that = this
-    const { hO, activeKey, path, gruppe, guid } = this.state
-    const level = path.length
+    const { hO, activeKey, path, gruppe, guid, level } = this.state
 
     nodes = _.chain(hO)
       .keys()
@@ -145,13 +145,13 @@ const Nodes = React.createClass({
         const keyIsActive = key === activeKey || hO[key] === activeKey
         const keyIsObject = typeof hO[key] === 'string'
         const glyph = keyIsActive ? (keyIsObject ? 'forward' : 'triangle-bottom') : (keyIsObject ? 'minus' : 'triangle-right')
-        const onClickNode = that.onClickNode.bind(that, {'key': key, 'guid': (keyIsObject ? hO[key] : null)})
+        const onClickNode = that.onClickNode.bind(that, {'key': key, 'guid': (keyIsObject ? hO[key] : null), 'level': level})
 
         return (
           <li level={level} key={key} onClick={onClickNode}>
             <Glyphicon glyph={glyph} onClick={onClickNode}/>
             <div className={keyIsActive ? 'active' : null}>{key}</div>
-            {(key === activeKey && !keyIsObject) ? <Nodes hO={hO[key]} gruppe={gruppe} guid={guid} level={level + 1}/> : null}
+            {(key === activeKey && !keyIsObject) ? <Nodes hO={hO[key]} gruppe={gruppe} guid={guid} level={level + 1} path={path}/> : null}
           </li>
         )
       })

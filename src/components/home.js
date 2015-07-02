@@ -116,12 +116,12 @@ export default React.createClass({
   },
 
   onClickGruppe (gruppe) {
-    const groupsLoaded = this.state.groupsLoaded
-    groupsLoaded.push(gruppe)
+    const groupsLoaded = this.state.groupsLoaded.push(gruppe)
+    const path = [gruppe]
     this.setState({
       gruppe: gruppe,
       groupsLoaded: groupsLoaded,
-      path: this.state.path.push(gruppe)
+      path: path
     })
     // load this gruppe if that hasn't happened yet
     if (!window.objectStore.loaded[gruppe]) app.Actions.loadObjectStore(gruppe)
