@@ -132,7 +132,7 @@ const Nodes = React.createClass({
 
   render () {
 
-    console.log('treeNodesFromHierarchyObject.js render: this.state', this.state)
+    // console.log('treeNodesFromHierarchyObject.js render: this.state', this.state)
 
     let nodes
     const that = this

@@ -20,16 +20,14 @@ export default React.createClass({
 
   propTypes: {
     loading: React.PropTypes.bool,
-    guid: React.PropTypes.string,
     object: React.PropTypes.object
   },
 
   getInitialState () {
-    const guid = this.props.guid
-    const object = window.activeObjectStore.getItem()
+    const loading = !window.activeObjectStore.loaded
+    const object = this.props.object
     const state = {
-      loading: !window.activeObjectStore.loaded,
-      guid: guid,
+      loading: loading,
       object: object
     }
 
@@ -42,11 +40,11 @@ export default React.createClass({
     this.listenTo(window.activeObjectStore, this.onActiveObjectStoreChange)
   },
 
-  onActiveObjectStoreChange (object, metaData) {
+  /*onActiveObjectStoreChange (object) {
 
     console.log('object.js onActiveObjectStoreChange: object:', object)
-    console.log('object.js onActiveObjectStoreChange: _.keys(object):', _.keys(object))
-    console.log('object.js onActiveObjectStoreChange: _.keys(object).length:', _.keys(object).length)
+    // console.log('object.js onActiveObjectStoreChange: _.keys(object):', _.keys(object))
+    // console.log('object.js onActiveObjectStoreChange: _.keys(object).length:', _.keys(object).length)
 
     this.setState({
       loading: !_.keys(object).length > 0,
@@ -55,8 +53,8 @@ export default React.createClass({
 
     console.log('object.js onActiveObjectStoreChange: this.state:', this.state)
 
-    // this.forceUpdate()
-  },
+    this.forceUpdate()
+  },*/
 
   render () {
 

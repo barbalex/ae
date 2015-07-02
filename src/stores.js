@@ -27,9 +27,17 @@ export default function (Actions) {
       console.log('stores.js, activeObjectStore, onLoadActiveObjectStoreCompleted: item', item)
 
       this.item = item
+
+      console.log('stores.js, activeObjectStore, onLoadActiveObjectStoreCompleted: this.item', this.item)
+
       this.loaded = _.keys(item).length > 0
+
+      console.log('stores.js, activeObjectStore, onLoadActiveObjectStoreCompleted: this.loaded', this.loaded)
+
       // tell views that data has changed
       this.trigger(item)
+
+      console.log('stores.js, activeObjectStore, onLoadActiveObjectStoreCompleted: this.triggered item')
     }
   })
 
@@ -128,6 +136,9 @@ export default function (Actions) {
     },
 
     onLoadActiveObjectStoreCompleted (item, metaData) {
+      
+      console.log('objectStore, onLoadActiveObjectStoreCompleted: metaData', metaData)
+
       if (metaData) _.assign(this.dsMetadata, metaData)
     },
 
