@@ -5,7 +5,6 @@ import React from 'react'
 import { State, Navigation } from 'react-router'
 import { ListenerMixin } from 'reflux'
 import Nodes from './treeNodesFromHierarchyObject.js'
-import isGuid from '../../modules/isGuid.js'
 
 export default React.createClass({
   displayName: 'TreeLevel1',
@@ -13,31 +12,25 @@ export default React.createClass({
   mixins: [ListenerMixin, State, Navigation],
 
   propTypes: {
-    hO: React.PropTypes.object,  // = hierarchy-object
+    hO: React.PropTypes.object,
     gruppe: React.PropTypes.string,
-    activeKey: React.PropTypes.string
+    activeKey: React.PropTypes.string,
+    isGuidPath: React.PropTypes.bool,
+    guid: React.PropTypes.string,
+    path: React.PropTypes.array
   },
 
   getInitialState () {
-    let gruppe
     let hO
     let activeKey
 
-    const pathString = this.getParams().splat
-    const path = pathString.split('/')
     // guidPath is when only a guid is contained in url
-    const isGuidPath = path.length === 1 && isGuid(path[0])
-
-    console.log('treeFromHierarchyObject.js, getInitialState: isGuidPath:', isGuidPath)
+    const { isGuidPath, guid, gruppe, path} = this.props
 
     if (isGuidPath) {
-      const guid = path[0]
-      app.Actions.loadActiveItemStore(guid)
-      gruppe = null
       hO = null
       activeKey = null
     } else {
-      gruppe = path[0]
       hO = window.objectStore.getHierarchy()
       activeKey = gruppe
     }
@@ -45,10 +38,12 @@ export default React.createClass({
     const state = {
       hO: hO,
       gruppe: gruppe,
-      activeKey: activeKey
+      guid: guid,
+      activeKey: activeKey,
+      isGuidPath: isGuidPath
     }
 
-    // console.log('treeFromHierarchyObject.js getInitialState: state', state)
+    console.log('treeFromHierarchyObject.js getInitialState: state', state)
 
     return state
   },
@@ -69,7 +64,7 @@ export default React.createClass({
   },
 
   render () {
-    const hO = this.state.hO
+    const { hO, gruppe, guid, path } = this.state
     const loading = app.loadingObjectStore && app.loadingObjectStore.length > 0
     const loadingGruppe = loading ? app.loadingObjectStore[0] : 'Daten'
 
@@ -77,7 +72,7 @@ export default React.createClass({
 
     const tree = (
       <div>
-        <Nodes hO={hO} level={1}/>
+        <Nodes hO={hO} gruppe={gruppe} guid={guid} level={1} path={path}/>
       </div>
     )
 

@@ -33,7 +33,7 @@ export default React.createClass({
       object: object
     }
 
-    // console.log('object.js, getInitialState: state', state)
+    console.log('object.js, getInitialState: state', state)
 
     return state
   },
@@ -43,17 +43,28 @@ export default React.createClass({
   },
 
   onActiveObjectStoreChange (object, metaData) {
+
+    console.log('object.js onActiveObjectStoreChange: object:', object)
+    console.log('object.js onActiveObjectStoreChange: _.keys(object):', _.keys(object))
+    console.log('object.js onActiveObjectStoreChange: _.keys(object).length:', _.keys(object).length)
+
     this.setState({
-      loading: _.keys(object).length > 0,
+      loading: !_.keys(object).length > 0,
       object: object
     })
+
+    console.log('object.js onActiveObjectStoreChange: this.state:', this.state)
+
+    // this.forceUpdate()
   },
 
   render () {
-    const object = this.state.object
-    const loading = this.state.loading
 
-    if (!object) {
+    console.log('object.js, render')
+
+    const { object, loading } = this.state
+
+    if (!object || _.keys(object).length === 0) {
       return (
         <fieldset id='main'>
         </fieldset>
@@ -62,7 +73,7 @@ export default React.createClass({
     if (loading) {
       return (
         <fieldset id='main'>
-          <p>Lade Daten...</p>
+          <p>Lade Objekt...</p>
         </fieldset>
       )
     }
@@ -96,7 +107,7 @@ export default React.createClass({
     if (object.Eigenschaftensammlungen && object.Eigenschaftensammlungen.length > 0) {
       const pcs = _.map(object.Eigenschaftensammlungen, function (pc) {
 
-        console.log('object.js, render: pc passed to PropertyCollection:', pc)
+        // console.log('object.js, render: pc passed to PropertyCollection:', pc)
 
         return <PropertyCollection key={pc.Name} pcType='Datensammlung' object={object} propertyCollection={pc}/>
       })
@@ -122,7 +133,7 @@ export default React.createClass({
       )
     }
 
-    console.log('object.js, render: Taxonomie-pc passed to PropertyCollection:', object.Taxonomie)
+    // console.log('object.js, render: Taxonomie-pc passed to PropertyCollection:', object.Taxonomie)
 
     return (
       <fieldset id='main'>

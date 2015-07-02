@@ -87,56 +87,62 @@ export default function () {
     console.log('actions: loadActiveObjectStore with guid:', guid)
 
     // check if group is loaded > get object from objectStore
-    const object = window.objectStore.getItemByGuid(guid)
-    if (object) {
-      // group is already loaded
-      // pass object to activeObjectStore by completing action
-      // if object is empty, store will have no item
-      // so there is never a failed action
-      Actions.loadActiveObjectStore.completed(object)
+    if (!guid) {
+      console.log('actions: loadActiveObjectStore !guid')
+      Actions.loadActiveObjectStore.completed({})
     } else {
-      // this group is not loaded yet
-      // get Object from couch
-      const couchUrl = pouchUrl()
-      const db = new PouchDB(couchUrl, function (error, response) {
-        if (error) { return console.log('error instantiating remote db: ', error) }
-        db.get(guid, { include_docs: true })
-          .then(function (object) {
-            // dispatch action to load data of this group
-            Actions.loadObjectStore(object.Gruppe)
+      console.log('actions: loadActiveObjectStore guid')
+      const object = window.objectStore.getItemByGuid(guid)
+      if (object) {
+        // group is already loaded
+        // pass object to activeObjectStore by completing action
+        // if object is empty, store will have no item
+        // so there is never a failed action
+        Actions.loadActiveObjectStore.completed(object)
+      } else {
+        // this group is not loaded yet
+        // get Object from couch
+        const couchUrl = pouchUrl()
+        const db = new PouchDB(couchUrl, function (error, response) {
+          if (error) { return console.log('error instantiating remote db: ', error) }
+          db.get(guid, { include_docs: true })
+            .then(function (object) {
+              // dispatch action to load data of this group
+              Actions.loadObjectStore(object.Gruppe)
 
-            // wait until store changes
-            const taxonomieForMetadata = (object.Gruppe === 'Lebensräume' ? 'CH Delarze (2008): Allgemeine Umgebung (Areale)' : object.Taxonomie.Name)
+              // wait until store changes
+              const taxonomieForMetadata = (object.Gruppe === 'Lebensräume' ? 'CH Delarze (2008): Allgemeine Umgebung (Areale)' : object.Taxonomie.Name)
 
-            console.log('actions loadActiveObjectStore: object from couch:', object)
+              console.log('actions loadActiveObjectStore: object from couch:', object)
 
-            // check if metadata is here
-            const metaData = window.objectStore.getDsMetadata()
+              // check if metadata is here
+              const metaData = window.objectStore.getDsMetadata()
 
-            if (metaData && metaData[taxonomieForMetadata]) {
+              if (metaData && metaData[taxonomieForMetadata]) {
 
-              console.log('treeFromHierarchyObject.js componentDidUpdate: calling getPathFromGuid with guid and object')
+                console.log('actions loadActiveObjectStore: metaDate exists, completing')
 
-              Actions.loadActiveObjectStore.completed(object)
-            } else {
-              db.query('artendb/dsMetadataNachDsName', { include_docs: true })
-                .then(function (result) {
-                  // extract metadata doc from result
-                  const metaDataDoc = result.rows.map(function (row) {
-                    return row.doc
+                Actions.loadActiveObjectStore.completed(object)
+              } else {
+                db.query('artendb/dsMetadataNachDsName', { include_docs: true })
+                  .then(function (result) {
+                    // extract metadata doc from result
+                    const metaDataDoc = result.rows.map(function (row) {
+                      return row.doc
+                    })
+                    const metaData = _.indexBy(metaDataDoc, 'Name')
+                    Actions.loadActiveObjectStore.completed(object, metaData)
                   })
-                  const metaData = _.indexBy(metaDataDoc, 'Name')
-                  Actions.loadActiveObjectStore.completed(object, metaData)
-                })
-                .catch(function (error) {
-                  console.log('error fetching metadata:', error)
-                })
-            }
-          })
-          .catch(function (error) {
-            console.log('error fetching doc from ' + couchUrl + ' with guid ' + guid + ':', error)
-          })
-      })
+                  .catch(function (error) {
+                    console.log('error fetching metadata:', error)
+                  })
+              }
+            })
+            .catch(function (error) {
+              console.log('error fetching doc from ' + couchUrl + ' with guid ' + guid + ':', error)
+            })
+        })
+      }
     }
   })
 

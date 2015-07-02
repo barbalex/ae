@@ -21,8 +21,11 @@ export default function (Actions) {
       this.trigger(this.item)
     },
 
-    onLoadActiveObjectStoreCompleted (item, metaData) {
+    onLoadActiveObjectStoreCompleted (item) {
       // item can be an object or {}
+
+      console.log('stores.js, activeObjectStore, onLoadActiveObjectStoreCompleted: item', item)
+
       this.item = item
       this.loaded = _.keys(item).length > 0
       // tell views that data has changed

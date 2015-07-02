@@ -54,8 +54,8 @@ export default React.createClass({
     gruppe: React.PropTypes.string,
     groupsLoaded: React.PropTypes.array,
     isGuidPath: React.PropTypes.bool,
-    pathEndsWithGuid: React.PropTypes.bool,
-    guid: React.PropTypes.string
+    guid: React.PropTypes.string,
+    path: React.PropTypes.array
   },
 
   getInitialState () {
@@ -64,17 +64,18 @@ export default React.createClass({
     // guidPath is when only a guid is contained in url
     const isGuidPath = path.length === 1 && isGuid(path[0])
     const groupsLoaded = window.objectStore.getGroupsLoaded()
-    const gruppe = isGuidPath ? null : path[0]  // GET GRUPPE FROM OBJECT
+    const gruppe = isGuidPath ? null : path[0]
     if (!isGuidPath) groupsLoaded.push(gruppe)
     const pathEndsWithGuid = isGuid(path[path.length - 1])
     const guid = pathEndsWithGuid ? path[path.length - 1] : null
+    if (isGuidPath) app.Actions.loadActiveItemStore(guid)
 
     const state = {
       gruppe: gruppe,
       groupsLoaded: groupsLoaded,
       isGuidPath: isGuidPath,
-      pathEndsWithGuid: pathEndsWithGuid,
-      guid: guid
+      guid: guid,
+      path: path
     }
 
     console.log('home.js getInitialState: state', state)
@@ -83,10 +84,13 @@ export default React.createClass({
   },
 
   componentDidMount () {
+    const gruppe = this.state.gruppe
+    const guid = this.state.guid
+
     setTreeHeight()
     window.addEventListener('resize', setTreeHeight())
-    if (this.state.gruppe && !window.objectStore.loaded[this.state.gruppe]) app.Actions.loadObjectStore(this.state.gruppe)
-    if (this.state.pathEndsWithGuid) app.Actions.loadActiveObjectStore(this.state.guid)
+    if (gruppe && !window.objectStore.loaded[gruppe]) app.Actions.loadObjectStore(gruppe)
+    if (guid) app.Actions.loadActiveObjectStore(guid)
     this.listenTo(window.objectStore, this.onObjectStoreChange)
     this.listenTo(window.activeObjectStore, this.onActiveObjectStoreChange)
   },
@@ -106,7 +110,6 @@ export default React.createClass({
 
   onActiveObjectStoreChange (object) {
     this.setState({
-      pathEndsWithGuid: !!object._id,
       guid: object._id ? object._id : null
     })
     this.forceUpdate()
@@ -117,7 +120,8 @@ export default React.createClass({
     groupsLoaded.push(gruppe)
     this.setState({
       gruppe: gruppe,
-      groupsLoaded: groupsLoaded
+      groupsLoaded: groupsLoaded,
+      path: this.state.path.push(gruppe)
     })
     // load this gruppe if that hasn't happened yet
     if (!window.objectStore.loaded[gruppe]) app.Actions.loadObjectStore(gruppe)
@@ -127,12 +131,10 @@ export default React.createClass({
 
   render () {
     // find out if Filter shall be shown
-    const gruppe = this.state.gruppe
+    const { gruppe, isGuidPath, guid, path } = this.state
     const isGroup = _.includes(gruppen, gruppe)
-    const isGuidPath = this.state.isGuidPath
-    const guid = this.state.guid
 
-    console.log('home.js is rendered')
+    console.log('home.js, render')
 
     return (
       <div>
@@ -144,7 +146,7 @@ export default React.createClass({
           </div>
           {createGruppen(this)}
           {isGroup ? <Filter /> : ''}
-          {isGroup || isGuidPath ? <TreeFromHierarchyObject /> : ''}
+          {isGroup || isGuidPath ? <TreeFromHierarchyObject gruppe={gruppe} guid={guid} isGuidPath={isGuidPath} path={path} /> : ''}
         </div>
         <Objekt guid={guid} />
       </div>
