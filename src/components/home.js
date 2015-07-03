@@ -44,7 +44,7 @@ function createGruppen (that) {
   }
 }
 
-export default React.createClass({
+const Home = React.createClass({
   displayName: 'Home',
 
   mixins: [ListenerMixin, State, Navigation],
@@ -113,6 +113,8 @@ export default React.createClass({
       object: object
     })
     this.transitionTo('/' + path.join('/'))
+    // this.forceUpdate()
+    React.render(<Home />, document.body)
   },
 
   onObjectStoreChange (payload) {
@@ -122,12 +124,15 @@ export default React.createClass({
       hierarchy: hierarchy,
       groupsLoaded: groupsLoaded
     })
+    React.render(<Home />, document.body)
   },
 
   onActiveObjectStoreChange (object) {
     this.setState({
       object: object
     })
+    // this.forceUpdate()
+    React.render(<Home />, document.body)
   },
 
   onClickGruppe (gruppe) {
@@ -157,3 +162,5 @@ export default React.createClass({
     )
   }
 })
+
+export default Home

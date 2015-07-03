@@ -33,12 +33,12 @@ export default function (Actions) {
 
     getItem () {
       return this.item
-    },
+    },/*
 
     onLoadActiveObjectStore (item) {
       // pass this on so ui can express it already
       this.trigger(this.item)
-    },
+    },*/
 
     onLoadActiveObjectStoreCompleted (item) {
       // item can be an object or {}

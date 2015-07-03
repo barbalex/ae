@@ -14,32 +14,22 @@ export default React.createClass({
   mixins: [ListenerMixin],
 
   propTypes: {
-    loading: React.PropTypes.bool,
     object: React.PropTypes.object
   },
 
-  /*getInitialState () {
-    const object = this.props.object
-    return {
-      object: object
-    }
-  },*/
-
-  /*componentDidMount () {
-    this.listenTo(window.activeObjectStore, this.onActiveObjectStoreChange)
+  onPathStoreChange (path) {
+    this.forceUpdate()
   },
 
-  // ?? not sure why we need to listen to the store when prop is passed from Home
-  onActiveObjectStoreChange (object) {
-    this.setState({,
-      object: object
-    })
-  },*/
+  onObjectStoreChange () {
+    this.forceUpdate()
+  },
 
   render () {
     const object = this.props.object
 
     console.log('object.js, render: object', object)
+    console.log('object.js, render: this.props.object', this.props.object)
 
     if (!object || _.keys(object).length === 0) {
       return (
@@ -47,13 +37,6 @@ export default React.createClass({
         </fieldset>
       )
     }
-    /*if (loading) {
-      return (
-        <fieldset id='main'>
-          <p>Lade Objekt...</p>
-        </fieldset>
-      )
-    }*/
 
     let objektBs = []  // regular property collections
     let taxBs = [] // taxonomic property collections
@@ -109,8 +92,6 @@ export default React.createClass({
         </div>
       )
     }
-
-    // console.log('object.js, render: Taxonomie-pc passed to PropertyCollection:', object.Taxonomie)
 
     return (
       <fieldset id='main'>
