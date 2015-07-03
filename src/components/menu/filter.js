@@ -21,9 +21,6 @@ export default React.createClass({
 
   getInitialState () {
     const items = this.props.items
-
-    // console.log('filter.js, getInitialState: this.props.items', this.props.items)
-
     return {
       items: items
     }
@@ -43,9 +40,7 @@ export default React.createClass({
   },
 
   render () {
-
-    console.log('filter.js, render: state', this.state)
-
+    // console.log('filter.js, render: state', this.state)
     const items = this.state.items
     const itemsArray = _.values(items)
     const options = _.map(itemsArray, function (object) {

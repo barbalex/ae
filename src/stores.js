@@ -15,7 +15,6 @@ export default function (Actions) {
     path: [],
 
     onLoadPathStore (path) {
-      console.log('stores.js, pathStore, onLoadPathStore: path', path)
       this.path = path
       this.trigger(path)
     }
@@ -43,21 +42,10 @@ export default function (Actions) {
 
     onLoadActiveObjectStoreCompleted (item) {
       // item can be an object or {}
-
-      console.log('stores.js, activeObjectStore, onLoadActiveObjectStoreCompleted: item', item)
-
       this.item = item
-
-      console.log('stores.js, activeObjectStore, onLoadActiveObjectStoreCompleted: this.item', this.item)
-
       this.loaded = _.keys(item).length > 0
-
-      console.log('stores.js, activeObjectStore, onLoadActiveObjectStoreCompleted: this.loaded', this.loaded)
-
       // tell views that data has changed
       this.trigger(item)
-
-      console.log('stores.js, activeObjectStore, onLoadActiveObjectStoreCompleted: this.triggered item')
     }
   })
 
@@ -144,11 +132,11 @@ export default function (Actions) {
     },
 
     onLoadActiveObjectStoreCompleted (item, metaData) {
+      // on first load of the page
+      // if an object is directly shown,
+      // activeObjectStore fetches metaData
+      // (in other cases objectStore fetches it)
       if (metaData) _.assign(this.taxMetadata, metaData)
-    },
-
-    getInitialState () {
-      return this.items
     }
   })
 }

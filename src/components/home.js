@@ -79,7 +79,7 @@ export default React.createClass({
     // above action kicks of objectStore too, so don't do it twice > exclude pathEndsWithGuid
     if (gruppe && !window.objectStore.loaded[gruppe] && !pathEndsWithGuid) app.Actions.loadObjectStore(gruppe)
 
-    const state = {
+    return {
       hierarchy: hierarchy,
       gruppe: gruppe,
       groupsLoaded,
@@ -90,10 +90,6 @@ export default React.createClass({
       object: object,
       guid: guid
     }
-
-    console.log('home.js getInitialState: state', state)
-
-    return state
   },
 
   componentDidMount () {
@@ -109,15 +105,17 @@ export default React.createClass({
   },
 
   onPathStoreChange (path) {
-    console.log('home.js onPathStoreChange: path:', path)
+    const pathEndsWithGuid = isGuid(path[path.length - 1])
+    const object = window.activeObjectStore.getItem()
     this.setState({
-      path: path
+      path: path,
+      pathEndsWithGuid: pathEndsWithGuid,
+      object: object
     })
     this.transitionTo('/' + path.join('/'))
   },
 
   onObjectStoreChange (payload) {
-    // console.log('home.js onObjectStoreChange: payload:', payload)
     const { items, hierarchy, groupsLoaded } = payload
     this.setState({
       items: items,
@@ -128,27 +126,16 @@ export default React.createClass({
 
   onActiveObjectStoreChange (object) {
     // object can be a real object or empty
-    // console.log('home.js onActiveObjectStoreChange: object:', object)
-    // change state of all elements that can have changed
-    const guid = object._id || null
-    const gruppe = object.Gruppe ? object.Gruppe : this.state.gruppe
-
     this.setState({
-      gruppe: gruppe,
-      object: object,
-      guid: guid
+      object: object
     })
   },
 
   onClickGruppe (gruppe) {
-    const groupsLoaded = window.objectStore.getGroupsLoaded()
     this.setState({
-      gruppe: gruppe,
-      groupsLoaded: groupsLoaded
+      gruppe: gruppe
     })
-    // load this gruppe if that hasn't happened yet
-    // actually: this should not have happened yet because then the checkbox would not be visible
-    if (!window.objectStore.isGroupLoaded(gruppe)) app.Actions.loadObjectStore(gruppe)
+    app.Actions.loadObjectStore(gruppe)
   },
 
   render () {
@@ -156,7 +143,9 @@ export default React.createClass({
     const { hierarchy, gruppe, isGuidPath, pathEndsWithGuid, guid, path, items, object } = this.state
     const isGroup = _.includes(gruppen, gruppe)
 
-    // console.log('home.js, render: state', this.state)
+    console.log('home.js, render: pathEndsWithGuid', pathEndsWithGuid)
+    console.log('home.js, render: path', path)
+    console.log('home.js, render: object', object)
 
     return (
       <div>

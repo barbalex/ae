@@ -25,13 +25,8 @@ export default function () {
   Actions.loadObjectStore.listen(function (gruppe) {
     // make shure gruppe was passed
     if (!gruppe) return false
-    // problem: this action can get called several times while it is already fetching data
+    // problem: this action can get called several times while it is already fetching data (TODO: that is probalby not so anymore)
     // > make shure data is only fetched if objectStore is not yet loaded and not loading right now
-
-    console.log('actions loadObjectStore: gruppe:', gruppe)
-    // console.log('actions loadObjectStore: window.objectStore.loaded[gruppe]:', window.objectStore.loaded[gruppe])
-
-    // console.log('actions loadObjectStore: app.loadingObjectStore:', app.loadingObjectStore)
     // loadingObjectStore contains an Array of the groups being loaded right now
     app.loadingObjectStore = app.loadObjectStore || []
 
@@ -101,25 +96,18 @@ export default function () {
   })
 
   Actions.loadActiveObjectStore.listen(function (guid) {
-
-    console.log('actions: loadActiveObjectStore with guid:', guid)
-
     // check if group is loaded > get object from objectStore
     if (!guid) {
-      // console.log('actions: loadActiveObjectStore !guid')
       Actions.loadActiveObjectStore.completed({})
     } else {
-      console.log('actions: loadActiveObjectStore guid')
       const object = window.objectStore.getItem(guid)
       if (object) {
-        // console.log('actions: loadActiveObjectStore object:', object)
         // group is already loaded
         // pass object to activeObjectStore by completing action
         // if object is empty, store will have no item
         // so there is never a failed action
         Actions.loadActiveObjectStore.completed(object)
       } else {
-        // console.log('actions: loadActiveObjectStore no object, only guid')
         // this group is not loaded yet
         // get Object from couch
         const couchUrl = pouchUrl()
@@ -128,21 +116,12 @@ export default function () {
           db.get(guid, { include_docs: true })
             .then(function (object) {
               // dispatch action to load data of this group
-              // console.log('actions: loadActiveObjectStore: loading objectStore with gruppe:', object.Gruppe)
               Actions.loadObjectStore(object.Gruppe)
-
               // wait until store changes
               const taxonomieForMetadata = (object.Gruppe === 'Lebensräume' ? 'CH Delarze (2008): Allgemeine Umgebung (Areale)' : object.Taxonomie.Name)
-
-              // console.log('actions loadActiveObjectStore: object from couch:', object)
-
               // check if metadata is here
               const metaData = window.objectStore.getTaxMetadata()
-
               if (metaData && metaData[taxonomieForMetadata]) {
-
-                // console.log('actions loadActiveObjectStore: metaDate exists, completing')
-
                 Actions.loadActiveObjectStore.completed(object)
               } else {
                 db.query('artendb/dsMetadataNachDsName', { include_docs: true })
