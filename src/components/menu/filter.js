@@ -33,13 +33,13 @@ export default React.createClass({
     }
   },
 
-  onClickRemove () {
+  onClickEmptyFilterField () {
     console.log('filter.js: clicked remove')
     // this.forceUpdate()
     React.findDOMNode(this.refs.typeahead).focus()
   },
 
-  filter (result) {
+  onSelectObject (result) {
     const guid = result.value
     const url = getPathFromGuid(guid)
     app.Actions.loadActiveItemStore(guid)
@@ -50,7 +50,6 @@ export default React.createClass({
   },
 
   render () {
-    console.log('filter.js, render: this.state.items', this.state.items)
     const items = this.state.items
     const itemsArray = _.values(items)
     const options = _.map(itemsArray, function (object) {
@@ -62,8 +61,6 @@ export default React.createClass({
         }
       }
     })
-
-    console.log('filter.js, render: options', options)
 
     const removeGlyphStyle = {
       fontSize: 13 + 'px',
@@ -77,7 +74,7 @@ export default React.createClass({
     return (
       <div id='filter'>
         <div style={{position: 'relative'}}>
-          <Glyphicon glyph={'remove'} style={removeGlyphStyle} onClick={this.onClickRemove}/>
+          <Glyphicon glyph={'remove'} style={removeGlyphStyle} onClick={this.onClickEmptyFilterField}/>
           <Typeahead
             ref={'typeahead'}
             placeholder={'filtern'}
@@ -85,7 +82,7 @@ export default React.createClass({
             options={options}
             filterOption={'label'}
             displayOption={'label'}
-            onOptionSelected={this.filter}
+            onOptionSelected={this.onSelectObject}
             customClasses={{
               'input': ['form-control'],
               'results': ['list-group'],
