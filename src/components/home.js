@@ -58,7 +58,6 @@ export default React.createClass({
     pathEndsWithGuid: React.PropTypes.bool,
     path: React.PropTypes.array,
     items: React.PropTypes.object,
-    allItems: React.PropTypes.object,
     object: React.PropTypes.object,
     guid: React.PropTypes.string
   },
@@ -75,7 +74,6 @@ export default React.createClass({
     const hierarchy = isGuidPath ? null : window.objectStore.getHierarchy()
     const groupsLoaded = window.objectStore.getGroupsLoaded()
     const items = window.objectStore.getItems()
-    const allItems = window.objectStore.getItems()
 
     // kick off stores
     if (pathEndsWithGuid) app.Actions.loadActiveObjectStore(guid)
@@ -90,7 +88,6 @@ export default React.createClass({
       pathEndsWithGuid: pathEndsWithGuid,
       path: path,
       items: items,
-      allItems: allItems,
       object: object,
       guid: guid
     }
@@ -103,6 +100,7 @@ export default React.createClass({
   componentDidMount () {
     setTreeHeight()
     window.addEventListener('resize', setTreeHeight())
+    this.listenTo(window.pathStore, this.onPathStoreChange)
     this.listenTo(window.objectStore, this.onObjectStoreChange)
     this.listenTo(window.activeObjectStore, this.onActiveObjectStoreChange)
   },
@@ -111,12 +109,17 @@ export default React.createClass({
     window.removeEventListener('resize')
   },
 
-  onObjectStoreChange (payload) {
-    
-    console.log('home.js onObjectStoreChange: payload:', payload)
+  onPathStoreChange (path) {
+    // console.log('home.js onObjectStoreChange: payload:', payload)
+    this.setState({
+      path: path
+    })
+    this.forceUpdate()
+  },
 
-    const { items, hierarchy } = payload
-    const groupsLoaded = window.objectStore.getGroupsLoaded()
+  onObjectStoreChange (payload) {
+    // console.log('home.js onObjectStoreChange: payload:', payload)
+    const { items, hierarchy, groupsLoaded } = payload
     this.setState({
       items: items,
       hierarchy: hierarchy,
@@ -127,9 +130,7 @@ export default React.createClass({
 
   onActiveObjectStoreChange (object) {
     // object can be a real object or empty
-
-    console.log('home.js onActiveObjectStoreChange: object:', object)
-
+    // console.log('home.js onActiveObjectStoreChange: object:', object)
     // change state of all elements that can have changed
     const guid = object._id || null
     const gruppe = object.Gruppe ? object.Gruppe : this.state.gruppe
@@ -139,17 +140,19 @@ export default React.createClass({
       object: object,
       guid: guid
     })
-    this.forceUpdate()
   },
 
   onClickGruppe (gruppe) {
     const path = [gruppe]
+    const groupsLoaded = window.objectStore.getGroupsLoaded()
     this.setState({
       gruppe: gruppe,
-      path: path
+      path: path,
+      groupsLoaded: groupsLoaded
     })
     // load this gruppe if that hasn't happened yet
-    if (!window.objectStore.loaded[gruppe]) app.Actions.loadObjectStore(gruppe)
+    if (!window.objectStore.isGroupLoaded(gruppe)) app.Actions.loadObjectStore(gruppe)
+    app.Actions.loadPathStore(path)
     this.transitionTo(`/${gruppe}`)
   },
 

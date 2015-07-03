@@ -5,7 +5,27 @@ import Reflux from 'reflux'
 import _ from 'lodash'
 
 export default function (Actions) {
+  window.pathStore = Reflux.createStore({
+    /*
+     * simple store that keeps the path (=url) as an array
+     * components can listen to changes in order to update the path
+    */
+    listenables: Actions,
+
+    path: [],
+
+    onLoadPathStore (path) {
+      console.log('stores.js, pathStore, onLoadPathStore: path', path)
+      this.path = path
+      this.trigger(path)
+    }
+  })
+
   window.activeObjectStore = Reflux.createStore({
+    /*
+     * keeps the active object (active = is shown)
+     * components can listen to changes in order to update it's data
+     */
     listenables: Actions,
 
     loaded: false,
@@ -42,11 +62,12 @@ export default function (Actions) {
   })
 
   window.objectStore = Reflux.createStore({
-    // This store caches the requested item in the items property
-    // When all the items are loaded,
-    // it will set the loaded property to true
-    // so that the store consumers (e.g. a jsx component)
-    // will know if a API request is needed
+    /* This store caches the requested items in the items property
+     * When all the items are loaded,
+     * it will set the loaded property to true
+     * so that the consuming components
+     * will know if a API request is needed
+     */
     listenables: Actions,
 
     items: {},
@@ -57,15 +78,14 @@ export default function (Actions) {
 
     loaded: false,
 
-    groupsLoaded: {
-      'Fauna': false,
-      'Flora': false,
-      'Moose': false,
-      'Pilze': false
-    },
+    groupsLoaded: [],
 
     getItem (guid) {
       return this.items[guid]
+    },
+
+    isGroupLoaded (gruppe) {
+      return _.includes(this.groupsLoaded, gruppe)
     },
 
     getGroupsLoaded () {
@@ -89,7 +109,8 @@ export default function (Actions) {
       const payload = {
         items: this.items,
         hierarchy: this.hierarchy,
-        gruppe: gruppe
+        gruppe: gruppe,
+        groupsLoaded: this.groupsLoaded
       }
       this.trigger(payload)
     },
@@ -99,7 +120,7 @@ export default function (Actions) {
 
       // loaded all items
       this.loaded = true
-      this.groupsLoaded[gruppe] = true
+      this.groupsLoaded.push(gruppe)
 
       _.assign(this.items, items)
       this.hierarchy[gruppe] = {}
@@ -112,10 +133,10 @@ export default function (Actions) {
       const payload = {
         items: this.items,
         hierarchy: this.hierarchy,
-        gruppe: gruppe
+        gruppe: gruppe,
+        groupsLoaded: this.groupsLoaded
       }
-      this.trigger(payload)  // TODO: IN THIS LINE AN ERROR OCCURS: Uncaught TypeError: Cannot read property 'apply' of undefined
-      console.log('objectStore, onLoadActiveObjectStoreCompleted: hola')
+      this.trigger(payload)
     },
 
     onLoadObjectStoreFailed (error) {
@@ -123,9 +144,6 @@ export default function (Actions) {
     },
 
     onLoadActiveObjectStoreCompleted (item, metaData) {
-
-      console.log('objectStore, onLoadActiveObjectStoreCompleted: metaData', metaData)
-
       if (metaData) _.assign(this.taxMetadata, metaData)
     },
 

@@ -12,7 +12,6 @@ import { State, Navigation } from 'react-router'
 import { Glyphicon } from 'react-bootstrap'
 import _ from 'lodash'
 import getPathFromGuid from '../../modules/getPathFromGuid.js'
-// import Home from '../home.js'
 
 export default React.createClass({
   displayName: 'Filter',
@@ -26,7 +25,7 @@ export default React.createClass({
   getInitialState () {
     const items = this.props.items
 
-    console.log('filter.js, getInitialState: this.props.items', this.props.items)
+    // console.log('filter.js, getInitialState: this.props.items', this.props.items)
 
     return {
       items: items
@@ -41,15 +40,21 @@ export default React.createClass({
 
   onSelectObject (result) {
     const guid = result.value
-    const url = getPathFromGuid(guid)
-    app.Actions.loadActiveItemStore(guid)
-    window.router.transitionTo(url)
+    const getPathFromGuidPayload = getPathFromGuid(guid)
+    const url = getPathFromGuidPayload.url
+    const path = getPathFromGuidPayload.path
+    app.Actions.loadActiveObjectStore(guid)
+    app.Actions.loadPathStore(path)
+    this.transitionTo(url)
     // TODO: get tree to render
     // this.forceUpdate()
     // React.render(<Home />, document.body)
   },
 
   render () {
+
+    console.log('filter.js, render: state', this.state)
+
     const items = this.state.items
     const itemsArray = _.values(items)
     const options = _.map(itemsArray, function (object) {

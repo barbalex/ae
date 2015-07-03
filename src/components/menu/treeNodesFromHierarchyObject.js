@@ -100,16 +100,16 @@ const Nodes = React.createClass({
       path: path
     })
 
-    const valueToPass = this.state.guid === guid ? null : guid
-    app.Actions.loadActiveObjectStore(valueToPass)
-
+    const activeObjectStoreValue = this.state.guid === guid ? null : guid
+    app.Actions.loadActiveObjectStore(activeObjectStoreValue)
+    app.Actions.loadPathStore(path)
     this.transitionTo(newUrl)
     this.forceUpdate()
   },
 
   render () {
 
-    console.log('treeNodesFromHierarchyObject.js render: this.state', this.state)
+    console.log('treeNodesFromHierarchyObject.js, render: state', this.state)
 
     let nodes
     const that = this

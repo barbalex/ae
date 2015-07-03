@@ -9,8 +9,6 @@
 import app from 'ampersand-app'
 import React from 'react'
 import { State, Navigation } from 'react-router'
-import _ from 'lodash'
-import getPathFromGuid from '../../../modules/getPathFromGuid.js'
 
 export default React.createClass({
   displayName: 'FieldLink',
@@ -38,7 +36,7 @@ export default React.createClass({
   onClickUrl (event) {
     event.preventDefault()
     const guid = this.state.guid
-    if (guid) app.Actions.loadActiveItemStore(guid)
+    if (guid) app.Actions.loadActiveObjectStore(guid)
   },
 
   render () {

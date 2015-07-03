@@ -44,7 +44,7 @@ export default React.createClass({
     const loading = app.loadingObjectStore && app.loadingObjectStore.length > 0
     const loadingGruppe = loading ? app.loadingObjectStore[0] : 'Daten'
 
-    // console.log('treeFromHierarchyObject.js is rendered')
+    console.log('treeFromHierarchyObject.js, render: state', this.state)
 
     const tree = (
       <div>

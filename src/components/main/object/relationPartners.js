@@ -8,7 +8,6 @@ import React from 'react'
 import { State } from 'react-router'
 import _ from 'lodash'
 import TextLink from './textLink.js'
-import getPathFromGuid from '../../../modules/getPathFromGuid.js'
 
 export default React.createClass({
   displayName: 'RelationPartners',

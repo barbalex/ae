@@ -18,7 +18,8 @@ export default function () {
 
   Actions = Reflux.createActions({
     loadObjectStore: {children: ['completed', 'failed']},
-    loadActiveObjectStore: {children: ['completed', 'failed']}
+    loadActiveObjectStore: {children: ['completed', 'failed']},
+    loadPathStore: {}
   })
 
   Actions.loadObjectStore.listen(function (gruppe) {
@@ -105,20 +106,20 @@ export default function () {
 
     // check if group is loaded > get object from objectStore
     if (!guid) {
-      console.log('actions: loadActiveObjectStore !guid')
+      // console.log('actions: loadActiveObjectStore !guid')
       Actions.loadActiveObjectStore.completed({})
     } else {
       console.log('actions: loadActiveObjectStore guid')
       const object = window.objectStore.getItem(guid)
       if (object) {
-        console.log('actions: loadActiveObjectStore object:', object)
+        // console.log('actions: loadActiveObjectStore object:', object)
         // group is already loaded
         // pass object to activeObjectStore by completing action
         // if object is empty, store will have no item
         // so there is never a failed action
         Actions.loadActiveObjectStore.completed(object)
       } else {
-        console.log('actions: loadActiveObjectStore no object, only guid')
+        // console.log('actions: loadActiveObjectStore no object, only guid')
         // this group is not loaded yet
         // get Object from couch
         const couchUrl = pouchUrl()
@@ -127,20 +128,20 @@ export default function () {
           db.get(guid, { include_docs: true })
             .then(function (object) {
               // dispatch action to load data of this group
-              console.log('actions: loadActiveObjectStore: loading objectStore with gruppe:', object.Gruppe)
+              // console.log('actions: loadActiveObjectStore: loading objectStore with gruppe:', object.Gruppe)
               Actions.loadObjectStore(object.Gruppe)
 
               // wait until store changes
               const taxonomieForMetadata = (object.Gruppe === 'Lebensräume' ? 'CH Delarze (2008): Allgemeine Umgebung (Areale)' : object.Taxonomie.Name)
 
-              console.log('actions loadActiveObjectStore: object from couch:', object)
+              // console.log('actions loadActiveObjectStore: object from couch:', object)
 
               // check if metadata is here
               const metaData = window.objectStore.getTaxMetadata()
 
               if (metaData && metaData[taxonomieForMetadata]) {
 
-                console.log('actions loadActiveObjectStore: metaDate exists, completing')
+                // console.log('actions loadActiveObjectStore: metaDate exists, completing')
 
                 Actions.loadActiveObjectStore.completed(object)
               } else {
