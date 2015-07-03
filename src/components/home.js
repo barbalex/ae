@@ -6,8 +6,6 @@ import React from 'react'
 import { State, Navigation } from 'react-router'
 import { Input } from 'react-bootstrap'
 import _ from 'lodash'
-// import Button from 'react-bootstrap/lib/Button'
-// import ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
 import MenuButton from './menu/menuButton'
 import ResizeButton from './menu/resizeButton.js'
 import Filter from './menu/filter.js'
@@ -18,10 +16,11 @@ import TreeFromHierarchyObject from './menu/treeFromHierarchyObject.js'
 import isGuid from '../modules/isGuid.js'
 import setTreeHeight from '../modules/setTreeHeight.js'
 
-const gruppen = ['Fauna', 'Flora', 'Moose', 'Pilze', 'Lebensräume']
+const gruppen = ['Fauna', 'Flora', 'Moose', 'Macromycetes', 'Lebensräume']
 
 function button (that, gruppe) {
-  return <Input key={gruppe} type='checkbox' label={gruppe} onClick={that.onClickGruppe.bind(that, gruppe)} />
+  const label = gruppe.replace('Macromycetes', 'Pilze')
+  return <Input key={gruppe} type='checkbox' label={label} onClick={that.onClickGruppe.bind(that, gruppe)} />
 }
 
 function createButtons (that) {
@@ -110,10 +109,11 @@ export default React.createClass({
   },
 
   onPathStoreChange (path) {
-    // console.log('home.js onObjectStoreChange: payload:', payload)
+    console.log('home.js onPathStoreChange: path:', path)
     this.setState({
       path: path
     })
+    this.transitionTo('/' + path.join('/'))
     this.forceUpdate()
   },
 
@@ -153,15 +153,16 @@ export default React.createClass({
     // load this gruppe if that hasn't happened yet
     if (!window.objectStore.isGroupLoaded(gruppe)) app.Actions.loadObjectStore(gruppe)
     app.Actions.loadPathStore(path)
-    this.transitionTo(`/${gruppe}`)
   },
 
   render () {
     // find out if Filter shall be shown
     const { hierarchy, gruppe, isGuidPath, pathEndsWithGuid, guid, path, items, object } = this.state
+    console.log('home.js, render: gruppen', gruppen)
+    console.log('home.js, render: gruppe', gruppe)
     const isGroup = _.includes(gruppen, gruppe)
 
-    console.log('home.js, render: state', this.state)
+    console.log('home.js, render: isGroup', isGroup)
 
     return (
       <div>

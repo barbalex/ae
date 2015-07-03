@@ -8,15 +8,12 @@
 import app from 'ampersand-app'
 import React from 'react'
 import { Typeahead } from 'react-typeahead'
-import { State, Navigation } from 'react-router'
 import { Glyphicon } from 'react-bootstrap'
 import _ from 'lodash'
 import getPathFromGuid from '../../modules/getPathFromGuid.js'
 
 export default React.createClass({
   displayName: 'Filter',
-
-  mixins: [State, Navigation],
 
   propTypes: {
     items: React.PropTypes.object
@@ -40,15 +37,9 @@ export default React.createClass({
 
   onSelectObject (result) {
     const guid = result.value
-    const getPathFromGuidPayload = getPathFromGuid(guid)
-    const url = getPathFromGuidPayload.url
-    const path = getPathFromGuidPayload.path
+    const path = getPathFromGuid(guid).path
     app.Actions.loadActiveObjectStore(guid)
     app.Actions.loadPathStore(path)
-    this.transitionTo(url)
-    // TODO: get tree to render
-    // this.forceUpdate()
-    // React.render(<Home />, document.body)
   },
 
   render () {

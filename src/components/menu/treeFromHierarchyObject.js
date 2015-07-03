@@ -2,14 +2,10 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import { State, Navigation } from 'react-router'
-import { ListenerMixin } from 'reflux'
 import Nodes from './treeNodesFromHierarchyObject.js'
 
 export default React.createClass({
   displayName: 'TreeLevel1',
-
-  mixins: [ListenerMixin, State, Navigation],
 
   propTypes: {
     hierarchy: React.PropTypes.object,
@@ -42,7 +38,7 @@ export default React.createClass({
   render () {
     const { hierarchy, gruppe, guid, path } = this.state
     const loading = app.loadingObjectStore && app.loadingObjectStore.length > 0
-    const loadingGruppe = loading ? app.loadingObjectStore[0] : 'Daten'
+    const loadingGruppe = loading ? app.loadingObjectStore[0].replace('Macromycetes', 'Pilze') : 'Daten'
 
     console.log('treeFromHierarchyObject.js, render: state', this.state)
 

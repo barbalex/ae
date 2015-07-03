@@ -2,7 +2,6 @@
 
 // import app from 'ampersand-app'
 import React from 'react'
-import { State } from 'react-router'
 import { ListenerMixin } from 'reflux'
 // import Inspector from 'react-json-inspector'
 import _ from 'lodash'
@@ -16,7 +15,7 @@ export default React.createClass({
   // that works much like the one found in the Reflux's stores,
   // and handles the listeners during mount and unmount for you.
   // You also get the same listenToMany method as the store has.
-  mixins: [ListenerMixin, State],
+  mixins: [ListenerMixin],
 
   propTypes: {
     loading: React.PropTypes.bool,

@@ -11,18 +11,11 @@
 import _ from 'lodash'
 
 export default function (guid, object, metaData) {
-
-  // console.log('getPathFromGuid.js called with guid:', guid)
-
   let path = []
   const store = window.objectStore
   object = object || store.getItem(guid)
   const dsName = object.Gruppe === 'Lebensräume' ? 'Lebensräume_CH_Delarze_(2008)_Allgemeine_Umgebung_(Areale)' : object.Taxonomie.Name
   metaData = metaData || store.getTaxMetadata()[dsName]
-
-  // console.log('getPathFromGuid.js: object:', object)
-  // console.log('getPathFromGuid.js: metaData:', metaData)
-
   path.push(object.Gruppe)
 
   switch (metaData.HierarchieTyp) {
