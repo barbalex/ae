@@ -30,7 +30,7 @@ const Nodes = React.createClass({
   getInitialState () {
     const { hO, gruppe, guid, path, level } = this.props
     // if this level is the guid, it's name needs to be gotten
-    let activeKey = path[level - 1] || ''
+    let activeKey = path[level - 1] || null
     if (isGuid(activeKey)) {
       activeKey = _.findKey(hO, function (value) {
         return value === guid
@@ -57,28 +57,6 @@ const Nodes = React.createClass({
     this.listenTo(window.activeObjectStore, this.onActiveObjectStoreChange)
   },
 
-  onObjectStoreChange (items, hO, gruppe) {
-    // don't set state of hO - it get's passed down by parent component
-    // do set activeKey > the new store is focused in tree
-    this.setState({
-      gruppe: gruppe
-    })
-    this.forceUpdate()
-  },
-
-  onActiveObjectStoreChange (object) {
-    if (_.keys(object).length > 0) {
-      this.setState({
-        gruppe: object.Gruppe,
-        guid: object._id
-      })
-    } else {
-      this.setState({
-        guid: null
-      })
-    }
-  },
-
   onClickNode (params, event) {
     event.stopPropagation()
 
@@ -87,44 +65,45 @@ const Nodes = React.createClass({
 
     const { hO, activeKey} = this.state
     let newActiveKey
+    let path = this.state.path
     const { key, guid, level } = params
 
-    // TODO: GO ON REMOVING LEVEL FROM STATE, WORKING WITH PATH
-    // TODO: THEN REMOVE FROM STATE WHAT IS NOT CHANGED IN COMPONENT
+    // TODO: REMOVE FROM STATE WHAT IS NOT CHANGED IN COMPONENT
 
-    // keep path elements below level clicked
-    let path = _.slice(this.state.path, 0, level - 1)
-    if (key !== activeKey) {
-      // get string of the element clicked
+    // get level clicked
+    const levelClicked = level
+    const activeKeyClicked = key === activeKey
+    const lastLevelClicked = levelClicked === this.state.path.length
+
+    console.log('treeNodesFromHierarchyObject.js onClickNode: levelClicked', levelClicked)
+    console.log('treeNodesFromHierarchyObject.js onClickNode: activeKeyClicked', activeKeyClicked)
+    console.log('treeNodesFromHierarchyObject.js onClickNode: lastLevelClicked', lastLevelClicked)
+    console.log('treeNodesFromHierarchyObject.js onClickNode: key', key)
+
+    if (activeKeyClicked) {
+      // same key is clicked again > deactivate it
+      newActiveKey = null
+      path.pop()
+    } else {
+      // keep path elements below level clicked
+      path = _.slice(this.state.path, 0, levelClicked + 1)
       const newPathElement = typeof hO[key] === 'object' ? key : hO[key]
-      // add it to the path
       path.push(newPathElement)
+      newActiveKey = key
     }
+
     // convert array to url string
     const newPath = path.join('/')
     // create url string
     const newUrl = `/${newPath}`
 
-    if (key === activeKey) {
-      console.log('treeNodesFromHierarchyObject.js onClickNode: key === activeKey')
-      // same key is clicked again > deactivate it
-      newActiveKey = null
-    } else {
-      console.log('treeNodesFromHierarchyObject.js onClickNode: key !== activeKey')
-      console.log('treeNodesFromHierarchyObject.js onClickNode: key', key)
-      newActiveKey = key
-    }
-
-    console.log('treeNodesFromHierarchyObject.js onClickNode: activeKey before setting state', activeKey)
-    console.log('treeNodesFromHierarchyObject.js onClickNode: guid before setting state', guid)
-
     this.setState({
       activeKey: newActiveKey,
-      guid: guid,
       path: path
-    }, console.log('treeNodesFromHierarchyObject.js onClickNode: this.state after', this.state))
+    })
 
-    if (this.state.guid !== guid) app.Actions.loadActiveObjectStore(guid)
+    const valueToPass = this.state.guid === guid ? null : guid
+    app.Actions.loadActiveObjectStore(valueToPass)
 
     this.transitionTo(newUrl)
     this.forceUpdate()
@@ -132,7 +111,7 @@ const Nodes = React.createClass({
 
   render () {
 
-    // console.log('treeNodesFromHierarchyObject.js render: this.state', this.state)
+    console.log('treeNodesFromHierarchyObject.js render: this.state', this.state)
 
     let nodes
     const that = this

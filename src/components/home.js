@@ -51,9 +51,11 @@ export default React.createClass({
   mixins: [ListenerMixin, State, Navigation],
 
   propTypes: {
+    hO: React.PropTypes.object,
     gruppe: React.PropTypes.string,
     groupsLoaded: React.PropTypes.array,
     isGuidPath: React.PropTypes.bool,
+    pathEndsWithGuid: React.PropTypes.bool,
     path: React.PropTypes.array,
     object: React.PropTypes.object,
     guid: React.PropTypes.string
@@ -61,24 +63,27 @@ export default React.createClass({
 
   getInitialState () {
     const pathString = this.getParams().splat
-    const path = pathString.split('/')
+    const path = pathString ? pathString.split('/') : []
     // guidPath is when only a guid is contained in url
     const isGuidPath = path.length === 1 && isGuid(path[0])
-    const groupsLoaded = window.objectStore.getGroupsLoaded()
-    const gruppe = isGuidPath ? null : path[0]
-    if (!isGuidPath) groupsLoaded.push(gruppe)
+    const gruppe = isGuidPath ? null : (path[0] ? path[0] : null)
     const pathEndsWithGuid = isGuid(path[path.length - 1])
     const guid = pathEndsWithGuid ? path[path.length - 1] : null
     const object = window.activeObjectStore.getItem()
+    const hO = isGuidPath ? null : window.objectStore.getHierarchy()
+    const groupsLoaded = window.objectStore.getGroupsLoaded()
 
     // kick off stores
     if (pathEndsWithGuid) app.Actions.loadActiveObjectStore(guid)
-    if (gruppe && !window.objectStore.loaded[gruppe]) app.Actions.loadObjectStore(gruppe)
+    // above action kicks of objectStore too, so don't do it twice > exclude pathEndsWithGuid
+    if (gruppe && !window.objectStore.loaded[gruppe] && !pathEndsWithGuid) app.Actions.loadObjectStore(gruppe)
 
     const state = {
+      hO: hO,
       gruppe: gruppe,
-      groupsLoaded: groupsLoaded,
+      groupsLoaded,
       isGuidPath: isGuidPath,
+      pathEndsWithGuid: pathEndsWithGuid,
       path: path,
       object: object,
       guid: guid
@@ -101,44 +106,49 @@ export default React.createClass({
   },
 
   onObjectStoreChange (items, hO, gruppe) {
-    const groupsLoaded = this.state.groupsLoaded
-    groupsLoaded.push(gruppe)
+    const groupsLoaded = window.objectStore.getGroupsLoaded()
     this.setState({
+      hO: hO,
       groupsLoaded: groupsLoaded
     })
     this.forceUpdate()
   },
 
   onActiveObjectStoreChange (object) {
+    // object can be a real object or empty
 
     console.log('home.js onActiveObjectStoreChange: object:', object)
 
+    // change state of all elements that can have changed
+    const guid = object._id || null
+    const gruppe = object.Gruppe ? object.Gruppe : this.state.gruppe
+
     this.setState({
-      object: object
+      gruppe: gruppe,
+      object: object,
+      guid: guid
     })
     this.forceUpdate()
   },
 
   onClickGruppe (gruppe) {
-    const groupsLoaded = this.state.groupsLoaded.push(gruppe)
     const path = [gruppe]
     this.setState({
       gruppe: gruppe,
-      groupsLoaded: groupsLoaded,
       path: path
     })
     // load this gruppe if that hasn't happened yet
     if (!window.objectStore.loaded[gruppe]) app.Actions.loadObjectStore(gruppe)
     this.transitionTo(`/${gruppe}`)
-    this.forceUpdate()
+    // this.forceUpdate()
   },
 
   render () {
     // find out if Filter shall be shown
-    const { gruppe, isGuidPath, guid, path, object } = this.state
+    const { hO, gruppe, isGuidPath, pathEndsWithGuid, guid, path, object } = this.state
     const isGroup = _.includes(gruppen, gruppe)
 
-    console.log('home.js, render')
+    console.log('home.js, render: state', this.state)
 
     return (
       <div>
@@ -150,9 +160,9 @@ export default React.createClass({
           </div>
           {createGruppen(this)}
           {isGroup ? <Filter /> : ''}
-          {isGroup || isGuidPath ? <TreeFromHierarchyObject gruppe={gruppe} guid={guid} isGuidPath={isGuidPath} path={path} /> : ''}
+          {isGroup || isGuidPath ? <TreeFromHierarchyObject hO={hO} gruppe={gruppe} guid={guid} isGuidPath={isGuidPath} path={path} /> : ''}
         </div>
-        <Objekt object={object} />
+        {pathEndsWithGuid ? <Objekt object={object} /> : ''}
       </div>
     )
   }

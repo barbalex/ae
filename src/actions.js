@@ -94,12 +94,14 @@ export default function () {
       console.log('actions: loadActiveObjectStore guid')
       const object = window.objectStore.getItemByGuid(guid)
       if (object) {
+        console.log('actions: loadActiveObjectStore object:', object)
         // group is already loaded
         // pass object to activeObjectStore by completing action
         // if object is empty, store will have no item
         // so there is never a failed action
         Actions.loadActiveObjectStore.completed(object)
       } else {
+        console.log('actions: loadActiveObjectStore no object, only guid')
         // this group is not loaded yet
         // get Object from couch
         const couchUrl = pouchUrl()
@@ -108,6 +110,7 @@ export default function () {
           db.get(guid, { include_docs: true })
             .then(function (object) {
               // dispatch action to load data of this group
+              console.log('actions: loadActiveObjectStore: loading objectStore with gruppe:', object.Gruppe)
               Actions.loadObjectStore(object.Gruppe)
 
               // wait until store changes

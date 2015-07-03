@@ -40,25 +40,9 @@ export default React.createClass({
     this.listenTo(window.activeObjectStore, this.onActiveObjectStoreChange)
   },
 
-  /*onActiveObjectStoreChange (object) {
-
-    console.log('object.js onActiveObjectStoreChange: object:', object)
-    // console.log('object.js onActiveObjectStoreChange: _.keys(object):', _.keys(object))
-    // console.log('object.js onActiveObjectStoreChange: _.keys(object).length:', _.keys(object).length)
-
-    this.setState({
-      loading: !_.keys(object).length > 0,
-      object: object
-    })
-
-    console.log('object.js onActiveObjectStoreChange: this.state:', this.state)
-
-    this.forceUpdate()
-  },*/
-
   render () {
 
-    console.log('object.js, render')
+    console.log('object.js, render: state', this.state)
 
     const { object, loading } = this.state
 

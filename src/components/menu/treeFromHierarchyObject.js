@@ -21,19 +21,9 @@ export default React.createClass({
   },
 
   getInitialState () {
-    let hO
-    let activeKey
-
     // guidPath is when only a guid is contained in url
-    const { isGuidPath, guid, gruppe, path} = this.props
-
-    if (isGuidPath) {
-      hO = null
-      activeKey = null
-    } else {
-      hO = window.objectStore.getHierarchy()
-      activeKey = gruppe
-    }
+    const { hO, isGuidPath, guid, gruppe, path} = this.props
+    const activeKey = isGuidPath ? null : gruppe
 
     const state = {
       hO: hO,
@@ -47,21 +37,6 @@ export default React.createClass({
     console.log('treeFromHierarchyObject.js getInitialState: state', state)
 
     return state
-  },
-
-  componentDidMount () {
-    this.listenTo(window.objectStore, this.onObjectStoreChange)
-  },
-
-  onObjectStoreChange (items, hO, gruppe) {
-    console.log('treeFromHierarchyObject.js, onObjectStoreChange: store has changed')
-    // console.log('treeFromHierarchyObject.js, onObjectStoreChange: gruppe', gruppe)
-
-    this.setState({
-      hO: hO,
-      gruppe: gruppe
-    })
-    this.forceUpdate()
   },
 
   render () {
