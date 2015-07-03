@@ -11,10 +11,6 @@ import RelationCollection from './relationCollection.js'
 export default React.createClass({
   displayName: 'Object',
 
-  // ListenerMixin provides the listenTo method for the React component,
-  // that works much like the one found in the Reflux's stores,
-  // and handles the listeners during mount and unmount for you.
-  // You also get the same listenToMany method as the store has.
   mixins: [ListenerMixin],
 
   propTypes: {
@@ -22,28 +18,28 @@ export default React.createClass({
     object: React.PropTypes.object
   },
 
-  getInitialState () {
-    const loading = !window.activeObjectStore.loaded
+  /*getInitialState () {
     const object = this.props.object
-    const state = {
-      loading: loading,
+    return {
       object: object
     }
+  },*/
 
-    console.log('object.js, getInitialState: state', state)
-
-    return state
-  },
-
-  componentDidMount () {
+  /*componentDidMount () {
     this.listenTo(window.activeObjectStore, this.onActiveObjectStoreChange)
   },
 
+  // ?? not sure why we need to listen to the store when prop is passed from Home
+  onActiveObjectStoreChange (object) {
+    this.setState({,
+      object: object
+    })
+  },*/
+
   render () {
+    const object = this.props.object
 
-    console.log('object.js, render: state', this.state)
-
-    const { object, loading } = this.state
+    console.log('object.js, render: object', object)
 
     if (!object || _.keys(object).length === 0) {
       return (
@@ -51,13 +47,13 @@ export default React.createClass({
         </fieldset>
       )
     }
-    if (loading) {
+    /*if (loading) {
       return (
         <fieldset id='main'>
           <p>Lade Objekt...</p>
         </fieldset>
       )
-    }
+    }*/
 
     let objektBs = []  // regular property collections
     let taxBs = [] // taxonomic property collections

@@ -125,7 +125,6 @@ export default React.createClass({
   },
 
   onActiveObjectStoreChange (object) {
-    // object can be a real object or empty
     this.setState({
       object: object
     })
@@ -139,14 +138,8 @@ export default React.createClass({
   },
 
   render () {
-    // find out if Filter shall be shown
     const { hierarchy, gruppe, isGuidPath, pathEndsWithGuid, guid, path, items, object } = this.state
     const isGroup = _.includes(gruppen, gruppe)
-
-    console.log('home.js, render: pathEndsWithGuid', pathEndsWithGuid)
-    console.log('home.js, render: path', path)
-    console.log('home.js, render: object', object)
-
     return (
       <div>
         <Favicon url={[FaviconImage]}/>
