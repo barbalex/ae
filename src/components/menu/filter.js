@@ -9,7 +9,6 @@ import app from 'ampersand-app'
 import React from 'react'
 import { Typeahead } from 'react-typeahead'
 import { State, Navigation } from 'react-router'
-import { ListenerMixin } from 'reflux'
 import { Glyphicon } from 'react-bootstrap'
 import _ from 'lodash'
 import getPathFromGuid from '../../modules/getPathFromGuid.js'
@@ -18,33 +17,20 @@ import getPathFromGuid from '../../modules/getPathFromGuid.js'
 export default React.createClass({
   displayName: 'Filter',
 
-  mixins: [ListenerMixin, State, Navigation],
+  mixins: [State, Navigation],
 
   propTypes: {
-    items: React.PropTypes.object,
-    gruppe: React.PropTypes.string
+    items: React.PropTypes.object
   },
 
   getInitialState () {
-    const pathString = this.getParams().splat
-    const path = pathString.split('/')
-    const gruppe = path[0]
+    const items = this.props.items
+
+    console.log('filter.js, getInitialState: this.props.items', this.props.items)
+
     return {
-      loading: !window.objectStore.loaded[gruppe],
-      items: window.objectStore.getItems(),
-      gruppe: gruppe
-    }
-  },
-
-  componentDidMount () {
-    this.listenTo(window.objectStore, this.onStoreChange)
-  },
-
-  onStoreChange (items) {
-    this.setState({
-      loading: false,
       items: items
-    })
+    }
   },
 
   onClickRemove () {
@@ -64,27 +50,20 @@ export default React.createClass({
   },
 
   render () {
-    let options = []
-
-    // get all keys of groups
-    _.forEach(this.state.items, function (value, key) {
-      // value is an object with key = guid for all lr-objects
-      // _.values(value) is an array of all objects
-      const objectArray = _.values(value)
-
-      const groupOptions = _.map(objectArray, function (object) {
-        // make sure every fauna has a name
-        // dont use others for filtering
-        if (object.Taxonomie && object.Taxonomie.Eigenschaften && object.Taxonomie.Eigenschaften['Artname vollständig']) {
-          return {
-            'value': object._id,
-            'label': object.Taxonomie.Eigenschaften['Artname vollständig']
-          }
+    console.log('filter.js, render: this.state.items', this.state.items)
+    const items = this.state.items
+    const itemsArray = _.values(items)
+    const options = _.map(itemsArray, function (object) {
+      // make sure every object has a name
+      if (object.Taxonomie && object.Taxonomie.Eigenschaften && object.Taxonomie.Eigenschaften['Artname vollständig']) {
+        return {
+          'value': object._id,
+          'label': object.Taxonomie.Eigenschaften['Artname vollständig']
         }
-      })
-      // add the options of this gruppe to all options
-      options = options.concat(groupOptions)
+      }
     })
+
+    console.log('filter.js, render: options', options)
 
     const removeGlyphStyle = {
       fontSize: 13 + 'px',
@@ -95,30 +74,24 @@ export default React.createClass({
       color: '#333'
     }
 
-    const filter = (
-      <div style={{position: 'relative'}}>
-        <Glyphicon glyph={'remove'} style={removeGlyphStyle} onClick={this.onClickRemove}/>
-        <Typeahead
-          ref={'typeahead'}
-          placeholder={'filtern'}
-          maxVisible={10}
-          options={options}
-          filterOption={'label'}
-          displayOption={'label'}
-          onOptionSelected={this.filter}
-          customClasses={{
-            'input': ['form-control'],
-            'results': ['list-group'],
-            'listItem': ['list-group-item']
-        }}/>
-        </div>
-    )
-
-    const nothing = <div/>
-
     return (
       <div id='filter'>
-        {this.state.loading ? nothing : filter}
+        <div style={{position: 'relative'}}>
+          <Glyphicon glyph={'remove'} style={removeGlyphStyle} onClick={this.onClickRemove}/>
+          <Typeahead
+            ref={'typeahead'}
+            placeholder={'filtern'}
+            maxVisible={10}
+            options={options}
+            filterOption={'label'}
+            displayOption={'label'}
+            onOptionSelected={this.filter}
+            customClasses={{
+              'input': ['form-control'],
+              'results': ['list-group'],
+              'listItem': ['list-group-item']
+          }}/>
+        </div>
       </div>
     )
   }

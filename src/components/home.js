@@ -51,12 +51,14 @@ export default React.createClass({
   mixins: [ListenerMixin, State, Navigation],
 
   propTypes: {
-    hO: React.PropTypes.object,
+    hierarchy: React.PropTypes.object,
     gruppe: React.PropTypes.string,
     groupsLoaded: React.PropTypes.array,
     isGuidPath: React.PropTypes.bool,
     pathEndsWithGuid: React.PropTypes.bool,
     path: React.PropTypes.array,
+    items: React.PropTypes.object,
+    allItems: React.PropTypes.object,
     object: React.PropTypes.object,
     guid: React.PropTypes.string
   },
@@ -70,8 +72,10 @@ export default React.createClass({
     const pathEndsWithGuid = isGuid(path[path.length - 1])
     const guid = pathEndsWithGuid ? path[path.length - 1] : null
     const object = window.activeObjectStore.getItem()
-    const hO = isGuidPath ? null : window.objectStore.getHierarchy()
+    const hierarchy = isGuidPath ? null : window.objectStore.getHierarchy()
     const groupsLoaded = window.objectStore.getGroupsLoaded()
+    const items = window.objectStore.getItems()
+    const allItems = window.objectStore.getItems()
 
     // kick off stores
     if (pathEndsWithGuid) app.Actions.loadActiveObjectStore(guid)
@@ -79,12 +83,14 @@ export default React.createClass({
     if (gruppe && !window.objectStore.loaded[gruppe] && !pathEndsWithGuid) app.Actions.loadObjectStore(gruppe)
 
     const state = {
-      hO: hO,
+      hierarchy: hierarchy,
       gruppe: gruppe,
       groupsLoaded,
       isGuidPath: isGuidPath,
       pathEndsWithGuid: pathEndsWithGuid,
       path: path,
+      items: items,
+      allItems: allItems,
       object: object,
       guid: guid
     }
@@ -105,10 +111,15 @@ export default React.createClass({
     window.removeEventListener('resize')
   },
 
-  onObjectStoreChange (items, hO, gruppe) {
+  onObjectStoreChange (payload) {
+    
+    console.log('home.js onObjectStoreChange: payload:', payload)
+
+    const { items, hierarchy } = payload
     const groupsLoaded = window.objectStore.getGroupsLoaded()
     this.setState({
-      hO: hO,
+      items: items,
+      hierarchy: hierarchy,
       groupsLoaded: groupsLoaded
     })
     this.forceUpdate()
@@ -140,12 +151,11 @@ export default React.createClass({
     // load this gruppe if that hasn't happened yet
     if (!window.objectStore.loaded[gruppe]) app.Actions.loadObjectStore(gruppe)
     this.transitionTo(`/${gruppe}`)
-    // this.forceUpdate()
   },
 
   render () {
     // find out if Filter shall be shown
-    const { hO, gruppe, isGuidPath, pathEndsWithGuid, guid, path, object } = this.state
+    const { hierarchy, gruppe, isGuidPath, pathEndsWithGuid, guid, path, items, object } = this.state
     const isGroup = _.includes(gruppen, gruppe)
 
     console.log('home.js, render: state', this.state)
@@ -159,8 +169,8 @@ export default React.createClass({
             <ResizeButton />
           </div>
           {createGruppen(this)}
-          {isGroup ? <Filter /> : ''}
-          {isGroup || isGuidPath ? <TreeFromHierarchyObject hO={hO} gruppe={gruppe} guid={guid} isGuidPath={isGuidPath} path={path} /> : ''}
+          {isGroup ? <Filter items={items} /> : ''}
+          {isGroup || isGuidPath ? <TreeFromHierarchyObject hierarchy={hierarchy} gruppe={gruppe} guid={guid} isGuidPath={isGuidPath} path={path} /> : ''}
         </div>
         {pathEndsWithGuid ? <Objekt object={object} /> : ''}
       </div>

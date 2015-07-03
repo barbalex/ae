@@ -12,7 +12,7 @@ export default React.createClass({
   mixins: [ListenerMixin, State, Navigation],
 
   propTypes: {
-    hO: React.PropTypes.object,
+    hierarchy: React.PropTypes.object,
     gruppe: React.PropTypes.string,
     activeKey: React.PropTypes.string,
     isGuidPath: React.PropTypes.bool,
@@ -22,11 +22,11 @@ export default React.createClass({
 
   getInitialState () {
     // guidPath is when only a guid is contained in url
-    const { hO, isGuidPath, guid, gruppe, path} = this.props
+    const { hierarchy, isGuidPath, guid, gruppe, path} = this.props
     const activeKey = isGuidPath ? null : gruppe
 
     const state = {
-      hO: hO,
+      hierarchy: hierarchy,
       gruppe: gruppe,
       guid: guid,
       activeKey: activeKey,
@@ -40,7 +40,7 @@ export default React.createClass({
   },
 
   render () {
-    const { hO, gruppe, guid, path } = this.state
+    const { hierarchy, gruppe, guid, path } = this.state
     const loading = app.loadingObjectStore && app.loadingObjectStore.length > 0
     const loadingGruppe = loading ? app.loadingObjectStore[0] : 'Daten'
 
@@ -48,7 +48,7 @@ export default React.createClass({
 
     const tree = (
       <div>
-        <Nodes hO={hO} gruppe={gruppe} guid={guid} level={1} path={path}/>
+        <Nodes hierarchy={hierarchy} gruppe={gruppe} guid={guid} level={1} path={path}/>
       </div>
     )
 
@@ -57,7 +57,7 @@ export default React.createClass({
     return (
       <div>
         <div id='tree' className='baum'>
-          {hO ? tree : ''}
+          {hierarchy ? tree : ''}
         </div>
         {loading ? loadingMessage : ''}
       </div>

@@ -19,7 +19,7 @@ const Nodes = React.createClass({
   mixins: [ListenerMixin, State, Navigation],
 
   propTypes: {
-    hO: React.PropTypes.node,  // = hierarchy-object OF THIS LEVEL
+    hierarchy: React.PropTypes.node,  // = hierarchy-object OF THIS LEVEL
     activeKey: React.PropTypes.string,
     gruppe: React.PropTypes.string,
     guid: React.PropTypes.string,
@@ -28,17 +28,17 @@ const Nodes = React.createClass({
   },
 
   getInitialState () {
-    const { hO, gruppe, guid, path, level } = this.props
+    const { hierarchy, gruppe, guid, path, level } = this.props
     // if this level is the guid, it's name needs to be gotten
     let activeKey = path[level - 1] || null
     if (isGuid(activeKey)) {
-      activeKey = _.findKey(hO, function (value) {
+      activeKey = _.findKey(hierarchy, function (value) {
         return value === guid
       })
     }
 
     const state = {
-      hO: hO,
+      hierarchy: hierarchy,
       activeKey: activeKey,
       gruppe: gruppe,
       guid: guid,
@@ -53,8 +53,6 @@ const Nodes = React.createClass({
 
   componentDidMount () {
     setTreeHeight()
-    this.listenTo(window.objectStore, this.onObjectStoreChange)
-    this.listenTo(window.activeObjectStore, this.onActiveObjectStoreChange)
   },
 
   onClickNode (params, event) {
@@ -63,7 +61,7 @@ const Nodes = React.createClass({
     console.log('treeNodesFromHierarchyObject.js onClickNode: params', params)
     console.log('treeNodesFromHierarchyObject.js onClickNode: this.state before', this.state)
 
-    const { hO, activeKey} = this.state
+    const { hierarchy, activeKey} = this.state
     let newActiveKey
     let path = this.state.path
     const { key, guid, level } = params
@@ -87,7 +85,7 @@ const Nodes = React.createClass({
     } else {
       // keep path elements below level clicked
       path = _.slice(this.state.path, 0, levelClicked + 1)
-      const newPathElement = typeof hO[key] === 'object' ? key : hO[key]
+      const newPathElement = typeof hierarchy[key] === 'object' ? key : hierarchy[key]
       path.push(newPathElement)
       newActiveKey = key
     }
@@ -115,22 +113,22 @@ const Nodes = React.createClass({
 
     let nodes
     const that = this
-    const { hO, activeKey, path, gruppe, guid, level } = this.state
+    const { hierarchy, activeKey, path, gruppe, guid, level } = this.state
 
-    nodes = _.chain(hO)
+    nodes = _.chain(hierarchy)
       .keys()
       .sort()
       .map(function (key) {
-        const keyIsActive = key === activeKey || hO[key] === activeKey
-        const keyIsObject = typeof hO[key] === 'string'
+        const keyIsActive = key === activeKey || hierarchy[key] === activeKey
+        const keyIsObject = typeof hierarchy[key] === 'string'
         const glyph = keyIsActive ? (keyIsObject ? 'forward' : 'triangle-bottom') : (keyIsObject ? 'minus' : 'triangle-right')
-        const onClickNode = that.onClickNode.bind(that, {'key': key, 'guid': (keyIsObject ? hO[key] : null), 'level': level})
+        const onClickNode = that.onClickNode.bind(that, {'key': key, 'guid': (keyIsObject ? hierarchy[key] : null), 'level': level})
 
         return (
           <li level={level} key={key} onClick={onClickNode}>
             <Glyphicon glyph={glyph} onClick={onClickNode}/>
             <div className={keyIsActive ? 'active' : null}>{key}</div>
-            {(key === activeKey && !keyIsObject) ? <Nodes hO={hO[key]} gruppe={gruppe} guid={guid} level={level + 1} path={path}/> : null}
+            {(key === activeKey && !keyIsObject) ? <Nodes hierarchy={hierarchy[key]} gruppe={gruppe} guid={guid} level={level + 1} path={path}/> : null}
           </li>
         )
       })

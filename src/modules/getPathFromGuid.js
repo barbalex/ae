@@ -16,9 +16,9 @@ export default function (guid, object, metaData) {
 
   let pathArray = []
   const store = window.objectStore
-  object = object || store.getItemByGuid(guid)
+  object = object || store.getItem(guid)
   const dsName = object.Gruppe === 'Lebensräume' ? 'Lebensräume_CH_Delarze_(2008)_Allgemeine_Umgebung_(Areale)' : object.Taxonomie.Name
-  metaData = metaData || store.getDsMetadata()[dsName]
+  metaData = metaData || store.getTaxMetadata()[dsName]
 
   console.log('getPathFromGuid.js: object:', object)
   console.log('getPathFromGuid.js: metaData:', metaData)

@@ -51,84 +51,71 @@ export default function (Actions) {
 
     items: {},
 
-    hierarchyObject: {},
+    hierarchy: {},
 
-    dsMetadata: {},
+    taxMetadata: {},
 
-    loaded: {
+    loaded: false,
+
+    groupsLoaded: {
       'Fauna': false,
       'Flora': false,
       'Moose': false,
       'Pilze': false
     },
 
-    // the object component uses this method
-    // to get the object
-    getItem (gruppe, guid) {
-      if (!this.loaded[gruppe] || !this.items || !this.items[gruppe] || !this.items[gruppe][guid]) return {}
-      return this.items[gruppe][guid]
-    },
-
-    getAllItems () {
-      let items = {}
-      _.forEach(this.items, function (value, key) {
-        _.assign(items, value)
-      })
-      return items
-    },
-
-    getItemByGuid (guid) {
-      return this.getAllItems()[guid]
+    getItem (guid) {
+      return this.items[guid]
     },
 
     getGroupsLoaded () {
-      return _.keys(this.items)
+      return this.groupsLoaded
     },
 
     getItems () {
       return this.items
     },
 
-    getItemsOfGruppe (gruppe) {
-      return this.items[gruppe]
-    },
-
     getHierarchy () {
-      return this.hierarchyObject
+      return this.hierarchy
     },
 
-    getHierarchyOfGruppe (gruppe) {
-      return this.hierarchyObject[gruppe]
+    getTaxMetadata () {
+      return this.taxMetadata
     },
 
-    getDsMetadata () {
-      return this.dsMetadata
-    },
-
-    onLoadObjectStore (gruppe) {// trigger change because of loaded state
-      this.trigger(this.items, this.hierarchyObject, gruppe)
-    },
-
-    onLoadObjectStoreCompleted (gruppe, items, hierarchyObject, dsMetadata) {
-      // console.log('stores.js onLoadObjectStoreCompleted: items:', items)
-      // console.log('stores.js onLoadObjectStoreCompleted: hierarchyObject:', hierarchyObject)
-      // console.log('stores.js onLoadObjectStoreCompleted: gruppe:', gruppe)
-
-      if (items instanceof Array) {
-        // loaded all items
-        items = _.indexBy(items, '_id')
-        this.loaded[gruppe] = true
+    onLoadObjectStore (gruppe) {
+      // trigger change so components can set loading state
+      const payload = {
+        items: this.items,
+        hierarchy: this.hierarchy,
+        gruppe: gruppe
       }
-      this.items[gruppe] = {}
-      _.assign(this.items[gruppe], items)
-      this.hierarchyObject[gruppe] = {}
-      _.assign(this.hierarchyObject[gruppe], hierarchyObject)
-      _.assign(this.dsMetadata, _.indexBy(dsMetadata, 'Name'))
+      this.trigger(payload)
+    },
+
+    onLoadObjectStoreCompleted (payloadReceived) {
+      const { gruppe, items, hierarchy, taxMetadata } = payloadReceived
+
+      // loaded all items
+      this.loaded = true
+      this.groupsLoaded[gruppe] = true
+
+      _.assign(this.items, items)
+      this.hierarchy[gruppe] = {}
+      _.assign(this.hierarchy[gruppe], hierarchy)
+      _.assign(this.taxMetadata, taxMetadata)
 
       // signal that this group is not being loaded any more
       app.loadingObjectStore = _.without(app.loadingObjectStore, gruppe)
       // tell views that data has changed
-      this.trigger(this.items, this.hierarchyObject, gruppe)
+      const payload = {
+        items: this.items,
+        hierarchy: this.hierarchy,
+        gruppe: gruppe
+      }
+      this.trigger(payload)  // TODO: IN THIS LINE AN ERROR OCCURS: Uncaught TypeError: Cannot read property 'apply' of undefined
+      console.log('objectStore, onLoadActiveObjectStoreCompleted: hola')
     },
 
     onLoadObjectStoreFailed (error) {
@@ -136,10 +123,10 @@ export default function (Actions) {
     },
 
     onLoadActiveObjectStoreCompleted (item, metaData) {
-      
+
       console.log('objectStore, onLoadActiveObjectStoreCompleted: metaData', metaData)
 
-      if (metaData) _.assign(this.dsMetadata, metaData)
+      if (metaData) _.assign(this.taxMetadata, metaData)
     },
 
     getInitialState () {

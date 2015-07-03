@@ -35,7 +35,7 @@ export default function () {
     app.loadingObjectStore = app.loadObjectStore || []
 
     if (!window.objectStore.loaded[gruppe] && !_.includes(app.loadingObjectStore, gruppe) && gruppe) {
-      let objects = []
+      let itemsArray = []
       app.loadingObjectStore.push(gruppe)
       const viewGruppePrefix = gruppe === 'Lebensräume' ? 'lr' : gruppe.toLowerCase()
       const viewName = 'artendb/' + viewGruppePrefix + 'NachName'
@@ -46,7 +46,7 @@ export default function () {
         db.query(viewName, { include_docs: true })
           .then(function (result) {
             // extract objects from result
-            objects = result.rows.map(function (row) {
+            itemsArray = result.rows.map(function (row) {
               return row.doc
             })
             // build hierarchy
@@ -54,25 +54,42 @@ export default function () {
           })
           .then(function (result) {
             // extract metadata doc from result
-            const dsMetadata = result.rows.map(function (row) {
+            const taxMetadataArray = result.rows.map(function (row) {
               return row.doc
             })
 
-            const dsName = objects[0].Taxonomie.Name
-            const dsMetadataDoc = _.find(dsMetadata, function (doc) {
+            const dsName = itemsArray[0].Taxonomie.Name
+            const dsMetadataDoc = _.find(taxMetadataArray, function (doc) {
               // if Gruppe = LR get dsMetadataDoc of Delarze
-              if (objects[0].Gruppe === 'Lebensräume') {
+              if (itemsArray[0].Gruppe === 'Lebensräume') {
                 return doc.Name === 'CH Delarze (2008): Allgemeine Umgebung (Areale)'
               }
               return doc.Name === dsName
             })
 
             // lookup type
-            let hierarchyObject
-            if (dsMetadataDoc.HierarchieTyp === 'Felder') hierarchyObject = buildHierarchyObjectForFelder(objects, dsMetadataDoc)
-            if (dsMetadataDoc.HierarchieTyp === 'Parent') hierarchyObject = buildHierarchyObjectForParent(objects, dsMetadataDoc)
+            let hierarchy
+            switch (dsMetadataDoc.HierarchieTyp) {
+            case 'Felder':
+              hierarchy = buildHierarchyObjectForFelder(itemsArray, dsMetadataDoc)
+              break
+            case 'Parent':
+              hierarchy = buildHierarchyObjectForParent(itemsArray, dsMetadataDoc)
+              break
+            }
 
-            Actions.loadObjectStore.completed(gruppe, objects, hierarchyObject, dsMetadata)
+            // convert items-array to object with keys made of id's
+            const items = _.indexBy(itemsArray, '_id')
+            // convert tax-metadata-array to object with keys mado of names
+            const taxMetadata = _.indexBy(taxMetadataArray, 'Name')
+
+            const payload = {
+              gruppe: gruppe,
+              items: items,
+              hierarchy: hierarchy,
+              taxMetadata: taxMetadata
+            }
+            Actions.loadObjectStore.completed(payload)
           })
           .catch(function (error) {
             app.loadingObjectStore = false
@@ -92,7 +109,7 @@ export default function () {
       Actions.loadActiveObjectStore.completed({})
     } else {
       console.log('actions: loadActiveObjectStore guid')
-      const object = window.objectStore.getItemByGuid(guid)
+      const object = window.objectStore.getItem(guid)
       if (object) {
         console.log('actions: loadActiveObjectStore object:', object)
         // group is already loaded
@@ -119,7 +136,7 @@ export default function () {
               console.log('actions loadActiveObjectStore: object from couch:', object)
 
               // check if metadata is here
-              const metaData = window.objectStore.getDsMetadata()
+              const metaData = window.objectStore.getTaxMetadata()
 
               if (metaData && metaData[taxonomieForMetadata]) {
 
