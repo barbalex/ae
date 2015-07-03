@@ -114,7 +114,6 @@ export default React.createClass({
       path: path
     })
     this.transitionTo('/' + path.join('/'))
-    this.forceUpdate()
   },
 
   onObjectStoreChange (payload) {
@@ -125,7 +124,6 @@ export default React.createClass({
       hierarchy: hierarchy,
       groupsLoaded: groupsLoaded
     })
-    this.forceUpdate()
   },
 
   onActiveObjectStoreChange (object) {
@@ -143,26 +141,22 @@ export default React.createClass({
   },
 
   onClickGruppe (gruppe) {
-    const path = [gruppe]
     const groupsLoaded = window.objectStore.getGroupsLoaded()
     this.setState({
       gruppe: gruppe,
-      path: path,
       groupsLoaded: groupsLoaded
     })
     // load this gruppe if that hasn't happened yet
+    // actually: this should not have happened yet because then the checkbox would not be visible
     if (!window.objectStore.isGroupLoaded(gruppe)) app.Actions.loadObjectStore(gruppe)
-    app.Actions.loadPathStore(path)
   },
 
   render () {
     // find out if Filter shall be shown
     const { hierarchy, gruppe, isGuidPath, pathEndsWithGuid, guid, path, items, object } = this.state
-    console.log('home.js, render: gruppen', gruppen)
-    console.log('home.js, render: gruppe', gruppe)
     const isGroup = _.includes(gruppen, gruppe)
 
-    console.log('home.js, render: isGroup', isGroup)
+    // console.log('home.js, render: state', this.state)
 
     return (
       <div>
