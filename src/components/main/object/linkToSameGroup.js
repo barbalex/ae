@@ -6,12 +6,9 @@
 'use strict'
 
 import React from 'react'
-import { State } from 'react-router'
 
 export default React.createClass({
   displayName: 'FieldLinkToSameGroup',
-
-  mixins: [State],
 
   propTypes: {
     fieldName: React.PropTypes.string,
@@ -19,23 +16,17 @@ export default React.createClass({
     objectName: React.PropTypes.string
   },
 
-  getInitialState () {
-    return {
-      fieldName: this.props.fieldName,
-      guid: this.props.guid,
-      objectName: this.props.objectName
-    }
-  },
-
   render () {
+    const { fieldName, guid, objectName } = this.props
+
     return (
       <div className='form-group'>
         <label className='control-label'>
-          {this.state.fieldName + ':'}
+          {fieldName + ':'}
         </label>
         <p className='form-control-static controls feldtext'>
-          <a href='#' className='linkZuArtGleicherGruppe' ArtId={this.state.guid}>
-            {this.state.objectName}
+          <a href='#' className='linkZuArtGleicherGruppe' ArtId={guid}>
+            {objectName}
           </a>
         </p>
       </div>

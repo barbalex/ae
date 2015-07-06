@@ -19,13 +19,6 @@ export default React.createClass({
     items: React.PropTypes.object
   },
 
-  getInitialState () {
-    const items = this.props.items
-    return {
-      items: items
-    }
-  },
-
   onClickEmptyFilterField () {
     console.log('filter.js: clicked remove')
     // this.forceUpdate()
@@ -40,8 +33,7 @@ export default React.createClass({
   },
 
   render () {
-    // console.log('filter.js, render: state', this.state)
-    const items = this.state.items
+    const { items } = this.props
     const itemsArray = _.values(items)
     const options = _.map(itemsArray, function (object) {
       // make sure every object has a name

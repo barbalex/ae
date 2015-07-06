@@ -2,7 +2,6 @@
 
 // import app from 'ampersand-app'
 import React from 'react'
-import { ListenerMixin } from 'reflux'
 // import Inspector from 'react-json-inspector'
 import _ from 'lodash'
 import PropertyCollection from './propertyCollection.js'
@@ -11,25 +10,12 @@ import RelationCollection from './relationCollection.js'
 export default React.createClass({
   displayName: 'Object',
 
-  mixins: [ListenerMixin],
-
   propTypes: {
     object: React.PropTypes.object
   },
 
-  onPathStoreChange (path) {
-    this.forceUpdate()
-  },
-
-  onObjectStoreChange () {
-    this.forceUpdate()
-  },
-
   render () {
-    const object = this.props.object
-
-    console.log('object.js, render: object', object)
-    console.log('object.js, render: this.props.object', this.props.object)
+    const { object } = this.props
 
     if (!object || _.keys(object).length === 0) {
       return (
@@ -98,7 +84,7 @@ export default React.createClass({
         <form className='form form-horizontal' autoComplete='off'>
           <div id='formContent'>
             <h4>Taxonomie:</h4>
-            {object.Taxonomie ? <PropertyCollection pcType='Taxonomie' object={object} propertyCollection={object.Taxonomie}/> : ''}
+            {object.Taxonomie ? <PropertyCollection pcType='Taxonomie' object={object} propertyCollection={object.Taxonomie} /> : ''}
             {/*taxonomischeBeziehungssammlungen*/}
             {propertyCollections ? propertyCollections : ''}
             {relationCollections ? relationCollections : ''}

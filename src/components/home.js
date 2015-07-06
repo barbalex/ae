@@ -113,7 +113,7 @@ const Home = React.createClass({
       object: object
     })
     this.transitionTo('/' + path.join('/'))
-    // this.forceUpdate()
+    this.forceUpdate()
     // React.render(<Home />, document.body)
   },
 
@@ -131,7 +131,7 @@ const Home = React.createClass({
     this.setState({
       object: object
     })
-    // this.forceUpdate()
+    this.forceUpdate()
     // React.render(<Home />, document.body)
   },
 

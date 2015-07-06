@@ -20,7 +20,7 @@ const Nodes = React.createClass({
   },
 
   getInitialState () {
-    const { hierarchy, gruppe, guid, path, level } = this.props
+    const { hierarchy, guid, path, level } = this.props
     // if this level is the guid, it's name needs to be gotten
     let activeKey = path[level - 1] || null
     if (isGuid(activeKey)) {
@@ -30,12 +30,8 @@ const Nodes = React.createClass({
     }
 
     const state = {
-      hierarchy: hierarchy,
       activeKey: activeKey,
-      gruppe: gruppe,
-      guid: guid,
-      path: path,
-      level: level
+      path: path
     }
 
     console.log('treeNodesFromHierarchyObject.js getInitialState: state', state)
@@ -50,10 +46,11 @@ const Nodes = React.createClass({
   onClickNode (params, event) {
     event.stopPropagation()
 
-    const { hierarchy, activeKey} = this.state
-    let newActiveKey
-    let path = this.state.path
+    const { activeKey } = this.state
+    let { path } = this.state
+    const { hierarchy } = this.props
     const { key, guid, level } = params
+    let newActiveKey
 
     // get level clicked
     const levelClicked = level
@@ -86,9 +83,11 @@ const Nodes = React.createClass({
 
   render () {
     // console.log('treeNodesFromHierarchyObject.js, render: state', this.state)
+    // console.log('treeNodesFromHierarchyObject.js, render: props', this.props)
     let nodes
     const that = this
-    const { hierarchy, activeKey, path, gruppe, guid, level } = this.state
+    const { hierarchy, gruppe, guid, level } = this.props
+    const { activeKey, path } = this.state
 
     nodes = _.chain(hierarchy)
       .keys()

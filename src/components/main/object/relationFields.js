@@ -6,30 +6,19 @@
 'use strict'
 
 import React from 'react'
-import { State } from 'react-router'
 import _ from 'lodash'
 import Field from './field.js'
 
 export default React.createClass({
   displayName: 'RelationFields',
 
-  mixins: [State],
-
   propTypes: {
     relation: React.PropTypes.object,
     relationCollection: React.PropTypes.object
   },
 
-  getInitialState () {
-    return {
-      relation: this.props.relation,
-      relationCollection: this.props.relationCollection
-    }
-  },
-
   render () {
-    const relation = this.state.relation
-    const relationCollection = this.state.relationCollection
+    const { relation, relationCollection } = this.props
 
     const relationFields = _.map(relation, function (fieldValue, fieldName) {
       if (fieldName !== 'Beziehungspartner') {

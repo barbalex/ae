@@ -6,12 +6,9 @@
 'use strict'
 
 import React from 'react'
-import { State } from 'react-router'
 
 export default React.createClass({
   displayName: 'FieldLink',
-
-  mixins: [State],
 
   propTypes: {
     fieldName: React.PropTypes.string,
@@ -20,20 +17,8 @@ export default React.createClass({
     pcName: React.PropTypes.string
   },
 
-  getInitialState () {
-    return {
-      fieldName: this.props.fieldName,
-      fieldValue: this.props.fieldValue,
-      pcType: this.props.pcType,
-      pcName: this.props.pcName
-    }
-  },
-
   render () {
-    const fieldName = this.state.fieldName
-    const fieldValue = this.state.fieldName
-    const pcType = this.state.pcType
-    const pcName = this.state.pcType
+    const { fieldName, fieldValue, pcType, pcName } = this.props
 
     return (
       <div className='form-group'>

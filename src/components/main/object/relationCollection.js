@@ -6,7 +6,6 @@
 
 import React from 'react'
 import { Accordion, Panel } from 'react-bootstrap'
-import { State } from 'react-router'
 import _ from 'lodash'
 import PropertyCollectionDescription from './propertyCollectionDescription.js'
 import RelationPartners from './relationPartners.js'
@@ -16,23 +15,12 @@ import sortRelationsByName from '../../../modules/sortRelationsByName.js'
 export default React.createClass({
   displayName: 'RelationCollection',
 
-  mixins: [State],
-
   propTypes: {
     relationCollection: React.PropTypes.object
   },
 
-  getInitialState () {
-
-    // console.log('relationCollection.js: this.props.relationCollection:', this.props.relationCollection)
-
-    return {
-      relationCollection: this.props.relationCollection
-    }
-  },
-
   render () {
-    const rc = this.state.relationCollection
+    const rc = this.props.relationCollection
 
     rc.Beziehungen = sortRelationsByName(rc.Beziehungen)
 

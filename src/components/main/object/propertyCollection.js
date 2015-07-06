@@ -6,7 +6,6 @@
 
 import React from 'react'
 import { Accordion, Panel } from 'react-bootstrap'
-import { State } from 'react-router'
 import _ from 'lodash'
 import replaceInvalidCharactersInIdNames from '../../../modules/replaceInvalidCharactersInIdNames.js'
 import PropertyCollectionDescription from './propertyCollectionDescription.js'
@@ -50,35 +49,15 @@ const buildFieldForProperty = function (propertyCollection, object, value, key, 
 export default React.createClass({
   displayName: 'PropertyCollection',
 
-  mixins: [State],
-
   propTypes: {
     pcType: React.PropTypes.string,
     object: React.PropTypes.object,
     propertyCollection: React.PropTypes.object
   },
 
-  getInitialState () {
-
-    // console.log('propertyCollection.js: this.props.pcType:', this.props.pcType)
-    // console.log('propertyCollection.js: this.props.object:', this.props.object)
-    // console.log('propertyCollection.js, getInitialState: this.props.propertyCollection:', this.props.propertyCollection)
-
-    return {
-      pcType: this.props.pcType,
-      object: this.props.object,
-      propertyCollection: this.props.propertyCollection
-    }
-  },
-
   render () {
-
-    // console.log('propertyCollection.js, render: propertyCollection:', this.state.propertyCollection)
-
-    const propertyCollection = this.state.propertyCollection
+    const { propertyCollection, pcType, object } = this.props
     const pcName = replaceInvalidCharactersInIdNames(propertyCollection.Name)
-    const pcType = this.state.pcType
-    const object = this.state.object
 
     const editToolbar = (
       <div className='btn-toolbar bearbToolbar'>

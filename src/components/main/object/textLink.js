@@ -8,12 +8,9 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import { State, Navigation } from 'react-router'
 
 export default React.createClass({
   displayName: 'FieldLink',
-
-  mixins: [State, Navigation],
 
   propTypes: {
     label: React.PropTypes.string,
@@ -23,26 +20,14 @@ export default React.createClass({
     guid: React.PropTypes.string
   },
 
-  getInitialState () {
-    return {
-      label: this.props.label,
-      value: this.props.value,
-      url: this.props.url,
-      gruppe: this.props.gruppe,
-      guid: this.props.guid
-    }
-  },
-
   onClickUrl (event) {
     event.preventDefault()
-    const guid = this.state.guid
+    const guid = this.props.guid
     if (guid) app.Actions.loadActiveObjectStore(guid)
   },
 
   render () {
-    const label = this.state.label
-    const value = this.state.value
-    const url = this.state.url
+    const { label, value, url } = this.props
 
     return (
       <div className='form-group'>

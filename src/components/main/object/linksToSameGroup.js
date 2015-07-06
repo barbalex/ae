@@ -6,28 +6,20 @@
 'use strict'
 
 import React from 'react'
-import { State } from 'react-router'
 import _ from 'lodash'
 
 export default React.createClass({
   displayName: 'FieldLinkToSameGroup',
-
-  mixins: [State],
 
   propTypes: {
     fieldName: React.PropTypes.string,
     objects: React.PropTypes.arrayOf(React.PropTypes.object)
   },
 
-  getInitialState () {
-    return {
-      fieldName: this.props.fieldName,
-      objects: this.props.objects
-    }
-  },
-
   render () {
-    const linkArray = _.map(this.state.objects, function (object) {
+    const { objects, fieldName } = this.props
+
+    const linkArray = _.map(objects, function (object) {
       return (
         <p className='form-control-static controls feldtext'>
           <a href='#' className='linkZuArtGleicherGruppe' ArtId={object.guid}>
@@ -40,7 +32,7 @@ export default React.createClass({
     return (
       <div className='form-group'>
         <label className='control-label'>
-          {this.state.fieldName + ':'}
+          {fieldName + ':'}
         </label>
         <span className='feldtext controls'>
           {linkArray}

@@ -8,14 +8,13 @@
 'use strict'
 
 import React from 'react'
-import { ListenerMixin } from 'reflux'
 import { State } from 'react-router'
 import Autolinker from 'autolinker'
 
 export default React.createClass({
   displayName: 'PropertyCollectionDescription',
 
-  mixins: [ListenerMixin, State],
+  mixins: [State],
 
   propTypes: {
     pc: React.PropTypes.object,
@@ -24,7 +23,6 @@ export default React.createClass({
 
   getInitialState () {
     return {
-      pc: this.props.pc,
       isVisible: false
     }
   },
@@ -37,9 +35,9 @@ export default React.createClass({
   },
 
   render () {
-    const pc = this.state.pc
+    const { pc } = this.props
+    const { isVisible } = this.state
     let mehr = ''
-    const isVisible = this.state.isVisible
 
     const datenstand = (
       <div className='dsBeschreibungZeile'>

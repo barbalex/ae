@@ -6,13 +6,10 @@
 'use strict'
 
 import React from 'react'
-import { State } from 'react-router'
 import Textarea from 'react-textarea-autosize'
 
 export default React.createClass({
   displayName: 'FieldInputText',
-
-  mixins: [State],
 
   propTypes: {
     fieldName: React.PropTypes.string,
@@ -21,20 +18,8 @@ export default React.createClass({
     pcName: React.PropTypes.string
   },
 
-  getInitialState () {
-    return {
-      fieldName: this.props.fieldName,
-      fieldValue: this.props.fieldValue,
-      pcType: this.props.pcType,
-      pcName: this.props.pcName
-    }
-  },
-
   render () {
-    const fieldName = this.state.fieldName
-    const fieldValue = this.state.fieldValue
-    const pcType = this.state.pcType
-    const pcName = this.state.pcName
+    const { fieldName, fieldValue, pcType, pcName } = this.props
 
     return (
       <div className='form-group'>
