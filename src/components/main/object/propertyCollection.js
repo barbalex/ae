@@ -50,7 +50,7 @@ const buildFieldForProperty = function (propertyCollection, object, value, key, 
     // this field contains an array of values
     return <FieldInput key={key} fieldName={key} fieldValue={value.toString()} inputType={'textarea'} pcType={pcType} pcName={pcName} />
   }
-  return <Field key={key} fieldName={key} fieldValue={value.toString()} pcType={pcType} pcName={pcName} />
+  return <Field key={key} fieldName={key} fieldValue={value} pcType={pcType} pcName={pcName} />
 }
 
 export default React.createClass({

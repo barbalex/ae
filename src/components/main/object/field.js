@@ -16,7 +16,11 @@ export default React.createClass({
 
   propTypes: {
     fieldName: React.PropTypes.string,
-    fieldValue: React.PropTypes.string,
+    fieldValue: React.PropTypes.oneOfType([
+      React.PropTypes.string,
+      React.PropTypes.number,
+      React.PropTypes.bool
+    ]),
     pcType: React.PropTypes.string,
     pcName: React.PropTypes.string
   },
@@ -25,9 +29,9 @@ export default React.createClass({
     const { fieldName, pcType, pcName } = this.props
     let { fieldValue } = this.props
 
-    // convert booleans because they arrive as string
-    if (fieldValue == 'false') fieldValue = false  // eslint-disable-line
-    if (fieldValue == 'true') fieldValue = true  // eslint-disable-line
+    // convert german booleans
+    if (fieldValue === 'nein') fieldValue = false
+    if (fieldValue === 'ja') fieldValue = true
 
     if ((typeof fieldValue === 'string' && fieldValue.slice(0, 7) === 'http://') || (typeof fieldValue === 'string' && fieldValue.slice(0, 8) === 'https://') || (typeof fieldValue === 'string' && fieldValue.slice(0, 2) === '//')) {
       // www-Links als Link darstellen

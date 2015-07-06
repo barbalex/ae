@@ -6,7 +6,6 @@
 'use strict'
 
 import React from 'react'
-import { Input } from 'react-bootstrap'
 
 export default React.createClass({
   displayName: 'FieldInputText',
@@ -21,17 +20,26 @@ export default React.createClass({
   render () {
     const { fieldName, fieldValue, pcType, pcName } = this.props
 
+    // need to place checkboxes next to labels, not inside
+    // makes styling MUCH easier
     return (
-      <Input
-        type='checkbox'
-        label={fieldName + ':'}
-        dsTyp={pcType}
-        dsName={pcName}
-        id={fieldName}
-        name={fieldName}
-        checked={fieldValue}
-        readOnly={'readonly'}
-      />
+      <div className={'form-group'}>
+        <label
+          className={'control-label'}
+          htmlFor={fieldName}
+        >
+          {fieldName + ':'}
+        </label>
+        <input
+          type='checkbox'
+          dsTyp={pcType}
+          dsName={pcName}
+          id={fieldName}
+          name={fieldName}
+          checked={fieldValue}
+          readOnly={'readonly'}
+        />
+      </div>
     )
   }
 })
