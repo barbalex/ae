@@ -9,11 +9,15 @@ import React from 'react'
 import { Input } from 'react-bootstrap'
 
 export default React.createClass({
-  displayName: 'FieldInputText',
+  displayName: 'FieldInput',
 
   propTypes: {
     fieldName: React.PropTypes.string,
-    fieldValue: React.PropTypes.string,
+    fieldValue: React.PropTypes.oneOfType([
+      React.PropTypes.string,
+      React.PropTypes.number,
+      React.PropTypes.bool
+    ]),
     inputType: React.PropTypes.string,
     pcType: React.PropTypes.string,
     pcName: React.PropTypes.string

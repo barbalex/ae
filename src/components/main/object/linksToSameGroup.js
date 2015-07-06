@@ -11,7 +11,7 @@ import _ from 'lodash'
 import getPathFromGuid from '../../../modules/getPathFromGuid.js'
 
 export default React.createClass({
-  displayName: 'FieldLinkToSameGroup',
+  displayName: 'FieldLinksToSameGroup',
 
   propTypes: {
     fieldName: React.PropTypes.string,

@@ -8,11 +8,11 @@
 import React from 'react'
 
 export default React.createClass({
-  displayName: 'FieldInputText',
+  displayName: 'FieldBoolean',
 
   propTypes: {
     fieldName: React.PropTypes.string,
-    fieldValue: React.PropTypes.string,
+    fieldValue: React.PropTypes.bool,
     pcType: React.PropTypes.string,
     pcName: React.PropTypes.string
   },

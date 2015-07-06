@@ -9,7 +9,7 @@ import React from 'react'
 import Textarea from 'react-textarea-autosize'
 
 export default React.createClass({
-  displayName: 'FieldInputText',
+  displayName: 'FieldTextarea',
 
   propTypes: {
     fieldName: React.PropTypes.string,
