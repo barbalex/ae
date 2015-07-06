@@ -6,8 +6,8 @@
 'use strict'
 
 import React from 'react'
-import { FormControls } from 'react-bootstrap'
 import _ from 'lodash'
+import getPathFromGuid from '../../../modules/getPathFromGuid.js'
 
 export default React.createClass({
   displayName: 'FieldLinkToSameGroup',
@@ -21,12 +21,13 @@ export default React.createClass({
     const { objects, fieldName } = this.props
 
     const linkArray = _.map(objects, function (object) {
+      const url = getPathFromGuid(object.guid).url
       return (
-        <FormControls.Static className='controls feldtext'>
-          <a href='#' className='linkZuArtGleicherGruppe' ArtId={object.guid}>
+        <p className='controls feldtext'>
+          <a href={url} className='form-control-static linkZuArtGleicherGruppe' ArtId={object.guid}>
             {object.Name}
           </a>
-        </FormControls.Static>
+        </p>
       )
     })
 

@@ -15,6 +15,7 @@ import Objekt from './main/object/object.js'
 import TreeFromHierarchyObject from './menu/treeFromHierarchyObject.js'
 import isGuid from '../modules/isGuid.js'
 import setTreeHeight from '../modules/setTreeHeight.js'
+import getPathFromGuid from '../modules/getPathFromGuid.js'
 
 const gruppen = ['Fauna', 'Flora', 'Moose', 'Macromycetes', 'Lebensräume']
 
@@ -129,11 +130,20 @@ const Home = React.createClass({
     // React.render(<Home />, document.body)
   },
 
-  onActiveObjectStoreChange (object) {
+  onActiveObjectStoreChange (object, metaData) {
     this.setState({
       object: object
     })
     this.forceUpdate()
+    // update url if path was called only with guid
+    const { path } = this.state
+    const isGuidPath = path.length === 1 && isGuid(path[0])
+    console.log('metaData', metaData)
+    if (isGuidPath && _.keys(object).length > 0) {
+      const pcName = object.Gruppe === 'Lebensräume' ? 'Lebensräume_CH_Delarze_(2008)_Allgemeine_Umgebung_(Areale)' : object.Taxonomie.Name
+      const url = getPathFromGuid(object._id, object, metaData[pcName]).url
+      this.transitionTo(url)
+    }
     // React.render(<Home />, document.body)
   },
 

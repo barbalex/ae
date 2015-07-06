@@ -20,12 +20,19 @@ const buildFieldForProperty = function (propertyCollection, object, value, key, 
 
   if (key === 'GUID') {
     // don't show. _id is used instead
-    // this field should not exist any more
+    // this field was removed and should not exist any more
     return ''
   }
   if (((key === 'Offizielle Art' || key === 'Eingeschlossen in' || key === 'Synonym von') && object.Gruppe === 'Flora') || (key === 'Akzeptierte Referenz' && object.Gruppe === 'Moose')) {
     // build as single link
-    return <LinkToSameGroup key={key} fieldName={key} guid ={object._id} objectName={value.Name} />
+    console.log('value', value)
+    // get name from guid
+    const linkedObject = window.objectStore.getItem(value)
+    if (linkedObject) {
+      const linkedObjectId = linkedObject._id
+      const linkedObjectName = linkedObject.Taxonomie.Eigenschaften['Artname vollständig']
+      return <LinkToSameGroup key={key} fieldName={key} guid ={linkedObjectId} objectName={linkedObjectName} />
+    }
   }
   if ((key === 'Gültige Namen' || key === 'Eingeschlossene Arten' || key === 'Synonyme') && object.Gruppe === 'Flora') {
     // build array of links

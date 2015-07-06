@@ -39,7 +39,7 @@ export default function (guid, object, metaData) {
 
   const payload = {
     path: path,
-    url: '/' + path.join('/')
+    url: /*window.location.origin + */'/' + path.join('/')
   }
 
   return payload

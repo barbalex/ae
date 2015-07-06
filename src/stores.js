@@ -40,12 +40,12 @@ export default function (Actions) {
       this.trigger(this.item)
     },*/
 
-    onLoadActiveObjectStoreCompleted (item) {
+    onLoadActiveObjectStoreCompleted (item, metaData) {
       // item can be an object or {}
       this.item = item
       this.loaded = _.keys(item).length > 0
       // tell views that data has changed
-      this.trigger(item)
+      this.trigger(item, metaData)
     }
   })
 

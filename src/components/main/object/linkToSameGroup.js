@@ -5,8 +5,9 @@
 
 'use strict'
 
+import app from 'ampersand-app'
 import React from 'react'
-import { FormControls } from 'react-bootstrap'
+import getPathFromGuid from '../../../modules/getPathFromGuid.js'
 
 export default React.createClass({
   displayName: 'FieldLinkToSameGroup',
@@ -17,19 +18,28 @@ export default React.createClass({
     objectName: React.PropTypes.string
   },
 
+  onClick (event) {
+    event.preventDefault()
+    const { guid } = this.props
+    const path = getPathFromGuid(guid).path
+    if (guid) app.Actions.loadActiveObjectStore(guid)
+    app.Actions.loadPathStore(path)
+  },
+
   render () {
     const { fieldName, guid, objectName } = this.props
+    const url = getPathFromGuid(guid).url
 
     return (
       <div className='form-group'>
         <label className='control-label'>
           {fieldName + ':'}
         </label>
-        <FormControls.Static className='controls feldtext'>
-          <a href='#' className='linkZuArtGleicherGruppe' ArtId={guid}>
+        <p className='form-control-static controls feldtext'>
+          <a href={url} className='linkZuArtGleicherGruppe' ArtId={guid} onClick={this.onClick} >
             {objectName}
           </a>
-        </FormControls.Static>
+        </p>
       </div>
     )
   }
