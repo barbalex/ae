@@ -34,10 +34,6 @@
 body
   padding: 8px 8px 8px 7px !important
   /* Silbentrennung einschalten */
-  -webkit-hyphens: auto
-  -moz-hyphens: auto
-  -ms-hyphens: auto
-  -o-hyphens: auto
   hyphens: auto
 
 #main
@@ -59,14 +55,21 @@ body
   width: 100%
   padding: 8px 8px 8px 8px
   margin-bottom: 10px
-  overflow: visible
+  overflow: auto
   border: 1px solid #e5e5e5
   border-radius: 6px
   background-color: #FFFFF0
   // auf chrome liegt Menu ohne z-index unter Accordion
   z-index: 1
-  position: fixed
-  width: calc(100% - 14px)
+  width: 100%
+
+#tree
+  max-height: calc(100vh - 302px)
+
+// hide this button in stacked view
+#btnResize
+  display: none
+
 
 /* über 1000px nebeneinander
    force-mobile: damit kann die Mobil-Sicht manuell gewählt werden */
@@ -77,13 +80,17 @@ body
     position: fixed
 
   body:not(.force-mobile) #main
-    /* nach rechts schieben */
+    // nach rechts schieben
     transform: translate(391px, 0)
-
-    /* Breite berechnen */
+    // Breite berechnen
     width: calc(100% - 391px)
 
+  body:not(.force-mobile) #tree
+    max-height: calc(100vh - 169px)
 
+  // always show resize button
+  #btnResize
+    display: block
 
 /*--------------------------------*\
     2. #MENU

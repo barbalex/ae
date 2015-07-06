@@ -14,7 +14,6 @@ import Favicon from 'react-favicon'
 import Objekt from './main/object/object.js'
 import TreeFromHierarchyObject from './menu/treeFromHierarchyObject.js'
 import isGuid from '../modules/isGuid.js'
-import setTreeHeight from '../modules/setTreeHeight.js'
 import getPathFromGuid from '../modules/getPathFromGuid.js'
 
 const gruppen = ['Fauna', 'Flora', 'Moose', 'Macromycetes', 'Lebensräume']
@@ -95,8 +94,6 @@ const Home = React.createClass({
   },
 
   componentDidMount () {
-    setTreeHeight()
-    window.addEventListener('resize', setTreeHeight())
     // listen to stores
     this.listenTo(window.pathStore, this.onPathStoreChange)
     this.listenTo(window.objectStore, this.onObjectStoreChange)

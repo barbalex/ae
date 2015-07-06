@@ -4,7 +4,6 @@ import app from 'ampersand-app'
 import React from 'react'
 import { Glyphicon } from 'react-bootstrap'
 import _ from 'lodash'
-import setTreeHeight from '../../modules/setTreeHeight.js'
 import isGuid from '../../modules/isGuid.js'
 
 const Nodes = React.createClass({
@@ -37,10 +36,6 @@ const Nodes = React.createClass({
     // console.log('treeNodesFromHierarchyObject.js getInitialState: state', state)
 
     return state
-  },
-
-  componentDidMount () {
-    setTreeHeight()
   },
 
   onClickNode (params, event) {
