@@ -27,7 +27,7 @@ export default React.createClass({
     const relations = _.map(rc.Beziehungen, function (relation, index) {
       const line = index < rc.Beziehungen.length - 1 ? <hr/> : ''
       return (
-        <div>
+        <div key={index}>
           <RelationPartners relation={relation} />
           <RelationFields relation={relation} relationCollection={rc} />
           {line}
