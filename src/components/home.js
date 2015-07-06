@@ -114,7 +114,7 @@ const Home = React.createClass({
     })
     this.transitionTo('/' + path.join('/'))
     // this.forceUpdate()
-    React.render(<Home />, document.body)
+    // React.render(<Home />, document.body)
   },
 
   onObjectStoreChange (payload) {
@@ -124,7 +124,7 @@ const Home = React.createClass({
       hierarchy: hierarchy,
       groupsLoaded: groupsLoaded
     })
-    React.render(<Home />, document.body)
+    // React.render(<Home />, document.body)
   },
 
   onActiveObjectStoreChange (object) {
@@ -132,7 +132,7 @@ const Home = React.createClass({
       object: object
     })
     // this.forceUpdate()
-    React.render(<Home />, document.body)
+    // React.render(<Home />, document.body)
   },
 
   onClickGruppe (gruppe) {

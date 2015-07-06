@@ -10,33 +10,12 @@ export default React.createClass({
   propTypes: {
     hierarchy: React.PropTypes.object,
     gruppe: React.PropTypes.string,
-    activeKey: React.PropTypes.string,
-    isGuidPath: React.PropTypes.bool,
     guid: React.PropTypes.string,
     path: React.PropTypes.array
   },
 
-  getInitialState () {
-    // guidPath is when only a guid is contained in url
-    const { hierarchy, isGuidPath, guid, gruppe, path} = this.props
-    const activeKey = isGuidPath ? null : gruppe
-
-    const state = {
-      hierarchy: hierarchy,
-      gruppe: gruppe,
-      guid: guid,
-      activeKey: activeKey,
-      isGuidPath: isGuidPath,
-      path: path
-    }
-
-    console.log('treeFromHierarchyObject.js getInitialState: state', state)
-
-    return state
-  },
-
   render () {
-    const { hierarchy, gruppe, guid, path } = this.state
+    const { hierarchy, gruppe, guid, path } = this.props
     const loading = app.loadingObjectStore && app.loadingObjectStore.length > 0
     const loadingGruppe = loading ? app.loadingObjectStore[0].replace('Macromycetes', 'Pilze') : 'Daten'
 
