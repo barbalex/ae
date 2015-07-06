@@ -1,32 +1,17 @@
 'use strict'
 
 import React from 'react'
+import _ from 'lodash'
 import DropdownButton from 'react-bootstrap/lib/DropdownButton'
 import MenuItem from 'react-bootstrap/lib/MenuItem'
-// import searchGoogleImagesOfObject from '../searchGoogleImages'
-// import searchWikipediaArticlesOfObject from '../searchWikipediaArticles'
+import buildGoogleImageLink from '../../modules/buildGoogleImageLink.js'
+import buildWikipediaLink from '../../modules/buildWikipediaLink.js'
 
 export default React.createClass({
   displayName: 'MenuButton',
 
-  getInitialState () {
-    return {
-      // TODO:
-      // remove disabled property of google- and wikipedia-search-buttons when an object is displayed
-      // set Visibility of admin button and it's following divider
-    }
-  },
-
-  searchGoogleImages () {
-    console.log('searchGoogleImages was clicked')
-    // TODO: use props to pass object
-    // searchGoogleImagesOfObject(object)
-  },
-
-  searchWikipediaArticle () {
-    console.log('searchWikipediaArticle was clicked')
-    // TODO: use props to pass object
-    // searchWikipediaArticlesOfObject(object)
+  propTypes: {
+    object: React.PropTypes.object
   },
 
   exportProperties () {
@@ -78,12 +63,20 @@ export default React.createClass({
   },
 
   render () {
+    const { object } = this.props
+    const isObject = object && _.keys(object).length > 0
+    const googleLink = isObject ? buildGoogleImageLink(object) : '#'
+    const wikipediaLink = isObject ? buildWikipediaLink(object) : '#'
+
+    console.log('menuButton.js, render: object', object)
+    console.log('menuButton.js, render: isObject', isObject)
+
     return (
       <div id='menuBtn' className='btn-group menu'>
         <DropdownButton title='Menu' bsSize='small'>
           <li role='presentation' className='dropdown-header'>Mehr Infos zur Art:</li>
-          <MenuItem onClick={this.searchGoogleImages} disabled>Auf google.ch Bilder suchen</MenuItem>
-          <MenuItem onClick={this.searchWikipediaArticle} disabled>Auf wikipedia.org suchen</MenuItem>
+          <MenuItem onClick={this.searchGoogleImages} disabled={!isObject}><a href={googleLink} target='_blank'>Auf google.ch Bilder suchen</a></MenuItem>
+          <MenuItem onClick={this.searchWikipediaArticle} disabled={!isObject}><a href={wikipediaLink} target='_blank'>Auf wikipedia.org suchen</a></MenuItem>
           <MenuItem divider/>
           <li role='presentation' className='dropdown-header'>Exportieren:</li>
           <MenuItem onClick={this.exportProperties}>Eigenschaften</MenuItem>

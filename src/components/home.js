@@ -159,14 +159,12 @@ const Home = React.createClass({
     const showFilter = _.keys(items).length > 0
     const showTree = isGroup || isGuidPath || _.keys(items).length
 
-    console.log('home.js render: _.keys(items).length', _.keys(items).length)
-
     return (
       <div>
         <Favicon url={[FaviconImage]}/>
         <div id='menu' className='menu'>
           <div id='menuLine'>
-            <MenuButton />
+            <MenuButton object={object} />
             <ResizeButton />
           </div>
           {createGruppen(this)}
