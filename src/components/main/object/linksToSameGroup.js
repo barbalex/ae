@@ -6,6 +6,7 @@
 'use strict'
 
 import React from 'react'
+import { FormControls } from 'react-bootstrap'
 import _ from 'lodash'
 
 export default React.createClass({
@@ -21,11 +22,11 @@ export default React.createClass({
 
     const linkArray = _.map(objects, function (object) {
       return (
-        <p className='form-control-static controls feldtext'>
+        <FormControls.Static className='controls feldtext'>
           <a href='#' className='linkZuArtGleicherGruppe' ArtId={object.guid}>
             {object.Name}
           </a>
-        </p>
+        </FormControls.Static>
       )
     })
 

@@ -95,6 +95,7 @@ const Home = React.createClass({
   componentDidMount () {
     setTreeHeight()
     window.addEventListener('resize', setTreeHeight())
+    // listen to stores
     this.listenTo(window.pathStore, this.onPathStoreChange)
     this.listenTo(window.objectStore, this.onObjectStoreChange)
     this.listenTo(window.activeObjectStore, this.onActiveObjectStoreChange)
@@ -107,6 +108,7 @@ const Home = React.createClass({
   onPathStoreChange (path) {
     const pathEndsWithGuid = isGuid(path[path.length - 1])
     const object = window.activeObjectStore.getItem()
+
     this.setState({
       path: path,
       pathEndsWithGuid: pathEndsWithGuid,
@@ -145,6 +147,7 @@ const Home = React.createClass({
   render () {
     const { hierarchy, gruppe, isGuidPath, pathEndsWithGuid, guid, path, items, object } = this.state
     const isGroup = _.includes(gruppen, gruppe)
+
     return (
       <div>
         <Favicon url={[FaviconImage]}/>

@@ -6,6 +6,7 @@
 'use strict'
 
 import React from 'react'
+import { FormControls } from 'react-bootstrap'
 
 export default React.createClass({
   displayName: 'FieldLinkToSameGroup',
@@ -24,11 +25,11 @@ export default React.createClass({
         <label className='control-label'>
           {fieldName + ':'}
         </label>
-        <p className='form-control-static controls feldtext'>
+        <FormControls.Static className='controls feldtext'>
           <a href='#' className='linkZuArtGleicherGruppe' ArtId={guid}>
             {objectName}
           </a>
-        </p>
+        </FormControls.Static>
       </div>
     )
   }

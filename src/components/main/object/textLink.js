@@ -8,6 +8,7 @@
 
 import app from 'ampersand-app'
 import React from 'react'
+import { FormControls } from 'react-bootstrap'
 
 export default React.createClass({
   displayName: 'FieldLink',
@@ -36,8 +37,8 @@ export default React.createClass({
           >
             {label + ':'}
           </label>
-          <p
-            className='form-control-static feldtext controls'
+          <FormControls.Static
+            className='feldtext controls'
           >
             <a
               href={url}
@@ -45,7 +46,7 @@ export default React.createClass({
             >
               {value}
             </a>
-          </p>
+          </FormControls.Static>
       </div>
     )
   }
