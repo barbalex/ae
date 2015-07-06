@@ -133,6 +133,7 @@ const Home = React.createClass({
 
   onActiveObjectStoreChange (object, metaData) {
     this.setState({
+      gruppe: object.Gruppe,
       object: object
     })
     // update url if path was called only with guid
@@ -142,7 +143,6 @@ const Home = React.createClass({
       const path = getPathFromGuid(object._id, object, metaData[pcName]).path
       app.Actions.loadPathStore(path)
     }
-    this.forceUpdate()
     // React.render(<Home />, document.body)
   },
 
@@ -156,6 +156,10 @@ const Home = React.createClass({
   render () {
     const { hierarchy, gruppe, isGuidPath, pathEndsWithGuid, guid, path, items, object } = this.state
     const isGroup = _.includes(gruppen, gruppe)
+    const showFilter = _.keys(items).length > 0
+    const showTree = isGroup || isGuidPath || _.keys(items).length
+
+    console.log('home.js render: _.keys(items).length', _.keys(items).length)
 
     return (
       <div>
@@ -166,8 +170,8 @@ const Home = React.createClass({
             <ResizeButton />
           </div>
           {createGruppen(this)}
-          {isGroup ? <Filter items={items} /> : ''}
-          {isGroup || isGuidPath ? <TreeFromHierarchyObject hierarchy={hierarchy} gruppe={gruppe} guid={guid} isGuidPath={isGuidPath} path={path} /> : ''}
+          {showFilter ? <Filter items={items} /> : ''}
+          {showTree ? <TreeFromHierarchyObject hierarchy={hierarchy} gruppe={gruppe} guid={guid} isGuidPath={isGuidPath} path={path} /> : ''}
         </div>
         {pathEndsWithGuid ? <Objekt object={object} /> : ''}
       </div>

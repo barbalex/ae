@@ -36,7 +36,7 @@ export default React.createClass({
           {fieldName + ':'}
         </label>
         <p className='form-control-static controls feldtext'>
-          <a href={url} className='linkZuArtGleicherGruppe' ArtId={guid} onClick={this.onClick} >
+          <a href={url} className='linkZuArtGleicherGruppe' onClick={this.onClick} >
             {objectName}
           </a>
         </p>

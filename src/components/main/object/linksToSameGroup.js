@@ -5,6 +5,7 @@
 
 'use strict'
 
+import app from 'ampersand-app'
 import React from 'react'
 import _ from 'lodash'
 import getPathFromGuid from '../../../modules/getPathFromGuid.js'
@@ -17,14 +18,22 @@ export default React.createClass({
     objects: React.PropTypes.arrayOf(React.PropTypes.object)
   },
 
+  onClick (guid, event) {
+    event.preventDefault()
+    const path = getPathFromGuid(guid).path
+    if (guid) app.Actions.loadActiveObjectStore(guid)
+    app.Actions.loadPathStore(path)
+  },
+
   render () {
     const { objects, fieldName } = this.props
+    const that = this
 
     const linkArray = _.map(objects, function (object) {
       const url = getPathFromGuid(object.guid).url
       return (
         <p className='controls feldtext'>
-          <a href={url} className='form-control-static linkZuArtGleicherGruppe' ArtId={object.guid}>
+          <a href={url} className='form-control-static linkZuArtGleicherGruppe' onClick={that.onClick.bind(that, object._id)}>
             {object.Name}
           </a>
         </p>
