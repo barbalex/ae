@@ -34,7 +34,7 @@ const Nodes = React.createClass({
       path: path
     }
 
-    console.log('treeNodesFromHierarchyObject.js getInitialState: state', state)
+    // console.log('treeNodesFromHierarchyObject.js getInitialState: state', state)
 
     return state
   },

@@ -18,8 +18,7 @@ export default React.createClass({
     const { hierarchy, gruppe, guid, path } = this.props
     const loading = app.loadingObjectStore && app.loadingObjectStore.length > 0
     const loadingGruppe = loading ? app.loadingObjectStore[0].replace('Macromycetes', 'Pilze') : 'Daten'
-
-    console.log('treeFromHierarchyObject.js, render: props', this.props)
+    // console.log('treeFromHierarchyObject.js, render: props', this.props)
 
     const tree = (
       <div>

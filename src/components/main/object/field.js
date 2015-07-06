@@ -22,7 +22,12 @@ export default React.createClass({
   },
 
   render () {
-    const { fieldName, fieldValue, pcType, pcName } = this.props
+    const { fieldName, pcType, pcName } = this.props
+    let { fieldValue } = this.props
+
+    // convert booleans because they arrive as string
+    if (fieldValue == 'false') fieldValue = false  // eslint-disable-line
+    if (fieldValue == 'true') fieldValue = true  // eslint-disable-line
 
     if ((typeof fieldValue === 'string' && fieldValue.slice(0, 7) === 'http://') || (typeof fieldValue === 'string' && fieldValue.slice(0, 8) === 'https://') || (typeof fieldValue === 'string' && fieldValue.slice(0, 2) === '//')) {
       // www-Links als Link darstellen

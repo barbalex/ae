@@ -68,9 +68,6 @@ export default React.createClass({
     const googleLink = isObject ? buildGoogleImageLink(object) : '#'
     const wikipediaLink = isObject ? buildWikipediaLink(object) : '#'
 
-    console.log('menuButton.js, render: object', object)
-    console.log('menuButton.js, render: isObject', isObject)
-
     return (
       <div id='menuBtn' className='btn-group menu'>
         <DropdownButton title='Menu' bsSize='small'>
