@@ -76,6 +76,7 @@ const Home = React.createClass({
     const items = window.objectStore.getItems()
 
     // kick off stores
+    if (!window.pathStore || window.pathStore.path.length === 0) app.Actions.loadPathStore(path)
     if (pathEndsWithGuid) app.Actions.loadActiveObjectStore(guid)
     // above action kicks of objectStore too, so don't do it twice > exclude pathEndsWithGuid
     if (gruppe && !window.objectStore.loaded[gruppe] && !pathEndsWithGuid) app.Actions.loadObjectStore(gruppe)
@@ -134,16 +135,14 @@ const Home = React.createClass({
     this.setState({
       object: object
     })
-    this.forceUpdate()
     // update url if path was called only with guid
-    const { path } = this.state
-    const isGuidPath = path.length === 1 && isGuid(path[0])
-    console.log('metaData', metaData)
+    const { isGuidPath } = this.state
     if (isGuidPath && _.keys(object).length > 0) {
       const pcName = object.Gruppe === 'Lebensräume' ? 'Lebensräume_CH_Delarze_(2008)_Allgemeine_Umgebung_(Areale)' : object.Taxonomie.Name
-      const url = getPathFromGuid(object._id, object, metaData[pcName]).url
-      this.transitionTo(url)
+      const path = getPathFromGuid(object._id, object, metaData[pcName]).path
+      app.Actions.loadPathStore(path)
     }
+    this.forceUpdate()
     // React.render(<Home />, document.body)
   },
 

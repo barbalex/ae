@@ -14,8 +14,8 @@ export default function (guid, object, metaData) {
   let path = []
   const store = window.objectStore
   object = object || store.getItem(guid)
-  const dsName = object.Gruppe === 'Lebensräume' ? 'Lebensräume_CH_Delarze_(2008)_Allgemeine_Umgebung_(Areale)' : object.Taxonomie.Name
-  metaData = metaData || store.getTaxMetadata()[dsName]
+  const pcName = object.Gruppe === 'Lebensräume' ? 'Lebensräume_CH_Delarze_(2008)_Allgemeine_Umgebung_(Areale)' : object.Taxonomie.Name
+  metaData = metaData || store.getTaxMetadata()[pcName]
   path.push(object.Gruppe)
 
   switch (metaData.HierarchieTyp) {
