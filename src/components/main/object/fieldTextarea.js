@@ -22,7 +22,7 @@ export default React.createClass({
     const { fieldName, fieldValue, pcType, pcName } = this.props
 
     return (
-      <div className='form-group'>
+      <div className='form-group form-group-sm'>
         <label htmlFor={fieldName} className='control-label'>
           <span>{fieldName + ':'}</span>
         </label>

@@ -268,20 +268,25 @@ input[readonly], textarea[readonly]
   background-color: #FFFFF9 !important
   cursor: not-allowed
 
-#main label,
+#main  label,
 #importDs label,
 #importBs label,
 #export .form-group label
-  width: 200px
   color: #555555
-  margin-right: 7px
   /* bootstrap.css macht font-weight bold */
   font-weight: normal
-  /* vertikalen Abstand vermindern, wenn der Text des Labels umgebrochen ist */
-  margin-bottom: 0
   /* Trennung ermöglichen */
   hyphens: auto
   font-size: 14px
+
+#main .form-horizontal  label,
+#importDs .form-horizontal label,
+#importBs .form-horizontal label,
+#export .form-horizontal .form-group label
+  width: 200px
+  margin-right: 7px
+  // vertikalen Abstand vermindern, wenn der Text des Labels umgebrochen ist
+  margin-bottom: 0
   text-align: right
 
 a
@@ -358,11 +363,13 @@ h5 a
   font-weight: bold
   margin: 0 0 7px 0
 
-.controls
-  /* Breite fix setzen für Browser, die calc nicht unterstützen */
+.form-horizontal .controls
+  // Breite fix setzen für Browser, die calc nicht unterstützen
   width: 1000px
-  /* Breite fix setzen für Browser, die calc unterstützen */
+  // Breite setzen für Browser, die calc unterstützen
   width: calc(100% - 230px) !important
+
+.controls
   font-size: 14px !important
 
 .feldInFormgroup
@@ -412,7 +419,7 @@ h5 a
 .form-horizontal .form-actions
   padding-left: 190px
 
-.form-control
+.form-horizontal .form-control
   display: inline-block !important
 
 /* Titel für Eigenschaften und Beziehungen stylen */
@@ -443,9 +450,6 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
   margin-bottom: 5px
   column-break-inside: avoid
 
-[type=number]
-  width: 100px
-
 .form-control-static
   margin-left: 207px
   padding-top: 0 !important
@@ -458,7 +462,7 @@ input[type=file]
   /* aus unbekanntem Grund stimmt die Höhe nicht */
   height: 20px
 
-label:not(.json-inspector__line)
+.form-horizontal label:not(.json-inspector__line)
   /* nicht nötig, wenn checkbox mit label beschrieben wird*/
   line-height: 15px !important
   float: left !important
