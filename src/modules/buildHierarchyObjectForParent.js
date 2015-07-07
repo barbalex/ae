@@ -21,14 +21,13 @@ import passPropertyToHierarchieObject from './passPropertyToHierarchieObject.js'
 const gruppe = 'Lebensräume'
 
 function buildNextLevel (property, path, objects) {
-  let nextPath = _.clone(path)
-  nextPath.push(property)
-  const level = nextPath.length
+  const level = path.length
+  let nextPath = []
 
-  console.log('buildHierarchyObjectForParent.js:  property:', property)
-  console.log('buildHierarchyObjectForParent.js: path:', path)
-  console.log('buildHierarchyObjectForParent.js: nextPath:', nextPath)
-  console.log('buildHierarchyObjectForParent.js: objects:', objects)
+  // console.log('buildNextLevel:  property:', property)
+  // console.log('buildNextLevel: path:', path)
+  // console.log('buildNextLevel: level:', level)
+  // console.log('buildNextLevel: objects:', objects)
 
   // if (property) {
   if (objects.length > 1) {
@@ -38,44 +37,24 @@ function buildNextLevel (property, path, objects) {
     // if objects had no next hierarchy with name, undefined is returned
     if (propertiesOfNextLevel.undefined) delete propertiesOfNextLevel.undefined
 
-    console.log('buildHierarchyObjectForParent.js: ' + Object.keys(propertiesOfNextLevel).length + ' properties of Level ' + level + ':', propertiesOfNextLevel)
+    // console.log('buildNextLevel: ' + Object.keys(propertiesOfNextLevel).length + ' properties of Level ' + level + ':', propertiesOfNextLevel)
 
     if (propertiesOfNextLevel) {
-      
-      passPropertyToHierarchieObject(propertiesOfNextLevel, nextPath, gruppe)
-
+      passPropertyToHierarchieObject(propertiesOfNextLevel, path, gruppe)
       // console.log('buildHierarchyObjectForParent.js: propertiesOfNextLevel', propertiesOfNextLevel)
-
       _.forEach(propertiesOfNextLevel, function (values, property) {
-        //if (values.length > 1) {
-        // if (property && property !== undefined) {
-          buildNextLevel(property, nextPath, values)
-        /*} else {
-          // oops
-          console.log('buildHierarchyObjectForParent.js: values.length = 0,  property:', property)
-          console.log('buildHierarchyObjectForParent.js: values.length = 0,  values:', values)
-          console.log('buildHierarchyObjectForParent.js: values.length = 0,  values[0]:', values[0])
-          console.log('buildHierarchyObjectForParent.js: values.length = 0,  values[0]._id:', values[0]._id)
-          let prop = {}
-          prop[property] = values[0]._id
-          const lastPath = _.clone(nextPath)
-          lastPath.push(property)
-          passPropertyToHierarchieObject(prop, lastPath, gruppe)
-          // buildNextLevel(property, nextPath, values)
-        }*/
+        nextPath = _.clone(path)
+        nextPath.push(property)
+        buildNextLevel(property, nextPath, values)
       })
     }
   } else {
-    console.log('buildHierarchyObjectForParent.js: objects.length = 0,  property:', property)
-    console.log('buildHierarchyObjectForParent.js: objects.length = 0,  objects:', objects)
-    console.log('buildHierarchyObjectForParent.js: objects.length = 0,  objects[0]:', objects[0])
-    console.log('buildHierarchyObjectForParent.js: objects.length = 0,  objects[0]._id:', objects[0]._id)
-    let prop = {}
-    prop[property] = objects[0]._id
-    const lastPath = _.clone(nextPath)
-    lastPath.push(property)
+    // console.log('buildNextLevel: objects.length = 0,  property:', property)
+    // console.log('buildNextLevel: objects.length = 0,  objects:', objects)
+    // console.log('buildNextLevel: objects.length = 0,  objects[0]:', objects[0])
+    // console.log('buildNextLevel: objects.length = 0,  objects[0]._id:', objects[0]._id)
     setTimeout(function () {
-      passPropertyToHierarchieObject(prop, nextPath, gruppe)
+      passPropertyToHierarchieObject(objects[0]._id, path, gruppe)
     }, 500)
   }
 }
@@ -95,14 +74,13 @@ export default function (objects) {
 
   app.hierarchieObject[gruppe] = propertiesOfLevel1
 
-  console.log('buildHierarchyObjectForParent.js: ' + Object.keys(propertiesOfLevel1).length + ' properties of Level 0:', propertiesOfLevel1)
+  // console.log('buildHierarchyObjectForParent.js: ' + Object.keys(propertiesOfLevel1).length + ' properties of Level 1:', propertiesOfLevel1)
 
-  const path = []
-
-  // buildNextLevel('Agrofutura (2004): Wiesenkartierschlüssel', path, propertiesOfLevel1['Agrofutura (2004): Wiesenkartierschlüssel'])
+  // buildNextLevel('Agrofutura (2004): Wiesenkartierschlüssel', ['Agrofutura (2004): Wiesenkartierschlüssel'], propertiesOfLevel1['Agrofutura (2004): Wiesenkartierschlüssel'])
 
   // get next level built
   _.forEach(propertiesOfLevel1, function (values, property) {
+    const path = [property]
     buildNextLevel(property, path, values)
   })
 
