@@ -21,7 +21,7 @@ const buildFieldForProperty = function (propertyCollection, object, value, key, 
   if (key === 'GUID') {
     // don't show. _id is used instead
     // this field was removed and should not exist any more
-    return ''
+    return null
   }
   if (((key === 'Offizielle Art' || key === 'Eingeschlossen in' || key === 'Synonym von') && object.Gruppe === 'Flora') || (key === 'Akzeptierte Referenz' && object.Gruppe === 'Moose')) {
     // build as single link
@@ -40,6 +40,7 @@ const buildFieldForProperty = function (propertyCollection, object, value, key, 
   }
   if ((key === 'Artname' && object.Gruppe === 'Flora') || (key === 'Parent' && object.Gruppe === 'Lebensräume')) {
     // don't show this field
+    return null
   }
   if (key === 'Hierarchie' && object.Gruppe === 'Lebensräume' && _.isArray(value)) {
     // show names separated by new line
