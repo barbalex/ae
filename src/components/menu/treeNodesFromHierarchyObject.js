@@ -10,7 +10,7 @@ const Nodes = React.createClass({
   displayName: 'TreeLowerLevel',
 
   propTypes: {
-    hierarchy: React.PropTypes.node,  // = hierarchy-object OF THIS LEVEL
+    hierarchy: React.PropTypes.object,  // = hierarchy-object OF THIS LEVEL
     activeKey: React.PropTypes.string,
     gruppe: React.PropTypes.string,
     guid: React.PropTypes.string,
@@ -19,6 +19,7 @@ const Nodes = React.createClass({
   },
 
   getInitialState () {
+    // console.log('treeNodesFromHierarchyObject.js, getInitialState: props', this.props)
     const { hierarchy, guid, path, level } = this.props
     // if this level is the guid, it's name needs to be gotten
     let activeKey = path[level - 1] || null

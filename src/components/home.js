@@ -125,6 +125,7 @@ const Home = React.createClass({
       hierarchy: hierarchy,
       groupsLoaded: groupsLoaded
     })
+    // console.log('home.js, onObjectStoreChange, payload', payload)
     // React.render(<Home />, document.body)
   },
 
@@ -155,6 +156,7 @@ const Home = React.createClass({
     const isGroup = _.includes(gruppen, gruppe)
     const showFilter = _.keys(items).length > 0
     const showTree = isGroup || isGuidPath || _.keys(items).length
+    // console.log('home.js, render: items', items)
 
     return (
       <div>

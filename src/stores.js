@@ -124,6 +124,7 @@ export default function (Actions) {
         gruppe: gruppe,
         groupsLoaded: this.groupsLoaded
       }
+      // console.log('objectStore loaded, will trigger with payload', payload)
       this.trigger(payload)
     },
 

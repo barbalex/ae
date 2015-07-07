@@ -85,6 +85,7 @@ export default function () {
               hierarchy: hierarchy,
               taxMetadata: taxMetadata
             }
+            // console.log('Actions.loadObjectStore will complete with payload', payload)
             Actions.loadObjectStore.completed(payload)
           })
           .catch(function (error) {
