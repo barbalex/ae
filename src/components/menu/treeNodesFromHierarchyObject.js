@@ -29,14 +29,10 @@ const Nodes = React.createClass({
       })
     }
 
-    const state = {
+    return {
       activeKey: activeKey,
       path: path
     }
-
-    // console.log('treeNodesFromHierarchyObject.js getInitialState: state', state)
-
-    return state
   },
 
   onClickNode (params, event) {

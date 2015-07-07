@@ -155,7 +155,8 @@ const Home = React.createClass({
     const { hierarchy, gruppe, isGuidPath, pathEndsWithGuid, guid, path, items, object } = this.state
     const isGroup = _.includes(gruppen, gruppe)
     const showFilter = _.keys(items).length > 0
-    const showTree = isGroup || isGuidPath || _.keys(items).length
+    const showTree = isGroup || isGuidPath || _.keys(items).length > 0
+    const showObject = pathEndsWithGuid || _.keys(object).length > 0
     // console.log('home.js, render: items', items)
 
     return (
@@ -170,7 +171,7 @@ const Home = React.createClass({
           {showFilter ? <Filter items={items} /> : ''}
           {showTree ? <TreeFromHierarchyObject hierarchy={hierarchy} gruppe={gruppe} guid={guid} isGuidPath={isGuidPath} path={path} /> : ''}
         </div>
-        {pathEndsWithGuid ? <Objekt object={object} /> : ''}
+        {showObject ? <Objekt object={object} /> : ''}
       </div>
     )
   }
