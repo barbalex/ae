@@ -67,10 +67,16 @@ export default React.createClass({
     // relation collections
     if (object.Beziehungssammlungen && object.Beziehungssammlungen.length > 0) {
       const rcs = object.Beziehungssammlungen
+
+      console.log('object.js, render, rcs', rcs)
+
       // regular relation collections
       objectRcs = _.filter(rcs, function (rc) {
-        return rc.Typ && rc.Typ !== 'taxonomisch'
+        return !rc.Typ
       })
+
+      console.log('object.js, render, objectRcs', objectRcs)
+
       if (objectRcs.length > 0) {
         const rcComponent = _.map(objectRcs, function (rc) {
           return <RelationCollection key={rc.Name} object={object} relationCollection={rc} />
@@ -82,6 +88,8 @@ export default React.createClass({
           </div>
         )
       }
+
+      console.log('object.js, render, rcsComponent', rcsComponent)
 
       // taxonomic relation collections
       taxRcs = _.filter(rcs, function (rc) {
@@ -133,9 +141,9 @@ export default React.createClass({
     }
 
     if (synonymObjects.length > 0) {
-      _.forEach(synonymObjects, function (object) {
-        if (object.Eigenschaftensammlungen && object.Eigenschaftensammlungen.length > 0) {
-          _.each(object.Eigenschaftensammlungen, function (pc) {
+      _.forEach(synonymObjects, function (synonymObject) {
+        if (synonymObject.Eigenschaftensammlungen && synonymObject.Eigenschaftensammlungen.length > 0) {
+          _.each(synonymObject.Eigenschaftensammlungen, function (pc) {
             if (!_.includes(namesOfPcsBuilt, pc.Name)) {
               // this pc is not yet shown
               pcsOfSynonyms.push(pc)
@@ -144,45 +152,46 @@ export default React.createClass({
             }
           })
         }
-        if (object.Beziehungssammlungen && object.Beziehungssammlungen.length > 0) {
-          _.each(object.Beziehungssammlungen, function (rc) {
-            if (!_.includes(namesOfRcsBuilt, rc.Name) && rc['Art der Beziehungen'] !== 'synonym' && rc.Typ !== 'taxonomisch') {
+        if (synonymObject.Beziehungssammlungen && synonymObject.Beziehungssammlungen.length > 0) {
+          _.each(synonymObject.Beziehungssammlungen, function (rcOfSynonym) {
+            if (!_.includes(namesOfRcsBuilt, rcOfSynonym.Name) && rcOfSynonym['Art der Beziehungen'] !== 'synonym' && rcOfSynonym.Typ !== 'taxonomisch') {
               // this rc is not yet shown and is not taxonomic
-              rcsOfSynonyms.push(rc)
+              rcsOfSynonyms.push(rcOfSynonym)
               // update namesOfRcsBuilt
-              namesOfRcsBuilt.push(rc.Name)
-            } else if (rc['Art der Beziehungen'] !== 'synonym' && rc.Typ !== 'taxonomisch') {
+              namesOfRcsBuilt.push(rcOfSynonym.Name)
+            } else if (rcOfSynonym['Art der Beziehungen'] !== 'synonym' && rcOfSynonym.Typ !== 'taxonomisch') {
               // this rc is already shown
               // but there could be relations that are not shown yet
-              var bsDerSynonymenArt = rc,
-                bsDerOriginalArt = _.find(art.Beziehungssammlungen, function (rc) {
-                  return rc.Name === bsDerSynonymenArt.Name
-                })
+              const rcOfOriginal = _.find(object.Beziehungssammlungen, function (rc) {
+                return rc.Name === rcOfSynonym.Name
+              })
 
-              if (bsDerSynonymenArt.Beziehungen && bsDerSynonymenArt.Beziehungen.length > 0 && bsDerOriginalArt && bsDerOriginalArt.Beziehungen && bsDerOriginalArt.Beziehungen.length > 0) {
+              if (rcOfSynonym.Beziehungen && rcOfSynonym.Beziehungen.length > 0 && rcOfOriginal && rcOfOriginal.Beziehungen && rcOfOriginal.Beziehungen.length > 0) {
                 // Beide Arten haben in derselben Beziehungssammlung Beziehungen
                 // in der Originalart vorhandene Beziehungen aus dem Synonym entfernen
-                bsDerSynonymenArt.Beziehungen = _.reject(bsDerSynonymenArt.Beziehungen, function (beziehungDesSynonyms) {
+                rcOfSynonym.Beziehungen = _.reject(rcOfSynonym.Beziehungen, function (relationOfSynonym) {
                   // suche in Beziehungen der Originalart eine mit denselben Beziehungspartnern
-                  var beziehungDerOriginalArt = _.find(bsDerOriginalArt.Beziehungen, function (beziehungOrigArt) {
-                    // return _.isEqual(beziehungDesSynonyms, beziehungOrigArt);  Wieso funktioniert das nicht?
-                    if (beziehungDesSynonyms.Beziehungspartner.length > 0 && beziehungOrigArt.Beziehungspartner.length > 0) {
-                      return beziehungDesSynonyms.Beziehungspartner[0].GUID === beziehungOrigArt.Beziehungspartner[0].GUID
+                  var beziehungDerOriginalArt = _.find(rcOfOriginal.Beziehungen, function (beziehungOrigArt) {
+                    // return _.isEqual(relationOfSynonym, beziehungOrigArt);  Wieso funktioniert das nicht?
+                    if (relationOfSynonym.Beziehungspartner.length > 0 && beziehungOrigArt.Beziehungspartner.length > 0) {
+                      return relationOfSynonym.Beziehungspartner[0].GUID === beziehungOrigArt.Beziehungspartner[0].GUID
                     }
                     return false
                   })
                   return !!beziehungDerOriginalArt
                 })
               }
-              if (bsDerSynonymenArt.Beziehungen.length > 0) {
+              if (rcOfSynonym.Beziehungen.length > 0) {
                 // falls noch darzustellende Beziehungen verbleiben, die DS pushen
-                rcsOfSynonyms.push(bsDerSynonymenArt)
+                rcsOfSynonyms.push(rcOfSynonym)
               }
             }
           })
         }
       })
     }
+
+    console.log('object.js, rcsOfSynonyms', rcsOfSynonyms)
 
     return (
       <fieldset id='main'>
