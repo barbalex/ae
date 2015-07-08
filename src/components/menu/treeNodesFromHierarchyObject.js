@@ -93,7 +93,7 @@ const Nodes = React.createClass({
         return (
           <li level={level} key={key} onClick={onClickNode}>
             <Glyphicon glyph={glyph} onClick={onClickNode}/>
-            <div className={keyIsActive ? 'active' : null}>{key}</div>
+            <div className={keyIsActive ? 'active' : null}>{key.replace('&#39;', '\'')}</div>
             {(key === activeKey && !keyIsObject) ? <Nodes hierarchy={hierarchy[key]} gruppe={gruppe} guid={guid} level={level + 1} path={path}/> : null}
           </li>
         )

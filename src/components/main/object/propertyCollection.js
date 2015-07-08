@@ -17,6 +17,10 @@ import Field from './field.js'
 
 const buildFieldForProperty = function (propertyCollection, object, value, key, pcType) {
   const pcName = propertyCollection.Name.replace(/"/g, "'")
+  if (typeof value === 'string') {
+    // bad hack because jsx shows &#39; not as ' but as &#39;
+    value = value.replace('&#39;', '\'')
+  }
 
   if (key === 'GUID') {
     // don't show. _id is used instead
