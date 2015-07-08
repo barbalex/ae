@@ -38,13 +38,16 @@ export default React.createClass({
   render () {
     const { object, items } = this.props
     const { formClassNames } = this.state
+    let pcsComponent = null
+    let taxRcComponent = null
     let objectRcs = []
     let taxRcs = []
-    let rcNames = []
     let guidsOfSynonyms = []
     let synonymObjects = {}
     let pcsOfSynonyms = []
     let rcsOfSynonyms = []
+    let namesOfPcsBuilt = []
+    let namesOfRcsBuilt = []
 
     if (!object || _.keys(object).length === 0) {
       return (
@@ -62,45 +65,42 @@ export default React.createClass({
       taxRcs = _.filter(object.Beziehungssammlungen, function (rc) {
         return rc.Typ && rc.Typ === 'taxonomisch'
       })
-      // list of names of property collections
+      // add taxonomic property collections
+      // want defined order
+      if (taxRcs.length > 0) {
+        const rcs = _.map(taxRcs, function (rc) {
+          return <RelationCollection key={rc.Name} object={object} relationCollection={rc} />
+        })
+        taxRcComponent = (
+          <div>
+            <h4>Taxonomische Beziehungen:</h4>
+            {rcs}
+          </div>
+        )
+      }
+
+      // list of names of relation collections
       // later it will be necessary to check if a property collection is already shown
-      rcNames = _.pluck(object.Beziehungssammlungen, function (rc) {
+      namesOfRcsBuilt = _.pluck(object.Beziehungssammlungen, function (rc) {
         if (rc.Name) return rc.Name
       })
+
+      // synonym objects
       guidsOfSynonyms = getGuidsOfSynonymsFromTaxonomicRcs(taxRcs)
       synonymObjects = _.filter(items, function (object, guid) {
         return _.includes(guidsOfSynonyms, guid)
       })
-      console.log('object.js: items', items)
-      console.log('object.js: guidsOfSynonyms', guidsOfSynonyms)
-      console.log('object.js: synonymObjects', synonymObjects)
-    }
-
-    // add taxonomic property collections
-    // want defined order
-    let taxRcComponent = null
-    if (taxRcs.length > 0) {
-      const rcs = _.map(taxRcs, function (rc) {
-        return <RelationCollection key={rc.Name} object={object} relationCollection={rc} />
-      })
-      taxRcComponent = (
-        <div>
-          <h4>Taxonomische Beziehungen:</h4>
-          {rcs}
-        </div>
-      )
     }
 
     // add property collections
-    let pcComponent = null
     if (object.Eigenschaftensammlungen && object.Eigenschaftensammlungen.length > 0) {
-      const pcs = _.map(object.Eigenschaftensammlungen, function (pc) {
+      const pcComponent = _.map(object.Eigenschaftensammlungen, function (pc) {
         return <PropertyCollection key={pc.Name} pcType='Datensammlung' object={object} propertyCollection={pc}/>
       })
-      pcComponent = (
+      pcsComponent = (
         <div>
           <h4>Eigenschaften:</h4>
-          {pcs}
+          {pcComponent}
         </div>
       )
     }
@@ -126,7 +126,7 @@ export default React.createClass({
             <h4>Taxonomie:</h4>
             {object.Taxonomie ? <PropertyCollection pcType='Taxonomie' object={object} propertyCollection={object.Taxonomie} /> : ''}
             {taxRcComponent ? taxRcComponent : ''}
-            {pcComponent ? pcComponent : ''}
+            {pcsComponent ? pcsComponent : ''}
             {rcComponent ? rcComponent : ''}
             {/*<Inspector data={object}/>*/}
           </div>
