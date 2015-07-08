@@ -39,7 +39,8 @@ export default React.createClass({
     const { object, items } = this.props
     const { formClassNames } = this.state
     let pcsComponent = null
-    let taxRcComponent = null
+    let rcsComponent = null
+    let taxRcsComponent = null
     let objectRcs = []
     let taxRcs = []
     let guidsOfSynonyms = []
@@ -49,6 +50,7 @@ export default React.createClass({
     let namesOfPcsBuilt = []
     let namesOfRcsBuilt = []
 
+    // no object?
     if (!object || _.keys(object).length === 0) {
       return (
         <fieldset id='main'>
@@ -56,25 +58,37 @@ export default React.createClass({
       )
     }
 
+    // relation collections
     if (object.Beziehungssammlungen && object.Beziehungssammlungen.length > 0) {
-      // regular property collections
-      objectRcs = _.filter(object.Beziehungssammlungen, function (rc) {
+      const rcs = object.Beziehungssammlungen
+      // regular relation collections
+      objectRcs = _.filter(rcs, function (rc) {
         return rc.Typ && rc.Typ !== 'taxonomisch'
       })
-      // taxonomic property collections
-      taxRcs = _.filter(object.Beziehungssammlungen, function (rc) {
-        return rc.Typ && rc.Typ === 'taxonomisch'
-      })
-      // add taxonomic property collections
-      // want defined order
-      if (taxRcs.length > 0) {
-        const rcs = _.map(taxRcs, function (rc) {
+      if (objectRcs.length > 0) {
+        const rcComponent = _.map(objectRcs, function (rc) {
           return <RelationCollection key={rc.Name} object={object} relationCollection={rc} />
         })
-        taxRcComponent = (
+        rcsComponent = (
+          <div>
+            <h4>Beziehungen:</h4>
+            {rcComponent}
+          </div>
+        )
+      }
+
+      // taxonomic relation collections
+      taxRcs = _.filter(rcs, function (rc) {
+        return rc.Typ && rc.Typ === 'taxonomisch'
+      })
+      if (taxRcs.length > 0) {
+        const taxRcComponent = _.map(taxRcs, function (rc) {
+          return <RelationCollection key={rc.Name} object={object} relationCollection={rc} />
+        })
+        taxRcsComponent = (
           <div>
             <h4>Taxonomische Beziehungen:</h4>
-            {rcs}
+            {taxRcComponent}
           </div>
         )
       }
@@ -105,29 +119,15 @@ export default React.createClass({
       )
     }
 
-    // add relation collections
-    let rcComponent = null
-    if (objectRcs.length > 0) {
-      const rcs = _.map(objectRcs, function (rc) {
-        return <RelationCollection key={rc.Name} object={object} relationCollection={rc} />
-      })
-      rcComponent = (
-        <div>
-          <h4>Beziehungen:</h4>
-          {rcs}
-        </div>
-      )
-    }
-
     return (
       <fieldset id='main'>
         <form className={formClassNames} autoComplete='off'>
           <div id='formContent'>
             <h4>Taxonomie:</h4>
             {object.Taxonomie ? <PropertyCollection pcType='Taxonomie' object={object} propertyCollection={object.Taxonomie} /> : ''}
-            {taxRcComponent ? taxRcComponent : ''}
+            {taxRcsComponent ? taxRcsComponent : ''}
             {pcsComponent ? pcsComponent : ''}
-            {rcComponent ? rcComponent : ''}
+            {rcsComponent ? rcsComponent : ''}
             {/*<Inspector data={object}/>*/}
           </div>
         </form>
