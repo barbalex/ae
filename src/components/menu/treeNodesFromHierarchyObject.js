@@ -38,12 +38,14 @@ const Nodes = React.createClass({
 
   onClickNode (params, event) {
     event.stopPropagation()
+    console.log('click')
 
     const { activeKey } = this.state
     let { path } = this.state
     const { hierarchy, gruppe } = this.props
     const { key, guid, level } = params
     let newActiveKey
+    console.log('treeNodesFromHierarchyObject.js, gruppe', gruppe)
 
     // get level clicked
     const levelClicked = level

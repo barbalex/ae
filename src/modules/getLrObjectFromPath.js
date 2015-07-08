@@ -9,14 +9,17 @@ import _ from 'lodash'
 
 function checkNextLevel (path, level, lrItems) {
   let object = null
+  const taxonomy = path[1]
+  console.log('getLrObjectFromPath.js, taxonomy', taxonomy)
 
   if (level === 2) {
     // on this level the path name = object.Taxonomie.Eigenschaften.Taxonomie AND object.Taxonomie.Eigenschaften.Einheit equal path[1]
     object = _.find(lrItems, function (item) {
-      const taxonomy = path[1]
+      console.log('getLrObjectFromPath.js, item', item)
       const prop = item.Taxonomie.Eigenschaften
-      console.log('getLrObjectFromPath.js, taxonomy', taxonomy)
-      return prop.Einheit === taxonomy && prop.Taxonomie === taxonomy
+      console.log('getLrObjectFromPath.js, prop.Einheit', prop.Einheit)
+      console.log('getLrObjectFromPath.js, prop.Einheit === taxonomy', prop.Einheit === taxonomy)
+      return prop.Einheit === taxonomy
     })
     console.log('getLrObjectFromPath.js, object', object)
     return object
@@ -35,5 +38,7 @@ export default function (path) {
   const lrItems = _.filter(items, function (item) {
     return item.Gruppe && item.Gruppe === 'Lebensräume'
   })
+  console.log('getLrObjectFromPath.js, lrItems', lrItems)
+  console.log('getLrObjectFromPath.js, lrItems.length', lrItems.length)
   checkNextLevel(path, 2, lrItems)
 }
