@@ -76,7 +76,7 @@ const Home = React.createClass({
 
     // kick off stores
     if (!window.pathStore || window.pathStore.path.length === 0) app.Actions.loadPathStore(path)
-    if (pathEndsWithGuid) app.Actions.loadActiveObjectStore(guid)
+    if (pathEndsWithGuid) app.Actions.loadActiveObjectStore(guid)  // TODO: if LR load object too
     // above action kicks of objectStore too, so don't do it twice > exclude pathEndsWithGuid
     if (gruppe && !window.objectStore.loaded[gruppe] && !pathEndsWithGuid) app.Actions.loadObjectStore(gruppe)
 
@@ -157,7 +157,11 @@ const Home = React.createClass({
     const showFilter = _.keys(items).length > 0
     const showTree = isGroup || isGuidPath || _.keys(items).length > 0
     const showObject = pathEndsWithGuid || _.keys(object).length > 0
-    // console.log('home.js, render: items', items)
+
+    // console.log('home.js, render: pathEndsWithGuid', pathEndsWithGuid)
+    // console.log('home.js, render: showObject', showObject)
+    // console.log('home.js, render: _.keys(object).length', _.keys(object).length)
+    // console.log('home.js, render: object', object)
 
     return (
       <div>

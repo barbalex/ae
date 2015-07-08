@@ -5,6 +5,7 @@ import React from 'react'
 import { Glyphicon } from 'react-bootstrap'
 import _ from 'lodash'
 import isGuid from '../../modules/isGuid.js'
+import getLrObjectFromPath from '../../modules/getLrObjectFromPath.js'
 
 const Nodes = React.createClass({
   displayName: 'TreeLowerLevel',
@@ -40,7 +41,7 @@ const Nodes = React.createClass({
 
     const { activeKey } = this.state
     let { path } = this.state
-    const { hierarchy } = this.props
+    const { hierarchy, gruppe } = this.props
     const { key, guid, level } = params
     let newActiveKey
 
@@ -68,7 +69,12 @@ const Nodes = React.createClass({
       path: path
     })
 
-    const activeObjectStoreValue = this.state.guid === guid ? null : guid
+    let activeObjectStoreValue = this.state.guid === guid ? null : guid
+    if (gruppe === 'Lebensräume') {
+      // find guid for path
+      const lrObject = getLrObjectFromPath(path)
+      if (lrObject && lrObject._id) activeObjectStoreValue = lrObject._id
+    }
     app.Actions.loadActiveObjectStore(activeObjectStoreValue)
     app.Actions.loadPathStore(path)
   },
