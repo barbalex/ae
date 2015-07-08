@@ -105,9 +105,7 @@ export default React.createClass({
 
       // list of names of relation collections
       // needed to choose which relation collections of synonym objects need to be built
-      namesOfRcsBuilt = _.pluck(object.Beziehungssammlungen, function (rc) {
-        if (rc.Name) return rc.Name
-      })
+      namesOfRcsBuilt = _.pluck(rcs, 'Name')
 
       // synonym objects
       guidsOfSynonyms = getGuidsOfSynonymsFromTaxonomicRcs(taxRcs)
@@ -131,23 +129,15 @@ export default React.createClass({
 
       // list names of property collections
       // needed to choose which property collections of synonym objects need to be built
-      namesOfPcsBuilt = _.pluck(object.Eigenschaftensammlungen, function (pc) {
-        if (pc.Name) return pc.Name
-      })
-
-      console.log('object.js, namesOfPcsBuilt before synonyms', namesOfPcsBuilt)
+      namesOfPcsBuilt = _.pluck(pcs, 'Name')
     }
 
     if (synonymObjects.length > 0) {
       _.forEach(synonymObjects, function (synonymObject) {
+
         // property collections
         if (synonymObject.Eigenschaftensammlungen && synonymObject.Eigenschaftensammlungen.length > 0) {
           _.each(synonymObject.Eigenschaftensammlungen, function (pc) {
-
-            console.log('object.js, namesOfPcsBuilt', namesOfPcsBuilt)
-            console.log('object.js, pc.Name', pc.Name)
-            console.log('object.js, !_.includes(namesOfPcsBuilt, pc.Name)', !_.includes(namesOfPcsBuilt, pc.Name))
-            
             if (!_.includes(namesOfPcsBuilt, pc.Name)) {
               // this pc is not yet shown
               pcsOfSynonyms.push(pc)
@@ -156,8 +146,6 @@ export default React.createClass({
             }
           })
         }
-
-        console.log('object.js, namesOfPcsBuilt after synonyms', namesOfPcsBuilt)
 
         // relation collections
         if (synonymObject.Beziehungssammlungen && synonymObject.Beziehungssammlungen.length > 0) {
@@ -175,22 +163,21 @@ export default React.createClass({
               })
 
               if (rcOfSynonym.Beziehungen && rcOfSynonym.Beziehungen.length > 0 && rcOfOriginal && rcOfOriginal.Beziehungen && rcOfOriginal.Beziehungen.length > 0) {
-                // Beide Arten haben in derselben Beziehungssammlung Beziehungen
-                // in der Originalart vorhandene Beziehungen aus dem Synonym entfernen
+                // Both objects have relations in the same relation collection
+                // remove relations existing in original object from synonym
                 rcOfSynonym.Beziehungen = _.reject(rcOfSynonym.Beziehungen, function (relationOfSynonym) {
-                  // suche in Beziehungen der Originalart eine mit denselben Beziehungspartnern
-                  var beziehungDerOriginalArt = _.find(rcOfOriginal.Beziehungen, function (beziehungOrigArt) {
-                    // return _.isEqual(relationOfSynonym, beziehungOrigArt);  Wieso funktioniert das nicht?
-                    if (relationOfSynonym.Beziehungspartner.length > 0 && beziehungOrigArt.Beziehungspartner.length > 0) {
-                      return relationOfSynonym.Beziehungspartner[0].GUID === beziehungOrigArt.Beziehungspartner[0].GUID
+                  // search in relations of original object for a relation with the same relation partners
+                  const relationOfOriginalWithSamePartners = _.find(rcOfOriginal.Beziehungen, function (relationOfOriginal) {
+                    if (relationOfSynonym.Beziehungspartner.length > 0 && relationOfOriginal.Beziehungspartner.length > 0) {
+                      return relationOfSynonym.Beziehungspartner[0].GUID === relationOfOriginal.Beziehungspartner[0].GUID
                     }
                     return false
                   })
-                  return !!beziehungDerOriginalArt
+                  return !!relationOfOriginalWithSamePartners
                 })
               }
               if (rcOfSynonym.Beziehungen.length > 0) {
-                // falls noch darzustellende Beziehungen verbleiben, die DS pushen
+                // if Synonym has relations that weren't yet shown, push them
                 rcsOfSynonyms.push(rcOfSynonym)
               }
             }
@@ -209,13 +196,19 @@ export default React.createClass({
           </div>
         )
       }
-      if (rcsOfSynonyms.length > 0) {
 
+      if (rcsOfSynonyms.length > 0) {
+        const rcComponent = _.map(rcsOfSynonyms, function (rc) {
+          return <RelationCollection key={rc.Name} object={object} relationCollection={rc} />
+        })
+        rcsOfSynonymsComponent = (
+          <div>
+            <h4>Beziehungen von Synonymen:</h4>
+            {rcComponent}
+          </div>
+        )
       }
     }
-
-    console.log('object.js, pcsOfSynonyms', pcsOfSynonyms)
-    console.log('object.js, rcsOfSynonyms', rcsOfSynonyms)
 
     return (
       <fieldset id='main'>
