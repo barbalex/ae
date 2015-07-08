@@ -66,20 +66,26 @@ export default React.createClass({
 
     // add taxonomic property collections
     // want defined order
+    let taxRcComponent = null
     if (taxBs.length > 0) {
-
+      const rcs = _.map(taxBs, function (rc) {
+        return <RelationCollection key={rc.Name} object={object} relationCollection={rc} />
+      })
+      taxRcComponent = (
+        <div>
+          <h4>Taxonomische Beziehungen:</h4>
+          {rcs}
+        </div>
+      )
     }
 
     // add property collections
-    let propertyCollections = null
+    let pcComponent = null
     if (object.Eigenschaftensammlungen && object.Eigenschaftensammlungen.length > 0) {
       const pcs = _.map(object.Eigenschaftensammlungen, function (pc) {
-
-        // console.log('object.js, render: pc passed to PropertyCollection:', pc)
-
         return <PropertyCollection key={pc.Name} pcType='Datensammlung' object={object} propertyCollection={pc}/>
       })
-      propertyCollections = (
+      pcComponent = (
         <div>
           <h4>Eigenschaften:</h4>
           {pcs}
@@ -88,12 +94,12 @@ export default React.createClass({
     }
 
     // add relation collections
-    let relationCollections = null
+    let rcComponent = null
     if (objektBs.length > 0) {
       const rcs = _.map(objektBs, function (rc) {
         return <RelationCollection key={rc.Name} object={object} relationCollection={rc} />
       })
-      relationCollections = (
+      rcComponent = (
         <div>
           <h4>Beziehungen:</h4>
           {rcs}
@@ -107,9 +113,9 @@ export default React.createClass({
           <div id='formContent'>
             <h4>Taxonomie:</h4>
             {object.Taxonomie ? <PropertyCollection pcType='Taxonomie' object={object} propertyCollection={object.Taxonomie} /> : ''}
-            {/*taxonomischeBeziehungssammlungen*/}
-            {propertyCollections ? propertyCollections : ''}
-            {relationCollections ? relationCollections : ''}
+            {taxRcComponent ? taxRcComponent : ''}
+            {pcComponent ? pcComponent : ''}
+            {rcComponent ? rcComponent : ''}
             {/*<Inspector data={object}/>*/}
           </div>
         </form>
