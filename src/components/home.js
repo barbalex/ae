@@ -171,7 +171,7 @@ const Home = React.createClass({
           {showFilter ? <Filter items={items} /> : ''}
           {showTree ? <TreeFromHierarchyObject hierarchy={hierarchy} gruppe={gruppe} guid={guid} isGuidPath={isGuidPath} path={path} /> : ''}
         </div>
-        {showObject ? <Objekt object={object} /> : ''}
+        {showObject ? <Objekt object={object} items={items} /> : ''}
       </div>
     )
   }

@@ -12,13 +12,12 @@ export default React.createClass({
   displayName: 'Object',
 
   propTypes: {
-    object: React.PropTypes.object
+    object: React.PropTypes.object,
+    items: React.PropTypes.object
   },
 
   getInitialState () {
     const formClassNames = window.innerWidth > 700 ? 'form form-horizontal' : 'form'
-    console.log('object.js, getInitialState: window.innerWidth', window.innerWidth)
-    console.log('object.js, getInitialState: formClassNames', formClassNames)
     return {
       formClassNames: formClassNames
     }
@@ -37,12 +36,15 @@ export default React.createClass({
   },
 
   render () {
-    const { object } = this.props
+    const { object, items } = this.props
     const { formClassNames } = this.state
     let objectRcs = []
     let taxRcs = []
     let rcNames = []
     let guidsOfSynonyms = []
+    let synonymObjects = {}
+    let pcsOfSynonyms = []
+    let rcsOfSynonyms = []
 
     if (!object || _.keys(object).length === 0) {
       return (
@@ -66,6 +68,12 @@ export default React.createClass({
         if (rc.Name) return rc.Name
       })
       guidsOfSynonyms = getGuidsOfSynonymsFromTaxonomicRcs(taxRcs)
+      synonymObjects = _.filter(items, function (object, guid) {
+        return _.includes(guidsOfSynonyms, guid)
+      })
+      console.log('object.js: items', items)
+      console.log('object.js: guidsOfSynonyms', guidsOfSynonyms)
+      console.log('object.js: synonymObjects', synonymObjects)
     }
 
     // add taxonomic property collections
