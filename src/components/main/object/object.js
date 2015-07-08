@@ -40,7 +40,9 @@ export default React.createClass({
     const { formClassNames } = this.state
     let taxComponent = null
     let pcsComponent = null
+    let pcsOfSynonymsComponent = null
     let rcsComponent = null
+    let rcsOfSynonymsComponent = null
     let taxRcsComponent = null
     let objectRcs = []
     let taxRcs = []
@@ -68,14 +70,10 @@ export default React.createClass({
     if (object.Beziehungssammlungen && object.Beziehungssammlungen.length > 0) {
       const rcs = object.Beziehungssammlungen
 
-      console.log('object.js, render, rcs', rcs)
-
       // regular relation collections
       objectRcs = _.filter(rcs, function (rc) {
         return !rc.Typ
       })
-
-      console.log('object.js, render, objectRcs', objectRcs)
 
       if (objectRcs.length > 0) {
         const rcComponent = _.map(objectRcs, function (rc) {
@@ -88,8 +86,6 @@ export default React.createClass({
           </div>
         )
       }
-
-      console.log('object.js, render, rcsComponent', rcsComponent)
 
       // taxonomic relation collections
       taxRcs = _.filter(rcs, function (rc) {
@@ -138,12 +134,20 @@ export default React.createClass({
       namesOfPcsBuilt = _.pluck(object.Eigenschaftensammlungen, function (pc) {
         if (pc.Name) return pc.Name
       })
+
+      console.log('object.js, namesOfPcsBuilt before synonyms', namesOfPcsBuilt)
     }
 
     if (synonymObjects.length > 0) {
       _.forEach(synonymObjects, function (synonymObject) {
+        // property collections
         if (synonymObject.Eigenschaftensammlungen && synonymObject.Eigenschaftensammlungen.length > 0) {
           _.each(synonymObject.Eigenschaftensammlungen, function (pc) {
+
+            console.log('object.js, namesOfPcsBuilt', namesOfPcsBuilt)
+            console.log('object.js, pc.Name', pc.Name)
+            console.log('object.js, !_.includes(namesOfPcsBuilt, pc.Name)', !_.includes(namesOfPcsBuilt, pc.Name))
+            
             if (!_.includes(namesOfPcsBuilt, pc.Name)) {
               // this pc is not yet shown
               pcsOfSynonyms.push(pc)
@@ -152,6 +156,10 @@ export default React.createClass({
             }
           })
         }
+
+        console.log('object.js, namesOfPcsBuilt after synonyms', namesOfPcsBuilt)
+
+        // relation collections
         if (synonymObject.Beziehungssammlungen && synonymObject.Beziehungssammlungen.length > 0) {
           _.each(synonymObject.Beziehungssammlungen, function (rcOfSynonym) {
             if (!_.includes(namesOfRcsBuilt, rcOfSynonym.Name) && rcOfSynonym['Art der Beziehungen'] !== 'synonym' && rcOfSynonym.Typ !== 'taxonomisch') {
@@ -189,8 +197,24 @@ export default React.createClass({
           })
         }
       })
+
+      if (pcsOfSynonyms.length > 0) {
+        const pcComponent = _.map(pcsOfSynonyms, function (pc) {
+          return <PropertyCollection key={pc.Name} pcType='Datensammlung' object={object} propertyCollection={pc}/>
+        })
+        pcsOfSynonymsComponent = (
+          <div>
+            <h4>Eigenschaften von Synonymen:</h4>
+            {pcComponent}
+          </div>
+        )
+      }
+      if (rcsOfSynonyms.length > 0) {
+
+      }
     }
 
+    console.log('object.js, pcsOfSynonyms', pcsOfSynonyms)
     console.log('object.js, rcsOfSynonyms', rcsOfSynonyms)
 
     return (
@@ -202,6 +226,8 @@ export default React.createClass({
             {taxRcsComponent ? taxRcsComponent : ''}
             {pcsComponent ? pcsComponent : ''}
             {rcsComponent ? rcsComponent : ''}
+            {pcsOfSynonymsComponent ? pcsOfSynonymsComponent : ''}
+            {rcsOfSynonymsComponent ? rcsOfSynonymsComponent : ''}
             {/*<Inspector data={object}/>*/}
           </div>
         </form>
