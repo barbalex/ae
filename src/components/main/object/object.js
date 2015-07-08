@@ -38,6 +38,7 @@ export default React.createClass({
   render () {
     const { object, items } = this.props
     const { formClassNames } = this.state
+    let taxComponent = null
     let pcsComponent = null
     let rcsComponent = null
     let taxRcsComponent = null
@@ -56,6 +57,11 @@ export default React.createClass({
         <fieldset id='main'>
         </fieldset>
       )
+    }
+
+    // taxonomy collection
+    if (object.Taxonomie) {
+      taxComponent = <PropertyCollection pcType='Taxonomie' object={object} propertyCollection={object.Taxonomie} />
     }
 
     // relation collections
@@ -106,9 +112,10 @@ export default React.createClass({
       })
     }
 
-    // add property collections
+    // property collections
     if (object.Eigenschaftensammlungen && object.Eigenschaftensammlungen.length > 0) {
-      const pcComponent = _.map(object.Eigenschaftensammlungen, function (pc) {
+      const pcs = object.Eigenschaftensammlungen
+      const pcComponent = _.map(pcs, function (pc) {
         return <PropertyCollection key={pc.Name} pcType='Datensammlung' object={object} propertyCollection={pc}/>
       })
       pcsComponent = (
@@ -124,7 +131,7 @@ export default React.createClass({
         <form className={formClassNames} autoComplete='off'>
           <div id='formContent'>
             <h4>Taxonomie:</h4>
-            {object.Taxonomie ? <PropertyCollection pcType='Taxonomie' object={object} propertyCollection={object.Taxonomie} /> : ''}
+            {taxComponent ? taxComponent : ''}
             {taxRcsComponent ? taxRcsComponent : ''}
             {pcsComponent ? pcsComponent : ''}
             {rcsComponent ? rcsComponent : ''}
