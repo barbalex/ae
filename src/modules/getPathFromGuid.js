@@ -18,15 +18,12 @@ export default function (guid, object, metaData) {
   metaData = metaData || store.getTaxMetadata()[pcName]
   path.push(object.Gruppe)
 
-  console.log('getPathFromGuid.js, guid', guid)
-  console.log('getPathFromGuid.js, object', object)
-  console.log('getPathFromGuid.js, object.Taxonomie.Eigenschaften.Hierarchie', object.Taxonomie.Eigenschaften.Hierarchie)
-  console.log('getPathFromGuid.js, metaData', metaData)
-  console.log('getPathFromGuid.js, metaData.HierarchieTyp', metaData.HierarchieTyp)
-
   switch (metaData.HierarchieTyp) {
   case 'Parent':
-    if (object && object.Taxonomie && object.Taxonomie.Eigenschaften && object.Taxonomie.Eigenschaften.Hierarchie) path = _.pluck(object.Taxonomie.Eigenschaften.Hierarchie, 'Name')
+    if (object && object.Taxonomie && object.Taxonomie.Eigenschaften && object.Taxonomie.Eigenschaften.Hierarchie) {
+      path = _.pluck(object.Taxonomie.Eigenschaften.Hierarchie, 'Name')
+      path.unshift('Lebensräume')
+    }
     break
   case 'Felder':
     if (metaData.HierarchieFelder && object && object.Taxonomie && object.Taxonomie.Eigenschaften) {
