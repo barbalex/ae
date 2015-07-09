@@ -28,6 +28,14 @@ function checkNextLevel (path, level, lrItems) {
 }
 
 export default function (path) {
+
+  // NEW IDEA
+  // look for lrObject with Hierarchie.Name like path
+  // clone lrItems
+  // replace values with array of hierarchy names: _.pluck(object.Taxonomie.Eigenschaften.Hierarchie, 'Name')
+  // remove 'Lebensräume' from path
+  // find
+
   console.log('getLrObjectFromPath.js, path', path)
   console.log('getLrObjectFromPath.js, path.length', path.length)
   // path length needs to be at least 2
