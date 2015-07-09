@@ -16,7 +16,7 @@ export default function (object) {
   switch (metaData.HierarchieTyp) {
   case 'Parent':
     if (object && object.Taxonomie && object.Taxonomie.Eigenschaften && object.Taxonomie.Eigenschaften.Hierarchie) {
-      path.push(_.pluck(object.Taxonomie.Eigenschaften.Hierarchie, 'Name'))
+      path = path.concat(_.pluck(object.Taxonomie.Eigenschaften.Hierarchie, 'Name'))
     }
     break
   case 'Felder':

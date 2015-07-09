@@ -5,7 +5,7 @@ import React from 'react'
 import { Glyphicon } from 'react-bootstrap'
 import _ from 'lodash'
 import isGuid from '../../modules/isGuid.js'
-import getLrObjectFromPath from '../../modules/getLrObjectFromPath.js'
+import getObjectFromPath from '../../modules/getObjectFromPath.js'
 
 const Nodes = React.createClass({
   displayName: 'TreeLowerLevel',
@@ -21,7 +21,7 @@ const Nodes = React.createClass({
 
   getInitialState () {
     // console.log('treeNodesFromHierarchyObject.js, getInitialState: props', this.props)
-    const { hierarchy, guid, path, level } = this.props
+    const { hierarchy, guid, path, level, gruppe } = this.props
     // if this level is the guid, it's name needs to be gotten
     let activeKey = path[level - 1] || null
     if (isGuid(activeKey)) {
@@ -31,6 +31,7 @@ const Nodes = React.createClass({
     }
 
     return {
+      gruppe: gruppe,
       activeKey: activeKey,
       path: path
     }
@@ -38,14 +39,12 @@ const Nodes = React.createClass({
 
   onClickNode (params, event) {
     event.stopPropagation()
-    console.log('click')
 
     const { activeKey } = this.state
     let { path } = this.state
-    const { hierarchy, gruppe } = this.props
-    const { key, guid, level } = params
+    const { hierarchy } = this.props
+    const { key, guid, level, gruppe } = params
     let newActiveKey
-    console.log('treeNodesFromHierarchyObject.js, gruppe', gruppe)
 
     // get level clicked
     const levelClicked = level
@@ -67,6 +66,7 @@ const Nodes = React.createClass({
     }
 
     this.setState({
+      gruppe: gruppe,
       activeKey: newActiveKey,
       path: path
     })
@@ -74,7 +74,7 @@ const Nodes = React.createClass({
     let activeObjectStoreValue = this.state.guid === guid ? null : guid
     if (gruppe === 'Lebensräume') {
       // find guid for path
-      const lrObject = getLrObjectFromPath(path)
+      const lrObject = getObjectFromPath(path)
       if (lrObject && lrObject._id) activeObjectStoreValue = lrObject._id
     }
     app.Actions.loadActiveObjectStore(activeObjectStoreValue)
@@ -86,8 +86,8 @@ const Nodes = React.createClass({
     // console.log('treeNodesFromHierarchyObject.js, render: props', this.props)
     let nodes
     const that = this
-    const { hierarchy, gruppe, guid, level } = this.props
-    const { activeKey, path } = this.state
+    const { hierarchy, guid, level } = this.props
+    const { activeKey, path, gruppe } = this.state
 
     nodes = _.chain(hierarchy)
       .keys()
@@ -96,7 +96,7 @@ const Nodes = React.createClass({
         const keyIsActive = key === activeKey || hierarchy[key] === activeKey
         const keyIsObject = typeof hierarchy[key] === 'string'
         const glyph = keyIsActive ? (keyIsObject ? 'forward' : 'triangle-bottom') : (keyIsObject ? 'minus' : 'triangle-right')
-        const onClickNode = that.onClickNode.bind(that, {'key': key, 'guid': (keyIsObject ? hierarchy[key] : null), 'level': level})
+        const onClickNode = that.onClickNode.bind(that, {'key': key, 'guid': (keyIsObject ? hierarchy[key] : null), 'level': level, 'gruppe': gruppe})
 
         return (
           <li level={level} key={key} onClick={onClickNode}>
