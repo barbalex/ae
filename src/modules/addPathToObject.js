@@ -33,5 +33,5 @@ export default function (object) {
     }
     break
   }
-  object._path = path
+  object.path = path
 }
