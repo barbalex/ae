@@ -3,6 +3,7 @@
 import app from 'ampersand-app'
 import Reflux from 'reflux'
 import _ from 'lodash'
+import addPathToObject from './modules/addPathToObject.js'
 
 export default function (Actions) {
   window.pathStore = Reflux.createStore({
@@ -60,6 +61,11 @@ export default function (Actions) {
 
     items: {},
 
+    // this is an object consisting of
+    // _id's as keys
+    // and a path array as values
+    paths: {},
+
     hierarchy: {},
 
     taxMetadata: {},
@@ -110,10 +116,17 @@ export default function (Actions) {
       this.loaded = true
       this.groupsLoaded.push(gruppe)
 
-      _.assign(this.items, items)
       this.hierarchy[gruppe] = {}
       _.assign(this.hierarchy[gruppe], hierarchy)
       _.assign(this.taxMetadata, taxMetadata)
+
+      _.forEach(items, function (item) {
+        addPathToObject(item)
+      })
+
+      _.assign(this.items, items)
+
+      // calculate paths
 
       // signal that this group is not being loaded any more
       app.loadingObjectStore = _.without(app.loadingObjectStore, gruppe)
