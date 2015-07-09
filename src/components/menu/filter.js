@@ -74,11 +74,12 @@ export default React.createClass({
             'label': eig['Artname vollständig']
           }
         }
-        if (eig.Label && eig.Einheit) {
+        if (eig.Einheit) {
           // this is an lr object
+          // top level has no label
           return {
             'value': object._id,
-            'label': eig.Label + ': ' + eig.Einheit
+            'label': eig.Label ? eig.Label + ': ' + eig.Einheit : eig.Einheit
           }
         }
       }

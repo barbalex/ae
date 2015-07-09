@@ -11,12 +11,21 @@
 import _ from 'lodash'
 
 export default function (guid, object, metaData) {
+  console.log('getPathFromGuid.js, metaData first', metaData)
   let path = []
   const store = window.objectStore
   object = object || store.getItem(guid)
-  const pcName = object.Gruppe === 'Lebensräume' ? 'Lebensräume_CH_Delarze_(2008)_Allgemeine_Umgebung_(Areale)' : object.Taxonomie.Name
+  const pcName = object.Gruppe === 'Lebensräume' ? 'Lebensräume' : object.Taxonomie.Name
   metaData = metaData || store.getTaxMetadata()[pcName]
   path.push(object.Gruppe)
+
+  console.log('getPathFromGuid.js, guid', guid)
+  console.log('getPathFromGuid.js, object', object)
+  console.log('getPathFromGuid.js, metaData second', metaData)
+  console.log('getPathFromGuid.js, pcName', pcName)
+  console.log('getPathFromGuid.js, store.getTaxMetadata()', store.getTaxMetadata())
+  console.log('getPathFromGuid.js, store.getTaxMetadata()[pcName]', store.getTaxMetadata()[pcName])
+  console.log('getPathFromGuid.js, path', path)
 
   switch (metaData.HierarchieTyp) {
   case 'Parent':

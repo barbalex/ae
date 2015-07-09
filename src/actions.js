@@ -58,7 +58,7 @@ export default function () {
             const dsMetadataDoc = _.find(taxMetadataArray, function (doc) {
               // if Gruppe = LR get dsMetadataDoc of Delarze
               if (itemsArray[0].Gruppe === 'Lebensräume') {
-                return doc.Name === 'CH Delarze (2008): Allgemeine Umgebung (Areale)'
+                return doc.Name === 'Lebensräume'
               }
               return doc.Name === dsName
             })
@@ -119,7 +119,7 @@ export default function () {
               // dispatch action to load data of this group
               Actions.loadObjectStore(object.Gruppe)
               // wait until store changes
-              const taxonomieForMetadata = (object.Gruppe === 'Lebensräume' ? 'CH Delarze (2008): Allgemeine Umgebung (Areale)' : object.Taxonomie.Name)
+              const taxonomieForMetadata = (object.Gruppe === 'Lebensräume' ? 'Lebensräume' : object.Taxonomie.Name)
               // check if metadata is here
               const metaData = window.objectStore.getTaxMetadata()
               if (metaData && metaData[taxonomieForMetadata]) {

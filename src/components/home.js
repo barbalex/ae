@@ -137,7 +137,7 @@ const Home = React.createClass({
     // update url if path was called only with guid
     const { isGuidPath } = this.state
     if (isGuidPath && _.keys(object).length > 0) {
-      const pcName = object.Gruppe === 'Lebensräume' ? 'Lebensräume_CH_Delarze_(2008)_Allgemeine_Umgebung_(Areale)' : object.Taxonomie.Name
+      const pcName = object.Gruppe === 'Lebensräume' ? 'Lebensräume' : object.Taxonomie.Name
       const path = getPathFromGuid(object._id, object, metaData[pcName]).path
       app.Actions.loadPathStore(path)
     }

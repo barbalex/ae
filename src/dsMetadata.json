@@ -49,9 +49,9 @@
     ]
   },
   {
-    '_id': 'Lebensräume_CH_Delarze_(2008)_Allgemeine_Umgebung_(Areale)',
+    '_id': 'Lebensräume',
     'Typ': 'DsMetadata',
-    'Name': 'CH Delarze (2008): Allgemeine Umgebung (Areale)',
+    'Name': 'Lebensräume',
     'Gruppe': 'Lebensräume',
     'HierarchieTyp': 'Parent',
     'ParentGuid': 'Parent.GUID'
