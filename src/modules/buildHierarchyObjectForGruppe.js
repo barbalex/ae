@@ -107,6 +107,11 @@ function structurize (hierarchiesArray) {
       item = {}
       item.name = name
       if (guid) item.guid = guid
+      if (rest.length > 0) {
+        item.children = [rest]
+      } else {
+        item.children = []
+      }
       item.children = rest.length > 0 ? [rest] : []
       items.push(item)
     }
@@ -126,11 +131,11 @@ export default function (objects, gruppe) {
 
   const items = structurize(hierarchiesArray)
   console.log('buildHierarchyObjectForGruppe.js: items', items)
-  const l = items.length
+  /*const l = items.length
   for (let i = 0; i < l; i++) {
     let item = items[i]
     item.children = structurize(item.children)
-  }
+  }*/
   console.log('buildHierarchyObjectForGruppe.js: items after adding children', items)
 
   const gruppeItem = {
