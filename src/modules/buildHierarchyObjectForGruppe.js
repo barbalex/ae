@@ -53,48 +53,71 @@ import app from 'ampersand-app'
 import _ from 'lodash'
 import passPropertyToHierarchieObject from './passPropertyToHierarchieObject.js'
 
-function buildNextLevel (property, path, objects) {
-  if (objects.length > 1) {
-    const level = path.length
-    let nextPath = []
+let gruppe = null
 
-    const propertiesOfNextLevel = _.groupBy(objects, function (objekt) {
-      if (objekt.Taxonomie && objekt.Taxonomie.Eigenschaften && objekt.Taxonomie.Eigenschaften.Hierarchie && objekt.Taxonomie.Eigenschaften.Hierarchie[level] && objekt.Taxonomie.Eigenschaften.Hierarchie[level].Name) return objekt.Taxonomie.Eigenschaften.Hierarchie[level].Name
+function buildNextLevel (name, path, hierarchy) {
+  console.log('buildNextLevel name', name)
+  console.log('buildNextLevel path', path)
+  console.log('buildNextLevel hierarchy', hierarchy)
+  if (hierarchy.length > 1) {
+
+    const hierarchies = _.groupBy(hierarchy, function (hierarchyArray) {
+      if (hierarchyArray[0] && hierarchyArray[0].Name) return hierarchyArray[0].Name
     })
 
-    if (propertiesOfNextLevel) {
-      passPropertyToHierarchieObject(propertiesOfNextLevel, path, gruppe)
-      _.forEach(propertiesOfNextLevel, function (values, property) {
-        nextPath = _.clone(path)
-        nextPath.push(property)
-        buildNextLevel(property, nextPath, values)
+    console.log('buildNextLevel, hierarchies', hierarchies)
+
+    if (hierarchies) {
+      passPropertyToHierarchieObject(hierarchies, path, gruppe)
+      _.forEach(hierarchies, function (propHierarchy, propName) {
+        let nextPath = _.clone(path)
+        nextPath.push(propName)
+        buildNextLevel(propName, nextPath, propHierarchy)
       })
     }
   } else {
     // this is last level
-    passPropertyToHierarchieObject(objects[0]._id, path, gruppe)
+    passPropertyToHierarchieObject(hierarchy[0], path, gruppe)
   }
 }
 
-export default function (objects, gruppe) {
+export default function (objects, gruppePassed) {
+  gruppe = gruppePassed
   // prepare hierarchieObject
   app.hierarchieObject = app.hierarchieObject || {}
-  app.hierarchieObject[gruppe] = {}
+  app.hierarchieObject[gruppe] = {
+    'Name': gruppe,
+    'Hierarchie': []
+  }
 
   // extract Hierarchie from objects
   const hierarchiesArray = _.map(objects, function (object) {
     if (object.Taxonomien[0].Eigenschaften.Hierarchie) return _.get(object, 'Taxonomien[0].Eigenschaften.Hierarchie')
   })
-  const hierarchies = _.groupBy(hierarchiesArray, function (object) {
-    if (object.Name) return object.Name
+  // console.log('buildHierarchyObjectForGruppe.js hierarchiesArray', hierarchiesArray)
+  const hierarchies = _.groupBy(hierarchiesArray, function (hierarchyArray) {
+    if (hierarchyArray[0] && hierarchyArray[0].Name) return hierarchyArray[0].Name
   })
 
-  app.hierarchieObject[gruppe] = hierarchies
+  passPropertyToHierarchieObject(hierarchies, [], gruppe)
+
+  /*const objectToPass = {
+    'Name': gruppe,
+    'Hierarchie': hierarchies
+  }
+
+  console.log('buildHierarchyObjectForGruppe.js hierarchies', hierarchies)
+  console.log('buildHierarchyObjectForGruppe.js objectToPass', objectToPass)
+
+  app.hierarchieObject[gruppe] = objectToPass*/
 
   // build next level
-  _.forEach(hierarchies, function (hierarchy, key) {
-    const path = [key]
-    buildNextLevel(key, path, hierarchy)
+  _.forEach(hierarchies, function (hierarchy, name) {
+    const path = [name]
+    console.log('buildHierarchyObjectForGruppe.js hierarchy', hierarchy)
+    console.log('buildHierarchyObjectForGruppe.js name', name)
+    console.log('buildHierarchyObjectForGruppe.js path', path)
+    // buildNextLevel(name, path, hierarchy)
   })
 
   return app.hierarchieObject[gruppe]

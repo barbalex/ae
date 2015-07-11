@@ -5,6 +5,7 @@ import Reflux from 'reflux'
 import PouchDB from 'pouchdb'
 import _ from 'lodash'
 import pouchUrl from './modules/getCouchUrl.js'
+import buildHierarchyObjectForGruppe from './modules/buildHierarchyObjectForGruppe'
 import buildHierarchyObjectForFelder from './modules/buildHierarchyObjectForFelder.js'
 import buildHierarchyObjectForParent from './modules/buildHierarchyObjectForParent.js'
 
@@ -63,16 +64,18 @@ export default function () {
               return doc.Name === dsName
             })
 
-            // lookup type
-            let hierarchy
-            switch (dsMetadataDoc.HierarchieTyp) {
+            const hierarchy = buildHierarchyObjectForGruppe(itemsArray, gruppe)
+
+            // console.log('Actions.loadObjectStore, hierarchy', hierarchy)
+
+            /*switch (dsMetadataDoc.HierarchieTyp) {
             case 'Felder':
               hierarchy = buildHierarchyObjectForFelder(itemsArray, dsMetadataDoc)
               break
             case 'Parent':
               hierarchy = buildHierarchyObjectForParent(itemsArray, dsMetadataDoc)
               break
-            }
+            }*/
 
             // convert items-array to object with keys made of id's
             const items = _.indexBy(itemsArray, '_id')

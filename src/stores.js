@@ -117,7 +117,10 @@ export default function (Actions) {
       this.groupsLoaded.push(gruppe)
 
       this.hierarchy[gruppe] = {}
-      _.assign(this.hierarchy[gruppe], hierarchy)
+      _.assign(this.hierarchy[gruppe], {
+        'Name': gruppe,
+        'Hierarchie': hierarchy
+      })
       _.assign(this.taxMetadata, taxMetadata)
 
       _.forEach(items, function (item) {
