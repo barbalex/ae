@@ -87,33 +87,6 @@ function buildNextLevel (name, path, hierarchy, gruppe) {
   }
 }
 
-function structurize (hierarchiesArray) {
-  let items = []
-  const l = hierarchiesArray.length
-  for (let i = 0; i < l; i++) {
-    const hierarchy = hierarchiesArray[i]
-    const name = hierarchy[0].Name
-    const guid = hierarchy[0].GUID
-    const rest = hierarchy.slice(1)
-    let item = null
-    const itemsLength = items.length
-    for (let j = 0; j < itemsLength; j++) {
-      if (items[j].name === name) {
-        item = items[j]
-        break
-      }
-    }
-    if (item === null) {
-      item = {}
-      item.name = name
-      if (guid) item.guid = guid
-      item.children = rest.length > 0 ? [rest] : []
-      items.push(item)
-    }
-  }
-  return items
-}
-
 export default function (objects, gruppe) {
   // prepare hierarchieObject
   app.hierarchieObject = app.hierarchieObject || {}
@@ -123,22 +96,24 @@ export default function (objects, gruppe) {
   const hierarchiesArray = _.map(objects, function (object) {
     if (object.Taxonomien[0].Eigenschaften.Hierarchie) return _.get(object, 'Taxonomien[0].Eigenschaften.Hierarchie')
   })
+  // console.log('buildHierarchyObjectForGruppe.js hierarchiesArray', hierarchiesArray)
+  const hierarchies = _.groupBy(hierarchiesArray, function (hierarchyArray) {
+    if (hierarchyArray[0] && hierarchyArray[0].Name) return hierarchyArray[0].Name
+  })
 
-  const items = structurize(hierarchiesArray)
-  console.log('buildHierarchyObjectForGruppe.js: items', items)
-  const l = items.length
-  for (let i = 0; i < l; i++) {
-    let item = items[i]
-    item.children = structurize(item.children)
-  }
-  console.log('buildHierarchyObjectForGruppe.js: items after adding children', items)
+  passPropertyToHierarchieObject(null, hierarchies, [gruppe], gruppe, gruppe)
 
-  const gruppeItem = {
-    name: gruppe,
-    children: items
-  }
+  // console.log('buildHierarchyObjectForGruppe.js hierarchies', hierarchies)
+  // console.log('buildHierarchyObjectForGruppe.js objectToPass', objectToPass)
 
-  console.log('buildHierarchyObjectForGruppe.js: gruppeItem', gruppeItem)
+  // build next level
+  _.forEach(hierarchies, function (hierarchy, name) {
+    const path = [gruppe, name]
+    console.log('buildHierarchyObjectForGruppe.js hierarchy', hierarchy)
+    console.log('buildHierarchyObjectForGruppe.js name', name)
+    console.log('buildHierarchyObjectForGruppe.js path', path)
+    buildNextLevel(name, path, hierarchy, gruppe)
+  })
 
-  return gruppeItem
+  return app.hierarchieObject[gruppe]
 }

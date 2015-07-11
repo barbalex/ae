@@ -66,7 +66,7 @@ export default function (Actions) {
     // and a path array as values
     paths: {},
 
-    hierarchy: {},
+    hierarchy: [],
 
     taxMetadata: {},
 
@@ -116,11 +116,7 @@ export default function (Actions) {
       this.loaded = true
       this.groupsLoaded.push(gruppe)
 
-      this.hierarchy[gruppe] = {}
-      _.assign(this.hierarchy[gruppe], {
-        'Name': gruppe,
-        'Hierarchie': hierarchy
-      })
+      this.hierarchy[gruppe] = hierarchy
       _.assign(this.taxMetadata, taxMetadata)
 
       _.forEach(items, function (item) {
