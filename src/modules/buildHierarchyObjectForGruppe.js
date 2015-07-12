@@ -64,7 +64,6 @@ function checkLevel2 (hierarchy, hArray) {
   if (!el2) {
     const newEl2 = _.clone(hArray[1])
     newEl2.children = []
-    hierarchy.push(newEl2)
     el1.children.push(newEl2)
   }
 }
@@ -84,7 +83,6 @@ function checkLevel3 (hierarchy, hArray) {
   if (!el3) {
     const newEl3 = _.clone(hArray[2])
     newEl3.children = []
-    hierarchy.push(newEl3)
     el2.children.push(newEl3)
   }
 }
@@ -108,7 +106,6 @@ function checkLevel4 (hierarchy, hArray) {
   if (!el4) {
     const newEl4 = _.clone(hArray[3])
     newEl4.children = []
-    hierarchy.push(newEl4)
     el3.children.push(newEl4)
   }
 }
@@ -136,7 +133,6 @@ function checkLevel5 (hierarchy, hArray) {
   if (!el5) {
     const newEl5 = _.clone(hArray[4])
     newEl5.children = []
-    hierarchy.push(newEl5)
     el4.children.push(newEl5)
   }
 }
@@ -168,7 +164,6 @@ function checkLevel6 (hierarchy, hArray) {
   if (!el6) {
     const newEl6 = _.clone(hArray[5])
     newEl6.children = []
-    hierarchy.push(newEl6)
     el5.children.push(newEl6)
   }
 }
@@ -204,7 +199,6 @@ function checkLevel7 (hierarchy, hArray) {
   if (!el7) {
     const newEl7 = _.clone(hArray[6])
     newEl7.children = []
-    hierarchy.push(newEl7)
     el6.children.push(newEl7)
   }
 }
@@ -244,7 +238,6 @@ function checkLevel8 (hierarchy, hArray) {
   if (!el8) {
     const newEl8 = _.clone(hArray[7])
     newEl8.children = []
-    hierarchy.push(newEl8)
     el7.children.push(newEl8)
   }
 }
@@ -288,7 +281,6 @@ function checkLevel9 (hierarchy, hArray) {
   if (!el9) {
     const newEl9 = _.clone(hArray[8])
     newEl9.children = []
-    hierarchy.push(newEl9)
     el8.children.push(newEl9)
   }
 }
@@ -335,5 +327,12 @@ export default function (objects, gruppe) {
     }
   })
 
-  return hierarchy
+  const returnValue = {
+    'Name': gruppe,
+    children: hierarchy
+  }
+
+  console.log('buildHierarchyObjectForGruppe.js, returnValue', returnValue)
+
+  return returnValue
 }

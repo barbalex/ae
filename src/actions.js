@@ -6,8 +6,6 @@ import PouchDB from 'pouchdb'
 import _ from 'lodash'
 import pouchUrl from './modules/getCouchUrl.js'
 import buildHierarchyObjectForGruppe from './modules/buildHierarchyObjectForGruppe'
-import buildHierarchyObjectForFelder from './modules/buildHierarchyObjectForFelder.js'
-import buildHierarchyObjectForParent from './modules/buildHierarchyObjectForParent.js'
 
 // Each action is like an event channel for one specific event. Actions are called by components.
 // The store is listening to all actions, and the components in turn are listening to the store.
@@ -65,17 +63,6 @@ export default function () {
             })
 
             const hierarchy = buildHierarchyObjectForGruppe(itemsArray, gruppe)
-
-            // console.log('Actions.loadObjectStore, hierarchy', hierarchy)
-
-            /*switch (dsMetadataDoc.HierarchieTyp) {
-            case 'Felder':
-              hierarchy = buildHierarchyObjectForFelder(itemsArray, dsMetadataDoc)
-              break
-            case 'Parent':
-              hierarchy = buildHierarchyObjectForParent(itemsArray, dsMetadataDoc)
-              break
-            }*/
 
             // convert items-array to object with keys made of id's
             const items = _.indexBy(itemsArray, '_id')
