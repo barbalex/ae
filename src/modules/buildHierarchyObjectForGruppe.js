@@ -40,9 +40,7 @@
 
 'use strict'
 
-import app from 'ampersand-app'
 import _ from 'lodash'
-import passPropertyToHierarchieObject from './passPropertyToHierarchieObject.js'
 
 function checkLevel1 (hierarchy, hArray) {
   const el1 = _.find(hierarchy, function (el) {
