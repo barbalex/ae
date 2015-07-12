@@ -174,7 +174,7 @@ const Home = React.createClass({
           </div>
           {createGruppen(this)}
           {showFilter ? <Filter items={items} /> : ''}
-          {showTree ? <TreeFromHierarchyObject hierarchy={hierarchy} gruppe={gruppe} guid={guid} isGuidPath={isGuidPath} path={path} /> : ''}
+          {showTree ? <TreeFromHierarchyObject hierarchy={hierarchy} gruppe={gruppe} object={object} isGuidPath={isGuidPath} path={path} /> : ''}
         </div>
         {showObject ? <Objekt object={object} items={items} /> : ''}
       </div>
