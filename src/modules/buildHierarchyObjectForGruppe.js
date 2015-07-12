@@ -44,26 +44,259 @@ import _ from 'lodash'
 
 function checkLevel1 (hierarchy, hArray) {
   const el1 = _.find(hierarchy, function (el) {
-    return el.name === hArray[0].name
+    return el.Name === hArray[0].Name
   })
-  if (!el1) hierarchy.push(hArray[0])
+  if (!el1) {
+    const newEl1 = _.clone(hArray[0])
+    newEl1.children = []
+    hierarchy.push(newEl1)
+  }
 }
 
 function checkLevel2 (hierarchy, hArray) {
   checkLevel1(hierarchy, hArray)
   const el1 = _.find(hierarchy, function (el) {
-    return el.name === hArray[0].name
+    return el.Name === hArray[0].Name
   })
-
   const el2 = _.find(el1.children, function (el) {
-    return el.name === hArray[1].name
+    return el.Name === hArray[1].Name
   })
-  if (!el2) hierarchy.push(hArray[1])
+  if (!el2) {
+    const newEl2 = _.clone(hArray[1])
+    newEl2.children = []
+    hierarchy.push(newEl2)
+    el1.children.push(newEl2)
+  }
+}
+
+function checkLevel3 (hierarchy, hArray) {
+  checkLevel1(hierarchy, hArray)
+  checkLevel2(hierarchy, hArray)
+  const el1 = _.find(hierarchy, function (el) {
+    return el.Name === hArray[0].Name
+  })
+  const el2 = _.find(el1.children, function (el) {
+    return el.Name === hArray[1].Name
+  })
+  const el3 = _.find(el2.children, function (el) {
+    return el.Name === hArray[2].Name
+  })
+  if (!el3) {
+    const newEl3 = _.clone(hArray[2])
+    newEl3.children = []
+    hierarchy.push(newEl3)
+    el2.children.push(newEl3)
+  }
+}
+
+function checkLevel4 (hierarchy, hArray) {
+  checkLevel1(hierarchy, hArray)
+  checkLevel2(hierarchy, hArray)
+  checkLevel3(hierarchy, hArray)
+  const el1 = _.find(hierarchy, function (el) {
+    return el.Name === hArray[0].Name
+  })
+  const el2 = _.find(el1.children, function (el) {
+    return el.Name === hArray[1].Name
+  })
+  const el3 = _.find(el2.children, function (el) {
+    return el.Name === hArray[2].Name
+  })
+  const el4 = _.find(el3.children, function (el) {
+    return el.Name === hArray[3].Name
+  })
+  if (!el4) {
+    const newEl4 = _.clone(hArray[3])
+    newEl4.children = []
+    hierarchy.push(newEl4)
+    el3.children.push(newEl4)
+  }
+}
+
+function checkLevel5 (hierarchy, hArray) {
+  checkLevel1(hierarchy, hArray)
+  checkLevel2(hierarchy, hArray)
+  checkLevel3(hierarchy, hArray)
+  checkLevel4(hierarchy, hArray)
+  const el1 = _.find(hierarchy, function (el) {
+    return el.Name === hArray[0].Name
+  })
+  const el2 = _.find(el1.children, function (el) {
+    return el.Name === hArray[1].Name
+  })
+  const el3 = _.find(el2.children, function (el) {
+    return el.Name === hArray[2].Name
+  })
+  const el4 = _.find(el3.children, function (el) {
+    return el.Name === hArray[3].Name
+  })
+  const el5 = _.find(el4.children, function (el) {
+    return el.Name === hArray[4].Name
+  })
+  if (!el5) {
+    const newEl5 = _.clone(hArray[4])
+    newEl5.children = []
+    hierarchy.push(newEl5)
+    el4.children.push(newEl5)
+  }
+}
+
+function checkLevel6 (hierarchy, hArray) {
+  checkLevel1(hierarchy, hArray)
+  checkLevel2(hierarchy, hArray)
+  checkLevel3(hierarchy, hArray)
+  checkLevel4(hierarchy, hArray)
+  checkLevel5(hierarchy, hArray)
+  const el1 = _.find(hierarchy, function (el) {
+    return el.Name === hArray[0].Name
+  })
+  const el2 = _.find(el1.children, function (el) {
+    return el.Name === hArray[1].Name
+  })
+  const el3 = _.find(el2.children, function (el) {
+    return el.Name === hArray[2].Name
+  })
+  const el4 = _.find(el3.children, function (el) {
+    return el.Name === hArray[3].Name
+  })
+  const el5 = _.find(el4.children, function (el) {
+    return el.Name === hArray[4].Name
+  })
+  const el6 = _.find(el5.children, function (el) {
+    return el.Name === hArray[5].Name
+  })
+  if (!el6) {
+    const newEl6 = _.clone(hArray[5])
+    newEl6.children = []
+    hierarchy.push(newEl6)
+    el5.children.push(newEl6)
+  }
+}
+
+function checkLevel7 (hierarchy, hArray) {
+  checkLevel1(hierarchy, hArray)
+  checkLevel2(hierarchy, hArray)
+  checkLevel3(hierarchy, hArray)
+  checkLevel4(hierarchy, hArray)
+  checkLevel5(hierarchy, hArray)
+  checkLevel6(hierarchy, hArray)
+  const el1 = _.find(hierarchy, function (el) {
+    return el.Name === hArray[0].Name
+  })
+  const el2 = _.find(el1.children, function (el) {
+    return el.Name === hArray[1].Name
+  })
+  const el3 = _.find(el2.children, function (el) {
+    return el.Name === hArray[2].Name
+  })
+  const el4 = _.find(el3.children, function (el) {
+    return el.Name === hArray[3].Name
+  })
+  const el5 = _.find(el4.children, function (el) {
+    return el.Name === hArray[4].Name
+  })
+  const el6 = _.find(el5.children, function (el) {
+    return el.Name === hArray[5].Name
+  })
+  const el7 = _.find(el6.children, function (el) {
+    return el.Name === hArray[6].Name
+  })
+  if (!el7) {
+    const newEl7 = _.clone(hArray[6])
+    newEl7.children = []
+    hierarchy.push(newEl7)
+    el6.children.push(newEl7)
+  }
+}
+
+function checkLevel8 (hierarchy, hArray) {
+  checkLevel1(hierarchy, hArray)
+  checkLevel2(hierarchy, hArray)
+  checkLevel3(hierarchy, hArray)
+  checkLevel4(hierarchy, hArray)
+  checkLevel5(hierarchy, hArray)
+  checkLevel6(hierarchy, hArray)
+  checkLevel7(hierarchy, hArray)
+  const el1 = _.find(hierarchy, function (el) {
+    return el.Name === hArray[0].Name
+  })
+  const el2 = _.find(el1.children, function (el) {
+    return el.Name === hArray[1].Name
+  })
+  const el3 = _.find(el2.children, function (el) {
+    return el.Name === hArray[2].Name
+  })
+  const el4 = _.find(el3.children, function (el) {
+    return el.Name === hArray[3].Name
+  })
+  const el5 = _.find(el4.children, function (el) {
+    return el.Name === hArray[4].Name
+  })
+  const el6 = _.find(el5.children, function (el) {
+    return el.Name === hArray[5].Name
+  })
+  const el7 = _.find(el6.children, function (el) {
+    return el.Name === hArray[6].Name
+  })
+  const el8 = _.find(el7.children, function (el) {
+    return el.Name === hArray[7].Name
+  })
+  if (!el8) {
+    const newEl8 = _.clone(hArray[7])
+    newEl8.children = []
+    hierarchy.push(newEl8)
+    el7.children.push(newEl8)
+  }
+}
+
+function checkLevel9 (hierarchy, hArray) {
+  checkLevel1(hierarchy, hArray)
+  checkLevel2(hierarchy, hArray)
+  checkLevel3(hierarchy, hArray)
+  checkLevel4(hierarchy, hArray)
+  checkLevel5(hierarchy, hArray)
+  checkLevel6(hierarchy, hArray)
+  checkLevel7(hierarchy, hArray)
+  checkLevel8(hierarchy, hArray)
+  const el1 = _.find(hierarchy, function (el) {
+    return el.Name === hArray[0].Name
+  })
+  const el2 = _.find(el1.children, function (el) {
+    return el.Name === hArray[1].Name
+  })
+  const el3 = _.find(el2.children, function (el) {
+    return el.Name === hArray[2].Name
+  })
+  const el4 = _.find(el3.children, function (el) {
+    return el.Name === hArray[3].Name
+  })
+  const el5 = _.find(el4.children, function (el) {
+    return el.Name === hArray[4].Name
+  })
+  const el6 = _.find(el5.children, function (el) {
+    return el.Name === hArray[5].Name
+  })
+  const el7 = _.find(el6.children, function (el) {
+    return el.Name === hArray[6].Name
+  })
+  const el8 = _.find(el7.children, function (el) {
+    return el.Name === hArray[7].Name
+  })
+  const el9 = _.find(el8.children, function (el) {
+    return el.Name === hArray[8].Name
+  })
+  if (!el9) {
+    const newEl9 = _.clone(hArray[8])
+    newEl9.children = []
+    hierarchy.push(newEl9)
+    el8.children.push(newEl9)
+  }
 }
 
 export default function (objects, gruppe) {
   // prepare hierarchieObject
   let hierarchy = []
+  window.hierarchy = hierarchy
 
   // extract Hierarchie from objects
   const hierarchiesArray = _.map(objects, function (object) {
@@ -71,7 +304,6 @@ export default function (objects, gruppe) {
   })
 
   _.forEach(hierarchiesArray, function (hArray) {
-    let el1, el2, el3, el4, el5, el6, el7
     switch (hArray.length) {
     case 1:
       checkLevel1(hierarchy, hArray)
@@ -79,29 +311,29 @@ export default function (objects, gruppe) {
     case 2:
       checkLevel2(hierarchy, hArray)
       break
-    /*case 3:
-      hierarchy.children[hArray[1]].children[hArray[2]] = objectToPass
+    case 3:
+      checkLevel3(hierarchy, hArray)
       break
     case 4:
-      hierarchy.children[hArray[1]].children[hArray[2]].children[hArray[3]].children = objectToPass
+      checkLevel4(hierarchy, hArray)
       break
     case 5:
-      hierarchy.children[hArray[1]].children[hArray[2]].children[hArray[3]].children[hArray[4]].children = objectToPass
+      checkLevel5(hierarchy, hArray)
       break
     case 6:
-      hierarchy.children[hArray[1]].children[hArray[2]].children[hArray[3]].children[hArray[4]].children[hArray[5]].children = objectToPass
+      checkLevel6(hierarchy, hArray)
       break
     case 7:
-      hierarchy.children[hArray[1]].children[hArray[2]].children[hArray[3]].children[hArray[4]].children[hArray[5]].children[hArray[6]].children = objectToPass
+      checkLevel7(hierarchy, hArray)
       break
     case 8:
-      hierarchy.children[hArray[1]].children[hArray[2]].children[hArray[3]].children[hArray[4]].children[hArray[5]].children[hArray[6]].children[hArray[7]].children = objectToPass
+      checkLevel8(hierarchy, hArray)
       break
     case 9:
-      hierarchy.children[hArray[1]].children[hArray[2]].children[hArray[3]].children[hArray[4]].children[hArray[5]].children[hArray[6]].children[hArray[7]].children[hArray[8]].children = objectToPass
-      break*/
+      checkLevel9(hierarchy, hArray)
+      break
     }
   })
 
-  return gruppeItem
+  return hierarchy
 }
