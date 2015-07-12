@@ -332,7 +332,7 @@ export default function (objects, gruppe) {
     children: hierarchy
   }
 
-  console.log('buildHierarchyObjectForGruppe.js, returnValue', returnValue)
+  // console.log('buildHierarchyObjectForGruppe.js, returnValue', returnValue)
 
   return returnValue
 }

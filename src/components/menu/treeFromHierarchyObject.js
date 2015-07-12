@@ -8,7 +8,7 @@ export default React.createClass({
   displayName: 'TreeLevel1',
 
   propTypes: {
-    hierarchy: React.PropTypes.object,
+    hierarchy: React.PropTypes.array,
     gruppe: React.PropTypes.string,
     guid: React.PropTypes.string,
     path: React.PropTypes.array

@@ -15,6 +15,7 @@ import Objekt from './main/object/object.js'
 import TreeFromHierarchyObject from './menu/treeFromHierarchyObject.js'
 import isGuid from '../modules/isGuid.js'
 import getPathFromGuid from '../modules/getPathFromGuid.js'
+import getObjectFromPath from '../modules/getObjectFromPath.js'
 
 const gruppen = ['Fauna', 'Flora', 'Moose', 'Macromycetes', 'Lebensräume']
 
@@ -54,7 +55,7 @@ const Home = React.createClass({
     gruppe: React.PropTypes.string,
     groupsLoaded: React.PropTypes.array,
     isGuidPath: React.PropTypes.bool,
-    pathEndsWithGuid: React.PropTypes.bool,
+    isObjectPath: React.PropTypes.bool,
     path: React.PropTypes.array,
     items: React.PropTypes.object,
     object: React.PropTypes.object,
@@ -67,8 +68,9 @@ const Home = React.createClass({
     // guidPath is when only a guid is contained in url
     const isGuidPath = path.length === 1 && isGuid(path[0])
     const gruppe = isGuidPath ? null : (path[0] ? path[0] : null)
-    const pathEndsWithGuid = isGuid(path[path.length - 1])
-    const guid = pathEndsWithGuid ? path[path.length - 1] : null
+    const objectFromPath = getObjectFromPath(path)
+    const isObjectPath = objectFromPath !== undefined
+    const guid = objectFromPath !== undefined ? objectFromPath._id : null
     const object = window.activeObjectStore.getItem()
     const hierarchy = window.objectStore.getHierarchy()
     const groupsLoaded = window.objectStore.getGroupsLoaded()
@@ -76,16 +78,16 @@ const Home = React.createClass({
 
     // kick off stores
     if (!window.pathStore || window.pathStore.path.length === 0) app.Actions.loadPathStore(path)
-    if (pathEndsWithGuid) app.Actions.loadActiveObjectStore(guid)  // TODO: if LR load object too
-    // above action kicks of objectStore too, so don't do it twice > exclude pathEndsWithGuid
-    if (gruppe && !window.objectStore.loaded[gruppe] && !pathEndsWithGuid) app.Actions.loadObjectStore(gruppe)
+    if (isObjectPath) app.Actions.loadActiveObjectStore(guid)  // TODO: if LR load object too
+    // above action kicks of objectStore too, so don't do it twice > exclude isObjectPath
+    if (gruppe && !window.objectStore.loaded[gruppe] && !isObjectPath) app.Actions.loadObjectStore(gruppe)
 
     return {
       hierarchy: hierarchy,
       gruppe: gruppe,
       groupsLoaded,
       isGuidPath: isGuidPath,
-      pathEndsWithGuid: pathEndsWithGuid,
+      isObjectPath: isObjectPath,
       path: path,
       items: items,
       object: object,
@@ -105,12 +107,12 @@ const Home = React.createClass({
   },
 
   onPathStoreChange (path) {
-    const pathEndsWithGuid = isGuid(path[path.length - 1])
+    const isObjectPath = isGuid(path[path.length - 1])
     const object = window.activeObjectStore.getItem()
 
     this.setState({
       path: path,
-      pathEndsWithGuid: pathEndsWithGuid,
+      isObjectPath: isObjectPath,
       object: object
     })
     this.transitionTo('/' + path.join('/'))
@@ -136,9 +138,8 @@ const Home = React.createClass({
     })
     // update url if path was called only with guid
     const { isGuidPath } = this.state
-    if (_.keys(object).length > 0) {
-      const pcName = object.Gruppe === 'Lebensräume' ? 'Lebensräume' : object.Taxonomie.Name
-      const path = getPathFromGuid(object._id, object, metaData[pcName]).path
+    if (isGuidPath && object._id) {
+      const path = getPathFromGuid(object._id, object).path
       app.Actions.loadPathStore(path)
     }
     // React.render(<Home />, document.body)
@@ -152,13 +153,13 @@ const Home = React.createClass({
   },
 
   render () {
-    const { hierarchy, gruppe, isGuidPath, pathEndsWithGuid, guid, path, items, object } = this.state
+    const { hierarchy, gruppe, isGuidPath, isObjectPath, guid, path, items, object } = this.state
     const isGroup = _.includes(gruppen, gruppe)
     const showFilter = _.keys(items).length > 0
     const showTree = isGroup || isGuidPath || _.keys(items).length > 0
-    const showObject = pathEndsWithGuid || _.keys(object).length > 0
+    const showObject = isObjectPath || _.keys(object).length > 0
 
-    // console.log('home.js, render: pathEndsWithGuid', pathEndsWithGuid)
+    // console.log('home.js, render: isObjectPath', isObjectPath)
     // console.log('home.js, render: showObject', showObject)
     // console.log('home.js, render: _.keys(object).length', _.keys(object).length)
     // console.log('home.js, render: object', object)
