@@ -86,7 +86,6 @@ const Nodes = React.createClass({
       // .sort()
       .map(function (hO) {
         const keyIsActive = hO.Name === activeKey
-        const keyIsObject = !!hO.GUID
         const keyIsObjectShown = object !== undefined && hO.GUID && object._id === hO.GUID
         const glyph = keyIsActive ? (keyIsObjectShown ? 'forward' : 'triangle-bottom') : (hO.children && hO.children.length > 0 ? 'triangle-right' : 'minus')
         const onClickNode = that.onClickNode.bind(that, {'hO': hO, 'level': level, 'gruppe': gruppe})

@@ -19,32 +19,6 @@ import getObjectFromPath from '../modules/getObjectFromPath.js'
 
 const gruppen = ['Fauna', 'Flora', 'Moose', 'Macromycetes', 'Lebensräume']
 
-function button (that, gruppe) {
-  const label = gruppe.replace('Macromycetes', 'Pilze')
-  return <Input key={gruppe} type='checkbox' label={label} onClick={that.onClickGruppe.bind(that, gruppe)} />
-}
-
-function createButtons (that) {
-  const groupsNotLoaded = _.difference(gruppen, that.state.groupsLoaded)
-  return _.map(groupsNotLoaded, function (gruppe) {
-    return button(that, gruppe)
-  })
-}
-
-function createGruppen (that) {
-  const groupsNotLoaded = _.difference(gruppen, that.state.groupsLoaded)
-  if (groupsNotLoaded.length > 0) {
-    return (
-      <div id='groups'>
-        <div id='groupCheckboxesTitle'>Gruppen laden:</div>
-        <div id='groupCheckboxes'>
-          {createButtons(that)}
-        </div>
-      </div>
-    )
-  }
-}
-
 const Home = React.createClass({
   displayName: 'Home',
 
@@ -57,8 +31,7 @@ const Home = React.createClass({
     isGuidPath: React.PropTypes.bool,
     path: React.PropTypes.array,
     items: React.PropTypes.object,
-    object: React.PropTypes.object,
-    guid: React.PropTypes.string
+    object: React.PropTypes.object
   },
 
   getInitialState () {
@@ -67,9 +40,7 @@ const Home = React.createClass({
     // guidPath is when only a guid is contained in url
     const isGuidPath = path.length === 1 && isGuid(path[0])
     const gruppe = isGuidPath ? null : (path[0] ? path[0] : null)
-    const objectFromPath = getObjectFromPath(path)
-    const guid = objectFromPath !== undefined ? objectFromPath._id : null
-    const object = window.activeObjectStore.getItem()
+    const object = getObjectFromPath(path)
     const isObjectPath = object !== undefined
     const hierarchy = window.objectStore.getHierarchy()
     const groupsLoaded = window.objectStore.getGroupsLoaded()
@@ -80,7 +51,7 @@ const Home = React.createClass({
 
     // kick off stores
     if (!window.pathStore || window.pathStore.path.length === 0) app.Actions.loadPathStore(path)
-    if (isObjectPath) app.Actions.loadActiveObjectStore(guid)
+    if (isObjectPath) app.Actions.loadActiveObjectStore(object._id)
     // above action kicks of objectStore too, so don't do it twice > exclude isObjectPath
     if (gruppe && !window.objectStore.loaded[gruppe] && !isObjectPath) app.Actions.loadObjectStore(gruppe)
 
@@ -91,8 +62,7 @@ const Home = React.createClass({
       isGuidPath: isGuidPath,
       path: path,
       items: items,
-      object: object,
-      guid: guid
+      object: object
     }
   },
 
@@ -123,10 +93,12 @@ const Home = React.createClass({
 
   onObjectStoreChange (payload) {
     const { items, hierarchy, groupsLoaded } = payload
+    const object = getObjectFromPath(this.state.path)
     this.setState({
       items: items,
       hierarchy: hierarchy,
-      groupsLoaded: groupsLoaded
+      groupsLoaded: groupsLoaded,
+      object: object
     })
     // console.log('home.js, onObjectStoreChange, payload', payload)
     // React.render(<Home />, document.body)
@@ -153,8 +125,37 @@ const Home = React.createClass({
     app.Actions.loadObjectStore(gruppe)
   },
 
+  createGruppen () {
+    const that = this
+    const groupsNotLoaded = _.difference(gruppen, that.state.groupsLoaded)
+    if (groupsNotLoaded.length > 0) {
+      return (
+        <div id='groups'>
+          <div id='groupCheckboxesTitle'>Gruppen laden:</div>
+          <div id='groupCheckboxes'>
+            {this.createButtons()}
+          </div>
+        </div>
+      )
+    }
+  },
+
+  createButtons () {
+    const that = this
+    const groupsNotLoaded = _.difference(gruppen, that.state.groupsLoaded)
+    return _.map(groupsNotLoaded, function (gruppe) {
+      return that.button(gruppe)
+    })
+  },
+
+  button (gruppe) {
+    const that = this
+    const label = gruppe.replace('Macromycetes', 'Pilze')
+    return <Input key={gruppe} type='checkbox' label={label} onClick={that.onClickGruppe.bind(that, gruppe)} />
+  },
+
   render () {
-    const { hierarchy, gruppe, isGuidPath, guid, path, items, object } = this.state
+    const { hierarchy, gruppe, isGuidPath, path, items, object } = this.state
     const isGroup = _.includes(gruppen, gruppe)
     const showFilter = _.keys(items).length > 0
     const showTree = isGroup || isGuidPath || _.keys(items).length > 0
@@ -172,7 +173,7 @@ const Home = React.createClass({
             <MenuButton object={object} />
             <ResizeButton />
           </div>
-          {createGruppen(this)}
+          {this.createGruppen()}
           {showFilter ? <Filter items={items} /> : ''}
           {showTree ? <TreeFromHierarchyObject hierarchy={hierarchy} gruppe={gruppe} object={object} isGuidPath={isGuidPath} path={path} /> : ''}
         </div>
