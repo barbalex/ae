@@ -70,7 +70,7 @@ const Home = React.createClass({
     const pathEndsWithGuid = isGuid(path[path.length - 1])
     const guid = pathEndsWithGuid ? path[path.length - 1] : null
     const object = window.activeObjectStore.getItem()
-    const hierarchy = isGuidPath ? null : window.objectStore.getHierarchy()
+    const hierarchy = window.objectStore.getHierarchy()
     const groupsLoaded = window.objectStore.getGroupsLoaded()
     const items = window.objectStore.getItems()
 
@@ -136,7 +136,7 @@ const Home = React.createClass({
     })
     // update url if path was called only with guid
     const { isGuidPath } = this.state
-    if (isGuidPath && _.keys(object).length > 0) {
+    if (_.keys(object).length > 0) {
       const pcName = object.Gruppe === 'Lebensräume' ? 'Lebensräume' : object.Taxonomie.Name
       const path = getPathFromGuid(object._id, object, metaData[pcName]).path
       app.Actions.loadPathStore(path)
