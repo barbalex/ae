@@ -37,7 +37,7 @@ const Nodes = React.createClass({
     const { activeKey } = this.state
     let { path } = this.state
     // const { hierarchy } = this.props
-    const { hO, guid, level, gruppe } = params
+    const { hO, level, gruppe } = params
     let newActiveKey
 
     // get level clicked
@@ -65,13 +65,7 @@ const Nodes = React.createClass({
       path: path
     })
 
-    let activeObjectStoreValue = this.state.guid === guid ? null : guid
-    if (gruppe === 'Lebensräume') {
-      // find guid for path
-      const lrObject = getObjectFromPath(path)
-      if (lrObject && lrObject._id) activeObjectStoreValue = lrObject._id
-    }
-    app.Actions.loadActiveObjectStore(activeObjectStoreValue)
+    app.Actions.loadActiveObjectStore(hO.guid)
     app.Actions.loadPathStore(path)
   },
 
@@ -89,7 +83,7 @@ const Nodes = React.createClass({
         const keyIsActive = hO.Name === activeKey
         const keyIsObject = !!hO.guid
         const glyph = keyIsActive ? (keyIsObject ? 'forward' : 'triangle-bottom') : (keyIsObject ? 'minus' : 'triangle-right')
-        const onClickNode = that.onClickNode.bind(that, {'hO': hO, 'guid': (keyIsObject ? hO.guid : null), 'level': level, 'gruppe': gruppe})
+        const onClickNode = that.onClickNode.bind(that, {'hO': hO, 'level': level, 'gruppe': gruppe})
 
         return (
           <li level={level} hO={hO} onClick={onClickNode}>
