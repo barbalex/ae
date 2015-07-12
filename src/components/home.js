@@ -159,7 +159,7 @@ const Home = React.createClass({
     const showTree = isGroup || isGuidPath || _.keys(items).length > 0
     const showObject = isObjectPath || _.keys(object).length > 0
 
-    // console.log('home.js, render: isObjectPath', isObjectPath)
+    console.log('home.js, render: isObjectPath', isObjectPath)
     // console.log('home.js, render: showObject', showObject)
     // console.log('home.js, render: _.keys(object).length', _.keys(object).length)
     // console.log('home.js, render: object', object)
