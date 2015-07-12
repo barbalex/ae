@@ -55,7 +55,6 @@ const Home = React.createClass({
     gruppe: React.PropTypes.string,
     groupsLoaded: React.PropTypes.array,
     isGuidPath: React.PropTypes.bool,
-    isObjectPath: React.PropTypes.bool,
     path: React.PropTypes.array,
     items: React.PropTypes.object,
     object: React.PropTypes.object,
@@ -69,25 +68,27 @@ const Home = React.createClass({
     const isGuidPath = path.length === 1 && isGuid(path[0])
     const gruppe = isGuidPath ? null : (path[0] ? path[0] : null)
     const objectFromPath = getObjectFromPath(path)
-    const isObjectPath = objectFromPath !== undefined
     const guid = objectFromPath !== undefined ? objectFromPath._id : null
     const object = window.activeObjectStore.getItem()
+    const isObjectPath = object !== undefined
     const hierarchy = window.objectStore.getHierarchy()
     const groupsLoaded = window.objectStore.getGroupsLoaded()
     const items = window.objectStore.getItems()
 
+    console.log('home.js, getInitialState, window.activeObjectStore.getItem()', window.activeObjectStore.getItem())
+    console.log('home.js, getInitialState, getObjectFromPath(path)', getObjectFromPath(path))
+
     // kick off stores
     if (!window.pathStore || window.pathStore.path.length === 0) app.Actions.loadPathStore(path)
-    if (isObjectPath) app.Actions.loadActiveObjectStore(guid)  // TODO: if LR load object too
+    if (isObjectPath) app.Actions.loadActiveObjectStore(guid)
     // above action kicks of objectStore too, so don't do it twice > exclude isObjectPath
     if (gruppe && !window.objectStore.loaded[gruppe] && !isObjectPath) app.Actions.loadObjectStore(gruppe)
 
     return {
       hierarchy: hierarchy,
       gruppe: gruppe,
-      groupsLoaded,
+      groupsLoaded: groupsLoaded,
       isGuidPath: isGuidPath,
-      isObjectPath: isObjectPath,
       path: path,
       items: items,
       object: object,
@@ -107,12 +108,12 @@ const Home = React.createClass({
   },
 
   onPathStoreChange (path) {
-    const isObjectPath = isGuid(path[path.length - 1])
-    const object = window.activeObjectStore.getItem()
+    const object = getObjectFromPath(path)
+
+    console.log('home.js, onPathStoreChange, getObjectFromPath(path)', getObjectFromPath(path))
 
     this.setState({
       path: path,
-      isObjectPath: isObjectPath,
       object: object
     })
     this.transitionTo('/' + path.join('/'))
@@ -153,16 +154,15 @@ const Home = React.createClass({
   },
 
   render () {
-    const { hierarchy, gruppe, isGuidPath, isObjectPath, guid, path, items, object } = this.state
+    const { hierarchy, gruppe, isGuidPath, guid, path, items, object } = this.state
     const isGroup = _.includes(gruppen, gruppe)
     const showFilter = _.keys(items).length > 0
     const showTree = isGroup || isGuidPath || _.keys(items).length > 0
-    const showObject = isObjectPath || _.keys(object).length > 0
+    const showObject = object !== undefined
 
-    console.log('home.js, render: isObjectPath', isObjectPath)
     // console.log('home.js, render: showObject', showObject)
     // console.log('home.js, render: _.keys(object).length', _.keys(object).length)
-    // console.log('home.js, render: object', object)
+    console.log('home.js, render: object', object)
 
     return (
       <div>

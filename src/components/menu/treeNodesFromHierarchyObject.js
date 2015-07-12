@@ -40,6 +40,9 @@ const Nodes = React.createClass({
     const { hO, level, gruppe } = params
     let newActiveKey
 
+    console.log('treeNodesFromHierarchyObject.js, onClickNode, hO', hO)
+    console.log('treeNodesFromHierarchyObject.js, onClickNode, hO.GUID', hO.GUID)
+
     // get level clicked
     const levelClicked = level
     const activeKeyClicked = hO.Name === activeKey
@@ -65,7 +68,7 @@ const Nodes = React.createClass({
       path: path
     })
 
-    app.Actions.loadActiveObjectStore(hO.guid)
+    app.Actions.loadActiveObjectStore(hO.GUID)
     app.Actions.loadPathStore(path)
   },
 
@@ -81,7 +84,7 @@ const Nodes = React.createClass({
       // .sort()
       .map(function (hO) {
         const keyIsActive = hO.Name === activeKey
-        const keyIsObject = !!hO.guid
+        const keyIsObject = !!hO.GUID
         const glyph = keyIsActive ? (keyIsObject ? 'forward' : 'triangle-bottom') : (keyIsObject ? 'minus' : 'triangle-right')
         const onClickNode = that.onClickNode.bind(that, {'hO': hO, 'level': level, 'gruppe': gruppe})
 
@@ -89,7 +92,7 @@ const Nodes = React.createClass({
           <li level={level} hO={hO} onClick={onClickNode}>
             <Glyphicon glyph={glyph} onClick={onClickNode}/>
             <div className={keyIsActive ? 'active' : null}>{hO.Name.replace('&#39;', '\'')}</div>
-            {(hO.Name === activeKey && !keyIsObject) ? <Nodes hierarchy={hO.children} gruppe={gruppe} guid={guid} level={level + 1} path={path}/> : null}
+            {(hO.Name === activeKey && hO.children) ? <Nodes hierarchy={hO.children} gruppe={gruppe} guid={guid} level={level + 1} path={path}/> : null}
           </li>
         )
       })
