@@ -36,6 +36,12 @@ body
   /* Silbentrennung einschalten */
   hyphens: auto
 
+#menuBtn
+  position: absolute
+  top: 17px
+  left: 16px
+  z-index: 2
+
 #main
   // wenn main unter menu kommt muss ein margin vorhanden sein
   margin:0 0 7px 0
@@ -55,13 +61,13 @@ body
   width: 100%
   padding: 8px 8px 8px 8px
   margin-bottom: 10px
-  // overflow: auto  // TODO: prevents menu from lying over menu div
   border: 1px solid #e5e5e5
   border-radius: 6px
   background-color: #FFFFF0
   // auf chrome liegt Menu ohne z-index unter Accordion
   z-index: 1
   width: 100%
+  overflow: auto
 
 #tree
   // there needs to be enough height below the tree
@@ -70,15 +76,12 @@ body
 
 // hide this button in stacked view
 #btnResize
-  display: none
+  visibility: hidden
 
 
 /* über 1000px nebeneinander
    force-mobile: damit kann die Mobil-Sicht manuell gewählt werden */
 @media screen and (min-width: 1001px)
-
-  #menu
-    overflow: auto
 
   body:not(.force-mobile) #menu
     width: 383px
@@ -95,7 +98,7 @@ body
 
   // always show resize button
   #btnResize
-    display: block
+    visibility: visible
 
 
 

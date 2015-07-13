@@ -172,12 +172,14 @@ const Home = React.createClass({
     // console.log('home.js, render: _.keys(object).length', _.keys(object).length)
     // console.log('home.js, render: object', object)
 
+    // MenuButton needs NOT to be inside menu
+    // otherwise the menu can't be shown outside when menu is short
     return (
       <div>
         <Favicon url={[FaviconImage]}/>
+        <MenuButton object={object} />
         <div id='menu' className='menu'>
           <div id='menuLine'>
-            <MenuButton object={object} />
             <ResizeButton />
           </div>
           {this.createGruppen()}
