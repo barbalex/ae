@@ -22,7 +22,7 @@ export default React.createClass({
     event.preventDefault()
     const path = getPathFromGuid(guid).path
     if (guid) app.Actions.loadActiveObjectStore(guid)
-    app.Actions.loadPathStore(path)
+    app.Actions.loadPathStore(path, guid)
   },
 
   render () {

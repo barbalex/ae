@@ -49,7 +49,7 @@ export default React.createClass({
     const path = getPathFromGuid(guid).path
 
     app.Actions.loadActiveObjectStore(guid)
-    app.Actions.loadPathStore(path)
+    app.Actions.loadPathStore(path, guid)
 
     /*this.setState({
       itemFiltered: {

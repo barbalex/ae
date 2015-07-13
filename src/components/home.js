@@ -92,8 +92,6 @@ const Home = React.createClass({
     })
     const url = '/' + path.join('/') + (guid ? '?id=' + guid : '')
     this.transitionTo(url)
-    this.forceUpdate()
-    // React.render(<Home />, document.body)
   },
 
   onObjectStoreChange (payload) {
@@ -103,11 +101,10 @@ const Home = React.createClass({
       hierarchy: hierarchy,
       groupsLoaded: groupsLoaded
     })
-    // console.log('home.js, onObjectStoreChange, payload', payload)
-    // React.render(<Home />, document.body)
   },
 
   onActiveObjectStoreChange (object) {
+    console.log('home.js, onActiveObjectStoreChange, object', object)
     const guid = object._id
     this.setState({
       gruppe: object.Gruppe,
@@ -115,14 +112,10 @@ const Home = React.createClass({
       guid: guid
     })
     // update url if path was called only with guid
-    const { isGuidPath } = this.state
-    if (isGuidPath && guid) {
+    if (this.state.isGuidPath && guid) {
       const path = getPathFromGuid(guid, object).path
-      // console.log('home.js, onActiveObjectStoreChange, object', object)
-      // console.log('home.js, onActiveObjectStoreChange, path', path)
       app.Actions.loadPathStore(path, guid)
     }
-    // React.render(<Home />, document.body)
   },
 
   onClickGruppe (gruppe) {
@@ -167,10 +160,7 @@ const Home = React.createClass({
     const showFilter = _.keys(items).length > 0
     const showTree = isGroup || isGuidPath || _.keys(items).length > 0
     const showObject = object !== undefined
-
-    // console.log('home.js, render: showObject', showObject)
-    // console.log('home.js, render: _.keys(object).length', _.keys(object).length)
-    // console.log('home.js, render: object', object)
+    // console.log('home.js, render: path', path)
 
     // MenuButton needs NOT to be inside menu
     // otherwise the menu can't be shown outside when menu is short

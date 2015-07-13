@@ -21,10 +21,11 @@ export default React.createClass({
     const { relation, relationCollection } = this.props
 
     const relationFields = _.map(relation, function (fieldValue, fieldName) {
+      if (typeof fieldValue === 'string') fieldValue = fieldValue.replace('&#39;', '\'')
       if (fieldName !== 'Beziehungspartner') {
         const rcName = relationCollection.Name.replace(/"/g, "'")
         return (
-          <Field key={fieldName} fieldName={fieldName} fieldValue={fieldValue.replace('&#39;', '\'')} pcType={'Beziehungssammlung'} pcName={rcName} />
+          <Field key={fieldName} fieldName={fieldName} fieldValue={fieldValue} pcType={'Beziehungssammlung'} pcName={rcName} />
         )
       }
     })
