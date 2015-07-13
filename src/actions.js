@@ -6,6 +6,7 @@ import PouchDB from 'pouchdb'
 import _ from 'lodash'
 import pouchUrl from './modules/getCouchUrl.js'
 import buildHierarchyObjectForGruppe from './modules/buildHierarchyObjectForGruppe'
+import getGruppen from './modules/gruppen.js'
 
 // Each action is like an event channel for one specific event. Actions are called by components.
 // The store is listening to all actions, and the components in turn are listening to the store.
@@ -22,8 +23,13 @@ export default function () {
   })
 
   Actions.loadObjectStore.listen(function (gruppe) {
-    // make shure gruppe was passed
+    // make sure gruppe was passed
     if (!gruppe) return false
+    // make sure a valid group was passed
+    const gruppen = getGruppen()
+    const validGroup = _.includes(gruppen, gruppe)
+    if (!validGroup) return false
+
     // problem: this action can get called several times while it is already fetching data (TODO: that is probalby not so anymore)
     // > make shure data is only fetched if objectStore is not yet loaded and not loading right now
     // loadingObjectStore contains an Array of the groups being loaded right now

@@ -42,14 +42,9 @@ const buildFieldForProperty = function (propertyCollection, object, value, key, 
     // build array of links
     return <LinksToSameGroup key={key} fieldName={key} objects={value} />
   }
-  if ((key === 'Artname' && object.Gruppe === 'Flora') || (key === 'Parent' && object.Gruppe === 'Lebensräume')) {
+  if ((key === 'Artname' && object.Gruppe === 'Flora') || (key === 'Parent' && object.Gruppe === 'Lebensräume') || (key === 'Hierarchie' && _.isArray(value))) {
     // don't show this field
     return null
-  }
-  if (key === 'Hierarchie' && object.Gruppe === 'Lebensräume' && _.isArray(value)) {
-    // show names separated by new line
-    const hierarchieString = hierarchyStringFromHierarchyArray(value)
-    return <FieldInput key={key} fieldName={key} fieldValue={hierarchieString} inputType={'textarea'} pcType={pcType} pcName={pcName} />
   }
   if (_.isArray(value)) {
     // this field contains an array of values

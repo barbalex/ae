@@ -5,18 +5,18 @@
 
 'use strict'
 
-import _ from 'lodash'
 import isGuid from './isGuid.js'
+import getUrlParameterByName from './getUrlParameterByName.js'
 
 export default function (path) {
   const items = window.objectStore.getItems()
+
+  // check if a guidPath was passed
   const isGuidPath = path.length === 1 && isGuid(path[0])
   if (isGuidPath) return items[path[0]]
 
-  // if no guidpath, path length needs to be at least 2
-  // Lebensräume is no object
-  if (!path || !path.length || path.length < 2) return undefined
-
-  const object = _.find(items, { path: path })
-  return object
+  // nope
+  // so check if an id was passed as parameter in the path
+  const guid = getUrlParameterByName('id')
+  return items[guid]
 }

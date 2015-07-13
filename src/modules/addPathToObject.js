@@ -8,5 +8,5 @@
 import getPathFromGuid from './getPathFromGuid.js'
 
 export default function (object) {
-  object.path = getPathFromGuid(object._id)
+  object.path = getPathFromGuid(object._id, object).path
 }

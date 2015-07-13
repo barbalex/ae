@@ -4,7 +4,6 @@ import app from 'ampersand-app'
 import React from 'react'
 import { Glyphicon } from 'react-bootstrap'
 import _ from 'lodash'
-import getObjectFromPath from '../../modules/getObjectFromPath.js'
 
 const Nodes = React.createClass({
   displayName: 'TreeLowerLevel',
@@ -40,8 +39,9 @@ const Nodes = React.createClass({
     const { hO, level, gruppe } = params
     let newActiveKey
 
-    console.log('treeNodesFromHierarchyObject.js, onClickNode, hO', hO)
-    console.log('treeNodesFromHierarchyObject.js, onClickNode, hO.GUID', hO.GUID)
+    // console.log('treeNodesFromHierarchyObject.js, onClickNode, hO', hO)
+    // console.log('treeNodesFromHierarchyObject.js, onClickNode, hO.GUID', hO.GUID)
+    // console.log('treeNodesFromHierarchyObject.js, onClickNode, path', path)
 
     // get level clicked
     const levelClicked = level
@@ -52,6 +52,11 @@ const Nodes = React.createClass({
       // the active hO of this level was clicked again > deactivate it
       newActiveKey = null
       path.pop()
+    } else if (levelClicked === 1) {
+      // possibly the first level of a different hierarchy was clicked
+      // so rebuild path
+      path = [hO.Name]
+      newActiveKey = hO.Name
     } else {
       // a different hO of the last or lower level was clicked
       // if not the last level clicked: remove all path elements above the level clicked
@@ -69,7 +74,7 @@ const Nodes = React.createClass({
     })
 
     app.Actions.loadActiveObjectStore(hO.GUID)
-    app.Actions.loadPathStore(path)
+    app.Actions.loadPathStore(path, hO.GUID)
   },
 
   render () {
@@ -80,10 +85,12 @@ const Nodes = React.createClass({
     const { hierarchy, object, level } = this.props
     const { activeKey, path, gruppe } = this.state
 
-    console.log('treeNodesFromHierarchyObject.js, render: object', object)
+    // console.log('treeNodesFromHierarchyObject.js, render: object', object)
 
     nodes = _.chain(hierarchy)
-      // .sort()
+      .sortBy(function (hO) {
+        return hO.Name
+      })
       .map(function (hO) {
         const keyIsActive = hO.Name === activeKey
         const keyIsObjectShown = object !== undefined && hO.GUID && object._id === hO.GUID
@@ -91,7 +98,7 @@ const Nodes = React.createClass({
         const onClickNode = that.onClickNode.bind(that, {'hO': hO, 'level': level, 'gruppe': gruppe})
 
         return (
-          <li level={level} hO={hO} onClick={onClickNode}>
+          <li key={hO.Name} level={level} hO={hO} onClick={onClickNode}>
             <Glyphicon glyph={glyph} onClick={onClickNode}/>
             <div className={keyIsActive ? 'active' : null}>{hO.Name.replace('&#39;', '\'')}</div>
             {(hO.Name === activeKey && hO.children) ? <Nodes hierarchy={hO.children} gruppe={gruppe} object={object} level={level + 1} path={path}/> : null}

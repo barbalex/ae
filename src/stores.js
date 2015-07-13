@@ -15,9 +15,12 @@ export default function (Actions) {
 
     path: [],
 
-    onLoadPathStore (path) {
+    guid: null,
+
+    onLoadPathStore (path, guid) {
+      this.guid = guid
       this.path = path
-      this.trigger(path)
+      this.trigger(path, guid)
     }
   })
 

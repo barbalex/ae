@@ -16,8 +16,10 @@ import TreeFromHierarchyObject from './menu/treeFromHierarchyObject.js'
 import isGuid from '../modules/isGuid.js'
 import getPathFromGuid from '../modules/getPathFromGuid.js'
 import getObjectFromPath from '../modules/getObjectFromPath.js'
+import getUrlParameterByName from '../modules/getUrlParameterByName.js'
+import getGruppen from '../modules/gruppen.js'
 
-const gruppen = ['Fauna', 'Flora', 'Moose', 'Macromycetes', 'Lebensräume']
+const gruppen = getGruppen()
 
 const Home = React.createClass({
   displayName: 'Home',
@@ -31,43 +33,42 @@ const Home = React.createClass({
     isGuidPath: React.PropTypes.bool,
     path: React.PropTypes.array,
     items: React.PropTypes.object,
-    object: React.PropTypes.object
+    object: React.PropTypes.object,
+    guid: React.PropTypes.string
   },
 
   getInitialState () {
+    // this is the enter point of the application
+    // > read state from url
     const pathString = this.getParams().splat
     const path = pathString ? pathString.split('/') : []
     // guidPath is when only a guid is contained in url
     const isGuidPath = path.length === 1 && isGuid(path[0])
+    const guid = isGuidPath ? path[0] : getUrlParameterByName('id')
     const gruppe = isGuidPath ? null : (path[0] ? path[0] : null)
-    const object = getObjectFromPath(path)
-    const isObjectPath = object !== undefined
-    const hierarchy = window.objectStore.getHierarchy()
-    const groupsLoaded = window.objectStore.getGroupsLoaded()
-    const items = window.objectStore.getItems()
 
-    console.log('home.js, getInitialState, window.activeObjectStore.getItem()', window.activeObjectStore.getItem())
+    /*console.log('home.js, getInitialState, window.activeObjectStore.getItem()', window.activeObjectStore.getItem())
     console.log('home.js, getInitialState, getObjectFromPath(path)', getObjectFromPath(path))
-    console.log('home.js, getInitialState, isGuidPath', isGuidPath)
+    console.log('home.js, getInitialState, isGuidPath', isGuidPath)*/
 
     // kick off stores
-    if (isGuidPath) {
-      app.Actions.loadActiveObjectStore(path[0])
-    } else if (!window.pathStore || window.pathStore.path.length === 0) {
-      app.Actions.loadPathStore(path)
+    if (guid) {
+      app.Actions.loadActiveObjectStore(guid)
+    } else {
+      // loadActiveObjectStore loads objectStore too, so don't do it twice
+      if (gruppe) app.Actions.loadObjectStore(gruppe)
     }
-    if (isObjectPath) app.Actions.loadActiveObjectStore(object._id)
-    // above action kicks of objectStore too, so don't do it twice > exclude isObjectPath
-    if (gruppe && !window.objectStore.loaded[gruppe] && !isObjectPath) app.Actions.loadObjectStore(gruppe)
+    app.Actions.loadPathStore(path, guid)
 
     return {
-      hierarchy: hierarchy,
+      hierarchy: [],
       gruppe: gruppe,
-      groupsLoaded: groupsLoaded,
+      groupsLoaded: [],
       isGuidPath: isGuidPath,
       path: path,
-      items: items,
-      object: object
+      items: {},
+      object: undefined,
+      guid: guid
     }
   },
 
@@ -82,45 +83,44 @@ const Home = React.createClass({
     window.removeEventListener('resize')
   },
 
-  onPathStoreChange (path) {
-    const object = getObjectFromPath(path)
-
-    console.log('home.js, onPathStoreChange, getObjectFromPath(path)', getObjectFromPath(path))
-
+  onPathStoreChange (path, guid) {
+    console.log('home.js, onPathStoreChange, path', path)
+    console.log('home.js, onPathStoreChange, guid', guid)
     this.setState({
       path: path,
-      object: object
+      guid: guid
     })
-    this.transitionTo('/' + path.join('/'))
+    const url = '/' + path.join('/') + (guid ? '?id=' + guid : '')
+    this.transitionTo(url)
     this.forceUpdate()
     // React.render(<Home />, document.body)
   },
 
   onObjectStoreChange (payload) {
     const { items, hierarchy, groupsLoaded } = payload
-    const object = getObjectFromPath(this.state.path)
     this.setState({
       items: items,
       hierarchy: hierarchy,
-      groupsLoaded: groupsLoaded,
-      object: object
+      groupsLoaded: groupsLoaded
     })
     // console.log('home.js, onObjectStoreChange, payload', payload)
     // React.render(<Home />, document.body)
   },
 
   onActiveObjectStoreChange (object) {
+    const guid = object._id
     this.setState({
       gruppe: object.Gruppe,
-      object: object
+      object: object,
+      guid: guid
     })
     // update url if path was called only with guid
     const { isGuidPath } = this.state
-    if (isGuidPath && object._id) {
-      const path = getPathFromGuid(object._id, object).path
-      console.log('home.js, onActiveObjectStoreChange, object', object)
-      console.log('home.js, onActiveObjectStoreChange, path', path)
-      app.Actions.loadPathStore(path)
+    if (isGuidPath && guid) {
+      const path = getPathFromGuid(guid, object).path
+      // console.log('home.js, onActiveObjectStoreChange, object', object)
+      // console.log('home.js, onActiveObjectStoreChange, path', path)
+      app.Actions.loadPathStore(path, guid)
     }
     // React.render(<Home />, document.body)
   },
@@ -170,7 +170,7 @@ const Home = React.createClass({
 
     // console.log('home.js, render: showObject', showObject)
     // console.log('home.js, render: _.keys(object).length', _.keys(object).length)
-    console.log('home.js, render: object', object)
+    // console.log('home.js, render: object', object)
 
     return (
       <div>
