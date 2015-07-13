@@ -48,9 +48,14 @@ const Home = React.createClass({
 
     console.log('home.js, getInitialState, window.activeObjectStore.getItem()', window.activeObjectStore.getItem())
     console.log('home.js, getInitialState, getObjectFromPath(path)', getObjectFromPath(path))
+    console.log('home.js, getInitialState, isGuidPath', isGuidPath)
 
     // kick off stores
-    if (!window.pathStore || window.pathStore.path.length === 0) app.Actions.loadPathStore(path)
+    if (isGuidPath) {
+      app.Actions.loadActiveObjectStore(path[0])
+    } else if (!window.pathStore || window.pathStore.path.length === 0) {
+      app.Actions.loadPathStore(path)
+    }
     if (isObjectPath) app.Actions.loadActiveObjectStore(object._id)
     // above action kicks of objectStore too, so don't do it twice > exclude isObjectPath
     if (gruppe && !window.objectStore.loaded[gruppe] && !isObjectPath) app.Actions.loadObjectStore(gruppe)
@@ -104,7 +109,7 @@ const Home = React.createClass({
     // React.render(<Home />, document.body)
   },
 
-  onActiveObjectStoreChange (object, metaData) {
+  onActiveObjectStoreChange (object) {
     this.setState({
       gruppe: object.Gruppe,
       object: object
@@ -113,6 +118,8 @@ const Home = React.createClass({
     const { isGuidPath } = this.state
     if (isGuidPath && object._id) {
       const path = getPathFromGuid(object._id, object).path
+      console.log('home.js, onActiveObjectStoreChange, object', object)
+      console.log('home.js, onActiveObjectStoreChange, path', path)
       app.Actions.loadPathStore(path)
     }
     // React.render(<Home />, document.body)

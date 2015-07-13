@@ -44,36 +44,16 @@ export default function () {
             itemsArray = result.rows.map(function (row) {
               return row.doc
             })
-            // build hierarchy
-            return db.query('artendb/dsMetadataNachDsName', { include_docs: true })
-          })
-          .then(function (result) {
-            // extract metadata doc from result
-            const taxMetadataArray = result.rows.map(function (row) {
-              return row.doc
-            })
-
-            const dsName = itemsArray[0].Taxonomie.Name
-            const dsMetadataDoc = _.find(taxMetadataArray, function (doc) {
-              // if Gruppe = LR get dsMetadataDoc of Delarze
-              if (itemsArray[0].Gruppe === 'Lebensräume') {
-                return doc.Name === 'Lebensräume'
-              }
-              return doc.Name === dsName
-            })
 
             const hierarchy = buildHierarchyObjectForGruppe(itemsArray, gruppe)
 
             // convert items-array to object with keys made of id's
             const items = _.indexBy(itemsArray, '_id')
-            // convert tax-metadata-array to object with keys mado of names
-            const taxMetadata = _.indexBy(taxMetadataArray, 'Name')
 
             const payload = {
               gruppe: gruppe,
               items: items,
-              hierarchy: hierarchy,
-              taxMetadata: taxMetadata
+              hierarchy: hierarchy
             }
             // console.log('Actions.loadObjectStore will complete with payload', payload)
             Actions.loadObjectStore.completed(payload)
@@ -109,25 +89,7 @@ export default function () {
               // dispatch action to load data of this group
               Actions.loadObjectStore(object.Gruppe)
               // wait until store changes
-              const taxonomieForMetadata = (object.Gruppe === 'Lebensräume' ? 'Lebensräume' : object.Taxonomie.Name)
-              // check if metadata is here
-              const metaData = window.objectStore.getTaxMetadata()
-              if (metaData && metaData[taxonomieForMetadata]) {
-                Actions.loadActiveObjectStore.completed(object)
-              } else {
-                db.query('artendb/dsMetadataNachDsName', { include_docs: true })
-                  .then(function (result) {
-                    // extract metadata doc from result
-                    const metaDataDoc = result.rows.map(function (row) {
-                      return row.doc
-                    })
-                    const metaData = _.indexBy(metaDataDoc, 'Name')
-                    Actions.loadActiveObjectStore.completed(object, metaData)
-                  })
-                  .catch(function (error) {
-                    console.log('error fetching metadata:', error)
-                  })
-              }
+              Actions.loadActiveObjectStore.completed(object)
             })
             .catch(function (error) {
               console.log('error fetching doc from ' + couchUrl + ' with guid ' + guid + ':', error)

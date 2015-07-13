@@ -3,7 +3,6 @@
 // import app from 'ampersand-app'
 import React from 'react'
 import Router from 'react-router'
-
 import Home from './components/home.js'
 // import FourOhFour from './components/main/fourOhFour.js'
 

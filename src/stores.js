@@ -41,12 +41,12 @@ export default function (Actions) {
       this.trigger(this.item)
     },*/
 
-    onLoadActiveObjectStoreCompleted (item, metaData) {
+    onLoadActiveObjectStoreCompleted (item) {
       // item can be an object or {}
       this.item = item
       this.loaded = _.keys(item).length > 0
       // tell views that data has changed
-      this.trigger(item, metaData)
+      this.trigger(item)
     }
   })
 
@@ -67,8 +67,6 @@ export default function (Actions) {
     paths: {},
 
     hierarchy: [],
-
-    taxMetadata: {},
 
     loaded: false,
 
@@ -94,10 +92,6 @@ export default function (Actions) {
       return this.hierarchy
     },
 
-    getTaxMetadata () {
-      return this.taxMetadata
-    },
-
     onLoadObjectStore (gruppe) {
       // trigger change so components can set loading state
       const payload = {
@@ -110,14 +104,13 @@ export default function (Actions) {
     },
 
     onLoadObjectStoreCompleted (payloadReceived) {
-      const { gruppe, items, hierarchy, taxMetadata } = payloadReceived
+      const { gruppe, items, hierarchy } = payloadReceived
 
       // loaded all items
       this.loaded = true
       this.groupsLoaded.push(gruppe)
 
       this.hierarchy.push(hierarchy)
-      _.assign(this.taxMetadata, taxMetadata)
 
       _.forEach(items, function (item) {
         addPathToObject(item)
@@ -142,14 +135,6 @@ export default function (Actions) {
 
     onLoadObjectStoreFailed (error) {
       console.log('objectStore: loading items failed with error: ', error)
-    },
-
-    onLoadActiveObjectStoreCompleted (item, metaData) {
-      // on first load of the page
-      // if an object is directly shown,
-      // activeObjectStore fetches metaData
-      // (in other cases objectStore fetches it)
-      if (metaData) _.assign(this.taxMetadata, metaData)
     }
   })
 }

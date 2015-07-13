@@ -14,7 +14,7 @@ export default function (guid, object) {
   object = object || window.objectStore.getItem(guid)
   if (object && object.Taxonomien && object.Taxonomien[0] && object.Taxonomien[0].Eigenschaften && object.Taxonomien[0].Eigenschaften.Hierarchie && object.Taxonomien[0].Eigenschaften.Hierarchie) {
     path = _.pluck(object.Taxonomien[0].Eigenschaften.Hierarchie, 'Name')
-    path.push(object.Gruppe)
+    path.unshift(object.Gruppe)
   }
 
   const payload = {
