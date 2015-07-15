@@ -19,9 +19,21 @@ const Nodes = React.createClass({
 
   onClickNode (params, event) {
     event.stopPropagation()
-    const { hO } = params
+    const { hO, path } = params
     app.Actions.loadActiveObjectStore(hO.GUID)
-    app.Actions.loadPathStore(hO.path, hO.GUID)
+    // chick if clicked node was already active:
+    // if path.length is same or shorter as before
+    let pathToLoad = _.clone(hO.path)
+    if (path.length <= hO.path.length) {
+      // and last element is same as before
+      const positionToCheck = hO.path.length - 1
+      if (path[positionToCheck] === hO.path[positionToCheck]) {
+        // an already active node was clicked
+        // so remove last element
+        pathToLoad.pop()
+      }
+    }
+    app.Actions.loadPathStore(pathToLoad, hO.GUID)
   },
 
   render () {
@@ -41,7 +53,7 @@ const Nodes = React.createClass({
         const keyIsActive = replaceProblematicPathCharactersFromString(hO.Name) === path[level - 1]
         const keyIsObjectShown = object !== undefined && hO.GUID && object._id === hO.GUID
         const glyph = keyIsActive ? (keyIsObjectShown ? 'forward' : 'triangle-bottom') : (hO.children && hO.children.length > 0 ? 'triangle-right' : 'minus')
-        const onClickNode = that.onClickNode.bind(that, {'hO': hO, 'gruppe': gruppe})
+        const onClickNode = that.onClickNode.bind(that, {'hO': hO, 'gruppe': gruppe, 'path': path})
 
         return (
           <li key={hO.Name} level={level} hO={hO} onClick={onClickNode}>
