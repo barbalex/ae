@@ -20,13 +20,19 @@ export default Router.extend({
     let path = pathName ? pathName.split('/') : []
     path = replaceProblematicPathCharactersFromArray(path)
 
-    // guidPath is when only a guid is contained in url
-    let isGuidPath = path.length === 1 && (isGuid(path[0] || path[0] === 'indexhtml'))
-    let guid = isGuidPath ? path[0] : getUrlParameterByName('id')
-    let gruppe = isGuidPath ? null : (path[0] ? path[0] : null)
+    let guid = getUrlParameterByName('id')
+    let gruppe = path[0] ? path[0] : null
+    let isGuidPath = false
+
+    if (path.length === 1 && isGuid(path[0])) {
+      // this is a path of style /<guid>
+      isGuidPath = true
+      guid = path[0]
+      gruppe = null
+    }
 
     if (path.length === 1 && path[0] === 'indexhtml') {
-      // this is a path of style /index.html?id=xxx
+      // this is a path of style /index.html?id=<guid>
       guid = getUrlParameterByName('id')
       gruppe = null
       isGuidPath = true
