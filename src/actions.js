@@ -51,12 +51,10 @@ export default function () {
             itemsArray = result.rows.map(function (row) {
               return row.doc
             })
-
+            // prepare payload and send completed event
             const hierarchy = buildHierarchyObjectForGruppe(itemsArray, gruppe)
-
-            // convert items-array to object with keys made of id's
+            //   convert items-array to object with keys made of id's
             const items = _.indexBy(itemsArray, '_id')
-
             const payload = {
               gruppe: gruppe,
               items: items,
