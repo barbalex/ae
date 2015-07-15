@@ -17,10 +17,14 @@ Arteigenschaften.ch soll mit folgenden Mitteln neu aufgebaut werden:
 - [webpack](http://webpack.github.io) aktualisiert während der Entwicklung laufend die App im Browser
   - jede Änderung ist direkt sichtbar
   - raschere Enwicklung, weniger Fehler
-- mit [Flux](http://facebook.github.io/flux) wird die Architektur des Codes stark vereinfacht
-  - Entwicklung und Unterhalt werden vereinfacht
+- [Flux](http://facebook.github.io/flux)
+  - vereinfacht die Architektur des Codes
+  - senkt damit die Komplexität des codes
+  - Entwicklung und Unterhalt werden beschleunigt
 - [React](https://facebook.github.io/react/index.html)
   - vereinfacht die Steuerung der Benutzeroberfläche sehr stark
-- mit [webpack](http://webpack.github.io) werden für den produktiven Webserver statische Dateien erzeugt...
+  - senkt die Komplexität des Codes stark
+- mit [webpack](http://webpack.github.io) werden für den produktiven App-Server statische Dateien erzeugt...
+  - womit der App-Server äusserst einfach aufgebaut und zu installieren ist
 - ...die von [hapi.js](http://hapijs.com) an den Browser geliefert werden...
 - ...der dann die App ohne weitere Hilfe des Servers ausführt. Es handelt sich daher um eine reine ["Native Web App"](https://blog.andyet.com/2015/01/22/native-web-apps)
