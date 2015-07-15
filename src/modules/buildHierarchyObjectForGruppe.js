@@ -46,6 +46,7 @@
 'use strict'
 
 import _ from 'lodash'
+import replaceProblematicPathCharactersFromArray from './replaceProblematicPathCharactersFromArray.js'
 
 function checkLevel1 (hierarchy, hArray, gruppe) {
   const el1 = _.find(hierarchy, function (el) {
@@ -54,7 +55,7 @@ function checkLevel1 (hierarchy, hArray, gruppe) {
   if (!el1) {
     const newEl1 = _.clone(hArray[0])
     newEl1.children = []
-    newEl1.path = [gruppe, hArray[0].Name]
+    newEl1.path = replaceProblematicPathCharactersFromArray([gruppe, hArray[0].Name])
     hierarchy.push(newEl1)
   }
 }
@@ -70,7 +71,7 @@ function checkLevel2 (hierarchy, hArray, gruppe) {
   if (!el2) {
     const newEl2 = _.clone(hArray[1])
     newEl2.children = []
-    newEl2.path = [gruppe, hArray[0].Name, hArray[1].Name]
+    newEl2.path = replaceProblematicPathCharactersFromArray([gruppe, hArray[0].Name, hArray[1].Name])
     el1.children.push(newEl2)
   }
 }
@@ -90,7 +91,7 @@ function checkLevel3 (hierarchy, hArray, gruppe) {
   if (!el3) {
     const newEl3 = _.clone(hArray[2])
     newEl3.children = []
-    newEl3.path = [gruppe, hArray[0].Name, hArray[1].Name, hArray[2].Name]
+    newEl3.path = replaceProblematicPathCharactersFromArray([gruppe, hArray[0].Name, hArray[1].Name, hArray[2].Name])
     el2.children.push(newEl3)
   }
 }
@@ -114,7 +115,7 @@ function checkLevel4 (hierarchy, hArray, gruppe) {
   if (!el4) {
     const newEl4 = _.clone(hArray[3])
     newEl4.children = []
-    newEl4.path = [gruppe, hArray[0].Name, hArray[1].Name, hArray[2].Name, hArray[3].Name]
+    newEl4.path = replaceProblematicPathCharactersFromArray([gruppe, hArray[0].Name, hArray[1].Name, hArray[2].Name, hArray[3].Name])
     el3.children.push(newEl4)
   }
 }
@@ -142,7 +143,7 @@ function checkLevel5 (hierarchy, hArray, gruppe) {
   if (!el5) {
     const newEl5 = _.clone(hArray[4])
     newEl5.children = []
-    newEl5.path = [gruppe, hArray[0].Name, hArray[1].Name, hArray[2].Name, hArray[3].Name, hArray[4].Name]
+    newEl5.path = replaceProblematicPathCharactersFromArray([gruppe, hArray[0].Name, hArray[1].Name, hArray[2].Name, hArray[3].Name, hArray[4].Name])
     el4.children.push(newEl5)
   }
 }
@@ -174,7 +175,7 @@ function checkLevel6 (hierarchy, hArray, gruppe) {
   if (!el6) {
     const newEl6 = _.clone(hArray[5])
     newEl6.children = []
-    newEl6.path = [gruppe, hArray[0].Name, hArray[1].Name, hArray[2].Name, hArray[3].Name, hArray[4].Name, hArray[5].Name]
+    newEl6.path = replaceProblematicPathCharactersFromArray([gruppe, hArray[0].Name, hArray[1].Name, hArray[2].Name, hArray[3].Name, hArray[4].Name, hArray[5].Name])
     el5.children.push(newEl6)
   }
 }
@@ -210,7 +211,7 @@ function checkLevel7 (hierarchy, hArray, gruppe) {
   if (!el7) {
     const newEl7 = _.clone(hArray[6])
     newEl7.children = []
-    newEl7.path = [gruppe, hArray[0].Name, hArray[1].Name, hArray[2].Name, hArray[3].Name, hArray[4].Name, hArray[5].Name, hArray[6].Name]
+    newEl7.path = replaceProblematicPathCharactersFromArray([gruppe, hArray[0].Name, hArray[1].Name, hArray[2].Name, hArray[3].Name, hArray[4].Name, hArray[5].Name, hArray[6].Name])
     el6.children.push(newEl7)
   }
 }
@@ -250,7 +251,7 @@ function checkLevel8 (hierarchy, hArray, gruppe) {
   if (!el8) {
     const newEl8 = _.clone(hArray[7])
     newEl8.children = []
-    newEl8.path = [gruppe, hArray[0].Name, hArray[1].Name, hArray[2].Name, hArray[3].Name, hArray[4].Name, hArray[5].Name, hArray[6].Name, hArray[7].Name]
+    newEl8.path = replaceProblematicPathCharactersFromArray([gruppe, hArray[0].Name, hArray[1].Name, hArray[2].Name, hArray[3].Name, hArray[4].Name, hArray[5].Name, hArray[6].Name, hArray[7].Name])
     el7.children.push(newEl8)
   }
 }
@@ -294,7 +295,7 @@ function checkLevel9 (hierarchy, hArray, gruppe) {
   if (!el9) {
     const newEl9 = _.clone(hArray[8])
     newEl9.children = []
-    newEl9.path = [gruppe, hArray[0].Name, hArray[1].Name, hArray[2].Name, hArray[3].Name, hArray[4].Name, hArray[5].Name, hArray[6].Name, hArray[7].Name, hArray[8].Name]
+    newEl9.path = replaceProblematicPathCharactersFromArray([gruppe, hArray[0].Name, hArray[1].Name, hArray[2].Name, hArray[3].Name, hArray[4].Name, hArray[5].Name, hArray[6].Name, hArray[7].Name, hArray[8].Name])
     el8.children.push(newEl9)
   }
 }

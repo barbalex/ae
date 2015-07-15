@@ -8,6 +8,7 @@
 'use strict'
 
 import _ from 'lodash'
+import replaceProblematicPathCharactersFromArray from './replaceProblematicPathCharactersFromArray.js'
 
 export default function (guid, object) {
   let path = []
@@ -15,6 +16,7 @@ export default function (guid, object) {
   if (object && object.Taxonomien && object.Taxonomien[0] && object.Taxonomien[0].Eigenschaften && object.Taxonomien[0].Eigenschaften.Hierarchie && object.Taxonomien[0].Eigenschaften.Hierarchie) {
     path = _.pluck(object.Taxonomien[0].Eigenschaften.Hierarchie, 'Name')
     path.unshift(object.Gruppe)
+    path = replaceProblematicPathCharactersFromArray(path)
   }
 
   const payload = {

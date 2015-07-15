@@ -6,6 +6,7 @@ import React from 'react'
 import Home from './components/home.js'
 import getUrlParameterByName from './modules/getUrlParameterByName.js'
 import isGuid from './modules/isGuid.js'
+import replaceProblematicPathCharactersFromArray from './modules/replaceProblematicPathCharactersFromArray.js'
 
 export default Router.extend({
   routes: {
@@ -16,7 +17,8 @@ export default Router.extend({
   home (pathName) {
     // this is the enter point of the application
     // > read state from url
-    const path = pathName ? pathName.split('/') : []
+    let path = pathName ? pathName.split('/') : []
+    path = replaceProblematicPathCharactersFromArray(path)
     // guidPath is when only a guid is contained in url
     const isGuidPath = path.length === 1 && isGuid(path[0])
     const guid = isGuidPath ? path[0] : getUrlParameterByName('id')
@@ -31,7 +33,6 @@ export default Router.extend({
     }
     app.Actions.loadPathStore(path, guid)
 
-    // TODO: get url and its params and pass them as props
     React.render(<Home isGuidPath={isGuidPath} gruppe={gruppe} guid={guid} path={path} />, document.body)
   }
 })

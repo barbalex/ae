@@ -62,8 +62,6 @@ const Home = React.createClass({
   },
 
   onPathStoreChange (path, guid) {
-    console.log('home.js, onPathStoreChange, path', path)
-    console.log('home.js, onPathStoreChange, guid', guid)
     this.setState({
       path: path,
       guid: guid
@@ -86,7 +84,7 @@ const Home = React.createClass({
   },
 
   onActiveObjectStoreChange (object) {
-    console.log('home.js, onActiveObjectStoreChange, object', object)
+    // console.log('home.js, onActiveObjectStoreChange, object', object)
     const guid = object._id
     this.setState({
       gruppe: object.Gruppe,
@@ -143,7 +141,7 @@ const Home = React.createClass({
     const showFilter = _.keys(items).length > 0
     const showTree = isGroup || isGuidPath || _.keys(items).length > 0
     const showObject = object !== undefined
-    console.log('home.js, render: path', path)
+    // console.log('home.js, render: path', path)
 
     // MenuButton needs NOT to be inside menu
     // otherwise the menu can't be shown outside when menu is short
