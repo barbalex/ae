@@ -19,10 +19,18 @@ export default Router.extend({
     // > read state from url
     let path = pathName ? pathName.split('/') : []
     path = replaceProblematicPathCharactersFromArray(path)
+
     // guidPath is when only a guid is contained in url
-    const isGuidPath = path.length === 1 && isGuid(path[0])
-    const guid = isGuidPath ? path[0] : getUrlParameterByName('id')
-    const gruppe = isGuidPath ? null : (path[0] ? path[0] : null)
+    let isGuidPath = path.length === 1 && (isGuid(path[0] || path[0] === 'indexhtml'))
+    let guid = isGuidPath ? path[0] : getUrlParameterByName('id')
+    let gruppe = isGuidPath ? null : (path[0] ? path[0] : null)
+
+    if (path.length === 1 && path[0] === 'indexhtml') {
+      // this is a path of style /index.html?id=xxx
+      guid = getUrlParameterByName('id')
+      gruppe = null
+      isGuidPath = true
+    }
 
     // kick off stores
     if (guid) {

@@ -28,7 +28,7 @@ const buildFieldForProperty = function (propertyCollection, object, value, key, 
   }
   if (((key === 'Offizielle Art' || key === 'Eingeschlossen in' || key === 'Synonym von') && object.Gruppe === 'Flora') || (key === 'Akzeptierte Referenz' && object.Gruppe === 'Moose')) {
     // build as single link
-    console.log('value', value)
+    // console.log('value', value)
     // get name from guid
     const linkedObject = window.objectStore.items[value]
     if (linkedObject) {

@@ -68,7 +68,6 @@ const Home = React.createClass({
     })
     const url = '/' + path.join('/') + (guid ? '?id=' + guid : '')
     app.router.navigate(url)
-    // this.transitionTo(url)
   },
 
   onObjectStoreChange (payload) {
