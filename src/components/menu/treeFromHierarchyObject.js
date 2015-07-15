@@ -22,7 +22,7 @@ export default React.createClass({
 
     const tree = (
       <div>
-        <Nodes hierarchy={hierarchy} gruppe={gruppe} object={object} level={1} path={path} />
+        <Nodes hierarchy={hierarchy} gruppe={gruppe} object={object} path={path} />
       </div>
     )
 
