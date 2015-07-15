@@ -6,13 +6,14 @@ import Router from './router.js'
 import actions from './actions.js'
 import stores from './stores'
 
-window.app = app // expose app to the browser console
+window.app = app // expose 'app' to the browser console
 
 app.extend({
   init () {
     this.Actions = actions()
     stores(this.Actions)
-    Router()
+    this.router = new Router()
+    this.router.history.start()
   }
 })
 

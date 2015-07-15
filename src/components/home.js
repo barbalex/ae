@@ -3,7 +3,6 @@
 import app from 'ampersand-app'
 import { ListenerMixin } from 'reflux'
 import React from 'react'
-import { State, Navigation } from 'react-router'
 import { Input } from 'react-bootstrap'
 import _ from 'lodash'
 import MenuButton from './menu/menuButton'
@@ -13,17 +12,16 @@ import FaviconImage from '../../img/aster_144.png'
 import Favicon from 'react-favicon'
 import Objekt from './main/object/object.js'
 import TreeFromHierarchyObject from './menu/treeFromHierarchyObject.js'
-import isGuid from '../modules/isGuid.js'
 import getPathFromGuid from '../modules/getPathFromGuid.js'
-import getUrlParameterByName from '../modules/getUrlParameterByName.js'
 import getGruppen from '../modules/gruppen.js'
+import NavHelper from '../components/navHelper.js'
 
 const gruppen = getGruppen()
 
 const Home = React.createClass({
   displayName: 'Home',
 
-  mixins: [ListenerMixin, State, Navigation],
+  mixins: [ListenerMixin],
 
   propTypes: {
     hierarchy: React.PropTypes.object,
@@ -37,34 +35,14 @@ const Home = React.createClass({
   },
 
   getInitialState () {
-    // this is the enter point of the application
-    // > read state from url
-    const pathString = this.getParams().splat
-    const path = pathString ? pathString.split('/') : []
-    // guidPath is when only a guid is contained in url
-    const isGuidPath = path.length === 1 && isGuid(path[0])
-    const guid = isGuidPath ? path[0] : getUrlParameterByName('id')
-    const gruppe = isGuidPath ? null : (path[0] ? path[0] : null)
+    const { gruppe, guid, path } = this.props
     // add the gruppe that is being loaded so it's checkbox is never shown
     const groupsLoaded = [gruppe]
-
-    /*console.log('home.js, getInitialState, window.activeObjectStore.item', window.activeObjectStore.item)
-    console.log('home.js, getInitialState, isGuidPath', isGuidPath)*/
-
-    // kick off stores
-    if (guid) {
-      app.Actions.loadActiveObjectStore(guid)
-    } else {
-      // loadActiveObjectStore loads objectStore too, so don't do it twice
-      if (gruppe) app.Actions.loadObjectStore(gruppe)
-    }
-    app.Actions.loadPathStore(path, guid)
 
     return {
       hierarchy: [],
       gruppe: gruppe,
       groupsLoaded: groupsLoaded,
-      isGuidPath: isGuidPath,
       path: path,
       items: {},
       object: undefined,
@@ -91,7 +69,8 @@ const Home = React.createClass({
       guid: guid
     })
     const url = '/' + path.join('/') + (guid ? '?id=' + guid : '')
-    this.transitionTo(url)
+    app.router.navigate(url)
+    // this.transitionTo(url)
   },
 
   onObjectStoreChange (payload) {
@@ -115,7 +94,7 @@ const Home = React.createClass({
       guid: guid
     })
     // update url if path was called only with guid
-    if (this.state.isGuidPath && guid) {
+    if (this.props.isGuidPath && guid) {
       const path = getPathFromGuid(guid, object).path
       app.Actions.loadPathStore(path, guid)
     }
@@ -158,17 +137,18 @@ const Home = React.createClass({
   },
 
   render () {
-    const { hierarchy, gruppe, isGuidPath, path, items, object } = this.state
+    const { hierarchy, gruppe, path, items, object } = this.state
+    const { isGuidPath } = this.props
     const isGroup = _.includes(gruppen, gruppe)
     const showFilter = _.keys(items).length > 0
     const showTree = isGroup || isGuidPath || _.keys(items).length > 0
     const showObject = object !== undefined
-    // console.log('home.js, render: path', path)
+    console.log('home.js, render: path', path)
 
     // MenuButton needs NOT to be inside menu
     // otherwise the menu can't be shown outside when menu is short
     return (
-      <div>
+      <NavHelper>
         <Favicon url={[FaviconImage]}/>
         <MenuButton object={object} />
         <div id='menu' className='menu'>
@@ -180,7 +160,7 @@ const Home = React.createClass({
           {showTree ? <TreeFromHierarchyObject hierarchy={hierarchy} gruppe={gruppe} object={object} isGuidPath={isGuidPath} path={path} /> : ''}
         </div>
         {showObject ? <Objekt object={object} items={items} /> : ''}
-      </div>
+      </NavHelper>
     )
   }
 })
