@@ -35,6 +35,10 @@ const Nodes = React.createClass({
     let { path } = this.props
     const { hO, level } = params
 
+    console.log('treeNodesFromHierarchyObject.js, onClickNode, props.path', path)
+    console.log('treeNodesFromHierarchyObject.js, onClickNode, params.level', level)
+    console.log('treeNodesFromHierarchyObject.js, onClickNode, params.hO', hO)
+
     // get level clicked
     const levelClicked = level
     const activeKeyClicked = hO.Name === path[level - 1]

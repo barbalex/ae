@@ -1,21 +1,26 @@
 /*
- * build an object composed of the Hierarchies, Names and GUID's
+ * build an object composed of the Hierarchies, Names, paths and GUID's
  * GUID's mark that this object can be shown
  * example:
     {
       'name': 'Fauna',
+      'path': ['Fauna'],
       'children': [
         {
           'name': 'Amphibia',
+          'path': ['Fauna', 'Amphibia'],
           'children': [
             {
               'name': 'Anura',
+              'path': ['Fauna', 'Amphibia', 'Anura'],
               'children': [
                 {
                   'name': 'Bufonidae',
+                  'path': ['Fauna', 'Amphibia', 'Anura', 'Bufonidae'],
                   'children': [
                     {
                       'name': 'Bufo bufo (Linnaeus, 1758) (Erdkröte)',
+                      'path': ['Fauna', 'Amphibia', 'Anura', 'Bufonidae', 'Bufo bufo (Linnaeus, 1758) (Erdkröte)'],
                       'guid': '979233B6-9013-4820-9F7D-8ED9D826C2D3'
                     }
                   ]
@@ -42,19 +47,20 @@
 
 import _ from 'lodash'
 
-function checkLevel1 (hierarchy, hArray) {
+function checkLevel1 (hierarchy, hArray, gruppe) {
   const el1 = _.find(hierarchy, function (el) {
     return el.Name === hArray[0].Name
   })
   if (!el1) {
     const newEl1 = _.clone(hArray[0])
     newEl1.children = []
+    newEl1.path = [gruppe, hArray[0].Name]
     hierarchy.push(newEl1)
   }
 }
 
-function checkLevel2 (hierarchy, hArray) {
-  checkLevel1(hierarchy, hArray)
+function checkLevel2 (hierarchy, hArray, gruppe) {
+  checkLevel1(hierarchy, hArray, gruppe)
   const el1 = _.find(hierarchy, function (el) {
     return el.Name === hArray[0].Name
   })
@@ -64,13 +70,14 @@ function checkLevel2 (hierarchy, hArray) {
   if (!el2) {
     const newEl2 = _.clone(hArray[1])
     newEl2.children = []
+    newEl2.path = [gruppe, hArray[0].Name, hArray[1].Name]
     el1.children.push(newEl2)
   }
 }
 
-function checkLevel3 (hierarchy, hArray) {
-  checkLevel1(hierarchy, hArray)
-  checkLevel2(hierarchy, hArray)
+function checkLevel3 (hierarchy, hArray, gruppe) {
+  checkLevel1(hierarchy, hArray, gruppe)
+  checkLevel2(hierarchy, hArray, gruppe)
   const el1 = _.find(hierarchy, function (el) {
     return el.Name === hArray[0].Name
   })
@@ -83,14 +90,15 @@ function checkLevel3 (hierarchy, hArray) {
   if (!el3) {
     const newEl3 = _.clone(hArray[2])
     newEl3.children = []
+    newEl3.path = [gruppe, hArray[0].Name, hArray[1].Name, hArray[2].Name]
     el2.children.push(newEl3)
   }
 }
 
-function checkLevel4 (hierarchy, hArray) {
-  checkLevel1(hierarchy, hArray)
-  checkLevel2(hierarchy, hArray)
-  checkLevel3(hierarchy, hArray)
+function checkLevel4 (hierarchy, hArray, gruppe) {
+  checkLevel1(hierarchy, hArray, gruppe)
+  checkLevel2(hierarchy, hArray, gruppe)
+  checkLevel3(hierarchy, hArray, gruppe)
   const el1 = _.find(hierarchy, function (el) {
     return el.Name === hArray[0].Name
   })
@@ -106,15 +114,16 @@ function checkLevel4 (hierarchy, hArray) {
   if (!el4) {
     const newEl4 = _.clone(hArray[3])
     newEl4.children = []
+    newEl4.path = [gruppe, hArray[0].Name, hArray[1].Name, hArray[2].Name, hArray[3].Name]
     el3.children.push(newEl4)
   }
 }
 
-function checkLevel5 (hierarchy, hArray) {
-  checkLevel1(hierarchy, hArray)
-  checkLevel2(hierarchy, hArray)
-  checkLevel3(hierarchy, hArray)
-  checkLevel4(hierarchy, hArray)
+function checkLevel5 (hierarchy, hArray, gruppe) {
+  checkLevel1(hierarchy, hArray, gruppe)
+  checkLevel2(hierarchy, hArray, gruppe)
+  checkLevel3(hierarchy, hArray, gruppe)
+  checkLevel4(hierarchy, hArray, gruppe)
   const el1 = _.find(hierarchy, function (el) {
     return el.Name === hArray[0].Name
   })
@@ -133,16 +142,17 @@ function checkLevel5 (hierarchy, hArray) {
   if (!el5) {
     const newEl5 = _.clone(hArray[4])
     newEl5.children = []
+    newEl5.path = [gruppe, hArray[0].Name, hArray[1].Name, hArray[2].Name, hArray[3].Name, hArray[4].Name]
     el4.children.push(newEl5)
   }
 }
 
-function checkLevel6 (hierarchy, hArray) {
-  checkLevel1(hierarchy, hArray)
-  checkLevel2(hierarchy, hArray)
-  checkLevel3(hierarchy, hArray)
-  checkLevel4(hierarchy, hArray)
-  checkLevel5(hierarchy, hArray)
+function checkLevel6 (hierarchy, hArray, gruppe) {
+  checkLevel1(hierarchy, hArray, gruppe)
+  checkLevel2(hierarchy, hArray, gruppe)
+  checkLevel3(hierarchy, hArray, gruppe)
+  checkLevel4(hierarchy, hArray, gruppe)
+  checkLevel5(hierarchy, hArray, gruppe)
   const el1 = _.find(hierarchy, function (el) {
     return el.Name === hArray[0].Name
   })
@@ -164,17 +174,18 @@ function checkLevel6 (hierarchy, hArray) {
   if (!el6) {
     const newEl6 = _.clone(hArray[5])
     newEl6.children = []
+    newEl6.path = [gruppe, hArray[0].Name, hArray[1].Name, hArray[2].Name, hArray[3].Name, hArray[4].Name, hArray[5].Name]
     el5.children.push(newEl6)
   }
 }
 
-function checkLevel7 (hierarchy, hArray) {
-  checkLevel1(hierarchy, hArray)
-  checkLevel2(hierarchy, hArray)
-  checkLevel3(hierarchy, hArray)
-  checkLevel4(hierarchy, hArray)
-  checkLevel5(hierarchy, hArray)
-  checkLevel6(hierarchy, hArray)
+function checkLevel7 (hierarchy, hArray, gruppe) {
+  checkLevel1(hierarchy, hArray, gruppe)
+  checkLevel2(hierarchy, hArray, gruppe)
+  checkLevel3(hierarchy, hArray, gruppe)
+  checkLevel4(hierarchy, hArray, gruppe)
+  checkLevel5(hierarchy, hArray, gruppe)
+  checkLevel6(hierarchy, hArray, gruppe)
   const el1 = _.find(hierarchy, function (el) {
     return el.Name === hArray[0].Name
   })
@@ -199,18 +210,19 @@ function checkLevel7 (hierarchy, hArray) {
   if (!el7) {
     const newEl7 = _.clone(hArray[6])
     newEl7.children = []
+    newEl7.path = [gruppe, hArray[0].Name, hArray[1].Name, hArray[2].Name, hArray[3].Name, hArray[4].Name, hArray[5].Name, hArray[6].Name]
     el6.children.push(newEl7)
   }
 }
 
-function checkLevel8 (hierarchy, hArray) {
-  checkLevel1(hierarchy, hArray)
-  checkLevel2(hierarchy, hArray)
-  checkLevel3(hierarchy, hArray)
-  checkLevel4(hierarchy, hArray)
-  checkLevel5(hierarchy, hArray)
-  checkLevel6(hierarchy, hArray)
-  checkLevel7(hierarchy, hArray)
+function checkLevel8 (hierarchy, hArray, gruppe) {
+  checkLevel1(hierarchy, hArray, gruppe)
+  checkLevel2(hierarchy, hArray, gruppe)
+  checkLevel3(hierarchy, hArray, gruppe)
+  checkLevel4(hierarchy, hArray, gruppe)
+  checkLevel5(hierarchy, hArray, gruppe)
+  checkLevel6(hierarchy, hArray, gruppe)
+  checkLevel7(hierarchy, hArray, gruppe)
   const el1 = _.find(hierarchy, function (el) {
     return el.Name === hArray[0].Name
   })
@@ -238,19 +250,20 @@ function checkLevel8 (hierarchy, hArray) {
   if (!el8) {
     const newEl8 = _.clone(hArray[7])
     newEl8.children = []
+    newEl8.path = [gruppe, hArray[0].Name, hArray[1].Name, hArray[2].Name, hArray[3].Name, hArray[4].Name, hArray[5].Name, hArray[6].Name, hArray[7].Name]
     el7.children.push(newEl8)
   }
 }
 
-function checkLevel9 (hierarchy, hArray) {
-  checkLevel1(hierarchy, hArray)
-  checkLevel2(hierarchy, hArray)
-  checkLevel3(hierarchy, hArray)
-  checkLevel4(hierarchy, hArray)
-  checkLevel5(hierarchy, hArray)
-  checkLevel6(hierarchy, hArray)
-  checkLevel7(hierarchy, hArray)
-  checkLevel8(hierarchy, hArray)
+function checkLevel9 (hierarchy, hArray, gruppe) {
+  checkLevel1(hierarchy, hArray, gruppe)
+  checkLevel2(hierarchy, hArray, gruppe)
+  checkLevel3(hierarchy, hArray, gruppe)
+  checkLevel4(hierarchy, hArray, gruppe)
+  checkLevel5(hierarchy, hArray, gruppe)
+  checkLevel6(hierarchy, hArray, gruppe)
+  checkLevel7(hierarchy, hArray, gruppe)
+  checkLevel8(hierarchy, hArray, gruppe)
   const el1 = _.find(hierarchy, function (el) {
     return el.Name === hArray[0].Name
   })
@@ -281,6 +294,7 @@ function checkLevel9 (hierarchy, hArray) {
   if (!el9) {
     const newEl9 = _.clone(hArray[8])
     newEl9.children = []
+    newEl9.path = [gruppe, hArray[0].Name, hArray[1].Name, hArray[2].Name, hArray[3].Name, hArray[4].Name, hArray[5].Name, hArray[6].Name, hArray[7].Name, hArray[8].Name]
     el8.children.push(newEl9)
   }
 }
@@ -298,37 +312,38 @@ export default function (objects, gruppe) {
   _.forEach(hierarchiesArray, function (hArray) {
     switch (hArray.length) {
     case 1:
-      checkLevel1(hierarchy, hArray)
+      checkLevel1(hierarchy, hArray, gruppe)
       break
     case 2:
-      checkLevel2(hierarchy, hArray)
+      checkLevel2(hierarchy, hArray, gruppe)
       break
     case 3:
-      checkLevel3(hierarchy, hArray)
+      checkLevel3(hierarchy, hArray, gruppe)
       break
     case 4:
-      checkLevel4(hierarchy, hArray)
+      checkLevel4(hierarchy, hArray, gruppe)
       break
     case 5:
-      checkLevel5(hierarchy, hArray)
+      checkLevel5(hierarchy, hArray, gruppe)
       break
     case 6:
-      checkLevel6(hierarchy, hArray)
+      checkLevel6(hierarchy, hArray, gruppe)
       break
     case 7:
-      checkLevel7(hierarchy, hArray)
+      checkLevel7(hierarchy, hArray, gruppe)
       break
     case 8:
-      checkLevel8(hierarchy, hArray)
+      checkLevel8(hierarchy, hArray, gruppe)
       break
     case 9:
-      checkLevel9(hierarchy, hArray)
+      checkLevel9(hierarchy, hArray, gruppe)
       break
     }
   })
 
   const returnValue = {
     'Name': gruppe,
+    'path': [gruppe],
     children: hierarchy
   }
 
