@@ -6,6 +6,7 @@
 Arteigenschaften.ch soll mit folgenden Mitteln neu aufgebaut werden:
 
 - keine CouchApp mehr
+  - ermöglicht die nachfolgenden Vorteile
 - alle Abhängigkeiten werden mit [npm](https://www.npmjs.com) verwaltet
   - es ist einfacher, Abhängigkeiten zu aktualisieren
   - zuverlässigere und schnelle Installation der Enwicklungsumgebung
@@ -13,9 +14,13 @@ Arteigenschaften.ch soll mit folgenden Mitteln neu aufgebaut werden:
   - fördert lesbaren, kurzen Code
 - [standard](https://github.com/feross/standard)
   - erzwingt einen konsequenten und lesbaren Programmierstil
-- [webpack](http://webpack.github.io) aktualisiert während der Entwicklung laufend die App im Browser - jede Änderung ist direkt sichtbar
+- [webpack](http://webpack.github.io) aktualisiert während der Entwicklung laufend die App im Browser
+  - jede Änderung ist direkt sichtbar
+  - raschere Enwicklung, weniger Fehler
 - mit [Flux](http://facebook.github.io/flux) wird die Architektur des Codes stark vereinfacht
-- [React](https://facebook.github.io/react/index.html) vereinfacht die Steuerung der Benutzeroberfläche und baut sie effizient auf
+  - Entwicklung und Unterhalt werden vereinfacht
+- [React](https://facebook.github.io/react/index.html)
+  - vereinfacht die Steuerung der Benutzeroberfläche sehr stark
 - mit [webpack](http://webpack.github.io) werden für den produktiven Webserver statische Dateien erzeugt...
 - ...die von [hapi.js](http://hapijs.com) an den Browser geliefert werden...
 - ...der dann die App ohne weitere Hilfe des Servers ausführt. Es handelt sich daher um eine reine ["Native Web App"](https://blog.andyet.com/2015/01/22/native-web-apps)
