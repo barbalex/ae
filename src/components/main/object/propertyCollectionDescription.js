@@ -8,13 +8,10 @@
 'use strict'
 
 import React from 'react'
-import { State } from 'react-router'
 import Autolinker from 'autolinker'
 
 export default React.createClass({
   displayName: 'PropertyCollectionDescription',
-
-  mixins: [State],
 
   propTypes: {
     pc: React.PropTypes.object,

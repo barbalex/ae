@@ -7,7 +7,6 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import { State } from 'react-router'
 import { Typeahead } from 'react-typeahead'
 import { Glyphicon } from 'react-bootstrap'
 import _ from 'lodash'
@@ -15,8 +14,6 @@ import getPathFromGuid from '../../modules/getPathFromGuid.js'
 
 export default React.createClass({
   displayName: 'Filter',
-
-  mixins: [State],
 
   /*getInitialState () {
     return {

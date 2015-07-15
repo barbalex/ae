@@ -15,7 +15,6 @@ import Objekt from './main/object/object.js'
 import TreeFromHierarchyObject from './menu/treeFromHierarchyObject.js'
 import isGuid from '../modules/isGuid.js'
 import getPathFromGuid from '../modules/getPathFromGuid.js'
-import getObjectFromPath from '../modules/getObjectFromPath.js'
 import getUrlParameterByName from '../modules/getUrlParameterByName.js'
 import getGruppen from '../modules/gruppen.js'
 
@@ -50,7 +49,6 @@ const Home = React.createClass({
     const groupsLoaded = [gruppe]
 
     /*console.log('home.js, getInitialState, window.activeObjectStore.item', window.activeObjectStore.item)
-    console.log('home.js, getInitialState, getObjectFromPath(path)', getObjectFromPath(path))
     console.log('home.js, getInitialState, isGuidPath', isGuidPath)*/
 
     // kick off stores
