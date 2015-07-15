@@ -15,8 +15,8 @@ export default Router.extend({
   },
 
   home (pathName) {
-    // this is the enter point of the application
-    // > read state from url
+    // this is the entry point of the application
+    // > read props from url
     let path = pathName ? pathName.split('/') : []
     path = replaceProblematicPathCharactersFromArray(path)
 
