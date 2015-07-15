@@ -5,7 +5,7 @@
 
 Arteigenschaften.ch soll mit folgenden Mitteln neu aufgebaut werden:
 
-- keine CouchApp mehr
+- für die Applikation wird keine CouchApp mehr benutzt
   - ermöglicht die nachfolgenden Vorteile
 - alle Abhängigkeiten werden mit [npm](https://www.npmjs.com) verwaltet
   - es ist einfacher, Abhängigkeiten zu aktualisieren
@@ -24,7 +24,9 @@ Arteigenschaften.ch soll mit folgenden Mitteln neu aufgebaut werden:
 - [React](https://facebook.github.io/react/index.html)
   - vereinfacht die Steuerung der Benutzeroberfläche sehr stark
   - senkt die Komplexität des Codes stark
-- mit [webpack](http://webpack.github.io) werden für den produktiven App-Server statische Dateien erzeugt...
+- [webpack](http://webpack.github.io) erzeugt für den produktiven App-Server statische Dateien...
   - womit der App-Server äusserst einfach aufgebaut und zu installieren ist
 - ...die von [hapi.js](http://hapijs.com) an den Browser geliefert werden...
 - ...der dann die App ohne weitere Hilfe des Servers ausführt. Es handelt sich daher um eine reine ["Native Web App"](https://blog.andyet.com/2015/01/22/native-web-apps)
+- dazu werden die Daten mit Hilfe von [pouchdb](http://pouchdb.com) im Browser gespeichert
+- Schnittstellen zu anderen Anwendungen werden wie bisher direkt durch die CouchApp gewährleistet. Ev. wird in einem zweiten Schritt ein unabhängiger api-Server erstellt, der alle Schnittstellen mit Hilfe von [hapi.js](http://hapijs.com) bereitstellt
