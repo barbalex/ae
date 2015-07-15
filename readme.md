@@ -6,9 +6,13 @@
 Arteigenschaften.ch soll mit folgenden Mitteln neu aufgebaut werden:
 
 - keine CouchApp mehr
-- Abhängigkeiten werden mit [npm](https://www.npmjs.com) verwaltet
-- [ES6](https://github.com/lukehoban/es6features), die künftige Version von [JavaScript](http://en.wikipedia.org/wiki/JavaScript), fördert lesbaren, kurzen Code
-- [standard](https://github.com/feross/standard) erzwingt einen konsequenten und lesbaren Programmierstil
+- alle Abhängigkeiten werden mit [npm](https://www.npmjs.com) verwaltet
+  - es ist einfacher, Abhängigkeiten zu aktualisieren
+  - zuverlässigere und schnelle Installation der Enwicklungsumgebung
+- [ES6](https://github.com/lukehoban/es6features), die künftige Version von [JavaScript](http://en.wikipedia.org/wiki/JavaScript)
+  - fördert lesbaren, kurzen Code
+- [standard](https://github.com/feross/standard)
+  - erzwingt einen konsequenten und lesbaren Programmierstil
 - [webpack](http://webpack.github.io) aktualisiert während der Entwicklung laufend die App im Browser - jede Änderung ist direkt sichtbar
 - mit [Flux](http://facebook.github.io/flux) wird die Architektur des Codes stark vereinfacht
 - [React](https://facebook.github.io/react/index.html) vereinfacht die Steuerung der Benutzeroberfläche und baut sie effizient auf
