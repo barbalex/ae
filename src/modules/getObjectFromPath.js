@@ -9,7 +9,7 @@ import isGuid from './isGuid.js'
 import getUrlParameterByName from './getUrlParameterByName.js'
 
 export default function (path) {
-  const items = window.objectStore.getItems()
+  const items = window.objectStore.items
 
   // check if a guidPath was passed
   const isGuidPath = path.length === 1 && isGuid(path[0])

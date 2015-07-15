@@ -33,11 +33,7 @@ export default function (Actions) {
 
     loaded: false,
 
-    item: {},
-
-    getItem () {
-      return this.item
-    },/*
+    item: {},/*
 
     onLoadActiveObjectStore (item) {
       // pass this on so ui can express it already
@@ -64,35 +60,16 @@ export default function (Actions) {
 
     items: {},
 
-    // this is an object consisting of
-    // _id's as keys
-    // and a path array as values
-    paths: {},
-
     hierarchy: [],
 
     loaded: false,
 
-    groupsLoaded: [],
-
-    getItem (guid) {
-      return this.items[guid]
+    groupsLoaded () {
+      return _.pluck(this.hierarchy, 'Name')
     },
 
     isGroupLoaded (gruppe) {
-      return _.includes(this.groupsLoaded, gruppe)
-    },
-
-    getGroupsLoaded () {
-      return this.groupsLoaded
-    },
-
-    getItems () {
-      return this.items
-    },
-
-    getHierarchy () {
-      return this.hierarchy
+      return _.includes(this.groupsLoaded(), gruppe)
     },
 
     onLoadObjectStore (gruppe) {
@@ -101,7 +78,8 @@ export default function (Actions) {
         items: this.items,
         hierarchy: this.hierarchy,
         gruppe: gruppe,
-        groupsLoaded: this.groupsLoaded
+        groupsLoaded: this.groupsLoaded(),
+        groupLoading: gruppe
       }
       this.trigger(payload)
     },
@@ -111,28 +89,29 @@ export default function (Actions) {
 
       // loaded all items
       this.loaded = true
-      this.groupsLoaded.push(gruppe)
 
+      // although this should ony happen once, make sure hierarchy is only included once
+      this.hierarchy = _.without(this.hierarchy, _.findWhere(this.hierarchy, { 'Name': gruppe }))
       this.hierarchy.push(hierarchy)
 
+      // add path to items - it makes finding an item by path much easier
       _.forEach(items, function (item) {
         addPathToObject(item)
       })
 
       _.assign(this.items, items)
 
-      // calculate paths
-
       // signal that this group is not being loaded any more
       app.loadingObjectStore = _.without(app.loadingObjectStore, gruppe)
+
       // tell views that data has changed
       const payload = {
         items: this.items,
         hierarchy: this.hierarchy,
         gruppe: gruppe,
-        groupsLoaded: this.groupsLoaded
+        groupsLoaded: this.groupsLoaded(),
+        groupLoading: null
       }
-      // console.log('objectStore loaded, will trigger with payload', payload)
       this.trigger(payload)
     },
 

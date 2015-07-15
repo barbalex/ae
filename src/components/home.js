@@ -46,8 +46,10 @@ const Home = React.createClass({
     const isGuidPath = path.length === 1 && isGuid(path[0])
     const guid = isGuidPath ? path[0] : getUrlParameterByName('id')
     const gruppe = isGuidPath ? null : (path[0] ? path[0] : null)
+    // add the gruppe that is being loaded so it's checkbox is never shown
+    const groupsLoaded = [gruppe]
 
-    /*console.log('home.js, getInitialState, window.activeObjectStore.getItem()', window.activeObjectStore.getItem())
+    /*console.log('home.js, getInitialState, window.activeObjectStore.item', window.activeObjectStore.item)
     console.log('home.js, getInitialState, getObjectFromPath(path)', getObjectFromPath(path))
     console.log('home.js, getInitialState, isGuidPath', isGuidPath)*/
 
@@ -63,7 +65,7 @@ const Home = React.createClass({
     return {
       hierarchy: [],
       gruppe: gruppe,
-      groupsLoaded: [],
+      groupsLoaded: groupsLoaded,
       isGuidPath: isGuidPath,
       path: path,
       items: {},
@@ -95,11 +97,14 @@ const Home = React.createClass({
   },
 
   onObjectStoreChange (payload) {
-    const { items, hierarchy, groupsLoaded } = payload
+    const { items, hierarchy, groupsLoaded, groupLoading } = payload
+    // add groups loading to groups loaded to hide the group checkbox of the loading group
+    const groupsLoadedForState = _.union(groupsLoaded, [groupLoading])
+
     this.setState({
       items: items,
       hierarchy: hierarchy,
-      groupsLoaded: groupsLoaded
+      groupsLoaded: groupsLoadedForState
     })
   },
 

@@ -12,7 +12,6 @@ import PropertyCollectionDescription from './propertyCollectionDescription.js'
 import LinkToSameGroup from './linkToSameGroup.js'
 import LinksToSameGroup from './linksToSameGroup.js'
 import FieldInput from './fieldInput.js'
-import hierarchyStringFromHierarchyArray from './hierarchyStringFromHierarchyArray.js'
 import Field from './field.js'
 
 const buildFieldForProperty = function (propertyCollection, object, value, key, pcType) {
@@ -31,7 +30,7 @@ const buildFieldForProperty = function (propertyCollection, object, value, key, 
     // build as single link
     console.log('value', value)
     // get name from guid
-    const linkedObject = window.objectStore.getItem(value)
+    const linkedObject = window.objectStore.items[value]
     if (linkedObject) {
       const linkedObjectId = linkedObject._id
       const linkedObjectName = linkedObject.Taxonomie.Eigenschaften['Artname vollständig']

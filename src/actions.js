@@ -30,12 +30,13 @@ export default function () {
     const validGroup = _.includes(gruppen, gruppe)
     if (!validGroup) return false
 
-    // problem: this action can get called several times while it is already fetching data (TODO: that is probalby not so anymore)
+    // problem: this action can get called several times while it is already fetching data
+    // example: Page first load with url including a gruppe. User clicks on the gruppe before it was completely loaded
     // > make shure data is only fetched if objectStore is not yet loaded and not loading right now
     // loadingObjectStore contains an Array of the groups being loaded right now
     app.loadingObjectStore = app.loadObjectStore || []
 
-    if (!window.objectStore.loaded[gruppe] && !_.includes(app.loadingObjectStore, gruppe) && gruppe) {
+    if (!window.objectStore.isGroupLoaded(gruppe) && !_.includes(app.loadingObjectStore, gruppe) && gruppe) {
       let itemsArray = []
       app.loadingObjectStore.push(gruppe)
       const viewGruppePrefix = gruppe === 'Lebensräume' ? 'lr' : gruppe.toLowerCase()
@@ -77,7 +78,7 @@ export default function () {
     if (!guid) {
       Actions.loadActiveObjectStore.completed({})
     } else {
-      const object = window.objectStore.getItem(guid)
+      const object = window.objectStore.items[guid]
       if (object) {
         // group is already loaded
         // pass object to activeObjectStore by completing action
