@@ -19,6 +19,8 @@ export default Router.extend({
     let path = pathName ? pathName.split('/') : []
     path = replaceProblematicPathCharactersFromArray(path)
 
+    // a regular url consists of hierarchy names
+    // followed by ?id=<guid> if an object is shown
     let guid = getUrlParameterByName('id')
     let gruppe = path[0] ? path[0] : null
     let isGuidPath = false
@@ -32,6 +34,8 @@ export default Router.extend({
 
     if (path.length === 1 && path[0] === 'indexhtml') {
       // this is a path of style /index.html?id=<guid>
+      // it was used in a previous app version
+      // and is still called by ALT and EvAB
       guid = getUrlParameterByName('id')
       gruppe = null
       isGuidPath = true
