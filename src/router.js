@@ -10,7 +10,6 @@ import replaceProblematicPathCharactersFromArray from './modules/replaceProblema
 
 export default Router.extend({
   routes: {
-    '': 'home',
     '*path': 'home'
   },
 
