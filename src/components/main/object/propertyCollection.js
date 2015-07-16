@@ -37,11 +37,11 @@ const buildFieldForProperty = function (propertyCollection, object, value, key, 
       return <LinkToSameGroup key={key} fieldName={key} guid ={linkedObjectId} objectName={linkedObjectName} />
     }
   }
-  if ((key === 'Gültige Namen' || key === 'Eingeschlossene Arten' || key === 'Synonyme') && object.Gruppe === 'Flora') {
+  if ((key === 'Gültige Namen' || key === 'Eingeschlossene Arten') && object.Gruppe === 'Flora') {
     // build array of links
     return <LinksToSameGroup key={key} fieldName={key} objects={value} />
   }
-  if ((key === 'Artname' && object.Gruppe === 'Flora') || (key === 'Parent' && object.Gruppe === 'Lebensräume') || (key === 'Hierarchie' && _.isArray(value))) {
+  if (((key === 'Artname' || key === 'Synonyme') && object.Gruppe === 'Flora') || (key === 'Parent' && object.Gruppe === 'Lebensräume') || (key === 'Hierarchie' && _.isArray(value))) {
     // don't show this field
     return null
   }
