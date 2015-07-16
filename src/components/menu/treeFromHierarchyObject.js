@@ -2,6 +2,7 @@
 
 import React from 'react'
 import _ from 'lodash'
+import $ from 'jquery'
 import Nodes from './treeNodesFromHierarchyObject.js'
 
 export default React.createClass({
@@ -11,13 +12,24 @@ export default React.createClass({
     hierarchy: React.PropTypes.array,
     gruppe: React.PropTypes.string,
     groupsLoading: React.PropTypes.array,
+    allGroupsLoaded: React.PropTypes.bool,
     object: React.PropTypes.object,
     path: React.PropTypes.array
   },
 
   render () {
-    const { hierarchy, gruppe, object, path, groupsLoading } = this.props
+    const { hierarchy, gruppe, object, path, groupsLoading, allGroupsLoaded } = this.props
     const loading = groupsLoading && groupsLoading.length > 0
+
+    // calculate max height of tree
+    let treeMaxHeight = 0
+    const windowHeight = $(window).height()
+    const windowWidth = $(window).width()
+    treeMaxHeight = windowWidth > 1000 ? windowHeight - 169 : windowHeight - 302
+    if (allGroupsLoaded) treeMaxHeight = treeMaxHeight - 59
+    // deduct loading indicators
+    const groupsLoadingHeight = 22 * (groupsLoading.length)
+    treeMaxHeight = treeMaxHeight - groupsLoadingHeight
 
     const tree = (
       <div>
@@ -34,7 +46,7 @@ export default React.createClass({
 
     return (
       <div>
-        <div id='tree' className='baum'>
+        <div id='tree' style={{maxHeight: treeMaxHeight + 'px'}} className='baum'>
           {hierarchy ? tree : ''}
         </div>
         {loading ? loadingMessage : ''}

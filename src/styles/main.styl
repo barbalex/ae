@@ -67,7 +67,8 @@ body
   // auf chrome liegt Menu ohne z-index unter Accordion
   z-index: 1
   width: 100%
-  overflow: auto
+  overflow: hidden
+  max-height: calc(100vh - 105px)
 
 #tree
   // there needs to be enough height below the tree
@@ -86,6 +87,7 @@ body
   body:not(.force-mobile) #menu
     width: 383px
     position: fixed
+    max-height: calc(100vh - 15px)
 
   body:not(.force-mobile) #main
     // nach rechts schieben

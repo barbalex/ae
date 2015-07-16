@@ -28,6 +28,7 @@ const Home = React.createClass({
     gruppe: React.PropTypes.string,
     groupsLoadedOrLoading: React.PropTypes.array,
     groupsLoading: React.PropTypes.array,
+    allGroupsLoaded: React.PropTypes.bool,
     isGuidPath: React.PropTypes.bool,
     path: React.PropTypes.array,
     items: React.PropTypes.object,
@@ -45,6 +46,7 @@ const Home = React.createClass({
       gruppe: gruppe,
       groupsLoadedOrLoading: groupsLoadedOrLoading,
       groupsLoading: [],
+      allGroupsLoaded: false,
       path: path,
       items: {},
       object: undefined,
@@ -76,12 +78,15 @@ const Home = React.createClass({
     const { items, hierarchy, groupsLoaded, groupsLoading } = payload
     // add groups loading to groups loaded to hide the group checkbox of the loading group
     const groupsLoadedOrLoading = _.union(groupsLoaded, groupsLoading)
+    const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
+    const allGroupsLoaded = groupsNotLoaded.length === 0
 
     this.setState({
       items: items,
       hierarchy: hierarchy,
       groupsLoadedOrLoading: groupsLoadedOrLoading,
-      groupsLoading: groupsLoading
+      groupsLoading: groupsLoading,
+      allGroupsLoaded: allGroupsLoaded
     })
   },
 
@@ -138,7 +143,7 @@ const Home = React.createClass({
   },
 
   render () {
-    const { hierarchy, gruppe, path, items, object, groupsLoading } = this.state
+    const { hierarchy, gruppe, path, items, object, groupsLoading, allGroupsLoaded } = this.state
     const { isGuidPath } = this.props
     const isGroup = _.includes(gruppen, gruppe)
     const showFilter = _.keys(items).length > 0
@@ -158,7 +163,7 @@ const Home = React.createClass({
           </div>
           {this.createGruppen()}
           {showFilter ? <Filter items={items} /> : ''}
-          {showTree ? <TreeFromHierarchyObject hierarchy={hierarchy} gruppe={gruppe} groupsLoading={groupsLoading} object={object} isGuidPath={isGuidPath} path={path} /> : ''}
+          {showTree ? <TreeFromHierarchyObject hierarchy={hierarchy} gruppe={gruppe} groupsLoading={groupsLoading} allGroupsLoaded={allGroupsLoaded} object={object} isGuidPath={isGuidPath} path={path} /> : ''}
         </div>
         {showObject ? <Objekt object={object} items={items} /> : ''}
       </NavHelper>

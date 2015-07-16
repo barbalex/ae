@@ -37,11 +37,6 @@ const Nodes = React.createClass({
     // find guid of last path element
     const objectToLoad = getObjectFromPath(pathToLoad)
     guidOfObjectToLoad = objectToLoad && objectToLoad._id ? objectToLoad._id : null
-
-    // console.log('pathToLoad', pathToLoad)
-    // console.log('objectToLoad', objectToLoad)
-    // console.log('guidOfObjectToLoad', guidOfObjectToLoad)
-
     // kick of actions
     app.Actions.loadPathStore(pathToLoad, guidOfObjectToLoad)
     app.Actions.loadActiveObjectStore(guidOfObjectToLoad)

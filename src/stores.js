@@ -92,15 +92,8 @@ export default function (Actions) {
     },
 
     onLoadObjectStoreCompleted (payloadReceived) {
+      // const that = this
       const { gruppe, items, hierarchy } = payloadReceived
-
-      // loaded all items
-      // signal that this group is not being loaded any more
-      const indexOfGruppe = this.groupsLoading.indexOf(gruppe)
-      this.groupsLoading.splice(indexOfGruppe, 1)
-      // weird. sometimes lade ... remained even after loading
-      // maybe need to do next command with setTimeout?
-      // this.groupsLoading = _.without(this.groupsLoading, this.groupsLoaded())
 
       // although this should ony happen once, make sure hierarchy is only included once
       this.hierarchy = _.without(this.hierarchy, _.findWhere(this.hierarchy, { 'Name': gruppe }))
@@ -112,6 +105,16 @@ export default function (Actions) {
       })
 
       _.assign(this.items, items)
+
+      // loaded all items
+      // signal that this group is not being loaded any more
+      const indexOfGruppe = this.groupsLoading.indexOf(gruppe)
+      this.groupsLoading.splice(indexOfGruppe, 1)
+      // weird. sometimes lade ... remained even after loading
+      // maybe need to do next command with setTimeout?
+      /*setTimeout(function () {
+        that.groupsLoading = _.without(that.groupsLoading, that.groupsLoaded())
+      }, 1)*/
 
       // tell views that data has changed
       const payload = {
