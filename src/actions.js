@@ -30,10 +30,11 @@ export default function () {
     if (!validGroup) return false
 
     if (!window.objectStore.isGroupLoaded(gruppe) && !_.includes(window.objectStore.groupsLoading, gruppe) && gruppe) {
+      // this group does not exist yet in the store
       let itemsArray = []
       const viewGruppePrefix = gruppe === 'Lebensräume' ? 'lr' : gruppe.toLowerCase()
       const viewName = 'artendb/' + viewGruppePrefix + 'NachName'
-      // get fauna from db
+      // get group from db
       const db = new PouchDB(pouchUrl(), function (error, response) {
         if (error) { return console.log('error instantiating remote db') }
         // get fauna from db

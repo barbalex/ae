@@ -41,6 +41,11 @@ export default Router.extend({
       isGuidPath = true
     }
 
+    // TODO: load store from pouch
+    // that action then kicks off the stores
+    app.Actions.loadObjectStoreFromPouch(path, gruppe, guid)
+
+    // THEN - WHEN?
     // kick off stores
     if (guid) {
       app.Actions.loadActiveObjectStore(guid)

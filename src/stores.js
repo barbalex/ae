@@ -36,12 +36,7 @@ export default function (Actions) {
 
     loaded: false,
 
-    item: {},/*
-
-    onLoadActiveObjectStore (item) {
-      // pass this on so ui can express it already
-      this.trigger(this.item)
-    },*/
+    item: {},
 
     onLoadActiveObjectStoreCompleted (item) {
       // only change if something has changed
@@ -79,9 +74,12 @@ export default function (Actions) {
     },
 
     onLoadObjectStore (gruppe) {
+      // somehow this get's called when clicking a node
+      // hm. why?
+      // well, sometime this may happen when syncing. But not yet...
+      // don't let it happen if group is already loaded
+      // because then group stays loading, as the process is never completed...
       if (!this.isGroupLoaded(gruppe)) {
-        // hm. why does this happen?
-        // well sometime this may happen when syncing. But not yet...
         this.groupsLoading = _.union(this.groupsLoading, [gruppe])
         // trigger change so components can set loading state
         const payload = {
