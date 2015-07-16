@@ -30,15 +30,8 @@ export default function () {
     const validGroup = _.includes(gruppen, gruppe)
     if (!validGroup) return false
 
-    // problem: this action can get called several times while it is already fetching data
-    // example: Page first load with url including a gruppe. User clicks on the gruppe before it was completely loaded
-    // > make shure data is only fetched if objectStore is not yet loaded and not loading right now
-    // loadingObjectStore contains an Array of the groups being loaded right now
-    app.loadingObjectStore = app.loadObjectStore || []
-
-    if (!window.objectStore.isGroupLoaded(gruppe) && !_.includes(app.loadingObjectStore, gruppe) && gruppe) {
+    if (!window.objectStore.isGroupLoaded(gruppe) && !_.includes(window.objectStore.groupsLoading, gruppe) && gruppe) {
       let itemsArray = []
-      app.loadingObjectStore.push(gruppe)
       const viewGruppePrefix = gruppe === 'Lebensräume' ? 'lr' : gruppe.toLowerCase()
       const viewName = 'artendb/' + viewGruppePrefix + 'NachName'
       // get fauna from db
@@ -60,12 +53,10 @@ export default function () {
               items: items,
               hierarchy: hierarchy
             }
-            // console.log('Actions.loadObjectStore will complete with payload', payload)
             Actions.loadObjectStore.completed(payload)
           })
           .catch(function (error) {
-            app.loadingObjectStore = false
-            Actions.loadObjectStore.failed(error)
+            Actions.loadObjectStore.failed(error, gruppe)
           })
       })
     }

@@ -68,7 +68,7 @@ export default function (Actions) {
 
     hierarchy: [],
 
-    loaded: false,
+    groupsLoading: [],
 
     groupsLoaded () {
       return _.pluck(this.hierarchy, 'Name')
@@ -79,6 +79,7 @@ export default function (Actions) {
     },
 
     onLoadObjectStore (gruppe) {
+      this.groupsLoading = _.union(this.groupsLoading, [gruppe])
       // trigger change so components can set loading state
       const payload = {
         items: this.items,
@@ -94,7 +95,8 @@ export default function (Actions) {
       const { gruppe, items, hierarchy } = payloadReceived
 
       // loaded all items
-      this.loaded = true
+      // signal that this group is not being loaded any more
+      this.groupsLoading = _.without(this.groupsLoading, gruppe)
 
       // although this should ony happen once, make sure hierarchy is only included once
       this.hierarchy = _.without(this.hierarchy, _.findWhere(this.hierarchy, { 'Name': gruppe }))
@@ -107,9 +109,6 @@ export default function (Actions) {
 
       _.assign(this.items, items)
 
-      // signal that this group is not being loaded any more
-      app.loadingObjectStore = _.without(app.loadingObjectStore, gruppe)
-
       // tell views that data has changed
       const payload = {
         items: this.items,
@@ -121,7 +120,8 @@ export default function (Actions) {
       this.trigger(payload)
     },
 
-    onLoadObjectStoreFailed (error) {
+    onLoadObjectStoreFailed (error, gruppe) {
+      this.groupsLoading = _.without(this.groupsLoading, gruppe)
       console.log('objectStore: loading items failed with error: ', error)
     }
   })
