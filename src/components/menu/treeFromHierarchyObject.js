@@ -1,6 +1,7 @@
 'use strict'
 
 import React from 'react'
+import _ from 'lodash'
 import Nodes from './treeNodesFromHierarchyObject.js'
 
 export default React.createClass({
@@ -9,14 +10,14 @@ export default React.createClass({
   propTypes: {
     hierarchy: React.PropTypes.array,
     gruppe: React.PropTypes.string,
+    groupsLoading: React.PropTypes.array,
     object: React.PropTypes.object,
     path: React.PropTypes.array
   },
 
   render () {
-    const { hierarchy, gruppe, object, path } = this.props
-    const loading = window.objectStore.groupsLoading && window.objectStore.groupsLoading.length > 0
-    const loadingGruppe = loading ? window.objectStore.groupsLoading[0].replace('Macromycetes', 'Pilze') : 'Daten'
+    const { hierarchy, gruppe, object, path, groupsLoading } = this.props
+    const loading = groupsLoading && groupsLoading.length > 0
 
     const tree = (
       <div>
@@ -24,7 +25,12 @@ export default React.createClass({
       </div>
     )
 
-    const loadingMessage = <p>Lade {loadingGruppe}...</p>
+    // const loadingMessage = <p>Lade {loadingGruppe}...</p>
+    const loadingMessage = _.map(groupsLoading, function (groupLoading) {
+      // Macromycetes shall appear as Pilze
+      const groupName = groupLoading.replace('Macromycetes', 'Pilze')
+      return <p key={groupName}>Lade {groupName}...</p>
+    })
 
     return (
       <div>

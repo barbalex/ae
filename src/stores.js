@@ -86,7 +86,7 @@ export default function (Actions) {
         hierarchy: this.hierarchy,
         gruppe: gruppe,
         groupsLoaded: this.groupsLoaded(),
-        groupLoading: gruppe
+        groupsLoading: this.groupsLoading
       }
       this.trigger(payload)
     },
@@ -115,7 +115,7 @@ export default function (Actions) {
         hierarchy: this.hierarchy,
         gruppe: gruppe,
         groupsLoaded: this.groupsLoaded(),
-        groupLoading: null
+        groupsLoading: this.groupsLoading
       }
       this.trigger(payload)
     },

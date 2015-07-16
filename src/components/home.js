@@ -26,7 +26,8 @@ const Home = React.createClass({
   propTypes: {
     hierarchy: React.PropTypes.object,
     gruppe: React.PropTypes.string,
-    groupsLoaded: React.PropTypes.array,
+    groupsLoadedOrLoading: React.PropTypes.array,
+    groupsLoading: React.PropTypes.array,
     isGuidPath: React.PropTypes.bool,
     path: React.PropTypes.array,
     items: React.PropTypes.object,
@@ -37,12 +38,13 @@ const Home = React.createClass({
   getInitialState () {
     const { gruppe, guid, path } = this.props
     // add the gruppe that is being loaded so it's checkbox is never shown
-    const groupsLoaded = [gruppe]
+    const groupsLoadedOrLoading = [gruppe]
 
     return {
       hierarchy: [],
       gruppe: gruppe,
-      groupsLoaded: groupsLoaded,
+      groupsLoadedOrLoading: groupsLoadedOrLoading,
+      groupsLoading: [],
       path: path,
       items: {},
       object: undefined,
@@ -71,14 +73,15 @@ const Home = React.createClass({
   },
 
   onObjectStoreChange (payload) {
-    const { items, hierarchy, groupsLoaded, groupLoading } = payload
+    const { items, hierarchy, groupsLoaded, groupsLoading } = payload
     // add groups loading to groups loaded to hide the group checkbox of the loading group
-    const groupsLoadedForState = _.union(groupsLoaded, [groupLoading])
+    const groupsLoadedOrLoading = _.union(groupsLoaded, groupsLoading)
 
     this.setState({
       items: items,
       hierarchy: hierarchy,
-      groupsLoaded: groupsLoadedForState
+      groupsLoadedOrLoading: groupsLoadedOrLoading,
+      groupsLoading: groupsLoading
     })
   },
 
@@ -105,8 +108,8 @@ const Home = React.createClass({
   },
 
   createGruppen () {
-    const that = this
-    const groupsNotLoaded = _.difference(gruppen, that.state.groupsLoaded)
+    const groupsLoadedOrLoading = this.state.groupsLoadedOrLoading
+    const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
     if (groupsNotLoaded.length > 0) {
       return (
         <div id='groups'>
@@ -121,7 +124,8 @@ const Home = React.createClass({
 
   createButtons () {
     const that = this
-    const groupsNotLoaded = _.difference(gruppen, that.state.groupsLoaded)
+    const groupsLoadedOrLoading = this.state.groupsLoadedOrLoading
+    const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
     return _.map(groupsNotLoaded, function (gruppe) {
       return that.button(gruppe)
     })
@@ -134,7 +138,7 @@ const Home = React.createClass({
   },
 
   render () {
-    const { hierarchy, gruppe, path, items, object } = this.state
+    const { hierarchy, gruppe, path, items, object, groupsLoading } = this.state
     const { isGuidPath } = this.props
     const isGroup = _.includes(gruppen, gruppe)
     const showFilter = _.keys(items).length > 0
@@ -154,7 +158,7 @@ const Home = React.createClass({
           </div>
           {this.createGruppen()}
           {showFilter ? <Filter items={items} /> : ''}
-          {showTree ? <TreeFromHierarchyObject hierarchy={hierarchy} gruppe={gruppe} object={object} isGuidPath={isGuidPath} path={path} /> : ''}
+          {showTree ? <TreeFromHierarchyObject hierarchy={hierarchy} gruppe={gruppe} groupsLoading={groupsLoading} object={object} isGuidPath={isGuidPath} path={path} /> : ''}
         </div>
         {showObject ? <Objekt object={object} items={items} /> : ''}
       </NavHelper>
