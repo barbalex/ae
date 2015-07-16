@@ -96,7 +96,11 @@ export default function (Actions) {
 
       // loaded all items
       // signal that this group is not being loaded any more
-      this.groupsLoading = _.without(this.groupsLoading, gruppe)
+      const indexOfGruppe = this.groupsLoading.indexOf(gruppe)
+      this.groupsLoading.splice(indexOfGruppe, 1)
+      // weird. sometimes lade ... remained even after loading
+      // maybe need to do next command with setTimeout?
+      // this.groupsLoading = _.without(this.groupsLoading, this.groupsLoaded())
 
       // although this should ony happen once, make sure hierarchy is only included once
       this.hierarchy = _.without(this.hierarchy, _.findWhere(this.hierarchy, { 'Name': gruppe }))
@@ -121,7 +125,8 @@ export default function (Actions) {
     },
 
     onLoadObjectStoreFailed (error, gruppe) {
-      this.groupsLoading = _.without(this.groupsLoading, gruppe)
+      const indexOfGruppe = this.groupsLoading.indexOf(gruppe)
+      this.groupsLoading.splice(indexOfGruppe, 1)
       console.log('objectStore: loading items failed with error: ', error)
     }
   })
