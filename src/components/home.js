@@ -137,9 +137,8 @@ const Home = React.createClass({
   },
 
   button (gruppe) {
-    const that = this
     const label = gruppe.replace('Macromycetes', 'Pilze')
-    return <Input key={gruppe} type='checkbox' label={label} onClick={that.onClickGruppe.bind(that, gruppe)} />
+    return <Input key={gruppe} type='checkbox' label={label} onClick={this.onClickGruppe.bind(this, gruppe)} />
   },
 
   render () {

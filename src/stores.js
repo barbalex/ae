@@ -79,21 +79,26 @@ export default function (Actions) {
     },
 
     onLoadObjectStore (gruppe) {
-      this.groupsLoading = _.union(this.groupsLoading, [gruppe])
-      // trigger change so components can set loading state
-      const payload = {
-        items: this.items,
-        hierarchy: this.hierarchy,
-        gruppe: gruppe,
-        groupsLoaded: this.groupsLoaded(),
-        groupsLoading: this.groupsLoading
+      if (!this.isGroupLoaded(gruppe)) {
+        // hm. why does this happen?
+        // well sometime this may happen when syncing. But not yet...
+        this.groupsLoading = _.union(this.groupsLoading, [gruppe])
+        // trigger change so components can set loading state
+        const payload = {
+          items: this.items,
+          hierarchy: this.hierarchy,
+          gruppe: gruppe,
+          groupsLoaded: this.groupsLoaded(),
+          groupsLoading: this.groupsLoading
+        }
+        this.trigger(payload)
       }
-      this.trigger(payload)
     },
 
     onLoadObjectStoreCompleted (payloadReceived) {
       // const that = this
       const { gruppe, items, hierarchy } = payloadReceived
+      console.log('objectStore: finished loading, payload', payloadReceived)
 
       // although this should ony happen once, make sure hierarchy is only included once
       this.hierarchy = _.without(this.hierarchy, _.findWhere(this.hierarchy, { 'Name': gruppe }))
@@ -124,6 +129,7 @@ export default function (Actions) {
         groupsLoaded: this.groupsLoaded(),
         groupsLoading: this.groupsLoading
       }
+      console.log('objectStore: triggering with payload', payload)
       this.trigger(payload)
     },
 

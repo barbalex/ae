@@ -1,6 +1,5 @@
 'use strict'
 
-import app from 'ampersand-app'
 import Reflux from 'reflux'
 import PouchDB from 'pouchdb'
 import _ from 'lodash'
@@ -63,11 +62,13 @@ export default function () {
   })
 
   Actions.loadActiveObjectStore.listen(function (guid) {
+    console.log('Actions.loadActiveObjectStore, guid', guid)
     // check if group is loaded > get object from objectStore
     if (!guid) {
       Actions.loadActiveObjectStore.completed({})
     } else {
       const object = window.objectStore.items[guid]
+      console.log('Actions.loadActiveObjectStore, object', object)
       if (object) {
         // group is already loaded
         // pass object to activeObjectStore by completing action

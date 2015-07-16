@@ -58,7 +58,7 @@ const Nodes = React.createClass({
         const keyIsActive = replaceProblematicPathCharactersFromString(hO.Name) === path[level - 1]
         const keyIsObjectShown = object !== undefined && hO.GUID && object._id === hO.GUID
         const glyph = keyIsActive ? (keyIsObjectShown ? 'forward' : 'triangle-bottom') : (hO.children && hO.children.length > 0 ? 'triangle-right' : 'minus')
-        const onClickNode = that.onClickNode.bind(that, {'hO': hO, 'gruppe': gruppe, 'path': path})
+        const onClickNode = that.onClickNode.bind(that, {'hO': hO, 'path': path})
         const showNode = replaceProblematicPathCharactersFromString(hO.Name) === activeKey && hO.children
 
         return (
