@@ -24,11 +24,11 @@ export default React.createClass({
     // calculate max height of tree
     const windowHeight = $(window).height()
     const windowWidth = $(window).width()
+    const groupsLoadingHeight = 22 * (groupsLoading.length)
     let treeMaxHeight = windowHeight - 302                      // initial value on mobile
     if (windowWidth > 1000) treeMaxHeight = windowHeight - 169  // initial value on desktop
-    const groupsLoadingHeight = 22 * (groupsLoading.length)
-    treeMaxHeight = treeMaxHeight - groupsLoadingHeight         // correction if groups are loading
-    if (allGroupsLoaded) treeMaxHeight = treeMaxHeight + 59     // correction if all groups are loaded
+    treeMaxHeight -= groupsLoadingHeight                        // correction if groups are loading
+    if (allGroupsLoaded) treeMaxHeight += 59                    // correction if all groups are loaded
 
     const tree = (
       <div>
