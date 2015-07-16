@@ -20,8 +20,9 @@ const Nodes = React.createClass({
   onClickNode (params, event) {
     event.stopPropagation()
     const { hO, path } = params
-    app.Actions.loadActiveObjectStore(hO.GUID)
-    // chick if clicked node was already active:
+    const { object } = this.props
+    let guidOfObjectToLoad = hO.GUID
+    // check if clicked node was already active:
     // if path.length is same or shorter as before
     let pathToLoad = _.clone(hO.path)
     if (path.length <= hO.path.length) {
@@ -31,9 +32,13 @@ const Nodes = React.createClass({
         // an already active node was clicked
         // so remove last element
         pathToLoad.pop()
+        // find guid of last path element
+        const lastElement = pathToLoad[pathToLoad.length - 1]
+        guidOfObjectToLoad = lastElement.GUID
       }
     }
-    app.Actions.loadPathStore(pathToLoad, hO.GUID)
+    app.Actions.loadPathStore(pathToLoad, guidOfObjectToLoad)
+    if (object && guidOfObjectToLoad !== object._id) app.Actions.loadActiveObjectStore(guidOfObjectToLoad)
   },
 
   render () {
