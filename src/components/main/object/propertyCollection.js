@@ -68,16 +68,16 @@ export default React.createClass({
     const editToolbar = (
       <div className='btn-toolbar bearbToolbar'>
         <div className='btn-group btn-group-sm'>
-          <button type='button' className='btn btn-default lrBearb lrBearbBtn' data-toggle='tooltip' title='bearbeiten'>
+          <button type='button' className='btn btn-default' data-toggle='tooltip' title='bearbeiten'>
             <i className='glyphicon glyphicon-pencil'/>
           </button>
-          <button type='button' className='btn btn-default lrBearb lrBearbSchuetzen disabled' title='schützen'>
+          <button type='button' className='btn btn-default disabled' title='schützen'>
             <i className='glyphicon glyphicon-ban-circle'/>
           </button>
-          <button type='button' className='btn btn-default lrBearb lrBearbNeu disabled' title='neuer Lebensraum'>
+          <button type='button' className='btn btn-default disabled' title='neuer Lebensraum'>
             <i className='glyphicon glyphicon-plus'/>
           </button>
-          <button type='button' data-toggle='modal' data-target='#rueckfrage_lr_loeschen' className='btn btn-default lrBearb lr_bearb_loeschen disabled' title='Lebensraum löschen'>
+          <button type='button' data-toggle='modal' data-target='#rueckfrage_lr_loeschen' className='btn btn-default disabled' title='Lebensraum löschen'>
             <i className='glyphicon glyphicon-trash'/>
           </button>
         </div>
@@ -88,11 +88,15 @@ export default React.createClass({
       return buildFieldForProperty(propertyCollection, object, value, key, pcType)
     })
 
+    const showPcDescription = object.Gruppe !== 'Lebensräume' || pcType !== 'Taxonomie'
+    // const showEditToobar = object.Gruppe === 'Lebensräume' && pcType === 'Taxonomie'  TODO: implement later
+    const showEditToobar = false
+
     return (
       <Accordion>
         <Panel header={propertyCollection.Name} eventKey='1'>
-          {object.Gruppe === 'Lebensräume' && pcType === 'Taxonomie' ? editToolbar : ''}
-          <PropertyCollectionDescription pc={propertyCollection} />
+          {showEditToobar ? editToolbar : ''}
+          {showPcDescription ? <PropertyCollectionDescription pc={propertyCollection} /> : ''}
           <div>
             {pcType === 'Taxonomie' ? <Field fieldName={'GUID'} fieldValue={object._id} pcType={pcType} pcName={pcName} /> : ''}
             {properties}
