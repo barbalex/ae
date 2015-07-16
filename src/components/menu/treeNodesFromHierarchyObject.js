@@ -5,6 +5,7 @@ import React from 'react'
 import { Glyphicon } from 'react-bootstrap'
 import _ from 'lodash'
 import replaceProblematicPathCharactersFromString from '../../modules/replaceProblematicPathCharactersFromString.js'
+import getObjectFromPath from '../../modules/getObjectFromPath.js'
 
 const Nodes = React.createClass({
   displayName: 'TreeLowerLevel',
@@ -20,7 +21,6 @@ const Nodes = React.createClass({
   onClickNode (params, event) {
     event.stopPropagation()
     const { hO, path } = params
-    const { object } = this.props
     let guidOfObjectToLoad = hO.GUID
     // check if clicked node was already active:
     // if path.length is same or shorter as before
@@ -30,15 +30,16 @@ const Nodes = React.createClass({
       const positionToCheck = hO.path.length - 1
       if (path[positionToCheck] === hO.path[positionToCheck]) {
         // an already active node was clicked
-        // so remove last element
+        // so remove the last element
         pathToLoad.pop()
-        // find guid of last path element
-        const lastElement = pathToLoad[pathToLoad.length - 1]
-        guidOfObjectToLoad = lastElement.GUID
       }
     }
+    // find guid of last path element
+    const objectToLoad = getObjectFromPath(pathToLoad)
+    guidOfObjectToLoad = objectToLoad && objectToLoad._id ? objectToLoad._id : null
+    // kick of actions
     app.Actions.loadPathStore(pathToLoad, guidOfObjectToLoad)
-    if (object && guidOfObjectToLoad !== object._id) app.Actions.loadActiveObjectStore(guidOfObjectToLoad)
+    app.Actions.loadActiveObjectStore(guidOfObjectToLoad)
   },
 
   render () {
