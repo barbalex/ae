@@ -18,9 +18,12 @@ export default function (Actions) {
     guid: null,
 
     onLoadPathStore (path, guid) {
-      this.guid = guid
-      this.path = path
-      this.trigger(path, guid)
+      // only change if something has changed
+      if (this.guid !== guid || !_.isEqual(this.path, path)) {
+        this.guid = guid
+        this.path = path
+        this.trigger(path, guid)
+      }
     }
   })
 
@@ -41,11 +44,14 @@ export default function (Actions) {
     },*/
 
     onLoadActiveObjectStoreCompleted (item) {
-      // item can be an object or {}
-      this.item = item
-      this.loaded = _.keys(item).length > 0
-      // tell views that data has changed
-      this.trigger(item)
+      // only change if something has changed
+      if (!_.isEqual(item, this.item)) {
+        // item can be an object or {}
+        this.item = item
+        this.loaded = _.keys(item).length > 0
+        // tell views that data has changed
+        this.trigger(item)
+      }
     }
   })
 
