@@ -37,7 +37,6 @@ const Nodes = React.createClass({
   },
 
   render () {
-    // console.log('treeNodesFromHierarchyObject.js, render: state', this.state)
     // console.log('treeNodesFromHierarchyObject.js, render: props', this.props)
     let nodes
     const that = this
@@ -54,12 +53,13 @@ const Nodes = React.createClass({
         const keyIsObjectShown = object !== undefined && hO.GUID && object._id === hO.GUID
         const glyph = keyIsActive ? (keyIsObjectShown ? 'forward' : 'triangle-bottom') : (hO.children && hO.children.length > 0 ? 'triangle-right' : 'minus')
         const onClickNode = that.onClickNode.bind(that, {'hO': hO, 'gruppe': gruppe, 'path': path})
+        const showNode = replaceProblematicPathCharactersFromString(hO.Name) === activeKey && hO.children
 
         return (
           <li key={hO.Name} level={level} hO={hO} onClick={onClickNode}>
             <Glyphicon glyph={glyph} onClick={onClickNode}/>
             <div className={keyIsActive ? 'active' : null}>{hO.Name.replace('&#39;', '\'')}</div>
-            {(replaceProblematicPathCharactersFromString(hO.Name) === activeKey && hO.children) ? <Nodes hierarchy={hO.children} gruppe={gruppe} object={object} path={path}/> : null}
+            {showNode ? <Nodes hierarchy={hO.children} gruppe={gruppe} object={object} path={path}/> : ''}
           </li>
         )
       })
