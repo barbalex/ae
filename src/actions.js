@@ -41,7 +41,7 @@ export default function () {
     const validGroup = _.includes(gruppen, gruppe)
     if (!validGroup) return false
 
-    if (!window.objectStore.isGroupLoaded(gruppe) && !_.includes(window.objectStore.groupsLoading, gruppe) && gruppe) {
+    if (!app.objectStore.isGroupLoaded(gruppe) && !_.includes(app.objectStore.groupsLoading, gruppe) && gruppe) {
       // this group does not exist yet in the store
       const viewGruppePrefix = gruppe === 'Lebensräume' ? 'lr' : gruppe.toLowerCase()
       const viewName = 'artendb/' + viewGruppePrefix + 'NachName'
@@ -75,7 +75,7 @@ export default function () {
     if (!guid) {
       Actions.loadActiveObjectStore.completed({})
     } else {
-      const object = window.objectStore.items[guid]
+      const object = app.objectStore.items[guid]
       if (object) {
         // group is already loaded
         // pass object to activeObjectStore by completing action

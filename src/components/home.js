@@ -62,9 +62,9 @@ const Home = React.createClass({
 
   componentDidMount () {
     // listen to stores
-    this.listenTo(window.activePathStore, this.onPathStoreChange)
-    this.listenTo(window.objectStore, this.onObjectStoreChange)
-    this.listenTo(window.activeObjectStore, this.onActiveObjectStoreChange)
+    this.listenTo(app.activePathStore, this.onPathStoreChange)
+    this.listenTo(app.objectStore, this.onObjectStoreChange)
+    this.listenTo(app.activeObjectStore, this.onActiveObjectStoreChange)
   },
 
   componentWillUnmount () {

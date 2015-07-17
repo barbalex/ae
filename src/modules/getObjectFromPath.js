@@ -5,12 +5,13 @@
 
 'use strict'
 
+import app from 'ampersand-app'
 import _ from 'lodash'
 import isGuid from './isGuid.js'
 import replaceProblematicPathCharactersFromArray from './replaceProblematicPathCharactersFromArray.js'
 
 export default function (path) {
-  const items = window.objectStore.items
+  const items = app.objectStore.items
 
   // check if a guidPath was passed
   const isGuidPath = path.length === 1 && isGuid(path[0])

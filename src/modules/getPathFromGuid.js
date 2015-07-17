@@ -7,12 +7,13 @@
 
 'use strict'
 
+import app from 'ampersand-app'
 import _ from 'lodash'
 import replaceProblematicPathCharactersFromArray from './replaceProblematicPathCharactersFromArray.js'
 
 export default function (guid, object) {
   let path = []
-  object = object || window.objectStore.items[guid]
+  object = object || app.objectStore.items[guid]
   if (object && object.Taxonomien && object.Taxonomien[0] && object.Taxonomien[0].Eigenschaften && object.Taxonomien[0].Eigenschaften.Hierarchie && object.Taxonomien[0].Eigenschaften.Hierarchie) {
     path = _.pluck(object.Taxonomien[0].Eigenschaften.Hierarchie, 'Name')
     path = replaceProblematicPathCharactersFromArray(path)

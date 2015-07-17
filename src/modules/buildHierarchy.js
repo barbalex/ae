@@ -305,7 +305,6 @@ function checkLevel9 (hierarchy, hArray) {
 export default function (objects) {
   // prepare hierarchieObject
   let hierarchy = []
-  // window.hierarchy = hierarchy
 
   // extract Hierarchie from objects
   // used to use _.map but that contained undefined elements because it always returns a value

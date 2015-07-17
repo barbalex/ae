@@ -4,6 +4,7 @@
 
 'use strict'
 
+import app from 'ampersand-app'
 import React from 'react'
 import { Accordion, Panel } from 'react-bootstrap'
 import _ from 'lodash'
@@ -30,7 +31,7 @@ const buildFieldForProperty = function (propertyCollection, object, value, key, 
     // build as single link
     // console.log('value', value)
     // get name from guid
-    const linkedObject = window.objectStore.items[value]
+    const linkedObject = app.objectStore.items[value]
     if (linkedObject) {
       const linkedObjectId = linkedObject._id
       const linkedObjectName = linkedObject.Taxonomie.Eigenschaften['Artname vollständig']

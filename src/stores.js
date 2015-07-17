@@ -7,7 +7,7 @@ import addPathToObject from './modules/addPathToObject.js'
 import buildHierarchy from './modules/buildHierarchy.js'
 
 export default function (Actions) {
-  window.activePathStore = Reflux.createStore({
+  app.activePathStore = Reflux.createStore({
     /*
      * simple store that keeps the path (=url) as an array
      * components can listen to changes in order to update the path
@@ -28,7 +28,7 @@ export default function (Actions) {
     }
   })
 
-  window.activeObjectStore = Reflux.createStore({
+  app.activeObjectStore = Reflux.createStore({
     /*
      * keeps the active object (active = is shown)
      * components can listen to changes in order to update it's data
@@ -51,7 +51,7 @@ export default function (Actions) {
     }
   })
 
-  window.objectStore = Reflux.createStore({
+  app.objectStore = Reflux.createStore({
     /* This store caches the requested items in the items property
      * When all the items are loaded,
      * it will set the loaded property to true
