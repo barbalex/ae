@@ -22,34 +22,15 @@ export default function () {
     loadPathStore: {}
   })
 
-  Actions.loadPouch.listen(function (path, gruppe, guid) {
+  Actions.loadPouch.listen(function () {
     // get all items
-    app.localDb.allDocs({ include_docs: true })
+    app.localDb.replicate.from(app.remoteDb)
       .then(function (result) {
-        // extract objects from result
-        const itemsArray = result.rows.map(function (row) {
-          return row.doc
-        })
-        // prepare payload and send completed event
-        const hierarchy = buildHierarchyObjectForGruppe(itemsArray, gruppe)
-        //   convert items-array to object with keys made of id's
-        const items = _.indexBy(itemsArray, '_id')
-        const payload = {
-          gruppe: gruppe,
-          items: items,
-          hierarchy: hierarchy,
-          path: path,
-          guid: guid
-        }
-        Actions.loadPouch.completed(payload)
+        console.log('Actions.loadPouch, replication complete. result:', result)
+        Actions.loadPouch.completed()
       })
       .catch(function (error) {
-        const payload = {
-          gruppe: gruppe,
-          path: path,
-          guid: guid
-        }
-        Actions.loadPouch.failed(error, payload)
+        console.log('Actions.loadPouch, replication error:', error)
       })
   })
 
@@ -63,7 +44,13 @@ export default function () {
 
     if (!window.objectStore.isGroupLoaded(gruppe) && !_.includes(window.objectStore.groupsLoading, gruppe) && gruppe) {
       // decide which db to get the data from
-
+      app.localDb.info()
+        .then(function (result) {
+          console.log('Actions.loadObjectStore, localDb result.doc_count', result.doc_count)
+        })
+        .catch(function (error) {
+          console.log('Actions.loadObjectStore, localDb error', error)
+        })
       // this group does not exist yet in the store
       const viewGruppePrefix = gruppe === 'Lebensräume' ? 'lr' : gruppe.toLowerCase()
       const viewName = 'artendb/' + viewGruppePrefix + 'NachName'

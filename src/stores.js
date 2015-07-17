@@ -93,16 +93,11 @@ export default function (Actions) {
       }
     },
 
-    onLoadObjectStoreFromPouchCompleted (payloadReceived) {
-      const { path, gruppe, guid } = payloadReceived
-      // do
-      kickOffStores(path, gruppe, guid)
+    onLoadPouchCompleted () {
     },
 
-    onLoadObjectStoreFromPouchFailed (error, payloadReceived) {
-      const { path, gruppe, guid } = payloadReceived
-      kickOffStores(path, gruppe, guid)
-      console.log('error loading objectStore from pouch:', error)
+    onLoadFailed (error) {
+      console.log('objectStore: error loading objectStore from pouch:', error)
     },
 
     onLoadObjectStoreCompleted (payloadReceived) {
