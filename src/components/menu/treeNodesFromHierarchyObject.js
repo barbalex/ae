@@ -13,7 +13,6 @@ const Nodes = React.createClass({
   propTypes: {
     hierarchy: React.PropTypes.array,  // = hierarchy objects OF THIS LEVEL
     activeKey: React.PropTypes.string,
-    gruppe: React.PropTypes.string,
     object: React.PropTypes.object,
     path: React.PropTypes.array
   },
@@ -46,8 +45,7 @@ const Nodes = React.createClass({
     // console.log('treeNodesFromHierarchyObject.js, render: props', this.props)
     let nodes
     const that = this
-    const { hierarchy, object, path, gruppe } = this.props
-
+    const { hierarchy, object, path } = this.props
     nodes = _.chain(hierarchy)
       .sortBy(function (hO) {
         return hO.Name
@@ -65,7 +63,7 @@ const Nodes = React.createClass({
           <li key={hO.Name} level={level} hO={hO} onClick={onClickNode}>
             <Glyphicon glyph={glyph} onClick={onClickNode}/>
             <div className={keyIsActive ? 'active' : null}>{hO.Name.replace('&#39;', '\'')}</div>
-            {showNode ? <Nodes hierarchy={hO.children} gruppe={gruppe} object={object} path={path}/> : ''}
+            {showNode ? <Nodes hierarchy={hO.children} object={object} path={path}/> : ''}
           </li>
         )
       })

@@ -10,7 +10,6 @@ export default React.createClass({
 
   propTypes: {
     hierarchy: React.PropTypes.array,
-    gruppe: React.PropTypes.string,
     groupsLoading: React.PropTypes.array,
     allGroupsLoaded: React.PropTypes.bool,
     object: React.PropTypes.object,
@@ -18,7 +17,7 @@ export default React.createClass({
   },
 
   render () {
-    const { hierarchy, gruppe, object, path, groupsLoading, allGroupsLoaded } = this.props
+    const { hierarchy, object, path, groupsLoading, allGroupsLoaded } = this.props
     const loading = groupsLoading && groupsLoading.length > 0
 
     // calculate max height of tree
@@ -32,7 +31,7 @@ export default React.createClass({
 
     const tree = (
       <div>
-        <Nodes hierarchy={hierarchy} gruppe={gruppe} object={object} path={path} />
+        <Nodes hierarchy={hierarchy} object={object} path={path} />
       </div>
     )
 

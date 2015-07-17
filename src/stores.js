@@ -1,9 +1,10 @@
 'use strict'
 
+import app from 'ampersand-app'
 import Reflux from 'reflux'
 import _ from 'lodash'
 import addPathToObject from './modules/addPathToObject.js'
-import kickOffStores from './modules/kickOffStores.js'
+import buildHierarchy from './modules/buildHierarchy.js'
 
 export default function (Actions) {
   window.pathStore = Reflux.createStore({
@@ -87,13 +88,36 @@ export default function (Actions) {
           hierarchy: this.hierarchy,
           gruppe: gruppe,
           groupsLoaded: this.groupsLoaded(),
-          groupsLoading: this.groupsLoading
+          groupsLoading: []
         }
         this.trigger(payload)
       }
     },
 
     onLoadPouchCompleted () {
+      // get all docs from pouch
+      app.localDb.allDocs({include_docs: true})
+        .then(function (result) {
+           // extract objects from result
+          const itemsArray = result.rows.map(function (row) {
+            return row.doc
+          })
+          // prepare payload and send completed event
+          const hierarchy = buildHierarchy(itemsArray)
+          //   convert items-array to object with keys made of id's
+          const items = _.indexBy(itemsArray, '_id')
+          // tell views that data has changed
+          const payload = {
+            items: this.items,
+            hierarchy: this.hierarchy,
+            groupsLoaded: this.groupsLoaded(),
+            groupsLoading: this.groupsLoading
+          }
+      this.trigger(payload)
+        })
+        .catch(function (error) {
+
+        })
     },
 
     onLoadFailed (error) {
@@ -103,9 +127,8 @@ export default function (Actions) {
     onLoadObjectStoreCompleted (payloadReceived) {
       // const that = this
       const { gruppe, items, hierarchy } = payloadReceived
-      console.log('objectStore: finished loading, payload', payloadReceived)
 
-      // although this should ony happen once, make sure hierarchy is only included once
+      // although this should only happen once, make sure hierarchy is only included once
       this.hierarchy = _.without(this.hierarchy, _.findWhere(this.hierarchy, { 'Name': gruppe }))
       this.hierarchy.push(hierarchy)
 
@@ -126,11 +149,9 @@ export default function (Actions) {
       const payload = {
         items: this.items,
         hierarchy: this.hierarchy,
-        gruppe: gruppe,
         groupsLoaded: this.groupsLoaded(),
         groupsLoading: this.groupsLoading
       }
-      console.log('objectStore: triggering with payload', payload)
       this.trigger(payload)
     },
 

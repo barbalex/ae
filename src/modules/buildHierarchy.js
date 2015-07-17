@@ -31,7 +31,7 @@
         }
       ]
     }
- * the function recieves the objects of a group
+ * the function recieves objects
  * it builds hierarchy
  * building principle:
  * 0. use the array in Eigenschaften.Hierarchie of the desired taxonomy
@@ -45,23 +45,25 @@
 
 'use strict'
 
+// TODO: refactor to remove repeating code
+
 import _ from 'lodash'
 import replaceProblematicPathCharactersFromArray from './replaceProblematicPathCharactersFromArray.js'
 
-function checkLevel1 (hierarchy, hArray, gruppe) {
+function checkLevel1 (hierarchy, hArray) {
   const el1 = _.find(hierarchy, function (el) {
     return el.Name === hArray[0].Name
   })
   if (!el1) {
     const newEl1 = _.clone(hArray[0])
     newEl1.children = []
-    newEl1.path = replaceProblematicPathCharactersFromArray([gruppe, hArray[0].Name])
+    newEl1.path = replaceProblematicPathCharactersFromArray([hArray[0].Name])
     hierarchy.push(newEl1)
   }
 }
 
-function checkLevel2 (hierarchy, hArray, gruppe) {
-  checkLevel1(hierarchy, hArray, gruppe)
+function checkLevel2 (hierarchy, hArray) {
+  checkLevel1(hierarchy, hArray)
   const el1 = _.find(hierarchy, function (el) {
     return el.Name === hArray[0].Name
   })
@@ -71,14 +73,14 @@ function checkLevel2 (hierarchy, hArray, gruppe) {
   if (!el2) {
     const newEl2 = _.clone(hArray[1])
     newEl2.children = []
-    newEl2.path = replaceProblematicPathCharactersFromArray([gruppe, hArray[0].Name, hArray[1].Name])
+    newEl2.path = replaceProblematicPathCharactersFromArray([hArray[0].Name, hArray[1].Name])
     el1.children.push(newEl2)
   }
 }
 
-function checkLevel3 (hierarchy, hArray, gruppe) {
-  checkLevel1(hierarchy, hArray, gruppe)
-  checkLevel2(hierarchy, hArray, gruppe)
+function checkLevel3 (hierarchy, hArray) {
+  checkLevel1(hierarchy, hArray)
+  checkLevel2(hierarchy, hArray)
   const el1 = _.find(hierarchy, function (el) {
     return el.Name === hArray[0].Name
   })
@@ -91,15 +93,15 @@ function checkLevel3 (hierarchy, hArray, gruppe) {
   if (!el3) {
     const newEl3 = _.clone(hArray[2])
     newEl3.children = []
-    newEl3.path = replaceProblematicPathCharactersFromArray([gruppe, hArray[0].Name, hArray[1].Name, hArray[2].Name])
+    newEl3.path = replaceProblematicPathCharactersFromArray([hArray[0].Name, hArray[1].Name, hArray[2].Name])
     el2.children.push(newEl3)
   }
 }
 
-function checkLevel4 (hierarchy, hArray, gruppe) {
-  checkLevel1(hierarchy, hArray, gruppe)
-  checkLevel2(hierarchy, hArray, gruppe)
-  checkLevel3(hierarchy, hArray, gruppe)
+function checkLevel4 (hierarchy, hArray) {
+  checkLevel1(hierarchy, hArray)
+  checkLevel2(hierarchy, hArray)
+  checkLevel3(hierarchy, hArray)
   const el1 = _.find(hierarchy, function (el) {
     return el.Name === hArray[0].Name
   })
@@ -115,16 +117,16 @@ function checkLevel4 (hierarchy, hArray, gruppe) {
   if (!el4) {
     const newEl4 = _.clone(hArray[3])
     newEl4.children = []
-    newEl4.path = replaceProblematicPathCharactersFromArray([gruppe, hArray[0].Name, hArray[1].Name, hArray[2].Name, hArray[3].Name])
+    newEl4.path = replaceProblematicPathCharactersFromArray([hArray[0].Name, hArray[1].Name, hArray[2].Name, hArray[3].Name])
     el3.children.push(newEl4)
   }
 }
 
-function checkLevel5 (hierarchy, hArray, gruppe) {
-  checkLevel1(hierarchy, hArray, gruppe)
-  checkLevel2(hierarchy, hArray, gruppe)
-  checkLevel3(hierarchy, hArray, gruppe)
-  checkLevel4(hierarchy, hArray, gruppe)
+function checkLevel5 (hierarchy, hArray) {
+  checkLevel1(hierarchy, hArray)
+  checkLevel2(hierarchy, hArray)
+  checkLevel3(hierarchy, hArray)
+  checkLevel4(hierarchy, hArray)
   const el1 = _.find(hierarchy, function (el) {
     return el.Name === hArray[0].Name
   })
@@ -143,17 +145,17 @@ function checkLevel5 (hierarchy, hArray, gruppe) {
   if (!el5) {
     const newEl5 = _.clone(hArray[4])
     newEl5.children = []
-    newEl5.path = replaceProblematicPathCharactersFromArray([gruppe, hArray[0].Name, hArray[1].Name, hArray[2].Name, hArray[3].Name, hArray[4].Name])
+    newEl5.path = replaceProblematicPathCharactersFromArray([hArray[0].Name, hArray[1].Name, hArray[2].Name, hArray[3].Name, hArray[4].Name])
     el4.children.push(newEl5)
   }
 }
 
-function checkLevel6 (hierarchy, hArray, gruppe) {
-  checkLevel1(hierarchy, hArray, gruppe)
-  checkLevel2(hierarchy, hArray, gruppe)
-  checkLevel3(hierarchy, hArray, gruppe)
-  checkLevel4(hierarchy, hArray, gruppe)
-  checkLevel5(hierarchy, hArray, gruppe)
+function checkLevel6 (hierarchy, hArray) {
+  checkLevel1(hierarchy, hArray)
+  checkLevel2(hierarchy, hArray)
+  checkLevel3(hierarchy, hArray)
+  checkLevel4(hierarchy, hArray)
+  checkLevel5(hierarchy, hArray)
   const el1 = _.find(hierarchy, function (el) {
     return el.Name === hArray[0].Name
   })
@@ -175,18 +177,18 @@ function checkLevel6 (hierarchy, hArray, gruppe) {
   if (!el6) {
     const newEl6 = _.clone(hArray[5])
     newEl6.children = []
-    newEl6.path = replaceProblematicPathCharactersFromArray([gruppe, hArray[0].Name, hArray[1].Name, hArray[2].Name, hArray[3].Name, hArray[4].Name, hArray[5].Name])
+    newEl6.path = replaceProblematicPathCharactersFromArray([hArray[0].Name, hArray[1].Name, hArray[2].Name, hArray[3].Name, hArray[4].Name, hArray[5].Name])
     el5.children.push(newEl6)
   }
 }
 
-function checkLevel7 (hierarchy, hArray, gruppe) {
-  checkLevel1(hierarchy, hArray, gruppe)
-  checkLevel2(hierarchy, hArray, gruppe)
-  checkLevel3(hierarchy, hArray, gruppe)
-  checkLevel4(hierarchy, hArray, gruppe)
-  checkLevel5(hierarchy, hArray, gruppe)
-  checkLevel6(hierarchy, hArray, gruppe)
+function checkLevel7 (hierarchy, hArray) {
+  checkLevel1(hierarchy, hArray)
+  checkLevel2(hierarchy, hArray)
+  checkLevel3(hierarchy, hArray)
+  checkLevel4(hierarchy, hArray)
+  checkLevel5(hierarchy, hArray)
+  checkLevel6(hierarchy, hArray)
   const el1 = _.find(hierarchy, function (el) {
     return el.Name === hArray[0].Name
   })
@@ -211,19 +213,19 @@ function checkLevel7 (hierarchy, hArray, gruppe) {
   if (!el7) {
     const newEl7 = _.clone(hArray[6])
     newEl7.children = []
-    newEl7.path = replaceProblematicPathCharactersFromArray([gruppe, hArray[0].Name, hArray[1].Name, hArray[2].Name, hArray[3].Name, hArray[4].Name, hArray[5].Name, hArray[6].Name])
+    newEl7.path = replaceProblematicPathCharactersFromArray([hArray[0].Name, hArray[1].Name, hArray[2].Name, hArray[3].Name, hArray[4].Name, hArray[5].Name, hArray[6].Name])
     el6.children.push(newEl7)
   }
 }
 
-function checkLevel8 (hierarchy, hArray, gruppe) {
-  checkLevel1(hierarchy, hArray, gruppe)
-  checkLevel2(hierarchy, hArray, gruppe)
-  checkLevel3(hierarchy, hArray, gruppe)
-  checkLevel4(hierarchy, hArray, gruppe)
-  checkLevel5(hierarchy, hArray, gruppe)
-  checkLevel6(hierarchy, hArray, gruppe)
-  checkLevel7(hierarchy, hArray, gruppe)
+function checkLevel8 (hierarchy, hArray) {
+  checkLevel1(hierarchy, hArray)
+  checkLevel2(hierarchy, hArray)
+  checkLevel3(hierarchy, hArray)
+  checkLevel4(hierarchy, hArray)
+  checkLevel5(hierarchy, hArray)
+  checkLevel6(hierarchy, hArray)
+  checkLevel7(hierarchy, hArray)
   const el1 = _.find(hierarchy, function (el) {
     return el.Name === hArray[0].Name
   })
@@ -251,20 +253,20 @@ function checkLevel8 (hierarchy, hArray, gruppe) {
   if (!el8) {
     const newEl8 = _.clone(hArray[7])
     newEl8.children = []
-    newEl8.path = replaceProblematicPathCharactersFromArray([gruppe, hArray[0].Name, hArray[1].Name, hArray[2].Name, hArray[3].Name, hArray[4].Name, hArray[5].Name, hArray[6].Name, hArray[7].Name])
+    newEl8.path = replaceProblematicPathCharactersFromArray([hArray[0].Name, hArray[1].Name, hArray[2].Name, hArray[3].Name, hArray[4].Name, hArray[5].Name, hArray[6].Name, hArray[7].Name])
     el7.children.push(newEl8)
   }
 }
 
-function checkLevel9 (hierarchy, hArray, gruppe) {
-  checkLevel1(hierarchy, hArray, gruppe)
-  checkLevel2(hierarchy, hArray, gruppe)
-  checkLevel3(hierarchy, hArray, gruppe)
-  checkLevel4(hierarchy, hArray, gruppe)
-  checkLevel5(hierarchy, hArray, gruppe)
-  checkLevel6(hierarchy, hArray, gruppe)
-  checkLevel7(hierarchy, hArray, gruppe)
-  checkLevel8(hierarchy, hArray, gruppe)
+function checkLevel9 (hierarchy, hArray) {
+  checkLevel1(hierarchy, hArray)
+  checkLevel2(hierarchy, hArray)
+  checkLevel3(hierarchy, hArray)
+  checkLevel4(hierarchy, hArray)
+  checkLevel5(hierarchy, hArray)
+  checkLevel6(hierarchy, hArray)
+  checkLevel7(hierarchy, hArray)
+  checkLevel8(hierarchy, hArray)
   const el1 = _.find(hierarchy, function (el) {
     return el.Name === hArray[0].Name
   })
@@ -295,60 +297,57 @@ function checkLevel9 (hierarchy, hArray, gruppe) {
   if (!el9) {
     const newEl9 = _.clone(hArray[8])
     newEl9.children = []
-    newEl9.path = replaceProblematicPathCharactersFromArray([gruppe, hArray[0].Name, hArray[1].Name, hArray[2].Name, hArray[3].Name, hArray[4].Name, hArray[5].Name, hArray[6].Name, hArray[7].Name, hArray[8].Name])
+    newEl9.path = replaceProblematicPathCharactersFromArray([hArray[0].Name, hArray[1].Name, hArray[2].Name, hArray[3].Name, hArray[4].Name, hArray[5].Name, hArray[6].Name, hArray[7].Name, hArray[8].Name])
     el8.children.push(newEl9)
   }
 }
 
-export default function (objects, gruppe) {
+export default function (objects) {
   // prepare hierarchieObject
   let hierarchy = []
   window.hierarchy = hierarchy
 
   // extract Hierarchie from objects
   const hierarchiesArray = _.map(objects, function (object) {
-    if (object.Taxonomien[0].Eigenschaften.Hierarchie) return _.get(object, 'Taxonomien[0].Eigenschaften.Hierarchie')
+    if (object.Taxonomien[0].Eigenschaften.Hierarchie) {
+      const gruppenObjekt = {'Name': object.Gruppe}
+      const hArray = _.get(object, 'Taxonomien[0].Eigenschaften.Hierarchie')
+      hArray.unshift(gruppenObjekt)
+      return hArray
+    }
   })
 
   _.forEach(hierarchiesArray, function (hArray) {
     switch (hArray.length) {
     case 1:
-      checkLevel1(hierarchy, hArray, gruppe)
+      checkLevel1(hierarchy, hArray)
       break
     case 2:
-      checkLevel2(hierarchy, hArray, gruppe)
+      checkLevel2(hierarchy, hArray)
       break
     case 3:
-      checkLevel3(hierarchy, hArray, gruppe)
+      checkLevel3(hierarchy, hArray)
       break
     case 4:
-      checkLevel4(hierarchy, hArray, gruppe)
+      checkLevel4(hierarchy, hArray)
       break
     case 5:
-      checkLevel5(hierarchy, hArray, gruppe)
+      checkLevel5(hierarchy, hArray)
       break
     case 6:
-      checkLevel6(hierarchy, hArray, gruppe)
+      checkLevel6(hierarchy, hArray)
       break
     case 7:
-      checkLevel7(hierarchy, hArray, gruppe)
+      checkLevel7(hierarchy, hArray)
       break
     case 8:
-      checkLevel8(hierarchy, hArray, gruppe)
+      checkLevel8(hierarchy, hArray)
       break
     case 9:
-      checkLevel9(hierarchy, hArray, gruppe)
+      checkLevel9(hierarchy, hArray)
       break
     }
   })
 
-  const returnValue = {
-    'Name': gruppe,
-    'path': [gruppe],
-    children: hierarchy
-  }
-
-  // console.log('buildHierarchyObjectForGruppe.js, returnValue', returnValue)
-
-  return returnValue
+  return hierarchy
 }

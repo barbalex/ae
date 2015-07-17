@@ -3,9 +3,8 @@
 import app from 'ampersand-app'
 import Reflux from 'reflux'
 import _ from 'lodash'
-import buildHierarchyObjectForGruppe from './modules/buildHierarchyObjectForGruppe'
+import buildHierarchy from './modules/buildHierarchy.js'
 import getGruppen from './modules/gruppen.js'
-import writeObjectStoreToPouch from './modules/writeObjectStoreToPouch.js'
 
 // Each action is like an event channel for one specific event. Actions are called by components.
 // The store is listening to all actions, and the components in turn are listening to the store.
@@ -43,14 +42,6 @@ export default function () {
     if (!validGroup) return false
 
     if (!window.objectStore.isGroupLoaded(gruppe) && !_.includes(window.objectStore.groupsLoading, gruppe) && gruppe) {
-      // decide which db to get the data from
-      app.localDb.info()
-        .then(function (result) {
-          console.log('Actions.loadObjectStore, localDb result.doc_count', result.doc_count)
-        })
-        .catch(function (error) {
-          console.log('Actions.loadObjectStore, localDb error', error)
-        })
       // this group does not exist yet in the store
       const viewGruppePrefix = gruppe === 'Lebensräume' ? 'lr' : gruppe.toLowerCase()
       const viewName = 'artendb/' + viewGruppePrefix + 'NachName'
@@ -61,15 +52,15 @@ export default function () {
           const itemsArray = result.rows.map(function (row) {
             return row.doc
           })
-          writeObjectStoreToPouch(itemsArray)
           // prepare payload and send completed event
-          const hierarchy = buildHierarchyObjectForGruppe(itemsArray, gruppe)
+          const hierarchy = buildHierarchy(itemsArray)
+          const hierarchyOfGruppe = _.find(hierarchy, {'Name': gruppe})
           //   convert items-array to object with keys made of id's
           const items = _.indexBy(itemsArray, '_id')
           const payload = {
             gruppe: gruppe,
             items: items,
-            hierarchy: hierarchy
+            hierarchy: hierarchyOfGruppe
           }
           Actions.loadObjectStore.completed(payload)
         })

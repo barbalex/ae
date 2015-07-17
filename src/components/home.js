@@ -162,7 +162,7 @@ const Home = React.createClass({
           </div>
           {this.createGruppen()}
           {showFilter ? <Filter items={items} /> : ''}
-          {showTree ? <TreeFromHierarchyObject hierarchy={hierarchy} gruppe={gruppe} groupsLoading={groupsLoading} allGroupsLoaded={allGroupsLoaded} object={object} isGuidPath={isGuidPath} path={path} /> : ''}
+          {showTree ? <TreeFromHierarchyObject hierarchy={hierarchy} groupsLoading={groupsLoading} allGroupsLoaded={allGroupsLoaded} object={object} isGuidPath={isGuidPath} path={path} /> : ''}
         </div>
         {showObject ? <Objekt object={object} items={items} /> : ''}
       </NavHelper>
