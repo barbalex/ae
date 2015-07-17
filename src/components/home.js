@@ -15,6 +15,7 @@ import TreeFromHierarchyObject from './menu/treeFromHierarchyObject.js'
 import getPathFromGuid from '../modules/getPathFromGuid.js'
 import getGruppen from '../modules/gruppen.js'
 import NavHelper from '../components/navHelper.js'
+import kickOffStores from '../modules/kickOffStores.js'
 
 const gruppen = getGruppen()
 
@@ -40,6 +41,11 @@ const Home = React.createClass({
     const { gruppe, guid, path } = this.props
     // add the gruppe that is being loaded so it's checkbox is never shown
     const groupsLoadedOrLoading = [gruppe]
+
+    // sync remoteDb to pouch (= localDb)
+    app.Actions.loadPouch()
+    // kick off stores by getting store data directly from the remote db
+    kickOffStores(path, gruppe, guid)
 
     return {
       hierarchy: [],

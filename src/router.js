@@ -7,7 +7,6 @@ import Home from './components/home.js'
 import getUrlParameterByName from './modules/getUrlParameterByName.js'
 import isGuid from './modules/isGuid.js'
 import replaceProblematicPathCharactersFromArray from './modules/replaceProblematicPathCharactersFromArray.js'
-import kickOffStores from './modules/kickOffStores.js'
 
 export default Router.extend({
   routes: {
@@ -41,11 +40,6 @@ export default Router.extend({
       gruppe = null
       isGuidPath = true
     }
-
-    // sync remoteDb to pouch (= localDb)
-    app.Actions.loadPouch()
-    // kick off stores by getting store data directly from the remote db
-    kickOffStores(path, gruppe, guid)
 
     React.render(<Home isGuidPath={isGuidPath} gruppe={gruppe} guid={guid} path={path} />, document.body)
   }
