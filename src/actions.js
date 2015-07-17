@@ -1,12 +1,10 @@
 'use strict'
 
+import app from 'ampersand-app'
 import Reflux from 'reflux'
-import PouchDB from 'pouchdb'
 import _ from 'lodash'
-import pouchUrl from './modules/getCouchUrl.js'
 import buildHierarchyObjectForGruppe from './modules/buildHierarchyObjectForGruppe'
 import getGruppen from './modules/gruppen.js'
-import kickOffStores from './modules/kickOffStores.js'
 import writeObjectStoreToPouch from './modules/writeObjectStoreToPouch.js'
 
 // Each action is like an event channel for one specific event. Actions are called by components.
@@ -18,46 +16,41 @@ export default function () {
   let Actions
 
   Actions = Reflux.createActions({
-    loadObjectStoreFromPouch: {children: ['completed', 'failed']},
+    loadPouch: {children: ['completed', 'failed']},
     loadObjectStore: {children: ['completed', 'failed']},
     loadActiveObjectStore: {children: ['completed', 'failed']},
     loadPathStore: {}
   })
 
-  Actions.loadObjectStoreFromPouch.listen(function (path, gruppe, guid) {
-    // open existing db or create new
-    const localDb = new PouchDB('ae', function (error) {
-      if (error) return console.log('error opening local pouch ae:', error)
-      // get all items
-      localDb.allDocs({ include_docs: true })
-        .then(function (result) {
-          // extract objects from result
-          const itemsArray = result.rows.map(function (row) {
-            return row.doc
-          })
-          // prepare payload and send completed event
-          const hierarchy = buildHierarchyObjectForGruppe(itemsArray, gruppe)
-          //   convert items-array to object with keys made of id's
-          const items = _.indexBy(itemsArray, '_id')
-          const payload = {
-            gruppe: gruppe,
-            items: items,
-            hierarchy: hierarchy,
-            path: path,
-            guid: guid
-          }
-          kickOffStores(path, gruppe, guid)
-          Actions.loadObjectStoreFromPouch.completed(payload)
+  Actions.loadPouch.listen(function (path, gruppe, guid) {
+    // get all items
+    app.localDb.allDocs({ include_docs: true })
+      .then(function (result) {
+        // extract objects from result
+        const itemsArray = result.rows.map(function (row) {
+          return row.doc
         })
-        .catch(function (error) {
-          const payload = {
-            gruppe: gruppe,
-            path: path,
-            guid: guid
-          }
-          Actions.loadObjectStoreFromPouch.failed(error, payload)
-        })
-    })
+        // prepare payload and send completed event
+        const hierarchy = buildHierarchyObjectForGruppe(itemsArray, gruppe)
+        //   convert items-array to object with keys made of id's
+        const items = _.indexBy(itemsArray, '_id')
+        const payload = {
+          gruppe: gruppe,
+          items: items,
+          hierarchy: hierarchy,
+          path: path,
+          guid: guid
+        }
+        Actions.loadPouch.completed(payload)
+      })
+      .catch(function (error) {
+        const payload = {
+          gruppe: gruppe,
+          path: path,
+          guid: guid
+        }
+        Actions.loadPouch.failed(error, payload)
+      })
   })
 
   Actions.loadObjectStore.listen(function (gruppe) {
@@ -69,35 +62,33 @@ export default function () {
     if (!validGroup) return false
 
     if (!window.objectStore.isGroupLoaded(gruppe) && !_.includes(window.objectStore.groupsLoading, gruppe) && gruppe) {
+      // decide which db to get the data from
+
       // this group does not exist yet in the store
       const viewGruppePrefix = gruppe === 'Lebensräume' ? 'lr' : gruppe.toLowerCase()
       const viewName = 'artendb/' + viewGruppePrefix + 'NachName'
       // get group from remoteDb
-      const remoteDb = new PouchDB(pouchUrl(), function (error, response) {
-        if (error) { return console.log('error instantiating remoteDb:', error) }
-        // get fauna from remoteDb
-        remoteDb.query(viewName, { include_docs: true })
-          .then(function (result) {
-            // extract objects from result
-            const itemsArray = result.rows.map(function (row) {
-              return row.doc
-            })
-            writeObjectStoreToPouch(itemsArray)
-            // prepare payload and send completed event
-            const hierarchy = buildHierarchyObjectForGruppe(itemsArray, gruppe)
-            //   convert items-array to object with keys made of id's
-            const items = _.indexBy(itemsArray, '_id')
-            const payload = {
-              gruppe: gruppe,
-              items: items,
-              hierarchy: hierarchy
-            }
-            Actions.loadObjectStore.completed(payload)
+      app.remoteDb.query(viewName, {include_docs: true})
+        .then(function (result) {
+          // extract objects from result
+          const itemsArray = result.rows.map(function (row) {
+            return row.doc
           })
-          .catch(function (error) {
-            Actions.loadObjectStore.failed(error, gruppe)
-          })
-      })
+          writeObjectStoreToPouch(itemsArray)
+          // prepare payload and send completed event
+          const hierarchy = buildHierarchyObjectForGruppe(itemsArray, gruppe)
+          //   convert items-array to object with keys made of id's
+          const items = _.indexBy(itemsArray, '_id')
+          const payload = {
+            gruppe: gruppe,
+            items: items,
+            hierarchy: hierarchy
+          }
+          Actions.loadObjectStore.completed(payload)
+        })
+        .catch(function (error) {
+          Actions.loadObjectStore.failed(error, gruppe)
+        })
     }
   })
 
@@ -118,20 +109,16 @@ export default function () {
       } else {
         // this group is not loaded yet
         // get Object from couch
-        const couchUrl = pouchUrl()
-        const remoteDb = new PouchDB(couchUrl, function (error, response) {
-          if (error) { return console.log('error instantiating remoteDb: ', error) }
-          remoteDb.get(guid, { include_docs: true })
-            .then(function (object) {
-              // dispatch action to load data of this group
-              Actions.loadObjectStore(object.Gruppe)
-              // wait until store changes
-              Actions.loadActiveObjectStore.completed(object)
-            })
-            .catch(function (error) {
-              console.log('error fetching doc from ' + couchUrl + ' with guid ' + guid + ':', error)
-            })
-        })
+        app.remoteDb.get(guid, { include_docs: true })
+          .then(function (object) {
+            // dispatch action to load data of this group
+            Actions.loadObjectStore(object.Gruppe)
+            // wait until store changes
+            Actions.loadActiveObjectStore.completed(object)
+          })
+          .catch(function (error) {
+            console.log('error fetching doc from remoteDb with guid ' + guid + ':', error)
+          })
       }
     }
   })

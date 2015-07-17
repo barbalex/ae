@@ -1,17 +1,13 @@
 'use strict'
 
-import PouchDB from 'pouchdb'
+import app from 'ampersand-app'
 
 export default function (itemsArray) {
-  console.log('writeObjectStoreToPouch.js: itemsArray:', itemsArray)
-  const localDb = new PouchDB('ae', function (error) {
-    if (error) return console.log('error opening pouch ae:', error)
-    localDb.bulkDocs(itemsArray)
-      .then(function (result) {
-        console.log('writeObjectStoreToPouch.js: result from writing objects to pouch:', result)
-      })
-      .catch(function (error) {
-        console.log('error writing objects to pouch:', error)
-      })
-  })
+  app.localDb.bulkDocs(itemsArray)
+    .then(function (result) {
+      console.log('writeObjectStoreToPouch.js: result from writing objects to pouch:', result)
+    })
+    .catch(function (error) {
+      console.log('error writing objects to pouch:', error)
+    })
 }

@@ -6,6 +6,7 @@ import './styles/main.styl'
 import Router from './router.js'
 import actions from './actions.js'
 import stores from './stores'
+import pouchUrl from './modules/getCouchUrl.js'
 
 window.app = app // expose 'app' to the browser console
 window.PouchDB = PouchDB // enable pouch inspector
@@ -16,6 +17,12 @@ app.extend({
     stores(this.Actions)
     this.router = new Router()
     this.router.history.start()
+    this.localDb = new PouchDB('ae', function (error) {
+      if (error) return console.log('error initializing local pouch ae:', error)
+    })
+    this.remoteDb = new PouchDB(pouchUrl(), function (error) {
+      if (error) return console.log('error initializing remote couch:', error)
+    })
   }
 })
 
