@@ -6,6 +6,8 @@ import _ from 'lodash'
 import pouchUrl from './modules/getCouchUrl.js'
 import buildHierarchyObjectForGruppe from './modules/buildHierarchyObjectForGruppe'
 import getGruppen from './modules/gruppen.js'
+import kickOffStores from './modules/kickOffStores.js'
+import writeObjectStoreToPouch from './modules/writeObjectStoreToPouch.js'
 
 // Each action is like an event channel for one specific event. Actions are called by components.
 // The store is listening to all actions, and the components in turn are listening to the store.
@@ -16,9 +18,46 @@ export default function () {
   let Actions
 
   Actions = Reflux.createActions({
+    loadObjectStoreFromPouch: {children: ['completed', 'failed']},
     loadObjectStore: {children: ['completed', 'failed']},
     loadActiveObjectStore: {children: ['completed', 'failed']},
     loadPathStore: {}
+  })
+
+  Actions.loadObjectStoreFromPouch.listen(function (path, gruppe, guid) {
+    // open existing db or create new
+    const db = new PouchDB('ae', function (error) {
+      if (error) return console.log('error opening pouch ae:', error)
+      // get all items
+      db.allDocs({ include_docs: true })
+        .then(function (result) {
+          // extract objects from result
+          const itemsArray = result.rows.map(function (row) {
+            return row.doc
+          })
+          // prepare payload and send completed event
+          const hierarchy = buildHierarchyObjectForGruppe(itemsArray, gruppe)
+          //   convert items-array to object with keys made of id's
+          const items = _.indexBy(itemsArray, '_id')
+          const payload = {
+            gruppe: gruppe,
+            items: items,
+            hierarchy: hierarchy,
+            path: path,
+            guid: guid
+          }
+          kickOffStores(path, gruppe, guid)
+          Actions.loadObjectStoreFromPouch.completed(payload)
+        })
+        .catch(function (error) {
+          const payload = {
+            gruppe: gruppe,
+            path: path,
+            guid: guid
+          }
+          Actions.loadObjectStoreFromPouch.failed(error, payload)
+        })
+    })
   })
 
   Actions.loadObjectStore.listen(function (gruppe) {
@@ -31,7 +70,6 @@ export default function () {
 
     if (!window.objectStore.isGroupLoaded(gruppe) && !_.includes(window.objectStore.groupsLoading, gruppe) && gruppe) {
       // this group does not exist yet in the store
-      let itemsArray = []
       const viewGruppePrefix = gruppe === 'Lebensräume' ? 'lr' : gruppe.toLowerCase()
       const viewName = 'artendb/' + viewGruppePrefix + 'NachName'
       // get group from db
@@ -41,9 +79,10 @@ export default function () {
         db.query(viewName, { include_docs: true })
           .then(function (result) {
             // extract objects from result
-            itemsArray = result.rows.map(function (row) {
+            const itemsArray = result.rows.map(function (row) {
               return row.doc
             })
+            writeObjectStoreToPouch(itemsArray)
             // prepare payload and send completed event
             const hierarchy = buildHierarchyObjectForGruppe(itemsArray, gruppe)
             //   convert items-array to object with keys made of id's

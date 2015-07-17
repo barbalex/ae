@@ -1,9 +1,9 @@
 'use strict'
 
-import app from 'ampersand-app'
 import Reflux from 'reflux'
 import _ from 'lodash'
 import addPathToObject from './modules/addPathToObject.js'
+import kickOffStores from './modules/kickOffStores.js'
 
 export default function (Actions) {
   window.pathStore = Reflux.createStore({
@@ -93,6 +93,18 @@ export default function (Actions) {
       }
     },
 
+    onLoadObjectStoreFromPouchCompleted (payloadReceived) {
+      const { path, gruppe, guid } = payloadReceived
+      // do
+      kickOffStores(path, gruppe, guid)
+    },
+
+    onLoadObjectStoreFromPouchFailed (error, payloadReceived) {
+      const { path, gruppe, guid } = payloadReceived
+      kickOffStores(path, gruppe, guid)
+      console.log('error loading objectStore from pouch:', error)
+    },
+
     onLoadObjectStoreCompleted (payloadReceived) {
       // const that = this
       const { gruppe, items, hierarchy } = payloadReceived
@@ -111,13 +123,9 @@ export default function (Actions) {
 
       // loaded all items
       // signal that this group is not being loaded any more
-      const indexOfGruppe = this.groupsLoading.indexOf(gruppe)
-      this.groupsLoading.splice(indexOfGruppe, 1)
-      // weird. sometimes lade ... remained even after loading
-      // maybe need to do next command with setTimeout?
-      /*setTimeout(function () {
-        that.groupsLoading = _.without(that.groupsLoading, that.groupsLoaded())
-      }, 1)*/
+      // const indexOfGruppe = this.groupsLoading.indexOf(gruppe)
+      // this.groupsLoading.splice(indexOfGruppe, 1)
+      this.groupsLoading = _.without(this.groupsLoading, gruppe)
 
       // tell views that data has changed
       const payload = {
@@ -132,8 +140,9 @@ export default function (Actions) {
     },
 
     onLoadObjectStoreFailed (error, gruppe) {
-      const indexOfGruppe = this.groupsLoading.indexOf(gruppe)
-      this.groupsLoading.splice(indexOfGruppe, 1)
+      // const indexOfGruppe = this.groupsLoading.indexOf(gruppe)
+      // this.groupsLoading.splice(indexOfGruppe, 1)
+      this.groupsLoading = _.without(this.groupsLoading, gruppe)
       console.log('objectStore: loading items failed with error: ', error)
     }
   })

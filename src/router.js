@@ -41,19 +41,9 @@ export default Router.extend({
       isGuidPath = true
     }
 
-    // TODO: load store from pouch
+    // load store from pouch
     // that action then kicks off the stores
     app.Actions.loadObjectStoreFromPouch(path, gruppe, guid)
-
-    // THEN - WHEN?
-    // kick off stores
-    if (guid) {
-      app.Actions.loadActiveObjectStore(guid)
-    } else {
-      // loadActiveObjectStore loads objectStore too, so don't do it twice
-      if (gruppe) app.Actions.loadObjectStore(gruppe)
-    }
-    app.Actions.loadPathStore(path, guid)
 
     React.render(<Home isGuidPath={isGuidPath} gruppe={gruppe} guid={guid} path={path} />, document.body)
   }
