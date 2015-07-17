@@ -62,7 +62,7 @@ const Home = React.createClass({
 
   componentDidMount () {
     // listen to stores
-    this.listenTo(window.pathStore, this.onPathStoreChange)
+    this.listenTo(window.activePathStore, this.onPathStoreChange)
     this.listenTo(window.objectStore, this.onObjectStoreChange)
     this.listenTo(window.activeObjectStore, this.onActiveObjectStoreChange)
   },
