@@ -60,6 +60,8 @@ export default function (Actions) {
      */
     listenables: Actions,
 
+    paths: {},
+
     items: {},
 
     hierarchy: [],
@@ -114,6 +116,7 @@ export default function (Actions) {
           console.log('objectStore, onLoadPouchCompleted, hierarchy:', hierarchy)
           //   convert items-array to object with keys made of id's
           const items = _.indexBy(itemsArray, '_id')
+          
           // add path to items - it makes finding an item by path much easier
           _.forEach(items, function (item) {
             addPathToObject(item)
