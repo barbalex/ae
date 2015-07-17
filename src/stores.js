@@ -74,6 +74,8 @@ export default function (Actions) {
       return _.includes(this.groupsLoaded(), gruppe)
     },
 
+    pouchLoaded: false,
+
     onLoadObjectStore (gruppe) {
       // somehow this get's called when clicking a node
       // hm. why?
@@ -95,28 +97,44 @@ export default function (Actions) {
     },
 
     onLoadPouchCompleted () {
+      console.log('objectStore, onLoadPouchCompleted')
+      const that = this
+      this.pouchLoaded = true
       // get all docs from pouch
+      // an error occurs - and it is too cpu intensive
       app.localDb.allDocs({include_docs: true})
         .then(function (result) {
-           // extract objects from result
+          console.log('objectStore, onLoadPouchCompleted: allDocs fetched')
+          // extract objects from result
           const itemsArray = result.rows.map(function (row) {
             return row.doc
           })
-          // prepare payload and send completed event
+          console.log('objectStore, onLoadPouchCompleted, itemsArray.length:', itemsArray.length)
           const hierarchy = buildHierarchy(itemsArray)
+          console.log('objectStore, onLoadPouchCompleted, hierarchy:', hierarchy)
           //   convert items-array to object with keys made of id's
           const items = _.indexBy(itemsArray, '_id')
+          // add path to items - it makes finding an item by path much easier
+          _.forEach(items, function (item) {
+            addPathToObject(item)
+          })
+
+          that.items = items
+          that.hierarchy = hierarchy
+          // that.hierarchy = []
+          that.groupsLoading = []
+
           // tell views that data has changed
           const payload = {
-            items: this.items,
-            hierarchy: this.hierarchy,
-            groupsLoaded: this.groupsLoaded(),
-            groupsLoading: this.groupsLoading
+            items: that.items,
+            hierarchy: that.hierarchy,
+            groupsLoaded: that.groupsLoaded(),
+            groupsLoading: []
           }
-      this.trigger(payload)
+          that.trigger(payload)
         })
         .catch(function (error) {
-
+          console.log('objectStore, onLoadPouchCompleted, error processing allDocs:', error)
         })
     },
 
@@ -141,8 +159,6 @@ export default function (Actions) {
 
       // loaded all items
       // signal that this group is not being loaded any more
-      // const indexOfGruppe = this.groupsLoading.indexOf(gruppe)
-      // this.groupsLoading.splice(indexOfGruppe, 1)
       this.groupsLoading = _.without(this.groupsLoading, gruppe)
 
       // tell views that data has changed
