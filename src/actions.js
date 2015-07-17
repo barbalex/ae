@@ -26,10 +26,10 @@ export default function () {
 
   Actions.loadObjectStoreFromPouch.listen(function (path, gruppe, guid) {
     // open existing db or create new
-    const db = new PouchDB('ae', function (error) {
-      if (error) return console.log('error opening pouch ae:', error)
+    const localDb = new PouchDB('ae', function (error) {
+      if (error) return console.log('error opening local pouch ae:', error)
       // get all items
-      db.allDocs({ include_docs: true })
+      localDb.allDocs({ include_docs: true })
         .then(function (result) {
           // extract objects from result
           const itemsArray = result.rows.map(function (row) {
@@ -72,11 +72,11 @@ export default function () {
       // this group does not exist yet in the store
       const viewGruppePrefix = gruppe === 'Lebensräume' ? 'lr' : gruppe.toLowerCase()
       const viewName = 'artendb/' + viewGruppePrefix + 'NachName'
-      // get group from db
-      const db = new PouchDB(pouchUrl(), function (error, response) {
-        if (error) { return console.log('error instantiating remote db') }
-        // get fauna from db
-        db.query(viewName, { include_docs: true })
+      // get group from remoteDb
+      const remoteDb = new PouchDB(pouchUrl(), function (error, response) {
+        if (error) { return console.log('error instantiating remoteDb:', error) }
+        // get fauna from remoteDb
+        remoteDb.query(viewName, { include_docs: true })
           .then(function (result) {
             // extract objects from result
             const itemsArray = result.rows.map(function (row) {
@@ -119,9 +119,9 @@ export default function () {
         // this group is not loaded yet
         // get Object from couch
         const couchUrl = pouchUrl()
-        const db = new PouchDB(couchUrl, function (error, response) {
-          if (error) { return console.log('error instantiating remote db: ', error) }
-          db.get(guid, { include_docs: true })
+        const remoteDb = new PouchDB(couchUrl, function (error, response) {
+          if (error) { return console.log('error instantiating remoteDb: ', error) }
+          remoteDb.get(guid, { include_docs: true })
             .then(function (object) {
               // dispatch action to load data of this group
               Actions.loadObjectStore(object.Gruppe)
