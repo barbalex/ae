@@ -3,8 +3,8 @@
 import app from 'ampersand-app'
 import Reflux from 'reflux'
 import _ from 'lodash'
-import addPathToObject from './modules/addPathToObject.js'
 import buildHierarchy from './modules/buildHierarchy.js'
+import replaceProblematicPathCharactersFromArray from './modules/replaceProblematicPathCharactersFromArray.js'
 
 export default function (Actions) {
   app.activePathStore = Reflux.createStore({
@@ -79,23 +79,16 @@ export default function (Actions) {
     pouchLoaded: false,
 
     onLoadObjectStore (gruppe) {
-      // somehow this get's called when clicking a node
-      // hm. why?
-      // well, sometime this may happen when syncing. But not yet...
-      // don't let it happen if group is already loaded
-      // because then group stays loading, as the process is never completed...
-      if (!this.isGroupLoaded(gruppe)) {
-        this.groupsLoading = _.union(this.groupsLoading, [gruppe])
-        // trigger change so components can set loading state
-        const payload = {
-          items: this.items,
-          hierarchy: this.hierarchy,
-          gruppe: gruppe,
-          groupsLoaded: this.groupsLoaded(),
-          groupsLoading: []
-        }
-        this.trigger(payload)
+      this.groupsLoading = _.union(this.groupsLoading, [gruppe])
+      // trigger change so components can set loading state
+      const payload = {
+        items: this.items,
+        hierarchy: this.hierarchy,
+        gruppe: gruppe,
+        groupsLoaded: this.groupsLoaded(),
+        groupsLoading: []
       }
+      this.trigger(payload)
     },
 
     onLoadPouchCompleted () {
@@ -116,15 +109,17 @@ export default function (Actions) {
           console.log('objectStore, onLoadPouchCompleted, hierarchy:', hierarchy)
           //   convert items-array to object with keys made of id's
           const items = _.indexBy(itemsArray, '_id')
-          
+
           // add path to items - it makes finding an item by path much easier
           _.forEach(items, function (item) {
-            addPathToObject(item)
+            const hierarchy = _.get(item, 'Taxonomien[0].Eigenschaften.Hierarchie', [])
+            let path = _.pluck(hierarchy, 'Name')
+            path = replaceProblematicPathCharactersFromArray(path)
+            that.paths[item._id] = path
           })
 
           that.items = items
           that.hierarchy = hierarchy
-          // that.hierarchy = []
           that.groupsLoading = []
 
           // tell views that data has changed
@@ -146,7 +141,7 @@ export default function (Actions) {
     },
 
     onLoadObjectStoreCompleted (payloadReceived) {
-      // const that = this
+      const that = this
       const { gruppe, items, hierarchy } = payloadReceived
 
       // although this should only happen once, make sure hierarchy is only included once
@@ -155,7 +150,10 @@ export default function (Actions) {
 
       // add path to items - it makes finding an item by path much easier
       _.forEach(items, function (item) {
-        addPathToObject(item)
+        const hierarchy = _.get(item, 'Taxonomien[0].Eigenschaften.Hierarchie', [])
+        let path = _.pluck(hierarchy, 'Name')
+        path = replaceProblematicPathCharactersFromArray(path)
+        that.paths[item._id] = path
       })
 
       _.assign(this.items, items)

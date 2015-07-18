@@ -19,8 +19,10 @@ export default function (path) {
 
   // check if the pathname equals an object's path
   path = replaceProblematicPathCharactersFromArray(path)
-  const object = _.find(items, function (item) {
-    return _.isEqual(item.path, path)
+  const objectStorePaths = app.objectStore.paths
+  const guid = _.find(objectStorePaths, function (objectStorePath) {
+    return _.isEqual(objectStorePath, path)
   })
-  return _.keys(object).length > 0 ? object : null
+  if (guid) return items[guid]
+  return null
 }
