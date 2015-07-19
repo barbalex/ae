@@ -131,7 +131,10 @@ export default function (Actions) {
             .catch(function (error) {
               console.log('objectStore, onLoadPouchCompleted: error writing hierarchy to pouch:', error)
             })
-          app.localPathDb.put(that.paths)
+
+          console.log('objectStore, onLoadPouchCompleted: writing that.paths to pouch:', that.paths)
+
+          app.localPathDb.put(that.paths, 'aeHierarchy')
             .then(function (result) {
               console.log('objectStore, onLoadPouchCompleted: written paths to pouch')
             })
