@@ -20,6 +20,12 @@ app.extend({
     this.localDb = new PouchDB('ae', function (error) {
       if (error) return console.log('error initializing local pouch ae:', error)
     })
+    this.localHierarchyDb = new PouchDB('aeHierarchy', function (error) {
+      if (error) return console.log('error initializing local pouch aeHierarchy:', error)
+    })
+    this.localPathDb = new PouchDB('aePaths', function (error) {
+      if (error) return console.log('error initializing local pouch aePaths:', error)
+    })
     this.remoteDb = new PouchDB(pouchUrl(), function (error) {
       if (error) return console.log('error initializing remote couch:', error)
     })

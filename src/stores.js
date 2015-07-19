@@ -60,10 +60,14 @@ export default function (Actions) {
      */
     listenables: Actions,
 
+    // paths is a hash of paths (strings joined with '/', as keys) and guids (as values)
+    // it helps finding a guid for a path quickly
     paths: {},
 
+    // items are the objects
     items: {},
 
+    // see module 'buildHierarchy' for how hierarchies are structured
     hierarchy: [],
 
     groupsLoading: [],
@@ -117,9 +121,24 @@ export default function (Actions) {
             path = replaceProblematicPathCharactersFromArray(path).join('/')
             that.paths[path] = item._id
           })
-
           that.items = items
           that.hierarchy = hierarchy
+          // save paths and hierarchy to pouch
+          app.localHierarchyDb.bulkDocs(hierarchy)
+            .then(function (result) {
+              console.log('objectStore, onLoadPouchCompleted: written hierarchy to pouch')
+            })
+            .catch(function (error) {
+              console.log('objectStore, onLoadPouchCompleted: error writing hierarchy to pouch:', error)
+            })
+          app.localPathDb.put(that.paths)
+            .then(function (result) {
+              console.log('objectStore, onLoadPouchCompleted: written paths to pouch')
+            })
+            .catch(function (error) {
+              console.log('objectStore, onLoadPouchCompleted: error writing paths to pouch:', error)
+            })
+
           that.groupsLoading = []
 
           // tell views that data has changed
@@ -152,8 +171,8 @@ export default function (Actions) {
       _.forEach(items, function (item) {
         const hierarchy = _.get(item, 'Taxonomien[0].Eigenschaften.Hierarchie', [])
         let path = _.pluck(hierarchy, 'Name')
-        path = replaceProblematicPathCharactersFromArray(path)
-        that.paths[item._id] = path
+        path = replaceProblematicPathCharactersFromArray(path).join('/')
+        that.paths[path] = item._id
       })
 
       _.assign(this.items, items)
