@@ -107,15 +107,15 @@ export default function (Actions) {
           console.log('objectStore, onLoadPouchCompleted, itemsArray.length:', itemsArray.length)
           const hierarchy = buildHierarchy(itemsArray)
           console.log('objectStore, onLoadPouchCompleted, hierarchy:', hierarchy)
-          //   convert items-array to object with keys made of id's
+          // convert items-array to object with keys made of id's
           const items = _.indexBy(itemsArray, '_id')
 
           // add path to items - it makes finding an item by path much easier
           _.forEach(items, function (item) {
             const hierarchy = _.get(item, 'Taxonomien[0].Eigenschaften.Hierarchie', [])
             let path = _.pluck(hierarchy, 'Name')
-            path = replaceProblematicPathCharactersFromArray(path)
-            that.paths[item._id] = path
+            path = replaceProblematicPathCharactersFromArray(path).join('/')
+            that.paths[path] = item._id
           })
 
           that.items = items

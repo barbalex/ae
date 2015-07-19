@@ -6,7 +6,6 @@
 'use strict'
 
 import app from 'ampersand-app'
-import _ from 'lodash'
 import isGuid from './isGuid.js'
 import replaceProblematicPathCharactersFromArray from './replaceProblematicPathCharactersFromArray.js'
 
@@ -19,10 +18,7 @@ export default function (path) {
 
   // check if the pathname equals an object's path
   path = replaceProblematicPathCharactersFromArray(path)
-  const objectStorePaths = app.objectStore.paths
-  const guid = _.find(objectStorePaths, function (objectStorePath) {
-    return _.isEqual(objectStorePath, path)
-  })
+  const guid = app.objectStore.paths[path.join('/')]
   if (guid) return items[guid]
   return null
 }
