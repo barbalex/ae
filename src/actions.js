@@ -52,18 +52,21 @@ export default function () {
       if (gruppe === 'Lebensräume') docId = 'ae_lr'
       if (gruppe === 'Macromycetes') docId = 'ae_pilze'
       const attachmentId = docId + '.txt'
-
-      console.log('actions.loadObjectStore, docId', docId)
-      console.log('actions.loadObjectStore, attachmentId', attachmentId)
+      const url = window.location.protocol + '//' + window.location.hostname + ':5984/artendb/' + docId + '/' + attachmentId
+      const qpGruppe = gruppe === 'Lebensräume' ? 'lr' : gruppe
       // get group from remoteDb
-      app.remoteDb.getAttachment(docId, attachmentId)
-        .then(function (file) {
-          return app.remoteDb.load(file)
+      app.localDb.load(url)
+        .then(function () {
+          return app.localDb.replicate.from(app.remoteDb, {
+            filter: 'artendb/gruppe',
+            query_params: {gruppe: qpGruppe}
+          })
         })
-        /*.then(function () {
-          return app.localDb.replicate.from(app.remoteDb)
-        })*/
+        .then(function () {
+          return app.localDb.allDocs({include_docs: true})
+        })
         .then(function (result) {
+          console.log('actions.loadObjectStore, result', result)
           // extract objects from result
           const itemsArray = result.rows.map(function (row) {
             return row.doc
