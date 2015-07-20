@@ -2,9 +2,14 @@
 
 import app from 'ampersand-app'
 import Reflux from 'reflux'
+import PouchDB from 'pouchdb'
+import pouchdbLoad from 'pouchdb-load'
 import _ from 'lodash'
 import buildHierarchy from './modules/buildHierarchy.js'
 import getGruppen from './modules/gruppen.js'
+
+// initualize pouchdb-load
+PouchDB.plugin(pouchdbLoad)
 
 // Each action is like an event channel for one specific event. Actions are called by components.
 // The store is listening to all actions, and the components in turn are listening to the store.
@@ -43,10 +48,21 @@ export default function () {
 
     if (!app.objectStore.isGroupLoaded(gruppe) && !_.includes(app.objectStore.groupsLoading, gruppe) && gruppe) {
       // this group does not exist yet in the store
-      const viewGruppePrefix = gruppe === 'Lebensräume' ? 'lr' : gruppe.toLowerCase()
-      const viewName = 'artendb/' + viewGruppePrefix + 'NachName'
+      let docId = 'ae_' + gruppe.toLowerCase()
+      if (gruppe === 'Lebensräume') docId = 'ae_lr'
+      if (gruppe === 'Macromycetes') docId = 'ae_pilze'
+      const attachmentId = docId + '.txt'
+
+      console.log('actions.loadObjectStore, docId', docId)
+      console.log('actions.loadObjectStore, attachmentId', attachmentId)
       // get group from remoteDb
-      app.remoteDb.query(viewName, {include_docs: true})
+      app.remoteDb.getAttachment(docId, attachmentId)
+        .then(function (file) {
+          return app.remoteDb.load(file)
+        })
+        /*.then(function () {
+          return app.localDb.replicate.from(app.remoteDb)
+        })*/
         .then(function (result) {
           // extract objects from result
           const itemsArray = result.rows.map(function (row) {
