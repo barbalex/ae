@@ -1,5 +1,6 @@
 'use strict'
 
+import app from 'ampersand-app'
 import React from 'react'
 import _ from 'lodash'
 import DropdownButton from 'react-bootstrap/lib/DropdownButton'
@@ -54,6 +55,10 @@ export default React.createClass({
     */
   },
 
+  replicate () {
+    app.Actions.loadPouch()
+  },
+
   openAdminPage () {
     console.log('openAdminPage was clicked')
     // TODO
@@ -81,6 +86,8 @@ export default React.createClass({
           <li role='presentation' className='dropdown-header'>Importieren oder löschen:</li>
           <MenuItem onClick={this.importPropertyCollection}>Eigenschaften</MenuItem>
           <MenuItem onClick={this.importRelationsCollection}>Beziehungen</MenuItem>
+          <MenuItem divider/>
+          <MenuItem onClick={this.replicate}>Daten replizieren</MenuItem>
           <MenuItem divider/>
           <MenuItem onClick={this.openAdminPage}>Administration</MenuItem>
           <MenuItem divider/>

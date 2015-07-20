@@ -16,10 +16,7 @@ PouchDB.plugin(pouchdbLoad)
 // Thus the flow is: User interaction -> component calls action -> store reacts and triggers -> components update
 
 export default function () {
-  // asyncResult creates child actions 'completed' and 'failed'
-  let Actions
-
-  Actions = Reflux.createActions({
+  let Actions = Reflux.createActions({
     loadPouch: {children: ['completed', 'failed']},
     loadObjectStore: {children: ['completed', 'failed']},
     loadActiveObjectStore: {children: ['completed', 'failed']},
@@ -48,25 +45,11 @@ export default function () {
 
     if (!app.objectStore.isGroupLoaded(gruppe) && !_.includes(app.objectStore.groupsLoading, gruppe) && gruppe) {
       // this group does not exist yet in the store
-      let docId = 'ae_' + gruppe.toLowerCase()
-      if (gruppe === 'Lebensräume') docId = 'ae_lr'
-      if (gruppe === 'Macromycetes') docId = 'ae_pilze'
-      const attachmentId = docId + '.txt'
-      const url = window.location.protocol + '//' + window.location.hostname + ':5984/artendb/' + docId + '/' + attachmentId
-      const qpGruppe = gruppe === 'Lebensräume' ? 'lr' : gruppe
+      const viewGruppePrefix = gruppe === 'Lebensräume' ? 'lr' : gruppe.toLowerCase()
+      const viewName = 'artendb/' + viewGruppePrefix + 'NachName'
       // get group from remoteDb
-      app.localDb.load(url)
-        .then(function () {
-          return app.localDb.replicate.from(app.remoteDb, {
-            filter: 'artendb/gruppe',
-            query_params: {gruppe: qpGruppe}
-          })
-        })
-        .then(function () {
-          return app.localDb.allDocs({include_docs: true})
-        })
+      app.remoteDb.query(viewName, {include_docs: true})
         .then(function (result) {
-          console.log('actions.loadObjectStore, result', result)
           // extract objects from result
           const itemsArray = result.rows.map(function (row) {
             return row.doc

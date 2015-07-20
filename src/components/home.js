@@ -42,8 +42,6 @@ const Home = React.createClass({
     // add the gruppe that is being loaded so it's checkbox is never shown
     const groupsLoadedOrLoading = [gruppe]
 
-    // sync remoteDb to pouch (= localDb)
-    // app.Actions.loadPouch()
     // kick off stores by getting store data directly from the remote db
     kickOffStores(path, gruppe, guid)
 
