@@ -25,9 +25,15 @@ export default function () {
 
   Actions.loadPouch.listen(function () {
     // get all items
-    app.localDb.replicate.from(app.remoteDb)
-      .then(function (result) {
-        console.log('Actions.loadPouch, replication complete. result:', result)
+    const url = window.location.protocol + '//' + window.location.hostname + ':5984/artendb/ae_objekte/ae_objekte.txt'
+    // const proxyUrl = window.location.protocol + '//' + window.location.hostname + ':5984/artendb'
+    const proxyUrl = 'http://46.101.166.244:5984/artendb'
+    app.localDb.load(url, {proxy: proxyUrl})
+      /*.then(function () {
+        // let regular replication catch up if objects have changed since dump was created
+        return app.localDb.replicate.from(app.remoteDb)
+      })*/
+      .then(function () {
         Actions.loadPouch.completed()
       })
       .catch(function (error) {
