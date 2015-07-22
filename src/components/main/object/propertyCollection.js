@@ -31,12 +31,17 @@ const buildFieldForProperty = function (propertyCollection, object, value, key, 
     // build as single link
     // console.log('value', value)
     // get name from guid
-    const linkedObject = app.objectStore.getItem(value)
-    if (linkedObject) {
-      const linkedObjectId = linkedObject._id
-      const linkedObjectName = linkedObject.Taxonomie.Eigenschaften['Artname vollständig']
-      return <LinkToSameGroup key={key} fieldName={key} guid ={linkedObjectId} objectName={linkedObjectName} />
-    }
+    app.objectStore.getItem(value)
+      .then(function (linkedObject) {
+        if (linkedObject) {
+          const linkedObjectId = linkedObject._id
+          const linkedObjectName = linkedObject.Taxonomie.Eigenschaften['Artname vollständig']
+          return <LinkToSameGroup key={key} fieldName={key} guid ={linkedObjectId} objectName={linkedObjectName} />
+        }
+      })
+      .catch(function (error) {
+        console.log('propertyCollection.js: error getting item from objectStore:', error)
+      })
   }
   if ((key === 'Gültige Namen' || key === 'Eingeschlossene Arten') && object.Gruppe === 'Flora') {
     // build array of links

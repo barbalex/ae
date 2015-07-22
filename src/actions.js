@@ -93,27 +93,32 @@ export default function () {
     if (!guid) {
       Actions.loadActiveObjectStore.completed({})
     } else {
-      const object = app.objectStore.getItem(guid)
-      if (object) {
-        // group is already loaded
-        // pass object to activeObjectStore by completing action
-        // if object is empty, store will have no item
-        // so there is never a failed action
-        Actions.loadActiveObjectStore.completed(object)
-      } else {
-        // this group is not loaded yet
-        // get Object from couch
-        app.remoteDb.get(guid, { include_docs: true })
-          .then(function (object) {
-            // dispatch action to load data of this group
-            Actions.loadObjectStore(object.Gruppe)
-            // wait until store changes
+      app.objectStore.getItem(guid)
+        .then(function (object) {
+          if (object) {
+            // group is already loaded
+            // pass object to activeObjectStore by completing action
+            // if object is empty, store will have no item
+            // so there is never a failed action
             Actions.loadActiveObjectStore.completed(object)
-          })
-          .catch(function (error) {
-            console.log('error fetching doc from remoteDb with guid ' + guid + ':', error)
-          })
-      }
+          } else {
+            // this group is not loaded yet
+            // get Object from couch
+            app.remoteDb.get(guid, { include_docs: true })
+              .then(function (object) {
+                // dispatch action to load data of this group
+                Actions.loadObjectStore(object.Gruppe)
+                // wait until store changes
+                Actions.loadActiveObjectStore.completed(object)
+              })
+              .catch(function (error) {
+                console.log('error fetching doc from remoteDb with guid ' + guid + ':', error)
+              })
+          }
+        })
+        .catch(function (error) {
+          console.log('Actions.loadActiveObjectStore: error getting item with guid ' + guid + ':', error)
+        })
     }
   })
 
