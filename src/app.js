@@ -28,8 +28,9 @@ app.extend({
       that.remoteDb = new PouchDB(pouchUrl())
     ])
     .catch(function (error) {
-      console.log('error initializing pouches:', error)
+      console.log('app.js: error initializing pouches:', error)
     })
+    if (!window.localStorage.groupsLoadedInPouch) window.localStorage.groupsLoadedInPouch = ''
   }
 })
 

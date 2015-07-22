@@ -73,6 +73,20 @@ export default function (Actions) {
     groupsLoading: [],
 
     groupsLoaded () {
+      if (this.pouchLoaded()) {
+        app.localHierarchyDb.allDocs()
+          .then(function (result) {
+            console.log('result:', result)
+            const hierarchy = result.rows.map(function (row) {
+              return row.doc
+            })
+            console.log('hierarchy:', hierarchy)
+            return _.pluck(hierarchy, 'Name')
+          })
+          .catch(function (error) {
+            console.log('objectStore: error getting items from localHierarchyDb:', error)
+          })
+      }
       return _.pluck(this.hierarchy, 'Name')
     },
 
@@ -80,11 +94,21 @@ export default function (Actions) {
       return _.includes(this.groupsLoaded(), gruppe)
     },
 
-    pouchLoaded: false,
+    pouchLoaded () {
+      app.localDb.info()
+        .then(function (result) {
+          if (result.doc_count && result.doc_count > 0) return true
+          return false
+        })
+        .catch(function (error) {
+          console.log('app.js: error getting info of localDb:', error)
+          return false
+        })
+    },
 
     // getItems and getItem get Item(s) from pouch if loaded
     getItems () {
-      if (this.pouchLoaded) {
+      if (this.pouchLoaded()) {
         app.localDb.allDocs()
           .then(function (items) {
             return items
@@ -97,7 +121,7 @@ export default function (Actions) {
     },
 
     getItem (guid) {
-      if (this.pouchLoaded) {
+      if (this.pouchLoaded()) {
         app.localDb.get(guid)
           .then(function (item) {
             return item
@@ -110,12 +134,26 @@ export default function (Actions) {
       }
     },
 
+    getHierarchy () {
+      if (this.pouchLoaded()) {
+        app.localHierarchyDb.allDocs()
+          .then(function (hierarchy) {
+            return hierarchy
+          })
+          .catch(function (error) {
+            console.log('objectStore: error getting items from localHierarchyDb:', error)
+          })
+      } else {
+        return this.hierarchy
+      }
+    },
+
     onLoadObjectStore (gruppe) {
       this.groupsLoading = _.union(this.groupsLoading, [gruppe])
       // trigger change so components can set loading state
       const payload = {
-        items: this.items,
-        hierarchy: this.hierarchy,
+        items: this.getItems(),
+        hierarchy: this.getHierarchy(),
         gruppe: gruppe,
         groupsLoaded: this.groupsLoaded(),
         groupsLoading: []
@@ -126,7 +164,6 @@ export default function (Actions) {
     onLoadPouchCompleted () {
       console.log('objectStore, onLoadPouchCompleted')
       const that = this
-      this.pouchLoaded = true
       // get all docs from pouch
       // an error occurs - and it is too cpu intensive
       app.localDb.allDocs({include_docs: true})
@@ -136,19 +173,20 @@ export default function (Actions) {
           const items = result.rows.map(function (row) {
             return row.doc
           })
-          console.log('objectStore, onLoadPouchCompleted, items.length:', items.length)
+          // console.log('objectStore, onLoadPouchCompleted, items.length:', items.length)
           const hierarchy = buildHierarchy(items)
-          console.log('objectStore, onLoadPouchCompleted, hierarchy:', hierarchy)
+          // console.log('objectStore, onLoadPouchCompleted, hierarchy:', hierarchy)
 
           // add path to items - it makes finding an item by path much easier
+          const paths = {}
           _.forEach(items, function (item) {
             const hierarchy = _.get(item, 'Taxonomien[0].Eigenschaften.Hierarchie', [])
             let path = _.pluck(hierarchy, 'Name')
             path = replaceProblematicPathCharactersFromArray(path).join('/')
-            that.paths[path] = item._id
+            paths[path] = item._id
           })
-          that.items = items
-          that.hierarchy = hierarchy
+          // that.items = items
+          // that.hierarchy = hierarchy
           // save paths and hierarchy to pouch
           app.localHierarchyDb.bulkDocs(hierarchy)
             .then(function (result) {
@@ -158,9 +196,9 @@ export default function (Actions) {
               console.log('objectStore, onLoadPouchCompleted: error writing hierarchy to pouch:', error)
             })
 
-          console.log('objectStore, onLoadPouchCompleted: writing that.paths to pouch:', that.paths)
+          // console.log('objectStore, onLoadPouchCompleted: writing that.paths to pouch:', that.paths)
 
-          app.localPathDb.put(that.paths, 'aeHierarchy')
+          app.localPathDb.put(paths, 'aeHierarchy')
             .then(function (result) {
               console.log('objectStore, onLoadPouchCompleted: written paths to pouch')
             })
@@ -172,8 +210,8 @@ export default function (Actions) {
 
           // tell views that data has changed
           const payload = {
-            items: that.items,
-            hierarchy: that.hierarchy,
+            items: items,
+            hierarchy: hierarchy,
             groupsLoaded: that.groupsLoaded(),
             groupsLoading: []
           }
@@ -212,8 +250,8 @@ export default function (Actions) {
 
       // tell views that data has changed
       const payload = {
-        items: this.items,
-        hierarchy: this.hierarchy,
+        items: this.getItems(),
+        hierarchy: this.getHierarchy(),
         groupsLoaded: this.groupsLoaded(),
         groupsLoading: this.groupsLoading
       }
