@@ -85,7 +85,7 @@ const Home = React.createClass({
     const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
     const allGroupsLoaded = groupsNotLoaded.length === 0
 
-    console.log('home.js, onObjectStoreChange, payload', payload)
+    // console.log('home.js, onObjectStoreChange, payload', payload)
 
     this.setState({
       items: items,

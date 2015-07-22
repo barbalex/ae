@@ -8,6 +8,7 @@
 import app from 'ampersand-app'
 import isGuid from './isGuid.js'
 import replaceProblematicPathCharactersFromArray from './replaceProblematicPathCharactersFromArray.js'
+import getGuidFromPath from './getGuidFromPath.js'
 
 export default function (path) {
   return new Promise(function (resolve, reject) {
@@ -25,8 +26,12 @@ export default function (path) {
 
     // check if the pathname equals an object's path
     path = replaceProblematicPathCharactersFromArray(path)
-    app.objectStore.getPath(path.join('/'))
+
+    console.log('getObjectFromPath.js: path', path)
+
+    getGuidFromPath(path)
       .then(function (guid) {
+        console.log('getObjectFromPath.js: guid', guid)
         if (guid) {
           app.objectStore.getItem(guid)
             .then(function (item) {
@@ -35,8 +40,9 @@ export default function (path) {
             .catch(function (error) {
               reject('getObjectFromPath, error getting item for guid ' + guid + ':', error)
             })
+        } else {
+          resolve(null)
         }
-        reject('getObjectFromPath: no GUID')
       })
       .catch(function (error) {
         reject('getObjectFromPath, error getting path from objectStore:', error)

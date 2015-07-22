@@ -125,35 +125,6 @@ export default function (Actions) {
       })
     },
 
-    getPaths () {
-      return new Promise(function (resolve, reject) {
-        app.localPathDb.get('aePaths')
-          .then(function (paths) {
-            resolve(paths)
-          })
-          .catch(function (error) {
-            console.log('objectStore: error getting paths from localPathDb:', error)
-            reject(error)
-          })
-      })
-    },
-
-    getPath (pathString) {
-      const that = this
-      return new Promise(function (resolve, reject) {
-        if (!pathString) {
-          reject('objectStore, getPath: no pathString passed')
-        }
-        that.getPaths()
-          .then(function (paths) {
-            resolve(paths[pathString])
-          })
-          .catch(function (error) {
-            reject('objectStore, getPath: error getting path:', error)
-          })
-      })
-    },
-
     onLoadObjectStore (gruppe) {
       const that = this
       let payloadItems = []
@@ -261,6 +232,7 @@ export default function (Actions) {
       _.forEach(items, function (item) {
         const hierarchy = _.get(item, 'Taxonomien[0].Eigenschaften.Hierarchie', [])
         let path = _.pluck(hierarchy, 'Name')
+        path.unshift(item.Gruppe)
         path = replaceProblematicPathCharactersFromArray(path).join('/')
         pathsOfGruppe[path] = item._id
       })
@@ -315,7 +287,7 @@ export default function (Actions) {
           groupsLoaded: payloadGroupsLoaded,
           groupsLoading: that.groupsLoading
         }
-        console.log('store.js, onLoadObjectStoreCompleted, payload to be triggered', payload)
+        // console.log('store.js, onLoadObjectStoreCompleted, payload to be triggered', payload)
         that.trigger(payload)
       })
       .catch(function (error) {
