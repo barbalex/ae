@@ -82,6 +82,7 @@ export default function (Actions) {
 
     pouchLoaded: false,
 
+    // getItems and getItem get Item(s) from pouch if loaded
     getItems () {
       if (this.pouchLoaded) {
         app.localDb.allDocs()
