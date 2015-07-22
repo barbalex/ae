@@ -132,14 +132,12 @@ export default function (Actions) {
         .then(function (result) {
           console.log('objectStore, onLoadPouchCompleted: allDocs fetched')
           // extract objects from result
-          const itemsArray = result.rows.map(function (row) {
+          const items = result.rows.map(function (row) {
             return row.doc
           })
-          console.log('objectStore, onLoadPouchCompleted, itemsArray.length:', itemsArray.length)
-          const hierarchy = buildHierarchy(itemsArray)
+          console.log('objectStore, onLoadPouchCompleted, items.length:', items.length)
+          const hierarchy = buildHierarchy(items)
           console.log('objectStore, onLoadPouchCompleted, hierarchy:', hierarchy)
-          // convert items-array to object with keys made of id's
-          const items = _.indexBy(itemsArray, '_id')
 
           // add path to items - it makes finding an item by path much easier
           _.forEach(items, function (item) {

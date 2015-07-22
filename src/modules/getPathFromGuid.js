@@ -13,7 +13,7 @@ import replaceProblematicPathCharactersFromArray from './replaceProblematicPathC
 
 export default function (guid, object) {
   let path = []
-  object = object || app.objectStore.items[guid]
+  object = object || app.objectStore.getItem(guid)
   if (_.has(object, 'Taxonomien[0].Eigenschaften.Hierarchie')) {
     path = _.pluck(object.Taxonomien[0].Eigenschaften.Hierarchie, 'Name')
     path = replaceProblematicPathCharactersFromArray(path)

@@ -31,7 +31,7 @@ const buildFieldForProperty = function (propertyCollection, object, value, key, 
     // build as single link
     // console.log('value', value)
     // get name from guid
-    const linkedObject = app.objectStore.items[value]
+    const linkedObject = app.objectStore.getItem(value)
     if (linkedObject) {
       const linkedObjectId = linkedObject._id
       const linkedObjectName = linkedObject.Taxonomie.Eigenschaften['Artname vollständig']

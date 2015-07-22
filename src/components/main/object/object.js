@@ -13,7 +13,7 @@ export default React.createClass({
 
   propTypes: {
     object: React.PropTypes.object,
-    items: React.PropTypes.object
+    items: React.PropTypes.array
   },
 
   getInitialState () {

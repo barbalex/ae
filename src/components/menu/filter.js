@@ -25,7 +25,7 @@ export default React.createClass({
   },*/
 
   propTypes: {
-    items: React.PropTypes.object/*,
+    items: React.PropTypes.array/*,
     itemFiltered: React.PropTypes.object*/
   },
 
@@ -59,11 +59,10 @@ export default React.createClass({
   render () {
     const { items } = this.props
     // const { itemFiltered } = this.state
-    const itemsArray = _.values(items)
 
     const options = []
     // used to use _.map but it returned bad options because in always returns a value
-    _.forEach(itemsArray, function (object) {
+    _.forEach(items, function (object) {
       if (object.Taxonomie && object.Taxonomie.Eigenschaften) {
         const eig = object.Taxonomie.Eigenschaften
         if (eig['Artname vollständig']) {

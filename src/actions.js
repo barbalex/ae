@@ -73,14 +73,13 @@ export default function () {
       app.remoteDb.query(viewName, {include_docs: true})
         .then(function (result) {
           // extract objects from result
-          const itemsArray = result.rows.map(function (row) {
+          const items = result.rows.map(function (row) {
             return row.doc
           })
           // prepare payload and send completed event
-          const hierarchy = buildHierarchy(itemsArray)
+          const hierarchy = buildHierarchy(items)
           const hierarchyOfGruppe = _.find(hierarchy, {'Name': gruppe})
           //   convert items-array to object with keys made of id's
-          const items = _.indexBy(itemsArray, '_id')
           const payload = {
             gruppe: gruppe,
             items: items,
@@ -99,7 +98,7 @@ export default function () {
     if (!guid) {
       Actions.loadActiveObjectStore.completed({})
     } else {
-      const object = app.objectStore.items[guid]
+      const object = app.objectStore.getItem(guid)
       if (object) {
         // group is already loaded
         // pass object to activeObjectStore by completing action
