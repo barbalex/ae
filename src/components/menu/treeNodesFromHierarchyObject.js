@@ -34,11 +34,16 @@ const Nodes = React.createClass({
       }
     }
     // find guid of last path element
-    const objectToLoad = getObjectFromPath(pathToLoad)
-    guidOfObjectToLoad = objectToLoad && objectToLoad._id ? objectToLoad._id : null
-    // kick of actions
-    app.Actions.loadPathStore(pathToLoad, guidOfObjectToLoad)
-    app.Actions.loadActiveObjectStore(guidOfObjectToLoad)
+    getObjectFromPath(pathToLoad)
+      .then(function (objectToLoad) {
+        guidOfObjectToLoad = objectToLoad && objectToLoad._id ? objectToLoad._id : null
+        // kick of actions
+        app.Actions.loadPathStore(pathToLoad, guidOfObjectToLoad)
+        app.Actions.loadActiveObjectStore(guidOfObjectToLoad)
+      })
+      .catch(function (error) {
+        console.log('treeNodesFromHierarchyObject.js: error getting object from path:', error)
+      })
   },
 
   render () {

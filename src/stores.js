@@ -139,11 +139,12 @@ export default function (Actions) {
     },
 
     getPath (pathString) {
+      const that = this
       return new Promise(function (resolve, reject) {
         if (!pathString) {
           reject('objectStore, getPath: no pathString passed')
         }
-        this.getPaths()
+        that.getPaths()
           .then(function (paths) {
             resolve(paths[pathString])
           })
