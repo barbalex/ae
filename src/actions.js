@@ -34,30 +34,27 @@ export default function () {
     // get all items
     const couchUrl = getCouchUrl()
     const url = couchUrl + '/ae_objekte/ae_objekte.txt'
-    request
+    /*request
       .get(url)
       .end(function (error, res) {
         if (error) return console.log('Actions.loadPouch, error loading ' + url + ':', error)
         console.log('Actions.loadPouch, res', res)
-        console.log('Actions.loadPouch, res.body', res.body)
-        app.localDb.load(res.body, {proxy: couchUrl})
-          .then(function () {
-            return app.localDb.load(url, {
-              proxy: couchUrl,
-              filter: filterFunction
-            })
-          })
-          /*.then(function () {
-            // let regular replication catch up if objects have changed since dump was created
-            return app.localDb.replicate.from(app.remoteDb)
-          })*/
-          .then(function () {
-            Actions.loadPouch.completed()
-          })
-          .catch(function (error) {
-            console.log('Actions.loadPouch, replication error:', error)
-          })
-      })
+        console.log('Actions.loadPouch, res.body', res.body)*/
+    app.localDb.load(url, {
+      proxy: couchUrl,
+      filter: filterFunction
+    })
+    .then(function () {
+      // let regular replication catch up if objects have changed since dump was created
+      return app.localDb.replicate.from(app.remoteDb)
+    })
+    .then(function () {
+      Actions.loadPouch.completed()
+    })
+    .catch(function (error) {
+      console.log('Actions.loadPouch, replication error:', error)
+    })
+      // })
   })
 
   Actions.loadObjectStore.listen(function (gruppe) {

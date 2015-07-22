@@ -13,21 +13,19 @@ window.PouchDB = PouchDB // enable pouch inspector
 
 app.extend({
   init () {
+    const that = this
     this.Actions = actions()
     stores(this.Actions)
     this.router = new Router()
     this.router.history.start()
-    this.localDb = new PouchDB('ae', function (error) {
-      if (error) return console.log('error initializing local pouch ae:', error)
-    })
-    this.localHierarchyDb = new PouchDB('aeHierarchy', function (error) {
-      if (error) return console.log('error initializing local pouch aeHierarchy:', error)
-    })
-    this.localPathDb = new PouchDB('aePaths', function (error) {
-      if (error) return console.log('error initializing local pouch aePaths:', error)
-    })
-    this.remoteDb = new PouchDB(pouchUrl(), function (error) {
-      if (error) return console.log('error initializing remote couch:', error)
+    PouchDB.utils.Promise.all([
+      that.localDb = new PouchDB('ae'),
+      that.localHierarchyDb = new PouchDB('aeHierarchy'),
+      that.localPathDb = new PouchDB('aePaths'),
+      that.remoteDb = new PouchDB(pouchUrl())
+    ])
+    .catch(function (error) {
+      console.log('error initializing pouches:', error)
     })
   }
 })
