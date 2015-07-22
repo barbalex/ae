@@ -40,7 +40,7 @@ const Home = React.createClass({
   getInitialState () {
     const { gruppe, guid, path } = this.props
     // add the gruppe that is being loaded so it's checkbox is never shown
-    const groupsLoadedOrLoading = [gruppe]
+    const groupsLoadedOrLoading = gruppe ? [gruppe] : []
 
     // kick off stores by getting store data directly from the remote db
     kickOffStores(path, gruppe, guid)

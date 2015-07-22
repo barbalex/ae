@@ -33,8 +33,6 @@ const Nodes = React.createClass({
         pathToLoad.pop()
       }
     }
-    
-    console.log('pathToLoad', pathToLoad)
 
     // find guid of last path element
     getObjectFromPath(pathToLoad)

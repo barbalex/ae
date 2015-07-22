@@ -95,18 +95,18 @@ export default function (Actions) {
     },
 
     getItem (guid) {
-      if (!guid) {
-        console.log('objectStore, getItem: no guid passed')
-        return {}
-      }
-      return app.localDb.get(guid)
-        .then(function (item) {
-          return item
-        })
-        .catch(function (error) {
-          console.log('objectStore: error getting item from localDb:', error)
-          return {}
-        })
+      return new Promise(function (resolve, reject) {
+        if (!guid) {
+          reject('objectStore, getItem: no guid passed')
+        }
+        app.localDb.get(guid)
+          .then(function (item) {
+            resolve(item)
+          })
+          .catch(function (error) {
+            reject('objectStore: error getting item from localDb:', error)
+          })
+      })
     },
 
     getHierarchy () {
