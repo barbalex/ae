@@ -6,7 +6,6 @@ import PouchDB from 'pouchdb'
 import pouchdbLoad from 'pouchdb-load'
 import _ from 'lodash'
 import request from 'superagent'
-import buildHierarchy from './modules/buildHierarchy.js'
 import getGruppen from './modules/gruppen.js'
 import getCouchUrl from './modules/getCouchUrl.js'
 
@@ -17,7 +16,7 @@ PouchDB.plugin(pouchdbLoad)
 // The store is listening to all actions, and the components in turn are listening to the store.
 // Thus the flow is: User interaction -> component calls action -> store reacts and triggers -> components update
 
-function filterFunction (doc) {
+function objectFilterFunction (doc) {
   if (doc.Typ && doc.Typ === 'Objekt') return true
   return false
 }
@@ -42,7 +41,7 @@ export default function () {
         console.log('Actions.loadPouch, res.body', res.body)*/
     app.localDb.load(url, {
       proxy: couchUrl,
-      filter: filterFunction
+      filter: objectFilterFunction
     })
     .then(function () {
       // let regular replication catch up if objects have changed since dump was created
@@ -77,13 +76,9 @@ export default function () {
             return row.doc
           })
           // prepare payload and send completed event
-          const hierarchy = buildHierarchy(items)
-          const hierarchyOfGruppe = _.find(hierarchy, {'Name': gruppe})
-          //   convert items-array to object with keys made of id's
           const payload = {
             gruppe: gruppe,
-            items: items,
-            hierarchy: hierarchyOfGruppe
+            items: items
           }
           Actions.loadObjectStore.completed(payload)
         })

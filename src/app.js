@@ -30,7 +30,7 @@ app.extend({
     .catch(function (error) {
       console.log('app.js: error initializing pouches:', error)
     })
-    if (!window.localStorage.groupsLoadedInPouch) window.localStorage.groupsLoadedInPouch = ''
+    // if (!window.localStorage.groupsLoadedInPouch) window.localStorage.groupsLoadedInPouch = ''
   }
 })
 

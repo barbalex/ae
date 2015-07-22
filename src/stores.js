@@ -2,6 +2,7 @@
 
 import app from 'ampersand-app'
 import Reflux from 'reflux'
+import PouchDB from 'pouchdb'
 import _ from 'lodash'
 import buildHierarchy from './modules/buildHierarchy.js'
 import replaceProblematicPathCharactersFromArray from './modules/replaceProblematicPathCharactersFromArray.js'
@@ -60,34 +61,19 @@ export default function (Actions) {
      */
     listenables: Actions,
 
-    // paths is a hash of paths (strings joined with '/', as keys) and guids (as values)
-    // it helps finding a guid for a path quickly
-    paths: {},
-
-    // items are the objects
-    items: [],
-
-    // see module 'buildHierarchy' for how hierarchies are structured
-    hierarchy: [],
-
     groupsLoading: [],
 
     groupsLoaded () {
-      if (this.pouchLoaded()) {
-        app.localHierarchyDb.allDocs()
-          .then(function (result) {
-            console.log('result:', result)
-            const hierarchy = result.rows.map(function (row) {
-              return row.doc
-            })
-            console.log('hierarchy:', hierarchy)
-            return _.pluck(hierarchy, 'Name')
+      app.localHierarchyDb.allDocs({include_docs: true})
+        .then(function (result) {
+          const hierarchy = result.rows.map(function (row) {
+            return row.doc
           })
-          .catch(function (error) {
-            console.log('objectStore: error getting items from localHierarchyDb:', error)
-          })
-      }
-      return _.pluck(this.hierarchy, 'Name')
+          return _.pluck(hierarchy, 'Name')
+        })
+        .catch(function (error) {
+          console.log('objectStore, groupsLoaded: error getting items from localHierarchyDb:', error)
+        })
     },
 
     isGroupLoaded (gruppe) {
@@ -108,44 +94,64 @@ export default function (Actions) {
 
     // getItems and getItem get Item(s) from pouch if loaded
     getItems () {
-      if (this.pouchLoaded()) {
-        app.localDb.allDocs()
-          .then(function (items) {
-            return items
+      app.localDb.allDocs({include_docs: true})
+        .then(function (result) {
+          const items = result.rows.map(function (row) {
+            return row.doc
           })
-          .catch(function (error) {
-            console.log('objectStore: error getting items from localDb:', error)
-          })
-      }
-      return this.items
+          return items
+        })
+        .catch(function (error) {
+          console.log('objectStore: error getting items from localDb:', error)
+        })
     },
 
     getItem (guid) {
-      if (this.pouchLoaded()) {
-        app.localDb.get(guid)
-          .then(function (item) {
-            return item
-          })
-          .catch(function (error) {
-            console.log('objectStore: error getting item from localDb:', error)
-          })
-      } else {
-        return _.find(this.items, {'_id': guid})
+      if (!guid) {
+        console.log('objectStore, getItem: no guid passed')
+        return {}
       }
+      app.localDb.get(guid)
+        .then(function (item) {
+          return item
+        })
+        .catch(function (error) {
+          console.log('objectStore: error getting item from localDb:', error)
+          return {}
+        })
     },
 
     getHierarchy () {
-      if (this.pouchLoaded()) {
-        app.localHierarchyDb.allDocs()
-          .then(function (hierarchy) {
-            return hierarchy
+      app.localHierarchyDb.allDocs({include_docs: true})
+        .then(function (result) {
+          const hierarchy = result.rows.map(function (row) {
+            return row.doc
           })
-          .catch(function (error) {
-            console.log('objectStore: error getting items from localHierarchyDb:', error)
-          })
-      } else {
-        return this.hierarchy
+          return hierarchy
+        })
+        .catch(function (error) {
+          console.log('objectStore: error getting items from localHierarchyDb:', error)
+        })
+    },
+
+    getPaths () {
+      app.localPathDb.get('aePaths')
+        .then(function (paths) {
+          return paths
+        })
+        .catch(function (error) {
+          console.log('objectStore: error getting paths from localPathDb:', error)
+          return {}
+        })
+    },
+
+    getPath (pathString) {
+      if (!pathString) {
+        console.log('objectStore, getPath: no pathString passed')
+        return null
       }
+      const paths = this.getPaths()
+      return paths[pathString]
     },
 
     onLoadObjectStore (gruppe) {
@@ -173,9 +179,7 @@ export default function (Actions) {
           const items = result.rows.map(function (row) {
             return row.doc
           })
-          // console.log('objectStore, onLoadPouchCompleted, items.length:', items.length)
           const hierarchy = buildHierarchy(items)
-          // console.log('objectStore, onLoadPouchCompleted, hierarchy:', hierarchy)
 
           // add path to items - it makes finding an item by path much easier
           const paths = {}
@@ -198,7 +202,7 @@ export default function (Actions) {
 
           // console.log('objectStore, onLoadPouchCompleted: writing that.paths to pouch:', that.paths)
 
-          app.localPathDb.put(paths, 'aeHierarchy')
+          app.localPathDb.put(paths, 'aePaths')
             .then(function (result) {
               console.log('objectStore, onLoadPouchCompleted: written paths to pouch')
             })
@@ -227,35 +231,64 @@ export default function (Actions) {
     },
 
     onLoadObjectStoreCompleted (payloadReceived) {
+      const { gruppe, items } = payloadReceived
       const that = this
-      const { gruppe, items, hierarchy } = payloadReceived
 
-      // although this should only happen once, make sure hierarchy is only included once
-      this.hierarchy = _.without(this.hierarchy, _.findWhere(this.hierarchy, { 'Name': gruppe }))
-      this.hierarchy.push(hierarchy)
-
-      // add path to items - it makes finding an item by path much easier
+      // build paths
+      let paths = {_id: 'aePaths'}
+      const pathsOfGruppe = {}
       _.forEach(items, function (item) {
         const hierarchy = _.get(item, 'Taxonomien[0].Eigenschaften.Hierarchie', [])
         let path = _.pluck(hierarchy, 'Name')
         path = replaceProblematicPathCharactersFromArray(path).join('/')
-        that.paths[path] = item._id
+        pathsOfGruppe[path] = item._id
       })
 
-      _.assign(this.items, items)
+      // combine these paths with those already in pathDb
+      app.localPathDb.get('aePaths', function (error, pathsFromDb) {
+        if (error) {
+          if (error.status === 404) {
+            // leave paths as it is
+          } else {
+            return console.log('objectStore: could not save paths')
+          }
+        } else {
+          // there existed already a path object
+          // combine them
+          paths = pathsFromDb
+        }
+        _.assign(paths, pathsOfGruppe)
+        app.localPathDb.put(paths, function (error) {
+          if (error) console.log('error writing paths to localPathDb')
+        })
+      })
 
-      // loaded all items
-      // signal that this group is not being loaded any more
-      this.groupsLoading = _.without(this.groupsLoading, gruppe)
+      // build hierarchy
+      const hierarchy = buildHierarchy(items)
+      const hierarchyOfGruppe = _.find(hierarchy, {'Name': gruppe})
 
-      // tell views that data has changed
-      const payload = {
-        items: this.getItems(),
-        hierarchy: this.getHierarchy(),
-        groupsLoaded: this.groupsLoaded(),
-        groupsLoading: this.groupsLoading
-      }
-      this.trigger(payload)
+      PouchDB.utils.Promise.all([
+        app.localHierarchyDb.put(hierarchyOfGruppe, gruppe),
+        app.localDb.bulkDocs(items)
+      ])
+      .catch(function (error) {
+        console.log('objectStore, onLoadObjectStoreCompleted, error putting hierarchyOfGruppe to localHierarchyDb or items to localDb:', error)
+      })
+      .then(function () {
+        // loaded all items
+        // signal that this group is not being loaded any more
+        that.groupsLoading = _.without(that.groupsLoading, gruppe)
+
+        // tell views that data has changed
+        const payload = {
+          items: that.getItems(),
+          hierarchy: that.getHierarchy(),
+          groupsLoaded: that.groupsLoaded(),
+          groupsLoading: that.groupsLoading
+        }
+        console.log('store.js, onLoadObjectStoreCompleted, payload to be triggered', payload)
+        that.trigger(payload)
+      })
     },
 
     onLoadObjectStoreFailed (error, gruppe) {

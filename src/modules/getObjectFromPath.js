@@ -16,7 +16,7 @@ export default function (path) {
 
   // check if the pathname equals an object's path
   path = replaceProblematicPathCharactersFromArray(path)
-  const guid = app.objectStore.paths[path.join('/')]
+  const guid = app.objectStore.getPath[path.join('/')]
   if (guid) return app.objectStore.getItem(guid)
   return null
 }
