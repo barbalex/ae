@@ -53,18 +53,12 @@ export default function (Actions) {
   })
 
   app.objectStore = Reflux.createStore({
-    /* This store caches the requested items in the items property
-     * When all the items are loaded,
-     * it will set the loaded property to true
-     * so that the consuming components
-     * will know if a API request is needed
-     */
     listenables: Actions,
 
     groupsLoading: [],
 
     groupsLoaded () {
-      app.localHierarchyDb.allDocs({include_docs: true})
+      return app.localHierarchyDb.allDocs({include_docs: true})
         .then(function (result) {
           const hierarchy = result.rows.map(function (row) {
             return row.doc
@@ -80,21 +74,9 @@ export default function (Actions) {
       return _.includes(this.groupsLoaded(), gruppe)
     },
 
-    pouchLoaded () {
-      app.localDb.info()
-        .then(function (result) {
-          if (result.doc_count && result.doc_count > 0) return true
-          return false
-        })
-        .catch(function (error) {
-          console.log('app.js: error getting info of localDb:', error)
-          return false
-        })
-    },
-
     // getItems and getItem get Item(s) from pouch if loaded
     getItems () {
-      app.localDb.allDocs({include_docs: true})
+      return app.localDb.allDocs({include_docs: true})
         .then(function (result) {
           const items = result.rows.map(function (row) {
             return row.doc
@@ -103,6 +85,7 @@ export default function (Actions) {
         })
         .catch(function (error) {
           console.log('objectStore: error getting items from localDb:', error)
+          return null
         })
     },
 
@@ -111,7 +94,7 @@ export default function (Actions) {
         console.log('objectStore, getItem: no guid passed')
         return {}
       }
-      app.localDb.get(guid)
+      return app.localDb.get(guid)
         .then(function (item) {
           return item
         })
@@ -122,7 +105,7 @@ export default function (Actions) {
     },
 
     getHierarchy () {
-      app.localHierarchyDb.allDocs({include_docs: true})
+      return app.localHierarchyDb.allDocs({include_docs: true})
         .then(function (result) {
           const hierarchy = result.rows.map(function (row) {
             return row.doc
@@ -131,11 +114,12 @@ export default function (Actions) {
         })
         .catch(function (error) {
           console.log('objectStore: error getting items from localHierarchyDb:', error)
+          return null
         })
     },
 
     getPaths () {
-      app.localPathDb.get('aePaths')
+      return app.localPathDb.get('aePaths')
         .then(function (paths) {
           return paths
         })
