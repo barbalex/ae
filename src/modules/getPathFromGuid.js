@@ -11,18 +11,29 @@ import app from 'ampersand-app'
 import _ from 'lodash'
 import replaceProblematicPathCharactersFromArray from './replaceProblematicPathCharactersFromArray.js'
 
-export default function (guid, object) {
+function extractPayloadFromObject (object) {
   let path = []
-  object = object || app.objectStore.getItem(guid)
   if (_.has(object, 'Taxonomien[0].Eigenschaften.Hierarchie')) {
     path = _.pluck(object.Taxonomien[0].Eigenschaften.Hierarchie, 'Name')
     path = replaceProblematicPathCharactersFromArray(path)
   }
-
   const payload = {
     path: path,
     url: '/' + path.join('/')
   }
-
   return payload
+}
+
+export default function (guid, object) {
+  if (object) {
+    return extractPayloadFromObject(object)
+  } else {
+    app.objectStore.getItem(guid)
+      .then(function (object) {
+        return extractPayloadFromObject(object)
+      })
+      .catch(function (error) {
+        console.log('getPathFromGuid.js: error getting Item from objectStore:', error)
+      })
+  }
 }

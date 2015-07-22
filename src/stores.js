@@ -58,16 +58,19 @@ export default function (Actions) {
     groupsLoading: [],
 
     groupsLoaded () {
-      return app.localHierarchyDb.allDocs({include_docs: true})
-        .then(function (result) {
-          const hierarchy = result.rows.map(function (row) {
-            return row.doc
+      return new Promise(function (resolve, reject) {
+        app.localHierarchyDb.allDocs({include_docs: true})
+          .then(function (result) {
+            const hierarchy = result.rows.map(function (row) {
+              return row.doc
+            })
+            resolve(_.pluck(hierarchy, 'Name'))
           })
-          return _.pluck(hierarchy, 'Name')
-        })
-        .catch(function (error) {
-          console.log('objectStore, groupsLoaded: error getting items from localHierarchyDb:', error)
-        })
+          .catch(function (error) {
+            console.log('objectStore, groupsLoaded: error getting items from localHierarchyDb:', error)
+            resolve([])
+          })
+      })
     },
 
     isGroupLoaded (gruppe) {
@@ -76,17 +79,19 @@ export default function (Actions) {
 
     // getItems and getItem get Item(s) from pouch if loaded
     getItems () {
-      return app.localDb.allDocs({include_docs: true})
-        .then(function (result) {
-          const items = result.rows.map(function (row) {
-            return row.doc
+      return new Promise(function (resolve, reject) {
+        app.localDb.allDocs({include_docs: true})
+          .then(function (result) {
+            const items = result.rows.map(function (row) {
+              return row.doc
+            })
+            resolve(items)
           })
-          return items
-        })
-        .catch(function (error) {
-          console.log('objectStore: error getting items from localDb:', error)
-          return null
-        })
+          .catch(function (error) {
+            console.log('objectStore: error getting items from localDb:', error)
+            reject(error)
+          })
+      })
     },
 
     getItem (guid) {
@@ -105,50 +110,79 @@ export default function (Actions) {
     },
 
     getHierarchy () {
-      return app.localHierarchyDb.allDocs({include_docs: true})
-        .then(function (result) {
-          const hierarchy = result.rows.map(function (row) {
-            return row.doc
+      return new Promise(function (resolve, reject) {
+        app.localHierarchyDb.allDocs({include_docs: true})
+          .then(function (result) {
+            const hierarchy = result.rows.map(function (row) {
+              return row.doc
+            })
+            resolve(hierarchy)
           })
-          return hierarchy
-        })
-        .catch(function (error) {
-          console.log('objectStore: error getting items from localHierarchyDb:', error)
-          return null
-        })
+          .catch(function (error) {
+            console.log('objectStore: error getting items from localHierarchyDb:', error)
+            reject(error)
+          })
+      })
     },
 
     getPaths () {
-      return app.localPathDb.get('aePaths')
-        .then(function (paths) {
-          return paths
-        })
-        .catch(function (error) {
-          console.log('objectStore: error getting paths from localPathDb:', error)
-          return {}
-        })
+      return new Promise(function (resolve, reject) {
+        app.localPathDb.get('aePaths')
+          .then(function (paths) {
+            resolve(paths)
+          })
+          .catch(function (error) {
+            console.log('objectStore: error getting paths from localPathDb:', error)
+            reject(error)
+          })
+      })
     },
 
     getPath (pathString) {
-      if (!pathString) {
-        console.log('objectStore, getPath: no pathString passed')
-        return null
-      }
-      const paths = this.getPaths()
-      return paths[pathString]
+      return new Promise(function (resolve, reject) {
+        if (!pathString) {
+          reject('objectStore, getPath: no pathString passed')
+        }
+        this.getPaths()
+          .then(function (paths) {
+            resolve(paths[pathString])
+          })
+          .catch(function (error) {
+            reject('objectStore, getPath: error getting path:', error)
+          })
+      })
     },
 
     onLoadObjectStore (gruppe) {
+      const that = this
+      let payloadItems = []
+      let payloadHierarchy = []
+
       this.groupsLoading = _.union(this.groupsLoading, [gruppe])
-      // trigger change so components can set loading state
-      const payload = {
-        items: this.getItems(),
-        hierarchy: this.getHierarchy(),
-        gruppe: gruppe,
-        groupsLoaded: this.groupsLoaded(),
-        groupsLoading: []
-      }
-      this.trigger(payload)
+
+      this.getItems()
+        .then(function (result) {
+          payloadItems = result
+          return that.getHierarchy()
+        })
+        .then(function (result) {
+          payloadHierarchy = result
+          return that.groupsLoaded()
+        })
+        .then(function (payloadGroupsLoaded) {
+          // trigger change so components can set loading state
+          const payload = {
+            items: payloadItems,
+            hierarchy: payloadHierarchy,
+            gruppe: gruppe,
+            groupsLoaded: payloadGroupsLoaded,
+            groupsLoading: that.groupsLoading
+          }
+          that.trigger(payload)
+        })
+        .catch(function (error) {
+          console.log('objectStore, onLoadObjectStore, error getting groupsLoaded:', error)
+        })
     },
 
     onLoadPouchCompleted () {
@@ -217,6 +251,8 @@ export default function (Actions) {
     onLoadObjectStoreCompleted (payloadReceived) {
       const { gruppe, items } = payloadReceived
       const that = this
+      let payloadItems = []
+      let payloadHierarchy = []
 
       // build paths
       let paths = {_id: 'aePaths'}
@@ -255,23 +291,34 @@ export default function (Actions) {
         app.localHierarchyDb.put(hierarchyOfGruppe, gruppe),
         app.localDb.bulkDocs(items)
       ])
-      .catch(function (error) {
-        console.log('objectStore, onLoadObjectStoreCompleted, error putting hierarchyOfGruppe to localHierarchyDb or items to localDb:', error)
-      })
       .then(function () {
+        return that.getItems()
+      })
+      .then(function (result) {
+        payloadItems = result
+        return that.getHierarchy()
+      })
+      .then(function (result) {
+        payloadHierarchy = result
+        return that.groupsLoaded()
+      })
+      .then(function (payloadGroupsLoaded) {
         // loaded all items
         // signal that this group is not being loaded any more
         that.groupsLoading = _.without(that.groupsLoading, gruppe)
 
         // tell views that data has changed
         const payload = {
-          items: that.getItems(),
-          hierarchy: that.getHierarchy(),
-          groupsLoaded: that.groupsLoaded(),
+          items: payloadItems,
+          hierarchy: payloadHierarchy,
+          groupsLoaded: payloadGroupsLoaded,
           groupsLoading: that.groupsLoading
         }
         console.log('store.js, onLoadObjectStoreCompleted, payload to be triggered', payload)
         that.trigger(payload)
+      })
+      .catch(function (error) {
+        console.log('objectStore, onLoadObjectStoreCompleted, error putting hierarchyOfGruppe to localHierarchyDb or items to localDb:', error)
       })
     },
 

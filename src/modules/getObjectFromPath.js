@@ -16,7 +16,12 @@ export default function (path) {
 
   // check if the pathname equals an object's path
   path = replaceProblematicPathCharactersFromArray(path)
-  const guid = app.objectStore.getPath[path.join('/')]
-  if (guid) return app.objectStore.getItem(guid)
-  return null
+  app.objectStore.getPath(path.join('/'))
+    .then(function (guid) {
+      if (guid) return app.objectStore.getItem(guid)
+      return null
+    })
+    .catch(function (error) {
+      console.log('getObjectFromPath, error getting path from objectStore:', error)
+    })
 }
