@@ -5,8 +5,10 @@ import Reflux from 'reflux'
 import PouchDB from 'pouchdb'
 import pouchdbLoad from 'pouchdb-load'
 import _ from 'lodash'
+import request from 'superagent'
 import buildHierarchy from './modules/buildHierarchy.js'
 import getGruppen from './modules/gruppen.js'
+import getCouchUrl from './modules/getCouchUrl.js'
 
 // initualize pouchdb-load
 PouchDB.plugin(pouchdbLoad)
@@ -14,6 +16,11 @@ PouchDB.plugin(pouchdbLoad)
 // Each action is like an event channel for one specific event. Actions are called by components.
 // The store is listening to all actions, and the components in turn are listening to the store.
 // Thus the flow is: User interaction -> component calls action -> store reacts and triggers -> components update
+
+function filterFunction (doc) {
+  if (doc.Typ && doc.Typ === 'Objekt') return true
+  return false
+}
 
 export default function () {
   let Actions = Reflux.createActions({
@@ -25,19 +32,31 @@ export default function () {
 
   Actions.loadPouch.listen(function () {
     // get all items
-    const url = window.location.protocol + '//' + window.location.hostname + ':5984/artendb/ae_objekte/ae_objekte.txt'
-    // const proxyUrl = window.location.protocol + '//' + window.location.hostname + ':5984/artendb'
-    const proxyUrl = 'http://46.101.166.244:5984/artendb'
-    app.localDb.load(url, {proxy: proxyUrl})
-      /*.then(function () {
-        // let regular replication catch up if objects have changed since dump was created
-        return app.localDb.replicate.from(app.remoteDb)
-      })*/
-      .then(function () {
-        Actions.loadPouch.completed()
-      })
-      .catch(function (error) {
-        console.log('Actions.loadPouch, replication error:', error)
+    const couchUrl = getCouchUrl()
+    const url = couchUrl + '/ae_objekte/ae_objekte.txt'
+    request
+      .get(url)
+      .end(function (error, res) {
+        if (error) return console.log('Actions.loadPouch, error loading ' + url + ':', error)
+        console.log('Actions.loadPouch, res', res)
+        console.log('Actions.loadPouch, res.body', res.body)
+        app.localDb.load(res.body, {proxy: couchUrl})
+          .then(function () {
+            return app.localDb.load(url, {
+              proxy: couchUrl,
+              filter: filterFunction
+            })
+          })
+          /*.then(function () {
+            // let regular replication catch up if objects have changed since dump was created
+            return app.localDb.replicate.from(app.remoteDb)
+          })*/
+          .then(function () {
+            Actions.loadPouch.completed()
+          })
+          .catch(function (error) {
+            console.log('Actions.loadPouch, replication error:', error)
+          })
       })
   })
 
