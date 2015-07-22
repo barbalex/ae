@@ -21,26 +21,39 @@ export default React.createClass({
   onClick (event) {
     event.preventDefault()
     const { guid } = this.props
-    const path = getPathFromGuid(guid).path
-    if (guid) app.Actions.loadActiveObjectStore(guid)
-    app.Actions.loadPathStore(path, guid)
+
+    getPathFromGuid(guid)
+      .then(function (result) {
+        const path = result.path
+        if (guid) app.Actions.loadActiveObjectStore(guid)
+        app.Actions.loadPathStore(path, guid)
+      })
+      .catch(function (error) {
+        console.log('linkToSameGroup.js: error getting path for guid ' + guid + ':', error)
+      })
   },
 
   render () {
     const { fieldName, guid, objectName } = this.props
-    const url = getPathFromGuid(guid).url
 
-    return (
-      <div className='form-group'>
-        <label className='control-label'>
-          {fieldName + ':'}
-        </label>
-        <p className='form-control-static controls feldtext'>
-          <a href={url} className='linkZuArtGleicherGruppe' onClick={this.onClick} >
-            {objectName}
-          </a>
-        </p>
-      </div>
-    )
+    getPathFromGuid(guid)
+        .then(function (result) {
+          const url = result.url
+          return (
+            <div className='form-group'>
+              <label className='control-label'>
+                {fieldName + ':'}
+              </label>
+              <p className='form-control-static controls feldtext'>
+                <a href={url} className='linkZuArtGleicherGruppe' onClick={this.onClick} >
+                  {objectName}
+                </a>
+              </p>
+            </div>
+          )
+        })
+        .catch(function (error) {
+          console.log('linkToSameGroup.js: error getting path for guid ' + guid + ':', error)
+        })
   }
 })

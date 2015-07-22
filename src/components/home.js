@@ -106,8 +106,14 @@ const Home = React.createClass({
     })
     // update url if path was called only with guid
     if (this.props.isGuidPath && guid) {
-      const path = getPathFromGuid(guid, object).path
-      app.Actions.loadPathStore(path, guid)
+      getPathFromGuid(guid, object)
+        .then(function (result) {
+          const path = result.path
+          app.Actions.loadPathStore(path, guid)
+        })
+        .catch(function (error) {
+          console.log('home.js: error getting path for guid ' + guid + ':', error)
+        })
     }
   },
 

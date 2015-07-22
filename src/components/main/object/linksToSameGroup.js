@@ -20,9 +20,15 @@ export default React.createClass({
 
   onClick (guid, event) {
     event.preventDefault()
-    const path = getPathFromGuid(guid).path
-    if (guid) app.Actions.loadActiveObjectStore(guid)
-    app.Actions.loadPathStore(path, guid)
+    getPathFromGuid(guid)
+      .then(function (result) {
+        const path = result.path
+        if (guid) app.Actions.loadActiveObjectStore(guid)
+        app.Actions.loadPathStore(path, guid)
+      })
+      .catch(function (error) {
+        console.log('linksToSameGroup.js: error getting path for guid ' + guid + ':', error)
+      })
   },
 
   render () {
@@ -30,14 +36,20 @@ export default React.createClass({
     const that = this
 
     const linkArray = _.map(objects, function (object) {
-      const url = getPathFromGuid(object.guid).url
-      return (
-        <p className='controls feldtext'>
-          <a href={url} className='form-control-static linkZuArtGleicherGruppe' onClick={that.onClick.bind(that, object._id)}>
-            {object.Name}
-          </a>
-        </p>
-      )
+      getPathFromGuid(object.guid)
+        .then(function (result) {
+          const url = result.url
+          return (
+            <p className='controls feldtext'>
+              <a href={url} className='form-control-static linkZuArtGleicherGruppe' onClick={that.onClick.bind(that, object._id)}>
+                {object.Name}
+              </a>
+            </p>
+          )
+        })
+        .catch(function (error) {
+          console.log('linksToSameGroup.js: error getting path for guid ' + object.guid + ':', error)
+        })
     })
 
     return (
