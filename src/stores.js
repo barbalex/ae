@@ -65,7 +65,7 @@ export default function (Actions) {
     paths: {},
 
     // items are the objects
-    items: {},
+    items: [],
 
     // see module 'buildHierarchy' for how hierarchies are structured
     hierarchy: [],
@@ -84,9 +84,29 @@ export default function (Actions) {
 
     getItems () {
       if (this.pouchLoaded) {
-        
+        app.localDb.allDocs()
+          .then(function (items) {
+            return items
+          })
+          .catch(function (error) {
+            console.log('objectStore: error getting items from localDb:', error)
+          })
       }
       return this.items
+    },
+
+    getItem (guid) {
+      if (this.pouchLoaded) {
+        app.localDb.get(guid)
+          .then(function (item) {
+            return item
+          })
+          .catch(function (error) {
+            console.log('objectStore: error getting item from localDb:', error)
+          })
+      } else {
+        return _.find(this.items, {'_id': guid})
+      }
     },
 
     onLoadObjectStore (gruppe) {
