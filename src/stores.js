@@ -82,6 +82,13 @@ export default function (Actions) {
 
     pouchLoaded: false,
 
+    getItems () {
+      if (this.pouchLoaded) {
+        
+      }
+      return this.items
+    },
+
     onLoadObjectStore (gruppe) {
       this.groupsLoading = _.union(this.groupsLoading, [gruppe])
       // trigger change so components can set loading state
