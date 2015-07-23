@@ -6,6 +6,7 @@ import PouchDB from 'pouchdb'
 import _ from 'lodash'
 import buildHierarchy from './modules/buildHierarchy.js'
 import replaceProblematicPathCharactersFromArray from './modules/replaceProblematicPathCharactersFromArray.js'
+import getGroupsLoadedFromHierarchy from './modules/getGroupsLoadedFromHierarchy.js'
 
 export default function (Actions) {
   app.activePathStore = Reflux.createStore({
@@ -58,19 +59,7 @@ export default function (Actions) {
     groupsLoading: [],
 
     groupsLoaded () {
-      return new Promise(function (resolve, reject) {
-        app.localHierarchyDb.allDocs({include_docs: true})
-          .then(function (result) {
-            const hierarchy = result.rows.map(function (row) {
-              return row.doc
-            })
-            resolve(_.pluck(hierarchy, 'Name'))
-          })
-          .catch(function (error) {
-            console.log('objectStore, groupsLoaded: error getting items from localHierarchyDb:', error)
-            resolve([])
-          })
-      })
+      return getGroupsLoadedFromHierarchy()
     },
 
     isGroupLoaded (gruppe) {
