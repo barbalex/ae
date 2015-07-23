@@ -9,6 +9,7 @@ import replaceProblematicPathCharactersFromArray from './modules/replaceProblema
 import getGroupsLoadedFromHierarchy from './modules/getGroupsLoadedFromHierarchy.js'
 import getItemsFromLocalDb from './modules/getItemsFromLocalDb.js'
 import getItemFromLocalDb from './modules/getItemFromLocalDb.js'
+import getHierarchyFromLocalHierarchyDb from './modules/getHierarchyFromLocalHierarchyDb.js'
 
 export default function (Actions) {
   app.activePathStore = Reflux.createStore({
@@ -78,19 +79,7 @@ export default function (Actions) {
     },
 
     getHierarchy () {
-      return new Promise(function (resolve, reject) {
-        app.localHierarchyDb.allDocs({include_docs: true})
-          .then(function (result) {
-            const hierarchy = result.rows.map(function (row) {
-              return row.doc
-            })
-            resolve(hierarchy)
-          })
-          .catch(function (error) {
-            console.log('objectStore: error getting items from localHierarchyDb:', error)
-            reject(error)
-          })
-      })
+      return getHierarchyFromLocalHierarchyDb()
     },
 
     onLoadObjectStore (gruppe) {
