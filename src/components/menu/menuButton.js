@@ -56,7 +56,8 @@ export default React.createClass({
   },
 
   replicate () {
-    app.Actions.loadPouch()
+    console.log('replicate button was clicked')
+    app.Actions.loadPouchFromRemote()
   },
 
   openAdminPage () {

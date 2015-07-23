@@ -44,10 +44,10 @@ export default React.createClass({
     const guid = result.value
     // const label = result.label
 
+    app.Actions.loadActiveObjectStore(guid)
     getPathFromGuid(guid)
       .then(function (result) {
         const path = result.path
-        app.Actions.loadActiveObjectStore(guid)
         app.Actions.loadPathStore(path, guid)
       })
       .catch(function (error) {

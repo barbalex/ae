@@ -39,7 +39,6 @@ const Home = React.createClass({
 
   getInitialState () {
     const { gruppe, guid, path } = this.props
-    // add the gruppe that is being loaded so it's checkbox is never shown
     const groupsLoadedOrLoading = gruppe ? [gruppe] : []
 
     // kick off stores by getting store data directly from the remote db
@@ -47,7 +46,6 @@ const Home = React.createClass({
 
     return {
       hierarchy: [],
-      gruppe: gruppe,
       groupsLoadedOrLoading: groupsLoadedOrLoading,
       groupsLoading: [],
       allGroupsLoaded: false,
@@ -79,7 +77,9 @@ const Home = React.createClass({
   },
 
   onObjectStoreChange (payload) {
-    const { items, hierarchy, groupsLoaded, groupsLoading } = payload
+    const { items, hierarchy, groupsLoaded } = payload
+
+    const groupsLoading = app.objectStore.groupsLoading
     // add groups loading to groups loaded to hide the group checkbox of the loading group
     const groupsLoadedOrLoading = _.union(groupsLoaded, groupsLoading)
     const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
@@ -88,8 +88,8 @@ const Home = React.createClass({
     // console.log('home.js, onObjectStoreChange, payload', payload)
 
     this.setState({
-      items: items,
-      hierarchy: hierarchy,
+      items: items || this.state.items,
+      hierarchy: hierarchy || this.state.hierarchy,
       groupsLoadedOrLoading: groupsLoadedOrLoading,
       groupsLoading: groupsLoading,
       allGroupsLoaded: allGroupsLoaded
@@ -100,7 +100,6 @@ const Home = React.createClass({
     // console.log('home.js, onActiveObjectStoreChange, object', object)
     const guid = object._id
     this.setState({
-      gruppe: object.Gruppe,
       object: object,
       guid: guid
     })
@@ -118,9 +117,6 @@ const Home = React.createClass({
   },
 
   onClickGruppe (gruppe) {
-    this.setState({
-      gruppe: gruppe
-    })
     app.Actions.loadObjectStore(gruppe)
   },
 
@@ -154,11 +150,9 @@ const Home = React.createClass({
   },
 
   render () {
-    const { hierarchy, gruppe, path, items, object, groupsLoading, allGroupsLoaded } = this.state
+    const { hierarchy, path, items, object, groupsLoading, allGroupsLoaded } = this.state
     const { isGuidPath } = this.props
-    const isGroup = _.includes(gruppen, gruppe)
     const showFilter = items.length > 0
-    const showTree = isGroup || isGuidPath || items.length > 0
     const showObject = object !== undefined
 
     // MenuButton needs NOT to be inside menu
@@ -173,7 +167,7 @@ const Home = React.createClass({
           </div>
           {this.createGruppen()}
           {showFilter ? <Filter items={items} /> : ''}
-          {showTree ? <TreeFromHierarchyObject hierarchy={hierarchy} groupsLoading={groupsLoading} allGroupsLoaded={allGroupsLoaded} object={object} isGuidPath={isGuidPath} path={path} /> : ''}
+          <TreeFromHierarchyObject hierarchy={hierarchy} groupsLoading={groupsLoading} allGroupsLoaded={allGroupsLoaded} object={object} isGuidPath={isGuidPath} path={path} />
         </div>
         {showObject ? <Objekt object={object} items={items} /> : ''}
       </NavHelper>

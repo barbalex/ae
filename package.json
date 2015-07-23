@@ -33,6 +33,7 @@
     "postcss-loader": "0.5.1",
     "pouchdb": "3.6.0",
     "pouchdb-load": "1.4.0",
+    "pouchdb-upsert": "^1.1.1",
     "react": "0.13.3",
     "react-bootstrap": "0.23.7",
     "react-favicon": "0.0.3",

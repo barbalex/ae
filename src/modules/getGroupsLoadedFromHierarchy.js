@@ -1,3 +1,7 @@
+/*
+ * momentarily not in use
+ */
+
 'use strict'
 
 import app from 'ampersand-app'
@@ -13,8 +17,7 @@ export default function () {
         resolve(_.pluck(hierarchy, 'Name'))
       })
       .catch(function (error) {
-        console.log('objectStore, groupsLoaded: error getting items from localHierarchyDb:', error)
-        resolve([])
+        reject('getGroupsLoadedFromHierarchy: error getting items from localHierarchyDb:', error)
       })
   })
 }

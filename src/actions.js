@@ -8,6 +8,12 @@ import _ from 'lodash'
 import request from 'superagent'
 import getGruppen from './modules/gruppen.js'
 import getCouchUrl from './modules/getCouchUrl.js'
+import getGroupsLoadedFromLocalGroupsDb from './modules/getGroupsLoadedFromLocalGroupsDb.js'
+import getHierarchyFromLocalHierarchyDb from './modules/getHierarchyFromLocalHierarchyDb.js'
+import getItemsFromLocalDb from './modules/getItemsFromLocalDb.js'
+import getPathsFromLocalPathDb from './modules/getPathsFromLocalPathDb.js'
+
+const gruppen = getGruppen()
 
 // initualize pouchdb-load
 PouchDB.plugin(pouchdbLoad)
@@ -23,22 +29,24 @@ function objectFilterFunction (doc) {
 
 export default function () {
   let Actions = Reflux.createActions({
-    loadPouch: {children: ['completed', 'failed']},
+    loadPouchFromRemote: {children: ['completed', 'failed']},
+    loadPouchFromLocal: {children: ['completed', 'failed']},
     loadObjectStore: {children: ['completed', 'failed']},
     loadActiveObjectStore: {children: ['completed', 'failed']},
     loadPathStore: {}
   })
 
-  Actions.loadPouch.listen(function () {
+  Actions.loadPouchFromRemote.listen(function () {
+    console.log('Actions.loadPouchFromRemote active')
     // get all items
     const couchUrl = getCouchUrl()
     const url = couchUrl + '/ae_objekte/ae_objekte.txt'
     /*request
       .get(url)
       .end(function (error, res) {
-        if (error) return console.log('Actions.loadPouch, error loading ' + url + ':', error)
-        console.log('Actions.loadPouch, res', res)
-        console.log('Actions.loadPouch, res.body', res.body)*/
+        if (error) return console.log('Actions.loadPouchFromRemote, error loading ' + url + ':', error)
+        console.log('Actions.loadPouchFromRemote, res', res)
+        console.log('Actions.loadPouchFromRemote, res.body', res.body)*/
     app.localDb.load(url, {
       proxy: couchUrl,
       filter: objectFilterFunction
@@ -48,25 +56,30 @@ export default function () {
       return app.localDb.replicate.from(app.remoteDb)
     })
     .then(function () {
-      Actions.loadPouch.completed()
+      Actions.loadPouchFromRemote.completed()
     })
     .catch(function (error) {
-      console.log('Actions.loadPouch, replication error:', error)
+      console.log('Actions.loadPouchFromRemote, replication error:', error)
     })
       // })
   })
 
+  Actions.loadPouchFromLocal.listen(function (groupsLoadedInPouch) {
+    Actions.loadPouchFromLocal.completed(groupsLoadedInPouch)
+  })
+
   Actions.loadObjectStore.listen(function (gruppe) {
+    console.log('Actions.loadObjectStore')
     // make sure gruppe was passed
     if (!gruppe) return false
     // make sure a valid group was passed
     const gruppen = getGruppen()
     const validGroup = _.includes(gruppen, gruppe)
-    if (!validGroup) return false
+    if (!validGroup) return Actions.loadObjectStore.failed('the group passed is not valid', gruppe)
 
     app.objectStore.isGroupLoaded(gruppe)
       .then(function (groupIsLoaded) {
-        if (!groupIsLoaded && gruppe) {
+        if (!groupIsLoaded) {
           // this group does not exist yet in the store
           const viewGruppePrefix = gruppe === 'Lebensräume' ? 'lr' : gruppe.toLowerCase()
           const viewName = 'artendb/' + viewGruppePrefix + 'NachName'
