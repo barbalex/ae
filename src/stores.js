@@ -283,7 +283,6 @@ export default function (Actions) {
           groupsLoaded: payloadGroupsLoaded,
           groupsLoading: groupsLoading
         }
-        // console.log('store.js, onLoadObjectStoreCompleted, payload to be triggered', payload)
         that.trigger(payload)
       })
       .catch(function (error) {

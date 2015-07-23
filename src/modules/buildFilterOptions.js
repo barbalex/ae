@@ -29,9 +29,6 @@ export default function (items) {
 
   // save to db
   app.localFilterOptionsDb.bulkDocs(options)
-    .then(function () {
-      console.log('buildFilterOptions.js: options saved to localFilterOptionsDb')
-    })
     .catch(function (error) {
       console.log('buildFilterOptions.js: error saving to localFilterOptionsDb:', error)
     })
