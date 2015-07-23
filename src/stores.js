@@ -7,6 +7,8 @@ import _ from 'lodash'
 import buildHierarchy from './modules/buildHierarchy.js'
 import replaceProblematicPathCharactersFromArray from './modules/replaceProblematicPathCharactersFromArray.js'
 import getGroupsLoadedFromHierarchy from './modules/getGroupsLoadedFromHierarchy.js'
+import getItemsFromLocalDb from './modules/getItemsFromLocalDb.js'
+import getItemFromLocalDb from './modules/getItemFromLocalDb.js'
 
 export default function (Actions) {
   app.activePathStore = Reflux.createStore({
@@ -68,34 +70,11 @@ export default function (Actions) {
 
     // getItems and getItem get Item(s) from pouch if loaded
     getItems () {
-      return new Promise(function (resolve, reject) {
-        app.localDb.allDocs({include_docs: true})
-          .then(function (result) {
-            const items = result.rows.map(function (row) {
-              return row.doc
-            })
-            resolve(items)
-          })
-          .catch(function (error) {
-            console.log('objectStore: error getting items from localDb:', error)
-            reject(error)
-          })
-      })
+      return getItemsFromLocalDb()
     },
 
     getItem (guid) {
-      return new Promise(function (resolve, reject) {
-        if (!guid) {
-          reject('objectStore, getItem: no guid passed')
-        }
-        app.localDb.get(guid)
-          .then(function (item) {
-            resolve(item)
-          })
-          .catch(function (error) {
-            reject('objectStore: error getting item from localDb:', error)
-          })
-      })
+      return getItemFromLocalDb(guid)
     },
 
     getHierarchy () {
