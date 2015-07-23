@@ -59,7 +59,7 @@ export default function () {
       Actions.loadPouchFromRemote.completed()
     })
     .catch(function (error) {
-      console.log('Actions.loadPouchFromRemote, replication error:', error)
+      Actions.loadPouchFromRemote.failed('Actions.loadPouchFromRemote, replication error:', error)
     })
       // })
   })
@@ -69,7 +69,7 @@ export default function () {
   })
 
   Actions.loadObjectStore.listen(function (gruppe) {
-    console.log('Actions.loadObjectStore')
+    // console.log('Actions.loadObjectStore')
     // make sure gruppe was passed
     if (!gruppe) return false
     // make sure a valid group was passed

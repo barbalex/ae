@@ -172,7 +172,7 @@ export default function (Actions) {
     },
 
     onLoadPouchFromLocal (groupsLoadedInPouch) {
-      console.log('objectStore, onLoadPouchFromLocal')
+      // console.log('objectStore, onLoadPouchFromLocal')
       this.groupsLoading = groupsLoadedInPouch
       const payload = {
         groupsLoaded: []
@@ -181,12 +181,10 @@ export default function (Actions) {
     },
 
     onLoadPouchFromLocalCompleted (groupsLoadedInPouch) {
-      console.log('objectStore, onLoadPouchFromLocalCompleted')
-      
       const that = this
 
       this.groupsLoading = []
-
+      console.log('Start Messung')
       Promise.all([
         getItemsFromLocalDb(),
         getHierarchyFromLocalHierarchyDb()
