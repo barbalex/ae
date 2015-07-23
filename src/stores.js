@@ -10,6 +10,7 @@ import getGroupsLoadedFromHierarchy from './modules/getGroupsLoadedFromHierarchy
 import getItemsFromLocalDb from './modules/getItemsFromLocalDb.js'
 import getItemFromLocalDb from './modules/getItemFromLocalDb.js'
 import getHierarchyFromLocalHierarchyDb from './modules/getHierarchyFromLocalHierarchyDb.js'
+import addPathsFromItemsToLocalPathDb from './modules/addPathsFromItemsToLocalPathDb.js'
 
 export default function (Actions) {
   app.activePathStore = Reflux.createStore({
@@ -184,34 +185,7 @@ export default function (Actions) {
       let payloadHierarchy = []
 
       // build paths
-      let paths = {_id: 'aePaths'}
-      const pathsOfGruppe = {}
-      _.forEach(items, function (item) {
-        const hierarchy = _.get(item, 'Taxonomien[0].Eigenschaften.Hierarchie', [])
-        let path = _.pluck(hierarchy, 'Name')
-        path.unshift(item.Gruppe)
-        path = replaceProblematicPathCharactersFromArray(path).join('/')
-        pathsOfGruppe[path] = item._id
-      })
-
-      // combine these paths with those already in pathDb
-      app.localPathDb.get('aePaths', function (error, pathsFromDb) {
-        if (error) {
-          if (error.status === 404) {
-            // leave paths as it is
-          } else {
-            return console.log('objectStore: could not save paths')
-          }
-        } else {
-          // there existed already a path object
-          // combine them
-          paths = pathsFromDb
-        }
-        _.assign(paths, pathsOfGruppe)
-        app.localPathDb.put(paths, function (error) {
-          if (error) console.log('error writing paths to localPathDb')
-        })
-      })
+      addPathsFromItemsToLocalPathDb(items)
 
       // build hierarchy
       const hierarchy = buildHierarchy(items)
