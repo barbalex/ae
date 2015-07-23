@@ -9,7 +9,6 @@ import app from 'ampersand-app'
 import React from 'react'
 import { Typeahead } from 'react-typeahead'
 import { Glyphicon } from 'react-bootstrap'
-import _ from 'lodash'
 import getPathFromGuid from '../../modules/getPathFromGuid.js'
 
 export default React.createClass({
@@ -25,7 +24,7 @@ export default React.createClass({
   },*/
 
   propTypes: {
-    items: React.PropTypes.array/*,
+    options: React.PropTypes.array/*,
     itemFiltered: React.PropTypes.object*/
   },
 
@@ -63,31 +62,8 @@ export default React.createClass({
   },
 
   render () {
-    const { items } = this.props
+    const { options } = this.props
     // const { itemFiltered } = this.state
-
-    const options = []
-    // used to use _.map but it returned bad options because in always returns a value
-    _.forEach(items, function (object) {
-      if (object.Taxonomie && object.Taxonomie.Eigenschaften) {
-        const eig = object.Taxonomie.Eigenschaften
-        if (eig['Artname vollständig']) {
-          // this is a species object
-          options.push({
-            'value': object._id,
-            'label': eig['Artname vollständig']
-          })
-        }
-        if (eig.Einheit) {
-          // this is an lr object
-          // top level has no label
-          options.push({
-            'value': object._id,
-            'label': eig.Label ? eig.Label + ': ' + eig.Einheit : eig.Einheit
-          })
-        }
-      }
-    })
     // console.log('filter.js, render: options', options)
 
     const removeGlyphStyle = {

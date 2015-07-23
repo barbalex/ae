@@ -8,12 +8,6 @@ import _ from 'lodash'
 import request from 'superagent'
 import getGruppen from './modules/gruppen.js'
 import getCouchUrl from './modules/getCouchUrl.js'
-import getGroupsLoadedFromLocalGroupsDb from './modules/getGroupsLoadedFromLocalGroupsDb.js'
-import getHierarchyFromLocalHierarchyDb from './modules/getHierarchyFromLocalHierarchyDb.js'
-import getItemsFromLocalDb from './modules/getItemsFromLocalDb.js'
-import getPathsFromLocalPathDb from './modules/getPathsFromLocalPathDb.js'
-
-const gruppen = getGruppen()
 
 // initualize pouchdb-load
 PouchDB.plugin(pouchdbLoad)
@@ -33,6 +27,7 @@ export default function () {
     loadPouchFromLocal: {children: ['completed', 'failed']},
     loadObjectStore: {children: ['completed', 'failed']},
     loadActiveObjectStore: {children: ['completed', 'failed']},
+    loadFilterOptionsStore: {},
     loadPathStore: {}
   })
 
@@ -96,6 +91,7 @@ export default function () {
                 items: items
               }
               Actions.loadObjectStore.completed(payload)
+              Actions.loadFilterOptionsStore(items)
             })
             .catch(function (error) {
               Actions.loadObjectStore.failed(error, gruppe)

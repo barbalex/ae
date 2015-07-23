@@ -26,6 +26,7 @@ app.extend({
       that.localHierarchyDb = new PouchDB('aeHierarchy'),
       that.localPathDb = new PouchDB('aePaths'),
       that.localGroupsDb = new PouchDB('aeGroups'),
+      that.localFilterOptionsDb = new PouchDB('aeFilterOptions'),
       that.remoteDb = new PouchDB(pouchUrl())
     ])
     .then(function () {

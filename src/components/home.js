@@ -32,9 +32,10 @@ const Home = React.createClass({
     allGroupsLoaded: React.PropTypes.bool,
     isGuidPath: React.PropTypes.bool,
     path: React.PropTypes.array,
-    items: React.PropTypes.array,
+    synonymObjects: React.PropTypes.array,
     object: React.PropTypes.object,
-    guid: React.PropTypes.string
+    guid: React.PropTypes.string,
+    options: React.PropTypes.array
   },
 
   getInitialState () {
@@ -50,9 +51,10 @@ const Home = React.createClass({
       groupsLoading: [],
       allGroupsLoaded: false,
       path: path,
-      items: [],
+      synonymObjects: [],
       object: undefined,
-      guid: guid
+      guid: guid,
+      options: []
     }
   },
 
@@ -61,6 +63,7 @@ const Home = React.createClass({
     this.listenTo(app.activePathStore, this.onPathStoreChange)
     this.listenTo(app.objectStore, this.onObjectStoreChange)
     this.listenTo(app.activeObjectStore, this.onActiveObjectStoreChange)
+    this.listenTo(app.filterOptionsStore, this.onFilterOptionsStoreChange)
   },
 
   componentWillUnmount () {
@@ -77,7 +80,7 @@ const Home = React.createClass({
   },
 
   onObjectStoreChange (payload) {
-    const { items, hierarchy, groupsLoaded } = payload
+    const { hierarchy, groupsLoaded } = payload
 
     const groupsLoading = app.objectStore.groupsLoading
     // add groups loading to groups loaded to hide the group checkbox of the loading group
@@ -88,7 +91,6 @@ const Home = React.createClass({
     // console.log('home.js, onObjectStoreChange, payload', payload)
 
     this.setState({
-      items: items || this.state.items,
       hierarchy: hierarchy || this.state.hierarchy,
       groupsLoadedOrLoading: groupsLoadedOrLoading,
       groupsLoading: groupsLoading,
@@ -96,12 +98,12 @@ const Home = React.createClass({
     })
   },
 
-  onActiveObjectStoreChange (object) {
-    // console.log('home.js, onActiveObjectStoreChange, object', object)
+  onActiveObjectStoreChange (object, synonymObjects) {
     const guid = object._id
     this.setState({
       object: object,
-      guid: guid
+      guid: guid,
+      synonymObjects: synonymObjects
     })
     // update url if path was called only with guid
     if (this.props.isGuidPath && guid) {
@@ -114,6 +116,12 @@ const Home = React.createClass({
           console.log('home.js: error getting path for guid ' + guid + ':', error)
         })
     }
+  },
+
+  onFilterOptionsStoreChange (options) {
+    this.setState({
+      options: options
+    })
   },
 
   onClickGruppe (gruppe) {
@@ -150,9 +158,9 @@ const Home = React.createClass({
   },
 
   render () {
-    const { hierarchy, path, items, object, groupsLoading, allGroupsLoaded } = this.state
+    const { hierarchy, path, synonymObjects, object, groupsLoading, allGroupsLoaded, options } = this.state
     const { isGuidPath } = this.props
-    const showFilter = items.length > 0
+    const showFilter = options.length > 0
     const showObject = object !== undefined
 
     // MenuButton needs NOT to be inside menu
@@ -166,10 +174,10 @@ const Home = React.createClass({
             <ResizeButton />
           </div>
           {this.createGruppen()}
-          {showFilter ? <Filter items={items} /> : ''}
+          {showFilter ? <Filter options={options} /> : ''}
           <TreeFromHierarchyObject hierarchy={hierarchy} groupsLoading={groupsLoading} allGroupsLoaded={allGroupsLoaded} object={object} isGuidPath={isGuidPath} path={path} />
         </div>
-        {showObject ? <Objekt object={object} items={items} /> : ''}
+        {showObject ? <Objekt object={object} synonymObjects={synonymObjects} /> : ''}
       </NavHelper>
     )
   }

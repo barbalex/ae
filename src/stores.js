@@ -10,9 +10,48 @@ import getItemsFromLocalDb from './modules/getItemsFromLocalDb.js'
 import getItemFromLocalDb from './modules/getItemFromLocalDb.js'
 import getHierarchyFromLocalHierarchyDb from './modules/getHierarchyFromLocalHierarchyDb.js'
 import addPathsFromItemsToLocalPathDb from './modules/addPathsFromItemsToLocalPathDb.js'
-import gruppen from './modules/gruppen.js'
+import buildFilterOptions from './modules/buildFilterOptions.js'
+import getSynonymsOfObject from './modules/getSynonymsOfObject.js'
 
 export default function (Actions) {
+  app.filterOptionsStore = Reflux.createStore({
+    /*
+     * simple store that keeps an array of filter options
+     * because creating them uses a lot of cpu
+    */
+    listenables: Actions,
+
+    getOptions () {
+      return new Promise(function (resolve, reject) {
+        app.localFilterOptionsDb.allDocs({include_docs: true})
+          .then(function (result) {
+            const options = result.rows.map(function (row) {
+              return row.doc
+            })
+            resolve(options)
+          })
+          .catch(function (error) {
+            reject('loadFilterOptionsStore: error fetching options from localFilterOptionsDb:', error)
+          })
+      })
+    },
+
+    onLoadFilterOptionsStore (newItemsPassed) {
+      const that = this
+      let options = []
+      // get existing options
+      this.getOptions()
+        .then(function (optionsFromPouch) {
+          options = options.concat(optionsFromPouch)
+          if (newItemsPassed) options = options.concat(buildFilterOptions(newItemsPassed))
+          that.trigger(options)
+        })
+        .catch(function (error) {
+          console.log('loadFilterOptionsStore: error preparing trigger:', error)
+        })
+    }
+  })
+
   app.activePathStore = Reflux.createStore({
     /*
      * simple store that keeps the path (=url) as an array
@@ -46,13 +85,23 @@ export default function (Actions) {
     item: {},
 
     onLoadActiveObjectStoreCompleted (item) {
+      const that = this
       // only change if something has changed
       if (!_.isEqual(item, this.item)) {
         // item can be an object or {}
         this.item = item
         this.loaded = _.keys(item).length > 0
         // tell views that data has changed
-        this.trigger(item)
+        this.trigger(item, [])
+        // now check for synonym objects
+        // if they exist: trigger again and pass synonyms
+        getSynonymsOfObject(item)
+          .then(function (synonymObjects) {
+            if (synonymObjects.length > 0) that.trigger(item, synonymObjects)
+          })
+          .catch(function (error) {
+            console.log('activeObjectStore: error fetching synonyms of object:', error)
+          })
       }
     }
   })
@@ -90,18 +139,12 @@ export default function (Actions) {
 
     onLoadObjectStore (gruppe) {
       const that = this
-      let items = []
       let hierarchy = []
 
       this.groupsLoading = _.union(this.groupsLoading, [gruppe])
 
       // get items
-      this.getItems()
-        .then(function (result) {
-          items = result
-          // get hierarchy
-          return that.getHierarchy()
-        })
+      this.getHierarchy()
         .then(function (result) {
           hierarchy = result
           // get groups loaded
@@ -110,7 +153,6 @@ export default function (Actions) {
         .then(function (groupsLoaded) {
           // trigger change so components can set loading state
           const payload = {
-            items: items,
             hierarchy: hierarchy,
             gruppe: gruppe,
             groupsLoaded: groupsLoaded,
@@ -137,6 +179,8 @@ export default function (Actions) {
           // extract objects from result
           items = docs
 
+          Actions.loadFilterOptionsStore(items)
+
           // build path hash - it makes finding an item by path much easier
           addPathsFromItemsToLocalPathDb(items)
 
@@ -159,7 +203,6 @@ export default function (Actions) {
         .then(function () {
           // tell views that data has changed
           const payload = {
-            items: items,
             hierarchy: hierarchy,
             groupsLoaded: groupsLoaded,
             groupsLoading: []
@@ -184,21 +227,14 @@ export default function (Actions) {
       const that = this
 
       this.groupsLoading = []
-      console.log('Start Messung')
-      Promise.all([
-        getItemsFromLocalDb(),
-        getHierarchyFromLocalHierarchyDb()
-      ])
-      .then(function (value) {
-        const items = value[0]
-        const hierarchy = value[1]
-
+      getHierarchyFromLocalHierarchyDb()
+      .then(function (hierarchy) {
         const payload = {
           groupsLoaded: groupsLoadedInPouch,
-          items: items,
           hierarchy: hierarchy
         }
         that.trigger(payload)
+        Actions.loadFilterOptionsStore()
       })
     },
 
@@ -207,10 +243,9 @@ export default function (Actions) {
     },
 
     onLoadObjectStoreCompleted (payloadReceived) {
-      console.log('objectStore, onLoadObjectStoreCompleted')
+      // console.log('objectStore, onLoadObjectStoreCompleted')
       const { gruppe, items } = payloadReceived
       const that = this
-      let payloadItems = []
       let payloadHierarchy = []
       let payloadGroupsLoaded = []
 
@@ -224,10 +259,6 @@ export default function (Actions) {
         app.localDb.bulkDocs(items)
       ])
       .then(function () {
-        return that.getItems()
-      })
-      .then(function (result) {
-        payloadItems = result
         return that.getHierarchy()
       })
       .then(function (result) {
@@ -242,14 +273,12 @@ export default function (Actions) {
         app.localGroupsDb.put(groupsLoadedDoc)
       })
       .then(function () {
-        // loaded all items
         // signal that this group is not being loaded any more
         that.groupsLoading = _.without(that.groupsLoading, gruppe)
         const groupsLoading = that.groupsLoading
 
         // tell views that data has changed
         const payload = {
-          items: payloadItems,
           hierarchy: payloadHierarchy,
           groupsLoaded: payloadGroupsLoaded,
           groupsLoading: groupsLoading

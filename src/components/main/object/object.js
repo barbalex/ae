@@ -1,19 +1,24 @@
+/*
+ * Synonym Objects
+ * in order not to have to constantly have all items loaded in memory
+ * synonym objects are fetched from localDb
+ * so in 
+ */
+
 'use strict'
 
-// import app from 'ampersand-app'
 import React from 'react'
 // import Inspector from 'react-json-inspector'
 import _ from 'lodash'
 import PropertyCollection from './propertyCollection.js'
 import RelationCollection from './relationCollection.js'
-import getGuidsOfSynonymsFromTaxonomicRcs from '../../../modules/getGuidsOfSynonymsFromTaxonomicRcs.js'
 
 export default React.createClass({
   displayName: 'Object',
 
   propTypes: {
     object: React.PropTypes.object,
-    items: React.PropTypes.array
+    synonymObjects: React.PropTypes.array
   },
 
   getInitialState () {
@@ -36,7 +41,7 @@ export default React.createClass({
   },
 
   render () {
-    const { object, items } = this.props
+    const { object, synonymObjects } = this.props
     const { formClassNames } = this.state
     let taxComponent = null
     let pcsComponent = null
@@ -46,8 +51,6 @@ export default React.createClass({
     let taxRcsComponent = null
     let objectRcs = []
     let taxRcs = []
-    let guidsOfSynonyms = []
-    let synonymObjects = []
     let pcsOfSynonyms = []
     let rcsOfSynonyms = []
     let namesOfPcsBuilt = []
@@ -107,11 +110,13 @@ export default React.createClass({
       // needed to choose which relation collections of synonym objects need to be built
       namesOfRcsBuilt = _.pluck(rcs, 'Name')
 
-      // synonym objects
+      /*// synonym objects
       guidsOfSynonyms = getGuidsOfSynonymsFromTaxonomicRcs(taxRcs)
+      // NOOO: get them from pouch
+      // TODO: get asynchronity to work
       synonymObjects = _.filter(items, function (object, guid) {
         return _.includes(guidsOfSynonyms, guid)
-      })
+      })*/
     }
 
     // property collections
