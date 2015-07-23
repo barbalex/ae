@@ -32,7 +32,7 @@ const Home = React.createClass({
     allGroupsLoaded: React.PropTypes.bool,
     isGuidPath: React.PropTypes.bool,
     path: React.PropTypes.array,
-    items: React.PropTypes.object,
+    items: React.PropTypes.array,
     object: React.PropTypes.object,
     guid: React.PropTypes.string
   },
@@ -52,7 +52,7 @@ const Home = React.createClass({
       groupsLoading: [],
       allGroupsLoaded: false,
       path: path,
-      items: {},
+      items: [],
       object: undefined,
       guid: guid
     }
@@ -157,10 +157,9 @@ const Home = React.createClass({
     const { hierarchy, gruppe, path, items, object, groupsLoading, allGroupsLoaded } = this.state
     const { isGuidPath } = this.props
     const isGroup = _.includes(gruppen, gruppe)
-    const showFilter = _.keys(items).length > 0
-    const showTree = isGroup || isGuidPath || _.keys(items).length > 0
+    const showFilter = items.length > 0
+    const showTree = isGroup || isGuidPath || items.length > 0
     const showObject = object !== undefined
-    // console.log('home.js, render: path', path)
 
     // MenuButton needs NOT to be inside menu
     // otherwise the menu can't be shown outside when menu is short

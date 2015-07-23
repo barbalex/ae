@@ -13,9 +13,11 @@ import replaceProblematicPathCharactersFromString from './replaceProblematicPath
 export default function (elArray) {
   let newElArray = []
   _.forEach(elArray, function (el) {
-    let newEl = el
-    newEl = replaceProblematicPathCharactersFromString(el)
-    newElArray.push(newEl)
+    if (el !== undefined && el !== null) {
+      let newEl = el
+      newEl = replaceProblematicPathCharactersFromString(el)
+      newElArray.push(newEl)
+    }
   })
   return newElArray
 }

@@ -64,28 +64,35 @@ export default function () {
     const validGroup = _.includes(gruppen, gruppe)
     if (!validGroup) return false
 
-    if (!app.objectStore.isGroupLoaded(gruppe) && !_.includes(app.objectStore.groupsLoading, gruppe) && gruppe) {
-      // this group does not exist yet in the store
-      const viewGruppePrefix = gruppe === 'Lebensräume' ? 'lr' : gruppe.toLowerCase()
-      const viewName = 'artendb/' + viewGruppePrefix + 'NachName'
-      // get group from remoteDb
-      app.remoteDb.query(viewName, {include_docs: true})
-        .then(function (result) {
-          // extract objects from result
-          const items = result.rows.map(function (row) {
-            return row.doc
-          })
-          // prepare payload and send completed event
-          const payload = {
-            gruppe: gruppe,
-            items: items
-          }
-          Actions.loadObjectStore.completed(payload)
-        })
-        .catch(function (error) {
-          Actions.loadObjectStore.failed(error, gruppe)
-        })
-    }
+    app.objectStore.isGroupLoaded(gruppe)
+      .then(function (groupIsLoaded) {
+        if (!groupIsLoaded && gruppe) {
+          // this group does not exist yet in the store
+          const viewGruppePrefix = gruppe === 'Lebensräume' ? 'lr' : gruppe.toLowerCase()
+          const viewName = 'artendb/' + viewGruppePrefix + 'NachName'
+          // get group from remoteDb
+          app.remoteDb.query(viewName, {include_docs: true})
+            .then(function (result) {
+              // extract objects from result
+              const items = result.rows.map(function (row) {
+                return row.doc
+              })
+              // prepare payload and send completed event
+              const payload = {
+                gruppe: gruppe,
+                items: items
+              }
+              Actions.loadObjectStore.completed(payload)
+            })
+            .catch(function (error) {
+              Actions.loadObjectStore.failed(error, gruppe)
+            })
+        }
+      })
+      .catch(function (error) {
+        const errorMsg = 'Actions.loadObjectStore, error getting isGroupLoaded for group ' + gruppe + ': ' + error
+        Actions.loadObjectStore.failed(errorMsg, gruppe)
+      })
   })
 
   Actions.loadActiveObjectStore.listen(function (guid) {
@@ -106,9 +113,6 @@ export default function () {
           // get Object from couch
           app.remoteDb.get(guid, { include_docs: true })
             .then(function (object) {
-              // dispatch action to load data of this group
-              Actions.loadObjectStore(object.Gruppe)
-              // wait until store changes
               Actions.loadActiveObjectStore.completed(object)
             })
             .catch(function (error) {
