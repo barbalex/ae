@@ -21,6 +21,11 @@ function objectFilterFunction (doc) {
   return false
 }
 
+function mooseFilterFunction (doc) {
+  if (doc.Gruppe && doc.Gruppe === 'Moose') return true
+  return false
+}
+
 export default function () {
   let Actions = Reflux.createActions({
     loadPouchFromRemote: {children: ['completed', 'failed']},
@@ -32,14 +37,49 @@ export default function () {
     loadActivePathStore: {}
   })
 
+  Actions.loadPouchFromRemote.listen(function () {
+    console.log('Actions.loadPouchFromRemote, getting objekte')
+    // get all items
+    const couchUrl = getCouchUrl()
+    const loadUrl = couchUrl + '/ae_moose/ae_moose.txt'
+    app.localDb.load(loadUrl, {
+      proxy: couchUrl,
+      filter: mooseFilterFunction
+    })/*
+    .then(function () {
+      // let regular replication catch up if objects have changed since dump was created
+      console.log('Actions.loadPouchFromRemote, replicating')
+      return app.localDb.replicate.from(app.remoteDb, {
+        filter: mooseFilterFunction
+      })
+    })*/
+    .then(function () {
+      console.log('Actions.loadPouchFromRemote completed')
+      Actions.loadPouchFromRemote.completed()
+    })
+    .catch(function (error) {
+      Actions.loadPouchFromRemote.failed('Actions.loadPouchFromRemote, replication error:', error)
+    })
+  })
+
   /*Actions.loadPouchFromRemote.listen(function () {
     console.log('Actions.loadPouchFromRemote, getting objekte')
     // get all items
     const couchUrl = getCouchUrl()
-    const loadUrl = couchUrl + '/ae_objekte/ae_objekte.txt'
-    app.localDb.load(loadUrl, {
-        proxy: couchUrl,
-        filter: objectFilterFunction
+    app.remoteDb.get('ae_moose', {attachments: true})
+      .then(function (doc) {
+        // TODO: THIS WORKS -SORT OF
+        // THE DB EVENTUALLY CONTAINS THE DOCS BUT IT SEEMS THAT THE NEXT .THEN
+        // STARTS BEFORE > so no hierarchy and path is built
+        const attachmentBase64 = doc._attachments['ae_moose.txt'].data
+        const attachment = window.atob(attachmentBase64)
+        console.log('Actions.loadPouchFromRemote, attachment', attachment)
+        // if (!attachment) return null
+        console.log('Actions.loadPouchFromRemote, loading objekte')
+        return app.localDb.load(attachment, {
+          proxy: couchUrl,
+          filter: objectFilterFunction
+        })
       })
       .then(function () {
         // let regular replication catch up if objects have changed since dump was created
@@ -54,39 +94,6 @@ export default function () {
         Actions.loadPouchFromRemote.failed('Actions.loadPouchFromRemote, replication error:', error)
       })
   })*/
-
-  Actions.loadPouchFromRemote.listen(function () {
-    console.log('Actions.loadPouchFromRemote, getting objekte')
-    // get all items
-    const couchUrl = getCouchUrl()
-    app.remoteDb.get('ae_moose', {attachments: true})
-      .then(function (doc) {
-        // TODO: THIS WORKS -SORT OF
-        // THE DB EVENTUALLY CONTAINS THE DOCS BUT IT SEEMS THAT THE NEXT .THEN
-        // STARTS BEFORE!
-        const attachmentBase64 = doc._attachments['ae_moose.txt'].data
-        const attachment = window.atob(attachmentBase64)
-        console.log('Actions.loadPouchFromRemote, attachment', attachment)
-        // if (!attachment) return null
-        console.log('Actions.loadPouchFromRemote, loading objekte')
-        return app.localDb.load(attachment, {
-          proxy: couchUrl,
-          filter: objectFilterFunction
-        })
-      })
-      /*.then(function () {
-        // let regular replication catch up if objects have changed since dump was created
-        console.log('Actions.loadPouchFromRemote, replicating')
-        return app.localDb.replicate.from(app.remoteDb)
-      })*/
-      .then(function () {
-        console.log('Actions.loadPouchFromRemote completed')
-        Actions.loadPouchFromRemote.completed()
-      })
-      .catch(function (error) {
-        Actions.loadPouchFromRemote.failed('Actions.loadPouchFromRemote, replication error:', error)
-      })
-  })
 
   Actions.loadFilterOptionsStore.listen(function (items) {
     Actions.loadFilterOptionsStore.completed(items)

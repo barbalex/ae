@@ -219,7 +219,7 @@ export default function (Actions) {
         .then(function (docs) {
           console.log('objectStore, onLoadPouchFromRemoteCompleted: allDocs fetched')
           // extract objects from result
-          items = docs
+          items = _.sortBy(docs, 'Taxonomien[0].Eigenschaften[Artname vollständig]')
 
           Actions.loadFilterOptionsStore(items)
 
@@ -228,14 +228,15 @@ export default function (Actions) {
 
           // build hierarchy and save to pouch
           hierarchy = buildHierarchy(items)
+          console.log('objectStore, onLoadPouchFromRemoteCompleted: hierarchy:', hierarchy)
           groupsLoaded = _.pluck(hierarchy, 'Name')
-          app.localHierarchyDb.bulkDocs(hierarchy)
+          return app.localHierarchyDb.bulkDocs(hierarchy)
             .catch(function (error) {
               console.log('objectStore, onLoadPouchFromRemoteCompleted: error writing hierarchy to pouch:', error)
             })
-
+        })
+        .then(function () {
           that.groupsLoading = []
-
           return app.localGroupsDb.get('groups')
         })
         .then(function (groupsLoadedDoc) {
