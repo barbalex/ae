@@ -17,6 +17,7 @@ export default function (Actions) {
   app.pathStore = Reflux.createStore({
     /*
      * simple store that keeps a hash of paths as keys and guids as values
+     * well, they are kept in the pouch in localPathDb
     */
     listenables: Actions,
 
@@ -37,6 +38,7 @@ export default function (Actions) {
     /*
      * simple store that keeps an array of filter options
      * because creating them uses a lot of cpu
+     * well, they are kept in the pouch in localFilterOptionsDb
     */
     listenables: Actions,
 
@@ -138,6 +140,15 @@ export default function (Actions) {
   })
 
   app.objectStore = Reflux.createStore({
+    /*
+     * keeps an array of objects, of hierarchy objects and of groups loaded (i.e. their names)
+     * the are managed with the same store (but different databases)
+     * because they depend on each other / always change together
+     *
+     * objects are kept in the pouch in localDb,
+     * hierarchies in localHierarchyDb,
+     * groups in localGroupsDb
+    */
     listenables: Actions,
 
     groupsLoading: [],
@@ -322,8 +333,6 @@ export default function (Actions) {
     },
 
     onLoadObjectStoreFailed (error, gruppe) {
-      // const indexOfGruppe = this.groupsLoading.indexOf(gruppe)
-      // this.groupsLoading.splice(indexOfGruppe, 1)
       this.groupsLoading = _.without(this.groupsLoading, gruppe)
       console.log('objectStore: loading items failed with error: ', error)
     }
