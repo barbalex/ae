@@ -219,7 +219,8 @@ export default function (Actions) {
         .then(function (docs) {
           console.log('objectStore, onLoadPouchFromRemoteCompleted: allDocs fetched')
           // extract objects from result
-          items = _.sortBy(docs, 'Taxonomien[0].Eigenschaften[Artname vollständig]')
+          // items = _.sortBy(docs, 'Taxonomien[0].Eigenschaften[Artname vollständig]')
+          items = docs
 
           Actions.loadFilterOptionsStore(items)
 

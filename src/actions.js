@@ -41,16 +41,16 @@ export default function () {
     console.log('Actions.loadPouchFromRemote, getting objekte')
     // get all items
     const couchUrl = getCouchUrl()
-    const loadUrl = couchUrl + '/ae_moose/ae_moose.txt'
+    const loadUrl = couchUrl + '/ae_objekte/ae_objekte.txt'
     app.localDb.load(loadUrl, {
       proxy: couchUrl,
-      filter: mooseFilterFunction
-    })/*
-    .then(function () {
+      filter: objectFilterFunction
+    })
+    /*.then(function () {
       // let regular replication catch up if objects have changed since dump was created
       console.log('Actions.loadPouchFromRemote, replicating')
       return app.localDb.replicate.from(app.remoteDb, {
-        filter: mooseFilterFunction
+        filter: objectFilterFunction
       })
     })*/
     .then(function () {
