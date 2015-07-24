@@ -1,6 +1,6 @@
 'use strict'
 
-import getPaths from './getPaths.js'
+import getPathsFromLocalPathDb from './getPathsFromLocalPathDb.js'
 
 export default function (path) {
   const pathString = path.join('/')
@@ -8,7 +8,7 @@ export default function (path) {
     if (!pathString) {
       reject('objectStore, getPath: no pathString passed')
     }
-    getPaths()
+    getPathsFromLocalPathDb()
       .then(function (paths) {
         const guid = paths[pathString]
         resolve(guid)

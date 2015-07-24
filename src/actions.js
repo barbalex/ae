@@ -5,7 +5,7 @@ import Reflux from 'reflux'
 import PouchDB from 'pouchdb'
 import pouchdbLoad from 'pouchdb-load'
 import _ from 'lodash'
-import request from 'superagent'
+// import request from 'superagent'
 import getGruppen from './modules/gruppen.js'
 import getCouchUrl from './modules/getCouchUrl.js'
 
@@ -28,35 +28,37 @@ export default function () {
     loadObjectStore: {children: ['completed', 'failed']},
     loadActiveObjectStore: {children: ['completed', 'failed']},
     loadFilterOptionsStore: {},
-    loadPathStore: {}
+    loadPathStore: {},
+    loadActivePathStore: {}
   })
 
   Actions.loadPouchFromRemote.listen(function () {
-    console.log('Actions.loadPouchFromRemote active')
+    // console.log('Actions.loadPouchFromRemote active')
     // get all items
     const couchUrl = getCouchUrl()
-    const url = couchUrl + '/ae_objekte/ae_objekte.txt'
-    /*request
-      .get(url)
-      .end(function (error, res) {
-        if (error) return console.log('Actions.loadPouchFromRemote, error loading ' + url + ':', error)
-        console.log('Actions.loadPouchFromRemote, res', res)
-        console.log('Actions.loadPouchFromRemote, res.body', res.body)*/
-    app.localDb.load(url, {
-      proxy: couchUrl,
-      filter: objectFilterFunction
-    })
-    .then(function () {
-      // let regular replication catch up if objects have changed since dump was created
-      return app.localDb.replicate.from(app.remoteDb)
-    })
-    .then(function () {
-      Actions.loadPouchFromRemote.completed()
-    })
-    .catch(function (error) {
-      Actions.loadPouchFromRemote.failed('Actions.loadPouchFromRemote, replication error:', error)
-    })
-      // })
+    app.remoteDb.get('ae_objekte', {attachments: true})
+      .then(function (doc) {
+        // return null
+        const attachmentBase64 = doc._attachments['ae_objekte.txt'].data
+        const attachment = window.atob(attachmentBase64)
+        // console.log('Actions.loadPouchFromRemote, attachment', attachment)
+        if (!attachment) return null
+        return app.localDb.load(attachment, {
+          proxy: couchUrl,
+          filter: objectFilterFunction
+        })
+      })
+      .then(function () {
+        // let regular replication catch up if objects have changed since dump was created
+        return app.localDb.replicate.from(app.remoteDb)
+      })
+      .then(function () {
+        console.log('Actions.loadPouchFromRemote completed')
+        Actions.loadPouchFromRemote.completed()
+      })
+      .catch(function (error) {
+        Actions.loadPouchFromRemote.failed('Actions.loadPouchFromRemote, replication error:', error)
+      })
   })
 
   Actions.loadPouchFromLocal.listen(function (groupsLoadedInPouch) {

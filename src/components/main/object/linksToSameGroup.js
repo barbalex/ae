@@ -24,7 +24,7 @@ export default React.createClass({
       .then(function (result) {
         const path = result.path
         if (guid) app.Actions.loadActiveObjectStore(guid)
-        app.Actions.loadPathStore(path, guid)
+        app.Actions.loadActivePathStore(path, guid)
       })
       .catch(function (error) {
         console.log('linksToSameGroup.js: error getting path for guid ' + guid + ':', error)

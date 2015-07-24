@@ -110,7 +110,7 @@ const Home = React.createClass({
       getPathFromGuid(guid, object)
         .then(function (result) {
           const path = result.path
-          app.Actions.loadPathStore(path, guid)
+          app.Actions.loadActivePathStore(path, guid)
         })
         .catch(function (error) {
           console.log('home.js: error getting path for guid ' + guid + ':', error)

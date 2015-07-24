@@ -47,7 +47,7 @@ export default React.createClass({
     getPathFromGuid(guid)
       .then(function (result) {
         const path = result.path
-        app.Actions.loadPathStore(path, guid)
+        app.Actions.loadActivePathStore(path, guid)
       })
       .catch(function (error) {
         console.log('filter.js: error getting path for guid ' + guid + ':', error)

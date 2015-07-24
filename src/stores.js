@@ -14,6 +14,25 @@ import buildFilterOptions from './modules/buildFilterOptions.js'
 import getSynonymsOfObject from './modules/getSynonymsOfObject.js'
 
 export default function (Actions) {
+  app.pathStore = Reflux.createStore({
+    /*
+     * simple store that keeps a hash of paths as keys and guids as values
+    */
+    listenables: Actions,
+
+    onLoadPathStore (newItemsPassed) {
+      const that = this
+      // get existing paths
+      addPathsFromItemsToLocalPathDb(newItemsPassed)
+        .then(function () {
+          that.trigger(true)
+        })
+        .catch(function (error) {
+          console.log('pathStore: error adding paths from passed items:', error)
+        })
+    }
+  })
+
   app.filterOptionsStore = Reflux.createStore({
     /*
      * simple store that keeps an array of filter options
@@ -63,7 +82,7 @@ export default function (Actions) {
 
     guid: null,
 
-    onLoadPathStore (path, guid) {
+    onLoadActivePathStore (path, guid) {
       // only change if something has changed
       if (this.guid !== guid || !_.isEqual(this.path, path)) {
         this.guid = guid
@@ -182,7 +201,7 @@ export default function (Actions) {
           Actions.loadFilterOptionsStore(items)
 
           // build path hash - it makes finding an item by path much easier
-          addPathsFromItemsToLocalPathDb(items)
+          Actions.loadPathStore(items)
 
           // build hierarchy and save to pouch
           hierarchy = buildHierarchy(items)
@@ -253,8 +272,9 @@ export default function (Actions) {
       const hierarchy = buildHierarchy(items)
       const hierarchyOfGruppe = _.find(hierarchy, {'Name': gruppe})
 
+      Actions.loadPathStore(items)
+
       PouchDB.utils.Promise.all([
-        addPathsFromItemsToLocalPathDb(items),
         app.localHierarchyDb.put(hierarchyOfGruppe, gruppe),
         app.localDb.bulkDocs(items)
       ])

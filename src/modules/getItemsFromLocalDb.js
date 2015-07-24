@@ -12,8 +12,7 @@ export default function () {
         resolve(items)
       })
       .catch(function (error) {
-        console.log('objectStore: error getting items from localDb:', error)
-        reject(error)
+        reject('objectStore: error getting items from localDb:', error)
       })
   })
 }
