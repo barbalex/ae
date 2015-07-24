@@ -24,7 +24,8 @@ export default React.createClass({
   },*/
 
   propTypes: {
-    options: React.PropTypes.array/*,
+    options: React.PropTypes.array,
+    loadingFilterOptions: React.PropTypes.bool/*,
     itemFiltered: React.PropTypes.object*/
   },
 
@@ -62,7 +63,7 @@ export default React.createClass({
   },
 
   render () {
-    const { options } = this.props
+    const { options, loadingFilterOptions } = this.props
     // const { itemFiltered } = this.state
     // console.log('filter.js, render: options', options)
 
@@ -75,7 +76,7 @@ export default React.createClass({
       color: '#333'
     }
 
-    return (
+    const filterField = (
       <div id='filter'>
         <div style={{position: 'relative'}}>
           <Glyphicon
@@ -100,5 +101,10 @@ export default React.createClass({
         </div>
       </div>
     )
+
+    const loadingIndicator = <p>Lade Filter...</p>
+
+    if (loadingFilterOptions) return loadingIndicator
+    return filterField
   }
 })

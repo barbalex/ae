@@ -27,7 +27,7 @@ export default function () {
     loadPouchFromLocal: {children: ['completed', 'failed']},
     loadObjectStore: {children: ['completed', 'failed']},
     loadActiveObjectStore: {children: ['completed', 'failed']},
-    loadFilterOptionsStore: {},
+    loadFilterOptionsStore: {children: ['completed', 'failed']},
     loadPathStore: {},
     loadActivePathStore: {}
   })
@@ -59,6 +59,10 @@ export default function () {
       .catch(function (error) {
         Actions.loadPouchFromRemote.failed('Actions.loadPouchFromRemote, replication error:', error)
       })
+  })
+
+  Actions.loadFilterOptionsStore.listen(function (items) {
+    Actions.loadFilterOptionsStore.completed(items)
   })
 
   Actions.loadPouchFromLocal.listen(function (groupsLoadedInPouch) {

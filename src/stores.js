@@ -50,12 +50,20 @@ export default function (Actions) {
             resolve(options)
           })
           .catch(function (error) {
-            reject('loadFilterOptionsStore: error fetching options from localFilterOptionsDb:', error)
+            reject('filterOptionsStore: error fetching options from localFilterOptionsDb:', error)
           })
       })
     },
 
-    onLoadFilterOptionsStore (newItemsPassed) {
+    onLoadFilterOptionsStore () {
+      const payload = {
+        options: null,
+        loading: true
+      }
+      this.trigger(payload)
+    },
+
+    onLoadFilterOptionsStoreCompleted (newItemsPassed) {
       const that = this
       let options = []
       // get existing options
@@ -63,10 +71,14 @@ export default function (Actions) {
         .then(function (optionsFromPouch) {
           options = options.concat(optionsFromPouch)
           if (newItemsPassed) options = options.concat(buildFilterOptions(newItemsPassed))
-          that.trigger(options)
+          const payload = {
+            options: options,
+            loading: false
+          }
+          that.trigger(payload)
         })
         .catch(function (error) {
-          console.log('loadFilterOptionsStore: error preparing trigger:', error)
+          console.log('filterOptionsStore: error preparing trigger:', error)
         })
     }
   })
@@ -244,10 +256,9 @@ export default function (Actions) {
 
     onLoadPouchFromLocalCompleted (groupsLoadedInPouch) {
       const that = this
-
-      this.groupsLoading = []
       getHierarchyFromLocalHierarchyDb()
       .then(function (hierarchy) {
+        that.groupsLoading = []
         const payload = {
           groupsLoaded: groupsLoadedInPouch,
           hierarchy: hierarchy

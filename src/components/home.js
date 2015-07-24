@@ -35,7 +35,8 @@ const Home = React.createClass({
     synonymObjects: React.PropTypes.array,
     object: React.PropTypes.object,
     guid: React.PropTypes.string,
-    options: React.PropTypes.array
+    options: React.PropTypes.array,
+    loadingFilterOptions: React.PropTypes.bool
   },
 
   getInitialState () {
@@ -54,7 +55,8 @@ const Home = React.createClass({
       synonymObjects: [],
       object: undefined,
       guid: guid,
-      options: []
+      options: [],
+      loadingFilterOptions: false
     }
   },
 
@@ -118,10 +120,18 @@ const Home = React.createClass({
     }
   },
 
-  onFilterOptionsStoreChange (options) {
-    this.setState({
-      options: options
-    })
+  onFilterOptionsStoreChange (payload) {
+    const { options, loading } = payload
+    if (options) {
+      this.setState({
+        options: options,
+        loadingFilterOptions: loading
+      })
+    } else {
+      this.setState({
+        loadingFilterOptions: loading
+      })
+    }
   },
 
   onClickGruppe (gruppe) {
@@ -158,9 +168,9 @@ const Home = React.createClass({
   },
 
   render () {
-    const { hierarchy, path, synonymObjects, object, groupsLoading, allGroupsLoaded, options } = this.state
+    const { hierarchy, path, synonymObjects, object, groupsLoading, allGroupsLoaded, options, loadingFilterOptions } = this.state
     const { isGuidPath } = this.props
-    const showFilter = options.length > 0
+    const showFilter = options.length > 0 || loadingFilterOptions
     const showObject = object !== undefined
 
     // MenuButton needs NOT to be inside menu
@@ -174,7 +184,7 @@ const Home = React.createClass({
             <ResizeButton />
           </div>
           {this.createGruppen()}
-          {showFilter ? <Filter options={options} /> : ''}
+          {showFilter ? <Filter options={options} loadingFilterOptions={loadingFilterOptions} /> : ''}
           <TreeFromHierarchyObject hierarchy={hierarchy} groupsLoading={groupsLoading} allGroupsLoaded={allGroupsLoaded} object={object} isGuidPath={isGuidPath} path={path} />
         </div>
         {showObject ? <Objekt object={object} synonymObjects={synonymObjects} /> : ''}
