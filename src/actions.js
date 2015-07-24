@@ -61,7 +61,9 @@ export default function () {
     const couchUrl = getCouchUrl()
     app.remoteDb.get('ae_moose', {attachments: true})
       .then(function (doc) {
-        // return null
+        // TODO: THIS WORKS -SORT OF
+        // THE DB EVENTUALLY CONTAINS THE DOCS BUT IT SEEMS THAT THE NEXT .THEN
+        // STARTS BEFORE!
         const attachmentBase64 = doc._attachments['ae_moose.txt'].data
         const attachment = window.atob(attachmentBase64)
         console.log('Actions.loadPouchFromRemote, attachment', attachment)
