@@ -41,7 +41,12 @@ export default function () {
     console.log('Actions.loadPouchFromRemote, getting objekte')
     // get all items
     const couchUrl = getCouchUrl()
-    const loadUrl = couchUrl + '/ae_objekte/ae_objekte.txt'
+    // const loadUrl = couchUrl + '/ae_objekte/ae_objekte.txt'  // does not work
+    const loadUrl = couchUrl + '/ae_moose/ae_moose.txt'  // works
+    // const loadUrl = couchUrl + '/ae_lr/ae_lr.txt'  // works but umlaute kaputt
+    // const loadUrl = couchUrl + '/ae_pilze/ae_pilze.txt'  // works but filter not shown
+    // const loadUrl = couchUrl + '/ae_flora/ae_flora.txt'  // works but filter not shown
+    // const loadUrl = couchUrl + '/ae_fauna/ae_fauna.txt'  // works but filter not shown and Umlaute kaputt
     app.localDb.load(loadUrl, {
       proxy: couchUrl,
       filter: objectFilterFunction
