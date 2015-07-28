@@ -21,28 +21,8 @@ export default React.createClass({
     synonymObjects: React.PropTypes.array
   },
 
-  getInitialState () {
-    const formClassNames = window.innerWidth > 700 ? 'form form-horizontal' : 'form'
-    return {
-      formClassNames: formClassNames
-    }
-  },
-
-  componentDidMount () {
-    window.addEventListener('resize', this.onResize)
-  },
-
-  onResize () {
-    const thisWidth = React.findDOMNode(this).offsetWidth
-    const formClassNames = thisWidth > 700 ? 'form form-horizontal' : 'form'
-    this.setState({
-      formClassNames: formClassNames
-    })
-  },
-
   render () {
     const { object, synonymObjects } = this.props
-    const { formClassNames } = this.state
     let taxComponent = null
     let pcsComponent = null
     let pcsOfSynonymsComponent = null
@@ -109,14 +89,6 @@ export default React.createClass({
       // list of names of relation collections
       // needed to choose which relation collections of synonym objects need to be built
       namesOfRcsBuilt = _.pluck(rcs, 'Name')
-
-      /*// synonym objects
-      guidsOfSynonyms = getGuidsOfSynonymsFromTaxonomicRcs(taxRcs)
-      // NOOO: get them from pouch
-      // TODO: get asynchronity to work
-      synonymObjects = _.filter(items, function (object, guid) {
-        return _.includes(guidsOfSynonyms, guid)
-      })*/
     }
 
     // property collections
@@ -216,20 +188,16 @@ export default React.createClass({
     }
 
     return (
-      <fieldset id='main'>
-        <form className={formClassNames} autoComplete='off'>
-          <div id='formContent'>
-            <h4>Taxonomie:</h4>
-            {taxComponent ? taxComponent : ''}
-            {taxRcsComponent ? taxRcsComponent : ''}
-            {pcsComponent ? pcsComponent : ''}
-            {rcsComponent ? rcsComponent : ''}
-            {pcsOfSynonymsComponent ? pcsOfSynonymsComponent : ''}
-            {rcsOfSynonymsComponent ? rcsOfSynonymsComponent : ''}
-            {/*<Inspector data={object}/>*/}
-          </div>
-        </form>
-      </fieldset>
+      <div id='formContent'>
+        <h4>Taxonomie:</h4>
+        {taxComponent ? taxComponent : ''}
+        {taxRcsComponent ? taxRcsComponent : ''}
+        {pcsComponent ? pcsComponent : ''}
+        {rcsComponent ? rcsComponent : ''}
+        {pcsOfSynonymsComponent ? pcsOfSynonymsComponent : ''}
+        {rcsOfSynonymsComponent ? rcsOfSynonymsComponent : ''}
+        {/*<Inspector data={object}/>*/}
+      </div>
     )
   }
 })

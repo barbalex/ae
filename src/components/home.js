@@ -10,7 +10,7 @@ import ResizeButton from './menu/resizeButton.js'
 import Filter from './menu/filter.js'
 import FaviconImage from '../../img/aster_144.png'
 import Favicon from 'react-favicon'
-import Objekt from './main/object/object.js'
+import Main from './main/main.js'
 import TreeFromHierarchyObject from './menu/treeFromHierarchyObject.js'
 import getPathFromGuid from '../modules/getPathFromGuid.js'
 import getGruppen from '../modules/gruppen.js'
@@ -66,10 +66,6 @@ const Home = React.createClass({
     this.listenTo(app.objectStore, this.onObjectStoreChange)
     this.listenTo(app.activeObjectStore, this.onActiveObjectStoreChange)
     this.listenTo(app.filterOptionsStore, this.onFilterOptionsStoreChange)
-  },
-
-  componentWillUnmount () {
-    window.removeEventListener('resize')
   },
 
   onPathStoreChange (path, guid) {
@@ -171,7 +167,7 @@ const Home = React.createClass({
     const { hierarchy, path, synonymObjects, object, groupsLoading, allGroupsLoaded, options, loadingFilterOptions } = this.state
     const { isGuidPath } = this.props
     const showFilter = options.length > 0 || loadingFilterOptions
-    const showObject = object !== undefined
+    const showMain = object !== undefined
 
     // MenuButton needs NOT to be inside menu
     // otherwise the menu can't be shown outside when menu is short
@@ -187,7 +183,7 @@ const Home = React.createClass({
           {showFilter ? <Filter options={options} loadingFilterOptions={loadingFilterOptions} /> : ''}
           <TreeFromHierarchyObject hierarchy={hierarchy} groupsLoading={groupsLoading} allGroupsLoaded={allGroupsLoaded} object={object} isGuidPath={isGuidPath} path={path} />
         </div>
-        {showObject ? <Objekt object={object} synonymObjects={synonymObjects} /> : ''}
+        {showMain ? <Main object={object} synonymObjects={synonymObjects} /> : ''}
       </NavHelper>
     )
   }

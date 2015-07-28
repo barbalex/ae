@@ -82,8 +82,7 @@ export default React.createClass({
           <Glyphicon
             glyph={'remove'}
             style={removeGlyphStyle}
-            onClick={this.onClickEmptyFilterField}
-          />
+            onClick={this.onClickEmptyFilterField}/>
           <Typeahead
             ref={'typeahead'}
             placeholder={'filtern'}
@@ -96,8 +95,7 @@ export default React.createClass({
               'input': ['form-control'],
               'results': ['list-group'],
               'listItem': ['list-group-item']
-            }}
-          />
+            }}/>
         </div>
       </div>
     )
