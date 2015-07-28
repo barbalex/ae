@@ -43,6 +43,7 @@ export default React.createClass({
     const { object, synonymObjects } = this.props
     const { formClassNames } = this.state
     const showObject = object !== undefined
+    const showImport = false
 
     return (
       <fieldset id='main'>
