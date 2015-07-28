@@ -2,7 +2,7 @@
  * Synonym Objects
  * in order not to have to constantly have all items loaded in memory
  * synonym objects are fetched from localDb
- * so in 
+ * and then passed in as props
  */
 
 'use strict'
