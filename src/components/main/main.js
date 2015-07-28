@@ -7,13 +7,16 @@
 
 import React from 'react'
 import Objekt from './object/object.js'
+import ImportPC from './importPC.js'
 
 export default React.createClass({
   displayName: 'Main',
 
   propTypes: {
     object: React.PropTypes.object,
-    synonymObjects: React.PropTypes.array
+    synonymObjects: React.PropTypes.array,
+    showImportPC: React.PropTypes.bool,
+    showImportRC: React.PropTypes.bool
   },
 
   getInitialState () {
@@ -40,15 +43,17 @@ export default React.createClass({
   },
 
   render () {
-    const { object, synonymObjects } = this.props
+    const { object, synonymObjects, showImportPC, showImportRC } = this.props
     const { formClassNames } = this.state
     const showObject = object !== undefined
-    const showImport = false
+
+    console.log('main.js, props', this.props)
 
     return (
       <fieldset id='main'>
         <form className={formClassNames} autoComplete='off'>
           {showObject ? <Objekt object={object} synonymObjects={synonymObjects} /> : ''}
+          {showImportPC ? <ImportPC /> : ''}
         </form>
       </fieldset>
     )

@@ -99,7 +99,7 @@ const Home = React.createClass({
     app.router.navigate(url)
   },
 
-  onObjectStoreChange( payload) {
+  onObjectStoreChange(payload) {
     const { hierarchy , groupsLoaded } = payload
 
     const groupsLoading = app.objectStore.groupsLoading
@@ -107,8 +107,6 @@ const Home = React.createClass({
     const groupsLoadedOrLoading = _.union(groupsLoaded, groupsLoading)
     const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
     const allGroupsLoaded = groupsNotLoaded.length === 0
-
-    // console.log('home.js, onObjectStoreChange, payload', payload)
 
     this.setState({
       hierarchy: hierarchy || this.state.hierarchy,
@@ -118,7 +116,7 @@ const Home = React.createClass({
     })
   },
 
-  onActiveObjectStoreChange( object, synonymObjects) {
+  onActiveObjectStoreChange(object, synonymObjects) {
     const guid = object._id
     this.setState({
       object: object,
@@ -138,7 +136,7 @@ const Home = React.createClass({
     }
   },
 
-  onFilterOptionsStoreChange( payload) {
+  onFilterOptionsStoreChange(payload) {
     const { options , loading } = payload
     if (options) {
       this.setState({
@@ -152,7 +150,7 @@ const Home = React.createClass({
     }
   },
 
-  onClickGruppe( gruppe) {
+  onClickGruppe(gruppe) {
     app.Actions.loadObjectStore(gruppe)
   },
 
@@ -161,14 +159,14 @@ const Home = React.createClass({
     const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
     if (groupsNotLoaded.length > 0) {
       return (
-      <div id='groups'>
-        <div id='groupCheckboxesTitle'>
-          Gruppen laden:
+        <div id='groups'>
+          <div id='groupCheckboxesTitle'>
+            Gruppen laden:
+          </div>
+          <div id='groupCheckboxes'>
+            {this.createButtons()}
+          </div>
         </div>
-        <div id='groupCheckboxes'>
-          {this.createButtons()}
-        </div>
-      </div>
       )
     }
   },
@@ -185,41 +183,39 @@ const Home = React.createClass({
   button( gruppe) {
     const label = gruppe.replace('Macromycetes', 'Pilze')
     return <Input
-                  key={gruppe}
-                  type='checkbox'
-                  label={label}
-                  onClick={this.onClickGruppe.bind(this, gruppe)} />
+              key={gruppe}
+              type='checkbox'
+              label={label}
+              onClick={this.onClickGruppe.bind(this, gruppe)} />
   },
 
   render() {
-    const { hierarchy , path , synonymObjects , object , groupsLoading , allGroupsLoaded , options , loadingFilterOptions } = this.state
+    const { hierarchy, path, synonymObjects, object, groupsLoading, allGroupsLoaded, options, loadingFilterOptions, showImportPC, showImportRC } = this.state
     const { isGuidPath } = this.props
     const showFilter = options.length > 0 || loadingFilterOptions
-    const showMain = object !== undefined
+    const showMain = object !== undefined || showImportRC || showImportPC
 
     // MenuButton needs NOT to be inside menu
     // otherwise the menu can't be shown outside when menu is short
     return (
-    <NavHelper>
-      <Favicon url={[FaviconImage]}/>
-      <MenuButton object={object} />
-      <div id='menu' className='menu'>
-        <div id='menuLine'>
-          <ResizeButton />
+      <NavHelper>
+        <Favicon url={[FaviconImage]}/>
+        <MenuButton object={object} />
+        <div id='menu' className='menu'>
+          <div id='menuLine'>
+            <ResizeButton />
+          </div>
+          {this.createGruppen()} {showFilter ? <Filter options={options} loadingFilterOptions={loadingFilterOptions} /> : ''}
+          <TreeFromHierarchyObject
+            hierarchy={hierarchy}
+            groupsLoading={groupsLoading}
+            allGroupsLoaded={allGroupsLoaded}
+            object={object}
+            isGuidPath={isGuidPath}
+            path={path} />
         </div>
-        {this.createGruppen()} {showFilter ?
-        <Filter options={options} loadingFilterOptions={loadingFilterOptions} /> : ''}
-        <TreeFromHierarchyObject
-          hierarchy={hierarchy}
-          groupsLoading={groupsLoading}
-          allGroupsLoaded={allGroupsLoaded}
-          object={object}
-          isGuidPath={isGuidPath}
-          path={path} />
-      </div>
-      {showMain ?
-      <Main object={object} synonymObjects={synonymObjects} /> : ''}
-    </NavHelper>
+        {showMain ? <Main object={object} synonymObjects={synonymObjects} showImportPC={showImportPC} showImportRC={showImportRC} /> : ''}
+      </NavHelper>
     )
   }
 })

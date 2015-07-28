@@ -25,7 +25,7 @@ export default React.createClass({
 
   importPropertyCollection() {
     console.log('importPropertyCollection was clicked')
-    app.Actions.loadActivePathStore('importieren/eigenschaften')
+    app.Actions.loadActivePathStore(['importieren', 'eigenschaften'])
   // testen, ob der Browser das Importieren unterstützt
   // wenn nein, melden
   // TODO
