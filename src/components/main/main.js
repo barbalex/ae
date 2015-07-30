@@ -47,8 +47,6 @@ export default React.createClass({
     const { formClassNames } = this.state
     const showObject = object !== undefined
 
-    console.log('main.js, props', this.props)
-
     return (
       <fieldset id='main'>
         <form className={formClassNames} autoComplete='off'>
