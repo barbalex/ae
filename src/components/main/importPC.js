@@ -154,14 +154,14 @@ Beispiel, wenn eigene Daten importiert werden:
             <Alert id='importDsIdsIdentifizierenHinweisText' className='alert-info feld' />
           </Panel>
           <Panel header='5. Import ausführen' eventKey='5'>
-            <button type='button' className='btn btn-primary' id='dsImportieren' style={{'marginBottom': 6 + 'px', 'display': 'none'}}>Eigenschaftensammlung mit allen Eigenschaften importieren</button>
-            <button type='button' className='btn btn-primary' id='dsEntfernen' style={{'marginBottom': 6 + 'px', 'display': 'none'}}>Eigenschaftensammlung mit allen Eigenschaften aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen</button>
+            <Button className='btn-primary' id='dsImportieren' style={{'marginBottom': 6 + 'px', 'display': 'none'}}>Eigenschaftensammlung mit allen Eigenschaften importieren</Button>
+            <Button className='btn-primary' id='dsEntfernen' style={{'marginBottom': 6 + 'px', 'display': 'none'}}>Eigenschaftensammlung mit allen Eigenschaften aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen</Button>
             <div className='progress'>
               <div id='dsImportProgressbar' className='progress-bar' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'><span id='dsImportProgressbarText'></span>
               </div>
             </div>
             <div id='importDsImportAusfuehrenHinweis' className='alert alert-info'>
-              <button type='button' className='close' data-dismiss='alert'>&times;</button>
+              <Button className='close' data-dismiss='alert'>&times;</Button>
               <div id='importDsImportAusfuehrenHinweisText'></div>
             </div>
           </Panel>
