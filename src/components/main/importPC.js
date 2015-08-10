@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Accordion, Panel, Well, FormControls, Input, Alert, Button } from 'react-bootstrap'
-import Textarea from 'react-textarea-autosize'
+// import Textarea from 'react-textarea-autosize'
 
 export default React.createClass({
   displayName: 'Import',
@@ -80,30 +80,21 @@ export default React.createClass({
             </div>
             <hr />
             <Input type='text' label={'Name'} className='controls input-sm' id='dsName' />
-            <div className='form-group'>
-              <label className='control-label' htmlFor='dsBeschreibung'>Beschreibung</label>
-              <Textarea className='form-control controls' id='dsBeschreibung' />
-            </div>
-            <div className='form-group'>
-              <label className='control-label' htmlFor='dsDatenstand'>Datenstand</label>
-              <Textarea className='form-control controls' id='dsDatenstand' />
-            </div>
-            <div className='form-group'>
-              <label className='control-label' htmlFor='dsNutzungsbedingungen'>Nutzungsbedingungen</label>
-              <Textarea className='form-control controls' id='dsNutzungsbedingungen' rows={6} placeholder='Beispiel, wenn Fremddaten mit Einverständnis des Autors importiert werden:
+            <Input type='textarea' className='form-control controls' label={'Beschreibung'} id='dsBeschreibung' rows={1} />
+            <Input type='textarea' className='form-control controls' label={'Datenstand'} id='dsDatenstand' rows={1} />
+            <Input type='textarea' className='form-control controls' label={'Nutzungsbedingungen'} id='dsNutzungsbedingungen' rows={6} placeholder='Beispiel, wenn Fremddaten mit Einverständnis des Autors importiert werden:
 "Importiert mit Einverständnis des Autors. Eine allfällige Weiterverbreitung ist nur mit dessen Zustimmung möglich"
-
+.
 Beispiel, wenn eigene Daten importiert werden:
 "Open Data: Die veröffentlichten Daten dürfen mit Hinweis auf die Quelle vervielfältigt, verbreitet und weiter zugänglich gemacht, angereichert und bearbeitet sowie kommerziell genutzt werden. Für die Richtigkeit, Genauigkeit, Zuverlässigkeit und Vollständigkeit der bezogenen, ebenso wie der daraus erzeugten Daten und anderer mit Hilfe dieser Daten hergestellten Produkte wird indessen keine Haftung übernommen."
 
 ' />
-            </div>
-            <div className='form-group'>
-              <label className='control-label' htmlFor='dsLink'>Link</label>
-              <Textarea className='form-control controls' id='dsLink' />
-            </div>
+            <Input type='textarea' className='form-control controls' label={'Link'} id='dsLink' rows={1} />
             <Input type='text' label={'importiert von'} className='controls input-sm' id='dsImportiertVon' />
-            <Input type='checkbox' label={'zusammenfassend'} id='dsZusammenfassend' />
+            <div className={'form-group'}>
+              <label className={'control-label'} htmlFor={'dsZusammenfassend'}>zusammenfassend</label>
+              <input type='checkbox' label={'zusammenfassend'} id='dsZusammenfassend' />
+            </div>
             <div className='form-group' id='dsUrsprungsDsDiv' style={{'display': 'none'}}>
               <label className='control-label dsUrsprungsDs' htmlFor='dsUrsprungsDs' id='dsUrsprungsDsLabel'>Ursprungs-Eigenschaftensammlung</label>
               <select className='form-control controls dsUrsprungsDs input-sm' id='dsUrsprungsDs'></select>
