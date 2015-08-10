@@ -21,10 +21,10 @@ function objectFilterFunction (doc) {
   return false
 }
 
-function mooseFilterFunction (doc) {
+/*function mooseFilterFunction (doc) {
   if (doc.Gruppe && doc.Gruppe === 'Moose') return true
   return false
-}
+}*/
 
 export default function () {
   let Actions = Reflux.createActions({
