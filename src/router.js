@@ -12,7 +12,7 @@ export default Router.extend({
     '*path': 'home'
   },
 
-  home(pathName) {
+  home (pathName) {
     // this is the entry point of the application
     // > read props from url
     let path = pathName ? pathName.split('/') : []
