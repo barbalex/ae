@@ -21,7 +21,7 @@ export default function (Actions) {
      */
     listenables: Actions,
 
-    onLoadPathStore(newItemsPassed) {
+    onLoadPathStore (newItemsPassed) {
       const that = this
       // get existing paths
       addPathsFromItemsToLocalPathDb(newItemsPassed)
@@ -42,7 +42,7 @@ export default function (Actions) {
     */
     listenables: Actions,
 
-    getOptions() {
+    getOptions () {
       return new Promise(function (resolve, reject) {
         app.localFilterOptionsDb.allDocs({include_docs: true})
           .then(function (result) {
@@ -57,7 +57,7 @@ export default function (Actions) {
       })
     },
 
-    onLoadFilterOptionsStore() {
+    onLoadFilterOptionsStore () {
       const payload = {
         options: null,
         loading: true
@@ -65,7 +65,7 @@ export default function (Actions) {
       this.trigger(payload)
     },
 
-    onLoadFilterOptionsStoreCompleted(newItemsPassed) {
+    onLoadFilterOptionsStoreCompleted (newItemsPassed) {
       const that = this
       let options = []
       // get existing options
@@ -96,7 +96,7 @@ export default function (Actions) {
 
     guid: null,
 
-    onLoadActivePathStore(path, guid) {
+    onLoadActivePathStore (path, guid) {
       // only change if something has changed
       if (this.guid !== guid || !_.isEqual(this.path, path)) {
         this.guid = guid
@@ -117,7 +117,7 @@ export default function (Actions) {
 
     item: {},
 
-    onLoadActiveObjectStoreCompleted(item) {
+    onLoadActiveObjectStoreCompleted (item) {
       const that = this
       // only change if something has changed
       if (!_.isEqual(item, this.item)) {
@@ -153,7 +153,7 @@ export default function (Actions) {
 
     groupsLoading: [],
 
-    isGroupLoaded(gruppe) {
+    isGroupLoaded (gruppe) {
       return new Promise(function (resolve, reject) {
         getGroupsLoadedFromLocalGroupsDb()
           .then(function (groupsLoaded) {
@@ -167,19 +167,19 @@ export default function (Actions) {
     },
 
     // getItems and getItem get Item(s) from pouch if loaded
-    getItems() {
+    getItems () {
       return getItemsFromLocalDb()
     },
 
-    getItem( guid) {
+    getItem (guid) {
       return getItemFromLocalDb(guid)
     },
 
-    getHierarchy() {
+    getHierarchy () {
       return getHierarchyFromLocalHierarchyDb()
     },
 
-    onLoadObjectStore(gruppe) {
+    onLoadObjectStore (gruppe) {
       const that = this
       let hierarchy = []
 
@@ -207,7 +207,7 @@ export default function (Actions) {
         })
     },
 
-    onLoadPouchFromRemoteCompleted() {
+    onLoadPouchFromRemoteCompleted () {
       console.log('objectStore, onLoadPouchFromRemoteCompleted')
       const that = this
       let items = []
@@ -258,7 +258,7 @@ export default function (Actions) {
         })
     },
 
-    onLoadPouchFromLocal(groupsLoadedInPouch) {
+    onLoadPouchFromLocal (groupsLoadedInPouch) {
       // console.log('objectStore, onLoadPouchFromLocal')
       this.groupsLoading = groupsLoadedInPouch
       const payload = {
@@ -267,7 +267,7 @@ export default function (Actions) {
       this.trigger(payload)
     },
 
-    onLoadPouchFromLocalCompleted(groupsLoadedInPouch) {
+    onLoadPouchFromLocalCompleted (groupsLoadedInPouch) {
       const that = this
       getHierarchyFromLocalHierarchyDb()
         .then(function (hierarchy) {
@@ -281,13 +281,13 @@ export default function (Actions) {
         })
     },
 
-    onLoadFailed(error) {
+    onLoadFailed (error) {
       console.log('objectStore: error loading objectStore from pouch:', error)
     },
 
-    onLoadObjectStoreCompleted(payloadReceived) {
+    onLoadObjectStoreCompleted (payloadReceived) {
       // console.log('objectStore, onLoadObjectStoreCompleted')
-      const { gruppe , items } = payloadReceived
+      const { gruppe, items } = payloadReceived
       const that = this
       let payloadHierarchy = []
       let payloadGroupsLoaded = []
@@ -334,7 +334,7 @@ export default function (Actions) {
         })
     },
 
-    onLoadObjectStoreFailed(error, gruppe) {
+    onLoadObjectStoreFailed (error, gruppe) {
       this.groupsLoading = _.without(this.groupsLoading, gruppe)
       console.log('objectStore: loading items failed with error: ', error)
     }
