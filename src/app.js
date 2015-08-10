@@ -21,7 +21,7 @@ window.PouchDB = PouchDB
 app.extend({
   init () {
     const that = this
-    PouchDB.utils.Promise.all([
+    Promise.all([
       that.localDb = new PouchDB('ae'),
       that.localHierarchyDb = new PouchDB('aeHierarchy'),
       that.localPathDb = new PouchDB('aePaths'),
