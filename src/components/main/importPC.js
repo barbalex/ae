@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { Accordion, Panel, Well, FormControls, Input, Alert, Button } from 'react-bootstrap'
+import Textarea from 'react-textarea-autosize'
 
 export default React.createClass({
   displayName: 'Import',
@@ -44,8 +45,8 @@ export default React.createClass({
             </FormControls.Static>
           </Panel>
           <Panel header='2. Eigenschaftensammlung beschreiben' eventKey='2'>
-            <div className='well well-sm'><a href='//youtu.be/nqd-v6YxkOY' target='_blank'><b>Screencast sehen</b></a></div>
-            <div className='well well-sm'><b>Erleichtern Sie den Benutzern, Ihre Daten zu verstehen</b> <a href='#' className='showNextHidden'>...mehr</a>
+            <Well className='well-sm'><a href='//youtu.be/nqd-v6YxkOY' target='_blank'><b>Screencast sehen</b></a></Well>
+            <Well className='well-sm'><b>Erleichtern Sie den Benutzern, Ihre Daten zu verstehen</b> <a href='#' className='showNextHidden'>...mehr</a>
               <ul className='adb-hidden'>
                 <li>Der Name sollte ungefähr dem ersten Teil eines Literaturzitats entsprechen. Beispiel: 'Blaue Liste (1998)'</li>
                 <li>Wurden die Informationen spezifisch für einen bestimmten Kanton oder die ganze Schweiz erarbeitet? Wenn ja: Bitte das entsprechende Kürzel voranstellen. Beispiel: 'ZH Artwert (aktuell)'</li>
@@ -55,20 +56,20 @@ export default React.createClass({
                 <li>Im Datenstand ist erkenntlich, wann die Eigenschaftensammlung zuletzt aktualisiert wurde</li>
                 <li>Besonders hilfreich ist es, wenn die Originalpublikation verlinkt werden kann. Oder eine erläuternde Webseite</li>
               </ul>
-            </div>
-            <div className='well well-sm'><b>Für eine zusammenfassende Eigenschaftensammlung importieren Sie die Daten zwei mal</b> <a href='#' className='showNextHidden'>...mehr</a>
+            </Well>
+            <Well className='well-sm'><b>Für eine zusammenfassende Eigenschaftensammlung importieren Sie die Daten zwei mal</b><a href='#' className='showNextHidden'>...mehr</a>
               <ul className='adb-hidden'>
                 <li>zuerst in die Ursprungs-Eigenschaftensammlung</li>
                 <li>dann in die zusammenfassende. Bitte die Ursprungs-Eigenschaftensammlung angeben</li>
                 <li>Mehr Infos <a href='//github.com/FNSKtZH/artendb#zusammenfassende_datensammlungen' target='_blank'>hier</a></li>
               </ul>
-            </div>
-            <div className='well well-sm last-well'><b>Autorenrechte beachten</b> <a href='#' className='showNextHidden'>...mehr</a>
+            </Well>
+            <Well className='well-sm last-well'><b>Autorenrechte beachten</b> <a href='#' className='showNextHidden'>...mehr</a>
               <ul className='adb-hidden'>
                 <li>Die Autoren müssen mit der Veröffentlichung einverstanden sein</li>
                 <li>Dafür verantwortlich ist, wer Daten importiert</li>
               </ul>
-            </div>
+            </Well>
             <div className='form-group'>
               <label className='control-label' htmlFor='dsWaehlen'>Bestehende wählen</label>
               <select className='form-control controls' id='dsWaehlen'></select>
@@ -81,25 +82,25 @@ export default React.createClass({
             <Input type='text' label={'Name'} className='controls input-sm' id='dsName' />
             <div className='form-group'>
               <label className='control-label' htmlFor='dsBeschreibung'>Beschreibung</label>
-              <textarea className='form-control controls' id='dsBeschreibung'></textarea>
+              <Textarea className='form-control controls' id='dsBeschreibung' />
             </div>
             <div className='form-group'>
               <label className='control-label' htmlFor='dsDatenstand'>Datenstand</label>
-              <textarea className='form-control controls' id='dsDatenstand'></textarea>
+              <Textarea className='form-control controls' id='dsDatenstand' />
             </div>
             <div className='form-group'>
               <label className='control-label' htmlFor='dsNutzungsbedingungen'>Nutzungsbedingungen</label>
-              <textarea className='form-control controls' id='dsNutzungsbedingungen' placeholder='Beispiel, wenn Fremddaten mit Einverständnis des Autors importiert werden:
+              <Textarea className='form-control controls' id='dsNutzungsbedingungen' placeholder='Beispiel, wenn Fremddaten mit Einverständnis des Autors importiert werden:
 "Importiert mit Einverständnis des Autors. Eine allfällige Weiterverbreitung ist nur mit dessen Zustimmung möglich"
 
 Beispiel, wenn eigene Daten importiert werden:
 "Open Data: Die veröffentlichten Daten dürfen mit Hinweis auf die Quelle vervielfältigt, verbreitet und weiter zugänglich gemacht, angereichert und bearbeitet sowie kommerziell genutzt werden. Für die Richtigkeit, Genauigkeit, Zuverlässigkeit und Vollständigkeit der bezogenen, ebenso wie der daraus erzeugten Daten und anderer mit Hilfe dieser Daten hergestellten Produkte wird indessen keine Haftung übernommen."
 
-'                                    ></textarea>
+' />
             </div>
             <div className='form-group'>
               <label className='control-label' htmlFor='dsLink'>Link</label>
-              <textarea className='form-control controls' id='dsLink'></textarea>
+              <Textarea className='form-control controls' id='dsLink' />
             </div>
             <Input type='text' label={'importiert von'} className='controls input-sm' id='dsImportiertVon' />
             <Input type='checkbox' label={'zusammenfassend'} id='dsZusammenfassend' />
