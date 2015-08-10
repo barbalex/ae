@@ -21,6 +21,7 @@ window.PouchDB = PouchDB
 app.extend({
   init () {
     const that = this
+    PouchDB.setMaxListeners(20)
     Promise.all([
       that.localDb = new PouchDB('ae'),
       that.localHierarchyDb = new PouchDB('aeHierarchy'),
