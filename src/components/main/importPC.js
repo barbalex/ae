@@ -144,20 +144,26 @@ Beispiel, wenn eigene Daten importiert werden:
           </Panel>
           <Panel header="4. ID's identifizieren" eventKey='4'>
             <div id='dsFelderDiv' className='form-group'></div>
-            <div className='form-group'>
-              <label className='control-label' htmlFor='dsId'>zugehörige ID<br />in ArtenDb</label>
-              <select multiple className='form-control controls input-sm' id='dsId' style={{'height': 101 + 'px'}}>
-                <option value='guid'>GUID der ArtenDb</option>
-                <option value='Fauna'>ID der Info Fauna (NUESP)</option>
-                <option value='Flora'>ID der Info Flora (SISF-NR)</option>
-                <option value='Moose'>ID des Datenzentrums Moose Schweiz (TAXONNO)</option>
-                <option value='Macromycetes'>ID von Swissfungi (TaxonId)</option>
-              </select>
-            </div>
+            <Input type='select' label={'zugehörige ID in ArtenDb'} multiple className='form-control controls input-sm' id='dsId' style={{'height': 101 + 'px'}}>
+              <option value='guid'>GUID der ArtenDb</option>
+              <option value='Fauna'>ID der Info Fauna (NUESP)</option>
+              <option value='Flora'>ID der Info Flora (SISF-NR)</option>
+              <option value='Moose'>ID des Datenzentrums Moose Schweiz (TAXONNO)</option>
+              <option value='Macromycetes'>ID von Swissfungi (TaxonId)</option>
+            </Input>
             <Alert id='importDsIdsIdentifizierenHinweisText' className='alert-info feld' />
           </Panel>
           <Panel header='5. Import ausführen' eventKey='5'>
-            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably havent heard of them accusamus labore sustainable VHS.
+            <button type='button' className='btn btn-primary' id='dsImportieren' style={{'marginBottom': 6 + 'px', 'display': 'none'}}>Eigenschaftensammlung mit allen Eigenschaften importieren</button>
+            <button type='button' className='btn btn-primary' id='dsEntfernen' style={{'marginBottom': 6 + 'px', 'display': 'none'}}>Eigenschaftensammlung mit allen Eigenschaften aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen</button>
+            <div className='progress'>
+              <div id='dsImportProgressbar' className='progress-bar' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'><span id='dsImportProgressbarText'></span>
+              </div>
+            </div>
+            <div id='importDsImportAusfuehrenHinweis' className='alert alert-info'>
+              <button type='button' className='close' data-dismiss='alert'>&times;</button>
+              <div id='importDsImportAusfuehrenHinweisText'></div>
+            </div>
           </Panel>
         </Accordion>
       </div>
