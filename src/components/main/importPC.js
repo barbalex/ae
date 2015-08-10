@@ -90,7 +90,7 @@ export default React.createClass({
             </div>
             <div className='form-group'>
               <label className='control-label' htmlFor='dsNutzungsbedingungen'>Nutzungsbedingungen</label>
-              <Textarea className='form-control controls' id='dsNutzungsbedingungen' placeholder='Beispiel, wenn Fremddaten mit Einverständnis des Autors importiert werden:
+              <Textarea className='form-control controls' id='dsNutzungsbedingungen' rows={6} placeholder='Beispiel, wenn Fremddaten mit Einverständnis des Autors importiert werden:
 "Importiert mit Einverständnis des Autors. Eine allfällige Weiterverbreitung ist nur mit dessen Zustimmung möglich"
 
 Beispiel, wenn eigene Daten importiert werden:
