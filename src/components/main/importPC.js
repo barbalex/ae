@@ -110,10 +110,51 @@ Beispiel, wenn eigene Daten importiert werden:
             </div>
           </Panel>
           <Panel header='3. Eigenschaften laden' eventKey='3'>
-            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably havent heard of them accusamus labore sustainable VHS.
+            <Well className='well-sm'><b>Technische Anforderungen an die Datei</b> <a href='#' className='showNextHidden'>...mehr</a>
+              <ul className='adb-hidden'>
+                <li>Sie können Dateien vom Typ <b>.csv</b> (kommagetrennte Textdatei) oder <b>.xlsx</b> (Excel-Datei) importieren</li>
+                <li>Die erste Zeile enthält die Feldnamen</li>
+                <li>Die weiteren Zeilen enthalten je einen Datensatz, d.h. die Eigenschaften für die betreffende Art oder den Lebensraum</li>
+                <li>Alle Zeilen sollten dieselbe Anzahl Felder bzw. Spalten enthalten</li>
+                <li>Achten Sie darauf, dass die Datei die Codierung "UTF 8" benutzt. Nur in diesem Format werden Umlaute und Sonderzeichen vollständig erkannt</li>
+              </ul>
+            </Well>
+            <Well className='well-sm'><b>Zusätzliche Anforderungen an csv-Dateien</b> <a href='#' className='showNextHidden'>...mehr</a>
+              <ul className='adb-hidden'>
+                <li>Zeilen werden mit einem Zeilenumbruch getrennt</li>
+                <li>Der Inhalt eines Felds bzw. einer Spalte sollte in der Regel in Anführungs- und Schlusszeichen eingefasst sein, z.B.: "Artwert"</li>
+                <li>Ausnahmen: Zahlen und true/false-Werte brauchen keine Anführungs- und Schlusszeichen (es macht aber nichts, wenn sie sie haben)</li>
+                <li>Felder sind mit Komma getrennt</li>
+                <li>Die beschriebenen Anforderungen entsprechen der am häufigsten verwendeten Konfiguration des <a href='//de.wikipedia.org/wiki/CSV_(Dateiformat)'>"csv"-Formats</a></li>
+              </ul>
+            </Well>
+            <Well className='well-sm last-well'><b>Inhaltliche Anforderungen</b> <a href='#' className='showNextHidden'>...mehr</a>
+              <ul className='adb-hidden'>
+                <li>Um die Art oder den Lebensraum zu identifizieren müssen Sie eine ID mitliefern. Entweder die GUID der ArtenDb. Oder die vom entsprechenden nationalen Artdatenzentrum für diese Artengruppe verwendete ID (z.B. Flora: SISF-Nr)</li>
+                <li>Sie haben bloss eine andere ID? Vielleicht finden Sie sie in einer Eigenschaftensammlung der ArtenDb. Beispielsweise enthält die Flora Indicativa (= "CH Zeigerwerte (2010)") mehrere weitere ID`s aus anderen Florenwerken. Sie können diese Daten gemeinsam mit der GUID der ArtenDb exportieren (z.B. ins Excel-Arbeitsblatt "ID-Liste"). Danach können Sie z.B. in Excel in der Spalte neben ihrer ID mithilfe der Funktion "SVERWEIS" die jeweilige GUID der ArtenDb einfügen. Die Funktion "SVERWEIS" schlägt dabei in der "ID-Liste" für ihre ID die GUID nach</li>
+                <li>Achten Sie bitte darauf, die Feldnamen und die enthaltenen Werte uncodiert und aussagekräftig zu gestalten. Auch Nutzer ohne Spezialwissen sollten sie verstehen können</li>
+                <li>Sind für Ihre Daten Codierungen wichtig? Dann importieren Sie die Daten doch einfach in zwei Felder: Eines codiert, das andere uncodiert. Und ergänzen Sie Ihre Feldnamen mit den Zusätzen "codiert" bzw. "uncodiert"</li>
+                <li>ArtenDb setzt beim Export von Daten den Namen der Eigenschaftensammlung vor den Feldnamen, z.B.: "ZH FNS (aktuell): Artwert". Das erleichtert das Verständnis der Daten in der "flachen" Tabelle. Beim Import hingegen ist es NICHT sinnvoll, die Felder so zu nennen. Denn den Namen der Eigenschaftensammlung haben Sie im letzten Arbeitsschritt schon erfasst und er wird den Daten beim Import in hierarchischer Form mitgegeben</li>
+              </ul>
+            </Well>
+            <label className='sr-only' htmlFor='dsFile'>Datei wählen</label>
+            <input type='file' className='form-control' id='dsFile' />
+            <div id='dsTabelleEigenschaften' className='tabelle'>
+            </div>
           </Panel>
           <Panel header="4. ID's identifizieren" eventKey='4'>
-            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably havent heard of them accusamus labore sustainable VHS.
+            <div id='dsFelderDiv' className='form-group'></div>
+            <div className='form-group'>
+              <label className='control-label' htmlFor='dsId'>zugehörige ID<br />in ArtenDb</label>
+              <select multiple className='form-control controls input-sm' id='dsId' style={{'height': 101 + 'px'}}>
+                <option value='guid'>GUID der ArtenDb</option>
+                <option value='Fauna'>ID der Info Fauna (NUESP)</option>
+                <option value='Flora'>ID der Info Flora (SISF-NR)</option>
+                <option value='Moose'>ID des Datenzentrums Moose Schweiz (TAXONNO)</option>
+                <option value='Macromycetes'>ID von Swissfungi (TaxonId)</option>
+              </select>
+            </div>
+            <Alert id='importDsIdsIdentifizierenHinweisText' className='alert-info feld' />
           </Panel>
           <Panel header='5. Import ausführen' eventKey='5'>
             Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably havent heard of them accusamus labore sustainable VHS.
@@ -122,5 +163,4 @@ Beispiel, wenn eigene Daten importiert werden:
       </div>
     )
   }
-
 })
