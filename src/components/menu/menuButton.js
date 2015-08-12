@@ -117,7 +117,7 @@ export default React.createClass({
           Über arteigenschaften.ch:
         </li>
         <MenuItem>
-          <a href='//github.com/FNSKtZH/artendb/blob/master/README.md' target='_blank'>Projektbeschreibung</a>
+          <a href='//github.com/FNSKtZH/artendb/blob/master/README.md' target='_blank'>Projekt-Beschreibung</a>
         </MenuItem>
         <MenuItem>
           <a href='//github.com/FNSKtZH/artendb' target='_blank'>Code</a>
