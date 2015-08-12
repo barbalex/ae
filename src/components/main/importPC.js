@@ -17,34 +17,7 @@ export default React.createClass({
       <div>
         <h4>Eigenschaften importieren</h4>
         <Accordion>
-          <Panel header='1. Anmelden' eventKey='1'>
-            <Well className='well-sm anmelden'>Um Daten zu bearbeiten, müssen Sie angemeldet sein. <a href='mailto:alex@gabriel-software.ch'>Mailen Sie mir</a>, um ein Login zu erhalten.</Well>
-            <Input type='email' id='emailArt' label={'Email'} bsSize='small' className={'controls'} placeholder='Email' required />
-            <Alert id='emailHinweisArt' className='controls emailHinweis hinweis alert-danger feldInFormgroup'>Bitte Email erfassen</Alert>
-            <Input type='password' id='passwortArt' label={'Passwort'} className={'controls'} placeholder='Passwort' required />
-            <Alert id='passwortHinweisArt' className='controls passwortHinweis hinweis alert-danger feldInFormgroup'>Bitte Passwort erfassen</Alert>
-            <div className='controls signup feldInFormgroup'>Vorsicht: Email und Passwort können später nicht mehr geändert werden!</div>
-            <div className='controls signup feldInFormgroup'>Es wird eine verschlüsselte Version des Passworts gespeichert. Das Original kennt ausser Ihnen niemand.</div>
-            <FormControls.Static className='Passwort'>Passwort vergessen? <a href='mailto:alex@gabriel-software.ch'>Mailen Sie mir</a>, möglichst mit derselben email-Adresse, die Sie für das Konto verwenden.</FormControls.Static>
-            <div className='signup'>
-              <Input type='password' id='passwort2Art' label={'Passwort bestätigen'} className='controls form-control passwort2' placeholder='Passwort bestätigen' required />
-              <Alert id='passwort2HinweisArt' className='controls passwort2Hinweis hinweis alert-danger feldInFormgroup'>Bitte Passwort bestätigen</Alert>
-              <Alert id='passwort2HinweisFalschArt' className='controls passwort2HinweisFalsch hinweis alert-danger feldInFormgroup'>Die Passwörter stimmen nicht überein</Alert>
-            </div>
-            <FormControls.Static style={{'paddingBottom': 6 + 'px'}}>
-              <Button className='btn-primary'>anmelden</Button>
-              <Button className='btn-primary' style={{'display': 'none'}}>abmelden</Button>
-              <Button className='btn-primary'>neues Konto erstellen</Button>
-              <Button className='btn-primary' style={{'display': 'none'}}>neues Konto speichern</Button>
-            </FormControls.Static>
-            <FormControls.Static>
-              <Alert className='alert-danger'></Alert>
-            </FormControls.Static>
-            <FormControls.Static>
-              <Alert className='alert-warning'></Alert>
-            </FormControls.Static>
-          </Panel>
-          <Panel header='2. Eigenschaftensammlung beschreiben' eventKey='2'>
+          <Panel header='1. Eigenschaftensammlung beschreiben' eventKey='1'>
             <Well className='well-sm'><a href='//youtu.be/nqd-v6YxkOY' target='_blank'><b>Screencast sehen</b></a></Well>
             <Well className='well-sm'><b>Erleichtern Sie den Benutzern, Ihre Daten zu verstehen</b> <a href='#' className='showNextHidden'>...mehr</a>
               <ul className='adb-hidden'>
@@ -109,7 +82,7 @@ Beispiel, wenn eigene Daten importiert werden:
               <div id='importDsDsBeschreibenErrorText'></div>
             </div>
           </Panel>
-          <Panel header='3. Eigenschaften laden' eventKey='3'>
+          <Panel header='2. Eigenschaften laden' eventKey='2'>
             <Well className='well-sm'><b>Technische Anforderungen an die Datei</b> <a href='#' className='showNextHidden'>...mehr</a>
               <ul className='adb-hidden'>
                 <li>Sie können Dateien vom Typ <b>.csv</b> (kommagetrennte Textdatei) oder <b>.xlsx</b> (Excel-Datei) importieren</li>
@@ -142,7 +115,7 @@ Beispiel, wenn eigene Daten importiert werden:
             <div id='dsTabelleEigenschaften' className='tabelle'>
             </div>
           </Panel>
-          <Panel header="4. ID's identifizieren" eventKey='4'>
+          <Panel header="3. ID's identifizieren" eventKey='3'>
             <div id='dsFelderDiv' className='form-group'></div>
             <Input type='select' label={'zugehörige ID in ArtenDb'} multiple className='form-control controls input-sm' id='dsId' style={{'height': 101 + 'px'}}>
               <option value='guid'>GUID der ArtenDb</option>
@@ -153,7 +126,7 @@ Beispiel, wenn eigene Daten importiert werden:
             </Input>
             <Alert id='importDsIdsIdentifizierenHinweisText' className='alert-info feld' />
           </Panel>
-          <Panel header='5. Import ausführen' eventKey='5'>
+          <Panel header='4. Import ausführen' eventKey='4'>
             <Button className='btn-primary' id='dsImportieren' style={{'marginBottom': 6 + 'px', 'display': 'none'}}>Eigenschaftensammlung mit allen Eigenschaften importieren</Button>
             <Button className='btn-primary' id='dsEntfernen' style={{'marginBottom': 6 + 'px', 'display': 'none'}}>Eigenschaftensammlung mit allen Eigenschaften aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen</Button>
             <div className='progress'>
