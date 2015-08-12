@@ -41,8 +41,8 @@ const Home = React.createClass({
     showImportRC: React.PropTypes.bool
   },
 
-  getInitialState() {
-    const { gruppe , guid , path , showImportPC , showImportRC } = this.props
+  getInitialState () {
+    const { gruppe, guid, path, showImportPC, showImportRC } = this.props
     const groupsLoadedOrLoading = gruppe ? [gruppe] : []
 
     // kick off stores by getting store data directly from the remote db
@@ -64,7 +64,7 @@ const Home = React.createClass({
     }
   },
 
-  componentDidMount() {
+  componentDidMount () {
     // listen to stores
     this.listenTo(app.activePathStore, this.onActivePathStoreChange)
     this.listenTo(app.objectStore, this.onObjectStoreChange)
@@ -72,7 +72,7 @@ const Home = React.createClass({
     this.listenTo(app.filterOptionsStore, this.onFilterOptionsStoreChange)
   },
 
-  onActivePathStoreChange( path, guid) {
+  onActivePathStoreChange (path, guid) {
     let state = {
       path: path,
       guid: guid
@@ -99,8 +99,8 @@ const Home = React.createClass({
     app.router.navigate(url)
   },
 
-  onObjectStoreChange(payload) {
-    const { hierarchy , groupsLoaded } = payload
+  onObjectStoreChange (payload) {
+    const { hierarchy, groupsLoaded } = payload
 
     const groupsLoading = app.objectStore.groupsLoading
     // add groups loading to groups loaded to hide the group checkbox of the loading group
@@ -116,7 +116,7 @@ const Home = React.createClass({
     })
   },
 
-  onActiveObjectStoreChange(object, synonymObjects) {
+  onActiveObjectStoreChange (object, synonymObjects) {
     const guid = object._id
     this.setState({
       object: object,
@@ -136,8 +136,8 @@ const Home = React.createClass({
     }
   },
 
-  onFilterOptionsStoreChange(payload) {
-    const { options , loading } = payload
+  onFilterOptionsStoreChange (payload) {
+    const { options, loading } = payload
     if (options) {
       this.setState({
         options: options,
@@ -150,11 +150,11 @@ const Home = React.createClass({
     }
   },
 
-  onClickGruppe(gruppe) {
+  onClickGruppe (gruppe) {
     app.Actions.loadObjectStore(gruppe)
   },
 
-  createGruppen() {
+  createGruppen () {
     const groupsLoadedOrLoading = this.state.groupsLoadedOrLoading
     const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
     if (groupsNotLoaded.length > 0) {
@@ -171,7 +171,7 @@ const Home = React.createClass({
     }
   },
 
-  createButtons() {
+  createButtons () {
     const that = this
     const groupsLoadedOrLoading = this.state.groupsLoadedOrLoading
     const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
@@ -180,16 +180,18 @@ const Home = React.createClass({
     })
   },
 
-  button( gruppe) {
+  button (gruppe) {
     const label = gruppe.replace('Macromycetes', 'Pilze')
-    return <Input
+    return (
+            <Input
               key={gruppe}
               type='checkbox'
               label={label}
               onClick={this.onClickGruppe.bind(this, gruppe)} />
+          )
   },
 
-  render() {
+  render () {
     const { hierarchy, path, synonymObjects, object, groupsLoading, allGroupsLoaded, options, loadingFilterOptions, showImportPC, showImportRC } = this.state
     const { isGuidPath } = this.props
     const showFilter = options.length > 0 || loadingFilterOptions
