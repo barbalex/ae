@@ -5,7 +5,7 @@
 'use strict'
 
 import React from 'react'
-import { Modal, Well, Input, Alert, Button } from 'react-bootstrap'
+import { Modal, Well, Input, Alert, FormControls, Button } from 'react-bootstrap'
 
 export default React.createClass({
   displayName: 'Login',
