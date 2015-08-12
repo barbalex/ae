@@ -15,7 +15,7 @@ export default React.createClass({
     object: React.PropTypes.object
   },
 
-  exportProperties() {
+  exportProperties () {
     console.log('exportProperties was clicked')
   // TODO
   /* previously:
@@ -23,7 +23,7 @@ export default React.createClass({
   delete window.adb.exportierenObjekte*/
   },
 
-  importPropertyCollection() {
+  importPropertyCollection () {
     console.log('importPropertyCollection was clicked')
     app.Actions.loadActivePathStore(['importieren', 'eigenschaften'])
   // testen, ob der Browser das Importieren unterstützt
@@ -40,7 +40,7 @@ export default React.createClass({
   */
   },
 
-  importRelationsCollection() {
+  importRelationsCollection () {
     console.log('importRelationsCollection was clicked')
   // testen, ob der Browser das Importieren unterstützt
   // wenn nein, melden
@@ -56,12 +56,12 @@ export default React.createClass({
   */
   },
 
-  replicate() {
+  replicate () {
     console.log('replicate button was clicked')
     app.Actions.loadPouchFromRemote()
   },
 
-  openAdminPage() {
+  openAdminPage () {
     console.log('openAdminPage was clicked')
   // TODO
   /* previously:
@@ -69,7 +69,7 @@ export default React.createClass({
   */
   },
 
-  render() {
+  render () {
     const { object } = this.props
     const isObject = object && _.keys(object).length > 0
     const googleLink = isObject ? buildGoogleImageLink(object) : '#'
