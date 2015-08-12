@@ -1,8 +1,7 @@
 'use strict'
 
 import React from 'react'
-import { Accordion, Panel, Well, FormControls, Input, Alert, Button } from 'react-bootstrap'
-// import Textarea from 'react-textarea-autosize'
+import { Accordion, Panel, Well, Input, Alert, Button } from 'react-bootstrap'
 
 export default React.createClass({
   displayName: 'Import',
