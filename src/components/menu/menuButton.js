@@ -57,7 +57,8 @@ export default React.createClass({
   },
 
   openOrganisationen () {
-    console.log('open Organisationen was clicked')
+    // console.log('open Organisationen was clicked')
+    app.Actions.loadActivePathStore(['organisationen_und_benutzer'])
   },
 
   replicate () {

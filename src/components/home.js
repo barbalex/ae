@@ -38,11 +38,12 @@ const Home = React.createClass({
     options: React.PropTypes.array,
     loadingFilterOptions: React.PropTypes.bool,
     showImportPC: React.PropTypes.bool,
-    showImportRC: React.PropTypes.bool
+    showImportRC: React.PropTypes.bool,
+    showOrganizations: React.PropTypes.bool
   },
 
   getInitialState () {
-    const { gruppe, guid, path, showImportPC, showImportRC } = this.props
+    const { gruppe, guid, path, showImportPC, showImportRC, showOrganizations } = this.props
     const groupsLoadedOrLoading = gruppe ? [gruppe] : []
 
     // kick off stores by getting store data directly from the remote db
@@ -60,7 +61,8 @@ const Home = React.createClass({
       options: [],
       loadingFilterOptions: false,
       showImportPC: showImportPC,
-      showImportRC: showImportRC
+      showImportRC: showImportRC,
+      showOrganizations: showOrganizations
     }
   },
 
@@ -80,18 +82,24 @@ const Home = React.createClass({
 
     let showImportPC = false
     let showImportRC = false
+    let showOrganizations = false
     if (path.length === 2 && path[0] === 'importieren') {
       if (path[1] === 'eigenschaften') {
         showImportPC = true
       } else if (path[1] === 'beziehungen') {
         showImportRC = true
       }
-      _.assign(state, {
-        object: undefined,
-        showImportPC: showImportPC,
-        showImportRC: showImportRC
-      })
     }
+    if (path.length === 1 && path[0] === 'organisationen_und_benutzer') {
+      showOrganizations = true
+    }
+
+    _.assign(state, {
+      object: undefined,
+      showImportPC: showImportPC,
+      showImportRC: showImportRC,
+      showOrganizations: showOrganizations
+    })
 
     this.setState(state)
 
@@ -192,10 +200,10 @@ const Home = React.createClass({
   },
 
   render () {
-    const { hierarchy, path, synonymObjects, object, groupsLoading, allGroupsLoaded, options, loadingFilterOptions, showImportPC, showImportRC } = this.state
+    const { hierarchy, path, synonymObjects, object, groupsLoading, allGroupsLoaded, options, loadingFilterOptions, showImportPC, showImportRC, showOrganizations } = this.state
     const { isGuidPath } = this.props
     const showFilter = options.length > 0 || loadingFilterOptions
-    const showMain = object !== undefined || showImportRC || showImportPC
+    const showMain = object !== undefined || showImportRC || showImportPC || showOrganizations
 
     // MenuButton needs NOT to be inside menu
     // otherwise the menu can't be shown outside when menu is short
@@ -216,7 +224,7 @@ const Home = React.createClass({
             isGuidPath={isGuidPath}
             path={path} />
         </div>
-        {showMain ? <Main object={object} synonymObjects={synonymObjects} showImportPC={showImportPC} showImportRC={showImportRC} /> : ''}
+        {showMain ? <Main object={object} synonymObjects={synonymObjects} showImportPC={showImportPC} showImportRC={showImportRC} showOrganizations={showOrganizations} /> : ''}
       </NavHelper>
     )
   }
