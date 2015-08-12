@@ -14,6 +14,19 @@ import buildFilterOptions from './modules/buildFilterOptions.js'
 import getSynonymsOfObject from './modules/getSynonymsOfObject.js'
 
 export default function (Actions) {
+  app.loginStore = Reflux.createStore({
+    /*
+     * contains email of logged in user
+     * well, it is saved in localStorage
+     */
+    listenables: Actions,
+
+    onLogin (email) {
+      window.localStorage.ae.email = email
+      this.trigger(email)
+    }
+  })
+
   app.pathStore = Reflux.createStore({
     /*
      * simple store that keeps a hash of paths as keys and guids as values

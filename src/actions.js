@@ -34,7 +34,8 @@ export default function () {
     loadActiveObjectStore: {children: ['completed', 'failed']},
     loadFilterOptionsStore: {children: ['completed', 'failed']},
     loadPathStore: {},
-    loadActivePathStore: {}
+    loadActivePathStore: {},
+    login: {}
   })
 
   Actions.loadPouchFromRemote.listen(function () {

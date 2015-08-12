@@ -1,5 +1,6 @@
 'use strict'
 
+import app from 'ampersand-app'
 import React from 'react'
 import { Accordion, Panel } from 'react-bootstrap'
 
@@ -10,8 +11,13 @@ export default React.createClass({
     userEmail: React.PropTypes.string
   },
 
+  componentDidMount () {
+    if (!app.email) {
+
+    }
+  },
+
   render () {
-    console.log('organizations.js, render')
     return (
       <div>
         <h4>Organisationen und Benutzer</h4>

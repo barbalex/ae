@@ -16,6 +16,7 @@ import getPathFromGuid from '../modules/getPathFromGuid.js'
 import getGruppen from '../modules/gruppen.js'
 import NavHelper from '../components/navHelper.js'
 import kickOffStores from '../modules/kickOffStores.js'
+import Login from './main/login.js'
 
 const gruppen = getGruppen()
 
@@ -39,7 +40,8 @@ const Home = React.createClass({
     loadingFilterOptions: React.PropTypes.bool,
     showImportPC: React.PropTypes.bool,
     showImportRC: React.PropTypes.bool,
-    showOrganizations: React.PropTypes.bool
+    showOrganizations: React.PropTypes.bool,
+    showLogin: React.PropTypes.bool
   },
 
   getInitialState () {
@@ -62,7 +64,8 @@ const Home = React.createClass({
       loadingFilterOptions: false,
       showImportPC: showImportPC,
       showImportRC: showImportRC,
-      showOrganizations: showOrganizations
+      showOrganizations: showOrganizations,
+      showLogin: showLogin
     }
   },
 

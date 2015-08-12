@@ -18,10 +18,13 @@ window.app = app
 // enable pouch inspector
 window.PouchDB = PouchDB
 
+// initiate localStorage
+window.localStorage.ae = window.localStorage.ae || 'ae'
+
 app.extend({
   init () {
     const that = this
-    PouchDB.setMaxListeners(20)
+    PouchDB.setMaxListeners(40)
     Promise.all([
       that.localDb = new PouchDB('ae'),
       that.localHierarchyDb = new PouchDB('aeHierarchy'),
