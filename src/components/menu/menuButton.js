@@ -56,6 +56,10 @@ export default React.createClass({
   */
   },
 
+  openOrganisationen () {
+    console.log('open Organisationen was clicked')
+  },
+
   replicate () {
     console.log('replicate button was clicked')
     app.Actions.loadPouchFromRemote()
@@ -103,6 +107,10 @@ export default React.createClass({
         </MenuItem>
         <MenuItem onClick={this.importRelationsCollection}>
           Beziehungen
+        </MenuItem>
+        <MenuItem divider/>
+        <MenuItem onClick={this.openOrganisationen}>
+          Organisationen und Benutzer
         </MenuItem>
         <MenuItem divider/>
         <MenuItem onClick={this.replicate}>
