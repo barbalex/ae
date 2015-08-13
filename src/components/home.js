@@ -41,11 +41,11 @@ const Home = React.createClass({
     showImportPC: React.PropTypes.bool,
     showImportRC: React.PropTypes.bool,
     showOrganizations: React.PropTypes.bool,
-    showLogin: React.PropTypes.bool
+    login: React.PropTypes.string
   },
 
   getInitialState () {
-    const { gruppe, guid, path, showImportPC, showImportRC, showOrganizations } = this.props
+    const { gruppe, guid, path, showImportPC, showImportRC, showOrganizations, login } = this.props
     const groupsLoadedOrLoading = gruppe ? [gruppe] : []
 
     // kick off stores by getting store data directly from the remote db
@@ -65,7 +65,7 @@ const Home = React.createClass({
       showImportPC: showImportPC,
       showImportRC: showImportRC,
       showOrganizations: showOrganizations,
-      showLogin: showLogin
+      login: login
     }
   },
 

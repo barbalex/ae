@@ -21,6 +21,10 @@ export default function (Actions) {
      */
     listenables: Actions,
 
+    getEmail () {
+      return window.localStorage.ae.email
+    },
+
     onLogin (email) {
       window.localStorage.ae.email = email
       this.trigger(email)

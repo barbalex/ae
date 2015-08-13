@@ -1,5 +1,6 @@
 'use strict'
 
+import app from 'ampersand-app'
 import Router from 'ampersand-router'
 import React from 'react'
 import Home from './components/home.js'
@@ -25,6 +26,7 @@ export default Router.extend({
     let isGuidPath = false
     let showImportPC = false
     let showImportRC = false
+    const login = app.loginStore.getEmail()
 
     if (path.length === 2 && path[0] === 'importieren') {
       if (path[1] === 'eigenschaften') {
@@ -53,7 +55,8 @@ export default Router.extend({
         guid={guid}
         path={path}
         showImportPC={showImportPC}
-        showImportRC={showImportRC} />,
+        showImportRC={showImportRC}
+        login={login} />,
       document.body
     )
 
