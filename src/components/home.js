@@ -246,7 +246,7 @@ const Home = React.createClass({
             path={path} />
         </div>
         {this.email()}
-        {showMain ? <Main object={object} synonymObjects={synonymObjects} showImportPC={showImportPC} showImportRC={showImportRC} showOrganizations={showOrganizations} /> : ''}
+        {showMain ? <Main object={object} synonymObjects={synonymObjects} showImportPC={showImportPC} showImportRC={showImportRC} showOrganizations={showOrganizations} email={email} /> : ''}
         {showLogin ? <Login /> : ''}
       </NavHelper>
     )

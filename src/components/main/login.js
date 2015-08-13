@@ -13,6 +13,7 @@ export default React.createClass({
 
   schliessen () {
     app.Actions.login({logIn: false})
+    window.history.back()
   },
 
   render () {

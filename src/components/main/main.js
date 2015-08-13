@@ -18,7 +18,8 @@ export default React.createClass({
     synonymObjects: React.PropTypes.array,
     showImportPC: React.PropTypes.bool,
     showImportRC: React.PropTypes.bool,
-    showOrganizations: React.PropTypes.bool
+    showOrganizations: React.PropTypes.bool,
+    email: React.PropTypes.string
   },
 
   getInitialState () {
@@ -45,7 +46,7 @@ export default React.createClass({
   },
 
   render () {
-    const { object, synonymObjects, showImportPC/*, showImportRC*/, showOrganizations } = this.props
+    const { object, synonymObjects, showImportPC/*, showImportRC*/, showOrganizations, email } = this.props
     const { formClassNames } = this.state
     const showObject = object !== undefined
 
@@ -54,7 +55,7 @@ export default React.createClass({
         <form className={formClassNames} autoComplete='off'>
           {showObject ? <Objekt object={object} synonymObjects={synonymObjects} /> : ''}
           {showImportPC ? <ImportPC /> : ''}
-          {showOrganizations ? <Organizations /> : ''}
+          {showOrganizations ? <Organizations email={email} /> : ''}
         </form>
       </fieldset>
     )

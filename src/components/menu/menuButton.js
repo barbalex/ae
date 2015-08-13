@@ -19,7 +19,6 @@ export default React.createClass({
   componentDidMount () {
     // this is a bad hack for react-bootstrap not closing the menu on click
     $('#menuBtn a').on('click', function () {
-      console.log('click')
       $('#menuBtn .dropdown-toggle').click()
     })
   },
@@ -68,11 +67,11 @@ export default React.createClass({
   openOrganisationen () {
     // console.log('open Organisationen was clicked')
     app.Actions.loadActivePathStore(['organisationen_und_benutzer'])
-    const loginVariables = {
+    /*const loginVariables = {
       logIn: true,
       email: undefined
     }
-    app.Actions.login(loginVariables)
+    app.Actions.login(loginVariables)*/
   },
 
   replicate () {

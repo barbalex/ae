@@ -8,12 +8,17 @@ export default React.createClass({
   displayName: 'Organizations',
 
   propTypes: {
-    userEmail: React.PropTypes.string
+    email: React.PropTypes.string
   },
 
   componentDidMount () {
-    if (!app.email) {
-
+    const email = this.props.email
+    if (!email) {
+      const loginVariables = {
+        logIn: true,
+        email: undefined
+      }
+      app.Actions.login(loginVariables)
     }
   },
 
