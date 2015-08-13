@@ -4,16 +4,21 @@
 
 'use strict'
 
+import app from 'ampersand-app'
 import React from 'react'
 import { Modal, Input, Alert, Button } from 'react-bootstrap'
 
 export default React.createClass({
   displayName: 'Login',
 
+  schliessen () {
+    app.Actions.login({logIn: false})
+  },
+
   render () {
     return (
       <div className='static-modal'>
-        <Modal.Dialog id='login' bsStyle='danger' >
+        <Modal.Dialog id='login'>
           <Modal.Header>
             <Modal.Title>Anmelden</Modal.Title>
           </Modal.Header>
@@ -31,7 +36,7 @@ export default React.createClass({
 
           <Modal.Footer>
             <Button className='btn-primary'>anmelden</Button>
-            <Button>schliessen</Button>
+            <Button onClick={this.schliessen}>schliessen</Button>
           </Modal.Footer>
 
         </Modal.Dialog>
