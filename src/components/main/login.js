@@ -38,7 +38,6 @@ export default React.createClass({
   },
 
   render () {
-    const { email } = this.props
     const { formClassNames } = this.state
 
     return (
@@ -49,31 +48,33 @@ export default React.createClass({
           </Modal.Header>
 
           <Modal.Body>
-            <Well className='well-sm anmelden'>Um Daten zu bearbeiten, müssen Sie angemeldet sein. <a href='mailto:alex@gabriel-software.ch'>Mailen Sie mir</a>, um ein Login zu erhalten.</Well>
-            <Input type='email' id='emailArt' label={'Email'} bsSize='small' className={'controls'} placeholder='Email' required />
-            <Alert id='emailHinweisArt' className='controls emailHinweis hinweis alert-danger feldInFormgroup'>Bitte Email erfassen</Alert>
-            <Input type='password' id='passwortArt' label={'Passwort'} className={'controls'} placeholder='Passwort' required />
-            <Alert id='passwortHinweisArt' className='controls passwortHinweis hinweis alert-danger feldInFormgroup'>Bitte Passwort erfassen</Alert>
-            <div className='controls signup feldInFormgroup'>Vorsicht: Email und Passwort können später nicht mehr geändert werden!</div>
-            <div className='controls signup feldInFormgroup'>Es wird eine verschlüsselte Version des Passworts gespeichert. Das Original kennt ausser Ihnen niemand.</div>
-            <FormControls.Static className='Passwort'>Passwort vergessen? <a href='mailto:alex@gabriel-software.ch'>Mailen Sie mir</a>, möglichst mit derselben email-Adresse, die Sie für das Konto verwenden.</FormControls.Static>
-            <div className='signup'>
-              <Input type='password' id='passwort2Art' label={'Passwort bestätigen'} className='controls form-control passwort2' placeholder='Passwort bestätigen' required />
-              <Alert id='passwort2HinweisArt' className='controls passwort2Hinweis hinweis alert-danger feldInFormgroup'>Bitte Passwort bestätigen</Alert>
-              <Alert id='passwort2HinweisFalschArt' className='controls passwort2HinweisFalsch hinweis alert-danger feldInFormgroup'>Die Passwörter stimmen nicht überein</Alert>
-            </div>
-            <FormControls.Static style={{'paddingBottom': 6 + 'px'}}>
-              <Button className='btn-primary'>anmelden</Button>
-              <Button className='btn-primary' style={{'display': 'none'}}>abmelden</Button>
-              <Button className='btn-primary'>neues Konto erstellen</Button>
-              <Button className='btn-primary' style={{'display': 'none'}}>neues Konto speichern</Button>
-            </FormControls.Static>
-            <FormControls.Static>
-              <Alert className='alert-danger'></Alert>
-            </FormControls.Static>
-            <FormControls.Static>
-              <Alert className='alert-warning'></Alert>
-            </FormControls.Static>
+            <form className={formClassNames} autoComplete='off'>
+              <Well className='well-sm anmelden'>Um Daten zu bearbeiten, müssen Sie angemeldet sein. <a href='mailto:alex@gabriel-software.ch'>Mailen Sie mir</a>, um ein Login zu erhalten.</Well>
+              <Input type='email' id='emailArt' label={'Email'} bsSize='small' className={'controls'} placeholder='Email' required />
+              <Alert id='emailHinweisArt' className='controls emailHinweis hinweis alert-danger feldInFormgroup'>Bitte Email erfassen</Alert>
+              <Input type='password' id='passwortArt' label={'Passwort'} className={'controls'} placeholder='Passwort' required />
+              <Alert id='passwortHinweisArt' className='controls passwortHinweis hinweis alert-danger feldInFormgroup'>Bitte Passwort erfassen</Alert>
+              <div className='controls signup feldInFormgroup'>Vorsicht: Email und Passwort können später nicht mehr geändert werden!</div>
+              <div className='controls signup feldInFormgroup'>Es wird eine verschlüsselte Version des Passworts gespeichert. Das Original kennt ausser Ihnen niemand.</div>
+              <FormControls.Static className='Passwort'>Passwort vergessen? <a href='mailto:alex@gabriel-software.ch'>Mailen Sie mir</a>, möglichst mit derselben email-Adresse, die Sie für das Konto verwenden.</FormControls.Static>
+              <div className='signup'>
+                <Input type='password' id='passwort2Art' label={'Passwort bestätigen'} className='controls form-control passwort2' placeholder='Passwort bestätigen' required />
+                <Alert id='passwort2HinweisArt' className='controls passwort2Hinweis hinweis alert-danger feldInFormgroup'>Bitte Passwort bestätigen</Alert>
+                <Alert id='passwort2HinweisFalschArt' className='controls passwort2HinweisFalsch hinweis alert-danger feldInFormgroup'>Die Passwörter stimmen nicht überein</Alert>
+              </div>
+              <FormControls.Static style={{'paddingBottom': 6 + 'px'}}>
+                <Button className='btn-primary'>anmelden</Button>
+                <Button className='btn-primary' style={{'display': 'none'}}>abmelden</Button>
+                <Button className='btn-primary'>neues Konto erstellen</Button>
+                <Button className='btn-primary' style={{'display': 'none'}}>neues Konto speichern</Button>
+              </FormControls.Static>
+              <FormControls.Static>
+                <Alert className='alert-danger'></Alert>
+              </FormControls.Static>
+              <FormControls.Static>
+                <Alert className='alert-warning'></Alert>
+              </FormControls.Static>
+            </form>
           </Modal.Body>
 
           <Modal.Footer>

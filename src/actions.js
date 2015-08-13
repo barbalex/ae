@@ -77,7 +77,7 @@ export default function () {
   })
 
   Actions.loadObjectStore.listen(function (gruppe) {
-    // console.log('Actions.loadObjectStore')
+    console.log('Actions.loadObjectStore, gruppe', gruppe)
     // make sure gruppe was passed
     if (!gruppe) return false
     // make sure a valid group was passed

@@ -19,7 +19,7 @@ window.app = app
 window.PouchDB = PouchDB
 
 // initiate localStorage
-window.localStorage.ae = window.localStorage.ae || 'ae'
+window.localStorage.aeEmail = window.localStorage.aeEmail || ''
 
 app.extend({
   init () {

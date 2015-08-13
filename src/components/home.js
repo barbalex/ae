@@ -41,11 +41,12 @@ const Home = React.createClass({
     showImportPC: React.PropTypes.bool,
     showImportRC: React.PropTypes.bool,
     showOrganizations: React.PropTypes.bool,
-    login: React.PropTypes.string
+    logIn: React.PropTypes.bool,
+    email: React.PropTypes.string
   },
 
   getInitialState () {
-    const { gruppe, guid, path, showImportPC, showImportRC, showOrganizations, login } = this.props
+    const { gruppe, guid, path, showImportPC, showImportRC, showOrganizations, email } = this.props
     const groupsLoadedOrLoading = gruppe ? [gruppe] : []
 
     // kick off stores by getting store data directly from the remote db
@@ -65,7 +66,8 @@ const Home = React.createClass({
       showImportPC: showImportPC,
       showImportRC: showImportRC,
       showOrganizations: showOrganizations,
-      login: login
+      logIn: false,
+      email: email
     }
   },
 
@@ -75,6 +77,13 @@ const Home = React.createClass({
     this.listenTo(app.objectStore, this.onObjectStoreChange)
     this.listenTo(app.activeObjectStore, this.onActiveObjectStoreChange)
     this.listenTo(app.filterOptionsStore, this.onFilterOptionsStoreChange)
+  },
+
+  onLoginStoreChange (logIn, email) {
+    this.setState({
+      logIn: logIn,
+      email: email
+    })
   },
 
   onActivePathStoreChange (path, guid) {
@@ -203,10 +212,11 @@ const Home = React.createClass({
   },
 
   render () {
-    const { hierarchy, path, synonymObjects, object, groupsLoading, allGroupsLoaded, options, loadingFilterOptions, showImportPC, showImportRC, showOrganizations } = this.state
+    const { hierarchy, path, synonymObjects, object, groupsLoading, allGroupsLoaded, options, loadingFilterOptions, showImportPC, showImportRC, showOrganizations, logIn, email } = this.state
     const { isGuidPath } = this.props
     const showFilter = options.length > 0 || loadingFilterOptions
     const showMain = object !== undefined || showImportRC || showImportPC || showOrganizations
+    const showLogin = logIn && !email
 
     // MenuButton needs NOT to be inside menu
     // otherwise the menu can't be shown outside when menu is short
@@ -228,6 +238,7 @@ const Home = React.createClass({
             path={path} />
         </div>
         {showMain ? <Main object={object} synonymObjects={synonymObjects} showImportPC={showImportPC} showImportRC={showImportRC} showOrganizations={showOrganizations} /> : ''}
+        {showLogin ? <Login /> : ''}
       </NavHelper>
     )
   }

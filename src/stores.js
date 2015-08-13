@@ -18,16 +18,24 @@ export default function (Actions) {
     /*
      * contains email of logged in user
      * well, it is saved in localStorage
+     * and contains "logIn" bool which states if user needs to log in
      */
     listenables: Actions,
 
-    getEmail () {
-      return window.localStorage.ae.email
+    logIn: false,
+
+    getLogIn () {
+      return this.logIn
     },
 
-    onLogin (email) {
-      window.localStorage.ae.email = email
-      this.trigger(email)
+    getEmail () {
+      return window.localStorage.aeEmail
+    },
+
+    onLogin (logIn, email) {
+      this.logIn = logIn
+      window.localStorage.aeEmail = email
+      this.trigger(logIn, email)
     }
   })
 

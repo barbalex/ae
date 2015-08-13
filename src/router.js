@@ -26,13 +26,15 @@ export default Router.extend({
     let isGuidPath = false
     let showImportPC = false
     let showImportRC = false
-    const login = app.loginStore.getEmail()
+    const email = app.loginStore.getEmail()
 
     if (path.length === 2 && path[0] === 'importieren') {
       if (path[1] === 'eigenschaften') {
         showImportPC = true
+        gruppe = null
       } else if (path[1] === 'beziehungen') {
         showImportPC = true
+        gruppe = null
       }
     } else if (path.length === 1 && isGuid(path[0])) {
       // this is a path of style /<guid>
@@ -46,6 +48,8 @@ export default Router.extend({
       guid = getUrlParameterByName('id')
       gruppe = null
       isGuidPath = true
+    } else if (path.length === 1 && path[0] === 'organisationen_und_benutzer') {
+      gruppe = null
     }
 
     React.render(
@@ -56,7 +60,7 @@ export default Router.extend({
         path={path}
         showImportPC={showImportPC}
         showImportRC={showImportRC}
-        login={login} />,
+        email={email} />,
       document.body
     )
 

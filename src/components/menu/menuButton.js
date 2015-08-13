@@ -59,6 +59,11 @@ export default React.createClass({
   openOrganisationen () {
     // console.log('open Organisationen was clicked')
     app.Actions.loadActivePathStore(['organisationen_und_benutzer'])
+    const loginVariables = {
+      logIn: true,
+      email: app.loginStore.getEmail()
+    }
+    app.Actions.login(loginVariables)
   },
 
   replicate () {
