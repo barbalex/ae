@@ -45,7 +45,7 @@ export default function (Actions) {
       app.localDb.get('_local/login', { include_docs: true })
         .then(function (doc) {
           console.log('loginStore: login doc', doc)
-          if (doc.logIn !== logIn || (changeEmail && doc.email !== passedVariables.email)) {
+          if (doc.logIn !== logIn || (changeEmail && doc.email !== email) || (logIn && !email)) {
             doc.logIn = logIn
             if (changeEmail) {
               doc.email = email

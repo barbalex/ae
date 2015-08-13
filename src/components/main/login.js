@@ -42,7 +42,7 @@ export default React.createClass({
 
     return (
       <div className='static-modal'>
-        <Modal.Dialog>
+        <Modal.Dialog bsStyle='danger' >
           <Modal.Header>
             <Modal.Title>Anmelden</Modal.Title>
           </Modal.Header>
@@ -78,8 +78,7 @@ export default React.createClass({
           </Modal.Body>
 
           <Modal.Footer>
-            <Button>Close</Button>
-            <Button bsStyle='primary'>Save changes</Button>
+            <Button>schliessen</Button>
           </Modal.Footer>
 
         </Modal.Dialog>
