@@ -42,6 +42,14 @@ app.extend({
       return that.localGroupsDb.putIfNotExists(groupsDoc)
     })
     .then(function () {
+      // initialte login data if necessary
+      return that.localDb.putIfNotExists({
+        _id: '_local/login',
+        logIn: false,
+        email: null
+      })
+    })
+    .then(function () {
       that.Actions = actions()
       stores(that.Actions)
       that.router = new Router()

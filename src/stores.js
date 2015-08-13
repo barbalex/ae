@@ -17,25 +17,49 @@ export default function (Actions) {
   app.loginStore = Reflux.createStore({
     /*
      * contains email of logged in user
-     * well, it is saved in localStorage
+     * well, it is saved in pouch as local doc
      * and contains "logIn" bool which states if user needs to log in
      */
     listenables: Actions,
 
-    logIn: false,
-
-    getLogIn () {
-      return this.logIn
+    getLogin () {
+      return new Promise(function (resolve, reject) {
+        app.localDb.get('_local/login', { include_docs: true })
+          .then(function (doc) {
+            resolve(doc)
+          })
+          .catch(function (error) {
+            reject('loginStore: error getting login from localDb: ' + error)
+          })
+      })
     },
 
-    getEmail () {
-      return window.localStorage.aeEmail
-    },
+    onLogin (passedVariables) {
+      console.log('loginStore: onLogin, passedVariables', passedVariables)
+      const that = this
+      const logIn = passedVariables.logIn
+      const email = passedVariables.email
+      // change email only if it was passed
+      const changeEmail = email !== undefined
 
-    onLogin (logIn, email) {
-      this.logIn = logIn
-      window.localStorage.aeEmail = email
-      this.trigger(logIn, email)
+      app.localDb.get('_local/login', { include_docs: true })
+        .then(function (doc) {
+          console.log('loginStore: login doc', doc)
+          if (doc.logIn !== logIn || (changeEmail && doc.email !== passedVariables.email)) {
+            doc.logIn = logIn
+            if (changeEmail) {
+              doc.email = email
+            } else {
+              passedVariables.email = doc.email
+            }
+            console.log('loginStore: triggering passedVariables:', passedVariables)
+            that.trigger(passedVariables)
+            return app.localDb.put(doc)
+          }
+        })
+        .catch(function (error) {
+          console.log('loginStore: error logging in:', error)
+        })
     }
   })
 

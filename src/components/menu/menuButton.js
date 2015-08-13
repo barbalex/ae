@@ -24,7 +24,7 @@ export default React.createClass({
   },
 
   importPropertyCollection () {
-    console.log('importPropertyCollection was clicked')
+    // console.log('importPropertyCollection was clicked')
     app.Actions.loadActivePathStore(['importieren', 'eigenschaften'])
   // testen, ob der Browser das Importieren unterstützt
   // wenn nein, melden
@@ -61,7 +61,7 @@ export default React.createClass({
     app.Actions.loadActivePathStore(['organisationen_und_benutzer'])
     const loginVariables = {
       logIn: true,
-      email: app.loginStore.getEmail()
+      email: undefined
     }
     app.Actions.login(loginVariables)
   },

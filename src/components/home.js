@@ -73,16 +73,18 @@ const Home = React.createClass({
 
   componentDidMount () {
     // listen to stores
+    this.listenTo(app.loginStore, this.onLoginStoreChange)
     this.listenTo(app.activePathStore, this.onActivePathStoreChange)
     this.listenTo(app.objectStore, this.onObjectStoreChange)
     this.listenTo(app.activeObjectStore, this.onActiveObjectStoreChange)
     this.listenTo(app.filterOptionsStore, this.onFilterOptionsStoreChange)
   },
 
-  onLoginStoreChange (logIn, email) {
+  onLoginStoreChange (passedVariables) {
+    console.log('home.js, login store changed, passedVariables:', passedVariables)
     this.setState({
-      logIn: logIn,
-      email: email
+      logIn: passedVariables.logIn,
+      email: passedVariables.email
     })
   },
 

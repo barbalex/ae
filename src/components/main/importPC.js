@@ -11,7 +11,7 @@ export default React.createClass({
   },
 
   render () {
-    console.log('importPC.js, render')
+    // console.log('importPC.js, render')
     return (
       <div>
         <h4>Eigenschaften importieren</h4>

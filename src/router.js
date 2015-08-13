@@ -26,43 +26,50 @@ export default Router.extend({
     let isGuidPath = false
     let showImportPC = false
     let showImportRC = false
-    const email = app.loginStore.getEmail()
 
-    if (path.length === 2 && path[0] === 'importieren') {
-      if (path[1] === 'eigenschaften') {
-        showImportPC = true
-        gruppe = null
-      } else if (path[1] === 'beziehungen') {
-        showImportPC = true
-        gruppe = null
-      }
-    } else if (path.length === 1 && isGuid(path[0])) {
-      // this is a path of style /<guid>
-      isGuidPath = true
-      guid = path[0]
-      gruppe = null
-    } else if (path.length === 1 && path[0] === 'indexhtml') {
-      // this is a path of style /index.html?id=<guid>
-      // it was used in a previous app version
-      // and is still called by ALT and EvAB
-      guid = getUrlParameterByName('id')
-      gruppe = null
-      isGuidPath = true
-    } else if (path.length === 1 && path[0] === 'organisationen_und_benutzer') {
-      gruppe = null
-    }
+    app.loginStore.getLogin()
+      .then(function (login) {
+        const email = login.email
 
-    React.render(
-      <Home
-        isGuidPath={isGuidPath}
-        gruppe={gruppe}
-        guid={guid}
-        path={path}
-        showImportPC={showImportPC}
-        showImportRC={showImportRC}
-        email={email} />,
-      document.body
-    )
+        if (path.length === 2 && path[0] === 'importieren') {
+          if (path[1] === 'eigenschaften') {
+            showImportPC = true
+            gruppe = null
+          } else if (path[1] === 'beziehungen') {
+            showImportPC = true
+            gruppe = null
+          }
+        } else if (path.length === 1 && isGuid(path[0])) {
+          // this is a path of style /<guid>
+          isGuidPath = true
+          guid = path[0]
+          gruppe = null
+        } else if (path.length === 1 && path[0] === 'indexhtml') {
+          // this is a path of style /index.html?id=<guid>
+          // it was used in a previous app version
+          // and is still called by ALT and EvAB
+          guid = getUrlParameterByName('id')
+          gruppe = null
+          isGuidPath = true
+        } else if (path.length === 1 && path[0] === 'organisationen_und_benutzer') {
+          gruppe = null
+        }
+
+        React.render(
+          <Home
+            isGuidPath={isGuidPath}
+            gruppe={gruppe}
+            guid={guid}
+            path={path}
+            showImportPC={showImportPC}
+            showImportRC={showImportRC}
+            email={email} />,
+          document.body
+        )
+      })
+      .catch(function (error) {
+        console.log('router.js: error getting login:', error)
+      })
 
     // TODO: instead of passing props, better to call actions?
   }
