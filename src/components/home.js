@@ -213,6 +213,12 @@ const Home = React.createClass({
           )
   },
 
+  email () {
+    const email = this.state.email
+    const text = email ? email : 'nicht angemeldet'
+    return (<div id='email'>{text}</div>)
+  },
+
   render () {
     const { hierarchy, path, synonymObjects, object, groupsLoading, allGroupsLoaded, options, loadingFilterOptions, showImportPC, showImportRC, showOrganizations, logIn, email } = this.state
     const { isGuidPath } = this.props
@@ -239,6 +245,7 @@ const Home = React.createClass({
             isGuidPath={isGuidPath}
             path={path} />
         </div>
+        {this.email()}
         {showMain ? <Main object={object} synonymObjects={synonymObjects} showImportPC={showImportPC} showImportRC={showImportRC} showOrganizations={showOrganizations} /> : ''}
         {showLogin ? <Login /> : ''}
       </NavHelper>

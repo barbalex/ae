@@ -22,10 +22,10 @@ export default React.createClass({
       <div>
         <h4>Organisationen und Benutzer</h4>
         <Accordion>
-          <Panel header='Neue Benutzer erfassen' eventKey='1'>
+          <Panel header='Organisation' eventKey='1'>
             testdata
           </Panel>
-          <Panel header='Organisation verwalten' eventKey='2'>
+          <Panel header='Benutzer' eventKey='2'>
             testdata
           </Panel>
         </Accordion>
