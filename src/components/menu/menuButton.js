@@ -3,6 +3,7 @@
 import app from 'ampersand-app'
 import React from 'react'
 import _ from 'lodash'
+import $ from 'jquery'
 import DropdownButton from 'react-bootstrap/lib/DropdownButton'
 import MenuItem from 'react-bootstrap/lib/MenuItem'
 import buildGoogleImageLink from '../../modules/buildGoogleImageLink.js'
@@ -13,6 +14,14 @@ export default React.createClass({
 
   propTypes: {
     object: React.PropTypes.object
+  },
+
+  componentDidMount () {
+    // this is a bad hack for react-bootstrap not closing the menu on click
+    $('#menuBtn a').on('click', function () {
+      console.log('click')
+      $('#menuBtn .dropdown-toggle').click()
+    })
   },
 
   exportProperties () {
@@ -88,63 +97,29 @@ export default React.createClass({
     return (
     <div id='menuBtn' className='btn-group menu'>
       <DropdownButton title='Menu' bsSize='small'>
-        <li role='presentation' className='dropdown-header'>
-          Mehr Infos zur Art:
-        </li>
-        <MenuItem onClick={this.searchGoogleImages} disabled={!isObject}>
-          <a href={googleLink} target='_blank'>Auf google.ch Bilder suchen</a>
-        </MenuItem>
-        <MenuItem onClick={this.searchWikipediaArticle} disabled={!isObject}>
-          <a href={wikipediaLink} target='_blank'>Auf wikipedia.org suchen</a>
-        </MenuItem>
+        <li role='presentation' className='dropdown-header'>Mehr Infos zur Art:</li>
+        <MenuItem onClick={this.searchGoogleImages} disabled={!isObject} href={googleLink} target='_blank'>Auf google.ch Bilder suchen</MenuItem>
+        <MenuItem onClick={this.searchWikipediaArticle} disabled={!isObject} href={wikipediaLink} target='_blank'>Auf wikipedia.org suchen</MenuItem>
         <MenuItem divider/>
-        <li role='presentation' className='dropdown-header'>
-          Exportieren:
-        </li>
-        <MenuItem onClick={this.exportProperties}>
-          Eigenschaften
-        </MenuItem>
+        <li role='presentation' className='dropdown-header'>Exportieren:</li>
+        <MenuItem onClick={this.exportProperties}>Eigenschaften</MenuItem>
         <MenuItem divider/>
-        <li role='presentation' className='dropdown-header'>
-          Importieren oder löschen:
-        </li>
-        <MenuItem onClick={this.importPropertyCollection}>
-          Eigenschaften
-        </MenuItem>
-        <MenuItem onClick={this.importRelationsCollection}>
-          Beziehungen
-        </MenuItem>
+        <li role='presentation' className='dropdown-header'>Importieren oder löschen:</li>
+        <MenuItem onClick={this.importPropertyCollection}>Eigenschaften</MenuItem>
+        <MenuItem onClick={this.importRelationsCollection}>Beziehungen</MenuItem>
         <MenuItem divider/>
-        <MenuItem onClick={this.openOrganisationen}>
-          Organisationen und Benutzer
-        </MenuItem>
+        <MenuItem onClick={this.openOrganisationen}>Organisationen und Benutzer</MenuItem>
         <MenuItem divider/>
-        <MenuItem onClick={this.replicate}>
-          Daten replizieren
-        </MenuItem>
+        <MenuItem onClick={this.replicate}>Daten replizieren</MenuItem>
         <MenuItem divider/>
-        <MenuItem onClick={this.openAdminPage}>
-          Administration
-        </MenuItem>
+        <MenuItem onClick={this.openAdminPage}>Administration</MenuItem>
         <MenuItem divider/>
-        <li role='presentation' className='dropdown-header'>
-          Über arteigenschaften.ch:
-        </li>
-        <MenuItem>
-          <a href='//github.com/FNSKtZH/artendb/blob/master/README.md' target='_blank'>Projekt-Beschreibung</a>
-        </MenuItem>
-        <MenuItem>
-          <a href='//github.com/FNSKtZH/artendb' target='_blank'>Code</a>
-        </MenuItem>
-        <MenuItem>
-          <a href='//github.com/FNSKtZH/artendb/commits/master' target='_blank'>Letzte Änderungen</a>
-        </MenuItem>
-        <MenuItem>
-          <a href='mailto:alex@gabriel-software.ch'>Email an Autor</a>
-        </MenuItem>
-        <MenuItem>
-          <a href='https://twitter.com/arteigenschaft' target='_blank'>auf Twitter folgen</a>
-        </MenuItem>
+        <li role='presentation' className='dropdown-header'>Über arteigenschaften.ch:</li>
+        <MenuItem href='//github.com/FNSKtZH/artendb/blob/master/README.md' target='_blank'>Projekt-Beschreibung</MenuItem>
+        <MenuItem href='//github.com/FNSKtZH/artendb' target='_blank'>Code</MenuItem>
+        <MenuItem href='//github.com/FNSKtZH/artendb/commits/master' target='_blank'>Letzte Änderungen</MenuItem>
+        <MenuItem href='mailto:alex@gabriel-software.ch'>Email an Autor</MenuItem>
+        <MenuItem href='https://twitter.com/arteigenschaft' target='_blank'>auf Twitter folgen</MenuItem>
       </DropdownButton>
     </div>
     )
