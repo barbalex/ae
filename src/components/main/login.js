@@ -13,7 +13,11 @@ export default React.createClass({
 
   schliessen () {
     app.Actions.login({logIn: false})
+    // TODO: how navigate back? history.back() only backs the url
+    // console.log('document.referrer:', document.referrer)
     window.history.back()
+    app.router.reload()
+    // app.Router.navigate()
   },
 
   render () {
