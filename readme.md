@@ -9,7 +9,7 @@ Arteigenschaften.ch wird mit folgenden Mitteln neu aufgebaut:
 - für die Applikation wird keine CouchApp mehr benutzt
   - ermöglicht die nachfolgenden Vorteile
 - alle Abhängigkeiten werden mit [npm](https://www.npmjs.com) verwaltet
-  - Abhängigkeiten sind einfacher zu aktualisieren
+  - einfachere Aktualisierung
   - zuverlässige und schnelle Installation der Enwicklungsumgebung
 - [ES6](https://github.com/lukehoban/es6features), die künftige Version von [JavaScript](http://en.wikipedia.org/wiki/JavaScript)
   - fördert lesbaren, kurzen Code
@@ -19,12 +19,12 @@ Arteigenschaften.ch wird mit folgenden Mitteln neu aufgebaut:
   - jede Änderung ist direkt sichtbar
   - raschere Enwicklung, weniger Fehler
 - [Flux](http://facebook.github.io/flux)
-  - vereinfacht die Architektur des Codes
-  - senkt damit dessen Komplexität
+  - vereinfacht die Architektur
+  - senkt damit die Komplexität
   - beschleunigt Entwicklung und Unterhalt
 - [React](https://facebook.github.io/react/index.html)
   - vereinfacht die Steuerung der Benutzeroberfläche
-  - reduziert die Komplexität des Codes
+  - reduziert die Komplexität
 - [webpack](http://webpack.github.io) erzeugt für den produktiven App-Server statische Dateien
   - womit der App-Server äusserst einfach aufgebaut und zu installieren ist
 - [hapi.js](http://hapijs.com) liefert die Applikation an den Browser...
