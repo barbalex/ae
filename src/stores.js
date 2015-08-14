@@ -35,7 +35,7 @@ export default function (Actions) {
     },
 
     onLogin (passedVariables) {
-      console.log('loginStore: onLogin, passedVariables', passedVariables)
+      // console.log('loginStore: onLogin, passedVariables', passedVariables)
       const that = this
       const logIn = passedVariables.logIn
       const email = passedVariables.email
@@ -44,7 +44,7 @@ export default function (Actions) {
 
       app.localDb.get('_local/login', { include_docs: true })
         .then(function (doc) {
-          console.log('loginStore: login doc', doc)
+          // console.log('loginStore: login doc', doc)
           if (doc.logIn !== logIn || (changeEmail && doc.email !== email) || (logIn && !email)) {
             doc.logIn = logIn
             if (changeEmail) {
@@ -52,7 +52,7 @@ export default function (Actions) {
             } else {
               passedVariables.email = doc.email
             }
-            console.log('loginStore: triggering passedVariables:', passedVariables)
+            // console.log('loginStore: triggering passedVariables:', passedVariables)
             that.trigger(passedVariables)
             return app.localDb.put(doc)
           }
