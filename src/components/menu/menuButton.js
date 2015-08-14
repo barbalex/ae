@@ -93,32 +93,32 @@ export default React.createClass({
     const wikipediaLink = isObject ? buildWikipediaLink(object) : '#'
 
     return (
-    <div id='menuBtn' className='btn-group menu'>
-      <ButtonGroup>
-        <Button onClick={this.searchGoogleImages} bsSize='small' disabled={!isObject} href={googleLink} target='_blank'>Bilder</Button>
-        <Button onClick={this.searchWikipediaArticle} bsSize='small' disabled={!isObject} href={wikipediaLink} target='_blank'>Wikipedia</Button>
-        <Button onClick={this.exportProperties} bsSize='small' disabled='true'>Export</Button>
-        <DropdownButton title='Import' bsSize='small'>
-          <li role='presentation' className='dropdown-header'>Importieren oder löschen:</li>
-          <MenuItem onClick={this.importPropertyCollection}>Eigenschaften</MenuItem>
-          <MenuItem onClick={this.importRelationsCollection} disabled='true'>Beziehungen</MenuItem>
-        </DropdownButton>
-        <DropdownButton title='Mehr...' bsSize='small'>
-          <MenuItem onClick={this.openOrganisationen}>Organisationen und Benutzer</MenuItem>
-          <MenuItem divider/>
-          <MenuItem onClick={this.replicate}>Daten replizieren</MenuItem>
-          <MenuItem divider/>
-          <MenuItem onClick={this.openAdminPage}>Administration</MenuItem>
-          <MenuItem divider/>
-          <li role='presentation' className='dropdown-header'>Über arteigenschaften.ch:</li>
-          <MenuItem href='//github.com/FNSKtZH/artendb/blob/master/README.md' target='_blank'>Projekt-Beschreibung</MenuItem>
-          <MenuItem href='//github.com/FNSKtZH/artendb' target='_blank'>Code</MenuItem>
-          <MenuItem href='//github.com/FNSKtZH/artendb/commits/master' target='_blank'>Letzte Änderungen</MenuItem>
-          <MenuItem href='mailto:alex@gabriel-software.ch'>Email an Autor</MenuItem>
-          <MenuItem href='https://twitter.com/arteigenschaft' target='_blank'>auf Twitter folgen</MenuItem>
-        </DropdownButton>
-      </ButtonGroup>
-    </div>
+      <div id='menuBtn' className='btn-group menu'>
+        <ButtonGroup>
+          <Button onClick={this.searchGoogleImages} bsSize='small' disabled={!isObject} href={googleLink} target='_blank'>Bilder</Button>
+          <Button onClick={this.searchWikipediaArticle} bsSize='small' disabled={!isObject} href={wikipediaLink} target='_blank'>Wikipedia</Button>
+          <Button onClick={this.exportProperties} bsSize='small' disabled='true'>Export</Button>
+          <DropdownButton title='Import' bsSize='small'>
+            <li role='presentation' className='dropdown-header'>Importieren oder löschen:</li>
+            <MenuItem onClick={this.importPropertyCollection}>Eigenschaften</MenuItem>
+            <MenuItem onClick={this.importRelationsCollection} disabled='true'>Beziehungen</MenuItem>
+          </DropdownButton>
+          <DropdownButton title='Mehr...' bsSize='small'>
+            <MenuItem onClick={this.openOrganisationen}>Organisationen und Benutzer</MenuItem>
+            <MenuItem divider/>
+            <MenuItem onClick={this.replicate}>Daten replizieren</MenuItem>
+            <MenuItem divider/>
+            <MenuItem onClick={this.openAdminPage}>Administration</MenuItem>
+            <MenuItem divider/>
+            <li role='presentation' className='dropdown-header'>Über arteigenschaften.ch:</li>
+            <MenuItem href='//github.com/FNSKtZH/artendb/blob/master/README.md' target='_blank'>Projekt-Beschreibung</MenuItem>
+            <MenuItem href='//github.com/FNSKtZH/artendb' target='_blank'>Code</MenuItem>
+            <MenuItem href='//github.com/FNSKtZH/artendb/commits/master' target='_blank'>Letzte Änderungen</MenuItem>
+            <MenuItem href='mailto:alex@gabriel-software.ch'>Email an Autor</MenuItem>
+            <MenuItem href='https://twitter.com/arteigenschaft' target='_blank'>auf Twitter folgen</MenuItem>
+          </DropdownButton>
+        </ButtonGroup>
+      </div>
     )
   }
 })
