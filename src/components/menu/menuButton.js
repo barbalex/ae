@@ -19,7 +19,6 @@ export default React.createClass({
     // this is a bad hack for react-bootstrap not closing the menu on click
     $('#menuBtn a').on('click', function () {
       $(this).closest('.dropdown-menu').prev('.dropdown-toggle').click()
-      // $('#menuBtn .dropdown-toggle').click()
     })
   },
 
