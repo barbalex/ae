@@ -5,7 +5,6 @@ import Reflux from 'reflux'
 import PouchDB from 'pouchdb'
 import pouchdbLoad from 'pouchdb-load'
 import _ from 'lodash'
-// import request from 'superagent'
 import getGruppen from './modules/gruppen.js'
 import getCouchUrl from './modules/getCouchUrl.js'
 
