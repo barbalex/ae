@@ -44,7 +44,7 @@ app.extend({
       return that.localGroupsDb.putIfNotExists(groupsDoc)
     })
     .then(function () {
-      // initialte login data if necessary
+      // initiate login data if necessary
       return that.localDb.putIfNotExists({
         _id: '_local/login',
         logIn: false,
