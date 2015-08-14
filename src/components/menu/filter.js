@@ -85,7 +85,7 @@ export default React.createClass({
             onClick={this.onClickEmptyFilterField}/>
           <Typeahead
             ref={'typeahead'}
-            placeholder={'filtern'}
+            placeholder={'suchen'}
             maxVisible={10}
             options={options}
             filterOption={'label'}
