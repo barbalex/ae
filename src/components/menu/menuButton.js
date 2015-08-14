@@ -97,11 +97,11 @@ export default React.createClass({
       <ButtonGroup>
         <Button onClick={this.searchGoogleImages} bsSize='small' disabled={!isObject} href={googleLink} target='_blank'>Bilder</Button>
         <Button onClick={this.searchWikipediaArticle} bsSize='small' disabled={!isObject} href={wikipediaLink} target='_blank'>Wikipedia</Button>
-        <Button onClick={this.exportProperties} bsSize='small'>Export</Button>
+        <Button onClick={this.exportProperties} bsSize='small' disabled='true'>Export</Button>
         <DropdownButton title='Import' bsSize='small'>
           <li role='presentation' className='dropdown-header'>Importieren oder löschen:</li>
           <MenuItem onClick={this.importPropertyCollection}>Eigenschaften</MenuItem>
-          <MenuItem onClick={this.importRelationsCollection}>Beziehungen</MenuItem>
+          <MenuItem onClick={this.importRelationsCollection} disabled='true'>Beziehungen</MenuItem>
         </DropdownButton>
         <DropdownButton title='Mehr...' bsSize='small'>
           <MenuItem onClick={this.openOrganisationen}>Organisationen und Benutzer</MenuItem>
