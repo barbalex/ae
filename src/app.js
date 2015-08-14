@@ -17,6 +17,8 @@ PouchDB.plugin(pouchdbUpsert)
 window.app = app
 // enable pouch inspector
 window.PouchDB = PouchDB
+// set up pouchdb plugins
+PouchDB.plugin(require('pouchdb-authentication'))
 
 // initiate localStorage
 window.localStorage.aeEmail = window.localStorage.aeEmail || ''

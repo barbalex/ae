@@ -6,7 +6,7 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import { Modal, Input, Button } from 'react-bootstrap'
+import { Modal, Input, Alert, Button } from 'react-bootstrap'
 import validateEmail from '../../modules/validateEmail.js'
 
 export default React.createClass({
@@ -16,7 +16,8 @@ export default React.createClass({
     invalidEmail: React.PropTypes.bool,
     invalidPassword: React.PropTypes.bool,
     email: React.PropTypes.string,
-    password: React.PropTypes.string
+    password: React.PropTypes.string,
+    loginError: React.PropTypes.string
   },
 
   getInitialState () {
@@ -24,14 +25,29 @@ export default React.createClass({
       invalidEmail: false,
       invalidPassword: false,
       email: null,
-      password: null
+      password: null,
+      loginError: null
     }
   },
 
   onClickLogin () {
-    console.log('signin is not valid')
+    const { email, password } = this.state
+    const that = this
     if (this.validSignin()) {
       console.log('signin is valid')
+      app.remoteDb.login(email, password)
+        .then(function (response) {
+          const loginVariables = {
+            logIn: false,
+            email: email
+          }
+          app.Actions.login(loginVariables)
+        })
+        .catch(function (error) {
+          that.setState({
+            loginError: error
+          })
+        })
     }
   },
 
@@ -45,7 +61,12 @@ export default React.createClass({
   onBlurPassword (event) {
     const password = event.target.value
     this.setState({password: password})
-    // this.validPassword(password)
+  },
+
+  onAlertDismiss () {
+    this.setState({
+      loginError: null
+    })
   },
 
   schliessen () {
@@ -84,7 +105,7 @@ export default React.createClass({
   },
 
   render () {
-    const { invalidEmail, invalidPassword } = this.state
+    const { invalidEmail, invalidPassword, loginError } = this.state
     const emailInputBsStyle = invalidEmail ? 'error' : null
     const passwordInputBsStyle = invalidPassword ? 'error' : null
 
@@ -106,7 +127,8 @@ export default React.createClass({
                 <Input type='password' id='passwortArt' label={'Passwort'} className={'controls'} placeholder='Passwort' bsStyle={passwordInputBsStyle} onBlur={this.onBlurPassword} required />
                 {invalidPassword ? <span className='validateSpan'>Bitte Passwort prüfen</span> : ''}
               </div>
-              <p className='Passwort'>Passwort vergessen?<br/><a href='mailto:alex@gabriel-software.ch'>Mailen Sie mir</a>. Benutzen Sie dazu möglichst dieselbe email-Adresse, die Sie für das Konto verwenden.</p>
+              {loginError ? <Alert bsStyle='error' onDismiss={this.onAlertDismiss}>Fehler beim Anmelden: {loginError}</Alert> : ''}
+              <p className='Passwort' style={{'marginBottom': -5 + 'px'}}>Passwort vergessen?<br/><a href='mailto:alex@gabriel-software.ch'>Mailen Sie mir</a>. Benutzen Sie dazu möglichst dieselbe email-Adresse, die Sie für das Konto verwenden.</p>
             </form>
           </Modal.Body>
 
