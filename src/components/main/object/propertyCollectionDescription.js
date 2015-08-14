@@ -8,7 +8,6 @@
 'use strict'
 
 import React from 'react'
-import Autolinker from 'autolinker'
 
 export default React.createClass({
   displayName: 'PropertyCollectionDescription',
