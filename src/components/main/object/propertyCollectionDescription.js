@@ -65,7 +65,7 @@ export default React.createClass({
       importiertVon = (
         <div className='dsBeschreibungZeile'>
           <div>Importiert von:</div>
-          <div>{Autolinker.link(pc['importiert von'])}</div>
+          <a href={'mailto:' + pc['importiert von']} target={'_blank'}>{pc['importiert von']}</a>
         </div>
       )
     }
