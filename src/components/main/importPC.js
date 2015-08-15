@@ -7,10 +7,43 @@ export default React.createClass({
   displayName: 'Import',
 
   propTypes: {
-    userEmail: React.PropTypes.string
+    userEmail: React.PropTypes.string,
+    isDatenVerstehenVisible: React.PropTypes.bool,
+    isZusEsVisible: React.PropTypes.bool,
+    isAutorenrechteVisible: React.PropTypes.bool
+  },
+
+  getInitialState () {
+    return {
+      isDatenVerstehenVisible: false,
+      isZusEsVisible: false,
+      isAutorenrechteVisible: false
+    }
+  },
+
+  onClickDatenVerstehen (event) {
+    event.preventDefault()
+    this.setState({
+      isDatenVerstehenVisible: !this.state.isDatenVerstehenVisible
+    })
+  },
+
+  onClickZusEs (event) {
+    event.preventDefault()
+    this.setState({
+      isZusEsVisible: !this.state.isZusEsVisible
+    })
+  },
+
+  onClickAutorenrechte (event) {
+    event.preventDefault()
+    this.setState({
+      isAutorenrechteVisible: !this.state.isAutorenrechteVisible
+    })
   },
 
   render () {
+    const { isDatenVerstehenVisible, isZusEsVisible, isAutorenrechteVisible } = this.state
     // console.log('importPC.js, render')
     return (
       <div>
@@ -18,8 +51,8 @@ export default React.createClass({
         <Accordion>
           <Panel header='1. Eigenschaftensammlung beschreiben' eventKey='1'>
             <Well className='well-sm'><a href='//youtu.be/nqd-v6YxkOY' target='_blank'><b>Screencast sehen</b></a></Well>
-            <Well className='well-sm'><b>Erleichtern Sie den Benutzern, Ihre Daten zu verstehen</b> <a href='#' className='showNextHidden'>...mehr</a>
-              <ul className='adb-hidden'>
+            <Well className='well-sm'><b>Erleichtern Sie den Benutzern, Ihre Daten zu verstehen </b> <a href='#' onClick={this.onClickDatenVerstehen} className='showNextHidden'>{isDatenVerstehenVisible ? '...weniger' : '...mehr'}</a>
+              <ul className='adb-hidden' style={{'display': isDatenVerstehenVisible ? 'block' : 'none'}}>
                 <li>Der Name sollte ungefähr dem ersten Teil eines Literaturzitats entsprechen. Beispiel: 'Blaue Liste (1998)'</li>
                 <li>Wurden die Informationen spezifisch für einen bestimmten Kanton oder die ganze Schweiz erarbeitet? Wenn ja: Bitte das entsprechende Kürzel voranstellen. Beispiel: 'ZH Artwert (aktuell)'</li>
                 <li>Die Beschreibung sollte im ersten Teil etwa einem klassischen Literaturzitat entsprechen. Beispiel: 'Gigon A. et al. (1998): Blaue Listen der erfolgreich erhaltenen oder geförderten Tier- und Pflanzenarten der Roten Listen. Methodik und Anwendung in der nördlichen Schweiz. Veröff. Geobot. Inst. ETH, Stiftung Rübel, Zürich 129: 1-137 + 180 pp. Appendicesn'</li>
@@ -29,15 +62,15 @@ export default React.createClass({
                 <li>Besonders hilfreich ist es, wenn die Originalpublikation verlinkt werden kann. Oder eine erläuternde Webseite</li>
               </ul>
             </Well>
-            <Well className='well-sm'><b>Für eine zusammenfassende Eigenschaftensammlung importieren Sie die Daten zwei mal</b><a href='#' className='showNextHidden'>...mehr</a>
-              <ul className='adb-hidden'>
+            <Well className='well-sm'><b>Für eine zusammenfassende Eigenschaftensammlung importieren Sie die Daten zwei mal </b><a href='#' onClick={this.onClickZusEs} className='showNextHidden'>{isZusEsVisible ? '...weniger' : '...mehr'}</a>
+              <ul className='adb-hidden' style={{'display': isZusEsVisible ? 'block' : 'none'}}>
                 <li>zuerst in die Ursprungs-Eigenschaftensammlung</li>
                 <li>dann in die zusammenfassende. Bitte die Ursprungs-Eigenschaftensammlung angeben</li>
                 <li>Mehr Infos <a href='//github.com/FNSKtZH/artendb#zusammenfassende_datensammlungen' target='_blank'>hier</a></li>
               </ul>
             </Well>
-            <Well className='well-sm last-well'><b>Autorenrechte beachten</b> <a href='#' className='showNextHidden'>...mehr</a>
-              <ul className='adb-hidden'>
+            <Well className='well-sm last-well'><b>Autorenrechte beachten </b> <a href='#' onClick={this.onClickAutorenrechte} className='showNextHidden'>{isAutorenrechteVisible ? '...weniger' : '...mehr'}</a>
+              <ul className='adb-hidden' style={{'display': isAutorenrechteVisible ? 'block' : 'none'}}>
                 <li>Die Autoren müssen mit der Veröffentlichung einverstanden sein</li>
                 <li>Dafür verantwortlich ist, wer Daten importiert</li>
               </ul>
