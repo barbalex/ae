@@ -108,7 +108,7 @@ export default React.createClass({
             <MenuItem divider/>
             <MenuItem onClick={this.replicate}>Daten replizieren</MenuItem>
             <MenuItem divider/>
-            <MenuItem onClick={this.openAdminPage}>Administration</MenuItem>
+            <MenuItem onClick={this.openAdminPage} disabled={true}>Administration</MenuItem>
             <MenuItem divider/>
             <li role='presentation' className='dropdown-header'>Über arteigenschaften.ch:</li>
             <MenuItem href='//github.com/FNSKtZH/artendb/blob/master/README.md' target='_blank'>Projekt-Beschreibung</MenuItem>
