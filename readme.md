@@ -25,7 +25,7 @@ Arteigenschaften.ch wird mit folgenden Mitteln neu aufgebaut:
 - [React](https://facebook.github.io/react/index.html)
   - vereinfacht die Steuerung der Benutzeroberfläche
   - reduziert die Komplexität
-- [webpack](http://webpack.github.io) erzeugt für den produktiven App-Server statische Dateien
+- [surge](https://surge.sh) erzeugt für den produktiven App-Server statische Dateien
   - womit der App-Server äusserst einfach aufgebaut und zu installieren ist
 - [hapi.js](http://hapijs.com) liefert die Applikation an den Browser...
 - ...der sie dann ohne weitere Hilfe des Servers ausführt. Es handelt sich daher um eine reine ["Native Web App"](https://blog.andyet.com/2015/01/22/native-web-apps)
