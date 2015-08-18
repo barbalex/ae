@@ -40,31 +40,55 @@ export default function () {
   Actions.loadPouchFromRemote.listen(function () {
     console.log('Actions.loadPouchFromRemote, getting objekte')
     // get all items
-    const couchUrl = getCouchUrl()
-    // const loadUrl = couchUrl + '/ae_objekte/ae_objekte.txt'  // does not work
-    const loadUrl = couchUrl + '/ae_moose/ae_moose.txt'  // works
-    // const loadUrl = couchUrl + '/ae_lr/ae_lr.txt'  // works but umlaute kaputt
-    // const loadUrl = couchUrl + '/ae_pilze/ae_pilze.txt'  // works but filter not shown
-    // const loadUrl = couchUrl + '/ae_flora/ae_flora.txt'  // works but filter not shown
-    // const loadUrl = couchUrl + '/ae_fauna/ae_fauna.txt'  // works but filter not shown and Umlaute kaputt
+    app.remoteDb.get('ae-objekte')
+      .then(function (doc) {
+        return _.keys(doc._attachments)
+      })
+      .then(function (attachments) {
+        let series = PouchDB.utils.Promise.resolve()
+        attachments.forEach(function (fileName) {
+          series = series.then(function () {
+            const loadUrl = getCouchUrl() + '/ae-objekte/' + fileName
+            return app.localDb.load(loadUrl)
+          })
+        })
+        series.then(function () {
+          console.log('Actions.loadPouchFromRemote completed')
+          return Actions.loadPouchFromRemote.completed()
+        })
+        .catch(function (error) {
+          console.log('error after promise all:', error)
+        })
+      })
+      .catch(function (error) {
+        Actions.loadPouchFromRemote.failed('Actions.loadPouchFromRemote, replication error:', error)
+      })
+
+    /*const couchUrl = getCouchUrl()
+    const loadUrl = couchUrl + '/ae_objekte/ae_objekte.txt'  // does not work
+    // const loadUrl = couchUrl + '/ae_moose/ae_moose.txt'  // works
+    // const loadUrl = couchUrl + '/ae_lr/ae_lr.txt'  // works
+    // const loadUrl = couchUrl + '/ae_pilze/ae_pilze.txt'  // works but tree does not open after filtering
+    // const loadUrl = couchUrl + '/ae_flora/ae_flora.txt'  // works but tree does not open after filtering
+    // const loadUrl = couchUrl + '/ae_fauna/ae_fauna.txt'  // works but tree does not open after filtering
     app.localDb.load(loadUrl, {
       proxy: couchUrl,
       filter: objectFilterFunction
     })
-      /*.then(function () {
+      .then(function () {
         // let regular replication catch up if objects have changed since dump was created
         console.log('Actions.loadPouchFromRemote, replicating')
         return app.localDb.replicate.from(app.remoteDb, {
           filter: objectFilterFunction
         })
-      })*/
+      })
       .then(function () {
         console.log('Actions.loadPouchFromRemote completed')
         Actions.loadPouchFromRemote.completed()
       })
       .catch(function (error) {
         Actions.loadPouchFromRemote.failed('Actions.loadPouchFromRemote, replication error:', error)
-      })
+      })*/
   })
 
   Actions.loadFilterOptionsStore.listen(function (items) {
