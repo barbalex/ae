@@ -56,39 +56,19 @@ export default function () {
           console.log('Actions.loadPouchFromRemote completed')
           return Actions.loadPouchFromRemote.completed()
         })
+        .then(function () {
+          // let regular replication catch up if objects have changed since dump was created
+          return app.localDb.replicate.from(app.remoteDb, {
+            filter: objectFilterFunction
+          })
+        })
         .catch(function (error) {
-          console.log('error after promise all:', error)
+          Actions.loadPouchFromRemote.failed('Actions.loadPouchFromRemote, replication error:', error)
         })
       })
       .catch(function (error) {
         Actions.loadPouchFromRemote.failed('Actions.loadPouchFromRemote, replication error:', error)
       })
-
-    /*const couchUrl = getCouchUrl()
-    const loadUrl = couchUrl + '/ae_objekte/ae_objekte.txt'  // does not work
-    // const loadUrl = couchUrl + '/ae_moose/ae_moose.txt'  // works
-    // const loadUrl = couchUrl + '/ae_lr/ae_lr.txt'  // works
-    // const loadUrl = couchUrl + '/ae_pilze/ae_pilze.txt'  // works but tree does not open after filtering
-    // const loadUrl = couchUrl + '/ae_flora/ae_flora.txt'  // works but tree does not open after filtering
-    // const loadUrl = couchUrl + '/ae_fauna/ae_fauna.txt'  // works but tree does not open after filtering
-    app.localDb.load(loadUrl, {
-      proxy: couchUrl,
-      filter: objectFilterFunction
-    })
-      .then(function () {
-        // let regular replication catch up if objects have changed since dump was created
-        console.log('Actions.loadPouchFromRemote, replicating')
-        return app.localDb.replicate.from(app.remoteDb, {
-          filter: objectFilterFunction
-        })
-      })
-      .then(function () {
-        console.log('Actions.loadPouchFromRemote completed')
-        Actions.loadPouchFromRemote.completed()
-      })
-      .catch(function (error) {
-        Actions.loadPouchFromRemote.failed('Actions.loadPouchFromRemote, replication error:', error)
-      })*/
   })
 
   Actions.loadFilterOptionsStore.listen(function (items) {
