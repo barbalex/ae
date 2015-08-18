@@ -20,10 +20,9 @@ function objectFilterFunction (doc) {
   return false
 }
 
-/*function mooseFilterFunction (doc) {
-  if (doc.Gruppe && doc.Gruppe === 'Moose') return true
-  return false
-}*/
+function gruppenFilterFunction (doc, groupsLoaded) {
+  return (doc.Gruppe && _.index(groupsLoaded, doc.Gruppe) > -1)
+}
 
 export default function () {
   let Actions = Reflux.createActions({
@@ -92,7 +91,37 @@ export default function () {
       .then(function (groupIsLoaded) {
         if (!groupIsLoaded) {
           // this group does not exist yet in the store
-          const viewGruppePrefix = gruppe === 'Lebensräume' ? 'lr' : gruppe.toLowerCase()
+          const gruppeString = gruppe === 'Lebensräume' ? 'lr' : (gruppe === 'Macromycetes' ? 'pilze' : gruppe.toLowerCase())
+          app.remoteDb.get('ae-' + gruppeString)
+            .then(function (doc) {
+              return _.keys(doc._attachments)
+            })
+            .then(function (attachments) {
+              let series = PouchDB.utils.Promise.resolve()
+              attachments.forEach(function (fileName) {
+                series = series.then(function () {
+                  const loadUrl = getCouchUrl() + '/ae-' + gruppeString + '/' + fileName
+                  return app.localDb.load(loadUrl)
+                })
+              })
+              series.then(function () {
+                console.log('Actions.loadPouchFromRemote completed')
+                return Actions.loadPouchFromRemote.completed()
+              })
+              .then(function () {
+                // let regular replication catch up if objects have changed since dump was created
+                return app.localDb.replicate.from(app.remoteDb, {
+                  filter: gruppenFilterFunction
+                })
+              })
+              .catch(function (error) {
+                Actions.loadPouchFromRemote.failed('Actions.loadPouchFromRemote, replication error:', error)
+              })
+            })
+            .catch(function (error) {
+              Actions.loadPouchFromRemote.failed('Actions.loadPouchFromRemote, replication error:', error)
+            })
+
           const viewName = 'artendb/' + viewGruppePrefix + 'NachName'
           // get group from remoteDb
           app.remoteDb.query(viewName, {include_docs: true})

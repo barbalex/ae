@@ -303,8 +303,6 @@ function checkLevel9 (hierarchy, hArray) {
 }
 
 export default function (objects) {
-  console.log('buildHierrchy, objects.length:', objects.length)
-  console.log('buildHierrchy, objects:', objects)
   // prepare hierarchieObject
   let hierarchy = []
 
@@ -352,6 +350,6 @@ export default function (objects) {
     }
   })
 
-  console.log('buildHierrchy, hierarchy:', hierarchy)
+  // console.log('buildHierrchy, hierarchy:', hierarchy)
   return hierarchy
 }

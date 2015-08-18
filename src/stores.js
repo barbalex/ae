@@ -202,7 +202,32 @@ export default function (Actions) {
 
     groupsLoading: [],
 
+    groupsLoaded () {
+      return new Promise(function (resolve, reject) {
+        getGroupsLoadedFromLocalGroupsDb()
+          .then(function (groupsLoaded) {
+            resolve(groupsLoaded)
+          })
+          .catch(function (error) {
+            reject('objectStore, groupsLoaded: error getting groups loaded:', error)
+          })
+      })
+    },
+
     isGroupLoaded (gruppe) {
+      return new Promise(function (resolve, reject) {
+        this.groupsLoaded()
+          .then(function (groupsLoaded) {
+            const groupIsLoaded = _.includes(groupsLoaded, gruppe)
+            resolve(groupIsLoaded)
+          })
+          .catch(function (error) {
+            reject('objectStore, isGroupLoaded: error getting groups loaded:', error)
+          })
+      })
+    },
+
+    /*isGroupLoaded (gruppe) {
       return new Promise(function (resolve, reject) {
         getGroupsLoadedFromLocalGroupsDb()
           .then(function (groupsLoaded) {
@@ -213,7 +238,7 @@ export default function (Actions) {
             reject('objectStore, isGroupLoaded: error getting groups loaded:', error)
           })
       })
-    },
+    },*/
 
     // getItems and getItem get Item(s) from pouch if loaded
     getItems () {
@@ -281,9 +306,9 @@ export default function (Actions) {
           console.log('objectStore, onLoadPouchFromRemoteCompleted: hierarchy:', hierarchy)
           groupsLoaded = _.pluck(hierarchy, 'Name')
           return app.localHierarchyDb.bulkDocs(hierarchy)
-            .catch(function (error) {
+            /*.catch(function (error) {
               console.log('objectStore, onLoadPouchFromRemoteCompleted: error writing hierarchy to pouch:', error)
-            })
+            })*/
         })
         .then(function () {
           that.groupsLoading = []
@@ -334,7 +359,60 @@ export default function (Actions) {
       console.log('objectStore: error loading objectStore from pouch:', error)
     },
 
-    onLoadObjectStoreCompleted (payloadReceived) {
+    onLoadObjectStoreCompleted (gruppe) {
+      const that = this
+      let payloadHierarchy = []
+      let payloadGroupsLoaded = []
+      let items = []
+
+      // get items
+      getItemsFromLocalDb()
+        .then(function (docs) {
+          // filter by group
+          items = _.filter(docs, 'Gruppe', gruppe)
+          return items
+        })
+        .then(function (items) {
+          // load path store
+          Actions.loadPathStore(items)
+          // build hierarchy
+          const hierarchy = buildHierarchy(items)
+          const hierarchyOfGruppe = _.find(hierarchy, {'Name': gruppe})
+          return app.localHierarchyDb.bulkDocs(hierarchyOfGruppe)
+        })
+        .then(function () {
+          return that.getHierarchy()
+        })
+        .then(function (result) {
+          payloadHierarchy = result
+          // get groups loaded
+          return app.localGroupsDb.get('groups')
+        })
+        .then(function (groupsLoadedDoc) {
+          // update groups loaded
+          groupsLoadedDoc.groupsLoaded.push(gruppe)
+          payloadGroupsLoaded = groupsLoadedDoc.groupsLoaded
+          app.localGroupsDb.put(groupsLoadedDoc)
+        })
+        .then(function () {
+          // signal that this group is not being loaded any more
+          that.groupsLoading = _.without(that.groupsLoading, gruppe)
+          const groupsLoading = that.groupsLoading
+
+          // tell views that data has changed
+          const payload = {
+            hierarchy: payloadHierarchy,
+            groupsLoaded: payloadGroupsLoaded,
+            groupsLoading: groupsLoading
+          }
+          that.trigger(payload)
+        })
+        .catch(function (error) {
+          console.log('objectStore, onLoadObjectStoreCompleted, error putting hierarchyOfGruppe to localHierarchyDb or items to localDb:', error)
+        })
+    },
+
+    onLoadObjectStoreCompleted_OLD_DELETE (payloadReceived) {
       // console.log('objectStore, onLoadObjectStoreCompleted')
       const { gruppe, items } = payloadReceived
       const that = this

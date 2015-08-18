@@ -17,6 +17,7 @@ function extractPayloadFromObject (object) {
     path = _.pluck(object.Taxonomien[0].Eigenschaften.Hierarchie, 'Name')
     path = replaceProblematicPathCharactersFromArray(path)
   }
+  path.unshift(object.Gruppe)  // hm. this is too much when loading with view per group
   const payload = {
     path: path,
     url: '/' + path.join('/')
