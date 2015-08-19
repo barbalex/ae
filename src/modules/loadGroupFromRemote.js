@@ -22,9 +22,8 @@ export default function (gruppe) {
             })
             .then(function (attachments) {
               // sort attachments so the one with the last docs is loaded last
-              // reaseon: write the checkpoint for the last docs only
+              // reason: write the checkpoint for the last docs only
               attachments.sort()
-              console.log('attachments.length', attachments.length)
               let series = PouchDB.utils.Promise.resolve()
               attachments.forEach(function (fileName, index) {
                 series = series.then(function () {
