@@ -22,14 +22,20 @@ export default function (gruppe) {
             })
             .then(function (attachments) {
               // sort attachments so the one with the last docs is loaded last
-              // reaseon: trying to write the checkpoint for the last docs
-              // unfortunately does not work
+              // reaseon: write the checkpoint for the last docs only
               attachments.sort()
+              console.log('attachments.length', attachments.length)
               let series = PouchDB.utils.Promise.resolve()
-              attachments.forEach(function (fileName) {
+              attachments.forEach(function (fileName, index) {
                 series = series.then(function () {
-                  const couchUrl = getCouchUrl()  // is: http://localhost:5984/artendb (local dev) or http://arteigenschaften.ch/artendb (production, untested yet)
+                  // couchUrl is: http://localhost:5984/artendb      (local dev)
+                  // couchUrl is: http://arteigenschaften.ch/artendb (production, untested yet)
+                  const couchUrl = getCouchUrl()
                   const loadUrl = couchUrl + '/ae-' + gruppeString + '/' + fileName
+                  if (index < attachments.length - 1) {
+                    // only write checkpoint when loading last dump
+                    return app.localDb.load(loadUrl)
+                  }
                   return app.localDb.load(loadUrl, {proxy: couchUrl})
                   // TODO: looks like no checkpoint is set, so following replication takes forever
                 })
