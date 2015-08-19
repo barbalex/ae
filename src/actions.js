@@ -21,7 +21,7 @@ function objectFilterFunction (doc) {
 }
 
 function gruppenFilterFunction (doc, groupsLoaded) {
-  return (doc.Gruppe && _.index(groupsLoaded, doc.Gruppe) > -1)
+  return (doc.Gruppe && _.includes(groupsLoaded, doc.Gruppe))
 }
 
 export default function () {
@@ -105,41 +105,21 @@ export default function () {
                 })
               })
               series.then(function () {
-                console.log('Actions.loadPouchFromRemote completed')
-                return Actions.loadPouchFromRemote.completed()
+                console.log('Actions.loadObjectStore completed')
+                return Actions.loadObjectStore.completed(gruppe)
               })
-              .then(function () {
+              /*.then(function () {
                 // let regular replication catch up if objects have changed since dump was created
                 return app.localDb.replicate.from(app.remoteDb, {
                   filter: gruppenFilterFunction
                 })
-              })
+              })*/
               .catch(function (error) {
-                Actions.loadPouchFromRemote.failed('Actions.loadPouchFromRemote, replication error:', error)
+                Actions.loadObjectStore.failed('Actions.loadObjectStore, replication error:', error)
               })
             })
             .catch(function (error) {
-              Actions.loadPouchFromRemote.failed('Actions.loadPouchFromRemote, replication error:', error)
-            })
-
-          const viewName = 'artendb/' + viewGruppePrefix + 'NachName'
-          // get group from remoteDb
-          app.remoteDb.query(viewName, {include_docs: true})
-            .then(function (result) {
-              // extract objects from result
-              const items = result.rows.map(function (row) {
-                return row.doc
-              })
-              // prepare payload and send completed event
-              const payload = {
-                gruppe: gruppe,
-                items: items
-              }
-              Actions.loadObjectStore.completed(payload)
-              Actions.loadFilterOptionsStore(items)
-            })
-            .catch(function (error) {
-              Actions.loadObjectStore.failed(error, gruppe)
+              Actions.loadObjectStore.failed('Actions.loadObjectStore, replication error:', error)
             })
         }
       })

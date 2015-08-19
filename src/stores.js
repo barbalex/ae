@@ -215,8 +215,9 @@ export default function (Actions) {
     },
 
     isGroupLoaded (gruppe) {
+      const that = this
       return new Promise(function (resolve, reject) {
-        this.groupsLoaded()
+        that.groupsLoaded()
           .then(function (groupsLoaded) {
             const groupIsLoaded = _.includes(groupsLoaded, gruppe)
             resolve(groupIsLoaded)
@@ -306,9 +307,6 @@ export default function (Actions) {
           console.log('objectStore, onLoadPouchFromRemoteCompleted: hierarchy:', hierarchy)
           groupsLoaded = _.pluck(hierarchy, 'Name')
           return app.localHierarchyDb.bulkDocs(hierarchy)
-            /*.catch(function (error) {
-              console.log('objectStore, onLoadPouchFromRemoteCompleted: error writing hierarchy to pouch:', error)
-            })*/
         })
         .then(function () {
           that.groupsLoading = []
@@ -368,17 +366,17 @@ export default function (Actions) {
       // get items
       getItemsFromLocalDb()
         .then(function (docs) {
-          // filter by group
+          // got all docs, including other groups > filter by group
           items = _.filter(docs, 'Gruppe', gruppe)
           return items
         })
         .then(function (items) {
-          // load path store
+          // load path, filter and hierarchy store
           Actions.loadPathStore(items)
-          // build hierarchy
+          Actions.loadFilterOptionsStore(items)
           const hierarchy = buildHierarchy(items)
           const hierarchyOfGruppe = _.find(hierarchy, {'Name': gruppe})
-          return app.localHierarchyDb.bulkDocs(hierarchyOfGruppe)
+          return app.localHierarchyDb.put(hierarchyOfGruppe, gruppe)
         })
         .then(function () {
           return that.getHierarchy()
