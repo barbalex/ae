@@ -36,7 +36,6 @@ export default function (gruppe) {
                     return app.localDb.load(loadUrl)
                   }
                   return app.localDb.load(loadUrl, {proxy: couchUrl})
-                  // TODO: looks like no checkpoint is set, so following replication takes forever
                 })
               })
               series.then(function () {
