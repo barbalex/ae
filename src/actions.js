@@ -98,7 +98,8 @@ export default function () {
         return app.localDb.replicate.from(app.remoteDb, {
           filter: function (doc) {
             return (doc.Gruppe && doc.Gruppe === gruppe)
-          }
+          },
+          batch_size: 500
         })
       })
       .catch(function (error) {
