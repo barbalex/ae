@@ -6,7 +6,6 @@ import PouchDB from 'pouchdb'
 import pouchdbLoad from 'pouchdb-load'
 import _ from 'lodash'
 import getGruppen from './modules/gruppen.js'
-import getCouchUrl from './modules/getCouchUrl.js'
 import loadGroupFromRemote from './modules/loadGroupFromRemote.js'
 
 // initualize pouchdb-load
@@ -15,11 +14,6 @@ PouchDB.plugin(pouchdbLoad)
 // Each action is like an event channel for one specific event. Actions are called by components.
 // The store is listening to all actions, and the components in turn are listening to the store.
 // Thus the flow is: User interaction -> component calls action -> store reacts and triggers -> components update
-
-function objectFilterFunction (doc) {
-  if (doc.Typ && doc.Typ === 'Objekt') return true
-  return false
-}
 
 export default function () {
   let Actions = Reflux.createActions({
@@ -34,36 +28,14 @@ export default function () {
   })
 
   Actions.loadPouchFromRemote.listen(function () {
-    console.log('Actions.loadPouchFromRemote, getting objekte')
-
     // TODO: only load groups not loaded, then replicate
-
+    const groups = ['flora', 'fauna', 'moose', 'pilze', 'lr']
     // get all items
-    app.remoteDb.get('ae-objekte')
-      .then(function (doc) {
-        return _.keys(doc._attachments)
-      })
-      .then(function (attachments) {
-        let series = PouchDB.utils.Promise.resolve()
-        attachments.forEach(function (fileName) {
-          series = series.then(function () {
-            const loadUrl = getCouchUrl() + '/ae-objekte/' + fileName
-            return app.localDb.load(loadUrl)
-          })
-        })
-        series.then(function () {
-          console.log('Actions.loadPouchFromRemote completed')
-          return Actions.loadPouchFromRemote.completed()
-        })
-        .then(function () {
-          // let regular replication catch up if objects have changed since dump was created
-          return app.localDb.replicate.from(app.remoteDb, {
-            filter: objectFilterFunction
-          })
-        })
-        .catch(function (error) {
-          Actions.loadPouchFromRemote.failed('Actions.loadPouchFromRemote, replication error:', error)
-        })
+    Promise.all(groups.map(function (group) {
+      return loadGroupFromRemote(group)
+    }))
+      .then(function () {
+        return Actions.loadPouchFromRemote.completed()
       })
       .catch(function (error) {
         Actions.loadPouchFromRemote.failed('Actions.loadPouchFromRemote, replication error:', error)
