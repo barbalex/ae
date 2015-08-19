@@ -100,7 +100,7 @@ export default React.createClass({
       </div>
     )
 
-    const loadingIndicator = <p>Lade Filter...</p>
+    const loadingIndicator = <p>Lade die Suche...</p>
 
     if (loadingFilterOptions) return loadingIndicator
     return filterField
