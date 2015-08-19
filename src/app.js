@@ -26,7 +26,7 @@ window.localStorage.aeEmail = window.localStorage.aeEmail || ''
 app.extend({
   init () {
     const that = this
-    PouchDB.setMaxListeners(40)
+    PouchDB.setMaxListeners(80)
     Promise.all([
       that.localDb = new PouchDB('ae'),
       that.localHierarchyDb = new PouchDB('aeHierarchy'),
