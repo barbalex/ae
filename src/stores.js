@@ -12,6 +12,7 @@ import getHierarchyFromLocalHierarchyDb from './modules/getHierarchyFromLocalHie
 import addPathsFromItemsToLocalPathDb from './modules/addPathsFromItemsToLocalPathDb.js'
 import buildFilterOptions from './modules/buildFilterOptions.js'
 import getSynonymsOfObject from './modules/getSynonymsOfObject.js'
+import getGruppen from './modules/gruppen.js'
 
 export default function (Actions) {
   app.loginStore = Reflux.createStore({
@@ -228,19 +229,6 @@ export default function (Actions) {
       })
     },
 
-    /*isGroupLoaded (gruppe) {
-      return new Promise(function (resolve, reject) {
-        getGroupsLoadedFromLocalGroupsDb()
-          .then(function (groupsLoaded) {
-            const groupIsLoaded = _.includes(groupsLoaded, gruppe)
-            resolve(groupIsLoaded)
-          })
-          .catch(function (error) {
-            reject('objectStore, isGroupLoaded: error getting groups loaded:', error)
-          })
-      })
-    },*/
-
     // getItems and getItem get Item(s) from pouch if loaded
     getItems () {
       return getItemsFromLocalDb()
@@ -282,30 +270,22 @@ export default function (Actions) {
         })
     },
 
-    onLoadPouchFromRemoteCompleted () {
-      console.log('objectStore, onLoadPouchFromRemoteCompleted')
+    onLoadPouchFromRemoteCompleted (groupsLoaded) {
       const that = this
-      let items = []
+      const allGroups = getGruppen()
       let hierarchy = []
-      let groupsLoaded = []
       // get all docs from pouch
-      // an error occurs - and it is too cpu intensive
       getItemsFromLocalDb()
         .then(function (docs) {
-          console.log('objectStore, onLoadPouchFromRemoteCompleted: allDocs fetched')
-          // extract objects from result
-          // items = _.sortBy(docs, 'Taxonomien[0].Eigenschaften[Artname vollständig]')
-          items = docs
-
+          // need to build filter options, hierarchy and paths only for groups newly loaded
+          const items = _.filter(docs, function (doc) {
+            return _.includes(groupsLoaded, doc.Gruppe)
+          })
           Actions.loadFilterOptionsStore(items)
-
           // build path hash - it makes finding an item by path much easier
           Actions.loadPathStore(items)
-
           // build hierarchy and save to pouch
           hierarchy = buildHierarchy(items)
-          console.log('objectStore, onLoadPouchFromRemoteCompleted: hierarchy:', hierarchy)
-          groupsLoaded = _.pluck(hierarchy, 'Name')
           return app.localHierarchyDb.bulkDocs(hierarchy)
         })
         .then(function () {
@@ -313,14 +293,14 @@ export default function (Actions) {
           return app.localGroupsDb.get('groups')
         })
         .then(function (groupsLoadedDoc) {
-          groupsLoadedDoc.groupsLoaded = groupsLoaded
+          groupsLoadedDoc.groupsLoaded = allGroups
           return app.localGroupsDb.put(groupsLoadedDoc)
         })
         .then(function () {
           // tell views that data has changed
           const payload = {
             hierarchy: hierarchy,
-            groupsLoaded: groupsLoaded,
+            groupsLoaded: allGroups,
             groupsLoading: []
           }
           that.trigger(payload)

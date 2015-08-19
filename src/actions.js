@@ -28,14 +28,19 @@ export default function () {
   })
 
   Actions.loadPouchFromRemote.listen(function () {
-    // TODO: only load groups not loaded, then replicate
-    const groups = ['flora', 'fauna', 'moose', 'pilze', 'lr']
-    // get all items
-    Promise.all(groups.map(function (group) {
-      return loadGroupFromRemote(group)
-    }))
+    const groups = getGruppen()
+    let groupsLoading = []
+    // get groups already loaded
+    app.objectStore.groupsLoaded()
+      .then(function (groupsLoaded) {
+        groupsLoading = _.difference(groups, groupsLoaded)
+        // get all items
+        return Promise.all(groupsLoading.map(function (group) {
+          return loadGroupFromRemote(group)
+        }))
+      })
       .then(function () {
-        return Actions.loadPouchFromRemote.completed()
+        return Actions.loadPouchFromRemote.completed(groupsLoading)
       })
       .catch(function (error) {
         Actions.loadPouchFromRemote.failed('Actions.loadPouchFromRemote, replication error:', error)
