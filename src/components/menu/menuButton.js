@@ -74,7 +74,6 @@ export default React.createClass({
   },
 
   replicate () {
-    console.log('replicate button was clicked')
     app.Actions.loadPouchFromRemote()
   },
 
