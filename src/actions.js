@@ -105,15 +105,16 @@ export default function () {
                 })
               })
               series.then(function () {
-                console.log('Actions.loadObjectStore completed')
                 return Actions.loadObjectStore.completed(gruppe)
               })
-              /*.then(function () {
+              .then(function () {
                 // let regular replication catch up if objects have changed since dump was created
                 return app.localDb.replicate.from(app.remoteDb, {
-                  filter: gruppenFilterFunction
+                  filter: function (doc) {
+                    return (doc.Gruppe && doc.Gruppe === gruppe)
+                  }
                 })
-              })*/
+              })
               .catch(function (error) {
                 Actions.loadObjectStore.failed('Actions.loadObjectStore, replication error:', error)
               })
