@@ -20,10 +20,6 @@ function objectFilterFunction (doc) {
   return false
 }
 
-function gruppenFilterFunction (doc, groupsLoaded) {
-  return (doc.Gruppe && _.includes(groupsLoaded, doc.Gruppe))
-}
-
 export default function () {
   let Actions = Reflux.createActions({
     loadPouchFromRemote: {children: ['completed', 'failed']},
