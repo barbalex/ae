@@ -7,6 +7,7 @@ import pouchdbLoad from 'pouchdb-load'
 import _ from 'lodash'
 import getGruppen from './modules/gruppen.js'
 import getCouchUrl from './modules/getCouchUrl.js'
+import loadGroupFromRemote from './modules/loadGroupFromRemote.js'
 
 // initualize pouchdb-load
 PouchDB.plugin(pouchdbLoad)
@@ -34,6 +35,9 @@ export default function () {
 
   Actions.loadPouchFromRemote.listen(function () {
     console.log('Actions.loadPouchFromRemote, getting objekte')
+
+    // TODO: only load groups not loaded, then replicate
+
     // get all items
     app.remoteDb.get('ae-objekte')
       .then(function (doc) {
@@ -82,45 +86,23 @@ export default function () {
     const validGroup = _.includes(gruppen, gruppe)
     if (!validGroup) return Actions.loadObjectStore.failed('the group passed is not valid', gruppe)
 
-    app.objectStore.isGroupLoaded(gruppe)
-      .then(function (groupIsLoaded) {
-        if (!groupIsLoaded) {
-          // this group does not exist yet in the store
-          const gruppeString = gruppe === 'Lebensräume' ? 'lr' : (gruppe === 'Macromycetes' ? 'pilze' : gruppe.toLowerCase())
-          app.remoteDb.get('ae-' + gruppeString)
-            .then(function (doc) {
-              return _.keys(doc._attachments)
-            })
-            .then(function (attachments) {
-              let series = PouchDB.utils.Promise.resolve()
-              attachments.forEach(function (fileName) {
-                series = series.then(function () {
-                  const loadUrl = getCouchUrl() + '/ae-' + gruppeString + '/' + fileName
-                  return app.localDb.load(loadUrl)
-                })
-              })
-              series.then(function () {
-                return Actions.loadObjectStore.completed(gruppe)
-              })
-              .then(function () {
-                // let regular replication catch up if objects have changed since dump was created
-                return app.localDb.replicate.from(app.remoteDb, {
-                  filter: function (doc) {
-                    return (doc.Gruppe && doc.Gruppe === gruppe)
-                  }
-                })
-              })
-              .catch(function (error) {
-                Actions.loadObjectStore.failed('Actions.loadObjectStore, replication error:', error)
-              })
-            })
-            .catch(function (error) {
-              Actions.loadObjectStore.failed('Actions.loadObjectStore, replication error:', error)
-            })
-        }
+    loadGroupFromRemote(gruppe)
+      .then(function () {
+        // TODO: want to replicate first
+        // but because checkpoint is not set, this is way to slow, so doing it aftwerwards
+        // which is bad because hierarchy and filter is not built for replicated objects
+        return Actions.loadObjectStore.completed(gruppe)
+      })
+      .then(function () {
+        // let regular replication catch up if objects have changed since dump was created
+        return app.localDb.replicate.from(app.remoteDb, {
+          filter: function (doc) {
+            return (doc.Gruppe && doc.Gruppe === gruppe)
+          }
+        })
       })
       .catch(function (error) {
-        const errorMsg = 'Actions.loadObjectStore, error getting isGroupLoaded for group ' + gruppe + ': ' + error
+        const errorMsg = 'Actions.loadObjectStore, error loading group ' + gruppe + ': ' + error
         Actions.loadObjectStore.failed(errorMsg, gruppe)
       })
   })
