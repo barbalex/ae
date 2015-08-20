@@ -12,6 +12,7 @@ import addPathsFromItemsToLocalPathDb from './modules/addPathsFromItemsToLocalPa
 import buildFilterOptions from './modules/buildFilterOptions.js'
 import getSynonymsOfObject from './modules/getSynonymsOfObject.js'
 import addGroupLoadedToLocalGroupsDb from './modules/addGroupLoadedToLocalGroupsDb.js'
+import getGruppen from './modules/gruppen.js'
 
 export default function (Actions) {
   app.loginStore = Reflux.createStore({
@@ -282,7 +283,14 @@ export default function (Actions) {
 
     onLoadPouchFromRemoteCompleted (groupsLoaded) {
       const that = this
+      const gruppen = getGruppen()
       let hierarchy = []
+      gruppen.map(function (gruppe) {
+        Actions.showGroupLoading({
+          group: gruppe,
+          message: 'Baue ' + gruppe + ' Taxonomie'
+        })
+      })
       // get all docs from pouch
       this.getItems()
         .then(function (docs) {
@@ -300,6 +308,12 @@ export default function (Actions) {
         .then(function () {
           // tell views that data has changed
           that.trigger(hierarchy)
+          gruppen.map(function (gruppe) {
+            Actions.showGroupLoading({
+              group: gruppe,
+              finishedLoading: true
+            })
+          })
         })
         .catch(function (error) {
           console.log('objectStore, onLoadPouchFromRemoteCompleted, error processing allDocs:', error)
