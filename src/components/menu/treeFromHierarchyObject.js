@@ -10,20 +10,20 @@ export default React.createClass({
 
   propTypes: {
     hierarchy: React.PropTypes.array,
-    groupsLoading: React.PropTypes.array,
+    groupsLoadingObjects: React.PropTypes.array,
     allGroupsLoaded: React.PropTypes.bool,
     object: React.PropTypes.object,
     path: React.PropTypes.array
   },
 
   render () {
-    const { hierarchy, object, path, groupsLoading, allGroupsLoaded } = this.props
-    const loading = groupsLoading && groupsLoading.length > 0
+    const { hierarchy, object, path, groupsLoadingObjects, allGroupsLoaded } = this.props
+    const loading = groupsLoadingObjects && groupsLoadingObjects.length > 0
 
     // calculate max height of tree
     const windowHeight = $(window).height()
     const windowWidth = $(window).width()
-    const groupsLoadingHeight = 22 * (groupsLoading.length)
+    const groupsLoadingHeight = 22 * (groupsLoadingObjects.length)
     let treeMaxHeight = windowHeight - 302                      // initial value on mobile
     if (windowWidth > 1000) treeMaxHeight = windowHeight - 169  // initial value on desktop
     treeMaxHeight -= groupsLoadingHeight                        // correction if groups are loading
@@ -36,10 +36,11 @@ export default React.createClass({
     )
 
     // const loadingMessage = <p>Lade {loadingGruppe}...</p>
-    const loadingMessage = _.map(groupsLoading, function (groupLoading) {
+    const loadingMessage = _.map(groupsLoadingObjects, function (groupLoadingObject) {
       // Macromycetes shall appear as Pilze
-      const groupName = groupLoading.replace('Macromycetes', 'Pilze')
-      return <p key={groupName}>Lade {groupName}...</p>
+      const message = groupLoadingObject.message.replace('Macromycetes', 'Pilze')
+      const groupName = groupLoadingObject.group + 'Message'
+      return <p key={groupName}>{message}...</p>
     })
 
     return (

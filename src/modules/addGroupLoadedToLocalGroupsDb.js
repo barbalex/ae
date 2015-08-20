@@ -11,7 +11,7 @@ import _ from 'lodash'
 
 export default function (group) {
   return new Promise(function (resolve, reject) {
-    const groupsLoaded = []
+    let groupsLoaded = []
     app.localGroupsDb.get('groups')
       .then(function (doc) {
         // make shure a group is not included more than once

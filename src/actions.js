@@ -32,7 +32,7 @@ export default function () {
     const groups = getGruppen()
     let groupsLoading = []
     // get groups already loaded
-    app.objectStore.groupsLoaded()
+    app.loadingGroupsStore.groupsLoaded()
       .then(function (groupsLoaded) {
         groupsLoading = _.difference(groups, groupsLoaded)
         // get all items

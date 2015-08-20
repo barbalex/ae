@@ -2,7 +2,6 @@
 
 import app from 'ampersand-app'
 import Reflux from 'reflux'
-import PouchDB from 'pouchdb'
 import _ from 'lodash'
 import buildHierarchy from './modules/buildHierarchy.js'
 import getGroupsLoadedFromLocalGroupsDb from './modules/getGroupsLoadedFromLocalGroupsDb.js'
@@ -12,7 +11,6 @@ import getHierarchyFromLocalHierarchyDb from './modules/getHierarchyFromLocalHie
 import addPathsFromItemsToLocalPathDb from './modules/addPathsFromItemsToLocalPathDb.js'
 import buildFilterOptions from './modules/buildFilterOptions.js'
 import getSynonymsOfObject from './modules/getSynonymsOfObject.js'
-import getGruppen from './modules/gruppen.js'
 import addGroupLoadedToLocalGroupsDb from './modules/addGroupLoadedToLocalGroupsDb.js'
 
 export default function (Actions) {
@@ -229,6 +227,7 @@ export default function (Actions) {
     },
 
     onShowGroupLoading (objectPassed) {
+      const that = this
       const { group, finishedLoading } = objectPassed
       // if an object with this group is contained in groupsLoading, remove it
       this.groupsLoading = _.reject(this.groupsLoading, function (groupObject) {
@@ -241,10 +240,10 @@ export default function (Actions) {
           if (finishedLoading) addGroupLoadedToLocalGroupsDb(group)
           // inform views
           const payload = {
-            groupsLoading: this.groupsLoading,
+            groupsLoadingObjects: that.groupsLoading,
             groupsLoaded: groupsLoaded
           }
-          this.trigger(payload)
+          that.trigger(payload)
         })
         .catch(function (error) {
           console.log('loadingGroupsStore, onShowGroupLoading, error getting groups loaded from localGroupsDb:', error)

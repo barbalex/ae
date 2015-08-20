@@ -11,7 +11,7 @@ import getCouchUrl from './getCouchUrl.js'
 
 export default function (gruppe) {
   return new Promise(function (resolve, reject) {
-    app.objectStore.isGroupLoaded(gruppe)
+    app.loadingGroupsStore.isGroupLoaded(gruppe)
       .then(function (groupIsLoaded) {
         if (!groupIsLoaded) {
           // this group does not exist yet in the store

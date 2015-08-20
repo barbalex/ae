@@ -29,7 +29,7 @@ const Home = React.createClass({
     hierarchy: React.PropTypes.object,
     gruppe: React.PropTypes.string,
     groupsLoadedOrLoading: React.PropTypes.array,
-    groupsLoading: React.PropTypes.array,
+    groupsLoadingObjects: React.PropTypes.array,
     allGroupsLoaded: React.PropTypes.bool,
     isGuidPath: React.PropTypes.bool,
     path: React.PropTypes.array,
@@ -55,7 +55,7 @@ const Home = React.createClass({
     return {
       hierarchy: [],
       groupsLoadedOrLoading: groupsLoadedOrLoading,
-      groupsLoading: [],
+      groupsLoadingObjects: [],
       allGroupsLoaded: false,
       path: path,
       synonymObjects: [],
@@ -81,15 +81,16 @@ const Home = React.createClass({
     this.listenTo(app.loadingGroupsStore, this.onLoadingGroupsStoreChange)
   },
 
-  onLoadingGroupsStoreChange (groupsLoading) {
-    const groupsLoading = app.objectStore.groupsLoading
+  onLoadingGroupsStoreChange (payload) {
+    const { groupsLoadingObjects, groupsLoaded } = payload
+    const groupsLoading = _.pluck(groupsLoadingObjects, 'group')
     // add groups loading to groups loaded to hide the group checkbox of the loading group
     const groupsLoadedOrLoading = _.union(groupsLoaded, groupsLoading)
     const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
     const allGroupsLoaded = groupsNotLoaded.length === 0
 
     this.setState({
-      groupsLoading: groupsLoading,
+      groupsLoadingObjects: groupsLoadingObjects,
       groupsLoadedOrLoading: groupsLoadedOrLoading,
       allGroupsLoaded: allGroupsLoaded
     })
@@ -224,7 +225,7 @@ const Home = React.createClass({
   },
 
   render () {
-    const { hierarchy, path, synonymObjects, object, groupsLoading, allGroupsLoaded, options, loadingFilterOptions, showImportPC, showImportRC, showOrganizations, logIn, email } = this.state
+    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, options, loadingFilterOptions, showImportPC, showImportRC, showOrganizations, logIn, email } = this.state
     const { isGuidPath } = this.props
     const showFilter = options.length > 0 || loadingFilterOptions
     const showMain = object !== undefined || showImportRC || showImportPC || showOrganizations
@@ -243,7 +244,7 @@ const Home = React.createClass({
           {this.createGruppen()} {showFilter ? <Filter options={options} loadingFilterOptions={loadingFilterOptions} /> : ''}
           <TreeFromHierarchyObject
             hierarchy={hierarchy}
-            groupsLoading={groupsLoading}
+            groupsLoadingObjects={groupsLoadingObjects}
             allGroupsLoaded={allGroupsLoaded}
             object={object}
             isGuidPath={isGuidPath}
