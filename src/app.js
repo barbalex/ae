@@ -15,6 +15,7 @@ import getGroupsLoadedFromLocalGroupsDb from './modules/getGroupsLoadedFromLocal
 PouchDB.plugin(pouchdbUpsert)
 
 // expose 'app' to the browser console
+// this is handy to call actions and stores in the browser console
 window.app = app
 // enable pouch inspector (https://chrome.google.com/webstore/detail/pouchdb-inspector/hbhhpaojmpfimakffndmpmpndcmonkfa)
 window.PouchDB = PouchDB
