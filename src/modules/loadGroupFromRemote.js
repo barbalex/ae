@@ -23,12 +23,14 @@ export default function (gruppe) {
             .then(function (attachments) {
               // sort attachments so the one with the last docs is loaded last
               // reason: write the checkpoint for the last docs only
+              // TODO: use attachments.length to show progress bar
               attachments.sort()
               let series = PouchDB.utils.Promise.resolve()
               attachments.forEach(function (fileName, index) {
                 series = series.then(function () {
                   // couchUrl is: http://localhost:5984/artendb      (local dev)
                   // couchUrl is: http://arteigenschaften.ch/artendb (production, untested yet)
+                  // TODO: use index to show progress bar
                   const couchUrl = getCouchUrl()
                   const loadUrl = couchUrl + '/ae-' + gruppeString + '/' + fileName
                   if (index < attachments.length - 1) {

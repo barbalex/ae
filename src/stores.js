@@ -189,6 +189,31 @@ export default function (Actions) {
     }
   })
 
+  app.loadingGroupsStore = Reflux.createStore({
+    /*
+     * keeps a list of loading groups
+     * {group: 'Fauna', message: 'Lade Fauna...', progressPercent: 60, finishedLoading: false}
+     * loading groups are shown in menu under tree
+     * if progressPercent is passed, a progressbar is shown
+     * message is Text or label in progressbar
+     */
+    listenables: Actions,
+
+    groupsLoading: [],
+
+    onShowGroupLoading (objectPassed) {
+      const { group, finishedLoading } = objectPassed
+      // if an object with this group is contained in groupsLoading, remove it
+      this.groupsLoading = _.reject(this.groupsLoading, function (groupObject) {
+        return groupObject.group === group
+      })
+      // add the passed object, if it is not yet loaded
+      if (!finishedLoading) this.groupsLoading.push(objectPassed)
+      // inform views
+      this.trigger(this.groupsLoading)
+    }
+  })
+
   app.objectStore = Reflux.createStore({
     /*
      * keeps an array of objects, of hierarchy objects and of groups loaded (i.e. their names)
