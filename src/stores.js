@@ -227,9 +227,6 @@ export default function (Actions) {
     },
 
     onShowGroupLoading (objectPassed) {
-
-      console.log('loadingGroupsStore, onShowGroupLoading, objectPassed:', objectPassed)
-
       const that = this
       const { group, finishedLoading } = objectPassed
 
@@ -303,12 +300,6 @@ export default function (Actions) {
         .then(function () {
           // tell views that data has changed
           that.trigger(hierarchy)
-          /*// signal that groups loaded = groups loaded in pouch
-          // just pass one of the groups loaded as finished
-          Actions.showGroupLoading({
-            group: groupsLoaded[0],
-            finishedLoading: true
-          })*/
         })
         .catch(function (error) {
           console.log('objectStore, onLoadPouchFromRemoteCompleted, error processing allDocs:', error)
@@ -330,12 +321,6 @@ export default function (Actions) {
         .then(function (hierarchy) {
           that.trigger(hierarchy)
           Actions.loadFilterOptionsStore()
-          // signal that groups loaded = groups loaded in pouch
-          // just pass one of the groups loaded as finished
-          /*Actions.showGroupLoading({
-            group: groupsLoadedInPouch[0],
-            finishedLoading: true
-          })*/
         })
     },
 
@@ -360,10 +345,11 @@ export default function (Actions) {
     onLoadObjectStoreCompleted (gruppe) {
       const that = this
       let items = []
+      let hierarchy = []
 
       Actions.showGroupLoading({
         group: gruppe,
-        message: 'Verarbeite ' + gruppe + '...'
+        message: 'Baue ' + gruppe + ' Taxonomie...'
       })
 
       // get items
@@ -384,7 +370,8 @@ export default function (Actions) {
         .then(function () {
           return that.getHierarchy()
         })
-        .then(function (hierarchy) {
+        .then(function (result) {
+          hierarchy = result
           // signal that this group is not being loaded any more
           Actions.showGroupLoading({
             group: gruppe,
@@ -395,6 +382,7 @@ export default function (Actions) {
         })
         .catch(function (error) {
           console.log('objectStore, onLoadObjectStoreCompleted, error putting hierarchyOfGruppe to localHierarchyDb or items to localDb:', error)
+          that.trigger(hierarchy)
         })
     },
 

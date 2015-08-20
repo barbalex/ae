@@ -30,16 +30,13 @@ export default function (gruppe) {
                 progressPercent: 0
               })
               attachments.sort()
-              console.log('attachments.length', attachments.length)
               let series = PouchDB.utils.Promise.resolve()
               attachments.forEach(function (fileName, index) {
                 series = series.then(function () {
                   // couchUrl is: http://localhost:5984/artendb      (local dev)
                   // couchUrl is: http://arteigenschaften.ch/artendb (production, untested yet)
-                  // TODO: use index to show progress bar
-                  console.log('index', index)
                   const progressPercent = (index + 1) / attachments.length * 100
-                  const message = 'Lade ' + gruppe + ' (' + Math.round(progressPercent) + '%)'
+                  const message = Math.round(progressPercent) + '% Lade ' + gruppe
                   app.Actions.showGroupLoading({
                     group: gruppe,
                     message: message,

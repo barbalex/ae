@@ -1,6 +1,7 @@
 'use strict'
 
 import React from 'react'
+import { ProgressBar } from 'react-bootstrap'
 import _ from 'lodash'
 import $ from 'jquery'
 import Nodes from './treeNodesFromHierarchyObject.js'
@@ -37,9 +38,12 @@ export default React.createClass({
 
     // const loadingMessage = <p>Lade {loadingGruppe}...</p>
     const loadingMessage = _.map(groupsLoadingObjects, function (groupLoadingObject) {
+      let { message, group, progressPercent } = groupLoadingObject
       // Macromycetes shall appear as Pilze
-      const message = groupLoadingObject.message.replace('Macromycetes', 'Pilze')
-      const groupName = groupLoadingObject.group + 'Message'
+      message = message.replace('Macromycetes', 'Pilze')
+      const groupName = group + 'Message'
+      // TODO: show progress bar when progressPercent is shown
+      if (progressPercent) return <ProgressBar bsStyle='success' key={groupName} now={progressPercent} label={message} />
       return <p key={groupName}>{message}</p>
     })
 
