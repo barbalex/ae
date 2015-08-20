@@ -1,5 +1,6 @@
 'use strict'
 
+// import needed dependencies (more will be imported by dependant modules)
 import app from 'ampersand-app'
 import PouchDB from 'pouchdb'
 import pouchdbUpsert from 'pouchdb-upsert'
@@ -15,18 +16,21 @@ PouchDB.plugin(pouchdbUpsert)
 
 // expose 'app' to the browser console
 window.app = app
-// enable pouch inspector
+// enable pouch inspector (https://chrome.google.com/webstore/detail/pouchdb-inspector/hbhhpaojmpfimakffndmpmpndcmonkfa)
 window.PouchDB = PouchDB
 // set up pouchdb plugins
 PouchDB.plugin(require('pouchdb-authentication'))
 
-// initiate localStorage
-window.localStorage.aeEmail = window.localStorage.aeEmail || ''
-
+// instead of creating a global like window.app,
+// ampersand-app is used and extended
 app.extend({
   init () {
     const that = this
+    // pouchdb keeps setting a lot of listeners which makes broswers show warnings in the console
+    // up the number of listeners to reduce the number of console warnings
     PouchDB.setMaxListeners(80)
+    // set up all the used databases
+    // in chrome these can be looked at using pouch inspector
     Promise.all([
       that.localDb = new PouchDB('ae'),
       that.localHierarchyDb = new PouchDB('aeHierarchy'),
@@ -52,15 +56,16 @@ app.extend({
       })
     })
     .then(function () {
+      // initiate actions, stores and router
       that.Actions = actions()
       stores(that.Actions)
       that.router = new Router()
       that.router.history.start()
-    })
-    .then(function () {
+      // check if groups have previously been loaded in pouchdb
       return getGroupsLoadedFromLocalGroupsDb()
     })
     .then(function (groupsLoadedInPouch) {
+      // if so, load them
       if (groupsLoadedInPouch.length > 0) that.Actions.loadPouchFromLocal(groupsLoadedInPouch)
     })
     .catch(function (error) {
@@ -69,4 +74,5 @@ app.extend({
   }
 })
 
+// o.k., get moving
 app.init()
