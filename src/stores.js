@@ -13,6 +13,7 @@ import addPathsFromItemsToLocalPathDb from './modules/addPathsFromItemsToLocalPa
 import buildFilterOptions from './modules/buildFilterOptions.js'
 import getSynonymsOfObject from './modules/getSynonymsOfObject.js'
 import getGruppen from './modules/gruppen.js'
+import addGroupLoadedToLocalGroupsDb from './modules/addGroupLoadedToLocalGroupsDb.js'
 
 export default function (Actions) {
   app.loginStore = Reflux.createStore({
@@ -201,33 +202,6 @@ export default function (Actions) {
 
     groupsLoading: [],
 
-    onShowGroupLoading (objectPassed) {
-      const { group, finishedLoading } = objectPassed
-      // if an object with this group is contained in groupsLoading, remove it
-      this.groupsLoading = _.reject(this.groupsLoading, function (groupObject) {
-        return groupObject.group === group
-      })
-      // add the passed object, if it is not yet loaded
-      if (!finishedLoading) this.groupsLoading.push(objectPassed)
-      // inform views
-      this.trigger(this.groupsLoading)
-    }
-  })
-
-  app.objectStore = Reflux.createStore({
-    /*
-     * keeps an array of objects, of hierarchy objects and of groups loaded (i.e. their names)
-     * the are managed with the same store (but different databases)
-     * because they depend on each other / always change together
-     *
-     * objects are kept in the pouch in localDb,
-     * hierarchies in localHierarchyDb,
-     * groups in localGroupsDb
-    */
-    listenables: Actions,
-
-    groupsLoading: [],
-
     groupsLoaded () {
       return new Promise(function (resolve, reject) {
         getGroupsLoadedFromLocalGroupsDb()
@@ -254,6 +228,42 @@ export default function (Actions) {
       })
     },
 
+    onShowGroupLoading (objectPassed) {
+      const { group, finishedLoading } = objectPassed
+      // if an object with this group is contained in groupsLoading, remove it
+      this.groupsLoading = _.reject(this.groupsLoading, function (groupObject) {
+        return groupObject.group === group
+      })
+      // add the passed object, if it is not yet loaded
+      if (!finishedLoading) this.groupsLoading.push(objectPassed)
+      getGroupsLoadedFromLocalGroupsDb()
+        .then(function (groupsLoaded) {
+          if (finishedLoading) addGroupLoadedToLocalGroupsDb(group)
+          // inform views
+          const payload = {
+            groupsLoading: this.groupsLoading,
+            groupsLoaded: groupsLoaded
+          }
+          this.trigger(payload)
+        })
+        .catch(function (error) {
+          console.log('loadingGroupsStore, onShowGroupLoading, error getting groups loaded from localGroupsDb:', error)
+        })
+    }
+  })
+
+  app.objectStore = Reflux.createStore({
+    /*
+     * keeps an array of objects, of hierarchy objects and of groups loaded (i.e. their names)
+     * the are managed with the same store (but different databases)
+     * because they depend on each other / always change together
+     *
+     * objects are kept in the pouch in localDb,
+     * hierarchies in localHierarchyDb,
+     * groups in localGroupsDb
+    */
+    listenables: Actions,
+
     // getItems and getItem get Item(s) from pouch if loaded
     getItems () {
       return getItemsFromLocalDb()
@@ -267,40 +277,11 @@ export default function (Actions) {
       return getHierarchyFromLocalHierarchyDb()
     },
 
-    onLoadObjectStore (gruppe) {
-      const that = this
-      let hierarchy = []
-
-      this.groupsLoading = _.union(this.groupsLoading, [gruppe])
-
-      // get items
-      this.getHierarchy()
-        .then(function (result) {
-          hierarchy = result
-          // get groups loaded
-          return getGroupsLoadedFromLocalGroupsDb()
-        })
-        .then(function (groupsLoaded) {
-          // trigger change so components can set loading state
-          const payload = {
-            hierarchy: hierarchy,
-            gruppe: gruppe,
-            groupsLoaded: groupsLoaded,
-            groupsLoading: that.groupsLoading
-          }
-          that.trigger(payload)
-        })
-        .catch(function (error) {
-          console.log('objectStore, onLoadObjectStore, error getting data:', error)
-        })
-    },
-
     onLoadPouchFromRemoteCompleted (groupsLoaded) {
       const that = this
-      const allGroups = getGruppen()
       let hierarchy = []
       // get all docs from pouch
-      getItemsFromLocalDb()
+      this.getItems()
         .then(function (docs) {
           // need to build filter options, hierarchy and paths only for groups newly loaded
           const items = _.filter(docs, function (doc) {
@@ -314,21 +295,14 @@ export default function (Actions) {
           return app.localHierarchyDb.bulkDocs(hierarchy)
         })
         .then(function () {
-          that.groupsLoading = []
-          return app.localGroupsDb.get('groups')
-        })
-        .then(function (groupsLoadedDoc) {
-          groupsLoadedDoc.groupsLoaded = allGroups
-          return app.localGroupsDb.put(groupsLoadedDoc)
-        })
-        .then(function () {
           // tell views that data has changed
-          const payload = {
-            hierarchy: hierarchy,
-            groupsLoaded: allGroups,
-            groupsLoading: []
-          }
-          that.trigger(payload)
+          that.trigger(hierarchy)
+          /*// signal that groups loaded = groups loaded in pouch
+          // just pass one of the groups loaded as finished
+          Actions.showGroupLoading({
+            group: groupsLoaded[0],
+            finishedLoading: true
+          })*/
         })
         .catch(function (error) {
           console.log('objectStore, onLoadPouchFromRemoteCompleted, error processing allDocs:', error)
@@ -336,36 +310,54 @@ export default function (Actions) {
     },
 
     onLoadPouchFromLocal (groupsLoadedInPouch) {
-      // console.log('objectStore, onLoadPouchFromLocal')
-      this.groupsLoading = groupsLoadedInPouch
-      const payload = {
-        groupsLoaded: []
-      }
-      this.trigger(payload)
+      // signal that groups loaded = groups loaded in pouch
+      // just pass one of the groups loaded as finished
+      Actions.showGroupLoading({
+        group: groupsLoadedInPouch[0],
+        finishedLoading: true
+      })
     },
 
     onLoadPouchFromLocalCompleted (groupsLoadedInPouch) {
       const that = this
-      getHierarchyFromLocalHierarchyDb()
+      that.getHierarchy()
         .then(function (hierarchy) {
-          that.groupsLoading = []
-          const payload = {
-            groupsLoaded: groupsLoadedInPouch,
-            hierarchy: hierarchy
-          }
-          that.trigger(payload)
+          that.trigger(hierarchy)
           Actions.loadFilterOptionsStore()
+          // signal that groups loaded = groups loaded in pouch
+          // just pass one of the groups loaded as finished
+          Actions.showGroupLoading({
+            group: groupsLoadedInPouch[0],
+            finishedLoading: true
+          })
         })
     },
 
-    onLoadFailed (error) {
+    onLoadPouchFromLocalFailed (error) {
       console.log('objectStore: error loading objectStore from pouch:', error)
+    },
+
+    onLoadObjectStore (gruppe) {
+      const that = this
+
+      // get items
+      this.getHierarchy()
+        .then(function (hierarchy) {
+          // trigger change so components can set loading state
+          that.trigger(hierarchy)
+          Actions.showGroupLoading({
+            group: gruppe,
+            message: 'Lade ' + gruppe,
+            progressPercent: 0
+          })
+        })
+        .catch(function (error) {
+          console.log('objectStore, onLoadObjectStore, error getting data:', error)
+        })
     },
 
     onLoadObjectStoreCompleted (gruppe) {
       const that = this
-      let payloadHierarchy = []
-      let payloadGroupsLoaded = []
       let items = []
 
       // get items
@@ -386,78 +378,14 @@ export default function (Actions) {
         .then(function () {
           return that.getHierarchy()
         })
-        .then(function (result) {
-          payloadHierarchy = result
-          // get groups loaded
-          return app.localGroupsDb.get('groups')
-        })
-        .then(function (groupsLoadedDoc) {
-          // update groups loaded
-          groupsLoadedDoc.groupsLoaded.push(gruppe)
-          payloadGroupsLoaded = groupsLoadedDoc.groupsLoaded
-          app.localGroupsDb.put(groupsLoadedDoc)
-        })
-        .then(function () {
+        .then(function (hierarchy) {
           // signal that this group is not being loaded any more
-          that.groupsLoading = _.without(that.groupsLoading, gruppe)
-          const groupsLoading = that.groupsLoading
-
+          Actions.showGroupLoading({
+            group: gruppe,
+            finishedLoading: true
+          })
           // tell views that data has changed
-          const payload = {
-            hierarchy: payloadHierarchy,
-            groupsLoaded: payloadGroupsLoaded,
-            groupsLoading: groupsLoading
-          }
-          that.trigger(payload)
-        })
-        .catch(function (error) {
-          console.log('objectStore, onLoadObjectStoreCompleted, error putting hierarchyOfGruppe to localHierarchyDb or items to localDb:', error)
-        })
-    },
-
-    onLoadObjectStoreCompleted_OLD_DELETE (payloadReceived) {
-      // console.log('objectStore, onLoadObjectStoreCompleted')
-      const { gruppe, items } = payloadReceived
-      const that = this
-      let payloadHierarchy = []
-      let payloadGroupsLoaded = []
-
-      // build hierarchy
-      const hierarchy = buildHierarchy(items)
-      const hierarchyOfGruppe = _.find(hierarchy, {'Name': gruppe})
-
-      Actions.loadPathStore(items)
-
-      PouchDB.utils.Promise.all([
-        app.localHierarchyDb.put(hierarchyOfGruppe, gruppe),
-        app.localDb.bulkDocs(items)
-      ])
-        .then(function () {
-          return that.getHierarchy()
-        })
-        .then(function (result) {
-          payloadHierarchy = result
-          // get groups loaded
-          return app.localGroupsDb.get('groups')
-        })
-        .then(function (groupsLoadedDoc) {
-          // update groups loaded
-          groupsLoadedDoc.groupsLoaded.push(gruppe)
-          payloadGroupsLoaded = groupsLoadedDoc.groupsLoaded
-          app.localGroupsDb.put(groupsLoadedDoc)
-        })
-        .then(function () {
-          // signal that this group is not being loaded any more
-          that.groupsLoading = _.without(that.groupsLoading, gruppe)
-          const groupsLoading = that.groupsLoading
-
-          // tell views that data has changed
-          const payload = {
-            hierarchy: payloadHierarchy,
-            groupsLoaded: payloadGroupsLoaded,
-            groupsLoading: groupsLoading
-          }
-          that.trigger(payload)
+          that.trigger(hierarchy)
         })
         .catch(function (error) {
           console.log('objectStore, onLoadObjectStoreCompleted, error putting hierarchyOfGruppe to localHierarchyDb or items to localDb:', error)
@@ -465,7 +393,11 @@ export default function (Actions) {
     },
 
     onLoadObjectStoreFailed (error, gruppe) {
-      this.groupsLoading = _.without(this.groupsLoading, gruppe)
+      // remove loading indicator
+      Actions.loadingGroupsStore({
+        group: gruppe,
+        finishedLoading: true
+      })
       console.log('objectStore: loading items failed with error: ', error)
     }
   })

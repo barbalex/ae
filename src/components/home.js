@@ -78,6 +78,21 @@ const Home = React.createClass({
     this.listenTo(app.objectStore, this.onObjectStoreChange)
     this.listenTo(app.activeObjectStore, this.onActiveObjectStoreChange)
     this.listenTo(app.filterOptionsStore, this.onFilterOptionsStoreChange)
+    this.listenTo(app.loadingGroupsStore, this.onLoadingGroupsStoreChange)
+  },
+
+  onLoadingGroupsStoreChange (groupsLoading) {
+    const groupsLoading = app.objectStore.groupsLoading
+    // add groups loading to groups loaded to hide the group checkbox of the loading group
+    const groupsLoadedOrLoading = _.union(groupsLoaded, groupsLoading)
+    const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
+    const allGroupsLoaded = groupsNotLoaded.length === 0
+
+    this.setState({
+      groupsLoading: groupsLoading,
+      groupsLoadedOrLoading: groupsLoadedOrLoading,
+      allGroupsLoaded: allGroupsLoaded
+    })
   },
 
   onLoginStoreChange (passedVariables) {
@@ -121,20 +136,9 @@ const Home = React.createClass({
     app.router.navigate(url)
   },
 
-  onObjectStoreChange (payload) {
-    const { hierarchy, groupsLoaded } = payload
-
-    const groupsLoading = app.objectStore.groupsLoading
-    // add groups loading to groups loaded to hide the group checkbox of the loading group
-    const groupsLoadedOrLoading = _.union(groupsLoaded, groupsLoading)
-    const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
-    const allGroupsLoaded = groupsNotLoaded.length === 0
-
+  onObjectStoreChange (hierarchy) {
     this.setState({
-      hierarchy: hierarchy || this.state.hierarchy,
-      groupsLoadedOrLoading: groupsLoadedOrLoading,
-      groupsLoading: groupsLoading,
-      allGroupsLoaded: allGroupsLoaded
+      hierarchy: hierarchy || this.state.hierarchy
     })
   },
 
