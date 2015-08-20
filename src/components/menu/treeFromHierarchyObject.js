@@ -40,7 +40,7 @@ export default React.createClass({
       // Macromycetes shall appear as Pilze
       const message = groupLoadingObject.message.replace('Macromycetes', 'Pilze')
       const groupName = groupLoadingObject.group + 'Message'
-      return <p key={groupName}>{message}...</p>
+      return <p key={groupName}>{message}</p>
     })
 
     return (

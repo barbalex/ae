@@ -84,6 +84,8 @@ const Home = React.createClass({
   onLoadingGroupsStoreChange (payload) {
     const { groupsLoadingObjects, groupsLoaded } = payload
     const groupsLoading = _.pluck(groupsLoadingObjects, 'group')
+    console.log('groupsLoading:', groupsLoading)
+    console.log('groupsLoaded:', groupsLoaded)
     // add groups loading to groups loaded to hide the group checkbox of the loading group
     const groupsLoadedOrLoading = _.union(groupsLoaded, groupsLoading)
     const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)

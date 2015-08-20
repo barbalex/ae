@@ -227,16 +227,23 @@ export default function (Actions) {
     },
 
     onShowGroupLoading (objectPassed) {
+
+      console.log('loadingGroupsStore, onShowGroupLoading, objectPassed:', objectPassed)
+
       const that = this
       const { group, finishedLoading } = objectPassed
-      // if an object with this group is contained in groupsLoading, remove it
-      this.groupsLoading = _.reject(this.groupsLoading, function (groupObject) {
-        return groupObject.group === group
-      })
-      // add the passed object, if it is not yet loaded
-      if (!finishedLoading) this.groupsLoading.push(objectPassed)
+
       getGroupsLoadedFromLocalGroupsDb()
         .then(function (groupsLoaded) {
+          // if an object with this group is contained in groupsLoading, remove it
+          that.groupsLoading = _.reject(that.groupsLoading, function (groupObject) {
+            return groupObject.group === group
+          })
+          // add the passed object, if it is not yet loaded
+          if (!finishedLoading) {
+            that.groupsLoading.push(objectPassed)
+          }
+          groupsLoaded = _.union(groupsLoaded, [group])
           if (finishedLoading) addGroupLoadedToLocalGroupsDb(group)
           // inform views
           const payload = {
@@ -325,10 +332,10 @@ export default function (Actions) {
           Actions.loadFilterOptionsStore()
           // signal that groups loaded = groups loaded in pouch
           // just pass one of the groups loaded as finished
-          Actions.showGroupLoading({
+          /*Actions.showGroupLoading({
             group: groupsLoadedInPouch[0],
             finishedLoading: true
-          })
+          })*/
         })
     },
 
@@ -344,11 +351,6 @@ export default function (Actions) {
         .then(function (hierarchy) {
           // trigger change so components can set loading state
           that.trigger(hierarchy)
-          Actions.showGroupLoading({
-            group: gruppe,
-            message: 'Lade ' + gruppe,
-            progressPercent: 0
-          })
         })
         .catch(function (error) {
           console.log('objectStore, onLoadObjectStore, error getting data:', error)
@@ -358,6 +360,11 @@ export default function (Actions) {
     onLoadObjectStoreCompleted (gruppe) {
       const that = this
       let items = []
+
+      Actions.showGroupLoading({
+        group: gruppe,
+        message: 'Verarbeite ' + gruppe + '...'
+      })
 
       // get items
       getItemsFromLocalDb()
@@ -393,7 +400,7 @@ export default function (Actions) {
 
     onLoadObjectStoreFailed (error, gruppe) {
       // remove loading indicator
-      Actions.loadingGroupsStore({
+      Actions.showGroupLoading({
         group: gruppe,
         finishedLoading: true
       })
