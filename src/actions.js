@@ -61,15 +61,9 @@ export default function () {
     // make sure a valid group was passed
     const gruppen = getGruppen()
     const validGroup = _.includes(gruppen, gruppe)
-    if (!validGroup) return Actions.loadObjectStore.failed('the group passed is not valid', gruppe)
+    if (!validGroup) return Actions.loadObjectStore.failed('Actions.loadObjectStore: the group passed is not valid', gruppe)
 
     loadGroupFromRemote(gruppe)
-      .then(function () {
-        // TODO: want to replicate first
-        // but because checkpoint is not set, this is way to slow, so doing it aftwerwards
-        // which is bad because hierarchy and filter is not built for replicated objects
-        return Actions.loadObjectStore.completed(gruppe)
-      })
       .then(function () {
         // let regular replication catch up if objects have changed since dump was created
         return app.localDb.replicate.from(app.remoteDb, {
@@ -78,6 +72,9 @@ export default function () {
           },
           batch_size: 500
         })
+      })
+      .then(function () {
+        return Actions.loadObjectStore.completed(gruppe)
       })
       .catch(function (error) {
         const errorMsg = 'Actions.loadObjectStore, error loading group ' + gruppe + ': ' + error
