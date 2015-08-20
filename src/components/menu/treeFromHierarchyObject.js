@@ -36,14 +36,13 @@ export default React.createClass({
       </div>
     )
 
-    // const loadingMessage = <p>Lade {loadingGruppe}...</p>
+    // sort loading objects by name
     const loadingMessage = _.map(groupsLoadingObjects, function (groupLoadingObject) {
       let { message, group, progressPercent } = groupLoadingObject
       // Macromycetes shall appear as Pilze
       message = message.replace('Macromycetes', 'Pilze')
-      const groupName = group + 'Message'
-      // TODO: show progress bar when progressPercent is shown
-      if (progressPercent) return <ProgressBar bsStyle='success' key={groupName} now={progressPercent} label={message} />
+      const groupName = group.toLowerCase()
+      if (progressPercent || progressPercent === 0) return <ProgressBar bsStyle='success' key={groupName} now={progressPercent} label={message} />
       return <p key={groupName}>{message}</p>
     })
 

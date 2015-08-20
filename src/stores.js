@@ -11,7 +11,7 @@ import getHierarchyFromLocalHierarchyDb from './modules/getHierarchyFromLocalHie
 import addPathsFromItemsToLocalPathDb from './modules/addPathsFromItemsToLocalPathDb.js'
 import buildFilterOptions from './modules/buildFilterOptions.js'
 import getSynonymsOfObject from './modules/getSynonymsOfObject.js'
-import addGroupLoadedToLocalGroupsDb from './modules/addGroupLoadedToLocalGroupsDb.js'
+import addGroupsLoadedToLocalGroupsDb from './modules/addGroupsLoadedToLocalGroupsDb.js'
 import getGruppen from './modules/gruppen.js'
 
 export default function (Actions) {
@@ -192,7 +192,7 @@ export default function (Actions) {
   app.loadingGroupsStore = Reflux.createStore({
     /*
      * keeps a list of loading groups
-     * {group: 'Fauna', message: 'Lade Fauna...', progressPercent: 60, finishedLoading: false}
+     * {group: 'Fauna', allGroups: false, message: 'Lade Fauna...', progressPercent: 60, finishedLoading: false}
      * loading groups are shown in menu under tree
      * if progressPercent is passed, a progressbar is shown
      * message is Text or label in progressbar
@@ -228,21 +228,34 @@ export default function (Actions) {
     },
 
     onShowGroupLoading (objectPassed) {
+      // groups: after loading all groups in parallel from remoteDb
+      // need to pass a single action for all
+      // otherwise 5 addGroupsLoadedToLocalGroupsDb calls occur at the same moment...
       const that = this
-      const { group, finishedLoading } = objectPassed
+      const { group, allGroups, finishedLoading } = objectPassed
+      const gruppen = getGruppen()
 
       getGroupsLoadedFromLocalGroupsDb()
         .then(function (groupsLoaded) {
           // if an object with this group is contained in groupsLoading, remove it
-          that.groupsLoading = _.reject(that.groupsLoading, function (groupObject) {
-            return groupObject.group === group
-          })
+          if (allGroups) {
+            that.groupsLoading = []
+          } else {
+            that.groupsLoading = _.reject(that.groupsLoading, function (groupObject) {
+              return groupObject.group === group
+            })
+          }
           // add the passed object, if it is not yet loaded
           if (!finishedLoading) {
             that.groupsLoading.push(objectPassed)
           }
-          groupsLoaded = _.union(groupsLoaded, [group])
-          if (finishedLoading) addGroupLoadedToLocalGroupsDb(group)
+          groupsLoaded = allGroups ? gruppen : _.union(groupsLoaded, [group])
+          if (finishedLoading) {
+            const groupsToPass = allGroups ? gruppen : [group]
+            addGroupsLoadedToLocalGroupsDb(groupsToPass).catch(function (error) {
+              console.log('loadingGroupsStore, onShowGroupLoading, error adding group(s) to localGroupsDb:', error)
+            })
+          }
           // inform views
           const payload = {
             groupsLoadingObjects: that.groupsLoading,
@@ -288,7 +301,7 @@ export default function (Actions) {
       gruppen.map(function (gruppe) {
         Actions.showGroupLoading({
           group: gruppe,
-          message: 'Baue ' + gruppe + ' Taxonomie'
+          message: 'Baue ' + gruppe + ' Taxonomie...'
         })
       })
       // get all docs from pouch
@@ -308,11 +321,9 @@ export default function (Actions) {
         .then(function () {
           // tell views that data has changed
           that.trigger(hierarchy)
-          gruppen.map(function (gruppe) {
-            Actions.showGroupLoading({
-              group: gruppe,
-              finishedLoading: true
-            })
+          Actions.showGroupLoading({
+            allGroups: true,
+            finishedLoading: true
           })
         })
         .catch(function (error) {

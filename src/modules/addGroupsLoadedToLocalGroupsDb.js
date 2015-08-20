@@ -1,5 +1,5 @@
 /*
- * adds the group passed to localGroupsDb
+ * adds the groups passed to localGroupsDb
  * makes shure a group is icluded only once
  * returns the groups loaded
  */
@@ -9,13 +9,13 @@
 import app from 'ampersand-app'
 import _ from 'lodash'
 
-export default function (group) {
+export default function (groups) {
   return new Promise(function (resolve, reject) {
     let groupsLoaded = []
     app.localGroupsDb.get('groups')
       .then(function (doc) {
         // make shure a group is not included more than once
-        groupsLoaded = _.union(doc.groupsLoaded, [group])
+        groupsLoaded = _.union(doc.groupsLoaded, groups)
         doc.groupsLoaded = groupsLoaded
         return app.localGroupsDb.put(doc)
       })
@@ -23,7 +23,7 @@ export default function (group) {
         resolve(groupsLoaded)
       })
       .catch(function (error) {
-        reject('addGroupLoadedToLocalGroupsDb: error getting or putting groups doc from localGroupsDb:', error)
+        reject('addGroupsLoadedToLocalGroupsDb: error getting or putting groups "' + groups + '" from localGroupsDb:', error)
       })
   })
 }
