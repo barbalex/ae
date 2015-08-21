@@ -87,5 +87,6 @@ app.extend({
   }
 })
 
-// o.k., get moving
+// o.k., everything necessary is prepared
+// now lauch the app
 app.init()
