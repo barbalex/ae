@@ -72,7 +72,7 @@ export default Router.extend({
         )
       })
       .catch(function (error) {
-        console.log('router.js: error during first route:', error)
+        console.log('router.js: error during routing:', error)
       })
   }
 })

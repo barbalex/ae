@@ -47,7 +47,8 @@ const Home = React.createClass({
     const { gruppe, guid, path, showImportPC, showImportRC, showOrganizations, email } = this.props
     const groupsLoadedOrLoading = gruppe ? [gruppe] : []
 
-    // kick off stores by getting store data directly from the remote db
+    // this happens on first load
+    // need to kick off stores
     kickOffStores(path, gruppe, guid)
 
     return {
