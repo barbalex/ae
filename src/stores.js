@@ -321,31 +321,18 @@ export default function (Actions) {
         .then(function () {
           // tell views that data has changed
           that.trigger(hierarchy)
-          Actions.showGroupLoading({
-            allGroups: true,
-            finishedLoading: true
-          })
         })
         .catch(function (error) {
           console.log('objectStore, onLoadPouchFromRemoteCompleted, error processing allDocs:', error)
         })
     },
 
-    onLoadPouchFromLocal (groupsLoadedInPouch) {
-      // signal that groups loaded = groups loaded in pouch
-      // just pass one of the groups loaded as finished
-      Actions.showGroupLoading({
-        group: groupsLoadedInPouch[0],
-        finishedLoading: true
-      })
-    },
-
     onLoadPouchFromLocalCompleted (groupsLoadedInPouch) {
       const that = this
-      that.getHierarchy()
+      Actions.loadFilterOptionsStore()
+      this.getHierarchy()
         .then(function (hierarchy) {
           that.trigger(hierarchy)
-          Actions.loadFilterOptionsStore()
         })
     },
 
