@@ -23,7 +23,7 @@ export default Router.extend({
 
     // a regular url consists of hierarchy names
     // followed by ?id=<guid> if an object is shown
-    let guid = null
+    let guid = getUrlParameterByName('id')
     let gruppe = null
     let showImportPC = false
     let showImportRC = false
