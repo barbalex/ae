@@ -7,6 +7,7 @@ import buildHierarchy from './modules/buildHierarchy.js'
 import getGroupsLoadedFromLocalGroupsDb from './modules/getGroupsLoadedFromLocalGroupsDb.js'
 import getItemsFromLocalDb from './modules/getItemsFromLocalDb.js'
 import getItemFromLocalDb from './modules/getItemFromLocalDb.js'
+import getItemFromRemoteDb from './modules/getItemFromRemoteDb.js'
 import getHierarchyFromLocalHierarchyDb from './modules/getHierarchyFromLocalHierarchyDb.js'
 import addPathsFromItemsToLocalPathDb from './modules/addPathsFromItemsToLocalPathDb.js'
 import buildFilterOptions from './modules/buildFilterOptions.js'
@@ -288,7 +289,22 @@ export default function (Actions) {
     },
 
     getItem (guid) {
-      return getItemFromLocalDb(guid)
+      return new Promise(function (resolve, reject) {
+        getItemFromLocalDb(guid)
+          .then(function (item) {
+            // if no item is found in localDb, get from remote
+            // important on first load of an object url
+            // in order for this to work, getItemFromLocalDb returns null when not finding the doc
+            if (!item) return getItemFromRemoteDb(guid)
+            return item
+          })
+          .then(function (item) {
+            resolve(item)
+          })
+          .catch(function (error) {
+            reject('objectStore, getItem: error getting item from guid' + guid + ':', error)
+          })
+      })
     },
 
     getHierarchy () {
