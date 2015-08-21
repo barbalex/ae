@@ -301,7 +301,7 @@ export default function (Actions) {
       gruppen.map(function (gruppe) {
         Actions.showGroupLoading({
           group: gruppe,
-          message: 'Baue ' + gruppe + ' Taxonomie...'
+          message: 'Baue Taxonomie für ' + gruppe + '...'
         })
       })
       // get all docs from pouch
@@ -361,7 +361,7 @@ export default function (Actions) {
 
       Actions.showGroupLoading({
         group: gruppe,
-        message: 'Baue ' + gruppe + ' Taxonomie...'
+        message: 'Baue Taxonomie für ' + gruppe + '...'
       })
 
       // get items
