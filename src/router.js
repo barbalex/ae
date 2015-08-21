@@ -52,8 +52,8 @@ export default Router.extend({
           guid = getUrlParameterByName('id')
           gruppe = null
         } else if (path.length === 1 && path[0] === 'organisationen_und_benutzer') {
-          gruppe = null
           showOrganizations = true
+          gruppe = null
         } else if (path[0]) {
           // this would be an object url
           gruppe = path[0]
