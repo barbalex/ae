@@ -358,6 +358,7 @@ export default function (Actions) {
       const that = this
       let items = []
       let hierarchy = []
+      let hierarchyOfGruppe = {}
 
       Actions.showGroupLoading({
         group: gruppe,
@@ -375,15 +376,20 @@ export default function (Actions) {
           // load path, filter and hierarchy store
           Actions.loadPathStore(items)
           Actions.loadFilterOptionsStore(items)
-          const hierarchy = buildHierarchy(items)
-          const hierarchyOfGruppe = _.find(hierarchy, {'Name': gruppe})
-          return app.localHierarchyDb.put(hierarchyOfGruppe, gruppe)
-        })
-        .then(function () {
           return that.getHierarchy()
         })
         .then(function (result) {
           hierarchy = result
+          // check if the hierarchy of this group already exists
+          hierarchyOfGruppe = _.find(hierarchy, {'Name': gruppe})
+          if (!hierarchyOfGruppe) {
+            // no? build it!
+            const hierarchyWithGruppe = buildHierarchy(items)
+            hierarchyOfGruppe = _.find(hierarchyWithGruppe, {'Name': gruppe})
+            app.localHierarchyDb.put(hierarchyOfGruppe, gruppe)
+            // add hierarchyOfGruppe to hierarchy
+            hierarchy.push(hierarchyOfGruppe)
+          }
           // signal that this group is not being loaded any more
           Actions.showGroupLoading({
             group: gruppe,
