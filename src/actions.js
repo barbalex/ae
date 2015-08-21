@@ -67,6 +67,10 @@ export default function () {
     loadGroupFromRemote(gruppe)
       .then(function () {
         // let regular replication catch up if objects have changed since dump was created
+        Actions.showGroupLoading({
+          group: gruppe,
+          message: 'Repliziere ' + gruppe + '...'
+        })
         return app.localDb.replicate.from(app.remoteDb, {
           filter: function (doc) {
             return (doc.Gruppe && doc.Gruppe === gruppe)
