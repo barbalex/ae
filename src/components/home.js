@@ -228,7 +228,6 @@ const Home = React.createClass({
     const showFilter = options.length > 0 || loadingFilterOptions
     const showMain = object !== undefined || showImportRC || showImportPC || showOrganizations
     const showLogin = logIn && !email
-    const groupsLoading = _.pluck(groupsLoadingObjects, 'group')
 
     // MenuButton needs NOT to be inside menu
     // otherwise the menu can't be shown outside when menu is short
@@ -240,7 +239,7 @@ const Home = React.createClass({
           <div id='menuLine'>
             <ResizeButton />
           </div>
-          {this.createGruppen()} {showFilter ? <Filter options={options} loadingFilterOptions={loadingFilterOptions} groupsLoading={groupsLoading} /> : ''}
+          {this.createGruppen()} {showFilter ? <Filter options={options} loadingFilterOptions={loadingFilterOptions} /> : ''}
           <TreeFromHierarchyObject
             hierarchy={hierarchy}
             groupsLoadingObjects={groupsLoadingObjects}
