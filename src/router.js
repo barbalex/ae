@@ -13,6 +13,8 @@ export default Router.extend({
     '*path': 'home'
   },
 
+  // all object paths depend on data i.e. are unpredictable
+  // that is why there is only one route and it is analysed with a series of if's
   home (pathName) {
     // this is the entry point of the application
     // > read props from url
@@ -50,10 +52,12 @@ export default Router.extend({
           gruppe = null
         } else if (path.length === 1 && path[0] === 'organisationen_und_benutzer') {
           gruppe = null
+        } else if (path[0]) {
+          // this would be an object url
+          gruppe = path[0]
         } else {
-          // this would be some species url
-          // or home
-          gruppe = path[0] ? path[0] : null
+          // must be home
+          gruppe = null
         }
 
         React.render(
@@ -68,7 +72,7 @@ export default Router.extend({
         )
       })
       .catch(function (error) {
-        console.log('router.js: error getting login:', error)
+        console.log('router.js: error during first route:', error)
       })
   }
 })
