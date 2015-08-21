@@ -23,7 +23,6 @@ export default Router.extend({
     // followed by ?id=<guid> if an object is shown
     let guid = null
     let gruppe = null
-    let isGuidPath = false
     let showImportPC = false
     let showImportRC = false
 
@@ -41,7 +40,6 @@ export default Router.extend({
           }
         } else if (path.length === 1 && isGuid(path[0])) {
           // this is a path of style /<guid>
-          isGuidPath = true
           guid = path[0]
           gruppe = null
         } else if (path.length === 1 && path[0] === 'indexhtml') {
@@ -50,7 +48,6 @@ export default Router.extend({
           // and is still called by ALT and EvAB
           guid = getUrlParameterByName('id')
           gruppe = null
-          isGuidPath = true
         } else if (path.length === 1 && path[0] === 'organisationen_und_benutzer') {
           gruppe = null
         } else {
@@ -61,7 +58,6 @@ export default Router.extend({
 
         React.render(
           <Home
-            isGuidPath={isGuidPath}
             gruppe={gruppe}
             guid={guid}
             path={path}

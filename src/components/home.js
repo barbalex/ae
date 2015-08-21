@@ -12,7 +12,6 @@ import FaviconImage from '../../img/aster_144.png'
 import Favicon from 'react-favicon'
 import Main from './main/main.js'
 import TreeFromHierarchyObject from './menu/treeFromHierarchyObject.js'
-import getPathFromGuid from '../modules/getPathFromGuid.js'
 import getGruppen from '../modules/gruppen.js'
 import NavHelper from '../components/navHelper.js'
 import kickOffStores from '../modules/kickOffStores.js'
@@ -31,7 +30,6 @@ const Home = React.createClass({
     groupsLoadedOrLoading: React.PropTypes.array,
     groupsLoadingObjects: React.PropTypes.array,
     allGroupsLoaded: React.PropTypes.bool,
-    isGuidPath: React.PropTypes.bool,
     path: React.PropTypes.array,
     synonymObjects: React.PropTypes.array,
     object: React.PropTypes.object,
@@ -150,17 +148,6 @@ const Home = React.createClass({
       guid: guid,
       synonymObjects: synonymObjects
     })
-    // update url if path was called only with guid
-    if (this.props.isGuidPath && guid) {
-      getPathFromGuid(guid, object)
-        .then(function (result) {
-          const path = result.path
-          app.Actions.loadActivePathStore(path, guid)
-        })
-        .catch(function (error) {
-          console.log('home.js: error getting path for guid ' + guid + ':', error)
-        })
-    }
   },
 
   onFilterOptionsStoreChange (payload) {
@@ -226,7 +213,6 @@ const Home = React.createClass({
 
   render () {
     const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, options, loadingFilterOptions, showImportPC, showImportRC, showOrganizations, logIn, email } = this.state
-    const { isGuidPath } = this.props
     const showFilter = options.length > 0 || loadingFilterOptions
     const showMain = object !== undefined || showImportRC || showImportPC || showOrganizations
     const showLogin = logIn && !email
@@ -247,7 +233,6 @@ const Home = React.createClass({
             groupsLoadingObjects={groupsLoadingObjects}
             allGroupsLoaded={allGroupsLoaded}
             object={object}
-            isGuidPath={isGuidPath}
             path={path} />
         </div>
         {this.email()}
