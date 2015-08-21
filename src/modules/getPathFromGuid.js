@@ -1,8 +1,6 @@
 /*
  * gets guid
  * returns the full path
- * if path is requested for an object whose group is not loaded in the store
- * object is passed in too
  */
 
 'use strict'
