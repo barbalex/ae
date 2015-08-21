@@ -252,9 +252,10 @@ export default function (Actions) {
           groupsLoaded = allGroups ? gruppen : _.union(groupsLoaded, [group])
           if (finishedLoading) {
             const groupsToPass = allGroups ? gruppen : [group]
-            addGroupsLoadedToLocalGroupsDb(groupsToPass).catch(function (error) {
-              console.log('loadingGroupsStore, onShowGroupLoading, error adding group(s) to localGroupsDb:', error)
-            })
+            addGroupsLoadedToLocalGroupsDb(groupsToPass)
+              .catch(function (error) {
+                console.log('loadingGroupsStore, onShowGroupLoading, error adding group(s) to localGroupsDb:', error)
+              })
           }
           // inform views
           const payload = {
