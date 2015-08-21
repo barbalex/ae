@@ -36,15 +36,21 @@ export default function () {
       .then(function (groupsLoaded) {
         groupsLoading = _.difference(groups, groupsLoaded)
         // get all items
-        return Promise.all(groupsLoading.map(function (group) {
-          return loadGroupFromRemote(group)
-        }))
-      })
-      .then(function () {
-        return Actions.loadPouchFromRemote.completed(groupsLoading)
+        let series = PouchDB.utils.Promise.resolve()
+        groupsLoading.forEach(function (group) {
+          series = series.then(function () {
+            return loadGroupFromRemote(group, Actions.loadObjectStore.completed(group))
+          })
+        })
+        series.then(function () {
+          // return Actions.loadPouchFromRemote.completed(groupsLoading)
+        })
+        .catch(function (error) {
+          Actions.loadPouchFromRemote.failed('Actions.loadPouchFromRemote, error loading groups:', error)
+        })
       })
       .catch(function (error) {
-        Actions.loadPouchFromRemote.failed('Actions.loadPouchFromRemote, replication error:', error)
+        Actions.loadPouchFromRemote.failed('Actions.loadPouchFromRemote, error loading groups:', error)
       })
   })
 
@@ -65,19 +71,6 @@ export default function () {
     if (!validGroup) return Actions.loadObjectStore.failed('Actions.loadObjectStore: the group passed is not valid', gruppe)
 
     loadGroupFromRemote(gruppe)
-      .then(function () {
-        // let regular replication catch up if objects have changed since dump was created
-        Actions.showGroupLoading({
-          group: gruppe,
-          message: 'Repliziere ' + gruppe + '...'
-        })
-        return app.localDb.replicate.from(app.remoteDb, {
-          filter: function (doc) {
-            return (doc.Gruppe && doc.Gruppe === gruppe)
-          },
-          batch_size: 500
-        })
-      })
       .then(function () {
         return Actions.loadObjectStore.completed(gruppe)
       })

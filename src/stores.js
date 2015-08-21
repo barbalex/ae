@@ -311,36 +311,16 @@ export default function (Actions) {
       return getHierarchyFromLocalHierarchyDb()
     },
 
-    onLoadPouchFromRemoteCompleted (groupsLoaded) {
+    onLoadPouchFromRemoteCompleted () {
       const that = this
-      const gruppen = getGruppen()
-      let hierarchy = []
-      gruppen.map(function (gruppe) {
-        Actions.showGroupLoading({
-          group: gruppe,
-          message: 'Baue Taxonomie für ' + gruppe + '...'
-        })
-      })
-      // get all docs from pouch
-      this.getItems()
-        .then(function (docs) {
-          // need to build filter options, hierarchy and paths only for groups newly loaded
-          const items = _.filter(docs, function (doc) {
-            return _.includes(groupsLoaded, doc.Gruppe)
-          })
-          Actions.loadFilterOptionsStore(items)
-          // build path hash - it makes finding an item by path much easier
-          Actions.loadPathStore(items)
-          // build hierarchy and save to pouch
-          hierarchy = buildHierarchy(items)
-          return app.localHierarchyDb.bulkDocs(hierarchy)
-        })
-        .then(function () {
-          // tell views that data has changed
+
+      this.getHierarchy()
+        .then(function (hierarchy) {
+          // trigger change so components can set loading state
           that.trigger(hierarchy)
         })
         .catch(function (error) {
-          console.log('objectStore, onLoadPouchFromRemoteCompleted, error processing allDocs:', error)
+          console.log('objectStore, onLoadObjectStore, error getting data:', error)
         })
     },
 
@@ -360,7 +340,6 @@ export default function (Actions) {
     onLoadObjectStore (gruppe) {
       const that = this
 
-      // get items
       this.getHierarchy()
         .then(function (hierarchy) {
           // trigger change so components can set loading state
@@ -373,51 +352,13 @@ export default function (Actions) {
 
     onLoadObjectStoreCompleted (gruppe) {
       const that = this
-      let items = []
-      let hierarchy = []
-      let hierarchyOfGruppe = {}
-
-      Actions.showGroupLoading({
-        group: gruppe,
-        message: 'Baue Taxonomie für ' + gruppe + '...'
-      })
-
-      // get items
-      getItemsFromLocalDb()
-        .then(function (docs) {
-          // got all docs, including other groups > filter by group
-          items = _.filter(docs, 'Gruppe', gruppe)
-          return items
-        })
-        .then(function (items) {
-          // load path, filter and hierarchy store
-          Actions.loadPathStore(items)
-          Actions.loadFilterOptionsStore(items)
-          return that.getHierarchy()
-        })
-        .then(function (result) {
-          hierarchy = result
-          // check if the hierarchy of this group already exists
-          hierarchyOfGruppe = _.find(hierarchy, {'Name': gruppe})
-          if (!hierarchyOfGruppe) {
-            // no? build it!
-            const hierarchyWithGruppe = buildHierarchy(items)
-            hierarchyOfGruppe = _.find(hierarchyWithGruppe, {'Name': gruppe})
-            app.localHierarchyDb.put(hierarchyOfGruppe, gruppe)
-            // add hierarchyOfGruppe to hierarchy
-            hierarchy.push(hierarchyOfGruppe)
-          }
-          // signal that this group is not being loaded any more
-          Actions.showGroupLoading({
-            group: gruppe,
-            finishedLoading: true
-          })
+      this.getHierarchy()
+        .then(function (hierarchy) {
           // tell views that data has changed
           that.trigger(hierarchy)
         })
         .catch(function (error) {
-          console.log('objectStore, onLoadObjectStoreCompleted, error putting hierarchyOfGruppe to localHierarchyDb or items to localDb:', error)
-          that.trigger(hierarchy)
+          console.log('objectStore, onLoadObjectStore, error getting data:', error)
         })
     },
 

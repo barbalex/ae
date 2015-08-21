@@ -8,8 +8,9 @@ import app from 'ampersand-app'
 import PouchDB from 'pouchdb'
 import _ from 'lodash'
 import getCouchUrl from './getCouchUrl.js'
+import buildHierarchy from './buildHierarchy.js'
 
-export default function (gruppe) {
+export default function (gruppe, callback) {
   return new Promise(function (resolve, reject) {
     app.loadingGroupsStore.isGroupLoaded(gruppe)
       .then(function (groupIsLoaded) {
@@ -24,11 +25,6 @@ export default function (gruppe) {
               // sort attachments so the one with the last docs is loaded last
               // reason: write the checkpoint for the last docs only
               // use attachments.length to show progress bar
-              app.Actions.showGroupLoading({
-                group: gruppe,
-                message: 'Lade ' + gruppe,
-                progressPercent: 0
-              })
               attachments.sort()
               let series = PouchDB.utils.Promise.resolve()
               attachments.forEach(function (fileName, index) {
@@ -52,6 +48,41 @@ export default function (gruppe) {
                 })
               })
               series.then(function () {
+                // let regular replication catch up if objects have changed since dump was created
+                app.Actions.showGroupLoading({
+                  group: gruppe,
+                  message: 'Repliziere ' + gruppe + '...'
+                })
+                return app.localDb.replicate.from(app.remoteDb, {
+                  filter: function (doc) {
+                    return (doc.Gruppe && doc.Gruppe === gruppe)
+                  },
+                  batch_size: 500
+                })
+              })
+              .then(function () {
+                app.Actions.showGroupLoading({
+                  group: gruppe,
+                  message: 'Baue Taxonomie für ' + gruppe + '...'
+                })
+                return app.objectStore.getItems()
+              })
+              .then(function (items) {
+                // need to build filter options, hierarchy and paths only for groups newly loaded
+                const itemsOfGroup = _.filter(items, 'Gruppe', gruppe)
+                app.Actions.loadFilterOptionsStore(itemsOfGroup)
+                // build path hash - it helps finding an item by path
+                app.Actions.loadPathStore(itemsOfGroup)
+                // build hierarchy and save to pouch
+                const hierarchy = buildHierarchy(itemsOfGroup)
+                return app.localHierarchyDb.bulkDocs(hierarchy)
+              })
+              .then(function (hierarchy) {
+                app.Actions.showGroupLoading({
+                  group: gruppe,
+                  finishedLoading: true
+                })
+                if (callback) callback
                 resolve(true)
               })
               .catch(function (error) {
