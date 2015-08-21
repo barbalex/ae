@@ -21,8 +21,8 @@ export default Router.extend({
 
     // a regular url consists of hierarchy names
     // followed by ?id=<guid> if an object is shown
-    let guid = getUrlParameterByName('id')
-    let gruppe = path[0] ? path[0] : null
+    let guid = null
+    let gruppe = null
     let isGuidPath = false
     let showImportPC = false
     let showImportRC = false
@@ -53,6 +53,10 @@ export default Router.extend({
           isGuidPath = true
         } else if (path.length === 1 && path[0] === 'organisationen_und_benutzer') {
           gruppe = null
+        } else {
+          // this would be some species url
+          // or home
+          gruppe = path[0] ? path[0] : null
         }
 
         React.render(
@@ -70,7 +74,5 @@ export default Router.extend({
       .catch(function (error) {
         console.log('router.js: error getting login:', error)
       })
-
-    // TODO: instead of passing props, better to call actions?
   }
 })
