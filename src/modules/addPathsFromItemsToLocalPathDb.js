@@ -13,7 +13,7 @@ export default function (items) {
     _.forEach(items, function (item) {
       const hierarchy = _.get(item, 'Taxonomien[0].Eigenschaften.Hierarchie', [])
       let path = _.pluck(hierarchy, 'Name')
-      // path.unshift(item.Gruppe)
+      path.unshift(item.Gruppe)
       path = replaceProblematicPathCharactersFromArray(path).join('/')
       pathsOfGruppe[path] = item._id
     })
