@@ -17,7 +17,7 @@ export default function (path, gruppe, guid) {
       .catch(function (error) {
         console.log('kickOffStores.js: error loading active object store or getting path for guid ' + guid + ':', error)
       })
-  } else {
+  } else if (path && path.length > 0) {
     app.Actions.loadActivePathStore(path, guid)
       .then(function () {
         return getObjectFromPath(path)
@@ -29,5 +29,11 @@ export default function (path, gruppe, guid) {
         console.log('kickOffStores.js: error loading active object store or getting path for path "' + path + '":', error)
       })
   }
-  if (gruppe) app.Actions.loadObjectStore(gruppe)
+  app.loadingGroupsStore.isGroupLoaded(gruppe)
+    .then(function (groupIsLoaded) {
+      if (!groupIsLoaded) app.Actions.loadObjectStore(gruppe)
+    })
+    .catch(function (error) {
+      console.log('kickOffStores.js: error getting groups from localGroupsDb:', error)
+    })
 }
