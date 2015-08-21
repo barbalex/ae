@@ -109,22 +109,33 @@ const Home = React.createClass({
       guid: guid
     }
 
+    let gruppe = null
     let showImportPC = false
     let showImportRC = false
     let showOrganizations = false
+
     if (path.length === 2 && path[0] === 'importieren') {
       if (path[1] === 'eigenschaften') {
         showImportPC = true
+        gruppe = null
       } else if (path[1] === 'beziehungen') {
         showImportRC = true
+        gruppe = null
       }
-    }
-    if (path.length === 1 && path[0] === 'organisationen_und_benutzer') {
+    } else if (path.length === 1 && path[0] === 'organisationen_und_benutzer') {
       showOrganizations = true
+      gruppe = null
+    } else if (path[0]) {
+      // this would be an object url
+      gruppe = path[0]
+    } else {
+      // must be home
+      gruppe = null
     }
 
     _.assign(state, {
       object: undefined,
+      gruppe: gruppe,
       showImportPC: showImportPC,
       showImportRC: showImportRC,
       showOrganizations: showOrganizations
