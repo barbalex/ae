@@ -27,6 +27,7 @@ export default Router.extend({
     let gruppe = null
     let showImportPC = false
     let showImportRC = false
+    let showOrganizations = false
 
     app.loginStore.getLogin()
       .then(function (login) {
@@ -52,6 +53,7 @@ export default Router.extend({
           gruppe = null
         } else if (path.length === 1 && path[0] === 'organisationen_und_benutzer') {
           gruppe = null
+          showOrganizations = true
         } else if (path[0]) {
           // this would be an object url
           gruppe = path[0]
@@ -67,6 +69,7 @@ export default Router.extend({
             path={path}
             showImportPC={showImportPC}
             showImportRC={showImportRC}
+            showOrganizations={showOrganizations}
             email={email} />,
           document.body
         )
