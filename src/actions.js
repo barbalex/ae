@@ -70,6 +70,9 @@ export default function () {
     const validGroup = _.includes(gruppen, gruppe)
     if (!validGroup) return Actions.loadObjectStore.failed('Actions.loadObjectStore: the group passed is not valid', gruppe)
 
+    // TODO: Create a task list that is worked off one by one
+    // if a loadGroupFromRemote call is started while the last is still active, bad things happen
+
     loadGroupFromRemote(gruppe)
       .then(function () {
         return Actions.loadObjectStore.completed(gruppe)
