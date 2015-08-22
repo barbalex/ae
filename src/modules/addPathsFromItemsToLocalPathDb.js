@@ -1,3 +1,9 @@
+/*
+ * gets new items passed
+ * generates their paths
+ * and adds them to localPathDb
+ */
+
 'use strict'
 
 import app from 'ampersand-app'
@@ -11,11 +17,16 @@ export default function (items) {
     // build paths of passed in items (usually: items of a group)
     const pathsOfGruppe = {}
     _.forEach(items, function (item) {
+      // get hierarchy from the Hierarchie field
+      // default value (in case there is none) is []
       const hierarchy = _.get(item, 'Taxonomien[0].Eigenschaften.Hierarchie', [])
       let path = _.pluck(hierarchy, 'Name')
-      path.unshift(item.Gruppe)
-      path = replaceProblematicPathCharactersFromArray(path).join('/')
-      pathsOfGruppe[path] = item._id
+      // if path is [] make shure no path is added
+      if (path.length > 0) {
+        path.unshift(item.Gruppe)
+        path = replaceProblematicPathCharactersFromArray(path).join('/')
+        pathsOfGruppe[path] = item._id
+      }
     })
 
     // combine these paths with those already in pathDb
