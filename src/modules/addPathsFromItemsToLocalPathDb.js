@@ -23,7 +23,6 @@ export default function (items) {
       let path = _.pluck(hierarchy, 'Name')
       // if path is [] make shure no path is added
       if (path.length > 0) {
-        // path.unshift(item.Gruppe)
         path = replaceProblematicPathCharactersFromArray(path).join('/')
         pathsOfGruppe[path] = item._id
       }

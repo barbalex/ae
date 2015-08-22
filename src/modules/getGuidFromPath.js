@@ -10,7 +10,6 @@ export default function (path) {
     }
     getPathsFromLocalPathDb()
       .then(function (paths) {
-        window.paths = paths
         const guid = paths[pathString]
         resolve(guid)
       })
