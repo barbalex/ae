@@ -72,15 +72,17 @@ export default function () {
 
     // TODO: Create a task list that is worked off one by one
     // if a loadGroupFromRemote call is started while the last is still active, bad things happen
-
-    loadGroupFromRemote(gruppe)
-      .then(function () {
-        return Actions.loadObjectStore.completed(gruppe)
-      })
-      .catch(function (error) {
-        const errorMsg = 'Actions.loadObjectStore, error loading group ' + gruppe + ': ' + error
-        Actions.loadObjectStore.failed(errorMsg, gruppe)
-      })
+    app.groupLoadingTaskRunner.push(function (next) {
+      loadGroupFromRemote(gruppe)
+        .then(function () {
+          return Actions.loadObjectStore.completed(gruppe)
+        })
+        .catch(function (error) {
+          const errorMsg = 'Actions.loadObjectStore, error loading group ' + gruppe + ': ' + error
+          Actions.loadObjectStore.failed(errorMsg, gruppe)
+        })
+    })
+    app.groupLoadingTaskRunner.start()
   })
 
   Actions.loadActiveObjectStore.listen(function (guid) {
