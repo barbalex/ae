@@ -18,7 +18,8 @@ export default React.createClass({
     invalidPassword: React.PropTypes.bool,
     email: React.PropTypes.string,
     password: React.PropTypes.string,
-    loginError: React.PropTypes.string
+    loginError: React.PropTypes.string,
+    onHide: React.PropTypes.func
   },
 
   getInitialState () {
@@ -27,16 +28,23 @@ export default React.createClass({
       invalidPassword: false,
       email: null,
       password: null,
-      loginError: null
+      loginError: null,
+      onHide: this.onHide()
     }
   },
 
   componentDidMount () {
     $(document.body).on('keydown', this.onKeyDown)
+    React.findDOMNode(this.refs.emailInput).focus()
   },
 
   componentWillUnMount () {
     $(document.body).off('keydown', this.onKeyDown)
+  },
+
+  onHide () {
+    console.log('onHide')
+    // this.onClickLogin()
   },
 
   onKeyDown (event) {
@@ -120,7 +128,7 @@ export default React.createClass({
 
     return (
       <div className='static-modal'>
-        <Modal.Dialog id='login'>
+        <Modal.Dialog onHide={this.onHide}>
           <Modal.Header>
             <Modal.Title>Anmelden</Modal.Title>
           </Modal.Header>
@@ -129,7 +137,7 @@ export default React.createClass({
             <form className={'form'} autoComplete='off'>
               <p className='anmelden'>Für diese Funktion müssen Sie angemeldet sein.<br/><a href='mailto:alex@gabriel-software.ch'>Mailen Sie mir</a>, um ein Login zu erhalten.</p>
               <div className='formGroup'>
-                <Input type='email' id='emailArt' label={'Email'} bsSize='small' className={'controls'} placeholder='Email' bsStyle={emailInputBsStyle} onBlur={this.onBlurEmail} required autofocus />
+                <Input ref={'emailInput'} type='email' label={'Email'} bsSize='small' className={'controls'} placeholder='Email' bsStyle={emailInputBsStyle} onBlur={this.onBlurEmail} required autofocus />
                 {invalidEmail ? <span className='validateSpan'>Bitte Email prüfen</span> : ''}
               </div>
               <div className='formGroup'>

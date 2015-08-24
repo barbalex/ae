@@ -96,7 +96,6 @@ const Home = React.createClass({
   },
 
   onLoginStoreChange (passedVariables) {
-    console.log('home.js, login store changed, passedVariables:', passedVariables)
     this.setState({
       logIn: passedVariables.logIn,
       email: passedVariables.email
