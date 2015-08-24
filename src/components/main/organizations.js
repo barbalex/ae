@@ -12,7 +12,7 @@ export default React.createClass({
   },
 
   componentDidMount () {
-    const email = this.props.email
+    const { email } = this.props
     if (!email) {
       const loginVariables = {
         logIn: true,
