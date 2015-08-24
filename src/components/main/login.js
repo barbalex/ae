@@ -91,9 +91,7 @@ export default React.createClass({
 
   validEmail (email) {
     email = email || this.state.email
-    console.log('validEmail: email', email)
     const validEmail = email && validateEmail(email)
-    console.log('validEmail: validEmail', validEmail)
     this.setState({
       invalidEmail: !validEmail
     })
@@ -103,7 +101,6 @@ export default React.createClass({
   validPassword (password) {
     password = password || this.state.password
     const validPassword = !!password
-    console.log('validPassword: validPassword', validPassword)
     this.setState({
       invalidPassword: !validPassword
     })
