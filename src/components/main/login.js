@@ -7,6 +7,7 @@
 import app from 'ampersand-app'
 import React from 'react'
 import { Modal, Input, Alert, Button } from 'react-bootstrap'
+import $ from 'jquery'
 import validateEmail from '../../modules/validateEmail.js'
 
 export default React.createClass({
@@ -30,11 +31,23 @@ export default React.createClass({
     }
   },
 
+  componentDidMount () {
+    $(document.body).on('keydown', this.onKeyDown)
+  },
+
+  componentWillUnMount () {
+    $(document.body).off('keydown', this.onKeyDown)
+  },
+
+  onKeyDown (event) {
+    const enter = 13
+    if (event.keyCode === enter) this.onClickLogin
+  },
+
   onClickLogin () {
     const { email, password } = this.state
     const that = this
     if (this.validSignin()) {
-      console.log('signin is valid')
       app.remoteDb.login(email, password)
         .then(function (response) {
           const loginVariables = {
@@ -54,7 +67,6 @@ export default React.createClass({
   onBlurEmail (event) {
     const email = event.target.value
     this.setState({email: email})
-    console.log('onBlurEmail: email', email)
     this.validEmail(email)
   },
 
