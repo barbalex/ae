@@ -70,17 +70,27 @@ export default function () {
     const validGroup = _.includes(gruppen, gruppe)
     if (!validGroup) return Actions.loadObjectStore.failed('Actions.loadObjectStore: the group passed is not valid', gruppe)
 
-    // TODO: Create a task list that is worked off one by one
+    // app.loadingGroupsStore.groupsLoading is a task list that is worked off one by one
     // if a loadGroupFromRemote call is started while the last is still active, bad things happen
-
-    loadGroupFromRemote(gruppe)
-      .then(function () {
-        return Actions.loadObjectStore.completed(gruppe)
-      })
-      .catch(function (error) {
-        const errorMsg = 'Actions.loadObjectStore, error loading group ' + gruppe + ': ' + error
-        Actions.loadObjectStore.failed(errorMsg, gruppe)
-      })
+    // > add this group to the tasklist
+    const groupsLoadingObject = {
+      group: gruppe,
+      message: 'Werde ' + gruppe + ' laden...'
+    }
+    app.loadingGroupsStore.groupsLoading.unshift(groupsLoadingObject)
+    // check if there are groups loading now
+    // if yes: when finished, loadGroupFromRemote will begin loading the next group in the queue
+    if (app.loadingGroupsStore.groupsLoading.length === 1) {
+      // o.k., no other group is being loaded - go on
+      loadGroupFromRemote(gruppe)
+        .then(function () {
+          return Actions.loadObjectStore.completed(gruppe)
+        })
+        .catch(function (error) {
+          const errorMsg = 'Actions.loadObjectStore, error loading group ' + gruppe + ': ' + error
+          Actions.loadObjectStore.failed(errorMsg, gruppe)
+        })
+    }
   })
 
   Actions.loadActiveObjectStore.listen(function (guid) {

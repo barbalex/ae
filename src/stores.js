@@ -3,7 +3,6 @@
 import app from 'ampersand-app'
 import Reflux from 'reflux'
 import _ from 'lodash'
-import buildHierarchy from './modules/buildHierarchy.js'
 import getGroupsLoadedFromLocalGroupsDb from './modules/getGroupsLoadedFromLocalGroupsDb.js'
 import getItemsFromLocalDb from './modules/getItemsFromLocalDb.js'
 import getItemFromLocalDb from './modules/getItemFromLocalDb.js'
@@ -14,6 +13,7 @@ import buildFilterOptions from './modules/buildFilterOptions.js'
 import getSynonymsOfObject from './modules/getSynonymsOfObject.js'
 import addGroupsLoadedToLocalGroupsDb from './modules/addGroupsLoadedToLocalGroupsDb.js'
 import getGruppen from './modules/gruppen.js'
+import loadGroupFromRemote from './modules/loadGroupFromRemote.js'
 
 export default function (Actions) {
   app.loginStore = Reflux.createStore({
@@ -248,10 +248,28 @@ export default function (Actions) {
           }
           // add the passed object, if it is not yet loaded
           if (!finishedLoading) {
-            that.groupsLoading.push(objectPassed)
+            // add it to the beginning of the array
+            that.groupsLoading.unshift(objectPassed)
           }
           groupsLoaded = allGroups ? gruppen : _.union(groupsLoaded, [group])
           if (finishedLoading) {
+            // remove this group from groupsLoading
+            that.groupsLoading = _.without(that.groupsLoading, group)
+            // load next group if on is queued
+            if (that.groupsLoading.length > 0) {
+              // get group of last element
+              const nextGroup = that.groupsLoading[that.groupsLoading.length - 1].group
+              // load if
+              loadGroupFromRemote(nextGroup)
+                .then(function () {
+                  return Actions.loadObjectStore.completed(nextGroup)
+                })
+                .catch(function (error) {
+                  const errorMsg = 'Actions.loadObjectStore, error loading group ' + nextGroup + ': ' + error
+                  Actions.loadObjectStore.failed(errorMsg, nextGroup)
+                })
+            }
+            // write change to groups loaded to localGroupsDb
             const groupsToPass = allGroups ? gruppen : [group]
             addGroupsLoadedToLocalGroupsDb(groupsToPass)
               .catch(function (error) {
