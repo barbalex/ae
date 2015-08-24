@@ -5,7 +5,6 @@ import app from 'ampersand-app'
 import PouchDB from 'pouchdb'
 import pouchdbUpsert from 'pouchdb-upsert'
 import pouchdbAuthentication from 'pouchdb-authentication'
-import { TaskRunner } from 'task-runner'
 // make webpack import styles
 import './styles/main.styl'
 import Router from './router.js'
@@ -13,7 +12,6 @@ import actions from './actions.js'
 import stores from './stores'
 import pouchUrl from './modules/getCouchUrl.js'
 import getGroupsLoadedFromLocalGroupsDb from './modules/getGroupsLoadedFromLocalGroupsDb.js'
-import getGroups from './modules/gruppen.js'
 
 // set up pouchdb plugins
 PouchDB.plugin(pouchdbUpsert)
@@ -81,15 +79,6 @@ app.extend({
           group: groupsLoadedInPouch[0],
           finishedLoading: true
         })
-      }
-      const allGroups = getGroups()
-      if (groupsLoadedInPouch.length < allGroups.length) {
-        // now start a task runner
-        // will be needed when user loads groups
-        // if user loads next group while last is still loading, the app will crash
-        const groupLoadingTaskRunner = new TaskRunner()
-        that.groupLoadingTaskRunner = groupLoadingTaskRunner
-        // that.groupLoadingTaskRunner.start()
       }
     })
     .catch(function (error) {
