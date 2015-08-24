@@ -35,7 +35,10 @@ export default function () {
     app.loadingGroupsStore.groupsLoaded()
       .then(function (groupsLoaded) {
         groupsLoading = _.difference(groups, groupsLoaded)
-        // get all items
+        groupsLoading.forEach(function (group) {
+          Actions.loadObjectStore(group)
+        })
+        /*// get all items
         let series = PouchDB.utils.Promise.resolve()
         groupsLoading.forEach(function (group) {
           series = series.then(function () {
@@ -47,7 +50,7 @@ export default function () {
         })
         .catch(function (error) {
           Actions.loadPouchFromRemote.failed('Actions.loadPouchFromRemote, error loading groups:', error)
-        })
+        })*/
       })
       .catch(function (error) {
         Actions.loadPouchFromRemote.failed('Actions.loadPouchFromRemote, error loading groups:', error)
