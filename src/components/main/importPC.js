@@ -1,5 +1,6 @@
 'use strict'
 
+import app from 'ampersand-app'
 import React from 'react'
 import { Accordion, Panel, Well, Input, Alert, Button } from 'react-bootstrap'
 
@@ -7,7 +8,7 @@ export default React.createClass({
   displayName: 'Import',
 
   propTypes: {
-    userEmail: React.PropTypes.string,
+    email: React.PropTypes.string,
     isDatenVerstehenVisible: React.PropTypes.bool,
     isZusEsVisible: React.PropTypes.bool,
     isAutorenrechteVisible: React.PropTypes.bool
@@ -18,6 +19,17 @@ export default React.createClass({
       isDatenVerstehenVisible: false,
       isZusEsVisible: false,
       isAutorenrechteVisible: false
+    }
+  },
+
+  componentDidMount () {
+    const { email } = this.props
+    if (!email) {
+      const loginVariables = {
+        logIn: true,
+        email: undefined
+      }
+      app.Actions.login(loginVariables)
     }
   },
 

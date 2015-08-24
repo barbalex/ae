@@ -54,7 +54,7 @@ export default React.createClass({
       <fieldset id='main'>
         <form className={formClassNames} autoComplete='off'>
           {showObject ? <Objekt object={object} synonymObjects={synonymObjects} /> : ''}
-          {showImportPC ? <ImportPC /> : ''}
+          {showImportPC ? <ImportPC email={email} /> : ''}
           {showOrganizations ? <Organizations email={email} /> : ''}
         </form>
       </fieldset>
