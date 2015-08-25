@@ -42,6 +42,8 @@ app.extend({
       that.remoteDb = new PouchDB(pouchUrl())
     ])
     .then(function () {
+      // get meaningful messages when errors occur in design docs
+      that.localDb.on('error', function (err) { debugger })
       // initiate localGroupsDb if necessary
       // putIfNotExists is a method added by pouchdbUpsert
       const groupsDoc = {

@@ -4,9 +4,12 @@ import app from 'ampersand-app'
 import React from 'react'
 import { Accordion, Panel, Well, Input, Alert, Button } from 'react-bootstrap'
 import _ from 'lodash'
+import { ListenerMixin } from 'reflux'
 
 export default React.createClass({
   displayName: 'Import',
+
+  mixins: [ListenerMixin],
 
   propTypes: {
     email: React.PropTypes.string,
@@ -62,6 +65,7 @@ export default React.createClass({
     pcNameKeysUnique = _.sortBy(pcNameKeysUnique, function (key) {
       return key[0]
     })
+    console.log('importPc.js, onChangePropertyCollectionsStore: pcNamesKeys', pcNameKeysUnique)
     this.setState({
       pcNamesKeys: pcNameKeysUnique
     })

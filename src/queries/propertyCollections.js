@@ -10,28 +10,29 @@ import _ from 'lodash'
 
 export default function (options) {
   return new Promise(function (resolve, reject) {
-    const propertyCollections = []
     const ddoc = {
       _id: '_design/propertyCollections',
       views: {
-        map: function (doc) {
-          let x
-          if (doc.Typ && doc.Typ === 'Objekt') {
-            if (doc.Eigenschaftensammlungen) {
-              _.each(doc.Eigenschaftensammlungen, function (es) {
-                // dsZusammenfassend ergänzen
-                const dsZusammenfassend = !!es.zusammenfassend
-                let felder = {}
-                for (x in es) {
-                  if (x !== 'Typ' && x !== 'Name' && x !== 'Eigenschaften') {
-                    felder[x] = es[x]
+        propertyCollections: {
+          map: function mapFun (doc) {
+            if (doc.Typ && doc.Typ === 'Objekt') {
+              if (doc.Eigenschaftensammlungen) {
+                _.forEach(doc.Eigenschaftensammlungen, function (es) {
+                  // esZusammenfassend ergänzen
+                  const esZusammenfassend = !!es.zusammenfassend
+                  let felder = {}
+                  var x
+                  for (x in es) {
+                    if (x !== 'Typ' && x !== 'Name' && x !== 'Eigenschaften') {
+                      felder[x] = es[x]
+                    }
                   }
-                }
-                emit(['Datensammlung', es.Name, dsZusammenfassend, es['importiert von'], felder], doc._id)
-              })
+                  emit(['Datensammlung', es.Name, esZusammenfassend, es['importiert von'], felder], doc._id)
+                })
+              }
             }
-          }
-        }.toString()
+          }.toString()
+        }
       }
     }
     app.localDb.put(ddoc)
@@ -39,11 +40,13 @@ export default function (options) {
         // ignore if doc already exists
         if (error.status !== 409) reject(error)
       })
-      .then(function () {
+      .then(function (response) {
+        console.log('propertyCollections.js: response', response)
         return app.localDb.query('propertyCollections', options)
       })
       .then(function (result) {
-        propertyCollections = _.pluck(result, 'row')
+        const propertyCollections = _.pluck(result, 'row')
+        console.log('propertyCollections.js: propertyCollections', propertyCollections)
         resolve(propertyCollections)
       })
       .catch(function (error) {

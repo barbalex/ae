@@ -33,14 +33,16 @@ export default function (Actions) {
       const options = {
         startkey: ['Datensammlung'],
         endkey: ['Datensammlung', {}, {}, {}, {}],
-        group_level: 5
+        group_level: 5,
+        reduce: '_count'
       }
       queryPropertyCollections(options)
         .then(function (propertyCollections) {
+          console.log('propertyCollectionsStore: propertyCollections:', propertyCollections)
           that.trigger(propertyCollections)
         })
         .catch(function (error) {
-          console.log('error querying property collectins:', error)
+          console.log('propertyCollectionsStore: error querying property collections:', error)
         })
     }
   })
