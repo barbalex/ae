@@ -25,7 +25,8 @@ export default function () {
     loadPathStore: {},
     loadActivePathStore: {},
     login: {},
-    showGroupLoading: {}
+    showGroupLoading: {},
+    queryPropertyCollections: {}
   })
 
   Actions.loadPouchFromRemote.listen(function () {

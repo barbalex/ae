@@ -14,8 +14,37 @@ import getSynonymsOfObject from './modules/getSynonymsOfObject.js'
 import addGroupsLoadedToLocalGroupsDb from './modules/addGroupsLoadedToLocalGroupsDb.js'
 import getGruppen from './modules/gruppen.js'
 import loadGroupFromRemote from './modules/loadGroupFromRemote.js'
+import queryPropertyCollections from './queries/propertyCollections.js'
 
 export default function (Actions) {
+  app.propertyCollectionsStore = Reflux.createStore({
+    /*
+     * queries property collections
+     */
+    listenables: Actions,
+
+    propertyCollections: [],
+
+    onQueryPropertyCollections () {
+      // if pc's exist, send them immediately
+      if (this.propertyCollections.length > 0) this.trigger(this.propertyCollections)
+      // now fetch up to date pc's
+      const that = this
+      const options = {
+        startkey: ['Datensammlung'],
+        endkey: ['Datensammlung', {}, {}, {}, {}],
+        group_level: 5
+      }
+      queryPropertyCollections(options)
+        .then(function (propertyCollections) {
+          that.trigger(propertyCollections)
+        })
+        .catch(function (error) {
+          console.log('error querying property collectins:', error)
+        })
+    }
+  })
+
   app.loginStore = Reflux.createStore({
     /*
      * contains email of logged in user

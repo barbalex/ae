@@ -3,6 +3,7 @@
 import app from 'ampersand-app'
 import React from 'react'
 import { Accordion, Panel, Well, Input, Alert, Button } from 'react-bootstrap'
+import _ from 'lodash'
 
 export default React.createClass({
   displayName: 'Import',
@@ -11,18 +12,23 @@ export default React.createClass({
     email: React.PropTypes.string,
     isDatenVerstehenVisible: React.PropTypes.bool,
     isZusEsVisible: React.PropTypes.bool,
-    isAutorenrechteVisible: React.PropTypes.bool
+    isAutorenrechteVisible: React.PropTypes.bool,
+    pcNamesKeys: React.PropTypes.array
   },
 
   getInitialState () {
     return {
       isDatenVerstehenVisible: false,
       isZusEsVisible: false,
-      isAutorenrechteVisible: false
+      isAutorenrechteVisible: false,
+      pcNamesKeys: []
     }
   },
 
   componentDidMount () {
+    // listen to stores
+    this.listenTo(app.propertyCollectionsStore, this.onChangePropertyCollectionsStore)
+    // show login of not logged in
     const { email } = this.props
     if (!email) {
       const loginVariables = {
@@ -31,6 +37,34 @@ export default React.createClass({
       }
       app.Actions.login(loginVariables)
     }
+    // get relation collections
+    app.Actions.queryPropertyCollections()
+  },
+
+  onChangePropertyCollectionsStore (propertyCollections) {
+    // create array of arrays of type: ['Datensammlung', pcName, dsZusammenfassend]
+    // need only keys, and only the first three
+    // email: there are null values - provide default
+    const pcNameKeys = propertyCollections.map(function (pc) {
+      return [pc.key[1], pc.key[2], pc.key[3] || 'alex@gabriel-software.ch']
+    })
+    let pcNames = []
+    // remove non unique names
+    let pcNameKeysUnique = _.reject(pcNameKeys, function (key) {
+      const pcName = key[0]
+      if (!_.includes(pcNames, pcName)) {
+        pcName.push(pcName)
+        return false
+      }
+      return true
+    })
+    // sort by pcName
+    pcNameKeysUnique = _.sortBy(pcNameKeysUnique, function (key) {
+      return key[0]
+    })
+    this.setState({
+      pcNamesKeys: pcNameKeysUnique
+    })
   },
 
   onClickDatenVerstehen (event) {
