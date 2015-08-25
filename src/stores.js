@@ -15,6 +15,8 @@ import addGroupsLoadedToLocalGroupsDb from './modules/addGroupsLoadedToLocalGrou
 import getGruppen from './modules/gruppen.js'
 import loadGroupFromRemote from './modules/loadGroupFromRemote.js'
 import queryPropertyCollections from './queries/propertyCollections.js'
+import queryFauna from './queries/fauna.js'
+import queryMoose from './queries/moose.js'
 
 export default function (Actions) {
   app.propertyCollectionsStore = Reflux.createStore({
@@ -36,7 +38,11 @@ export default function (Actions) {
         group_level: 5,
         reduce: '_count'
       }
-      queryPropertyCollections(options)
+      const optionsFauna = {
+        include_docs: true
+      }
+      // queryPropertyCollections(options)
+      queryMoose(optionsFauna)
         .then(function (propertyCollections) {
           console.log('propertyCollectionsStore: propertyCollections:', propertyCollections)
           that.trigger(propertyCollections)

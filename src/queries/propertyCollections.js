@@ -21,7 +21,7 @@ export default function (options) {
                   // esZusammenfassend ergänzen
                   const esZusammenfassend = !!es.zusammenfassend
                   let felder = {}
-                  var x
+                  let x
                   for (x in es) {
                     if (x !== 'Typ' && x !== 'Name' && x !== 'Eigenschaften') {
                       felder[x] = es[x]
@@ -35,6 +35,7 @@ export default function (options) {
         }
       }
     }
+
     app.localDb.put(ddoc)
       .catch(function (error) {
         // ignore if doc already exists
@@ -45,7 +46,7 @@ export default function (options) {
         return app.localDb.query('propertyCollections', options)
       })
       .then(function (result) {
-        const propertyCollections = _.pluck(result, 'row')
+        const propertyCollections = _.pluck(result, 'rows')
         console.log('propertyCollections.js: propertyCollections', propertyCollections)
         resolve(propertyCollections)
       })

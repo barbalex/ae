@@ -16,26 +16,20 @@ export default React.createClass({
 
   /*getInitialState () {
     return {
-      itemFiltered: {
-        'value': 'A7EDF4A9-9501-46A0-82E1-51CC567EC83F',
-        'label': 'Clematis recta L. (Aufrechte Waldrebe)'
-      }
+      value: 'initial value'
     }
   },*/
 
   propTypes: {
     options: React.PropTypes.array,
     loadingFilterOptions: React.PropTypes.bool/*,
-    itemFiltered: React.PropTypes.object*/
+    value: React.PropTypes.string*/
   },
 
   onClickEmptyFilterField () {
     console.log('filter.js: clicked remove')
     /*this.setState({
-      itemFiltered: {
-        'value': null,
-        'label': ''
-      }
+      value: 'empty'
     })*/
     this.refs.typeahead.focus()
   },
