@@ -3,6 +3,7 @@
 import app from 'ampersand-app'
 import React from 'react'
 import { Accordion, Panel, Well, Input, Alert, Button } from 'react-bootstrap'
+// import * from 'react-bootstrap'
 import _ from 'lodash'
 import { ListenerMixin } from 'reflux'
 
@@ -16,7 +17,8 @@ export default React.createClass({
     isDatenVerstehenVisible: React.PropTypes.bool,
     isZusEsVisible: React.PropTypes.bool,
     isAutorenrechteVisible: React.PropTypes.bool,
-    pcNamesKeys: React.PropTypes.array
+    propertyCollections: React.PropTypes.array,
+    pcName: React.PropTypes.string
   },
 
   getInitialState () {
@@ -24,7 +26,8 @@ export default React.createClass({
       isDatenVerstehenVisible: false,
       isZusEsVisible: false,
       isAutorenrechteVisible: false,
-      pcNamesKeys: []
+      propertyCollections: [],
+      pcName: null
     }
   },
 
@@ -44,32 +47,13 @@ export default React.createClass({
     app.Actions.queryPropertyCollections()
   },
 
-  onChangePropertyCollectionsStore (propertyCollections) {
-    // create array of arrays of type: ['Datensammlung', pcName, dsZusammenfassend]
-    // need only keys, and only the first three
-    // email: there are null values - provide default
-    const pcNameKeys = propertyCollections.map(function (pc) {
-      return [pc.key[1], pc.key[2], pc.key[3] || 'alex@gabriel-software.ch']
+  onChangePropertyCollectionsStore (pcs) {
+    // email has empty values. Set default
+    const propertyCollections = _.forEach(pcs, function (pc) {
+      pc.importedBy = pc.importedBy || 'alex@gabriel-software.ch'
     })
-    let pcNames = []
-    // remove non unique names
-    let pcNameKeysUnique = _.reject(pcNameKeys, function (key) {
-      const pcName = key[0]
-      if (!_.includes(pcNames, pcName)) {
-        pcNames.push(pcName)
-        return false
-      }
-      return true
-    })
-    // sort by pcName
-    pcNameKeysUnique = _.sortBy(pcNameKeysUnique, function (key) {
-      return key[0]
-    })
-
-    console.log('importPc.js, onChangePropertyCollectionsStore: pcNamesKeys:', pcNameKeysUnique)
-
     this.setState({
-      pcNamesKeys: pcNameKeysUnique
+      propertyCollections: propertyCollections
     })
   },
 
@@ -94,27 +78,51 @@ export default React.createClass({
     })
   },
 
-  createPcOptions () {
-    const { pcNamesKeys } = this.state
+  onChangePcOptions (event) {
+    const pcName = event.target.value
+    this.setState({
+      pcName: pcName
+    })
+    // TODO: get Beschreibung, Datenstand, Nutzungsbedingungen, Link, importiert von, zusammenfassend
+    const pc = app.propertyCollectionsStore.getPcByName(pcName)
+    console.log('importPC.js, onChangePcOptions: pc', pc)
+  },
+
+  onChangePcName (event) {
+    const pcName = event.target.value
+    this.setState({
+      pcName: pcName
+    })
+  },
+
+  pcOptions () {
+    const { propertyCollections } = this.state
     const { email } = this.props
-    if (pcNamesKeys.length > 0) {
-      let options = pcNamesKeys.map(function (key) {
-        const pcName = key[0]
-        const pcCombining = key[1]
-        const pcImportedBy = key[2]
+
+    if (propertyCollections.length > 0) {
+      let options = propertyCollections.map(function (pc) {
+        const pcName = pc.name
+        const pcCombining = pc.combining
+        const pcImportedBy = pc.importedBy
         // mutable: only those imported by user and combining pc's
         // or: user is admin
         const mutable = (pcImportedBy === email || pcCombining || Boolean(window.localStorage.admin))
         const className = mutable ? 'adbGruenFett' : 'adbGrauNormal'
-        return (<option value={pcName} className={className} waehlbar={mutable}>{pcName}</option>)
+        return (<option key={pcName} value={pcName} className={className} waehlbar={mutable}>{pcName}</option>)
       })
       // add an empty option at the beginning
-      options.unshift(<option value='' waehlbar={true}></option>)
+      options.unshift(<option key='noValue' value='' waehlbar={true}></option>)
       return options
     } else {
       // this option will be showed while loading
-      return (<option value='' waehlbar={true}>Lade Eigenschaftensammlungen...</option>)
+      return (<option value='' waehlbar={true}>Lade Daten...</option>)
     }
+  },
+
+  inputName () {
+    const { pcName } = this.state
+    if (pcName) return <Input type='text' label={'Name'} className='controls input-sm' value={pcName} onChange={this.onChangePcName} />
+    return <Input type='text' label={'Name'} className='controls input-sm' />
   },
 
   render () {
@@ -152,14 +160,14 @@ export default React.createClass({
             </Well>
             <div className='form-group'>
               <label className='control-label' htmlFor='dsWaehlen'>Bestehende wählen</label>
-              <select className='form-control controls' id='dsWaehlen'>{this.createPcOptions()}</select>
+              <select className='form-control controls' onChange={this.onChangePcOptions}>{this.pcOptions()}</select>
             </div>
             <div className='controls feld'>
               <button type='button' className='btn btn-primary btn-default' id='dsLoeschen' style={{'display': 'none', 'marginBottom': 6 + 'px'}}>Gewählte Eigenschaftensammlung und alle ihre Eigenschaften aus allen Arten und/oder Lebensräumen entfernen</button>
               <div id='importierenDsDsBeschreibenHinweis' className='alert alert-info'></div>
             </div>
             <hr />
-            <Input type='text' label={'Name'} className='controls input-sm' id='dsName' />
+            {this.inputName()}
             <Input type='textarea' className='form-control controls' label={'Beschreibung'} id='dsBeschreibung' rows={1} />
             <Input type='textarea' className='form-control controls' label={'Datenstand'} id='dsDatenstand' rows={1} />
             <Input type='textarea' className='form-control controls' label={'Nutzungsbedingungen'} id='dsNutzungsbedingungen' rows={6} placeholder='Beispiel, wenn Fremddaten mit Einverständnis des Autors importiert werden:

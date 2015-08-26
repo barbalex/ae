@@ -20,10 +20,19 @@ export default function (Actions) {
   app.propertyCollectionsStore = Reflux.createStore({
     /*
      * queries property collections
+     * keeps last query result in array for fast delivery
+     * pc's are arrays of the form:
+     * [collectionType, pcName, combining, importedBy, {Beschreibung: xxx, Datenstand: xxx, Link: xxx, Nutzungsbedingungen: xxx}]
      */
     listenables: Actions,
 
     propertyCollections: [],
+
+    getPcByName (pcName) {
+      return _.find(this.propertyCollections, function (pc) {
+        return pc.name === pcName
+      })
+    },
 
     onQueryPropertyCollections () {
       // if pc's exist, send them immediately
@@ -32,6 +41,7 @@ export default function (Actions) {
       const that = this
       queryPropertyCollections()
         .then(function (pcs) {
+          that.propertyCollections = pcs
           that.trigger(pcs)
         })
         .catch(function (error) {

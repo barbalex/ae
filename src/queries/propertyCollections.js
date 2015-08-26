@@ -1,11 +1,13 @@
 /*
  * creates a design doc and puts it into the localDb
  * then queries it with the provided options
+ * then returns an object for every property collection
  */
 
 'use strict'
 
 import app from 'ampersand-app'
+import _ from 'lodash'
 
 export default function () {
   return new Promise(function (resolve, reject) {
@@ -50,8 +52,27 @@ export default function () {
         return app.localDb.query('propertyCollections', options)
       })
       .then(function (result) {
-        const propertyCollections = result.rows
-        resolve(propertyCollections)
+        let pcs = result.rows
+        // get the keys
+        pcs = _.pluck(pcs, 'key')
+        // group by name
+        pcs = _.uniq(pcs, function (pc) {
+          return pc[1]
+        })
+        // sort by pcName
+        pcs = _.sortBy(pcs, function (pc) {
+          return pc[1]
+        })
+        pcs = _.map(pcs, function (pc) {
+          return {
+            type: pc[0],
+            name: pc[1],
+            combining: pc[2],
+            importedBy: pc[3],
+            fields: pc[4]
+          }
+        })
+        resolve(pcs)
       })
       .catch(function (error) {
         reject(error)
