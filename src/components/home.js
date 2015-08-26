@@ -241,7 +241,8 @@ const Home = React.createClass({
           <div id='menuLine'>
             <ResizeButton />
           </div>
-          {this.createGruppen()} {showFilter ? <Filter options={options} loadingFilterOptions={loadingFilterOptions} /> : ''}
+          {this.createGruppen()}
+          {showFilter ? <Filter options={options} loadingFilterOptions={loadingFilterOptions} /> : ''}
           <TreeFromHierarchyObject
             hierarchy={hierarchy}
             groupsLoadingObjects={groupsLoadingObjects}

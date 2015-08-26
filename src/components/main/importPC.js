@@ -97,8 +97,8 @@ export default React.createClass({
   createPcOptions () {
     const { pcNamesKeys } = this.state
     const { email } = this.props
-    if (pcNamesKeys) {
-      pcNamesKeys.forEach(function (key, index) {
+    if (pcNamesKeys.length > 0) {
+      let options = pcNamesKeys.map(function (key) {
         const pcName = key[0]
         const pcCombining = key[1]
         const pcImportedBy = key[2]
@@ -106,15 +106,13 @@ export default React.createClass({
         // or: user is admin
         const mutable = (pcImportedBy === email || pcCombining || Boolean(window.localStorage.admin))
         const className = mutable ? 'adbGruenFett' : 'adbGrauNormal'
-        if (index === 0) {
-          return (
-            <option value='' waehlbar={true}></option>
-            <option value={pcName} className={className} waehlbar={mutable}>{pcName}</option>
-          )
-        }
         return (<option value={pcName} className={className} waehlbar={mutable}>{pcName}</option>)
       })
+      // add an empty option at the beginning
+      options.unshift(<option value='' waehlbar={true}></option>)
+      return options
     } else {
+      // this option will be showed while loading
       return (<option value='' waehlbar={true}>Lade Eigenschaftensammlungen...</option>)
     }
   },
