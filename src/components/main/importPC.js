@@ -56,7 +56,7 @@ export default React.createClass({
     let pcNameKeysUnique = _.reject(pcNameKeys, function (key) {
       const pcName = key[0]
       if (!_.includes(pcNames, pcName)) {
-        pcName.push(pcName)
+        pcNames.push(pcName)
         return false
       }
       return true
@@ -65,7 +65,9 @@ export default React.createClass({
     pcNameKeysUnique = _.sortBy(pcNameKeysUnique, function (key) {
       return key[0]
     })
-    console.log('importPc.js, onChangePropertyCollectionsStore: pcNamesKeys', pcNameKeysUnique)
+
+    console.log('importPc.js, onChangePropertyCollectionsStore: pcNamesKeys:', pcNameKeysUnique)
+
     this.setState({
       pcNamesKeys: pcNameKeysUnique
     })
@@ -92,9 +94,34 @@ export default React.createClass({
     })
   },
 
+  createPcOptions () {
+    const { pcNamesKeys } = this.state
+    const { email } = this.props
+    if (pcNamesKeys) {
+      pcNamesKeys.forEach(function (key, index) {
+        const pcName = key[0]
+        const pcCombining = key[1]
+        const pcImportedBy = key[2]
+        // mutable: only those imported by user and combining pc's
+        // or: user is admin
+        const mutable = (pcImportedBy === email || pcCombining || Boolean(window.localStorage.admin))
+        const className = mutable ? 'adbGruenFett' : 'adbGrauNormal'
+        if (index === 0) {
+          return (
+            <option value='' waehlbar={true}></option>
+            <option value={pcName} className={className} waehlbar={mutable}>{pcName}</option>
+          )
+        }
+        return (<option value={pcName} className={className} waehlbar={mutable}>{pcName}</option>)
+      })
+    } else {
+      return (<option value='' waehlbar={true}>Lade Eigenschaftensammlungen...</option>)
+    }
+  },
+
   render () {
     const { isDatenVerstehenVisible, isZusEsVisible, isAutorenrechteVisible } = this.state
-    // console.log('importPC.js, render')
+
     return (
       <div>
         <h4>Eigenschaften importieren</h4>
@@ -127,7 +154,7 @@ export default React.createClass({
             </Well>
             <div className='form-group'>
               <label className='control-label' htmlFor='dsWaehlen'>Bestehende wählen</label>
-              <select className='form-control controls' id='dsWaehlen'></select>
+              <select className='form-control controls' id='dsWaehlen'>{this.createPcOptions()}</select>
             </div>
             <div className='controls feld'>
               <button type='button' className='btn btn-primary btn-default' id='dsLoeschen' style={{'display': 'none', 'marginBottom': 6 + 'px'}}>Gewählte Eigenschaftensammlung und alle ihre Eigenschaften aus allen Arten und/oder Lebensräumen entfernen</button>

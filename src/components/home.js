@@ -49,7 +49,6 @@ const Home = React.createClass({
 
     // this happens on first load
     // need to kick off stores
-    console.log('home.js, getInitialState: path:', path)
     if (!(path.length === 2 && path[0] === 'importieren') && !(path.length === 1 && path[0] === 'organisationen_und_benutzer') && path[0]) {
       // this would be an object url
       kickOffStores(path, gruppe, guid)

@@ -8,7 +8,7 @@
 import app from 'ampersand-app'
 import _ from 'lodash'
 
-export default function (options) {
+export default function () {
   return new Promise(function (resolve, reject) {
     const ddoc = {
       _id: '_design/moose',
@@ -29,13 +29,10 @@ export default function (options) {
         if (error.status !== 409) reject(error)
       })
       .then(function (response) {
-        console.log('moose.js: response from putting ddoc', response)
-        return app.localDb.query('moose', options)
+        return app.localDb.query('moose', { include_docs: true })
       })
       .then(function (result) {
-        console.log('moose.js: result', result)
-        const moose = _.pluck(result, 'rows')
-        console.log('moose.js: moose', moose)
+        const moose = _.pluck(result.rows, 'doc')
         resolve(moose)
       })
       .catch(function (error) {

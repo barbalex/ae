@@ -6,18 +6,17 @@
 'use strict'
 
 import app from 'ampersand-app'
-import _ from 'lodash'
 
-export default function (options) {
+export default function () {
   return new Promise(function (resolve, reject) {
     const ddoc = {
       _id: '_design/propertyCollections',
       views: {
-        propertyCollections: {
-          map: function mapFun (doc) {
+        'propertyCollections': {
+          map: function (doc) {
             if (doc.Typ && doc.Typ === 'Objekt') {
               if (doc.Eigenschaftensammlungen) {
-                _.forEach(doc.Eigenschaftensammlungen, function (es) {
+                doc.Eigenschaftensammlungen.forEach(function (es) {
                   // esZusammenfassend ergänzen
                   const esZusammenfassend = !!es.zusammenfassend
                   let felder = {}
@@ -42,12 +41,16 @@ export default function (options) {
         if (error.status !== 409) reject(error)
       })
       .then(function (response) {
-        console.log('propertyCollections.js: response', response)
+        const options = {
+          startkey: ['Datensammlung'],
+          endkey: ['Datensammlung', {}, {}, {}, {}],
+          group_level: 5,
+          reduce: '_count'
+        }
         return app.localDb.query('propertyCollections', options)
       })
       .then(function (result) {
-        const propertyCollections = _.pluck(result, 'rows')
-        console.log('propertyCollections.js: propertyCollections', propertyCollections)
+        const propertyCollections = result.rows
         resolve(propertyCollections)
       })
       .catch(function (error) {

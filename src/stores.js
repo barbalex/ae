@@ -15,8 +15,6 @@ import addGroupsLoadedToLocalGroupsDb from './modules/addGroupsLoadedToLocalGrou
 import getGruppen from './modules/gruppen.js'
 import loadGroupFromRemote from './modules/loadGroupFromRemote.js'
 import queryPropertyCollections from './queries/propertyCollections.js'
-import queryFauna from './queries/fauna.js'
-import queryMoose from './queries/moose.js'
 
 export default function (Actions) {
   app.propertyCollectionsStore = Reflux.createStore({
@@ -32,20 +30,9 @@ export default function (Actions) {
       if (this.propertyCollections.length > 0) this.trigger(this.propertyCollections)
       // now fetch up to date pc's
       const that = this
-      const options = {
-        startkey: ['Datensammlung'],
-        endkey: ['Datensammlung', {}, {}, {}, {}],
-        group_level: 5,
-        reduce: '_count'
-      }
-      const optionsFauna = {
-        include_docs: true
-      }
-      // queryPropertyCollections(options)
-      queryMoose(optionsFauna)
-        .then(function (propertyCollections) {
-          console.log('propertyCollectionsStore: propertyCollections:', propertyCollections)
-          that.trigger(propertyCollections)
+      queryPropertyCollections()
+        .then(function (pcs) {
+          that.trigger(pcs)
         })
         .catch(function (error) {
           console.log('propertyCollectionsStore: error querying property collections:', error)

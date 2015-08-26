@@ -8,13 +8,13 @@
 import app from 'ampersand-app'
 import _ from 'lodash'
 
-export default function (options) {
+export default function () {
   return new Promise(function (resolve, reject) {
     const ddoc = {
       _id: '_design/fauna',
       views: {
-        fauna: {
-          map: function mapFun (doc) {
+        'fauna': {
+          map: function (doc) {
             if (doc.Typ && doc.Typ === 'Objekt' && doc.Gruppe && doc.Gruppe === 'Fauna') {
               emit([doc._id, doc._rev])
             }
@@ -29,13 +29,10 @@ export default function (options) {
         if (error.status !== 409) reject(error)
       })
       .then(function (response) {
-        console.log('fauna.js: response from putting ddoc', response)
-        return app.localDb.query('fauna', options)
+        return app.localDb.query('fauna', { include_docs: true })
       })
       .then(function (result) {
-        console.log('fauna.js: result', result)
-        const fauna = _.pluck(result, 'rows')
-        console.log('fauna.js: fauna', fauna)
+        const fauna = _.pluck(result.rows, 'doc')
         resolve(fauna)
       })
       .catch(function (error) {
