@@ -159,17 +159,19 @@ export default React.createClass({
       this.setState({
         editingPcDisallowed: true
       })
+      // delete text after a second
       setTimeout(function () {
         that.setState({
           pcNameExisting: null,
           pcName: null
         })
       }, 1000)
+      // close alert after 8 seconds
       setTimeout(function () {
         that.setState({
           editingPcDisallowed: false
         })
-      }, 5000)
+      }, 8000)
     }
     return editingPcDisallowed
   },
@@ -271,7 +273,7 @@ export default React.createClass({
   zusammenfassendPopover () {
     return (
       <Popover title='Was ist das?' style={{maxWidth: 1000 + 'px'}}>
-        Siehe <a href='https://github.com/FNSKtZH/artendb#zusammenfassende-eigenschaftensammlungen' target='_blank'>hier im Projektbeschrieb</a>.
+        Siehe die <a href='https://github.com/FNSKtZH/artendb#zusammenfassende-eigenschaftensammlungen' target='_blank'>Erklärung im Projektbeschrieb</a>.
         <p style={{marginBottom: 0}}><em><strong>Tipp: </strong>Klicken Sie auf "zusammenfassend" um danach den Link klicken, ohne dass diese Meldung schliesst!</em></p>
       </Popover>
     )
