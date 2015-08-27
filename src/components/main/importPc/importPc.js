@@ -333,14 +333,18 @@ export default React.createClass({
           <Panel header='1. Eigenschaftensammlung beschreiben' eventKey='1'>
             <Well className='well-sm'><a href='//youtu.be/nqd-v6YxkOY' target='_blank'><b>Auf Youtube sehen, wie es geht</b></a></Well>
             <WellAutorenrechte />
+
             <div className='form-group'>
               <label className='control-label' htmlFor='pcNameExisting'>Bestehende wählen</label>
               <select id='pcNameExisting' className='form-control controls' selected={pcNameExisting} onChange={this.onChangePcNameExisting}>{this.pcNameExistingOptions()}</select>
             </div>
+
             <div className='controls feld'>
               <button type='button' className='btn btn-primary btn-default' style={{'display': 'none', 'marginBottom': 6 + 'px'}}>Gewählte Eigenschaftensammlung und alle ihre Eigenschaften aus allen Arten und/oder Lebensräumen entfernen</button>
             </div>
+
             <hr />
+
             <div className='form-group'>
               <OverlayTrigger trigger='click' rootClose placement='right' overlay={this.namePopover()}>
                 <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.namePopover()}>
@@ -388,6 +392,7 @@ export default React.createClass({
             </div>
 
             <Input type='text' label={'importiert von'} className='controls input-sm' value={importiertVon} disabled />
+
             <div className={'form-group'}>
               <OverlayTrigger trigger='click' rootClose placement='right' overlay={this.zusammenfassendPopover()}>
                 <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.zusammenfassendPopover()}>
@@ -396,11 +401,14 @@ export default React.createClass({
               </OverlayTrigger>
               <input type='checkbox' label={'zusammenfassend'} checked={zusammenfassend} onChange={this.onChangeZusammenfassend} />
             </div>
+
             {zusammenfassend ? this.ursprungsEs() : null}
+
             <div className='form-group'>
               <label className='control-label' htmlFor='dsAnzDs' id='dsAnzDsLabel'></label>
               <div id='dsAnzDs' className='feldtext controls'></div>
             </div>
+
           </Panel>
           <Panel header='2. Eigenschaften laden' eventKey='2'>
             <Well className='well-sm'><b>Technische Anforderungen an die Datei</b> <a href='#' className='showNextHidden'>...mehr</a>
