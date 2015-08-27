@@ -18,7 +18,13 @@ export default React.createClass({
     isZusEsVisible: React.PropTypes.bool,
     isAutorenrechteVisible: React.PropTypes.bool,
     propertyCollections: React.PropTypes.array,
-    pcName: React.PropTypes.string
+    pcName: React.PropTypes.string,
+    beschreibung: React.PropTypes.string,
+    datenstand: React.PropTypes.string,
+    nutzungsbedingungen: React.PropTypes.string,
+    link: React.PropTypes.string,
+    importiertVon: React.PropTypes.string,
+    zusammenfassend: React.PropTypes.bool
   },
 
   getInitialState () {
@@ -27,7 +33,13 @@ export default React.createClass({
       isZusEsVisible: false,
       isAutorenrechteVisible: false,
       propertyCollections: [],
-      pcName: null
+      pcName: null,
+      beschreibung: null,
+      datenstand: null,
+      nutzungsbedingungen: null,
+      link: null,
+      importiertVon: null,
+      zusammenfassend: null
     }
   },
 
@@ -80,18 +92,70 @@ export default React.createClass({
 
   onChangePcOptions (event) {
     const pcName = event.target.value
-    this.setState({
-      pcName: pcName
-    })
-    // TODO: get Beschreibung, Datenstand, Nutzungsbedingungen, Link, importiert von, zusammenfassend
     const pc = app.propertyCollectionsStore.getPcByName(pcName)
-    console.log('importPC.js, onChangePcOptions: pc', pc)
+    const beschreibung = pc.fields.Beschreibung
+    const datenstand = pc.fields.Datenstand
+    const nutzungsbedingungen = pc.fields.Nutzungsbedingungen
+    const link = pc.fields.Link
+    const importiertVon = pc.fields['importiert von']
+    const zusammenfassend = pc.combining
+    this.setState({
+      pcName: pcName,
+      beschreibung: beschreibung,
+      datenstand: datenstand,
+      nutzungsbedingungen: nutzungsbedingungen,
+      link: link,
+      importiertVon: importiertVon,
+      zusammenfassend: zusammenfassend
+    })
   },
 
   onChangePcName (event) {
     const pcName = event.target.value
     this.setState({
       pcName: pcName
+    })
+  },
+
+  onChangeBeschreibung (event) {
+    const beschreibung = event.target.value
+    this.setState({
+      beschreibung: beschreibung
+    })
+  },
+
+  onChangeDatenstand (event) {
+    const datenstand = event.target.value
+    this.setState({
+      datenstand: datenstand
+    })
+  },
+
+  onChangeNutzungsbedingungen (event) {
+    const nutzungsbedingungen = event.target.value
+    this.setState({
+      nutzungsbedingungen: nutzungsbedingungen
+    })
+  },
+
+  onChangeLink (event) {
+    const link = event.target.value
+    this.setState({
+      link: link
+    })
+  },
+
+  onChangeImportiertVon (event) {
+    const importiertVon = event.target.value
+    this.setState({
+      importiertVon: importiertVon
+    })
+  },
+
+  onChangeZusammenfassend (event) {
+    const zusammenfassend = event.target.checked
+    this.setState({
+      zusammenfassend: zusammenfassend
     })
   },
 
@@ -119,14 +183,8 @@ export default React.createClass({
     }
   },
 
-  inputName () {
-    const { pcName } = this.state
-    if (pcName) return <Input type='text' label={'Name'} className='controls input-sm' value={pcName} onChange={this.onChangePcName} />
-    return <Input type='text' label={'Name'} className='controls input-sm' />
-  },
-
   render () {
-    const { isDatenVerstehenVisible, isZusEsVisible, isAutorenrechteVisible } = this.state
+    const { isDatenVerstehenVisible, isZusEsVisible, isAutorenrechteVisible, pcName, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend } = this.state
 
     return (
       <div>
@@ -167,21 +225,21 @@ export default React.createClass({
               <div id='importierenDsDsBeschreibenHinweis' className='alert alert-info'></div>
             </div>
             <hr />
-            {this.inputName()}
-            <Input type='textarea' className='form-control controls' label={'Beschreibung'} id='dsBeschreibung' rows={1} />
-            <Input type='textarea' className='form-control controls' label={'Datenstand'} id='dsDatenstand' rows={1} />
-            <Input type='textarea' className='form-control controls' label={'Nutzungsbedingungen'} id='dsNutzungsbedingungen' rows={6} placeholder='Beispiel, wenn Fremddaten mit Einverständnis des Autors importiert werden:
+            <Input type='text' label={'Name'} className='controls input-sm' value={pcName} onChange={this.onChangePcName} />
+            <Input type='textarea' className='form-control controls' label={'Beschreibung'} value={beschreibung} onChange={this.onChangeBeschreibung} rows={1} />
+            <Input type='textarea' className='form-control controls' label={'Datenstand'} rows={1} value={datenstand} onChange={this.onChangeDatenstand} />
+            <Input type='textarea' className='form-control controls' label={'Nutzungsbedingungen'} rows={6} value={nutzungsbedingungen} onChange={this.onChangeNutzungsbedingungen} placeholder='Beispiel, wenn Fremddaten mit Einverständnis des Autors importiert werden:
 "Importiert mit Einverständnis des Autors. Eine allfällige Weiterverbreitung ist nur mit dessen Zustimmung möglich"
 .
 Beispiel, wenn eigene Daten importiert werden:
 "Open Data: Die veröffentlichten Daten dürfen mit Hinweis auf die Quelle vervielfältigt, verbreitet und weiter zugänglich gemacht, angereichert und bearbeitet sowie kommerziell genutzt werden. Für die Richtigkeit, Genauigkeit, Zuverlässigkeit und Vollständigkeit der bezogenen, ebenso wie der daraus erzeugten Daten und anderer mit Hilfe dieser Daten hergestellten Produkte wird indessen keine Haftung übernommen."
 
 ' />
-            <Input type='textarea' className='form-control controls' label={'Link'} id='dsLink' rows={1} />
-            <Input type='text' label={'importiert von'} className='controls input-sm' id='dsImportiertVon' />
+            <Input type='textarea' className='form-control controls' label={'Link'} value={link} onChange={this.onChangeLink} rows={1} />
+            <Input type='text' label={'importiert von'} className='controls input-sm' value={importiertVon} onChange={this.onChangeImportiertVon} />
             <div className={'form-group'}>
               <label className={'control-label'} htmlFor={'dsZusammenfassend'}>zusammenfassend</label>
-              <input type='checkbox' label={'zusammenfassend'} id='dsZusammenfassend' />
+              <input type='checkbox' label={'zusammenfassend'} checked={zusammenfassend} onChange={this.onChangeZusammenfassend} />
             </div>
             <div className='form-group' id='dsUrsprungsDsDiv' style={{'display': 'none'}}>
               <label className='control-label dsUrsprungsDs' htmlFor='dsUrsprungsDs' id='dsUrsprungsDsLabel'>Ursprungs-Eigenschaftensammlung</label>
