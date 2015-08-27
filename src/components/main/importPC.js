@@ -19,6 +19,7 @@ export default React.createClass({
     isAutorenrechteVisible: React.PropTypes.bool,
     propertyCollections: React.PropTypes.array,
     pcNameExisting: React.PropTypes.string,
+    pcNameOrigin: React.PropTypes.string,
     pcName: React.PropTypes.string,
     beschreibung: React.PropTypes.string,
     datenstand: React.PropTypes.string,
@@ -36,6 +37,7 @@ export default React.createClass({
       isAutorenrechteVisible: false,
       propertyCollections: [],
       pcNameExisting: null,
+      pcNameOrigin: null,
       pcName: null,
       beschreibung: null,
       datenstand: null,
@@ -118,6 +120,13 @@ export default React.createClass({
         importiertVon: importiertVon
       })
     }
+  },
+
+  onChangePcNameOrigin (event) {
+    const pcNameOrigin = event.target.value
+    this.setState({
+      pcNameOrigin: pcNameOrigin
+    })
   },
 
   onChangePcName (event) {
@@ -203,7 +212,8 @@ export default React.createClass({
   onChangeZusammenfassend (event) {
     const zusammenfassend = event.target.checked
     this.setState({
-      zusammenfassend: zusammenfassend
+      zusammenfassend: zusammenfassend,
+      pcNameOrigin: null
     })
   },
 
@@ -238,7 +248,12 @@ export default React.createClass({
       return !pc.combining
     })
     options = _.pluck(options, 'name')
-    console.log('options', options)
+    options = options.map(function (pcName) {
+      return (<option key={pcName} value={pcName}>{pcName}</option>)
+    })
+    // add an empty option at the beginning
+    options.unshift(<option key='noValue' value=''></option>)
+    return options
   },
 
   nutzungsbedingungenPopover () {
@@ -268,12 +283,13 @@ export default React.createClass({
   },
 
   ursprungsEs () {
+    const { pcNameOrigin } = this.state
     return (
       <div className='form-group'>
-        <OverlayTrigger trigger={['hover', 'focus']} placement='bottom' overlay={this.ursprungsEsPopover()}>
+        <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.ursprungsEsPopover()}>
           <label className='control-label' style={{textDecoration: 'underline'}} htmlFor='dsUrsprungsDs' id='dsUrsprungsDsLabel'>Ursprungs-Eigenschaftensammlung</label>
         </OverlayTrigger>
-        <select className='form-control controls input-sm' id='dsUrsprungsDs'></select>
+        <select className='form-control controls input-sm' id='dsUrsprungsDs' selected={pcNameOrigin} onChange={this.onChangePcNameOrigin}>{this.ursprungsEsOptions()}</select>
       </div>
     )
   },
@@ -333,8 +349,8 @@ export default React.createClass({
             <Input type='textarea' className='form-control controls' label={'Beschreibung'} value={beschreibung} onChange={this.onChangeBeschreibung} rows={1} />
             <Input type='textarea' className='form-control controls' label={'Datenstand'} rows={1} value={datenstand} onChange={this.onChangeDatenstand} />
             <div className='form-group'>
-              <OverlayTrigger trigger='click' rootClose placement='bottom' overlay={this.nutzungsbedingungenPopover()}>
-                <OverlayTrigger trigger={['hover', 'focus']} placement='bottom' overlay={this.nutzungsbedingungenPopover()}>
+              <OverlayTrigger trigger='click' rootClose placement='right' overlay={this.nutzungsbedingungenPopover()}>
+                <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.nutzungsbedingungenPopover()}>
                   <label className='control-label' style={{textDecoration: 'underline'}}>Nutzungsbedingungen</label>
                 </OverlayTrigger>
               </OverlayTrigger>
