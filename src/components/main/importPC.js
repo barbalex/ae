@@ -216,7 +216,7 @@ export default React.createClass({
   ursprungsEs () {
     return (
       <div className='form-group'>
-        <OverlayTrigger trigger='hover' placement='bottom' overlay={this.ursprungsEsPopover()}>
+        <OverlayTrigger trigger={['hover', 'focus']} placement='bottom' overlay={this.ursprungsEsPopover()}>
           <label className='control-label' style={{textDecoration: 'underline'}} htmlFor='dsUrsprungsDs' id='dsUrsprungsDsLabel'>Ursprungs-Eigenschaftensammlung</label>
         </OverlayTrigger>
         <select className='form-control controls dsUrsprungsDs input-sm' id='dsUrsprungsDs'></select>
@@ -271,7 +271,7 @@ export default React.createClass({
             <Input type='textarea' className='form-control controls' label={'Datenstand'} rows={1} value={datenstand} onChange={this.onChangeDatenstand} />
             <div className='form-group'>
               <OverlayTrigger trigger='click' rootClose placement='bottom' overlay={this.nutzungsbedingungenPopover()}>
-                <OverlayTrigger trigger='hover' placement='bottom' overlay={this.nutzungsbedingungenPopover()}>
+                <OverlayTrigger trigger={['hover', 'focus']} placement='bottom' overlay={this.nutzungsbedingungenPopover()}>
                   <label className='control-label' style={{textDecoration: 'underline'}}>Nutzungsbedingungen</label>
                 </OverlayTrigger>
               </OverlayTrigger>
