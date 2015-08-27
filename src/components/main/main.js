@@ -7,7 +7,7 @@
 
 import React from 'react'
 import Objekt from './object/object.js'
-import ImportPC from './importPC.js'
+import ImportPc from './importPc/importPc.js'
 import Organizations from './organizations.js'
 
 export default React.createClass({
@@ -54,7 +54,7 @@ export default React.createClass({
       <fieldset id='main'>
         <form className={formClassNames} autoComplete='off'>
           {showObject ? <Objekt object={object} synonymObjects={synonymObjects} /> : ''}
-          {showImportPC ? <ImportPC email={email} /> : ''}
+          {showImportPC ? <ImportPc email={email} /> : ''}
           {showOrganizations ? <Organizations email={email} /> : ''}
         </form>
       </fieldset>
