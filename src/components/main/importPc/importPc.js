@@ -5,8 +5,6 @@ import React from 'react'
 import { Accordion, Panel, Well, Input, Alert, Button, OverlayTrigger, Popover } from 'react-bootstrap'
 import _ from 'lodash'
 import { ListenerMixin } from 'reflux'
-import WellDatenVerstehen from './wellDatenVerstehen.js'
-import WellZusammenfassendeEsImportieren from './wellZusammenfassendeEsImportieren.js'
 import WellAutorenrechte from './wellAutorenrechte.js'
 
 export default React.createClass({
@@ -79,7 +77,6 @@ export default React.createClass({
     const datenstand = pc.fields.Datenstand
     const nutzungsbedingungen = pc.fields.Nutzungsbedingungen
     const link = pc.fields.Link
-    const importiertVon = pc.fields['importiert von']
     const zusammenfassend = pc.combining
     this.setState({
       beschreibung: beschreibung,
@@ -91,8 +88,7 @@ export default React.createClass({
     if (!editingPcIsDisallowed) {
       this.setState({
         pcNameExisting: pcNameExisting,
-        pcName: pcNameExisting,
-        importiertVon: importiertVon
+        pcName: pcNameExisting
       })
     }
   },
@@ -179,13 +175,6 @@ export default React.createClass({
     })
   },
 
-  onChangeImportiertVon (event) {
-    const importiertVon = event.target.value
-    this.setState({
-      importiertVon: importiertVon
-    })
-  },
-
   onChangeZusammenfassend (event) {
     const zusammenfassend = event.target.checked
     this.setState({
@@ -233,37 +222,80 @@ export default React.createClass({
     return options
   },
 
+  namePopover () {
+    return (
+      <Popover title='So wählen Sie einen guten Namen:'>
+        <p>Er sollte ungefähr dem ersten Teil eines Literaturzitats entsprechen. Beispiel: "Blaue Liste (1998)".</p>
+        <p>Wurden die Informationen spezifisch für einen bestimmten Kanton oder die ganze Schweiz erarbeitet?<br/>Wenn ja: Bitte das entsprechende Kürzel voranstellen. Beispiel: "ZH Artwert (aktuell)".</p>
+      </Popover>
+    )
+  },
+
+  beschreibungPopover () {
+    return (
+      <Popover title='So beschreiben Sie die Sammlung:'>
+        <p>Die Beschreibung sollte im ersten Teil etwa einem klassischen Literaturzitat entsprechen.<br/>
+          Beispiel: "Gigon A. et al. (1998): Blaue Listen der erfolgreich erhaltenen oder geförderten Tier- und Pflanzenarten der Roten Listen. Methodik und Anwendung in der nördlichen Schweiz. Veröff. Geobot. Inst. ETH, Stiftung Rübel, Zürich 129: 1-137 + 180 pp. Appendicesn".</p>
+        <p>In einem zweiten Teil sollte beschrieben werden, welche Informationen die Eigenschaftensammlung enthält.<br/>
+          Beispiel: "Eigenschaften von 207 Tierarten und 885 Pflanzenarten".</p>
+        <p>Es kann sehr nützlich sein, zu wissen, wozu die Informationen zusammengestellt wurden.</p>
+      </Popover>
+    )
+  },
+
+  datenstandPopover () {
+    return (
+      <Popover title='Wozu ein Datenstand?'>
+        <p>Hier sieht der Nutzer, wann die Eigenschaftensammlung zuletzt aktualisiert wurde.</p>
+      </Popover>
+    )
+  },
+
   nutzungsbedingungenPopover () {
     return (
-      <Popover title='Beispiele:' style={{maxWidth: 1000 + 'px'}}>
-        <p><strong>Wenn Fremddaten mit Einverständnis des Autors importiert werden:</strong><br/>
-        Importiert mit Einverständnis des Autors. Eine allfällige Weiterverbreitung ist nur mit dessen Zustimmung möglich</p>
-        <p><strong>Wenn eigene Daten importiert werden:</strong><br/>
-        Open Data: Die veröffentlichten Daten dürfen mit Hinweis auf die Quelle vervielfältigt, verbreitet und weiter zugänglich gemacht, angereichert und bearbeitet sowie kommerziell genutzt werden. Für die Richtigkeit, Genauigkeit, Zuverlässigkeit und Vollständigkeit der bezogenen, ebenso wie der daraus erzeugten Daten und anderer mit Hilfe dieser Daten hergestellten Produkte wird indessen keine Haftung übernommen.</p>
-        <p style={{marginBottom: 0}}><em><strong>Tipp: </strong>Klicken Sie auf "Nutzungsbedingungen". Dann können Sie obigen Beispieltext kopieren!</em></p>
+      <Popover title='Wozu Nutzunsbedingungen?'>
+        <p>Der Nutzer soll wissen, was er mit den Daten machen darf.</p>
+        <p><strong>Beispiele:</strong></p>
+        <p>Wenn <strong>fremde Daten</strong> mit Einverständnis des Autors importiert werden:<br/>
+        "Importiert mit Einverständnis des Autors. Eine allfällige Weiterverbreitung ist nur mit dessen Zustimmung möglich."</p>
+        <p>Wenn <strong>eigene Daten</strong> importiert werden:<br/>
+        "Open Data: Die veröffentlichten Daten dürfen mit Hinweis auf die Quelle vervielfältigt, verbreitet und weiter zugänglich gemacht, angereichert und bearbeitet sowie kommerziell genutzt werden. Für die Richtigkeit, Genauigkeit, Zuverlässigkeit und Vollständigkeit der bezogenen, ebenso wie der daraus erzeugten Daten und anderer mit Hilfe dieser Daten hergestellten Produkte wird indessen keine Haftung übernommen."</p>
+        <p><em>Tipp: Klicken Sie auf "Nutzungsbedingungen". Dann bleibt diese Meldung offen und Sie können den Beispieltext kopieren.</em></p>
+      </Popover>
+    )
+  },
+
+  linkPopover () {
+    return (
+      <Popover title='Wozu ein Link?'>
+        <p>Kann die Originalpublikation verlinkt werden?</p>
+        <p>Oder eine erläuternde Webseite?</p>
       </Popover>
     )
   },
 
   zusammenfassendPopover () {
     return (
-      <Popover title='Was ist das?' style={{maxWidth: 1000 + 'px'}}>
-        Siehe die <a href='https://github.com/FNSKtZH/artendb#zusammenfassende-eigenschaftensammlungen' target='_blank'>Erklärung im Projektbeschrieb</a>.
-        <p style={{marginBottom: 0}}><em><strong>Tipp: </strong>Klicken Sie auf "zusammenfassend" um danach den Link klicken, ohne dass diese Meldung schliesst!</em></p>
+      <Popover title='Was heisst "zusammenfassend"?'>
+        <p>Die Informationen in einer zusammenfassenden Eigenschaftensammlung wurden aus mehreren eigenständigen Eigenschaftensammlungen zusammegefasst.</p>
+        <p>Zweck: Jede Art bzw. jeder Lebensraum enthält die jeweils aktuellste Information zum Thema.</p>
+        <p>Beispiel: Rote Liste.</p>
+        <p>Mehr Infos <a href='https://github.com/FNSKtZH/artendb#zusammenfassende-eigenschaftensammlungen' target='_blank'>im Projektbeschrieb</a>.</p>
+        <p><em>Tipp: Klicken Sie auf "zusammenfassend", damit diese Meldung offen bleibt.</em></p>
       </Popover>
     )
   },
 
   ursprungsEsPopover () {
     return (
-      <Popover title='Was ist das?' style={{maxWidth: 1000 + 'px'}}>
-        Eine zusammenfassende Eigenschaftensammlung wird zwei mal importiert:
-        <ul>
-          <li>Zuerst als eigenständige Eigenschaftensammlung.<br/>Das ist die <strong>Ursprungs-Eigenschaftensammlung</strong>.</li>
-          <li>Dann gemeinsam mit bzw. zusätzlich zu anderen in eine zusammenfassende Eigenschaftensammlung.</li>
-        </ul>
-        Wählen Sie hier also den Namen der eigenständigen Sammlung.<br/><br/>
-        <strong>Zweck:</strong> In der zusammenfassenden Eigenschaftensammlung ist bei jedem Datensatz beschrieben, woher er stammt.
+      <Popover title='Was heisst "eigenständig"?'>
+        <p>Eine zusammenfassende Eigenschaftensammlung wird zwei mal importiert:</p>
+        <ol>
+          <li>Als <strong>eigenständige</strong> Eigenschaftensammlung.</li>
+          <li>Gemeinsam mit bzw. zusätzlich zu anderen in eine <strong>zusammenfassende</strong> Eigenschaftensammlung.</li>
+        </ol>
+        <p>Wählen Sie hier den Namen der eigenständigen Sammlung.</p>
+        <p><strong>Zweck:</strong> In der zusammenfassenden Sammlung ist bei jedem Datensatz beschrieben, woher er stammt.</p>
       </Popover>
     )
   },
@@ -272,8 +304,10 @@ export default React.createClass({
     const { pcNameOrigin } = this.state
     return (
       <div className='form-group'>
-        <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.ursprungsEsPopover()}>
-          <label className='control-label' style={{textDecoration: 'underline'}} htmlFor='dsUrsprungsDs' id='dsUrsprungsDsLabel'>Ursprungs-Eigenschaftensammlung</label>
+        <OverlayTrigger trigger='click' placement='right' overlay={this.ursprungsEsPopover()}>
+          <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.ursprungsEsPopover()}>
+            <label className='control-label withPopover' htmlFor='dsUrsprungsDs' id='dsUrsprungsDsLabel'>eigenständige Eigenschaftensammlung</label>
+          </OverlayTrigger>
         </OverlayTrigger>
         <select className='form-control controls input-sm' id='dsUrsprungsDs' selected={pcNameOrigin} onChange={this.onChangePcNameOrigin}>{this.ursprungsEsOptions()}</select>
       </div>
@@ -297,9 +331,7 @@ export default React.createClass({
         <h4>Eigenschaften importieren</h4>
         <Accordion>
           <Panel header='1. Eigenschaftensammlung beschreiben' eventKey='1'>
-            <Well className='well-sm'><a href='//youtu.be/nqd-v6YxkOY' target='_blank'><b>Screencast sehen</b></a></Well>
-            <WellDatenVerstehen />
-            <WellZusammenfassendeEsImportieren />
+            <Well className='well-sm'><a href='//youtu.be/nqd-v6YxkOY' target='_blank'><b>Auf Youtube sehen, wie es geht</b></a></Well>
             <WellAutorenrechte />
             <div className='form-group'>
               <label className='control-label' htmlFor='pcNameExisting'>Bestehende wählen</label>
@@ -309,24 +341,57 @@ export default React.createClass({
               <button type='button' className='btn btn-primary btn-default' style={{'display': 'none', 'marginBottom': 6 + 'px'}}>Gewählte Eigenschaftensammlung und alle ihre Eigenschaften aus allen Arten und/oder Lebensräumen entfernen</button>
             </div>
             <hr />
-            <Input type='text' label={'Name'} className='controls input-sm' value={pcName} onChange={this.onChangePcName} onBlur={this.onBlurPcName} />
+            <div className='form-group'>
+              <OverlayTrigger trigger='click' rootClose placement='right' overlay={this.namePopover()}>
+                <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.namePopover()}>
+                  <label className='control-label withPopover'>Name</label>
+                </OverlayTrigger>
+              </OverlayTrigger>
+              <input type='text' className='controls input-sm form-control' value={pcName} onChange={this.onChangePcName} onBlur={this.onBlurPcName} />
+            </div>
             {editingPcDisallowed ? this.alertEditingPcDisallowed() : null}
-            <Input type='textarea' className='form-control controls' label={'Beschreibung'} value={beschreibung} onChange={this.onChangeBeschreibung} rows={1} />
-            <Input type='textarea' className='form-control controls' label={'Datenstand'} rows={1} value={datenstand} onChange={this.onChangeDatenstand} />
+
+            <div className='form-group'>
+              <OverlayTrigger trigger='click' rootClose placement='right' overlay={this.beschreibungPopover()}>
+                <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.beschreibungPopover()}>
+                  <label className='control-label withPopover'>Beschreibung</label>
+                </OverlayTrigger>
+              </OverlayTrigger>
+              <input type='textarea' className='form-control controls' value={beschreibung} onChange={this.onChangeBeschreibung} rows={1} />
+            </div>
+
+            <div className='form-group'>
+              <OverlayTrigger trigger='click' rootClose placement='right' overlay={this.datenstandPopover()}>
+                <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.datenstandPopover()}>
+                  <label className='control-label withPopover'>Datenstand</label>
+                </OverlayTrigger>
+              </OverlayTrigger>
+              <input type='textarea' className='form-control controls' rows={1} value={datenstand} onChange={this.onChangeDatenstand} />
+            </div>
+
             <div className='form-group'>
               <OverlayTrigger trigger='click' rootClose placement='right' overlay={this.nutzungsbedingungenPopover()}>
                 <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.nutzungsbedingungenPopover()}>
-                  <label className='control-label' style={{textDecoration: 'underline'}}>Nutzungsbedingungen</label>
+                  <label className='control-label withPopover'>Nutzungsbedingungen</label>
                 </OverlayTrigger>
               </OverlayTrigger>
               <textarea className='form-control controls' rows={1} value={nutzungsbedingungen} onChange={this.onChangeNutzungsbedingungen}></textarea>
             </div>
-            <Input type='textarea' className='form-control controls' label={'Link'} value={link} onChange={this.onChangeLink} rows={1} />
-            <Input type='text' label={'importiert von'} className='controls input-sm' value={importiertVon} onChange={this.onChangeImportiertVon} />
+
+            <div className='form-group'>
+              <OverlayTrigger trigger='click' rootClose placement='right' overlay={this.linkPopover()}>
+                <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.linkPopover()}>
+                  <label className='control-label withPopover'>Link</label>
+                </OverlayTrigger>
+              </OverlayTrigger>
+              <input type='textarea' className='form-control controls' value={link} onChange={this.onChangeLink} rows={1} />
+            </div>
+
+            <Input type='text' label={'importiert von'} className='controls input-sm' value={importiertVon} disabled />
             <div className={'form-group'}>
               <OverlayTrigger trigger='click' rootClose placement='right' overlay={this.zusammenfassendPopover()}>
                 <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.zusammenfassendPopover()}>
-                  <label className={'control-label'} htmlFor={'dsZusammenfassend'} style={{textDecoration: 'underline'}}>zusammenfassend</label>
+                  <label className='control-label withPopover' htmlFor={'dsZusammenfassend'}>zusammenfassend</label>
                 </OverlayTrigger>
               </OverlayTrigger>
               <input type='checkbox' label={'zusammenfassend'} checked={zusammenfassend} onChange={this.onChangeZusammenfassend} />
