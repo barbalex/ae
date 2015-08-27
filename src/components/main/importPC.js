@@ -268,6 +268,15 @@ export default React.createClass({
     )
   },
 
+  zusammenfassendPopover () {
+    return (
+      <Popover title='Was ist das?' style={{maxWidth: 1000 + 'px'}}>
+        Siehe <a href='https://github.com/FNSKtZH/artendb#zusammenfassende-eigenschaftensammlungen' target='_blank'>hier im Projektbeschrieb</a>.
+        <p style={{marginBottom: 0}}><em><strong>Tipp: </strong>Klicken Sie auf "zusammenfassend" um danach den Link klicken, ohne dass diese Meldung schliesst!</em></p>
+      </Popover>
+    )
+  },
+
   ursprungsEsPopover () {
     return (
       <Popover title='Was ist das?' style={{maxWidth: 1000 + 'px'}}>
@@ -359,7 +368,11 @@ export default React.createClass({
             <Input type='textarea' className='form-control controls' label={'Link'} value={link} onChange={this.onChangeLink} rows={1} />
             <Input type='text' label={'importiert von'} className='controls input-sm' value={importiertVon} onChange={this.onChangeImportiertVon} />
             <div className={'form-group'}>
-              <label className={'control-label'} htmlFor={'dsZusammenfassend'}>zusammenfassend</label>
+              <OverlayTrigger trigger='click' rootClose placement='right' overlay={this.zusammenfassendPopover()}>
+                <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.zusammenfassendPopover()}>
+                  <label className={'control-label'} htmlFor={'dsZusammenfassend'} style={{textDecoration: 'underline'}}>zusammenfassend</label>
+                </OverlayTrigger>
+              </OverlayTrigger>
               <input type='checkbox' label={'zusammenfassend'} checked={zusammenfassend} onChange={this.onChangeZusammenfassend} />
             </div>
             {zusammenfassend ? this.ursprungsEs() : null}
