@@ -55,7 +55,7 @@ export default React.createClass({
       }
       app.Actions.login(loginVariables)
     }
-    // get relation collections
+    // get property collections
     app.Actions.queryPropertyCollections()
   },
 
@@ -178,9 +178,19 @@ export default React.createClass({
       options.unshift(<option key='noValue' value='' waehlbar={true}></option>)
       return options
     } else {
-      // this option will be showed while loading
+      // this option is showed while loading
       return (<option value='' waehlbar={true}>Lade Daten...</option>)
     }
+  },
+
+  ursprungsEsOptions () {
+    const { propertyCollections } = this.state
+    // don't want combining pcs
+    let options = _.filter(propertyCollections, function (pc) {
+      return !pc.combining
+    })
+    options = _.pluck(options, 'name')
+    console.log('options', options)
   },
 
   nutzungsbedingungenPopover () {
@@ -190,8 +200,27 @@ export default React.createClass({
         Importiert mit Einverständnis des Autors. Eine allfällige Weiterverbreitung ist nur mit dessen Zustimmung möglich</p>
         <p><strong>Wenn eigene Daten importiert werden:</strong><br/>
         Open Data: Die veröffentlichten Daten dürfen mit Hinweis auf die Quelle vervielfältigt, verbreitet und weiter zugänglich gemacht, angereichert und bearbeitet sowie kommerziell genutzt werden. Für die Richtigkeit, Genauigkeit, Zuverlässigkeit und Vollständigkeit der bezogenen, ebenso wie der daraus erzeugten Daten und anderer mit Hilfe dieser Daten hergestellten Produkte wird indessen keine Haftung übernommen.</p>
-        <p><em><strong>Tipp: </strong>Klicken Sie auf "Nutzungsbedingungen". Dann können Sie obigen Beispieltext kopieren!</em></p>
+        <p style={{marginBottom: 0}}><em><strong>Tipp: </strong>Klicken Sie auf "Nutzungsbedingungen". Dann können Sie obigen Beispieltext kopieren!</em></p>
       </Popover>
+    )
+  },
+
+  ursprungsEsPopover () {
+    return (
+      <Popover style={{maxWidth: 600 + 'px'}}>
+        Das ist die Eigenschaftensammlung, die Sie <strong>jetzt</strong> importieren
+      </Popover>
+    )
+  },
+
+  ursprungsEs () {
+    return (
+      <div className='form-group'>
+        <OverlayTrigger trigger='hover' placement='bottom' overlay={this.ursprungsEsPopover()}>
+          <label className='control-label' style={{textDecoration: 'underline'}} htmlFor='dsUrsprungsDs' id='dsUrsprungsDsLabel'>Ursprungs-Eigenschaftensammlung</label>
+        </OverlayTrigger>
+        <select className='form-control controls dsUrsprungsDs input-sm' id='dsUrsprungsDs'></select>
+      </div>
     )
   },
 
@@ -233,8 +262,8 @@ export default React.createClass({
               <select className='form-control controls' onChange={this.onChangePcOptions}>{this.pcOptions()}</select>
             </div>
             <div className='controls feld'>
-              <button type='button' className='btn btn-primary btn-default' id='dsLoeschen' style={{'display': 'none', 'marginBottom': 6 + 'px'}}>Gewählte Eigenschaftensammlung und alle ihre Eigenschaften aus allen Arten und/oder Lebensräumen entfernen</button>
-              <div id='importierenDsDsBeschreibenHinweis' className='alert alert-info'></div>
+              <button type='button' className='btn btn-primary btn-default' style={{'display': 'none', 'marginBottom': 6 + 'px'}}>Gewählte Eigenschaftensammlung und alle ihre Eigenschaften aus allen Arten und/oder Lebensräumen entfernen</button>
+              <div className='alert alert-info'></div>
             </div>
             <hr />
             <Input type='text' label={'Name'} className='controls input-sm' value={pcName} onChange={this.onChangePcName} />
@@ -254,10 +283,7 @@ export default React.createClass({
               <label className={'control-label'} htmlFor={'dsZusammenfassend'}>zusammenfassend</label>
               <input type='checkbox' label={'zusammenfassend'} checked={zusammenfassend} onChange={this.onChangeZusammenfassend} />
             </div>
-            <div className='form-group' id='dsUrsprungsDsDiv' style={{'display': 'none'}}>
-              <label className='control-label dsUrsprungsDs' htmlFor='dsUrsprungsDs' id='dsUrsprungsDsLabel'>Ursprungs-Eigenschaftensammlung</label>
-              <select className='form-control controls dsUrsprungsDs input-sm' id='dsUrsprungsDs'></select>
-            </div>
+            {zusammenfassend ? this.ursprungsEs() : null}
             <div className='form-group'>
               <label className='control-label' htmlFor='dsAnzDs' id='dsAnzDsLabel'></label>
               <div id='dsAnzDs' className='feldtext controls'></div>
