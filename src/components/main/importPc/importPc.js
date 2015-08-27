@@ -7,6 +7,7 @@ import _ from 'lodash'
 import { ListenerMixin } from 'reflux'
 import WellDatenVerstehen from './wellDatenVerstehen.js'
 import WellZusammenfassendeEsImportieren from './wellZusammenfassendeEsImportieren.js'
+import WellAutorenrechte from './wellAutorenrechte.js'
 
 export default React.createClass({
   displayName: 'Import',
@@ -15,7 +16,6 @@ export default React.createClass({
 
   propTypes: {
     email: React.PropTypes.string,
-    isAutorenrechteVisible: React.PropTypes.bool,
     propertyCollections: React.PropTypes.array,
     pcNameExisting: React.PropTypes.string,
     pcNameOrigin: React.PropTypes.string,
@@ -31,7 +31,6 @@ export default React.createClass({
 
   getInitialState () {
     return {
-      isAutorenrechteVisible: false,
       propertyCollections: [],
       pcNameExisting: null,
       pcNameOrigin: null,
@@ -69,13 +68,6 @@ export default React.createClass({
     })
     this.setState({
       propertyCollections: propertyCollections
-    })
-  },
-
-  onClickAutorenrechte (event) {
-    event.preventDefault()
-    this.setState({
-      isAutorenrechteVisible: !this.state.isAutorenrechteVisible
     })
   },
 
@@ -298,7 +290,7 @@ export default React.createClass({
   },
 
   render () {
-    const { isAutorenrechteVisible, pcNameExisting, pcName, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, editingPcDisallowed } = this.state
+    const { pcNameExisting, pcName, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, editingPcDisallowed } = this.state
 
     return (
       <div>
@@ -308,12 +300,7 @@ export default React.createClass({
             <Well className='well-sm'><a href='//youtu.be/nqd-v6YxkOY' target='_blank'><b>Screencast sehen</b></a></Well>
             <WellDatenVerstehen />
             <WellZusammenfassendeEsImportieren />
-            <Well className='well-sm last-well'><b>Autorenrechte beachten </b> <a href='#' onClick={this.onClickAutorenrechte} className='showNextHidden'>{isAutorenrechteVisible ? '...weniger' : '...mehr'}</a>
-              <ul className='adb-hidden' style={{'display': isAutorenrechteVisible ? 'block' : 'none'}}>
-                <li>Die Autoren müssen mit der Veröffentlichung einverstanden sein</li>
-                <li>Dafür verantwortlich ist, wer Daten importiert</li>
-              </ul>
-            </Well>
+            <WellAutorenrechte />
             <div className='form-group'>
               <label className='control-label' htmlFor='pcNameExisting'>Bestehende wählen</label>
               <select id='pcNameExisting' className='form-control controls' selected={pcNameExisting} onChange={this.onChangePcNameExisting}>{this.pcNameExistingOptions()}</select>
