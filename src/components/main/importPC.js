@@ -2,7 +2,7 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import { Accordion, Panel, Well, Input, Alert, Button } from 'react-bootstrap'
+import { Accordion, Panel, Well, Input, Alert, Button, OverlayTrigger, Popover } from 'react-bootstrap'
 // import * from 'react-bootstrap'
 import _ from 'lodash'
 import { ListenerMixin } from 'reflux'
@@ -183,6 +183,18 @@ export default React.createClass({
     }
   },
 
+  nutzungsbedingungenPopover () {
+    return (
+      <Popover title='Beispiele:' style={{maxWidth: 600 + 'px'}}>
+        <p><strong>Wenn Fremddaten mit Einverständnis des Autors importiert werden:</strong><br/>
+        Importiert mit Einverständnis des Autors. Eine allfällige Weiterverbreitung ist nur mit dessen Zustimmung möglich</p>
+        <p><strong>Wenn eigene Daten importiert werden:</strong><br/>
+        Open Data: Die veröffentlichten Daten dürfen mit Hinweis auf die Quelle vervielfältigt, verbreitet und weiter zugänglich gemacht, angereichert und bearbeitet sowie kommerziell genutzt werden. Für die Richtigkeit, Genauigkeit, Zuverlässigkeit und Vollständigkeit der bezogenen, ebenso wie der daraus erzeugten Daten und anderer mit Hilfe dieser Daten hergestellten Produkte wird indessen keine Haftung übernommen.</p>
+        <p><em><strong>Tipp: </strong>Klicken Sie auf "Nutzungsbedingungen". Dann können Sie obigen Beispieltext kopieren!</em></p>
+      </Popover>
+    )
+  },
+
   render () {
     const { isDatenVerstehenVisible, isZusEsVisible, isAutorenrechteVisible, pcName, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend } = this.state
 
@@ -228,13 +240,14 @@ export default React.createClass({
             <Input type='text' label={'Name'} className='controls input-sm' value={pcName} onChange={this.onChangePcName} />
             <Input type='textarea' className='form-control controls' label={'Beschreibung'} value={beschreibung} onChange={this.onChangeBeschreibung} rows={1} />
             <Input type='textarea' className='form-control controls' label={'Datenstand'} rows={1} value={datenstand} onChange={this.onChangeDatenstand} />
-            <Input type='textarea' className='form-control controls' label={'Nutzungsbedingungen'} rows={6} value={nutzungsbedingungen} onChange={this.onChangeNutzungsbedingungen} placeholder='Beispiel, wenn Fremddaten mit Einverständnis des Autors importiert werden:
-"Importiert mit Einverständnis des Autors. Eine allfällige Weiterverbreitung ist nur mit dessen Zustimmung möglich"
-.
-Beispiel, wenn eigene Daten importiert werden:
-"Open Data: Die veröffentlichten Daten dürfen mit Hinweis auf die Quelle vervielfältigt, verbreitet und weiter zugänglich gemacht, angereichert und bearbeitet sowie kommerziell genutzt werden. Für die Richtigkeit, Genauigkeit, Zuverlässigkeit und Vollständigkeit der bezogenen, ebenso wie der daraus erzeugten Daten und anderer mit Hilfe dieser Daten hergestellten Produkte wird indessen keine Haftung übernommen."
-
-' />
+            <div className='form-group'>
+              <OverlayTrigger trigger='click' rootClose placement='bottom' overlay={this.nutzungsbedingungenPopover()}>
+                <OverlayTrigger trigger='hover' placement='bottom' overlay={this.nutzungsbedingungenPopover()}>
+                  <label className='control-label' style={{textDecoration: 'underline'}}>Nutzungsbedingungen</label>
+                </OverlayTrigger>
+              </OverlayTrigger>
+              <textarea className='form-control controls' rows={1} value={nutzungsbedingungen} onChange={this.onChangeNutzungsbedingungen}></textarea>
+            </div>
             <Input type='textarea' className='form-control controls' label={'Link'} value={link} onChange={this.onChangeLink} rows={1} />
             <Input type='text' label={'importiert von'} className='controls input-sm' value={importiertVon} onChange={this.onChangeImportiertVon} />
             <div className={'form-group'}>
