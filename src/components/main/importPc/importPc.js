@@ -3,9 +3,10 @@
 import app from 'ampersand-app'
 import React from 'react'
 import { Accordion, Panel, Well, Input, Alert, Button, OverlayTrigger, Popover } from 'react-bootstrap'
-// import * from 'react-bootstrap'
 import _ from 'lodash'
 import { ListenerMixin } from 'reflux'
+import WellDatenVerstehen from './wellDatenVerstehen.js'
+import WellZusammenfassendeEsImportieren from './wellZusammenfassendeEsImportieren.js'
 
 export default React.createClass({
   displayName: 'Import',
@@ -14,8 +15,6 @@ export default React.createClass({
 
   propTypes: {
     email: React.PropTypes.string,
-    isDatenVerstehenVisible: React.PropTypes.bool,
-    isZusEsVisible: React.PropTypes.bool,
     isAutorenrechteVisible: React.PropTypes.bool,
     propertyCollections: React.PropTypes.array,
     pcNameExisting: React.PropTypes.string,
@@ -32,8 +31,6 @@ export default React.createClass({
 
   getInitialState () {
     return {
-      isDatenVerstehenVisible: false,
-      isZusEsVisible: false,
       isAutorenrechteVisible: false,
       propertyCollections: [],
       pcNameExisting: null,
@@ -72,20 +69,6 @@ export default React.createClass({
     })
     this.setState({
       propertyCollections: propertyCollections
-    })
-  },
-
-  onClickDatenVerstehen (event) {
-    event.preventDefault()
-    this.setState({
-      isDatenVerstehenVisible: !this.state.isDatenVerstehenVisible
-    })
-  },
-
-  onClickZusEs (event) {
-    event.preventDefault()
-    this.setState({
-      isZusEsVisible: !this.state.isZusEsVisible
     })
   },
 
@@ -315,7 +298,7 @@ export default React.createClass({
   },
 
   render () {
-    const { isDatenVerstehenVisible, isZusEsVisible, isAutorenrechteVisible, pcNameExisting, pcName, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, editingPcDisallowed } = this.state
+    const { isAutorenrechteVisible, pcNameExisting, pcName, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, editingPcDisallowed } = this.state
 
     return (
       <div>
@@ -323,24 +306,8 @@ export default React.createClass({
         <Accordion>
           <Panel header='1. Eigenschaftensammlung beschreiben' eventKey='1'>
             <Well className='well-sm'><a href='//youtu.be/nqd-v6YxkOY' target='_blank'><b>Screencast sehen</b></a></Well>
-            <Well className='well-sm'><b>Erleichtern Sie den Benutzern, Ihre Daten zu verstehen </b> <a href='#' onClick={this.onClickDatenVerstehen} className='showNextHidden'>{isDatenVerstehenVisible ? '...weniger' : '...mehr'}</a>
-              <ul className='adb-hidden' style={{'display': isDatenVerstehenVisible ? 'block' : 'none'}}>
-                <li>Der Name sollte ungefähr dem ersten Teil eines Literaturzitats entsprechen. Beispiel: 'Blaue Liste (1998)'</li>
-                <li>Wurden die Informationen spezifisch für einen bestimmten Kanton oder die ganze Schweiz erarbeitet? Wenn ja: Bitte das entsprechende Kürzel voranstellen. Beispiel: 'ZH Artwert (aktuell)'</li>
-                <li>Die Beschreibung sollte im ersten Teil etwa einem klassischen Literaturzitat entsprechen. Beispiel: 'Gigon A. et al. (1998): Blaue Listen der erfolgreich erhaltenen oder geförderten Tier- und Pflanzenarten der Roten Listen. Methodik und Anwendung in der nördlichen Schweiz. Veröff. Geobot. Inst. ETH, Stiftung Rübel, Zürich 129: 1-137 + 180 pp. Appendicesn'</li>
-                <li>In einem zweiten Teil sollte beschrieben werden, welche Informationen die Eigenschaftensammlung enthält. Beispiel: 'Eigenschaften von 207 Tierarten und 885 Pflanzenarten'</li>
-                <li>Es kann hilfreich sein, den Zweck zu beschreiben, für den die Informationen zusammengestellt wurden</li>
-                <li>Im Datenstand ist erkenntlich, wann die Eigenschaftensammlung zuletzt aktualisiert wurde</li>
-                <li>Besonders hilfreich ist es, wenn die Originalpublikation verlinkt werden kann. Oder eine erläuternde Webseite</li>
-              </ul>
-            </Well>
-            <Well className='well-sm'><b>Für eine zusammenfassende Eigenschaftensammlung importieren Sie die Daten zwei mal </b><a href='#' onClick={this.onClickZusEs} className='showNextHidden'>{isZusEsVisible ? '...weniger' : '...mehr'}</a>
-              <ul className='adb-hidden' style={{'display': isZusEsVisible ? 'block' : 'none'}}>
-                <li>zuerst in die Ursprungs-Eigenschaftensammlung</li>
-                <li>dann in die zusammenfassende. Bitte die Ursprungs-Eigenschaftensammlung angeben</li>
-                <li>Mehr Infos <a href='//github.com/FNSKtZH/artendb#zusammenfassende_datensammlungen' target='_blank'>hier</a></li>
-              </ul>
-            </Well>
+            <WellDatenVerstehen />
+            <WellZusammenfassendeEsImportieren />
             <Well className='well-sm last-well'><b>Autorenrechte beachten </b> <a href='#' onClick={this.onClickAutorenrechte} className='showNextHidden'>{isAutorenrechteVisible ? '...weniger' : '...mehr'}</a>
               <ul className='adb-hidden' style={{'display': isAutorenrechteVisible ? 'block' : 'none'}}>
                 <li>Die Autoren müssen mit der Veröffentlichung einverstanden sein</li>
