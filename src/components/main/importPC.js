@@ -18,13 +18,15 @@ export default React.createClass({
     isZusEsVisible: React.PropTypes.bool,
     isAutorenrechteVisible: React.PropTypes.bool,
     propertyCollections: React.PropTypes.array,
+    pcNameExisting: React.PropTypes.string,
     pcName: React.PropTypes.string,
     beschreibung: React.PropTypes.string,
     datenstand: React.PropTypes.string,
     nutzungsbedingungen: React.PropTypes.string,
     link: React.PropTypes.string,
     importiertVon: React.PropTypes.string,
-    zusammenfassend: React.PropTypes.bool
+    zusammenfassend: React.PropTypes.bool,
+    editingPcDisallowed: React.PropTypes.bool
   },
 
   getInitialState () {
@@ -33,13 +35,15 @@ export default React.createClass({
       isZusEsVisible: false,
       isAutorenrechteVisible: false,
       propertyCollections: [],
+      pcNameExisting: null,
       pcName: null,
       beschreibung: null,
       datenstand: null,
       nutzungsbedingungen: null,
       link: null,
-      importiertVon: null,
-      zusammenfassend: null
+      importiertVon: this.props.email,
+      zusammenfassend: null,
+      editingPcDisallowed: false
     }
   },
 
@@ -90,9 +94,10 @@ export default React.createClass({
     })
   },
 
-  onChangePcOptions (event) {
-    const pcName = event.target.value
-    const pc = app.propertyCollectionsStore.getPcByName(pcName)
+  onChangePcNameExisting (event) {
+    const pcNameExisting = event.target.value
+    const editingPcIsDisallowed = this.isEditingPcDisallowed(pcNameExisting)
+    const pc = app.propertyCollectionsStore.getPcByName(pcNameExisting)
     const beschreibung = pc.fields.Beschreibung
     const datenstand = pc.fields.Datenstand
     const nutzungsbedingungen = pc.fields.Nutzungsbedingungen
@@ -100,14 +105,19 @@ export default React.createClass({
     const importiertVon = pc.fields['importiert von']
     const zusammenfassend = pc.combining
     this.setState({
-      pcName: pcName,
       beschreibung: beschreibung,
       datenstand: datenstand,
       nutzungsbedingungen: nutzungsbedingungen,
       link: link,
-      importiertVon: importiertVon,
       zusammenfassend: zusammenfassend
     })
+    if (!editingPcIsDisallowed) {
+      this.setState({
+        pcNameExisting: pcNameExisting,
+        pcName: pcNameExisting,
+        importiertVon: importiertVon
+      })
+    }
   },
 
   onChangePcName (event) {
@@ -115,6 +125,44 @@ export default React.createClass({
     this.setState({
       pcName: pcName
     })
+  },
+
+  onBlurPcName (event) {
+    const pcName = event.target.value
+    this.isEditingPcDisallowed(pcName)
+  },
+
+  isEditingPcDisallowed (pcName) {
+    const { propertyCollections, email } = this.state
+    const that = this
+    // set editing dissallowed to false
+    // reaseon: close alert if it is still shown from last select
+    this.setState({
+      editingPcDisallowed: false
+    })
+    // check if this name exists
+    // if so and it is not combining: check if it was imported by the user
+    const samePc = _.find(propertyCollections, function (pc) {
+      return pc.name === pcName
+    })
+    const editingPcDisallowed = !!samePc && !samePc.combining && samePc.importedBy !== email
+    if (editingPcDisallowed) {
+      this.setState({
+        editingPcDisallowed: true
+      })
+      setTimeout(function () {
+        that.setState({
+          pcNameExisting: null,
+          pcName: null
+        })
+      }, 1000)
+      setTimeout(function () {
+        that.setState({
+          editingPcDisallowed: false
+        })
+      }, 5000)
+    }
+    return editingPcDisallowed
   },
 
   onChangeBeschreibung (event) {
@@ -159,7 +207,7 @@ export default React.createClass({
     })
   },
 
-  pcOptions () {
+  pcNameExistingOptions () {
     const { propertyCollections } = this.state
     const { email } = this.props
 
@@ -195,7 +243,7 @@ export default React.createClass({
 
   nutzungsbedingungenPopover () {
     return (
-      <Popover title='Beispiele:' style={{maxWidth: 600 + 'px'}}>
+      <Popover title='Beispiele:' style={{maxWidth: 1000 + 'px'}}>
         <p><strong>Wenn Fremddaten mit Einverständnis des Autors importiert werden:</strong><br/>
         Importiert mit Einverständnis des Autors. Eine allfällige Weiterverbreitung ist nur mit dessen Zustimmung möglich</p>
         <p><strong>Wenn eigene Daten importiert werden:</strong><br/>
@@ -207,8 +255,14 @@ export default React.createClass({
 
   ursprungsEsPopover () {
     return (
-      <Popover style={{maxWidth: 600 + 'px'}}>
-        Das ist die Eigenschaftensammlung, die Sie <strong>jetzt</strong> importieren
+      <Popover title='Was ist das?' style={{maxWidth: 1000 + 'px'}}>
+        Eine zusammenfassende Eigenschaftensammlung wird zwei mal importiert:
+        <ul>
+          <li>Zuerst als eigenständige Eigenschaftensammlung.<br/>Das ist die <strong>Ursprungs-Eigenschaftensammlung</strong>.</li>
+          <li>Dann gemeinsam mit bzw. zusätzlich zu anderen in eine zusammenfassende Eigenschaftensammlung.</li>
+        </ul>
+        Wählen Sie hier also den Namen der eigenständigen Sammlung.<br/><br/>
+        <strong>Zweck:</strong> In der zusammenfassenden Eigenschaftensammlung ist bei jedem Datensatz beschrieben, woher er stammt.
       </Popover>
     )
   },
@@ -219,13 +273,22 @@ export default React.createClass({
         <OverlayTrigger trigger={['hover', 'focus']} placement='bottom' overlay={this.ursprungsEsPopover()}>
           <label className='control-label' style={{textDecoration: 'underline'}} htmlFor='dsUrsprungsDs' id='dsUrsprungsDsLabel'>Ursprungs-Eigenschaftensammlung</label>
         </OverlayTrigger>
-        <select className='form-control controls dsUrsprungsDs input-sm' id='dsUrsprungsDs'></select>
+        <select className='form-control controls input-sm' id='dsUrsprungsDs'></select>
       </div>
     )
   },
 
+  alertEditingPcDisallowed () {
+    return (
+      <Alert className='feld' bsStyle='danger'>
+        Sie können nur Eigenschaftensammlungen verändern, die Sie selber importiert haben. Ausnahme: zusammenfassende.<br/>
+        Bitte wählen Sie einen anderen Namen.
+      </Alert>
+    )
+  },
+
   render () {
-    const { isDatenVerstehenVisible, isZusEsVisible, isAutorenrechteVisible, pcName, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend } = this.state
+    const { isDatenVerstehenVisible, isZusEsVisible, isAutorenrechteVisible, pcNameExisting, pcName, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, editingPcDisallowed } = this.state
 
     return (
       <div>
@@ -258,15 +321,15 @@ export default React.createClass({
               </ul>
             </Well>
             <div className='form-group'>
-              <label className='control-label' htmlFor='dsWaehlen'>Bestehende wählen</label>
-              <select className='form-control controls' onChange={this.onChangePcOptions}>{this.pcOptions()}</select>
+              <label className='control-label' htmlFor='pcNameExisting'>Bestehende wählen</label>
+              <select id='pcNameExisting' className='form-control controls' selected={pcNameExisting} onChange={this.onChangePcNameExisting}>{this.pcNameExistingOptions()}</select>
             </div>
             <div className='controls feld'>
               <button type='button' className='btn btn-primary btn-default' style={{'display': 'none', 'marginBottom': 6 + 'px'}}>Gewählte Eigenschaftensammlung und alle ihre Eigenschaften aus allen Arten und/oder Lebensräumen entfernen</button>
-              <div className='alert alert-info'></div>
             </div>
             <hr />
-            <Input type='text' label={'Name'} className='controls input-sm' value={pcName} onChange={this.onChangePcName} />
+            <Input type='text' label={'Name'} className='controls input-sm' value={pcName} onChange={this.onChangePcName} onBlur={this.onBlurPcName} />
+            {editingPcDisallowed ? this.alertEditingPcDisallowed() : null}
             <Input type='textarea' className='form-control controls' label={'Beschreibung'} value={beschreibung} onChange={this.onChangeBeschreibung} rows={1} />
             <Input type='textarea' className='form-control controls' label={'Datenstand'} rows={1} value={datenstand} onChange={this.onChangeDatenstand} />
             <div className='form-group'>
@@ -287,11 +350,6 @@ export default React.createClass({
             <div className='form-group'>
               <label className='control-label' htmlFor='dsAnzDs' id='dsAnzDsLabel'></label>
               <div id='dsAnzDs' className='feldtext controls'></div>
-            </div>
-            <div id='importDsDsBeschreibenHinweis2' className='alert alert-info'></div>
-            <div id='importDsDsBeschreibenError' className='alert alert-danger'>
-              <button type='button' className='close' data-dismiss='alert'>&times;</button>
-              <div id='importDsDsBeschreibenErrorText'></div>
             </div>
           </Panel>
           <Panel header='2. Eigenschaften laden' eventKey='2'>
