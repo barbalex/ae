@@ -2,7 +2,7 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import { Accordion, Panel, Well, Input, Alert, Button, OverlayTrigger, Popover } from 'react-bootstrap'
+import { Accordion, PanelGroup, Panel, Well, Input, Alert, Button, OverlayTrigger, Popover } from 'react-bootstrap'
 import _ from 'lodash'
 import d3 from 'd3'
 import { ListenerMixin } from 'reflux'
@@ -385,13 +385,13 @@ export default React.createClass({
   },
 
   render () {
-    const { pcNameExisting, pcName, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, editingPcDisallowed, pcsToImport } = this.state
+    const { pcNameExisting, pcName, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, editingPcDisallowed, pcsToImport, pcDescribed, pcLoaded, idsIdentified } = this.state
 
     return (
       <div>
         <h4>Eigenschaften importieren</h4>
-        <Accordion>
-          <Panel header='1. Eigenschaftensammlung beschreiben' eventKey='1'>
+        <Accordion defaultActiveKey={1}>
+          <Panel header='1. Eigenschaftensammlung beschreiben' eventKey={1}>
             <Well className='well-sm'><a href='//youtu.be/nqd-v6YxkOY' target='_blank'><b>Auf Youtube sehen, wie es geht</b></a></Well>
             <WellAutorenrechte />
 
@@ -471,7 +471,7 @@ export default React.createClass({
             </div>
           </Panel>
 
-          <Panel header='2. Eigenschaften laden' eventKey='2'>
+          <Panel header='2. Eigenschaften laden' eventKey={2}>
             <WellTechnAnforderungenAnDatei />
             <WellAnforderungenAnCsv />
             <WellAnforderungenInhaltlich />
@@ -482,7 +482,7 @@ export default React.createClass({
             {pcsToImport.length > 0 ? <TablePreview pcsToImport={pcsToImport} /> : null}
           </Panel>
 
-          <Panel header="3. ID's identifizieren" eventKey='3'>
+          <Panel header="3. ID's identifizieren" eventKey={3}>
             <div id='dsFelderDiv' className='form-group'></div>
             <Input type='select' label={'zugehörige ID in ArtenDb'} multiple className='form-control controls input-sm' id='dsId' style={{'height': 101 + 'px'}}>
               <option value='guid'>GUID der ArtenDb</option>
@@ -494,7 +494,7 @@ export default React.createClass({
             <Alert id='importDsIdsIdentifizierenHinweisText' className='alert-info feld' />
           </Panel>
 
-          <Panel header='4. Import ausführen' eventKey='4'>
+          <Panel header='4. Import ausführen' eventKey={4}>
             <Button className='btn-primary' id='dsImportieren' style={{'marginBottom': 6 + 'px', 'display': 'none'}}>Eigenschaftensammlung mit allen Eigenschaften importieren</Button>
             <Button className='btn-primary' id='dsEntfernen' style={{'marginBottom': 6 + 'px', 'display': 'none'}}>Eigenschaftensammlung mit allen Eigenschaften aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen</Button>
             <div className='progress'>
