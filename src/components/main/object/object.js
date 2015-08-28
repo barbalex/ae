@@ -110,7 +110,7 @@ export default React.createClass({
     }
 
     if (synonymObjects.length > 0) {
-      _.forEach(synonymObjects, function (synonymObject) {
+      synonymObjects.forEach(function (synonymObject) {
 
         // property collections
         if (synonymObject.Eigenschaftensammlungen && synonymObject.Eigenschaftensammlungen.length > 0) {

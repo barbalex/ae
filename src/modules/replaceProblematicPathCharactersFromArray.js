@@ -7,12 +7,11 @@
 
 'use strict'
 
-import _ from 'lodash'
 import replaceProblematicPathCharactersFromString from './replaceProblematicPathCharactersFromString.js'
 
 export default function (elArray) {
   let newElArray = []
-  _.forEach(elArray, function (el) {
+  elArray.forEach(function (el) {
     if (el !== undefined && el !== null) {
       let newEl = el
       newEl = replaceProblematicPathCharactersFromString(el)

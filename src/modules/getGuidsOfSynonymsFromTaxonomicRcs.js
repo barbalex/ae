@@ -5,15 +5,13 @@
 
 'use strict'
 
-import _ from 'lodash'
-
 export default function (taxRcs) {
   let guidsOfSynonyms = []
-  _.forEach(taxRcs, function (rc) {
+  taxRcs.forEach(function (rc) {
     if (rc['Art der Beziehungen'] && rc['Art der Beziehungen'] === 'synonym' && rc.Beziehungen) {
-      _.forEach(rc.Beziehungen, function (relation) {
+      rc.Beziehungen.forEach(function (relation) {
         if (relation.Beziehungspartner) {
-          _.forEach(relation.Beziehungspartner, function (relationPartner) {
+          relation.Beziehungspartner.forEach(function (relationPartner) {
             if (relationPartner.GUID) {
               guidsOfSynonyms.push(relationPartner.GUID)
             }

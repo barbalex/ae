@@ -16,7 +16,7 @@ export default function (items) {
 
     // build paths of passed in items (usually: items of a group)
     const pathsOfGruppe = {}
-    _.forEach(items, function (item) {
+    items.forEach(function (item) {
       // get hierarchy from the Hierarchie field
       // default value (in case there is none) is []
       const hierarchy = _.get(item, 'Taxonomien[0].Eigenschaften.Hierarchie', [])

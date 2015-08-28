@@ -1,12 +1,11 @@
 'use strict'
 
 import app from 'ampersand-app'
-import _ from 'lodash'
 
 export default function (items) {
   const options = []
   // used to use _.map but it returned bad options because in always returns a value
-  _.forEach(items, function (object) {
+  items.forEach(function (object) {
     if (object.Taxonomie && object.Taxonomie.Eigenschaften) {
       const eig = object.Taxonomie.Eigenschaften
       if (eig['Artname vollständig']) {

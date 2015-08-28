@@ -69,7 +69,7 @@ export default React.createClass({
 
   onChangePropertyCollectionsStore (pcs) {
     // email has empty values. Set default
-    const propertyCollections = _.forEach(pcs, function (pc) {
+    const propertyCollections = pcs.forEach(function (pc) {
       pc.importedBy = pc.importedBy || 'alex@gabriel-software.ch'
     })
     this.setState({

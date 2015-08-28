@@ -309,7 +309,7 @@ export default function (objects) {
   // extract Hierarchie from objects
   // used to use _.map but that contained undefined elements because it always returns a value
   const hierarchiesArray = []
-  _.forEach(objects, function (object) {
+  objects.forEach(function (object) {
     if (object.Taxonomien && object.Taxonomien[0] && object.Taxonomien[0].Eigenschaften && object.Taxonomien[0].Eigenschaften.Hierarchie && object.Gruppe) {
       const hArray = _.get(object, 'Taxonomien[0].Eigenschaften.Hierarchie')
       const gruppenObjekt = {'Name': object.Gruppe}
@@ -318,7 +318,7 @@ export default function (objects) {
     }
   })
 
-  _.forEach(hierarchiesArray, function (hArray) {
+  hierarchiesArray.forEach(function (hArray) {
     switch (hArray.length) {
     case 1:
       checkLevel1(hierarchy, hArray)
