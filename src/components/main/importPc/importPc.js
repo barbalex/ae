@@ -10,6 +10,7 @@ import WellAutorenrechte from './wellAutorenrechte.js'
 import WellTechnAnforderungenAnDatei from './wellTechnAnforderungenAnDatei.js'
 import WellAnforderungenAnCsv from './wellAnforderungenAnCsv.js'
 import WellAnforderungenInhaltlich from './wellAnforderungenInhaltlich.js'
+import TablePreview from './tablePreview.js'
 
 export default React.createClass({
   displayName: 'Import',
@@ -205,9 +206,7 @@ export default React.createClass({
       if (fileType === 'csv') {
         reader.onload = function (onloadEvent) {
           const data = onloadEvent.target.result
-          const pcsToImport = $.csv.toObjects(data)
-
-          console.log('$.csv', $.csv)
+          const pcsToImport = window.$.csv.toObjects(data)
           console.log('pcsToImport', pcsToImport)
 
           that.setState({
@@ -223,6 +222,13 @@ export default React.createClass({
           const sheetName = workbook.SheetNames[0]
           const worksheet = workbook.Sheets[sheetName]
           const pcsToImport = xlsx.utils.sheet_to_json(worksheet)
+
+          // problem: xlsx leaves empty fields empty
+          for (var i = 0; i !== pcsToImport.length; ++i) {
+            for (var j = 0; j !== pcsToImport[i].length; ++j) {
+              if (typeof pcsToImport[i][j] === 'undefined') pcsToImport[i][j] = ''
+            }
+          }
 
           console.log('pcsToImport', pcsToImport)
 
@@ -376,7 +382,7 @@ export default React.createClass({
   },
 
   render () {
-    const { pcNameExisting, pcName, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, editingPcDisallowed } = this.state
+    const { pcNameExisting, pcName, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, editingPcDisallowed, pcsToImport } = this.state
 
     return (
       <div>
@@ -469,7 +475,8 @@ export default React.createClass({
 
             <label className='sr-only' htmlFor='pcFile'>Datei wählen</label>
             <input type='file' className='form-control' id='pcFile' onChange={this.onChangePcFile} />
-            <div id='dsTabelleEigenschaften' className='tabelle'></div>
+
+            {pcsToImport.length > 0 ? <TablePreview pcsToImport={pcsToImport} /> : null}
           </Panel>
 
           <Panel header="3. ID's identifizieren" eventKey='3'>
