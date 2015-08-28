@@ -18,6 +18,8 @@ export default React.createClass({
 
   mixins: [ListenerMixin],
 
+  // TODO: set task props pcDescribed, pcLoaded, idsIdentified
+  // and use them to guide inputting
   propTypes: {
     email: React.PropTypes.string,
     propertyCollections: React.PropTypes.array,
@@ -31,7 +33,10 @@ export default React.createClass({
     importiertVon: React.PropTypes.string,
     zusammenfassend: React.PropTypes.bool,
     editingPcDisallowed: React.PropTypes.bool,
-    pcsToImport: React.PropTypes.array
+    pcsToImport: React.PropTypes.array,
+    pcDescribed: React.PropTypes.bool,
+    pcLoaded: React.PropTypes.bool,
+    idsIdentified: React.PropTypes.bool
   },
 
   getInitialState () {
@@ -47,7 +52,10 @@ export default React.createClass({
       importiertVon: this.props.email,
       zusammenfassend: null,
       editingPcDisallowed: false,
-      pcsToImport: []
+      pcsToImport: [],
+      pcDescribed: false,
+      pcLoaded: false,
+      idsIdentified: false
     }
   },
 
