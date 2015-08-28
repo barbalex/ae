@@ -6,19 +6,10 @@ import { Accordion, Panel, Well, Input, Alert, Button, OverlayTrigger, Popover }
 import _ from 'lodash'
 import { ListenerMixin } from 'reflux'
 import xlsx from 'xlsx'
-// import $ from 'jquery'
-// import jQuery from 'jquery'
-// require('file-loader?$=jquery!../../../libs/jquery.csv.js')
-// import jqueryCsv from 'file-loader?$=jquery,jQuery=jquery!../../../libs/jquery.csv.js'
-// import '../../../libs/jquery.csv.js'
 import WellAutorenrechte from './wellAutorenrechte.js'
 import WellTechnAnforderungenAnDatei from './wellTechnAnforderungenAnDatei.js'
 import WellAnforderungenAnCsv from './wellAnforderungenAnCsv.js'
 import WellAnforderungenInhaltlich from './wellAnforderungenInhaltlich.js'
-
-// $.csv = jqueryCsv
-
-// console.log('jqueryCsv()', jqueryCsv())
 
 export default React.createClass({
   displayName: 'Import',
