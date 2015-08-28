@@ -6,6 +6,7 @@ import { Accordion, Panel, Well, Input, Alert, Button, OverlayTrigger, Popover }
 import _ from 'lodash'
 import { ListenerMixin } from 'reflux'
 import WellAutorenrechte from './wellAutorenrechte.js'
+import WellTechnAnforderungenAnDatei from './wellTechnAnforderungenAnDatei.js'
 
 export default React.createClass({
   displayName: 'Import',
@@ -411,15 +412,7 @@ export default React.createClass({
 
           </Panel>
           <Panel header='2. Eigenschaften laden' eventKey='2'>
-            <Well className='well-sm'><b>Technische Anforderungen an die Datei</b> <a href='#' className='showNextHidden'>...mehr</a>
-              <ul className='adb-hidden'>
-                <li>Sie können Dateien vom Typ <b>.csv</b> (kommagetrennte Textdatei) oder <b>.xlsx</b> (Excel-Datei) importieren</li>
-                <li>Die erste Zeile enthält die Feldnamen</li>
-                <li>Die weiteren Zeilen enthalten je einen Datensatz, d.h. die Eigenschaften für die betreffende Art oder den Lebensraum</li>
-                <li>Alle Zeilen sollten dieselbe Anzahl Felder bzw. Spalten enthalten</li>
-                <li>Achten Sie darauf, dass die Datei die Codierung "UTF 8" benutzt. Nur in diesem Format werden Umlaute und Sonderzeichen vollständig erkannt</li>
-              </ul>
-            </Well>
+            <WellTechnAnforderungenAnDatei />
             <Well className='well-sm'><b>Zusätzliche Anforderungen an csv-Dateien</b> <a href='#' className='showNextHidden'>...mehr</a>
               <ul className='adb-hidden'>
                 <li>Zeilen werden mit einem Zeilenumbruch getrennt</li>
