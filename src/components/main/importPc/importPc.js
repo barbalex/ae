@@ -5,10 +5,20 @@ import React from 'react'
 import { Accordion, Panel, Well, Input, Alert, Button, OverlayTrigger, Popover } from 'react-bootstrap'
 import _ from 'lodash'
 import { ListenerMixin } from 'reflux'
+import xlsx from 'xlsx'
+// import $ from 'jquery'
+// import jQuery from 'jquery'
+// require('file-loader?$=jquery!../../../libs/jquery.csv.js')
+// import jqueryCsv from 'file-loader?$=jquery,jQuery=jquery!../../../libs/jquery.csv.js'
+// import '../../../libs/jquery.csv.js'
 import WellAutorenrechte from './wellAutorenrechte.js'
 import WellTechnAnforderungenAnDatei from './wellTechnAnforderungenAnDatei.js'
 import WellAnforderungenAnCsv from './wellAnforderungenAnCsv.js'
 import WellAnforderungenInhaltlich from './wellAnforderungenInhaltlich.js'
+
+// $.csv = jqueryCsv
+
+// console.log('jqueryCsv()', jqueryCsv())
 
 export default React.createClass({
   displayName: 'Import',
@@ -27,7 +37,8 @@ export default React.createClass({
     link: React.PropTypes.string,
     importiertVon: React.PropTypes.string,
     zusammenfassend: React.PropTypes.bool,
-    editingPcDisallowed: React.PropTypes.bool
+    editingPcDisallowed: React.PropTypes.bool,
+    pcsToImport: React.PropTypes.array
   },
 
   getInitialState () {
@@ -42,7 +53,8 @@ export default React.createClass({
       link: null,
       importiertVon: this.props.email,
       zusammenfassend: null,
-      editingPcDisallowed: false
+      editingPcDisallowed: false,
+      pcsToImport: []
     }
   },
 
@@ -184,6 +196,52 @@ export default React.createClass({
       zusammenfassend: zusammenfassend,
       pcNameOrigin: null
     })
+  },
+
+  onChangePcFile (event) {
+    const that = this
+    // set state pcsToImport
+    if (event.target.files[0] === undefined) {
+      this.setState({
+        pcsToImport: []
+      })
+    } else {
+      const file = event.target.files[0]
+      const fileName = file.name
+      const fileType = fileName.split('.').pop()
+      let reader = new window.FileReader()
+
+      if (fileType === 'csv') {
+        reader.onload = function (onloadEvent) {
+          const data = onloadEvent.target.result
+          const pcsToImport = $.csv.toObjects(data)
+
+          console.log('$.csv', $.csv)
+          console.log('pcsToImport', pcsToImport)
+
+          that.setState({
+            pcsToImport: pcsToImport
+          })
+        }
+        reader.readAsText(file)
+      }
+      if (fileType === 'xlsx') {
+        reader.onload = function (onloadEvent) {
+          const data = onloadEvent.target.result
+          const workbook = xlsx.read(data, {type: 'binary'})
+          const sheetName = workbook.SheetNames[0]
+          const worksheet = workbook.Sheets[sheetName]
+          const pcsToImport = xlsx.utils.sheet_to_json(worksheet)
+
+          console.log('pcsToImport', pcsToImport)
+
+          that.setState({
+            pcsToImport: pcsToImport
+          })
+        }
+        reader.readAsBinaryString(file)
+      }
+    }
   },
 
   pcNameExistingOptions () {
@@ -411,18 +469,18 @@ export default React.createClass({
               <label className='control-label' htmlFor='dsAnzDs' id='dsAnzDsLabel'></label>
               <div id='dsAnzDs' className='feldtext controls'></div>
             </div>
-
           </Panel>
+
           <Panel header='2. Eigenschaften laden' eventKey='2'>
             <WellTechnAnforderungenAnDatei />
             <WellAnforderungenAnCsv />
             <WellAnforderungenInhaltlich />
 
-            <label className='sr-only' htmlFor='dsFile'>Datei wählen</label>
-            <input type='file' className='form-control' id='dsFile' />
-            <div id='dsTabelleEigenschaften' className='tabelle'>
-            </div>
+            <label className='sr-only' htmlFor='pcFile'>Datei wählen</label>
+            <input type='file' className='form-control' id='pcFile' onChange={this.onChangePcFile} />
+            <div id='dsTabelleEigenschaften' className='tabelle'></div>
           </Panel>
+
           <Panel header="3. ID's identifizieren" eventKey='3'>
             <div id='dsFelderDiv' className='form-group'></div>
             <Input type='select' label={'zugehörige ID in ArtenDb'} multiple className='form-control controls input-sm' id='dsId' style={{'height': 101 + 'px'}}>
@@ -434,6 +492,7 @@ export default React.createClass({
             </Input>
             <Alert id='importDsIdsIdentifizierenHinweisText' className='alert-info feld' />
           </Panel>
+
           <Panel header='4. Import ausführen' eventKey='4'>
             <Button className='btn-primary' id='dsImportieren' style={{'marginBottom': 6 + 'px', 'display': 'none'}}>Eigenschaftensammlung mit allen Eigenschaften importieren</Button>
             <Button className='btn-primary' id='dsEntfernen' style={{'marginBottom': 6 + 'px', 'display': 'none'}}>Eigenschaftensammlung mit allen Eigenschaften aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen</Button>
@@ -446,6 +505,7 @@ export default React.createClass({
               <div id='importDsImportAusfuehrenHinweisText'></div>
             </div>
           </Panel>
+
         </Accordion>
       </div>
     )

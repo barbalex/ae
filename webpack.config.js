@@ -1,6 +1,7 @@
 'use strict'
 
 var getConfig = require('hjs-webpack')
+// var webpack = require('webpack')
 
 var config = getConfig({
   in: 'src/app.js',
@@ -20,5 +21,20 @@ config.node = {
   net: 'empty',
   tls: 'empty'
 }
+
+/*config.loaders = [
+  {
+    test: /jquery\..*\.js/,
+    loader: 'file-loader?$=jquery,jQuery=jquery,this=>window'
+  }
+]*/
+
+/*const plugin = new webpack.ProvidePlugin({
+  $: 'jquery',
+  jQuery: 'jquery',
+  'window.jQuery': 'jquery'
+})
+
+config.plugins.push(plugin)*/
 
 module.exports = config

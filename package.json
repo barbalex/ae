@@ -50,6 +50,7 @@
     "url-loader": "0.5.6",
     "webpack": "1.11.0",
     "webpack-dev-server": "1.10.1",
+    "xlsx": "^0.8.0",
     "yeticss": "7.0.3"
   },
   "standard": {
