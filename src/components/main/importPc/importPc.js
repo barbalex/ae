@@ -193,12 +193,12 @@ export default React.createClass({
 
   onChangePcFile (event) {
     const that = this
-    // set state pcsToImport
-    if (event.target.files[0] === undefined) {
-      this.setState({
-        pcsToImport: []
-      })
-    } else {
+    // always empty pcsToImport first
+    // otherwise weird things happen
+    this.setState({
+      pcsToImport: []
+    })
+    if (event.target.files[0] !== undefined) {
       const file = event.target.files[0]
       const fileName = file.name
       const fileType = fileName.split('.').pop()
@@ -211,9 +211,7 @@ export default React.createClass({
           // d3 adds missing fields as '' > remove them
           pcsToImport.forEach(function (pc, index) {
             _.forEach(pc, function (value, key) {
-              if (value === '') {
-                delete pcsToImport[index][key]
-              }
+              if (value === '') delete pcsToImport[index][key]
             })
           })
           that.setState({

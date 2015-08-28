@@ -27,21 +27,21 @@ export default React.createClass({
       legend = 'Vorschau:'
     }
 
-        // get a list of all keys
+    // get a list of all keys
     let keys = []
-    _.forEach(pcsToImport, function (pc) {
-      const fieldNames = _.keys(pc)
-      keys = _.union(keys, fieldNames)
+    pcsToImport.forEach(function (pc) {
+      keys = _.union(keys, _.keys(pc))
     })
 
-    const thead = keys.map(function (value, index) {
-      return <th key={index}>{value}</th>
+    const thead = keys.map(function (key, index) {
+      return <th key={index}>{key}</th>
     })
     const tbody = pcsToImport.map(function (pc, index) {
       // need only the first 10
       if (index < 10) {
         const rows = _.map(keys, function (key) {
           // return values for not existing fieds!
+          // if not, table gets torn apart
           const value = pc[key] || ''
           return <td key={key}>{value}</td>
         })
