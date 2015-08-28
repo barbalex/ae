@@ -4,6 +4,7 @@ import app from 'ampersand-app'
 import React from 'react'
 import { Accordion, Panel, Well, Input, Alert, Button, OverlayTrigger, Popover } from 'react-bootstrap'
 import _ from 'lodash'
+import d3 from 'd3'
 import { ListenerMixin } from 'reflux'
 import xlsx from 'xlsx'
 import WellAutorenrechte from './wellAutorenrechte.js'
@@ -206,7 +207,15 @@ export default React.createClass({
       if (fileType === 'csv') {
         reader.onload = function (onloadEvent) {
           const data = onloadEvent.target.result
-          const pcsToImport = window.$.csv.toObjects(data)
+          const pcsToImport = d3.csv.parse(data)
+          // d3 adds missing fields as '' > remove them
+          pcsToImport.forEach(function (pc, index) {
+            _.forEach(pc, function (value, key) {
+              if (value === '') {
+                delete pcsToImport[index][key]
+              }
+            })
+          })
           that.setState({
             pcsToImport: pcsToImport
           })
