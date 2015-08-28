@@ -248,7 +248,7 @@ export default React.createClass({
     const { propertyCollections } = this.state
     const { email } = this.props
 
-    if (propertyCollections.length > 0) {
+    if (propertyCollections && propertyCollections.length > 0) {
       let options = propertyCollections.map(function (pc) {
         const pcName = pc.name
         const pcCombining = pc.combining
