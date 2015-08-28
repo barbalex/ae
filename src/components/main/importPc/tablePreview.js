@@ -27,19 +27,23 @@ export default React.createClass({
       legend = 'Vorschau:'
     }
 
-    const theadValues = _.keys(pcsToImport[0])
-    const thead = theadValues.map(function (value, index) {
-      return (
-        <th key={index}>{value}</th>
-      )
+        // get a list of all keys
+    let keys = []
+    _.forEach(pcsToImport, function (pc) {
+      const fieldNames = _.keys(pc)
+      keys = _.union(keys, fieldNames)
+    })
+
+    const thead = keys.map(function (value, index) {
+      return <th key={index}>{value}</th>
     })
     const tbody = pcsToImport.map(function (pc, index) {
+      // need only the first 10
       if (index < 10) {
-        const rows = _.map(pc, function (value, key) {
-          value = value || ''
-          return (
-            <td key={key}>{value}</td>
-          )
+        const rows = _.map(keys, function (key) {
+          // return values for not existing fieds!
+          const value = pc[key] || ''
+          return <td key={key}>{value}</td>
         })
         return (
           <tr key={index}>
