@@ -207,9 +207,6 @@ export default React.createClass({
         reader.onload = function (onloadEvent) {
           const data = onloadEvent.target.result
           const pcsToImport = window.$.csv.toObjects(data)
-
-          console.log('pcsToImport', pcsToImport)
-
           that.setState({
             pcsToImport: pcsToImport
           })
@@ -222,32 +219,7 @@ export default React.createClass({
           const workbook = xlsx.read(data, {type: 'binary'})
           const sheetName = workbook.SheetNames[0]
           const worksheet = workbook.Sheets[sheetName]
-          let pcsToImport = xlsx.utils.sheet_to_json(worksheet)
-
-          console.log('pcsToImport', pcsToImport)
-
-          // problem: xlsx leaves empty fields empty
-          // this is problematic because not every object has all fields
-          // solution: give them an empty string
-
-          // get a list of all keys
-          let keys = []
-          _.forEach(pcsToImport, function (pc) {
-            const fieldNames = _.keys(pc)
-            keys = _.union(keys, fieldNames)
-          })
-          // give every object the missing keys
-          _.forEach(pcsToImport, function (pc, index) {
-            _.forEach(keys, function (key) {
-              if (!pc[key]) {
-                console.log('hop')
-                pcsToImport[index][key] = ''
-              }
-            })
-          })
-
-          console.log('pcsToImport after adding fields', pcsToImport)
-
+          const pcsToImport = xlsx.utils.sheet_to_json(worksheet)
           that.setState({
             pcsToImport: pcsToImport
           })
