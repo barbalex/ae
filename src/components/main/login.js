@@ -49,7 +49,9 @@ export default React.createClass({
 
   onKeyDown (event) {
     const enter = 13
-    if (event.keyCode === enter) this.onClickLogin
+    if (event.keyCode === enter) {
+      this.onClickLogin()
+    }
   },
 
   onClickLogin () {
@@ -138,11 +140,11 @@ export default React.createClass({
               <p className='anmelden'>Für diese Funktion müssen Sie angemeldet sein.<br/><a href='mailto:alex@gabriel-software.ch'>Mailen Sie mir</a>, um ein Login zu erhalten.</p>
               <div className='formGroup'>
                 <Input ref={'emailInput'} type='email' label={'Email'} bsSize='small' className={'controls'} placeholder='Email' bsStyle={emailInputBsStyle} onBlur={this.onBlurEmail} required autofocus />
-                {invalidEmail ? <span className='validateSpan'>Bitte Email prüfen</span> : ''}
+                {invalidEmail ? <div className='validateDiv'>Bitte Email prüfen</div> : ''}
               </div>
               <div className='formGroup'>
                 <Input type='password' id='passwortArt' label={'Passwort'} className={'controls'} placeholder='Passwort' bsStyle={passwordInputBsStyle} onBlur={this.onBlurPassword} required />
-                {invalidPassword ? <span className='validateSpan'>Bitte Passwort prüfen</span> : ''}
+                {invalidPassword ? <div className='validateDiv'>Bitte Passwort prüfen</div> : ''}
               </div>
               {loginError ? <Alert bsStyle='error' onDismiss={this.onAlertDismiss}>Fehler beim Anmelden: {loginError}</Alert> : ''}
               <p className='Passwort' style={{'marginBottom': -5 + 'px'}}>Passwort vergessen?<br/><a href='mailto:alex@gabriel-software.ch'>Mailen Sie mir</a>. Benutzen Sie dazu möglichst dieselbe email-Adresse, die Sie für das Konto verwenden.</p>
