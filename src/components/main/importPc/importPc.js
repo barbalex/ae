@@ -390,7 +390,7 @@ export default React.createClass({
   ursprungsEs () {
     const { nameUrsprungsEs, validUrsprungsEs } = this.state
     return (
-      <div className='form-group'>
+      <div className={validUrsprungsEs ? 'form-group' : 'form-group has-error'}>
         <OverlayTrigger trigger='click' placement='right' overlay={this.ursprungsEsPopover()}>
           <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.ursprungsEsPopover()}>
             <label className='control-label withPopover' htmlFor='dsUrsprungsDs' id='dsUrsprungsDsLabel'>eigenständige Eigenschaftensammlung</label>
@@ -412,7 +412,7 @@ export default React.createClass({
   },
 
   render () {
-    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, esBearbeitenErlaubt, pcsToImport, pcDescribed, pcLoaded, idsIdentified, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs } = this.state
+    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, esBearbeitenErlaubt, pcsToImport, pcDescribed, pcLoaded, idsIdentified, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink } = this.state
 
     return (
       <div>
@@ -433,7 +433,7 @@ export default React.createClass({
 
             <hr />
 
-            <div className='form-group'>
+            <div className={validName ? 'form-group' : 'form-group has-error'}>
               <OverlayTrigger trigger='click' rootClose placement='right' overlay={this.namePopover()}>
                 <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.namePopover()}>
                   <label className='control-label withPopover'>Name</label>
@@ -444,7 +444,7 @@ export default React.createClass({
             </div>
             {esBearbeitenErlaubt ? null : this.alertEditingPcDisallowed()}
 
-            <div className='form-group'>
+            <div className={validBeschreibung ? 'form-group' : 'form-group has-error'}>
               <OverlayTrigger trigger='click' rootClose placement='right' overlay={this.beschreibungPopover()}>
                 <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.beschreibungPopover()}>
                   <label className='control-label withPopover'>Beschreibung</label>
@@ -454,7 +454,7 @@ export default React.createClass({
               {validBeschreibung ? null : <div className='validateDiv'>Eine Beschreibung ist erforderlich</div>}
             </div>
 
-            <div className='form-group'>
+            <div className={validDatenstand ? 'form-group' : 'form-group has-error'}>
               <OverlayTrigger trigger='click' rootClose placement='right' overlay={this.datenstandPopover()}>
                 <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.datenstandPopover()}>
                   <label className='control-label withPopover'>Datenstand</label>
@@ -464,7 +464,7 @@ export default React.createClass({
               {validDatenstand ? null : <div className='validateDiv'>Ein Datenstand ist erforderlich</div>}
             </div>
 
-            <div className='form-group'>
+            <div className={validNutzungsbedingungen ? 'form-group' : 'form-group has-error'}>
               <OverlayTrigger trigger='click' rootClose placement='right' overlay={this.nutzungsbedingungenPopover()}>
                 <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.nutzungsbedingungenPopover()}>
                   <label className='control-label withPopover'>Nutzungsbedingungen</label>
@@ -474,7 +474,7 @@ export default React.createClass({
               {validNutzungsbedingungen ? null : <div className='validateDiv'>Nutzungsbedingungen sind erforderlich</div>}
             </div>
 
-            <div className='form-group'>
+            <div className={validLink ? 'form-group' : 'form-group has-error'}>
               <OverlayTrigger trigger='click' rootClose placement='right' overlay={this.linkPopover()}>
                 <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.linkPopover()}>
                   <label className='control-label withPopover'>Link</label>
