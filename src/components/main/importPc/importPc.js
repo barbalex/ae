@@ -163,11 +163,7 @@ export default React.createClass({
   },
 
   onBlurLink (event) {
-    const link = event.target.value
-    const validLink = !link || isValidUrl(link)
-    this.setState({
-      validLink: validLink
-    })
+    this.validLink()
   },
 
   onChangeZusammenfassend (event) {
@@ -180,13 +176,10 @@ export default React.createClass({
 
   onChangeNameUrsprungsEs (event) {
     const nameUrsprungsEs = event.target.value
-    const { zusammenfassend } = this.state
-    let validUrsprungsEs = true
-    if (zusammenfassend && !nameUrsprungsEs) validUrsprungsEs = false
     this.setState({
-      nameUrsprungsEs: nameUrsprungsEs,
-      validUrsprungsEs: validUrsprungsEs
+      nameUrsprungsEs: nameUrsprungsEs
     })
+    this.validUrsprungsEs()
   },
 
   onChangePcFile (event) {
@@ -231,6 +224,24 @@ export default React.createClass({
         }
         reader.readAsBinaryString(file)
       }
+    }
+  },
+
+  onSelectPanelEigenschaftenLaden () {
+    // TODO: is never called
+    console.log('onSelectPanelEigenschaftenLaden')
+  },
+
+  onClickPanelEigenschaftenLaden (event) {
+    console.log('panel eigenschaften laden clicked')
+    const pcDescribed = this.validName() && this.validBeschreibung() && this.validDatenstand() && this.validNutzungsbedingungen() && this.validLink() && this.validUrsprungsEs() && !!this.state.email
+    this.setState({ pcDescribed: pcDescribed })
+    if (!pcDescribed) {
+      console.log('preventDefault')
+      console.log('event.target', event.target)
+      // TODO: how to open first panel?
+      // event.preventDefault()           does not work
+      // event.target.collapse('hide')    does nat work
     }
   },
 
@@ -291,6 +302,47 @@ export default React.createClass({
       }, 8000)
     }
     return esBearbeitenErlaubt
+  },
+
+  validName () {
+    const validName = !!this.state.name
+    this.setState({ validName: validName })
+    return validName
+  },
+
+  validBeschreibung () {
+    const validBeschreibung = !!this.state.beschreibung
+    this.setState({ validBeschreibung: validBeschreibung })
+    return validBeschreibung
+  },
+
+  validDatenstand () {
+    const validDatenstand = !!this.state.datenstand
+    this.setState({ validDatenstand: validDatenstand })
+    return validDatenstand
+  },
+
+  validNutzungsbedingungen () {
+    const validNutzungsbedingungen = !!this.state.nutzungsbedingungen
+    this.setState({ validNutzungsbedingungen: validNutzungsbedingungen })
+    return validNutzungsbedingungen
+  },
+
+  validLink () {
+    const link = this.state.link
+    const validLink = !link || isValidUrl(link)
+    this.setState({ validLink: validLink })
+    return validLink
+  },
+
+  validUrsprungsEs () {
+    const { zusammenfassend, nameUrsprungsEs } = this.state
+    let validUrsprungsEs = true
+    if (zusammenfassend && !nameUrsprungsEs) validUrsprungsEs = false
+    this.setState({
+      validUrsprungsEs: validUrsprungsEs
+    })
+    return validUrsprungsEs
   },
 
   ursprungsEsOptions () {
@@ -397,7 +449,7 @@ export default React.createClass({
           </OverlayTrigger>
         </OverlayTrigger>
         <select className='form-control controls input-sm' id='dsUrsprungsDs' selected={nameUrsprungsEs} onChange={this.onChangeNameUrsprungsEs}>{this.ursprungsEsOptions()}</select>
-        {validUrsprungsEs ? null : <div className='validateDiv'>Bitte wählen Sie die eigenständige Eigenschaftensammlung</div>}
+        {validUrsprungsEs ? null : <div className='validateDiv feld'>Bitte wählen Sie die eigenständige Eigenschaftensammlung</div>}
       </div>
     )
   },
@@ -440,7 +492,7 @@ export default React.createClass({
                 </OverlayTrigger>
               </OverlayTrigger>
               <input type='text' className='controls input-sm form-control' value={name} onChange={this.onChangeName} onBlur={this.onBlurPcName} />
-              {validName ? null : <div className='validateDiv'>Ein Name ist erforderlich</div>}
+              {validName ? null : <div className='validateDiv feld'>Ein Name ist erforderlich</div>}
             </div>
             {esBearbeitenErlaubt ? null : this.alertEditingPcDisallowed()}
 
@@ -451,7 +503,7 @@ export default React.createClass({
                 </OverlayTrigger>
               </OverlayTrigger>
               <input type='textarea' className='form-control controls' value={beschreibung} onChange={this.onChangeBeschreibung} rows={1} />
-              {validBeschreibung ? null : <div className='validateDiv'>Eine Beschreibung ist erforderlich</div>}
+              {validBeschreibung ? null : <div className='validateDiv feld'>Eine Beschreibung ist erforderlich</div>}
             </div>
 
             <div className={validDatenstand ? 'form-group' : 'form-group has-error'}>
@@ -461,7 +513,7 @@ export default React.createClass({
                 </OverlayTrigger>
               </OverlayTrigger>
               <input type='textarea' className='form-control controls' rows={1} value={datenstand} onChange={this.onChangeDatenstand} />
-              {validDatenstand ? null : <div className='validateDiv'>Ein Datenstand ist erforderlich</div>}
+              {validDatenstand ? null : <div className='validateDiv feld'>Ein Datenstand ist erforderlich</div>}
             </div>
 
             <div className={validNutzungsbedingungen ? 'form-group' : 'form-group has-error'}>
@@ -471,7 +523,7 @@ export default React.createClass({
                 </OverlayTrigger>
               </OverlayTrigger>
               <textarea className='form-control controls' rows={1} value={nutzungsbedingungen} onChange={this.onChangeNutzungsbedingungen}></textarea>
-              {validNutzungsbedingungen ? null : <div className='validateDiv'>Nutzungsbedingungen sind erforderlich</div>}
+              {validNutzungsbedingungen ? null : <div className='validateDiv feld'>Nutzungsbedingungen sind erforderlich</div>}
             </div>
 
             <div className={validLink ? 'form-group' : 'form-group has-error'}>
@@ -481,7 +533,7 @@ export default React.createClass({
                 </OverlayTrigger>
               </OverlayTrigger>
               <input type='textarea' className='form-control controls' value={link} onBlur={this.onBlurLink} onChange={this.onChangeLink} rows={1} />
-              {validLink ? null : <div className='validateDiv'>Bitte prüfen Sie den Link</div>}
+              {validLink ? null : <div className='validateDiv feld'>Bitte prüfen Sie den Link. Es muss einge gültige URL sein</div>}
             </div>
 
             <Input type='text' label={'importiert von'} className='controls input-sm' value={importiertVon} disabled />
@@ -503,7 +555,7 @@ export default React.createClass({
             </div>
           </Panel>
 
-          <Panel header='2. Eigenschaften laden' eventKey={2}>
+          <Panel header='2. Eigenschaften laden' eventKey={2} onClick={this.onClickPanelEigenschaftenLaden} onSelect={this.onSelectPanelEigenschaftenLaden}>
             <WellTechnAnforderungenAnDatei />
             <WellAnforderungenAnCsv />
             <WellAnforderungenInhaltlich />
