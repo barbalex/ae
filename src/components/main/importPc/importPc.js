@@ -2,7 +2,7 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import { Accordion, PanelGroup, Panel, Well, Input, Alert, Button, OverlayTrigger, Popover } from 'react-bootstrap'
+import { Accordion, Panel, Well, Input, Alert, Button, OverlayTrigger, Popover } from 'react-bootstrap'
 import _ from 'lodash'
 import d3 from 'd3'
 import { ListenerMixin } from 'reflux'
@@ -12,6 +12,7 @@ import WellTechnAnforderungenAnDatei from './wellTechnAnforderungenAnDatei.js'
 import WellAnforderungenAnCsv from './wellAnforderungenAnCsv.js'
 import WellAnforderungenInhaltlich from './wellAnforderungenInhaltlich.js'
 import TablePreview from './tablePreview.js'
+import isValidUrl from '../../../modules/isValidUrl.js'
 
 export default React.createClass({
   displayName: 'Import',
@@ -21,41 +22,53 @@ export default React.createClass({
   // TODO: set task props pcDescribed, pcLoaded, idsIdentified
   // and use them to guide inputting
   propTypes: {
-    email: React.PropTypes.string,
-    propertyCollections: React.PropTypes.array,
-    pcNameExisting: React.PropTypes.string,
-    pcNameOrigin: React.PropTypes.string,
-    pcName: React.PropTypes.string,
+    nameBestehend: React.PropTypes.string,
+    name: React.PropTypes.string,
     beschreibung: React.PropTypes.string,
     datenstand: React.PropTypes.string,
     nutzungsbedingungen: React.PropTypes.string,
     link: React.PropTypes.string,
     importiertVon: React.PropTypes.string,
     zusammenfassend: React.PropTypes.bool,
-    editingPcDisallowed: React.PropTypes.bool,
+    nameUrsprungsEs: React.PropTypes.string,
+    email: React.PropTypes.string,
+    eigenschaftensammlungen: React.PropTypes.array,
+    esBearbeitenErlaubt: React.PropTypes.bool,
     pcsToImport: React.PropTypes.array,
     pcDescribed: React.PropTypes.bool,
     pcLoaded: React.PropTypes.bool,
-    idsIdentified: React.PropTypes.bool
+    idsIdentified: React.PropTypes.bool,
+    validName: React.PropTypes.bool,
+    validBeschreibung: React.PropTypes.bool,
+    validDatenstand: React.PropTypes.bool,
+    validNutzungsbedingungen: React.PropTypes.bool,
+    validLink: React.PropTypes.bool,
+    validUrsprungsEs: React.PropTypes.bool
   },
 
   getInitialState () {
     return {
-      propertyCollections: [],
-      pcNameExisting: null,
-      pcNameOrigin: null,
-      pcName: null,
+      eigenschaftensammlungen: [],
+      nameBestehend: null,
+      nameUrsprungsEs: null,
+      name: null,
       beschreibung: null,
       datenstand: null,
       nutzungsbedingungen: null,
       link: null,
       importiertVon: this.props.email,
       zusammenfassend: null,
-      editingPcDisallowed: false,
+      esBearbeitenErlaubt: true,
       pcsToImport: [],
       pcDescribed: false,
       pcLoaded: false,
-      idsIdentified: false
+      idsIdentified: false,
+      validName: true,
+      validBeschreibung: true,
+      validDatenstand: true,
+      validNutzungsbedingungen: true,
+      validLink: true,
+      validUrsprungsEs: true
     }
   },
 
@@ -77,18 +90,18 @@ export default React.createClass({
 
   onChangePropertyCollectionsStore (pcs) {
     // email has empty values. Set default
-    const propertyCollections = pcs.forEach(function (pc) {
+    const eigenschaftensammlungen = pcs.forEach(function (pc) {
       pc.importedBy = pc.importedBy || 'alex@gabriel-software.ch'
     })
     this.setState({
-      propertyCollections: propertyCollections
+      eigenschaftensammlungen: eigenschaftensammlungen
     })
   },
 
   onChangePcNameExisting (event) {
-    const pcNameExisting = event.target.value
-    const editingPcIsDisallowed = this.isEditingPcDisallowed(pcNameExisting)
-    const pc = app.propertyCollectionsStore.getPcByName(pcNameExisting)
+    const nameBestehend = event.target.value
+    const editingPcIsDisallowed = this.isEditingPcDisallowed(nameBestehend)
+    const pc = app.propertyCollectionsStore.getPcByName(nameBestehend)
     const beschreibung = pc.fields.Beschreibung
     const datenstand = pc.fields.Datenstand
     const nutzungsbedingungen = pc.fields.Nutzungsbedingungen
@@ -103,64 +116,22 @@ export default React.createClass({
     })
     if (!editingPcIsDisallowed) {
       this.setState({
-        pcNameExisting: pcNameExisting,
-        pcName: pcNameExisting
+        nameBestehend: nameBestehend,
+        name: nameBestehend
       })
     }
   },
 
-  onChangePcNameOrigin (event) {
-    const pcNameOrigin = event.target.value
+  onChangeName (event) {
+    const name = event.target.value
     this.setState({
-      pcNameOrigin: pcNameOrigin
-    })
-  },
-
-  onChangePcName (event) {
-    const pcName = event.target.value
-    this.setState({
-      pcName: pcName
+      name: name
     })
   },
 
   onBlurPcName (event) {
-    const pcName = event.target.value
-    this.isEditingPcDisallowed(pcName)
-  },
-
-  isEditingPcDisallowed (pcName) {
-    const { propertyCollections, email } = this.state
-    const that = this
-    // set editing dissallowed to false
-    // reaseon: close alert if it is still shown from last select
-    this.setState({
-      editingPcDisallowed: false
-    })
-    // check if this name exists
-    // if so and it is not combining: check if it was imported by the user
-    const samePc = _.find(propertyCollections, function (pc) {
-      return pc.name === pcName
-    })
-    const editingPcDisallowed = !!samePc && !samePc.combining && samePc.importedBy !== email
-    if (editingPcDisallowed) {
-      this.setState({
-        editingPcDisallowed: true
-      })
-      // delete text after a second
-      setTimeout(function () {
-        that.setState({
-          pcNameExisting: null,
-          pcName: null
-        })
-      }, 1000)
-      // close alert after 8 seconds
-      setTimeout(function () {
-        that.setState({
-          editingPcDisallowed: false
-        })
-      }, 8000)
-    }
-    return editingPcDisallowed
+    const name = event.target.value
+    this.isEditingPcDisallowed(name)
   },
 
   onChangeBeschreibung (event) {
@@ -191,11 +162,30 @@ export default React.createClass({
     })
   },
 
+  onBlurLink (event) {
+    const link = event.target.value
+    const validLink = !link || isValidUrl(link)
+    this.setState({
+      validLink: validLink
+    })
+  },
+
   onChangeZusammenfassend (event) {
     const zusammenfassend = event.target.checked
     this.setState({
       zusammenfassend: zusammenfassend,
-      pcNameOrigin: null
+      nameUrsprungsEs: null
+    })
+  },
+
+  onChangeNameUrsprungsEs (event) {
+    const nameUrsprungsEs = event.target.value
+    const { zusammenfassend } = this.state
+    let validUrsprungsEs = true
+    if (zusammenfassend && !nameUrsprungsEs) validUrsprungsEs = false
+    this.setState({
+      nameUrsprungsEs: nameUrsprungsEs,
+      validUrsprungsEs: validUrsprungsEs
     })
   },
 
@@ -244,20 +234,20 @@ export default React.createClass({
     }
   },
 
-  pcNameExistingOptions () {
-    const { propertyCollections } = this.state
+  nameBestehendOptions () {
+    const { eigenschaftensammlungen } = this.state
     const { email } = this.props
 
-    if (propertyCollections && propertyCollections.length > 0) {
-      let options = propertyCollections.map(function (pc) {
-        const pcName = pc.name
+    if (eigenschaftensammlungen && eigenschaftensammlungen.length > 0) {
+      let options = eigenschaftensammlungen.map(function (pc) {
+        const name = pc.name
         const pcCombining = pc.combining
         const pcImportedBy = pc.importedBy
         // mutable: only those imported by user and combining pc's
         // or: user is admin
         const mutable = (pcImportedBy === email || pcCombining || Boolean(window.localStorage.admin))
         const className = mutable ? 'adbGruenFett' : 'adbGrauNormal'
-        return (<option key={pcName} value={pcName} className={className} waehlbar={mutable}>{pcName}</option>)
+        return (<option key={name} value={name} className={className} waehlbar={mutable}>{name}</option>)
       })
       // add an empty option at the beginning
       options.unshift(<option key='noValue' value='' waehlbar={true}></option>)
@@ -268,15 +258,50 @@ export default React.createClass({
     }
   },
 
+  isEditingPcDisallowed (name) {
+    const { eigenschaftensammlungen, email } = this.state
+    const that = this
+    // set editing allowed to true
+    // reaseon: close alert if it is still shown from last select
+    this.setState({
+      esBearbeitenErlaubt: true
+    })
+    // check if this name exists
+    // if so and it is not combining: check if it was imported by the user
+    const samePc = _.find(eigenschaftensammlungen, function (pc) {
+      return pc.name === name
+    })
+    const esBearbeitenErlaubt = !samePc || (samePc && (samePc.combining || samePc.importedBy === email))
+    if (!esBearbeitenErlaubt) {
+      this.setState({
+        esBearbeitenErlaubt: false
+      })
+      // delete text after a second
+      setTimeout(function () {
+        that.setState({
+          nameBestehend: null,
+          name: null
+        })
+      }, 1000)
+      // close alert after 8 seconds
+      setTimeout(function () {
+        that.setState({
+          esBearbeitenErlaubt: true
+        })
+      }, 8000)
+    }
+    return esBearbeitenErlaubt
+  },
+
   ursprungsEsOptions () {
-    const { propertyCollections } = this.state
+    const { eigenschaftensammlungen } = this.state
     // don't want combining pcs
-    let options = _.filter(propertyCollections, function (pc) {
+    let options = _.filter(eigenschaftensammlungen, function (pc) {
       return !pc.combining
     })
     options = _.pluck(options, 'name')
-    options = options.map(function (pcName) {
-      return (<option key={pcName} value={pcName}>{pcName}</option>)
+    options = options.map(function (name) {
+      return (<option key={name} value={name}>{name}</option>)
     })
     // add an empty option at the beginning
     options.unshift(<option key='noValue' value=''></option>)
@@ -361,8 +386,9 @@ export default React.createClass({
     )
   },
 
+  // TODO: modularize
   ursprungsEs () {
-    const { pcNameOrigin } = this.state
+    const { nameUrsprungsEs, validUrsprungsEs } = this.state
     return (
       <div className='form-group'>
         <OverlayTrigger trigger='click' placement='right' overlay={this.ursprungsEsPopover()}>
@@ -370,7 +396,8 @@ export default React.createClass({
             <label className='control-label withPopover' htmlFor='dsUrsprungsDs' id='dsUrsprungsDsLabel'>eigenständige Eigenschaftensammlung</label>
           </OverlayTrigger>
         </OverlayTrigger>
-        <select className='form-control controls input-sm' id='dsUrsprungsDs' selected={pcNameOrigin} onChange={this.onChangePcNameOrigin}>{this.ursprungsEsOptions()}</select>
+        <select className='form-control controls input-sm' id='dsUrsprungsDs' selected={nameUrsprungsEs} onChange={this.onChangeNameUrsprungsEs}>{this.ursprungsEsOptions()}</select>
+        {validUrsprungsEs ? null : <div className='validateDiv'>Bitte wählen Sie die eigenständige Eigenschaftensammlung</div>}
       </div>
     )
   },
@@ -385,7 +412,7 @@ export default React.createClass({
   },
 
   render () {
-    const { pcNameExisting, pcName, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, editingPcDisallowed, pcsToImport, pcDescribed, pcLoaded, idsIdentified } = this.state
+    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, esBearbeitenErlaubt, pcsToImport, pcDescribed, pcLoaded, idsIdentified, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs } = this.state
 
     return (
       <div>
@@ -396,8 +423,8 @@ export default React.createClass({
             <WellAutorenrechte />
 
             <div className='form-group'>
-              <label className='control-label' htmlFor='pcNameExisting'>Bestehende wählen</label>
-              <select id='pcNameExisting' className='form-control controls' selected={pcNameExisting} onChange={this.onChangePcNameExisting}>{this.pcNameExistingOptions()}</select>
+              <label className='control-label' htmlFor='nameBestehend'>Bestehende wählen</label>
+              <select id='nameBestehend' className='form-control controls' selected={nameBestehend} onChange={this.onChangePcNameExisting}>{this.nameBestehendOptions()}</select>
             </div>
 
             <div className='controls feld'>
@@ -412,9 +439,10 @@ export default React.createClass({
                   <label className='control-label withPopover'>Name</label>
                 </OverlayTrigger>
               </OverlayTrigger>
-              <input type='text' className='controls input-sm form-control' value={pcName} onChange={this.onChangePcName} onBlur={this.onBlurPcName} />
+              <input type='text' className='controls input-sm form-control' value={name} onChange={this.onChangeName} onBlur={this.onBlurPcName} />
+              {validName ? null : <div className='validateDiv'>Ein Name ist erforderlich</div>}
             </div>
-            {editingPcDisallowed ? this.alertEditingPcDisallowed() : null}
+            {esBearbeitenErlaubt ? null : this.alertEditingPcDisallowed()}
 
             <div className='form-group'>
               <OverlayTrigger trigger='click' rootClose placement='right' overlay={this.beschreibungPopover()}>
@@ -423,6 +451,7 @@ export default React.createClass({
                 </OverlayTrigger>
               </OverlayTrigger>
               <input type='textarea' className='form-control controls' value={beschreibung} onChange={this.onChangeBeschreibung} rows={1} />
+              {validBeschreibung ? null : <div className='validateDiv'>Eine Beschreibung ist erforderlich</div>}
             </div>
 
             <div className='form-group'>
@@ -432,6 +461,7 @@ export default React.createClass({
                 </OverlayTrigger>
               </OverlayTrigger>
               <input type='textarea' className='form-control controls' rows={1} value={datenstand} onChange={this.onChangeDatenstand} />
+              {validDatenstand ? null : <div className='validateDiv'>Ein Datenstand ist erforderlich</div>}
             </div>
 
             <div className='form-group'>
@@ -441,6 +471,7 @@ export default React.createClass({
                 </OverlayTrigger>
               </OverlayTrigger>
               <textarea className='form-control controls' rows={1} value={nutzungsbedingungen} onChange={this.onChangeNutzungsbedingungen}></textarea>
+              {validNutzungsbedingungen ? null : <div className='validateDiv'>Nutzungsbedingungen sind erforderlich</div>}
             </div>
 
             <div className='form-group'>
@@ -449,7 +480,8 @@ export default React.createClass({
                   <label className='control-label withPopover'>Link</label>
                 </OverlayTrigger>
               </OverlayTrigger>
-              <input type='textarea' className='form-control controls' value={link} onChange={this.onChangeLink} rows={1} />
+              <input type='textarea' className='form-control controls' value={link} onBlur={this.onBlurLink} onChange={this.onChangeLink} rows={1} />
+              {validLink ? null : <div className='validateDiv'>Bitte prüfen Sie den Link</div>}
             </div>
 
             <Input type='text' label={'importiert von'} className='controls input-sm' value={importiertVon} disabled />
