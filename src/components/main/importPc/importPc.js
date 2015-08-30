@@ -90,11 +90,11 @@ export default React.createClass({
 
   onChangePropertyCollectionsStore (pcs) {
     // email has empty values. Set default
-    const eigenschaftensammlungen = pcs.forEach(function (pc) {
+    pcs.forEach(function (pc) {
       pc.importedBy = pc.importedBy || 'alex@gabriel-software.ch'
     })
     this.setState({
-      eigenschaftensammlungen: eigenschaftensammlungen
+      eigenschaftensammlungen: pcs
     })
   },
 
@@ -252,11 +252,11 @@ export default React.createClass({
     if (eigenschaftensammlungen && eigenschaftensammlungen.length > 0) {
       let options = eigenschaftensammlungen.map(function (pc) {
         const name = pc.name
-        const pcCombining = pc.combining
-        const pcImportedBy = pc.importedBy
+        const combining = pc.combining
+        const importedBy = pc.importedBy
         // mutable: only those imported by user and combining pc's
         // or: user is admin
-        const mutable = (pcImportedBy === email || pcCombining || Boolean(window.localStorage.admin))
+        const mutable = (importedBy === email || combining || Boolean(window.localStorage.admin))
         const className = mutable ? 'adbGruenFett' : 'adbGrauNormal'
         return (<option key={name} value={name} className={className} waehlbar={mutable}>{name}</option>)
       })
