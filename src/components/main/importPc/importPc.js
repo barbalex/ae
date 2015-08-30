@@ -19,7 +19,7 @@ export default React.createClass({
 
   mixins: [ListenerMixin],
 
-  // TODO: set task props pcDescribed, pcLoaded, idsIdentified
+  // TODO: set task props panel1Done, panel2Done, panel3Done
   // and use them to guide inputting
   propTypes: {
     nameBestehend: React.PropTypes.string,
@@ -35,9 +35,10 @@ export default React.createClass({
     eigenschaftensammlungen: React.PropTypes.array,
     esBearbeitenErlaubt: React.PropTypes.bool,
     pcsToImport: React.PropTypes.array,
-    pcDescribed: React.PropTypes.bool,
-    pcLoaded: React.PropTypes.bool,
-    idsIdentified: React.PropTypes.bool,
+    panel1Done: React.PropTypes.bool,
+    panel2Done: React.PropTypes.bool,
+    panel3Done: React.PropTypes.bool,
+    activePanel: React.PropTypes.number,
     validName: React.PropTypes.bool,
     validBeschreibung: React.PropTypes.bool,
     validDatenstand: React.PropTypes.bool,
@@ -60,9 +61,10 @@ export default React.createClass({
       zusammenfassend: null,
       esBearbeitenErlaubt: true,
       pcsToImport: [],
-      pcDescribed: false,
-      pcLoaded: false,
-      idsIdentified: false,
+      panel1Done: false,
+      panel2Done: false,
+      panel3Done: false,
+      activePanel: 1,
       validName: true,
       validBeschreibung: true,
       validDatenstand: true,
@@ -100,7 +102,7 @@ export default React.createClass({
 
   onChangePcNameExisting (event) {
     const nameBestehend = event.target.value
-    const editingPcIsDisallowed = this.isEditingPcDisallowed(nameBestehend)
+    const editingPcIsAllowed = this.isEditingPcAllowed(nameBestehend)
     const pc = app.propertyCollectionsStore.getPcByName(nameBestehend)
     const beschreibung = pc.fields.Beschreibung
     const datenstand = pc.fields.Datenstand
@@ -114,7 +116,7 @@ export default React.createClass({
       link: link,
       zusammenfassend: zusammenfassend
     })
-    if (!editingPcIsDisallowed) {
+    if (editingPcIsAllowed) {
       this.setState({
         nameBestehend: nameBestehend,
         name: nameBestehend
@@ -129,9 +131,9 @@ export default React.createClass({
     })
   },
 
-  onBlurPcName (event) {
+  onBlurName (event) {
     const name = event.target.value
-    this.isEditingPcDisallowed(name)
+    this.isEditingPcAllowed(name)
   },
 
   onChangeBeschreibung (event) {
@@ -227,21 +229,44 @@ export default React.createClass({
     }
   },
 
-  onSelectPanelEigenschaftenLaden () {
-    // TODO: is never called
-    console.log('onSelectPanelEigenschaftenLaden')
-  },
+  onClickPanel (number, event) {
+    let { activePanel } = this.state
+    const { email } = this.state
 
-  onClickPanelEigenschaftenLaden (event) {
-    console.log('panel eigenschaften laden clicked')
-    const pcDescribed = this.validName() && this.validBeschreibung() && this.validDatenstand() && this.validNutzungsbedingungen() && this.validLink() && this.validUrsprungsEs() && !!this.state.email
-    this.setState({ pcDescribed: pcDescribed })
-    if (!pcDescribed) {
-      console.log('preventDefault')
-      console.log('event.target', event.target)
-      // TODO: how to open first panel?
-      // event.preventDefault()           does not work
-      // event.target.collapse('hide')    does nat work
+    // make sure the heading was clicked
+    const parent = event.target.parentElement
+    const headingWasClicked = _.includes(parent.className, 'panel-title') || _.includes(parent.className, 'panel-heading')
+    if (!headingWasClicked) return event.stopPropagation()
+
+    // always close panel if it is open
+    if (activePanel === number) return this.setState({ activePanel: '' })
+
+    switch (number) {
+    case 1:
+      this.setState({ activePanel: number })
+      break
+    case 2:
+      // run all validation
+      const validName = this.validName()
+      const validBeschreibung = this.validBeschreibung()
+      const validDatenstand = this.validDatenstand()
+      const validNutzungsbedingungen = this.validNutzungsbedingungen()
+      const validLink = this.validLink()
+      const validUrsprungsEs = this.validUrsprungsEs()
+      // check if panel 1 is done
+      const panel1Done = validName && validBeschreibung && validDatenstand && validNutzungsbedingungen && validLink && validUrsprungsEs && !!email
+      activePanel = panel1Done ? number : 1
+      this.setState({
+        panel1Done: panel1Done,
+        activePanel: activePanel
+      })
+      break
+    case 3:
+
+      break
+    case 4:
+
+      break
     }
   },
 
@@ -269,7 +294,7 @@ export default React.createClass({
     }
   },
 
-  isEditingPcDisallowed (name) {
+  isEditingPcAllowed (name) {
     const { eigenschaftensammlungen, email } = this.state
     const that = this
     // set editing allowed to true
@@ -464,13 +489,13 @@ export default React.createClass({
   },
 
   render () {
-    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, esBearbeitenErlaubt, pcsToImport, pcDescribed, pcLoaded, idsIdentified, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink } = this.state
+    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, esBearbeitenErlaubt, pcsToImport, panel1Done, panel2Done, panel3Done, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, activePanel } = this.state
 
     return (
       <div>
         <h4>Eigenschaften importieren</h4>
-        <Accordion defaultActiveKey={1}>
-          <Panel header='1. Eigenschaftensammlung beschreiben' eventKey={1}>
+        <Accordion activeKey={activePanel}>
+          <Panel collapsible header='1. Eigenschaftensammlung beschreiben' eventKey={1} onClick={this.onClickPanel.bind(this, 1)}>
             <Well className='well-sm'><a href='//youtu.be/nqd-v6YxkOY' target='_blank'><b>Auf Youtube sehen, wie es geht</b></a></Well>
             <WellAutorenrechte />
 
@@ -491,7 +516,7 @@ export default React.createClass({
                   <label className='control-label withPopover'>Name</label>
                 </OverlayTrigger>
               </OverlayTrigger>
-              <input type='text' className='controls input-sm form-control' value={name} onChange={this.onChangeName} onBlur={this.onBlurPcName} />
+              <input type='text' className='controls input-sm form-control' value={name} onChange={this.onChangeName} onBlur={this.onBlurName} />
               {validName ? null : <div className='validateDiv feld'>Ein Name ist erforderlich</div>}
             </div>
             {esBearbeitenErlaubt ? null : this.alertEditingPcDisallowed()}
@@ -555,7 +580,7 @@ export default React.createClass({
             </div>
           </Panel>
 
-          <Panel header='2. Eigenschaften laden' eventKey={2} onClick={this.onClickPanelEigenschaftenLaden} onSelect={this.onSelectPanelEigenschaftenLaden}>
+          <Panel collapsible header='2. Eigenschaften laden' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
             <WellTechnAnforderungenAnDatei />
             <WellAnforderungenAnCsv />
             <WellAnforderungenInhaltlich />
@@ -566,7 +591,7 @@ export default React.createClass({
             {pcsToImport.length > 0 ? <TablePreview pcsToImport={pcsToImport} /> : null}
           </Panel>
 
-          <Panel header="3. ID's identifizieren" eventKey={3}>
+          <Panel collapsible header="3. ID's identifizieren" eventKey={3} onClick={this.onClickPanel.bind(this, 3)}>
             <div id='dsFelderDiv' className='form-group'></div>
             <Input type='select' label={'zugehörige ID in ArtenDb'} multiple className='form-control controls input-sm' id='dsId' style={{'height': 101 + 'px'}}>
               <option value='guid'>GUID der ArtenDb</option>
@@ -578,7 +603,7 @@ export default React.createClass({
             <Alert id='importDsIdsIdentifizierenHinweisText' className='alert-info feld' />
           </Panel>
 
-          <Panel header='4. Import ausführen' eventKey={4}>
+          <Panel collapsible header='4. Import ausführen' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>
             <Button className='btn-primary' id='dsImportieren' style={{'marginBottom': 6 + 'px', 'display': 'none'}}>Eigenschaftensammlung mit allen Eigenschaften importieren</Button>
             <Button className='btn-primary' id='dsEntfernen' style={{'marginBottom': 6 + 'px', 'display': 'none'}}>Eigenschaftensammlung mit allen Eigenschaften aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen</Button>
             <div className='progress'>
