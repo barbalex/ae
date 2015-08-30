@@ -230,8 +230,9 @@ export default React.createClass({
   },
 
   onClickPanel (number, event) {
-    let { activePanel } = this.state
+    let { activePanel, eigenschaftensammlungen } = this.state
     const { email } = this.props
+    let isPanel1Done = false
 
     // make sure the heading was clicked
     const parent = event.target.parentElement
@@ -243,42 +244,48 @@ export default React.createClass({
 
     switch (number) {
     case 1:
-      this.setState({ activePanel: number })
+      this.setState({ activePanel: 1 })
       break
     case 2:
-      // run all validation
-      const validName = this.validName()
-      const validBeschreibung = this.validBeschreibung()
-      const validDatenstand = this.validDatenstand()
-      const validNutzungsbedingungen = this.validNutzungsbedingungen()
-      const validLink = this.validLink()
-      const validUrsprungsEs = this.validUrsprungsEs()
-      const validEmail = !!email
-      // check if panel 1 is done
-      const panel1Done = validName && validBeschreibung && validDatenstand && validNutzungsbedingungen && validLink && validUrsprungsEs && validEmail
-      activePanel = panel1Done ? number : 1
-      console.log('validName', validName)
-      console.log('validBeschreibung', validBeschreibung)
-      console.log('validDatenstand', validDatenstand)
-      console.log('validNutzungsbedingungen', validNutzungsbedingungen)
-      console.log('validLink', validLink)
-      console.log('validUrsprungsEs', validUrsprungsEs)
-      console.log('email', email)
-      console.log('validEmail', validEmail)
-      console.log('panel1Done', panel1Done)
-      console.log('activePanel', activePanel)
-      this.setState({
-        panel1Done: panel1Done,
-        activePanel: activePanel
-      })
+      isPanel1Done = this.isPanel1Done()
+      activePanel = isPanel1Done ? 2 : 1
+      this.setState({ activePanel: activePanel })
       break
     case 3:
-
+      isPanel1Done = this.isPanel1Done()
+      // TODO: we have eigenschaftensammlungen. Where from???
+      console.log('eigenschaftensammlungen', eigenschaftensammlungen)
+      const isPanel2Done = isPanel1Done && eigenschaftensammlungen.length > 0
+      console.log('isPanel2Done', isPanel2Done)
+      activePanel = isPanel1Done ? (isPanel2Done ? 3 : 2) : 1
+      console.log('activePanel', activePanel)
+      this.setState({
+        panel2Done: isPanel2Done,
+        activePanel: activePanel
+      })
       break
     case 4:
 
       break
     }
+  },
+
+  isPanel1Done () {
+    const { email } = this.props
+    // run all validation
+    const validName = this.validName()
+    const validBeschreibung = this.validBeschreibung()
+    const validDatenstand = this.validDatenstand()
+    const validNutzungsbedingungen = this.validNutzungsbedingungen()
+    const validLink = this.validLink()
+    const validUrsprungsEs = this.validUrsprungsEs()
+    const validEmail = !!email
+    // check if panel 1 is done
+    const isPanel1Done = validName && validBeschreibung && validDatenstand && validNutzungsbedingungen && validLink && validUrsprungsEs && validEmail
+    this.setState({
+      panel1Done: isPanel1Done
+    })
+    return isPanel1Done
   },
 
   nameBestehendOptions () {
