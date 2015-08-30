@@ -231,7 +231,7 @@ export default React.createClass({
 
   onClickPanel (number, event) {
     let { activePanel } = this.state
-    const { email } = this.state
+    const { email } = this.props
 
     // make sure the heading was clicked
     const parent = event.target.parentElement
@@ -253,9 +253,20 @@ export default React.createClass({
       const validNutzungsbedingungen = this.validNutzungsbedingungen()
       const validLink = this.validLink()
       const validUrsprungsEs = this.validUrsprungsEs()
+      const validEmail = !!email
       // check if panel 1 is done
-      const panel1Done = validName && validBeschreibung && validDatenstand && validNutzungsbedingungen && validLink && validUrsprungsEs && !!email
+      const panel1Done = validName && validBeschreibung && validDatenstand && validNutzungsbedingungen && validLink && validUrsprungsEs && validEmail
       activePanel = panel1Done ? number : 1
+      console.log('validName', validName)
+      console.log('validBeschreibung', validBeschreibung)
+      console.log('validDatenstand', validDatenstand)
+      console.log('validNutzungsbedingungen', validNutzungsbedingungen)
+      console.log('validLink', validLink)
+      console.log('validUrsprungsEs', validUrsprungsEs)
+      console.log('email', email)
+      console.log('validEmail', validEmail)
+      console.log('panel1Done', panel1Done)
+      console.log('activePanel', activePanel)
       this.setState({
         panel1Done: panel1Done,
         activePanel: activePanel
