@@ -3,7 +3,6 @@
 import app from 'ampersand-app'
 import React from 'react'
 import _ from 'lodash'
-import $ from 'jquery'
 import { Button, ButtonGroup, DropdownButton, MenuItem } from 'react-bootstrap'
 import buildGoogleImageLink from '../../modules/buildGoogleImageLink.js'
 import buildWikipediaLink from '../../modules/buildWikipediaLink.js'
@@ -13,13 +12,6 @@ export default React.createClass({
 
   propTypes: {
     object: React.PropTypes.object
-  },
-
-  componentDidMount () {
-    // this is a bad hack for react-bootstrap not closing the menu on click
-    $('#menuBtn a').on('click', function () {
-      $(this).closest('.dropdown-menu').prev('.dropdown-toggle').click()
-    })
   },
 
   exportProperties () {
@@ -85,6 +77,11 @@ export default React.createClass({
   */
   },
 
+  onSelectDropdowButton () {
+    // make sure, the menu closes
+    () => true
+  },
+
   render () {
     const { object } = this.props
     const isObject = object && _.keys(object).length > 0
@@ -97,12 +94,12 @@ export default React.createClass({
           <Button onClick={this.searchGoogleImages} bsSize='small' disabled={!isObject} href={googleLink} target='_blank'>Bilder</Button>
           <Button onClick={this.searchWikipediaArticle} bsSize='small' disabled={!isObject} href={wikipediaLink} target='_blank'>Wikipedia</Button>
           <Button onClick={this.exportProperties} bsSize='small' disabled={true}>Export</Button>
-          <DropdownButton title='Import' bsSize='small'>
+          <DropdownButton title='Import' bsSize='small' onSelect={this.onSelectDropdowButton()}>
             <li role='presentation' className='dropdown-header'>Importieren oder löschen:</li>
             <MenuItem onClick={this.importPropertyCollection}>Eigenschaften</MenuItem>
             <MenuItem onClick={this.importRelationsCollection} disabled={true}>Beziehungen</MenuItem>
           </DropdownButton>
-          <DropdownButton title='Mehr...' bsSize='small'>
+          <DropdownButton title='Mehr...' bsSize='small' onSelect={this.onSelectDropdowButton()}>
             <MenuItem onClick={this.openOrganisationen}>Organisationen und Benutzer</MenuItem>
             <MenuItem divider/>
             <MenuItem onClick={this.replicate}>Daten replizieren</MenuItem>
