@@ -36,6 +36,7 @@ export default React.createClass({
     email: React.PropTypes.string,
     eigenschaftensammlungen: React.PropTypes.array,
     pcsToImport: React.PropTypes.array,
+    objectsToImportPcsInTo: React.PropTypes.array,
     importIdField: React.PropTypes.string,
     aeIdField: React.PropTypes.string,
     idsAnalysisResultType: React.PropTypes.oneOf(['success', 'warning', 'error', null]),
@@ -67,6 +68,7 @@ export default React.createClass({
       zusammenfassend: null,
       esBearbeitenErlaubt: true,
       pcsToImport: [],
+      objectsToImportPcsInTo: [],
       importIdField: null,
       aeIdField: null,
       idsAnalysisResultType: null,
@@ -250,8 +252,11 @@ export default React.createClass({
     this.setState({ importIdField: importIdField })
   },
 
-  onChangeIdsAnalysisResult (idsAnalysisResultType) {
-    this.setState({ idsAnalysisResultType: idsAnalysisResultType })
+  onChangeIdsAnalysisResult (idsAnalysisResultType, objectsToImportPcsInTo) {
+    this.setState({
+      idsAnalysisResultType: idsAnalysisResultType,
+      objectsToImportPcsInTo: objectsToImportPcsInTo
+    })
   },
 
   onClickPanel (number, event) {

@@ -14,6 +14,7 @@ export default React.createClass({
     aeIdField: React.PropTypes.string,
     importIdField: React.PropTypes.string,
     pcsToImport: React.PropTypes.array,
+    objectsToImportPcsInTo: React.PropTypes.array,
     analysisComplete: React.PropTypes.bool,
     recordsWithIdValueCount: React.PropTypes.number,
     recordsImportableCount: React.PropTypes.number,
@@ -27,13 +28,30 @@ export default React.createClass({
       analysisComplete: false,
       recordsWithIdValueCount: 0,
       recordsImportableCount: 0,
-      recordsNotImportable: []
+      recordsNotImportable: [],
+      objectsToImportPcsInTo: []
     }
   },
 
   componentDidMount () {
     // TODO: start analysis
-    // when finished, call onChangeIdsAnalysisResult and pass it sucess type
+
+    // test if some id's exist more than once (> warning)
+
+    // call the apropriate view and pass the ids
+    // by taxonomie id: viewname = Gruppe.toLowerCase() + ById
+    // guid: allDocs
+
+    // save received objects in state, so the import can later happen without requerying the database
+
+    // find out, which id's did not fetch an object
+    // if some: warning
+    // if all: error
+
+    // finisched? render and call onChangeIdsAnalysisResult and pass it sucess type and objectsToImportPcsInTo
+    this.setState()
+
+
   },
 
   getSuccessType () {
