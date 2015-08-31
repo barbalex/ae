@@ -11,6 +11,7 @@ import WellAutorenrechte from './wellAutorenrechte.js'
 import WellTechnAnforderungenAnDatei from './wellTechnAnforderungenAnDatei.js'
 import WellAnforderungenAnCsv from './wellAnforderungenAnCsv.js'
 import WellAnforderungenInhaltlich from './wellAnforderungenInhaltlich.js'
+import AlertIdsAnalysisResult from './alertIdsAnalysisResult.js'
 import TablePreview from './tablePreview.js'
 import SelectImportFields from './selectImportFields.js'
 import isValidUrl from '../../../modules/isValidUrl.js'
@@ -37,8 +38,7 @@ export default React.createClass({
     pcsToImport: React.PropTypes.array,
     importIdField: React.PropTypes.string,
     aeIdField: React.PropTypes.string,
-    checkingIds: React.PropTypes.bool,
-    gotIdsResult: React.PropTypes.bool,
+    idsAnalysisResultType: React.PropTypes.oneOf(['success', 'warning', 'error', null]),
     esBearbeitenErlaubt: React.PropTypes.bool,
     panel1Done: React.PropTypes.bool,
     panel2Done: React.PropTypes.bool,
@@ -69,8 +69,7 @@ export default React.createClass({
       pcsToImport: [],
       importIdField: null,
       aeIdField: null,
-      checkingIds: false,
-      gotIdsResult: false,
+      idsAnalysisResultType: null,
       panel1Done: false,
       panel2Done: false,
       panel3Done: false,
@@ -243,23 +242,16 @@ export default React.createClass({
   },
 
   onChangeAeId (event) {
-    const { importIdField } = this.state
     const aeIdField = event.target.value
     this.setState({ aeIdField: aeIdField })
-    if (importIdField) this.checkImportIds()
   },
 
   onChangeImportId (importIdField) {
-    const { aeIdField } = this.state
     this.setState({ importIdField: importIdField })
-    if (aeIdField) this.checkImportIds()
   },
 
-  checkImportIds () {
-    // TODO: set checkingIds state
-    console.log('checkImportIds')
-    this.setState({ checkingIds: true })
-
+  onChangeIdsAnalysisResult (idsAnalysisResultType) {
+    this.setState({ idsAnalysisResultType: idsAnalysisResultType })
   },
 
   onClickPanel (number, event) {
@@ -542,7 +534,7 @@ export default React.createClass({
   },
 
   render () {
-    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, esBearbeitenErlaubt, pcsToImport, panel1Done, panel2Done, panel3Done, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validPcsToImport, activePanel, checkingIds } = this.state
+    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, esBearbeitenErlaubt, pcsToImport, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validPcsToImport, activePanel, aeIdField, importIdField, idsAnalysisResultType } = this.state
 
     return (
       <div>
@@ -648,16 +640,17 @@ export default React.createClass({
           <Panel collapsible header="3. ID's identifizieren" eventKey={3} onClick={this.onClickPanel.bind(this, 3)}>
             <SelectImportFields pcsToImport={pcsToImport} onChangeImportId={this.onChangeImportId} />
             <Input type='select' bsSize='small' label={'zugehörige ID in ArtenDb'} multiple className='form-control controls' style={{'height': 101 + 'px'}} onChange={this.onChangeAeId}>
-              <option value='guid'>GUID der ArtenDb</option>
+              <option value='GUID'>GUID der ArtenDb</option>
               <option value='Fauna'>ID der Info Fauna (NUESP)</option>
               <option value='Flora'>ID der Info Flora (SISF-NR)</option>
               <option value='Moose'>ID des Datenzentrums Moose Schweiz (TAXONNO)</option>
               <option value='Macromycetes'>ID von Swissfungi (TaxonId)</option>
             </Input>
-            {checkingIds ? <Alert bsStyle='info' className='feld'>Bitte warten, die Daten werden analysiert.<br/>Das kann eine Weile dauern...</Alert> : null}
+            {aeIdField && importIdField ? <AlertIdsAnalysisResult aeIdField={aeIdField} importIdField={importIdField} pcsToImport={pcsToImport} onChangeIdsAnalysisResult={this.onChangeIdsAnalysisResult} /> : null}
           </Panel>
 
           <Panel collapsible header='4. Import ausführen' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>
+            {/*TODO: depending on onChangeIdsAnalysisResult, show buttons*/}
             <Button className='btn-primary' id='dsImportieren' style={{'marginBottom': 6 + 'px', 'display': 'none'}}>Eigenschaftensammlung mit allen Eigenschaften importieren</Button>
             <Button className='btn-primary' id='dsEntfernen' style={{'marginBottom': 6 + 'px', 'display': 'none'}}>Eigenschaftensammlung mit allen Eigenschaften aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen</Button>
             <div className='progress'>
