@@ -8,7 +8,13 @@ export default React.createClass({
   displayName: 'SelectImportFields',
 
   propTypes: {
-    pcsToImport: React.PropTypes.array
+    pcsToImport: React.PropTypes.array,
+    onChangeImportId: React.PropTypes.func
+  },
+
+  onChange (event) {
+    const aeIdField = event.target.value
+    // TODO
   },
 
   render () {
@@ -26,7 +32,7 @@ export default React.createClass({
     })
 
     return (
-      <Input type='select' label={'Feld mit eindeutiger ID in den Importdaten'} multiple className='form-control controls input-sm' style={style}>
+      <Input type='select' label={'Feld mit eindeutiger ID in den Importdaten'} multiple className='form-control controls input-sm' style={style} onChange={this.onChange}>
         {options}
       </Input>
     )

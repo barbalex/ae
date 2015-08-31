@@ -35,6 +35,9 @@ export default React.createClass({
     email: React.PropTypes.string,
     eigenschaftensammlungen: React.PropTypes.array,
     pcsToImport: React.PropTypes.array,
+    importIdField: React.PropTypes.string,
+    aeIdField: React.PropTypes.string,
+    checkImportIdsMessage: React.PropTypes.string,
     esBearbeitenErlaubt: React.PropTypes.bool,
     panel1Done: React.PropTypes.bool,
     panel2Done: React.PropTypes.bool,
@@ -63,6 +66,9 @@ export default React.createClass({
       zusammenfassend: null,
       esBearbeitenErlaubt: true,
       pcsToImport: [],
+      importIdField: null,
+      aeIdField: null,
+      checkImportIdsMessage: null,
       panel1Done: false,
       panel2Done: false,
       panel3Done: false,
@@ -235,10 +241,31 @@ export default React.createClass({
     }
   },
 
+  onChangeAeId (event) {
+    const { importIdField } = this.state
+    // set aeIdField state
+    const aeIdField = event.target.value
+    this.setState({ aeIdField: aeIdField })
+    if (importIdField) this.checkImportIds()
+  },
+
+  onChangeImportId () {
+    const { aeIdField } = this.state
+    // set importIdField state
+    // const importIdField = TODO ???
+    this.setState({ importIdField: importIdField })
+    if (aeIdField) this.checkImportIds()
+
+  },
+
+  checkImportIds () {
+    // TODO: set checkImportIdsMessage state
+    console.log('checkImportIds')
+
+  },
+
   onClickPanel (number, event) {
-    let { activePanel, pcsToImport } = this.state
-    const { email } = this.props
-    let isPanel1Done = false
+    let { activePanel } = this.state
 
     // make sure the heading was clicked
     const parent = event.target.parentElement
@@ -621,8 +648,8 @@ export default React.createClass({
           </Panel>
 
           <Panel collapsible header="3. ID's identifizieren" eventKey={3} onClick={this.onClickPanel.bind(this, 3)}>
-            <SelectImportFields pcsToImport={pcsToImport} />
-            <Input type='select' label={'zugehörige ID in ArtenDb'} multiple className='form-control controls input-sm' style={{'height': 101 + 'px'}}>
+            <SelectImportFields pcsToImport={pcsToImport} onChangeImportId={this.onChangeImportId} />
+            <Input type='select' label={'zugehörige ID in ArtenDb'} multiple className='form-control controls input-sm' style={{'height': 101 + 'px'}} onChange={this.onChangeAeId}>
               <option value='guid'>GUID der ArtenDb</option>
               <option value='Fauna'>ID der Info Fauna (NUESP)</option>
               <option value='Flora'>ID der Info Flora (SISF-NR)</option>
