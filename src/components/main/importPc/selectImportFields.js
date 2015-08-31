@@ -33,7 +33,7 @@ export default React.createClass({
     })
 
     return (
-      <Input type='select' label={'Feld mit eindeutiger ID in den Importdaten'} multiple className='form-control controls input-sm' style={style} onChange={this.onChange}>
+      <Input type='select' label={'Feld mit eindeutiger ID in den Importdaten'} multiple className='form-control controls' style={style} bsSize='small' onChange={this.onChange}>
         {options}
       </Input>
     )
