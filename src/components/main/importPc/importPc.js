@@ -37,7 +37,8 @@ export default React.createClass({
     pcsToImport: React.PropTypes.array,
     importIdField: React.PropTypes.string,
     aeIdField: React.PropTypes.string,
-    checkImportIdsMessage: React.PropTypes.string,
+    checkingIds: React.PropTypes.bool,
+    gotIdsResult: React.PropTypes.bool,
     esBearbeitenErlaubt: React.PropTypes.bool,
     panel1Done: React.PropTypes.bool,
     panel2Done: React.PropTypes.bool,
@@ -68,7 +69,8 @@ export default React.createClass({
       pcsToImport: [],
       importIdField: null,
       aeIdField: null,
-      checkImportIdsMessage: null,
+      checkingIds: false,
+      gotIdsResult: false,
       panel1Done: false,
       panel2Done: false,
       panel3Done: false,
@@ -101,7 +103,6 @@ export default React.createClass({
 
   onChangePropertyCollectionsStore (pcs) {
     // email has empty values. Set default
-    console.log('onChangePropertyCollectionsStore, pcs:', pcs)
     pcs.forEach(function (pc) {
       pc.importedBy = pc.importedBy || 'alex@gabriel-software.ch'
     })
@@ -255,8 +256,9 @@ export default React.createClass({
   },
 
   checkImportIds () {
-    // TODO: set checkImportIdsMessage state
+    // TODO: set checkingIds state
     console.log('checkImportIds')
+    this.setState({ checkingIds: true })
 
   },
 
@@ -540,7 +542,7 @@ export default React.createClass({
   },
 
   render () {
-    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, esBearbeitenErlaubt, pcsToImport, panel1Done, panel2Done, panel3Done, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validPcsToImport, activePanel } = this.state
+    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, esBearbeitenErlaubt, pcsToImport, panel1Done, panel2Done, panel3Done, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validPcsToImport, activePanel, checkingIds } = this.state
 
     return (
       <div>
@@ -652,7 +654,7 @@ export default React.createClass({
               <option value='Moose'>ID des Datenzentrums Moose Schweiz (TAXONNO)</option>
               <option value='Macromycetes'>ID von Swissfungi (TaxonId)</option>
             </Input>
-            <Alert bsStyle='info' className='feld' />
+            {checkingIds ? <Alert bsStyle='info' className='feld'>Bitte warten, die Daten werden analysiert.<br/>Das kann eine Weile dauern...</Alert> : null}
           </Panel>
 
           <Panel collapsible header='4. Import ausführen' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>
