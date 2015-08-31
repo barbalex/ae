@@ -33,8 +33,8 @@ export default React.createClass({
     nameUrsprungsEs: React.PropTypes.string,
     email: React.PropTypes.string,
     eigenschaftensammlungen: React.PropTypes.array,
-    esBearbeitenErlaubt: React.PropTypes.bool,
     pcsToImport: React.PropTypes.array,
+    esBearbeitenErlaubt: React.PropTypes.bool,
     panel1Done: React.PropTypes.bool,
     panel2Done: React.PropTypes.bool,
     panel3Done: React.PropTypes.bool,
@@ -44,7 +44,8 @@ export default React.createClass({
     validDatenstand: React.PropTypes.bool,
     validNutzungsbedingungen: React.PropTypes.bool,
     validLink: React.PropTypes.bool,
-    validUrsprungsEs: React.PropTypes.bool
+    validUrsprungsEs: React.PropTypes.bool,
+    validPcsToImport: React.PropTypes.bool
   },
 
   getInitialState () {
@@ -70,7 +71,8 @@ export default React.createClass({
       validDatenstand: true,
       validNutzungsbedingungen: true,
       validLink: true,
-      validUrsprungsEs: true
+      validUrsprungsEs: true,
+      validPcsToImport: true
     }
   },
 
@@ -92,6 +94,7 @@ export default React.createClass({
 
   onChangePropertyCollectionsStore (pcs) {
     // email has empty values. Set default
+    console.log('onChangePropertyCollectionsStore, pcs:', pcs)
     pcs.forEach(function (pc) {
       pc.importedBy = pc.importedBy || 'alex@gabriel-software.ch'
     })
@@ -230,7 +233,7 @@ export default React.createClass({
   },
 
   onClickPanel (number, event) {
-    let { activePanel, eigenschaftensammlungen } = this.state
+    let { activePanel, pcsToImport } = this.state
     const { email } = this.props
     let isPanel1Done = false
 
@@ -247,22 +250,12 @@ export default React.createClass({
       this.setState({ activePanel: 1 })
       break
     case 2:
-      isPanel1Done = this.isPanel1Done()
-      activePanel = isPanel1Done ? 2 : 1
-      this.setState({ activePanel: activePanel })
+      const isPanel1Done = this.isPanel1Done()
+      if (isPanel1Done) this.setState({ activePanel: 2 })
       break
     case 3:
-      isPanel1Done = this.isPanel1Done()
-      // TODO: we have eigenschaftensammlungen. Where from???
-      console.log('eigenschaftensammlungen', eigenschaftensammlungen)
-      const isPanel2Done = isPanel1Done && eigenschaftensammlungen.length > 0
-      console.log('isPanel2Done', isPanel2Done)
-      activePanel = isPanel1Done ? (isPanel2Done ? 3 : 2) : 1
-      console.log('activePanel', activePanel)
-      this.setState({
-        panel2Done: isPanel2Done,
-        activePanel: activePanel
-      })
+      const isPanel2Done = this.isPanel2Done()
+      if (isPanel2Done) this.setState({ activePanel: 3 })
       break
     case 4:
 
@@ -282,10 +275,21 @@ export default React.createClass({
     const validEmail = !!email
     // check if panel 1 is done
     const isPanel1Done = validName && validBeschreibung && validDatenstand && validNutzungsbedingungen && validLink && validUrsprungsEs && validEmail
-    this.setState({
-      panel1Done: isPanel1Done
-    })
+    this.setState({ panel1Done: isPanel1Done })
+    if (!isPanel1Done) this.setState({ activePanel: 1 })
     return isPanel1Done
+  },
+
+  isPanel2Done () {
+    const validPcsToImport = this.validPcsToImport()
+    const isPanel1Done = this.isPanel1Done()
+    const isPanel2Done = isPanel1Done && validPcsToImport
+    this.setState({ panel2Done: isPanel2Done })
+    console.log('isPanel2Done: validPcsToImport', validPcsToImport)
+    console.log('isPanel2Done: isPanel1Done', isPanel1Done)
+    console.log('isPanel2Done: isPanel2Done', isPanel2Done)
+    if (isPanel1Done && !isPanel2Done) this.setState({ activePanel: 2 })
+    return isPanel2Done
   },
 
   nameBestehendOptions () {
@@ -386,6 +390,12 @@ export default React.createClass({
       validUrsprungsEs: validUrsprungsEs
     })
     return validUrsprungsEs
+  },
+
+  validPcsToImport () {
+    const validPcsToImport = this.state.pcsToImport.length > 0
+    this.setState({ validPcsToImport: validPcsToImport })
+    return validPcsToImport
   },
 
   ursprungsEsOptions () {
@@ -507,7 +517,7 @@ export default React.createClass({
   },
 
   render () {
-    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, esBearbeitenErlaubt, pcsToImport, panel1Done, panel2Done, panel3Done, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, activePanel } = this.state
+    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, esBearbeitenErlaubt, pcsToImport, panel1Done, panel2Done, panel3Done, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validPcsToImport, activePanel } = this.state
 
     return (
       <div>
@@ -605,13 +615,14 @@ export default React.createClass({
 
             <label className='sr-only' htmlFor='pcFile'>Datei wählen</label>
             <input type='file' className='form-control' id='pcFile' onChange={this.onChangePcFile} />
+            {validPcsToImport ? null : <div className='validateDiv'>Bitte wählen Sie eine Datei</div>}
 
             {pcsToImport.length > 0 ? <TablePreview pcsToImport={pcsToImport} /> : null}
           </Panel>
 
           <Panel collapsible header="3. ID's identifizieren" eventKey={3} onClick={this.onClickPanel.bind(this, 3)}>
             <div id='dsFelderDiv' className='form-group'></div>
-            <Input type='select' label={'zugehörige ID in ArtenDb'} multiple className='form-control controls input-sm' id='dsId' style={{'height': 101 + 'px'}}>
+            <Input type='select' label={'zugehörige ID in ArtenDb'} multiple className='form-control controls input-sm' style={{'height': 101 + 'px'}}>
               <option value='guid'>GUID der ArtenDb</option>
               <option value='Fauna'>ID der Info Fauna (NUESP)</option>
               <option value='Flora'>ID der Info Flora (SISF-NR)</option>
