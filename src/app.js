@@ -12,7 +12,6 @@ import actions from './actions.js'
 import stores from './stores'
 import pouchUrl from './modules/getCouchUrl.js'
 import getGroupsLoadedFromLocalGroupsDb from './modules/getGroupsLoadedFromLocalGroupsDb.js'
-import jQuery from 'jquery'
 
 // set up pouchdb plugins
 PouchDB.plugin(pouchdbUpsert)
