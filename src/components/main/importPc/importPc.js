@@ -12,6 +12,7 @@ import WellTechnAnforderungenAnDatei from './wellTechnAnforderungenAnDatei.js'
 import WellAnforderungenAnCsv from './wellAnforderungenAnCsv.js'
 import WellAnforderungenInhaltlich from './wellAnforderungenInhaltlich.js'
 import TablePreview from './tablePreview.js'
+import SelectImportFields from './selectImportFields.js'
 import isValidUrl from '../../../modules/isValidUrl.js'
 
 export default React.createClass({
@@ -620,7 +621,7 @@ export default React.createClass({
           </Panel>
 
           <Panel collapsible header="3. ID's identifizieren" eventKey={3} onClick={this.onClickPanel.bind(this, 3)}>
-            <div id='dsFelderDiv' className='form-group'></div>
+            <SelectImportFields pcsToImport={pcsToImport} />
             <Input type='select' label={'zugehörige ID in ArtenDb'} multiple className='form-control controls input-sm' style={{'height': 101 + 'px'}}>
               <option value='guid'>GUID der ArtenDb</option>
               <option value='Fauna'>ID der Info Fauna (NUESP)</option>
