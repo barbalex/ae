@@ -290,7 +290,8 @@ export default React.createClass({
       if (isPanel2Done) this.setState({ activePanel: 3 })
       break
     case 4:
-
+      const isPanel3Done = this.isPanel3Done()
+      if (isPanel3Done) this.setState({ activePanel: 4 })
       break
     }
   },
@@ -319,6 +320,15 @@ export default React.createClass({
     this.setState({ panel2Done: isPanel2Done })
     if (isPanel1Done && !isPanel2Done) this.setState({ activePanel: 2 })
     return isPanel2Done
+  },
+
+  isPanel3Done () {
+    const { idsAnalysisResultType, objectsToImportPcsInTo } = this.state
+    const isPanel2Done = this.isPanel2Done()
+    const isPanel3Done = idsAnalysisResultType !== 'error' && objectsToImportPcsInTo.length > 0
+    this.setState({ panel3Done: isPanel3Done })
+    if (isPanel2Done && !isPanel3Done) this.setState({ activePanel: 3 })
+    return isPanel3Done
   },
 
   nameBestehendOptions () {

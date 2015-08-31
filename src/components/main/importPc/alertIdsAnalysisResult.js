@@ -83,30 +83,20 @@ export default React.createClass({
   componentDidMount () {
     const { aeIdField, pcsToImport, importIdField, onChangeIdsAnalysisResult } = this.props
     const that = this
-    // TODO: start analysis
-    // test if some id's exist more than once (> warning)
+    // start analysis
     this.getDocs()
       .then(function (objectsToImportPcsInTo) {
-        // console.log('objectsToImportPcsInTo', objectsToImportPcsInTo)
         const idsToImportWithDuplicates = _.pluck(pcsToImport, importIdField)
-        // TODO: THESE ARE STRINGS
         const idsToImport = _.unique(idsToImportWithDuplicates)
         const recordsWithIdValueCount = idsToImportWithDuplicates.length
         const idsDuplicate = _.difference(idsToImportWithDuplicates, idsToImport)
-        // find out, which id's did not fetch an object
         const idAttribute = aeIdField === 'GUID' ? '_id' : 'Taxonomien[0].Eigenschaften["Taxonomie ID"]'
         const idsFetched = _.pluck(objectsToImportPcsInTo, idAttribute)
         const idsImportable = _.intersection(idsToImport, idsFetched)
         const idsImportableCount = idsImportable.length
         const idsNotImportable = _.difference(idsToImport, idsFetched)
 
-        // finisched? render and call onChangeIdsAnalysisResult and pass it sucess type and objectsToImportPcsInTo
-        console.log('recordsWithIdValueCount', recordsWithIdValueCount)
-        console.log('idsDuplicate', idsDuplicate)
-        console.log('idsToImport', idsToImport)
-        console.log('idsFetched', idsFetched)
-        console.log('idsImportableCount', idsImportableCount)
-        console.log('idsNotImportable', idsNotImportable)
+        // finished? render...
         that.setState({
           recordsWithIdValueCount: recordsWithIdValueCount,
           idsDuplicate: idsDuplicate,
@@ -114,9 +104,8 @@ export default React.createClass({
           idsNotImportable: idsNotImportable,
           analysisComplete: true
         })
-        console.log('2')
+        // ...then call onChangeIdsAnalysisResult and pass it sucess type and objectsToImportPcsInTo
         const idsAnalysisResultType = that.getSuccessType()
-        console.log('3')
         onChangeIdsAnalysisResult(idsAnalysisResultType, objectsToImportPcsInTo)
       })
       .catch(function (error) {
@@ -126,16 +115,16 @@ export default React.createClass({
   },
 
   getSuccessType () {
-    const { pcsToImport, idsImportableCount, idsNotImportable, idsDuplicate } = this.state
+    const { idsImportableCount, idsNotImportable, idsDuplicate } = this.state
+    const { pcsToImport } = this.props
     if (idsNotImportable > 0) return 'error'
-    console.log('idsDuplicate.length', idsDuplicate.length)
-    console.log('pcsToImport.length', pcsToImport.length)
     if ((idsImportableCount < pcsToImport.length) || idsDuplicate.length > 0) return 'warning'
     return 'success'
   },
 
   render () {
-    const { analysisComplete, pcsToImport, recordsWithIdValueCount, importIdField, idsImportableCount, idsNotImportable, idsDuplicate } = this.state
+    const { analysisComplete, recordsWithIdValueCount, idsImportableCount, idsNotImportable, idsDuplicate } = this.state
+    const { pcsToImport, importIdField } = this.props
 
     if (!analysisComplete) {
       return <Alert bsStyle='info' className='feld'>Bitte warten, die Daten werden analysiert.<br/>Das kann eine Weile dauern...</Alert>
@@ -150,11 +139,11 @@ export default React.createClass({
 
     if (successType === 'success') {
       return (
-        <Alert bsStyle={successType} className='feld'>{titleText} + '<ul><li>' + recordsWithIdValueText + '</li><li>' + recordsImportableText + '</li></ul>'</Alert>
+        <Alert bsStyle={successType} className='feld'>{titleText}<ul><li>{recordsWithIdValueText}</li><li>{recordsImportableText}</li></ul></Alert>
       )
     }
     return (
-      <Alert bsStyle={successType} className='feld'>{titleText} + '<ul><li>' + recordsWithIdValueText + '</li><li>' + idsDuplicateText + '</li><li>' + recordsImportableText + '</li><li>' + recordsNotImportableText + '</li></ul>'</Alert>
+      <Alert bsStyle={successType} className='feld'>{titleText}<ul><li>{recordsWithIdValueText}</li><li>{idsDuplicateText}</li><li>{recordsImportableText}</li><li>{recordsNotImportableText}</li></ul></Alert>
     )
   }
 })
