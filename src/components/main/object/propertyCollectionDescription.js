@@ -64,7 +64,7 @@ export default React.createClass({
       importiertVon = (
         <div className='dsBeschreibungZeile'>
           <div>Importiert von:</div>
-          <a href={'mailto:' + pc['importiert von']} target={'_blank'}>{pc['importiert von']}</a>
+          <div><a href={'mailto:' + pc['importiert von']} target={'_blank'}>{pc['importiert von']}</a></div>
         </div>
       )
     }
