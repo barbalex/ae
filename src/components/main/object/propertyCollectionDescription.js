@@ -54,7 +54,7 @@ export default React.createClass({
       link = (
         <div className='dsBeschreibungZeile'>
           <div>Link:</div>
-          <a href={pc.Link} target={'_blank'}>{pc.Link}</a>
+          <div><a href={pc.Link} target={'_blank'}>{pc.Link}</a></div>
         </div>
       )
     }
