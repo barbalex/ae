@@ -213,6 +213,7 @@ export default React.createClass({
           that.setState({
             pcsToImport: pcsToImport
           })
+          that.validPcsToImport()
         }
         reader.readAsText(file)
       }
@@ -226,6 +227,7 @@ export default React.createClass({
           that.setState({
             pcsToImport: pcsToImport
           })
+          that.validPcsToImport()
         }
         reader.readAsBinaryString(file)
       }
@@ -285,9 +287,6 @@ export default React.createClass({
     const isPanel1Done = this.isPanel1Done()
     const isPanel2Done = isPanel1Done && validPcsToImport
     this.setState({ panel2Done: isPanel2Done })
-    console.log('isPanel2Done: validPcsToImport', validPcsToImport)
-    console.log('isPanel2Done: isPanel1Done', isPanel1Done)
-    console.log('isPanel2Done: isPanel2Done', isPanel2Done)
     if (isPanel1Done && !isPanel2Done) this.setState({ activePanel: 2 })
     return isPanel2Done
   },
