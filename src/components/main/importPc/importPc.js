@@ -249,6 +249,13 @@ export default React.createClass({
   },
 
   onChangeImportId (importIdField) {
+    const { pcsToImport } = this.state
+    // make sure data in importIdField is a number, if it is not a GUID
+    if (importIdField !== 'GUID') {
+      pcsToImport.forEach(function (pc, index) {
+        pc[importIdField] = parseInt(pc[importIdField], 10)
+      })
+    }
     this.setState({ importIdField: importIdField })
   },
 
