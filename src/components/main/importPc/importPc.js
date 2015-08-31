@@ -243,19 +243,15 @@ export default React.createClass({
 
   onChangeAeId (event) {
     const { importIdField } = this.state
-    // set aeIdField state
     const aeIdField = event.target.value
     this.setState({ aeIdField: aeIdField })
     if (importIdField) this.checkImportIds()
   },
 
-  onChangeImportId () {
+  onChangeImportId (importIdField) {
     const { aeIdField } = this.state
-    // set importIdField state
-    // const importIdField = TODO ???
     this.setState({ importIdField: importIdField })
     if (aeIdField) this.checkImportIds()
-
   },
 
   checkImportIds () {
