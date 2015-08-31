@@ -4,14 +4,10 @@
  */
 'use strict'
 
-import app from 'ampersand-app'
 import React from 'react'
 import _ from 'lodash'
 import { Alert } from 'react-bootstrap'
-import queryFauna from '../../../queries/faunaById.js'
-import queryFlora from '../../../queries/floraById.js'
-import queryMoose from '../../../queries/mooseById.js'
-import queryMacromycetes from '../../../queries/macromycetesById.js'
+import getItemsById from '../../../modules/getItemsById.js'
 
 export default React.createClass({
   displayName: 'AlertIdsAnalysisResult',
@@ -41,50 +37,12 @@ export default React.createClass({
     }
   },
 
-  getDocs () {
-    const { aeIdField, importIdField, pcsToImport } = this.props
-    const ids = _.pluck(pcsToImport, importIdField)
-    // build object of functions, to call dynamically
-    let dynamicFuntions = {
-      Fauna: queryFauna,
-      Flora: queryFlora,
-      Moose: queryMoose,
-      Macromycetes: queryMacromycetes
-    }
-    return new Promise(function (resolve, reject) {
-      // call the apropriate view and pass the ids
-      // by taxonomie id: viewname = Gruppe.toLowerCase() + ById
-      // guid: allDocs
-      if (aeIdField === 'GUID') {
-        const options = {
-          keys: ids,
-          include_docs: true
-        }
-        app.localDb.allDocs(options)
-          .then(function (result) {
-            const docs = _.pluck(result.rows, 'doc')
-            resolve(docs)
-          })
-          .catch(function (error) {
-            reject('error fetching docs', error)
-          })
-      } else {
-        dynamicFuntions[aeIdField](ids)
-          .then(function (docs) {
-            resolve(docs)
-          })
-          .catch(function (error) {
-            reject('error fetching docs', error)
-          })
-      }
-    })
-  },
-
   componentDidMount () {
     const { aeIdField, pcsToImport, importIdField, onChangeIdsAnalysisResult } = this.props
     const that = this
+    const ids = _.pluck(pcsToImport, importIdField)
     // start analysis
-    this.getDocs()
+    getItemsById(aeIdField, ids)
       .then(function (objectsToImportPcsInTo) {
         const idsToImportWithDuplicates = _.pluck(pcsToImport, importIdField)
         const idsToImport = _.unique(idsToImportWithDuplicates)
