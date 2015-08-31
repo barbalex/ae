@@ -28,8 +28,8 @@ export default React.createClass({
     })
 
     const style = { height: ((keys.length * 19) + 9) + 'px' }
-    const options = keys.map(function (key) {
-      return (<option value={key}>{key}</option>)
+    const options = keys.map(function (key, index) {
+      return (<option key={index} value={key}>{key}</option>)
     })
 
     return (
