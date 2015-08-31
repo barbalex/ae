@@ -17,7 +17,7 @@ export default function (ids) {
         'floraById': {
           map: function (doc) {
             if (doc.Typ && doc.Typ === 'Objekt' && doc.Gruppe && doc.Gruppe === 'Flora') {
-              emit([doc['Taxonomie ID']], doc._id)
+              emit(doc['Taxonomie ID'], doc._id)
             }
           }.toString()
         }
