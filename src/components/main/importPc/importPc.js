@@ -21,8 +21,6 @@ export default React.createClass({
 
   mixins: [ListenerMixin],
 
-  // TODO: set task props panel1Done, panel2Done, panel3Done
-  // and use them to guide inputting
   propTypes: {
     nameBestehend: React.PropTypes.string,
     name: React.PropTypes.string,
@@ -34,7 +32,7 @@ export default React.createClass({
     zusammenfassend: React.PropTypes.bool,
     nameUrsprungsEs: React.PropTypes.string,
     email: React.PropTypes.string,
-    eigenschaftensammlungen: React.PropTypes.array,
+    pcs: React.PropTypes.array,
     pcsToImport: React.PropTypes.array,
     objectsToImportPcsInTo: React.PropTypes.array,
     importIdField: React.PropTypes.string,
@@ -54,11 +52,12 @@ export default React.createClass({
     validPcsToImport: React.PropTypes.bool
   },
 
+  // nameBestehend ... nameUrsprungsEs: input fields
+  // panel1Done, panel2Done, panel3Done: guide inputting
+  // validXxx: is the data input in field Xxx valid?
   getInitialState () {
     return {
-      eigenschaftensammlungen: [],
       nameBestehend: null,
-      nameUrsprungsEs: null,
       name: null,
       beschreibung: null,
       datenstand: null,
@@ -66,7 +65,9 @@ export default React.createClass({
       link: null,
       importiertVon: this.props.email,
       zusammenfassend: null,
+      nameUrsprungsEs: null,
       esBearbeitenErlaubt: true,
+      pcs: [],
       pcsToImport: [],
       objectsToImportPcsInTo: [],
       importIdField: null,
@@ -108,7 +109,7 @@ export default React.createClass({
       pc.importedBy = pc.importedBy || 'alex@gabriel-software.ch'
     })
     this.setState({
-      eigenschaftensammlungen: pcs
+      pcs: pcs
     })
   },
 
@@ -332,11 +333,11 @@ export default React.createClass({
   },
 
   nameBestehendOptions () {
-    const { eigenschaftensammlungen } = this.state
+    const { pcs } = this.state
     const { email } = this.props
 
-    if (eigenschaftensammlungen && eigenschaftensammlungen.length > 0) {
-      let options = eigenschaftensammlungen.map(function (pc) {
+    if (pcs && pcs.length > 0) {
+      let options = pcs.map(function (pc) {
         const name = pc.name
         const combining = pc.combining
         const importedBy = pc.importedBy
@@ -356,7 +357,7 @@ export default React.createClass({
   },
 
   isEditingPcAllowed (name) {
-    const { eigenschaftensammlungen, email } = this.state
+    const { pcs, email } = this.state
     const that = this
     // set editing allowed to true
     // reaseon: close alert if it is still shown from last select
@@ -365,7 +366,7 @@ export default React.createClass({
     })
     // check if this name exists
     // if so and it is not combining: check if it was imported by the user
-    const samePc = _.find(eigenschaftensammlungen, function (pc) {
+    const samePc = _.find(pcs, function (pc) {
       return pc.name === name
     })
     const esBearbeitenErlaubt = !samePc || (samePc && (samePc.combining || samePc.importedBy === email))
@@ -438,9 +439,9 @@ export default React.createClass({
   },
 
   ursprungsEsOptions () {
-    const { eigenschaftensammlungen } = this.state
+    const { pcs } = this.state
     // don't want combining pcs
-    let options = _.filter(eigenschaftensammlungen, function (pc) {
+    let options = _.filter(pcs, function (pc) {
       return !pc.combining
     })
     options = _.pluck(options, 'name')
@@ -510,7 +511,7 @@ export default React.createClass({
         <p>Die Informationen in einer zusammenfassenden Eigenschaftensammlung wurden aus mehreren eigenständigen Eigenschaftensammlungen zusammegefasst.</p>
         <p>Zweck: Jede Art bzw. jeder Lebensraum enthält die jeweils aktuellste Information zum Thema.</p>
         <p>Beispiel: Rote Liste.</p>
-        <p>Mehr Infos <a href='https://github.com/FNSKtZH/artendb#zusammenfassende-eigenschaftensammlungen' target='_blank'>im Projektbeschrieb</a>.</p>
+        <p>Mehr Infos <a href='https://github.com/FNSKtZH/artendb#zusammenfassende-pcs' target='_blank'>im Projektbeschrieb</a>.</p>
         <p><em>Tipp: Klicken Sie auf "zusammenfassend", damit diese Meldung offen bleibt.</em></p>
       </Popover>
     )
@@ -556,7 +557,7 @@ export default React.createClass({
   },
 
   render () {
-    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, esBearbeitenErlaubt, pcsToImport, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validPcsToImport, activePanel, aeIdField, importIdField, idsAnalysisResultType } = this.state
+    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, esBearbeitenErlaubt, pcsToImport, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validPcsToImport, activePanel, aeIdField, importIdField } = this.state
 
     return (
       <div>
