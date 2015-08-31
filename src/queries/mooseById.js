@@ -10,11 +10,6 @@ import app from 'ampersand-app'
 import _ from 'lodash'
 
 export default function (ids) {
-  // first make shure the ids are converted to numbers
-  ids = ids.map(function (id) {
-    return parseInt(id, 10)
-  })
-  console.log('mooseById, ids', ids)
   return new Promise(function (resolve, reject) {
     const ddoc = {
       _id: '_design/mooseById',
@@ -22,7 +17,7 @@ export default function (ids) {
         'mooseById': {
           map: function (doc) {
             if (doc.Typ && doc.Typ === 'Objekt' && doc.Gruppe && doc.Gruppe === 'Moose') {
-              emit(doc['Taxonomie ID'], doc._id)
+              emit(doc.Taxonomien[0].Eigenschaften['Taxonomie ID'], doc._id)
             }
           }.toString()
         }
@@ -35,7 +30,6 @@ export default function (ids) {
         if (error.status !== 409) reject(error)
       })
       .then(function (response) {
-        console.log('mooseById, response from put ddoc', response)
         const options = {
           keys: ids,
           include_docs: true
@@ -43,7 +37,6 @@ export default function (ids) {
         return app.localDb.query('mooseById', options)
       })
       .then(function (result) {
-        console.log('mooseById, result from query', result)
         const moose = _.pluck(result.rows, 'doc')
         resolve(moose)
       })
