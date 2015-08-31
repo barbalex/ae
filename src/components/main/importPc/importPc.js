@@ -645,14 +645,14 @@ export default React.createClass({
 
           <Panel collapsible header="3. ID's identifizieren" eventKey={3} onClick={this.onClickPanel.bind(this, 3)}>
             <SelectImportFields pcsToImport={pcsToImport} onChangeImportId={this.onChangeImportId} />
-            <Input type='select' label={'zugehörige ID in ArtenDb'} multiple className='form-control controls input-sm' style={{'height': 101 + 'px'}} onChange={this.onChangeAeId}>
+            <Input type='select' bsSize='small' label={'zugehörige ID in ArtenDb'} multiple className='form-control controls' style={{'height': 101 + 'px'}} onChange={this.onChangeAeId}>
               <option value='guid'>GUID der ArtenDb</option>
               <option value='Fauna'>ID der Info Fauna (NUESP)</option>
               <option value='Flora'>ID der Info Flora (SISF-NR)</option>
               <option value='Moose'>ID des Datenzentrums Moose Schweiz (TAXONNO)</option>
               <option value='Macromycetes'>ID von Swissfungi (TaxonId)</option>
             </Input>
-            <Alert id='importDsIdsIdentifizierenHinweisText' className='alert-info feld' />
+            <Alert bsStyle='info' className='feld' />
           </Panel>
 
           <Panel collapsible header='4. Import ausführen' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>
