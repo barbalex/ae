@@ -13,6 +13,7 @@ import WellAnforderungenAnCsv from './wellAnforderungenAnCsv.js'
 import WellAnforderungenInhaltlich from './wellAnforderungenInhaltlich.js'
 import SelectNameBestehend from './selectNameBestehend.js'
 import InputBeschreibung from './inputBeschreibung.js'
+import InputDatenstand from './inputDatenstand.js'
 import SelectUrsprungsEs from './selectUrsprungsEs.js'
 import AlertIdsAnalysisResult from './alertIdsAnalysisResult.js'
 import TablePreview from './tablePreview.js'
@@ -152,16 +153,11 @@ export default React.createClass({
   },
 
   onChangeBeschreibung (beschreibung) {
-    this.setState({
-      beschreibung: beschreibung
-    })
+    this.setState({ beschreibung: beschreibung })
   },
 
-  onChangeDatenstand (event) {
-    const datenstand = event.target.value
-    this.setState({
-      datenstand: datenstand
-    })
+  onChangeDatenstand (datenstand) {
+    this.setState({ datenstand: datenstand })
   },
 
   onChangeNutzungsbedingungen (event) {
@@ -427,14 +423,6 @@ export default React.createClass({
     )
   },
 
-  datenstandPopover () {
-    return (
-      <Popover title='Wozu ein Datenstand?'>
-        <p>Hier sieht der Nutzer, wann die Eigenschaftensammlung zuletzt aktualisiert wurde.</p>
-      </Popover>
-    )
-  },
-
   nutzungsbedingungenPopover () {
     return (
       <Popover title='Wozu Nutzunsbedingungen?'>
@@ -512,15 +500,7 @@ export default React.createClass({
 
             <InputBeschreibung beschreibung={beschreibung} validBeschreibung={validBeschreibung} onChangeBeschreibung={this.onChangeBeschreibung} />
 
-            <div className={validDatenstand ? 'form-group' : 'form-group has-error'}>
-              <OverlayTrigger trigger='click' rootClose placement='right' overlay={this.datenstandPopover()}>
-                <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.datenstandPopover()}>
-                  <label className='control-label withPopover'>Datenstand</label>
-                </OverlayTrigger>
-              </OverlayTrigger>
-              <input type='textarea' className='form-control controls' rows={1} value={datenstand} onChange={this.onChangeDatenstand} />
-              {validDatenstand ? null : <div className='validateDiv feld'>Ein Datenstand ist erforderlich</div>}
-            </div>
+            <InputDatenstand datenstand={datenstand} validDatenstand={validDatenstand} onChangeDatenstand={this.onChangeDatenstand} />
 
             <div className={validNutzungsbedingungen ? 'form-group' : 'form-group has-error'}>
               <OverlayTrigger trigger='click' rootClose placement='right' overlay={this.nutzungsbedingungenPopover()}>

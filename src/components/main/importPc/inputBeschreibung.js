@@ -12,7 +12,7 @@ export default React.createClass({
     onChangeBeschreibung: React.PropTypes.func
   },
 
-  onChangeBeschreibung (event) {
+  onChange (event) {
     const beschreibung = event.target.value
     // inform parent component
     this.props.onChangeBeschreibung(beschreibung)
@@ -40,7 +40,7 @@ export default React.createClass({
             <label className='control-label withPopover'>Beschreibung</label>
           </OverlayTrigger>
         </OverlayTrigger>
-        <input type='textarea' className='form-control controls' value={beschreibung} onChange={this.onChangeBeschreibung} rows={1} />
+        <input type='textarea' className='form-control controls' value={beschreibung} onChange={this.onChange} rows={1} />
         {validBeschreibung ? null : <div className='validateDiv feld'>Eine Beschreibung ist erforderlich</div>}
       </div>
     )
