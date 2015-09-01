@@ -22,6 +22,7 @@ import InputUrsprungsEs from './inputUrsprungsEs.js'
 import AlertIdsAnalysisResult from './alertIdsAnalysisResult.js'
 import TablePreview from './tablePreview.js'
 import InputImportFields from './inputImportFields.js'
+import InputAeId from './inputAeId.js'
 import isValidUrl from '../../../modules/isValidUrl.js'
 
 export default React.createClass({
@@ -236,8 +237,7 @@ export default React.createClass({
     }
   },
 
-  onChangeAeId (event) {
-    const aeIdField = event.target.value
+  onChangeAeId (aeIdField) {
     this.setState({ aeIdField: aeIdField })
   },
 
@@ -463,14 +463,8 @@ export default React.createClass({
           </Panel>
 
           <Panel collapsible header="3. ID's identifizieren" eventKey={3} onClick={this.onClickPanel.bind(this, 3)}>
-            <InputImportFields pcsToImport={pcsToImport} onChangeImportId={this.onChangeImportId} />
-            <Input type='select' bsSize='small' label={'zugehörige ID in ArtenDb'} multiple className='form-control controls' style={{'height': 101 + 'px'}} onChange={this.onChangeAeId}>
-              <option value='GUID'>GUID der ArtenDb</option>
-              <option value='Fauna'>ID der Info Fauna (NUESP)</option>
-              <option value='Flora'>ID der Info Flora (SISF-NR)</option>
-              <option value='Moose'>ID des Datenzentrums Moose Schweiz (TAXONNO)</option>
-              <option value='Macromycetes'>ID von Swissfungi (TaxonId)</option>
-            </Input>
+            <InputImportFields importIdField={importIdField} pcsToImport={pcsToImport} onChangeImportId={this.onChangeImportId} />
+            <InputAeId aeIdField={aeIdField} onChangeAeId={this.onChangeAeId} />
             {aeIdField && importIdField ? <AlertIdsAnalysisResult aeIdField={aeIdField} importIdField={importIdField} pcsToImport={pcsToImport} onChangeIdsAnalysisResult={this.onChangeIdsAnalysisResult} /> : null}
           </Panel>
 
