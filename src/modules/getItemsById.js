@@ -6,8 +6,7 @@
 
 'use strict'
 
-import app from 'ampersand-app'
-import _ from 'lodash'
+import queryGuid from '../queries/guidById.js'
 import queryFauna from '../queries/faunaById.js'
 import queryFlora from '../queries/floraById.js'
 import queryMoose from '../queries/mooseById.js'
@@ -15,23 +14,8 @@ import queryMacromycetes from '../queries/macromycetesById.js'
 
 export default function (idField, ids) {
   // build object of functions, to call dynamically
-  let dynamicFuntions = {
-    GUID: function (ids) {
-      return new Promise(function (resolve, reject) {
-        const options = {
-          keys: ids,
-          include_docs: true
-        }
-        app.localDb.allDocs(options)
-          .then(function (result) {
-            const docs = _.pluck(result.rows, 'doc')
-            resolve(docs)
-          })
-          .catch(function (error) {
-            reject('error fetching docs', error)
-          })
-      })
-    },
+  const dynamicFuntions = {
+    GUID: queryGuid,
     Fauna: queryFauna,
     Flora: queryFlora,
     Moose: queryMoose,
