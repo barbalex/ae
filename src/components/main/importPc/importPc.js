@@ -27,7 +27,7 @@ import getSuccessTypeFromAnalysis from './getSuccessTypeFromAnalysis.js'
 import getItemsById from '../../../modules/getItemsById.js'
 
 export default React.createClass({
-  displayName: 'Import',
+  displayName: 'ImportPropertyCollections',
 
   mixins: [ListenerMixin],
 
