@@ -123,23 +123,26 @@ export default React.createClass({
   onChangeNameBestehend (nameBestehend) {
     const editingPcIsAllowed = this.isEditingPcAllowed(nameBestehend)
     const pc = app.propertyCollectionsStore.getPcByName(nameBestehend)
-    const beschreibung = pc.fields.Beschreibung
-    const datenstand = pc.fields.Datenstand
-    const nutzungsbedingungen = pc.fields.Nutzungsbedingungen
-    const link = pc.fields.Link
-    const zusammenfassend = pc.combining
-    this.setState({
-      beschreibung: beschreibung,
-      datenstand: datenstand,
-      nutzungsbedingungen: nutzungsbedingungen,
-      link: link,
-      zusammenfassend: zusammenfassend
-    })
-    if (editingPcIsAllowed) {
+    // only go on if pc exists (prevent error)
+    if (pc) {
+      const beschreibung = pc.fields.Beschreibung
+      const datenstand = pc.fields.Datenstand
+      const nutzungsbedingungen = pc.fields.Nutzungsbedingungen
+      const link = pc.fields.Link
+      const zusammenfassend = pc.combining
       this.setState({
-        nameBestehend: nameBestehend,
-        name: nameBestehend
+        beschreibung: beschreibung,
+        datenstand: datenstand,
+        nutzungsbedingungen: nutzungsbedingungen,
+        link: link,
+        zusammenfassend: zusammenfassend
       })
+      if (editingPcIsAllowed) {
+        this.setState({
+          nameBestehend: nameBestehend,
+          name: nameBestehend
+        })
+      }
     }
   },
 
