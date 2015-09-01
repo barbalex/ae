@@ -4,9 +4,7 @@ import app from 'ampersand-app'
 import React from 'react'
 import { Accordion, Panel, Well, Input, Alert, Button } from 'react-bootstrap'
 import _ from 'lodash'
-import d3 from 'd3'
 import { ListenerMixin } from 'reflux'
-import xlsx from 'xlsx'
 import WellAutorenrechte from './wellAutorenrechte.js'
 import WellTechnAnforderungenAnDatei from './wellTechnAnforderungenAnDatei.js'
 import WellAnforderungenAnCsv from './wellAnforderungenAnCsv.js'
@@ -23,6 +21,7 @@ import AlertIdsAnalysisResult from './alertIdsAnalysisResult.js'
 import TablePreview from './tablePreview.js'
 import InputImportFields from './inputImportFields.js'
 import InputAeId from './inputAeId.js'
+import getObjectsFromFile from './getObjectsFromFile.js'
 import isValidUrl from '../../../modules/isValidUrl.js'
 import getSuccessTypeFromAnalysis from './getSuccessTypeFromAnalysis.js'
 import getItemsById from '../../../modules/getItemsById.js'
@@ -212,42 +211,16 @@ export default React.createClass({
     })
     if (event.target.files[0] !== undefined) {
       const file = event.target.files[0]
-      const fileName = file.name
-      const fileType = fileName.split('.').pop()
-      let reader = new window.FileReader()
-
-      if (fileType === 'csv') {
-        reader.onload = function (onloadEvent) {
-          const data = onloadEvent.target.result
-          const pcsToImport = d3.csv.parse(data)
-          // d3 adds missing fields as '' > remove them
-          pcsToImport.forEach(function (pc, index) {
-            _.forEach(pc, function (value, key) {
-              if (value === '') delete pcsToImport[index][key]
-            })
-          })
-          that.setState({
-            pcsToImport: pcsToImport
-          })
-          console.log('onChangePcFile: pcsToImport', pcsToImport)
-          that.validPcsToImport()
-        }
-        reader.readAsText(file)
-      }
-      if (fileType === 'xlsx') {
-        reader.onload = function (onloadEvent) {
-          const data = onloadEvent.target.result
-          const workbook = xlsx.read(data, {type: 'binary'})
-          const sheetName = workbook.SheetNames[0]
-          const worksheet = workbook.Sheets[sheetName]
-          const pcsToImport = xlsx.utils.sheet_to_json(worksheet)
+      getObjectsFromFile(file)
+        .then(function (pcsToImport) {
           that.setState({
             pcsToImport: pcsToImport
           })
           that.validPcsToImport()
-        }
-        reader.readAsBinaryString(file)
-      }
+        })
+        .catch(function (error) {
+          console.log('error reading file:', error)
+        })
     }
   },
 
@@ -382,9 +355,7 @@ export default React.createClass({
       idsNotANumber: idsNotANumber,
       idsDuplicate: idsDuplicate
     }
-    console.log('isPanel3Done: variablesToPass', variablesToPass)
     const idsAnalysisResultType = getSuccessTypeFromAnalysis(variablesToPass)
-    console.log('isPanel3Done: objectsToImportPcsInTo', objectsToImportPcsInTo)
     const isPanel3Done = idsAnalysisResultType !== 'danger' && objectsToImportPcsInTo.length > 0
     this.setState({ panel3Done: isPanel3Done })
     if (isPanel2Done && !isPanel3Done) this.setState({ activePanel: 3 })
