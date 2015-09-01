@@ -14,16 +14,10 @@ export default React.createClass({
     onChangeNameUrsprungsEs: React.PropTypes.func
   },
 
-  getInitialState () {
-    return { nameUrsprungsEs: null }
-  },
-
   onChangeNameUrsprungsEs (event) {
     const nameUrsprungsEs = event.target.value
-    this.setState({ nameUrsprungsEs: nameUrsprungsEs })
     // tell parent component
-    const { onChangeNameUrsprungsEs } = this.props
-    onChangeNameUrsprungsEs(nameUrsprungsEs)
+    this.props.onChangeNameUrsprungsEs(nameUrsprungsEs)
   },
 
   ursprungsEsOptions () {
@@ -56,8 +50,7 @@ export default React.createClass({
   },
 
   render () {
-    const { nameUrsprungsEs } = this.state
-    const { validUrsprungsEs } = this.props
+    const { nameUrsprungsEs, validUrsprungsEs } = this.props
 
     return (
       <div className={validUrsprungsEs ? 'form-group' : 'form-group has-error'}>
