@@ -7,28 +7,26 @@ export default React.createClass({
   displayName: 'WellTechnAnforderungenAnDatei',
 
   propTypes: {
-    isTechnAnforderungenAnDateiVisible: React.PropTypes.bool
+    visible: React.PropTypes.bool
   },
 
   getInitialState () {
     return {
-      isTechnAnforderungenAnDateiVisible: false
+      visible: false
     }
   },
 
-  onClickTechnAnforderungenAnDatei (event) {
+  onClickToggle (event) {
     event.preventDefault()
-    this.setState({
-      isTechnAnforderungenAnDateiVisible: !this.state.isTechnAnforderungenAnDateiVisible
-    })
+    this.setState({ visible: !this.state.visible })
   },
 
   render () {
-    const { isTechnAnforderungenAnDateiVisible } = this.state
+    const { visible } = this.state
 
     return (
-      <Well className='well-sm'><b>Technische Anforderungen an die Datei</b> <a href='#' onClick={this.onClickTechnAnforderungenAnDatei} className='showNextHidden'>{isTechnAnforderungenAnDateiVisible ? '...weniger' : '...mehr'}</a>
-        <ul className='adb-hidden' style={{'display': isTechnAnforderungenAnDateiVisible ? 'block' : 'none'}}>
+      <Well className='well-sm'><b>Technische Anforderungen an die Datei</b> <a href='#' onClick={this.onClickToggle} className='showNextHidden'>{visible ? '...weniger' : '...mehr'}</a>
+        <ul className='adb-hidden' style={{'display': visible ? 'block' : 'none'}}>
           <li>Sie können Dateien vom Typ <b>.csv</b> (kommagetrennte Textdatei) oder <b>.xlsx</b> (Excel-Datei) importieren</li>
           <li>Die erste Zeile enthält die Feldnamen</li>
           <li>Die weiteren Zeilen enthalten je einen Datensatz, d.h. die Eigenschaften für die betreffende Art oder den Lebensraum</li>

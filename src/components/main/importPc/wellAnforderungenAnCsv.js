@@ -7,28 +7,26 @@ export default React.createClass({
   displayName: 'WellAnforderungenAnCsv',
 
   propTypes: {
-    isAnforderungenAnCsvVisible: React.PropTypes.bool
+    visible: React.PropTypes.bool
   },
 
   getInitialState () {
     return {
-      isAnforderungenAnCsvVisible: false
+      visible: false
     }
   },
 
-  onClickAnforderungenAnCsv (event) {
+  onClickToggle (event) {
     event.preventDefault()
-    this.setState({
-      isAnforderungenAnCsvVisible: !this.state.isAnforderungenAnCsvVisible
-    })
+    this.setState({ visible: !this.state.visible })
   },
 
   render () {
-    const { isAnforderungenAnCsvVisible } = this.state
+    const { visible } = this.state
 
     return (
-      <Well className='well-sm'><b>Zusätzliche Anforderungen an csv-Dateien</b> <a href='#' onClick={this.onClickAnforderungenAnCsv} className='showNextHidden'>{isAnforderungenAnCsvVisible ? '...weniger' : '...mehr'}</a>
-        <ul className='adb-hidden' style={{'display': isAnforderungenAnCsvVisible ? 'block' : 'none'}}>
+      <Well className='well-sm'><b>Zusätzliche Anforderungen an csv-Dateien</b> <a href='#' onClick={this.onClickToggle} className='showNextHidden'>{visible ? '...weniger' : '...mehr'}</a>
+        <ul className='adb-hidden' style={{'display': visible ? 'block' : 'none'}}>
           <li>Zeilen werden mit einem Zeilenumbruch getrennt</li>
             <li>Der Inhalt eines Felds bzw. einer Spalte sollte in der Regel in Anführungs- und Schlusszeichen eingefasst sein, z.B.: "Artwert"</li>
             <li>Ausnahmen: Zahlen und true/false-Werte brauchen keine Anführungs- und Schlusszeichen (es macht aber nichts, wenn sie sie haben)</li>

@@ -14,13 +14,13 @@ export default React.createClass({
     onChangeNameUrsprungsEs: React.PropTypes.func
   },
 
-  onChangeNameUrsprungsEs (event) {
+  onChange (event) {
     const nameUrsprungsEs = event.target.value
     // tell parent component
     this.props.onChangeNameUrsprungsEs(nameUrsprungsEs)
   },
 
-  ursprungsEsOptions () {
+  options () {
     const { pcs } = this.props
     // don't want combining pcs
     let options = _.filter(pcs, function (pc) {
@@ -35,7 +35,7 @@ export default React.createClass({
     return options
   },
 
-  ursprungsEsPopover () {
+  popover () {
     return (
       <Popover title='Was heisst "eigenständig"?'>
         <p>Eine zusammenfassende Eigenschaftensammlung wird zwei mal importiert:</p>
@@ -54,12 +54,12 @@ export default React.createClass({
 
     return (
       <div className={validUrsprungsEs ? 'form-group' : 'form-group has-error'}>
-        <OverlayTrigger trigger='click' placement='right' overlay={this.ursprungsEsPopover()}>
-          <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.ursprungsEsPopover()}>
+        <OverlayTrigger trigger='click' placement='right' overlay={this.popover()}>
+          <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.popover()}>
             <label className='control-label withPopover' htmlFor='dsUrsprungsDs' id='dsUrsprungsDsLabel'>eigenständige Eigenschaftensammlung</label>
           </OverlayTrigger>
         </OverlayTrigger>
-        <select className='form-control controls input-sm' id='dsUrsprungsDs' selected={nameUrsprungsEs} onChange={this.onChangeNameUrsprungsEs}>{this.ursprungsEsOptions()}</select>
+        <select className='form-control controls input-sm' id='dsUrsprungsDs' selected={nameUrsprungsEs} onChange={this.onChange}>{this.options()}</select>
         {validUrsprungsEs ? null : <div className='validateDiv feld'>Bitte wählen Sie die eigenständige Eigenschaftensammlung</div>}
       </div>
     )

@@ -7,28 +7,26 @@ export default React.createClass({
   displayName: 'WellAutorenrechte',
 
   propTypes: {
-    isAutorenrechteVisible: React.PropTypes.bool
+    visible: React.PropTypes.bool
   },
 
   getInitialState () {
     return {
-      isAutorenrechteVisible: false
+      visible: false
     }
   },
 
-  onClickAutorenrechte (event) {
+  onClickToggle (event) {
     event.preventDefault()
-    this.setState({
-      isAutorenrechteVisible: !this.state.isAutorenrechteVisible
-    })
+    this.setState({ visible: !this.state.visible })
   },
 
   render () {
-    const { isAutorenrechteVisible } = this.state
+    const { visible } = this.state
 
     return (
-      <Well className='well-sm last-well'><b>Autorenrechte beachten </b> <a href='#' onClick={this.onClickAutorenrechte} className='showNextHidden'>{isAutorenrechteVisible ? '...weniger' : '...mehr'}</a>
-        <ul className='adb-hidden' style={{'display': isAutorenrechteVisible ? 'block' : 'none'}}>
+      <Well className='well-sm last-well'><b>Autorenrechte beachten </b> <a href='#' onClick={this.onClickToggle} className='showNextHidden'>{visible ? '...weniger' : '...mehr'}</a>
+        <ul className='adb-hidden' style={{'display': visible ? 'block' : 'none'}}>
           <li>Die Autoren müssen mit der Veröffentlichung einverstanden sein</li>
           <li>Dafür verantwortlich ist, wer Daten importiert</li>
         </ul>

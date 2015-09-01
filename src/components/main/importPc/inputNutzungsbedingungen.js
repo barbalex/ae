@@ -17,7 +17,7 @@ export default React.createClass({
     this.props.onChangeNutzungsbedingungen(nutzungsbedingungen)
   },
 
-  nutzungsbedingungenPopover () {
+  popover () {
     return (
       <Popover title='Wozu Nutzunsbedingungen?'>
         <p>Der Nutzer soll wissen, was er mit den Daten machen darf.</p>
@@ -36,8 +36,8 @@ export default React.createClass({
 
     return (
       <div className={validNutzungsbedingungen ? 'form-group' : 'form-group has-error'}>
-        <OverlayTrigger trigger='click' rootClose placement='right' overlay={this.nutzungsbedingungenPopover()}>
-          <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.nutzungsbedingungenPopover()}>
+        <OverlayTrigger trigger='click' rootClose placement='right' overlay={this.popover()}>
+          <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.popover()}>
             <label className='control-label withPopover'>Nutzungsbedingungen</label>
           </OverlayTrigger>
         </OverlayTrigger>

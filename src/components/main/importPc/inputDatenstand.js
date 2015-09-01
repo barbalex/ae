@@ -18,7 +18,7 @@ export default React.createClass({
     this.props.onChangeDatenstand(datenstand)
   },
 
-  datenstandPopover () {
+  popover () {
     return (
       <Popover title='Wozu ein Datenstand?'>
         <p>Hier sieht der Nutzer, wann die Eigenschaftensammlung zuletzt aktualisiert wurde.</p>
@@ -31,8 +31,8 @@ export default React.createClass({
 
     return (
       <div className={validDatenstand ? 'form-group' : 'form-group has-error'}>
-        <OverlayTrigger trigger='click' rootClose placement='right' overlay={this.datenstandPopover()}>
-          <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.datenstandPopover()}>
+        <OverlayTrigger trigger='click' rootClose placement='right' overlay={this.popover()}>
+          <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.popover()}>
             <label className='control-label withPopover'>Datenstand</label>
           </OverlayTrigger>
         </OverlayTrigger>

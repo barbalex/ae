@@ -22,7 +22,7 @@ export default React.createClass({
     this.props.onBlurLink()
   },
 
-  linkPopover () {
+  popover () {
     return (
       <Popover title='Wozu ein Link?'>
         <p>Kann die Originalpublikation verlinkt werden?</p>
@@ -36,8 +36,8 @@ export default React.createClass({
 
     return (
       <div className={validLink ? 'form-group' : 'form-group has-error'}>
-        <OverlayTrigger trigger='click' rootClose placement='right' overlay={this.linkPopover()}>
-          <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.linkPopover()}>
+        <OverlayTrigger trigger='click' rootClose placement='right' overlay={this.popover()}>
+          <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.popover()}>
             <label className='control-label withPopover'>Link</label>
           </OverlayTrigger>
         </OverlayTrigger>

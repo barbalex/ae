@@ -18,7 +18,7 @@ export default React.createClass({
     this.props.onChangeBeschreibung(beschreibung)
   },
 
-  beschreibungPopover () {
+  popover () {
     return (
       <Popover title='So beschreiben Sie die Sammlung:'>
         <p>Die Beschreibung sollte im ersten Teil etwa einem klassischen Literaturzitat entsprechen.<br/>
@@ -35,8 +35,8 @@ export default React.createClass({
 
     return (
       <div className={validBeschreibung ? 'form-group' : 'form-group has-error'}>
-        <OverlayTrigger trigger='click' rootClose placement='right' overlay={this.beschreibungPopover()}>
-          <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.beschreibungPopover()}>
+        <OverlayTrigger trigger='click' rootClose placement='right' overlay={this.popover()}>
+          <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.popover()}>
             <label className='control-label withPopover'>Beschreibung</label>
           </OverlayTrigger>
         </OverlayTrigger>
