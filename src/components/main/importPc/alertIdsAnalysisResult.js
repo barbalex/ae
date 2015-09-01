@@ -7,7 +7,7 @@
 import React from 'react'
 import _ from 'lodash'
 import { Alert } from 'react-bootstrap'
-import getItemsById from '../../../modules/getItemsById.js'
+import getSuccessTypeFromAnalysis from './getSuccessTypeFromAnalysis.js'
 
 export default React.createClass({
   displayName: 'AlertIdsAnalysisResult',
@@ -16,76 +16,18 @@ export default React.createClass({
     aeIdField: React.PropTypes.string,
     importIdField: React.PropTypes.string,
     pcsToImport: React.PropTypes.array,
-    objectsToImportPcsInTo: React.PropTypes.array,
     analysisComplete: React.PropTypes.bool,
     recordsWithIdValueCount: React.PropTypes.number,
     idsDuplicate: React.PropTypes.array,
     idsImportableCount: React.PropTypes.number,
     idsNotImportable: React.PropTypes.array,
-    onChangeIdsAnalysisResult: React.PropTypes.func
+    idsNotNumber: React.PropTypes.array
 
-  },
-
-  getInitialState () {
-    return {
-      analysisComplete: false,
-      recordsWithIdValueCount: 0,
-      idsDuplicate: [],
-      idsImportableCount: 0,
-      idsNotImportable: [],
-      objectsToImportPcsInTo: []
-    }
-  },
-
-  componentDidMount () {
-    const { aeIdField, pcsToImport, importIdField, onChangeIdsAnalysisResult } = this.props
-    const that = this
-
-    // only go on if both values exist
-    if (aeIdField && importIdField) {
-      const ids = _.pluck(pcsToImport, importIdField)
-      // start analysis
-      getItemsById(aeIdField, ids)
-        .then(function (objectsToImportPcsInTo) {
-          const idsToImportWithDuplicates = _.pluck(pcsToImport, importIdField)
-          const idsToImport = _.unique(idsToImportWithDuplicates)
-          const recordsWithIdValueCount = idsToImportWithDuplicates.length
-          const idsDuplicate = _.difference(idsToImportWithDuplicates, idsToImport)
-          const idAttribute = aeIdField === 'GUID' ? '_id' : 'Taxonomien[0].Eigenschaften["Taxonomie ID"]'
-          const idsFetched = _.pluck(objectsToImportPcsInTo, idAttribute)
-          const idsImportable = _.intersection(idsToImport, idsFetched)
-          const idsImportableCount = idsImportable.length
-          const idsNotImportable = _.difference(idsToImport, idsFetched)
-
-          // finished? render...
-          that.setState({
-            recordsWithIdValueCount: recordsWithIdValueCount,
-            idsDuplicate: idsDuplicate,
-            idsImportableCount: idsImportableCount,
-            idsNotImportable: idsNotImportable,
-            analysisComplete: true
-          })
-          // ...then call onChangeIdsAnalysisResult and pass it sucess type and objectsToImportPcsInTo
-          const idsAnalysisResultType = that.getSuccessType()
-          onChangeIdsAnalysisResult(idsAnalysisResultType, objectsToImportPcsInTo)
-        })
-        .catch(function (error) {
-          console.log(error)
-        })
-    }
-  },
-
-  getSuccessType () {
-    const { idsImportableCount, idsNotImportable, idsDuplicate } = this.state
-    const { pcsToImport } = this.props
-    if (idsNotImportable > 0) return 'error'
-    if ((idsImportableCount < pcsToImport.length) || idsDuplicate.length > 0) return 'warning'
-    return 'success'
   },
 
   render () {
-    const { analysisComplete, recordsWithIdValueCount, idsImportableCount, idsNotImportable, idsDuplicate } = this.state
-    const { pcsToImport, importIdField, aeIdField } = this.props
+    const { pcsToImport, importIdField, aeIdField, analysisComplete, recordsWithIdValueCount, idsImportableCount, idsDuplicate, idsNotNumber } = this.props
+    let { idsNotImportable } = this.props
 
     if (!(importIdField && aeIdField)) return null
 
@@ -97,8 +39,20 @@ export default React.createClass({
     const recordsWithIdValueText = `${recordsWithIdValueCount} enthalten einen Wert im Feld "${importIdField}"`
     const idsDuplicateText = idsDuplicate.length > 0 ? `${idsDuplicate.length} enthalten die folgenden mehrfach vorkommenden IDs: ` + _.unique(idsDuplicate).join(', ') : 'Keine ID kommt mehrfach vor :-)'
     const recordsImportableText = `${idsImportableCount} können zugeordnet und importiert werden`
-    const recordsNotImportableText = `ACHTUNG: ${idsNotImportable.length} Datensätze mit den folgenden Werten im Feld "${importIdField}" können NICHT zugeordnet und importiert werden:<br/>` + idsNotImportable.join(', ')
-    const successType = this.getSuccessType()
+
+    const idsNotNumbersText = `ACHTUNG: ${idsNotNumber.length} Datensätze mit den folgenden Werten im Feld "${importIdField}" enthalten keine Zahlen:`
+    const idsNotNumbersList = idsNotNumber.length === 0 ? null : idsNotNumber.join(' | ')
+
+    const recordsNotImportableText = `ACHTUNG: ${idsNotImportable.length} Datensätze mit den folgenden Werten im Feld "${importIdField}" können NICHT zugeordnet und importiert werden:`
+    const idsNotImportableList = idsNotImportable.length === 0 ? null : idsNotImportable.join(' | ')
+    const variablesToPass = {
+      pcsToImport: pcsToImport,
+      idsImportableCount: idsImportableCount,
+      idsNotImportable: idsNotImportable,
+      idsNotNumber: idsNotNumber,
+      idsDuplicate: idsDuplicate
+    }
+    const successType = getSuccessTypeFromAnalysis(variablesToPass)
 
     if (successType === 'success') {
       return (
@@ -106,7 +60,16 @@ export default React.createClass({
       )
     }
     return (
-      <Alert bsStyle={successType} className='feld'>{titleText}<ul><li>{recordsWithIdValueText}</li><li>{idsDuplicateText}</li><li>{recordsImportableText}</li><li>{recordsNotImportableText}</li></ul></Alert>
+      <Alert bsStyle={successType} className='feld'>
+        {titleText}
+        <ul>
+          <li>{recordsWithIdValueText}</li>
+          {idsNotNumber.length === 0 ? null : <li>{idsNotNumbersText}<br/>{idsNotNumbersList}</li>}
+          <li>{idsDuplicateText}</li>
+          <li>{recordsImportableText}</li>
+          {idsNotImportable.length === 0 ? null : <li>{recordsNotImportableText}<br/>{idsNotImportableList}</li>}
+        </ul>
+      </Alert>
     )
   }
 })
