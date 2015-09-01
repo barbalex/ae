@@ -1,7 +1,6 @@
 'use strict'
 
 import React from 'react'
-import _ from 'lodash'
 
 export default React.createClass({
   displayName: 'SelectNameBestehend',
@@ -13,17 +12,10 @@ export default React.createClass({
     onChangeNameBestehend: React.PropTypes.func
   },
 
-  getInitialState () {
-    return { nameBestehend: null }
-  },
-
   onChange (event) {
     const nameBestehend = event.target.value
-    const editingPcIsAllowed = this.isEditingAllowed(nameBestehend)
-    if (editingPcIsAllowed) this.setState({ nameBestehend: nameBestehend })
     // pass variables to parent component
-    const { onChangeNameBestehend } = this.props
-    onChangeNameBestehend(nameBestehend)
+    this.props.onChangeNameBestehend(nameBestehend)
   },
 
   options () {
@@ -49,19 +41,8 @@ export default React.createClass({
     }
   },
 
-  isEditingAllowed (name) {
-    const { pcs, email } = this.props
-    // check if this name exists
-    // if so and it is not combining: check if it was imported by the user
-    const samePc = _.find(pcs, function (pc) {
-      return pc.name === name
-    })
-    const editingAllowed = !samePc || (samePc && (samePc.combining || samePc.importedBy === email))
-    return editingAllowed
-  },
-
   render () {
-    const { nameBestehend } = this.state
+    const { nameBestehend } = this.props
 
     return (
       <div className='form-group'>
