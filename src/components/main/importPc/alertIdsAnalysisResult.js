@@ -45,6 +45,7 @@ export default React.createClass({
 
     const recordsNotImportableText = `Achtung: ${idsNotImportable.length} Datensätze mit den folgenden Werten im Feld "${idsImportIdField}" können nicht zugeordnet und importiert werden:`
     const idsNotImportableList = idsNotImportable.join(' | ')
+
     const variablesToPass = {
       pcsToImport: pcsToImport,
       idsNumberImportable: idsNumberImportable,

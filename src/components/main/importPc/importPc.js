@@ -537,8 +537,8 @@ export default React.createClass({
 
           <Panel collapsible header='4. Import ausführen' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>
             {/*TODO: depending on onChangeIdsAnalysisResult, show buttons*/}
-            <Button className='btn-primary' id='dsImportieren' style={{'marginBottom': 6 + 'px', 'display': 'none'}}>Eigenschaftensammlung mit allen Eigenschaften importieren</Button>
-            <Button className='btn-primary' id='dsEntfernen' style={{'marginBottom': 6 + 'px', 'display': 'none'}}>Eigenschaftensammlung mit allen Eigenschaften aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen</Button>
+            <Button className='btn-primary' id='dsImportieren' style={{'marginBottom': 6 + 'px'}}>Eigenschaftensammlung mit allen Eigenschaften importieren</Button>
+            <Button className='btn-primary' id='dsEntfernen' style={{'marginBottom': 6 + 'px'}}>Eigenschaftensammlung mit allen Eigenschaften aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen</Button>
             <div className='progress'>
               <div id='dsImportProgressbar' className='progress-bar' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'><span id='dsImportProgressbarText'></span>
               </div>
