@@ -24,6 +24,7 @@ import TablePreview from './tablePreview.js'
 import InputImportFields from './inputImportFields.js'
 import InputAeId from './inputAeId.js'
 import isValidUrl from '../../../modules/isValidUrl.js'
+import getItemsById from '../../../getItemsById.js'
 
 export default React.createClass({
   displayName: 'Import',
@@ -46,6 +47,11 @@ export default React.createClass({
     objectsToImportPcsInTo: React.PropTypes.array,
     importIdField: React.PropTypes.string,
     aeIdField: React.PropTypes.string,
+    analysisComplete: React.PropTypes.bool,
+    recordsWithIdValueCount: React.PropTypes.number,
+    idsDuplicate: React.PropTypes.array,
+    idsImportableCount: React.PropTypes.number,
+    idsNotImportable: React.PropTypes.array,
     idsAnalysisResultType: React.PropTypes.oneOf(['success', 'warning', 'error', null]),
     esBearbeitenErlaubt: React.PropTypes.bool,
     panel1Done: React.PropTypes.bool,
@@ -81,6 +87,11 @@ export default React.createClass({
       objectsToImportPcsInTo: [],
       importIdField: null,
       aeIdField: null,
+      analysisComplete: false,
+      recordsWithIdValueCount: 0,
+      idsDuplicate: [],
+      idsImportableCount: 0,
+      idsNotImportable: [],
       idsAnalysisResultType: null,
       panel1Done: false,
       panel2Done: false,
@@ -238,11 +249,14 @@ export default React.createClass({
   },
 
   onChangeAeId (aeIdField) {
+    const { importIdField } = this.state
     this.setState({ aeIdField: aeIdField })
+    console.log('aeIdField changed:', aeIdField)
+    this.onChangeId(aeIdField, importIdField)
   },
 
   onChangeImportId (importIdField) {
-    const { pcsToImport } = this.state
+    const { pcsToImport, aeIdField } = this.state
     // make sure data in importIdField is a number, if it is not a GUID
     if (importIdField !== 'GUID') {
       pcsToImport.forEach(function (pc, index) {
@@ -250,6 +264,46 @@ export default React.createClass({
       })
     }
     this.setState({ importIdField: importIdField })
+    console.log('importIdField changed:', importIdField)
+    this.onChangeId(aeIdField, importIdField)
+  },
+
+  // need to get values directly because state has not been updated yet
+  onChangeId (aeIdField, importIdField) {
+    const { pcsToImport, onChangeIdsAnalysisResult } = this.state
+    const that = this
+
+    if (aeIdField && importIdField) {
+      const ids = _.pluck(pcsToImport, importIdField)
+      // start analysis
+      getItemsById(aeIdField, ids)
+        .then(function (objectsToImportPcsInTo) {
+          const idsToImportWithDuplicates = _.pluck(pcsToImport, importIdField)
+          const idsToImport = _.unique(idsToImportWithDuplicates)
+          const recordsWithIdValueCount = idsToImportWithDuplicates.length
+          const idsDuplicate = _.difference(idsToImportWithDuplicates, idsToImport)
+          const idAttribute = aeIdField === 'GUID' ? '_id' : 'Taxonomien[0].Eigenschaften["Taxonomie ID"]'
+          const idsFetched = _.pluck(objectsToImportPcsInTo, idAttribute)
+          const idsImportable = _.intersection(idsToImport, idsFetched)
+          const idsImportableCount = idsImportable.length
+          const idsNotImportable = _.difference(idsToImport, idsFetched)
+
+          // finished? render...
+          that.setState({
+            recordsWithIdValueCount: recordsWithIdValueCount,
+            idsDuplicate: idsDuplicate,
+            idsImportableCount: idsImportableCount,
+            idsNotImportable: idsNotImportable,
+            analysisComplete: true
+          })
+          // ...then call onChangeIdsAnalysisResult and pass it sucess type and objectsToImportPcsInTo
+          const idsAnalysisResultType = that.getSuccessType()
+          onChangeIdsAnalysisResult(idsAnalysisResultType, objectsToImportPcsInTo)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    }
   },
 
   onChangeIdsAnalysisResult (idsAnalysisResultType, objectsToImportPcsInTo) {
@@ -465,7 +519,7 @@ export default React.createClass({
           <Panel collapsible header="3. ID's identifizieren" eventKey={3} onClick={this.onClickPanel.bind(this, 3)}>
             <InputImportFields importIdField={importIdField} pcsToImport={pcsToImport} onChangeImportId={this.onChangeImportId} />
             <InputAeId aeIdField={aeIdField} onChangeAeId={this.onChangeAeId} />
-            {aeIdField && importIdField ? <AlertIdsAnalysisResult aeIdField={aeIdField} importIdField={importIdField} pcsToImport={pcsToImport} onChangeIdsAnalysisResult={this.onChangeIdsAnalysisResult} /> : null}
+            <AlertIdsAnalysisResult aeIdField={aeIdField} importIdField={importIdField} pcsToImport={pcsToImport} onChangeIdsAnalysisResult={this.onChangeIdsAnalysisResult} />
           </Panel>
 
           <Panel collapsible header='4. Import ausführen' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>

@@ -40,36 +40,39 @@ export default React.createClass({
   componentDidMount () {
     const { aeIdField, pcsToImport, importIdField, onChangeIdsAnalysisResult } = this.props
     const that = this
-    const ids = _.pluck(pcsToImport, importIdField)
-    // start analysis
-    getItemsById(aeIdField, ids)
-      .then(function (objectsToImportPcsInTo) {
-        const idsToImportWithDuplicates = _.pluck(pcsToImport, importIdField)
-        const idsToImport = _.unique(idsToImportWithDuplicates)
-        const recordsWithIdValueCount = idsToImportWithDuplicates.length
-        const idsDuplicate = _.difference(idsToImportWithDuplicates, idsToImport)
-        const idAttribute = aeIdField === 'GUID' ? '_id' : 'Taxonomien[0].Eigenschaften["Taxonomie ID"]'
-        const idsFetched = _.pluck(objectsToImportPcsInTo, idAttribute)
-        const idsImportable = _.intersection(idsToImport, idsFetched)
-        const idsImportableCount = idsImportable.length
-        const idsNotImportable = _.difference(idsToImport, idsFetched)
 
-        // finished? render...
-        that.setState({
-          recordsWithIdValueCount: recordsWithIdValueCount,
-          idsDuplicate: idsDuplicate,
-          idsImportableCount: idsImportableCount,
-          idsNotImportable: idsNotImportable,
-          analysisComplete: true
+    // only go on if both values exist
+    if (aeIdField && importIdField) {
+      const ids = _.pluck(pcsToImport, importIdField)
+      // start analysis
+      getItemsById(aeIdField, ids)
+        .then(function (objectsToImportPcsInTo) {
+          const idsToImportWithDuplicates = _.pluck(pcsToImport, importIdField)
+          const idsToImport = _.unique(idsToImportWithDuplicates)
+          const recordsWithIdValueCount = idsToImportWithDuplicates.length
+          const idsDuplicate = _.difference(idsToImportWithDuplicates, idsToImport)
+          const idAttribute = aeIdField === 'GUID' ? '_id' : 'Taxonomien[0].Eigenschaften["Taxonomie ID"]'
+          const idsFetched = _.pluck(objectsToImportPcsInTo, idAttribute)
+          const idsImportable = _.intersection(idsToImport, idsFetched)
+          const idsImportableCount = idsImportable.length
+          const idsNotImportable = _.difference(idsToImport, idsFetched)
+
+          // finished? render...
+          that.setState({
+            recordsWithIdValueCount: recordsWithIdValueCount,
+            idsDuplicate: idsDuplicate,
+            idsImportableCount: idsImportableCount,
+            idsNotImportable: idsNotImportable,
+            analysisComplete: true
+          })
+          // ...then call onChangeIdsAnalysisResult and pass it sucess type and objectsToImportPcsInTo
+          const idsAnalysisResultType = that.getSuccessType()
+          onChangeIdsAnalysisResult(idsAnalysisResultType, objectsToImportPcsInTo)
         })
-        // ...then call onChangeIdsAnalysisResult and pass it sucess type and objectsToImportPcsInTo
-        const idsAnalysisResultType = that.getSuccessType()
-        onChangeIdsAnalysisResult(idsAnalysisResultType, objectsToImportPcsInTo)
-      })
-      .catch(function (error) {
-        console.log(error)
-      })
-
+        .catch(function (error) {
+          console.log(error)
+        })
+    }
   },
 
   getSuccessType () {
@@ -82,7 +85,9 @@ export default React.createClass({
 
   render () {
     const { analysisComplete, recordsWithIdValueCount, idsImportableCount, idsNotImportable, idsDuplicate } = this.state
-    const { pcsToImport, importIdField } = this.props
+    const { pcsToImport, importIdField, aeIdField } = this.props
+
+    if (!(importIdField && aeIdField)) return null
 
     if (!analysisComplete) {
       return <Alert bsStyle='info' className='feld'>Bitte warten, die Daten werden analysiert.<br/>Das kann eine Weile dauern...</Alert>
