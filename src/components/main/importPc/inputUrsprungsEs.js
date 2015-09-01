@@ -5,7 +5,7 @@ import { OverlayTrigger, Popover } from 'react-bootstrap'
 import _ from 'lodash'
 
 export default React.createClass({
-  displayName: 'SelectUrsprungsEs',
+  displayName: 'InputUrsprungsEs',
 
   propTypes: {
     nameUrsprungsEs: React.PropTypes.string,

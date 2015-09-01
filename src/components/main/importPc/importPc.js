@@ -18,7 +18,7 @@ import InputDatenstand from './inputDatenstand.js'
 import InputNutzungsbedingungen from './inputNutzungsbedingungen.js'
 import InputLink from './inputLink.js'
 import InputZusammenfassend from './inputZusammenfassend.js'
-import SelectUrsprungsEs from './selectUrsprungsEs.js'
+import InputUrsprungsEs from './inputUrsprungsEs.js'
 import AlertIdsAnalysisResult from './alertIdsAnalysisResult.js'
 import TablePreview from './tablePreview.js'
 import InputImportFields from './inputImportFields.js'
@@ -447,7 +447,7 @@ export default React.createClass({
             <InputLink link={link} validLink={validLink} onChangeLink={this.onChangeLink} onBlurLink={this.onBlurLink} />
             <Input type='text' label={'importiert von'} className='controls input-sm' value={importiertVon} disabled />
             <InputZusammenfassend zusammenfassend={zusammenfassend} onChangeZusammenfassend={this.onChangeZusammenfassend} />
-            {zusammenfassend ? <SelectUrsprungsEs nameUrsprungsEs={nameUrsprungsEs} pcs={pcs} validUrsprungsEs={validUrsprungsEs} onChangeNameUrsprungsEs={this.onChangeNameUrsprungsEs} /> : null}
+            {zusammenfassend ? <InputUrsprungsEs nameUrsprungsEs={nameUrsprungsEs} pcs={pcs} validUrsprungsEs={validUrsprungsEs} onChangeNameUrsprungsEs={this.onChangeNameUrsprungsEs} /> : null}
           </Panel>
 
           <Panel collapsible header='2. Eigenschaften laden' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
