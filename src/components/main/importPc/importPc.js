@@ -16,6 +16,7 @@ import InputBeschreibung from './inputBeschreibung.js'
 import InputDatenstand from './inputDatenstand.js'
 import InputNutzungsbedingungen from './inputNutzungsbedingungen.js'
 import InputLink from './inputLink.js'
+import InputZusammenfassend from './inputZusammenfassend.js'
 import SelectUrsprungsEs from './selectUrsprungsEs.js'
 import AlertIdsAnalysisResult from './alertIdsAnalysisResult.js'
 import TablePreview from './tablePreview.js'
@@ -174,8 +175,7 @@ export default React.createClass({
     this.validLink()
   },
 
-  onChangeZusammenfassend (event) {
-    const zusammenfassend = event.target.checked
+  onChangeZusammenfassend (zusammenfassend) {
     this.setState({
       zusammenfassend: zusammenfassend,
       nameUrsprungsEs: null
@@ -419,18 +419,6 @@ export default React.createClass({
     )
   },
 
-  zusammenfassendPopover () {
-    return (
-      <Popover title='Was heisst "zusammenfassend"?'>
-        <p>Die Informationen in einer zusammenfassenden Eigenschaftensammlung wurden aus mehreren eigenständigen Eigenschaftensammlungen zusammegefasst.</p>
-        <p>Zweck: Jede Art bzw. jeder Lebensraum enthält die jeweils aktuellste Information zum Thema.</p>
-        <p>Beispiel: Rote Liste.</p>
-        <p>Mehr Infos <a href='https://github.com/FNSKtZH/artendb#zusammenfassende-pcs' target='_blank'>im Projektbeschrieb</a>.</p>
-        <p><em>Tipp: Klicken Sie auf "zusammenfassend", damit diese Meldung offen bleibt.</em></p>
-      </Popover>
-    )
-  },
-
   alertEditingPcDisallowed () {
     return (
       <Alert className='feld' bsStyle='danger'>
@@ -481,14 +469,7 @@ export default React.createClass({
 
             <Input type='text' label={'importiert von'} className='controls input-sm' value={importiertVon} disabled />
 
-            <div className={'form-group'}>
-              <OverlayTrigger trigger='click' rootClose placement='right' overlay={this.zusammenfassendPopover()}>
-                <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.zusammenfassendPopover()}>
-                  <label className='control-label withPopover' htmlFor={'dsZusammenfassend'}>zusammenfassend</label>
-                </OverlayTrigger>
-              </OverlayTrigger>
-              <input type='checkbox' label={'zusammenfassend'} checked={zusammenfassend} onChange={this.onChangeZusammenfassend} />
-            </div>
+            <InputZusammenfassend zusammenfassend={zusammenfassend} onChangeZusammenfassend={this.onChangeZusammenfassend} />
 
             {zusammenfassend ? <SelectUrsprungsEs nameUrsprungsEs={nameUrsprungsEs} pcs={pcs} validUrsprungsEs={validUrsprungsEs} onChangeNameUrsprungsEs={this.onChangeNameUrsprungsEs} /> : null}
           </Panel>
