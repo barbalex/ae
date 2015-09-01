@@ -65,7 +65,7 @@ export default React.createClass({
         <ul>
           <li>{recordsWithIdValueText}</li>
           {idsNotNumber.length === 0 ? null : <li>{idsNotNumbersText}<br/>{idsNotNumbersList}</li>}
-          <li>{idsDuplicateText}</li>
+          {idsDuplicate.length === 0 ? null : <li>{idsDuplicateText}</li>}
           <li>{recordsImportableText}</li>
           {idsNotImportable.length === 0 ? null : <li>{recordsNotImportableText}<br/>{idsNotImportableList}</li>}
         </ul>
