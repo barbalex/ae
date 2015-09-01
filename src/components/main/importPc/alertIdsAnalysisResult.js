@@ -37,14 +37,14 @@ export default React.createClass({
 
     const titleText = `Die Importtabelle enthält ${pcsToImport.length} Datensätze:`
     const recordsWithIdValueText = `${idsNumberOfRecordsWithIdValue} enthalten einen Wert im Feld "${idsImportIdField}"`
-    const idsDuplicateText = idsDuplicate.length > 0 ? `${idsDuplicate.length} enthalten die folgenden mehrfach vorkommenden IDs: ` + _.unique(idsDuplicate).join(', ') : 'Keine ID kommt mehrfach vor :-)'
+    const idsDuplicateText = `${idsDuplicate.length} enthalten die folgenden mehrfach vorkommenden IDs: ` + _.unique(idsDuplicate).join(', ')
     const recordsImportableText = `${idsNumberImportable} können zugeordnet und importiert werden`
 
     const idsNotNumbersText = `Achtung: ${idsNotANumber.length} Datensätze mit den folgenden Werten im Feld "${idsImportIdField}" enthalten keine Zahlen:`
-    const idsNotNumbersList = idsNotANumber.length === 0 ? null : idsNotANumber.join(' | ')
+    const idsNotNumbersList = idsNotANumber.join(' | ')
 
     const recordsNotImportableText = `Achtung: ${idsNotImportable.length} Datensätze mit den folgenden Werten im Feld "${idsImportIdField}" können nicht zugeordnet und importiert werden:`
-    const idsNotImportableList = idsNotImportable.length === 0 ? null : idsNotImportable.join(' | ')
+    const idsNotImportableList = idsNotImportable.join(' | ')
     const variablesToPass = {
       pcsToImport: pcsToImport,
       idsNumberImportable: idsNumberImportable,
