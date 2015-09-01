@@ -21,7 +21,7 @@ import InputZusammenfassend from './inputZusammenfassend.js'
 import SelectUrsprungsEs from './selectUrsprungsEs.js'
 import AlertIdsAnalysisResult from './alertIdsAnalysisResult.js'
 import TablePreview from './tablePreview.js'
-import SelectImportFields from './selectImportFields.js'
+import InputImportFields from './inputImportFields.js'
 import isValidUrl from '../../../modules/isValidUrl.js'
 
 export default React.createClass({
@@ -441,7 +441,6 @@ export default React.createClass({
 
             <InputName name={name} validName={validName} onChangeName={this.onChangeName} onBlurName={this.onBlurName} />
             {esBearbeitenErlaubt ? null : this.alertEditingPcDisallowed()}
-
             <InputBeschreibung beschreibung={beschreibung} validBeschreibung={validBeschreibung} onChangeBeschreibung={this.onChangeBeschreibung} />
             <InputDatenstand datenstand={datenstand} validDatenstand={validDatenstand} onChangeDatenstand={this.onChangeDatenstand} />
             <InputNutzungsbedingungen nutzungsbedingungen={nutzungsbedingungen} validNutzungsbedingungen={validNutzungsbedingungen} onChangeNutzungsbedingungen={this.onChangeNutzungsbedingungen} />
@@ -464,7 +463,7 @@ export default React.createClass({
           </Panel>
 
           <Panel collapsible header="3. ID's identifizieren" eventKey={3} onClick={this.onClickPanel.bind(this, 3)}>
-            <SelectImportFields pcsToImport={pcsToImport} onChangeImportId={this.onChangeImportId} />
+            <InputImportFields pcsToImport={pcsToImport} onChangeImportId={this.onChangeImportId} />
             <Input type='select' bsSize='small' label={'zugehörige ID in ArtenDb'} multiple className='form-control controls' style={{'height': 101 + 'px'}} onChange={this.onChangeAeId}>
               <option value='GUID'>GUID der ArtenDb</option>
               <option value='Fauna'>ID der Info Fauna (NUESP)</option>

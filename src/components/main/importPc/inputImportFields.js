@@ -5,7 +5,7 @@ import _ from 'lodash'
 import { Input } from 'react-bootstrap'
 
 export default React.createClass({
-  displayName: 'SelectImportFields',
+  displayName: 'InputImportFields',
 
   propTypes: {
     pcsToImport: React.PropTypes.array,
