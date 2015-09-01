@@ -25,7 +25,7 @@ export default React.createClass({
     const { visible } = this.state
 
     return (
-      <Well className='well-sm'><b>Technische Anforderungen an die Datei</b> <a href='#' onClick={this.onClickToggle} className='showNextHidden'>{visible ? '...weniger' : '...mehr'}</a>
+      <Well className='well-sm'><b>Anforderungen an die Datei</b> <a href='#' onClick={this.onClickToggle} className='showNextHidden'>{visible ? '...weniger' : '...mehr'}</a>
         <ul className='adb-hidden' style={{'display': visible ? 'block' : 'none'}}>
           <li>Sie können Dateien vom Typ <b>.csv</b> (kommagetrennte Textdatei) oder <b>.xlsx</b> (Excel-Datei) importieren</li>
           <li>Die erste Zeile enthält die Feldnamen</li>
