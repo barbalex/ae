@@ -11,6 +11,7 @@ import WellAutorenrechte from './wellAutorenrechte.js'
 import WellTechnAnforderungenAnDatei from './wellTechnAnforderungenAnDatei.js'
 import WellAnforderungenAnCsv from './wellAnforderungenAnCsv.js'
 import WellAnforderungenInhaltlich from './wellAnforderungenInhaltlich.js'
+import NameBestehend from './nameBestehend.js'
 import AlertIdsAnalysisResult from './alertIdsAnalysisResult.js'
 import TablePreview from './tablePreview.js'
 import SelectImportFields from './selectImportFields.js'
@@ -113,8 +114,7 @@ export default React.createClass({
     })
   },
 
-  onChangePcNameExisting (event) {
-    const nameBestehend = event.target.value
+  onChangeNameBestehend (nameBestehend) {
     const editingPcIsAllowed = this.isEditingPcAllowed(nameBestehend)
     const pc = app.propertyCollectionsStore.getPcByName(nameBestehend)
     const beschreibung = pc.fields.Beschreibung
@@ -332,35 +332,12 @@ export default React.createClass({
     return isPanel3Done
   },
 
-  nameBestehendOptions () {
+  isEditingPcAllowed (name) {
     const { pcs } = this.state
     const { email } = this.props
-
-    if (pcs && pcs.length > 0) {
-      let options = pcs.map(function (pc) {
-        const name = pc.name
-        const combining = pc.combining
-        const importedBy = pc.importedBy
-        // mutable: only those imported by user and combining pc's
-        // or: user is admin
-        const mutable = (importedBy === email || combining || Boolean(window.localStorage.admin))
-        const className = mutable ? 'adbGruenFett' : 'adbGrauNormal'
-        return (<option key={name} value={name} className={className} waehlbar={mutable}>{name}</option>)
-      })
-      // add an empty option at the beginning
-      options.unshift(<option key='noValue' value='' waehlbar={true}></option>)
-      return options
-    } else {
-      // this option is showed while loading
-      return (<option value='' waehlbar={true}>Lade Daten...</option>)
-    }
-  },
-
-  isEditingPcAllowed (name) {
-    const { pcs, email } = this.state
     const that = this
     // set editing allowed to true
-    // reaseon: close alert if it is still shown from last select
+    // reason: close alert if it is still shown from last select
     this.setState({
       esBearbeitenErlaubt: true
     })
@@ -557,7 +534,8 @@ export default React.createClass({
   },
 
   render () {
-    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, esBearbeitenErlaubt, pcsToImport, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validPcsToImport, activePanel, aeIdField, importIdField } = this.state
+    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, esBearbeitenErlaubt, pcsToImport, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validPcsToImport, activePanel, aeIdField, importIdField, pcs } = this.state
+    const { email } = this.props
 
     return (
       <div>
@@ -567,10 +545,7 @@ export default React.createClass({
             <Well className='well-sm'><a href='//youtu.be/nqd-v6YxkOY' target='_blank'><b>Auf Youtube sehen, wie es geht</b></a></Well>
             <WellAutorenrechte />
 
-            <div className='form-group'>
-              <label className='control-label' htmlFor='nameBestehend'>Bestehende wählen</label>
-              <select id='nameBestehend' className='form-control controls' selected={nameBestehend} onChange={this.onChangePcNameExisting}>{this.nameBestehendOptions()}</select>
-            </div>
+            <NameBestehend nameBestehend={nameBestehend} beschreibung={beschreibung} datenstand={datenstand} nutzungsbedingungen={nutzungsbedingungen} link={link} zusammenfassend={zusammenfassend} email={email} pcs={pcs} onChangeNameBestehend={this.onChangeNameBestehend} />
 
             <div className='controls feld'>
               <button type='button' className='btn btn-primary btn-default' style={{'display': 'none', 'marginBottom': 6 + 'px'}}>Gewählte Eigenschaftensammlung und alle ihre Eigenschaften aus allen Arten und/oder Lebensräumen entfernen</button>
