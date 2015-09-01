@@ -4,7 +4,7 @@ import React from 'react'
 import _ from 'lodash'
 
 export default React.createClass({
-  displayName: 'NameBestehend',
+  displayName: 'SelectNameBestehend',
 
   propTypes: {
     nameBestehend: React.PropTypes.string,
