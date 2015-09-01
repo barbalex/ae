@@ -12,6 +12,7 @@ import WellTechnAnforderungenAnDatei from './wellTechnAnforderungenAnDatei.js'
 import WellAnforderungenAnCsv from './wellAnforderungenAnCsv.js'
 import WellAnforderungenInhaltlich from './wellAnforderungenInhaltlich.js'
 import SelectNameBestehend from './selectNameBestehend.js'
+import InputBeschreibung from './inputBeschreibung.js'
 import SelectUrsprungsEs from './selectUrsprungsEs.js'
 import AlertIdsAnalysisResult from './alertIdsAnalysisResult.js'
 import TablePreview from './tablePreview.js'
@@ -150,8 +151,7 @@ export default React.createClass({
     this.isEditingPcAllowed(name)
   },
 
-  onChangeBeschreibung (event) {
-    const beschreibung = event.target.value
+  onChangeBeschreibung (beschreibung) {
     this.setState({
       beschreibung: beschreibung
     })
@@ -427,18 +427,6 @@ export default React.createClass({
     )
   },
 
-  beschreibungPopover () {
-    return (
-      <Popover title='So beschreiben Sie die Sammlung:'>
-        <p>Die Beschreibung sollte im ersten Teil etwa einem klassischen Literaturzitat entsprechen.<br/>
-          Beispiel: "Gigon A. et al. (1998): Blaue Listen der erfolgreich erhaltenen oder geförderten Tier- und Pflanzenarten der Roten Listen. Methodik und Anwendung in der nördlichen Schweiz. Veröff. Geobot. Inst. ETH, Stiftung Rübel, Zürich 129: 1-137 + 180 pp. Appendicesn".</p>
-        <p>In einem zweiten Teil sollte beschrieben werden, welche Informationen die Eigenschaftensammlung enthält.<br/>
-          Beispiel: "Eigenschaften von 207 Tierarten und 885 Pflanzenarten".</p>
-        <p>Es kann sehr nützlich sein, zu wissen, wozu die Informationen zusammengestellt wurden.</p>
-      </Popover>
-    )
-  },
-
   datenstandPopover () {
     return (
       <Popover title='Wozu ein Datenstand?'>
@@ -522,15 +510,7 @@ export default React.createClass({
             </div>
             {esBearbeitenErlaubt ? null : this.alertEditingPcDisallowed()}
 
-            <div className={validBeschreibung ? 'form-group' : 'form-group has-error'}>
-              <OverlayTrigger trigger='click' rootClose placement='right' overlay={this.beschreibungPopover()}>
-                <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.beschreibungPopover()}>
-                  <label className='control-label withPopover'>Beschreibung</label>
-                </OverlayTrigger>
-              </OverlayTrigger>
-              <input type='textarea' className='form-control controls' value={beschreibung} onChange={this.onChangeBeschreibung} rows={1} />
-              {validBeschreibung ? null : <div className='validateDiv feld'>Eine Beschreibung ist erforderlich</div>}
-            </div>
+            <InputBeschreibung beschreibung={beschreibung} validBeschreibung={validBeschreibung} onChangeBeschreibung={this.onChangeBeschreibung} />
 
             <div className={validDatenstand ? 'form-group' : 'form-group has-error'}>
               <OverlayTrigger trigger='click' rootClose placement='right' overlay={this.datenstandPopover()}>
