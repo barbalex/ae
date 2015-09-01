@@ -12,6 +12,7 @@ import WellTechnAnforderungenAnDatei from './wellTechnAnforderungenAnDatei.js'
 import WellAnforderungenAnCsv from './wellAnforderungenAnCsv.js'
 import WellAnforderungenInhaltlich from './wellAnforderungenInhaltlich.js'
 import SelectNameBestehend from './selectNameBestehend.js'
+import InputName from './inputName.js'
 import InputBeschreibung from './inputBeschreibung.js'
 import InputDatenstand from './inputDatenstand.js'
 import InputNutzungsbedingungen from './inputNutzungsbedingungen.js'
@@ -146,15 +147,11 @@ export default React.createClass({
     }
   },
 
-  onChangeName (event) {
-    const name = event.target.value
-    this.setState({
-      name: name
-    })
+  onChangeName (name) {
+    this.setState({ name: name })
   },
 
-  onBlurName (event) {
-    const name = event.target.value
+  onBlurName (name) {
     this.isEditingPcAllowed(name)
   },
 
@@ -413,15 +410,6 @@ export default React.createClass({
     return validPcsToImport
   },
 
-  namePopover () {
-    return (
-      <Popover title='So wählen Sie einen guten Namen:'>
-        <p>Er sollte ungefähr dem ersten Teil eines Literaturzitats entsprechen. Beispiel: "Blaue Liste (1998)".</p>
-        <p>Wurden die Informationen spezifisch für einen bestimmten Kanton oder die ganze Schweiz erarbeitet?<br/>Wenn ja: Bitte das entsprechende Kürzel voranstellen. Beispiel: "ZH Artwert (aktuell)".</p>
-      </Popover>
-    )
-  },
-
   alertEditingPcDisallowed () {
     return (
       <Alert className='feld' bsStyle='danger'>
@@ -451,15 +439,7 @@ export default React.createClass({
 
             <hr />
 
-            <div className={validName ? 'form-group' : 'form-group has-error'}>
-              <OverlayTrigger trigger='click' rootClose placement='right' overlay={this.namePopover()}>
-                <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.namePopover()}>
-                  <label className='control-label withPopover'>Name</label>
-                </OverlayTrigger>
-              </OverlayTrigger>
-              <input type='text' className='controls input-sm form-control' value={name} onChange={this.onChangeName} onBlur={this.onBlurName} />
-              {validName ? null : <div className='validateDiv feld'>Ein Name ist erforderlich</div>}
-            </div>
+            <InputName name={name} validName={validName} onChangeName={this.onChangeName} onBlurName={this.onBlurName} />
             {esBearbeitenErlaubt ? null : this.alertEditingPcDisallowed()}
 
             <InputBeschreibung beschreibung={beschreibung} validBeschreibung={validBeschreibung} onChangeBeschreibung={this.onChangeBeschreibung} />
