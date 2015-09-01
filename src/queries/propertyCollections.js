@@ -43,6 +43,7 @@ export default function () {
         if (error.status !== 409) reject(error)
       })
       .then(function (response) {
+        console.log('propertyCollections: response from putting ddoc')
         const options = {
           startkey: ['Datensammlung'],
           endkey: ['Datensammlung', {}, {}, {}, {}],
@@ -52,6 +53,7 @@ export default function () {
         return app.localDb.query('propertyCollections', options)
       })
       .then(function (result) {
+        console.log('propertyCollections.js: result', result)
         let pcs = result.rows
         // get the keys
         pcs = _.pluck(pcs, 'key')
