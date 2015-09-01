@@ -382,6 +382,7 @@ export default React.createClass({
       idsNotANumber: idsNotANumber,
       idsDuplicate: idsDuplicate
     }
+    console.log('isPanel3Done: variablesToPass', variablesToPass)
     const idsAnalysisResultType = getSuccessTypeFromAnalysis(variablesToPass)
     console.log('isPanel3Done: objectsToImportPcsInTo', objectsToImportPcsInTo)
     const isPanel3Done = idsAnalysisResultType !== 'danger' && objectsToImportPcsInTo.length > 0

@@ -40,10 +40,10 @@ export default React.createClass({
     const idsDuplicateText = idsDuplicate.length > 0 ? `${idsDuplicate.length} enthalten die folgenden mehrfach vorkommenden IDs: ` + _.unique(idsDuplicate).join(', ') : 'Keine ID kommt mehrfach vor :-)'
     const recordsImportableText = `${idsNumberImportable} können zugeordnet und importiert werden`
 
-    const idsNotNumbersText = `ACHTUNG: ${idsNotANumber.length} Datensätze mit den folgenden Werten im Feld "${idsImportIdField}" enthalten keine Zahlen:`
+    const idsNotNumbersText = `Achtung: ${idsNotANumber.length} Datensätze mit den folgenden Werten im Feld "${idsImportIdField}" enthalten keine Zahlen:`
     const idsNotNumbersList = idsNotANumber.length === 0 ? null : idsNotANumber.join(' | ')
 
-    const recordsNotImportableText = `ACHTUNG: ${idsNotImportable.length} Datensätze mit den folgenden Werten im Feld "${idsImportIdField}" können NICHT zugeordnet und importiert werden:`
+    const recordsNotImportableText = `Achtung: ${idsNotImportable.length} Datensätze mit den folgenden Werten im Feld "${idsImportIdField}" können nicht zugeordnet und importiert werden:`
     const idsNotImportableList = idsNotImportable.length === 0 ? null : idsNotImportable.join(' | ')
     const variablesToPass = {
       pcsToImport: pcsToImport,
