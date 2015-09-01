@@ -14,8 +14,7 @@ export default React.createClass({
 
   onChange (event) {
     const importIdField = event.target.value
-    const { onChangeImportId } = this.props
-    onChangeImportId(importIdField)
+    this.props.onChangeImportId(importIdField)
   },
 
   render () {
