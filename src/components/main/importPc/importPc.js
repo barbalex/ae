@@ -11,7 +11,8 @@ import WellAutorenrechte from './wellAutorenrechte.js'
 import WellTechnAnforderungenAnDatei from './wellTechnAnforderungenAnDatei.js'
 import WellAnforderungenAnCsv from './wellAnforderungenAnCsv.js'
 import WellAnforderungenInhaltlich from './wellAnforderungenInhaltlich.js'
-import NameBestehend from './nameBestehend.js'
+import SelectNameBestehend from './selectNameBestehend.js'
+import SelectUrsprungsEs from './selectUrsprungsEs.js'
 import AlertIdsAnalysisResult from './alertIdsAnalysisResult.js'
 import TablePreview from './tablePreview.js'
 import SelectImportFields from './selectImportFields.js'
@@ -189,12 +190,11 @@ export default React.createClass({
     })
   },
 
-  onChangeNameUrsprungsEs (event) {
-    const nameUrsprungsEs = event.target.value
+  onChangeNameUrsprungsEs (nameUrsprungsEs) {
     this.setState({
       nameUrsprungsEs: nameUrsprungsEs
     })
-    this.validUrsprungsEs()
+    this.validUrsprungsEs(nameUrsprungsEs)
   },
 
   onChangePcFile (event) {
@@ -399,8 +399,11 @@ export default React.createClass({
     return validLink
   },
 
-  validUrsprungsEs () {
-    const { zusammenfassend, nameUrsprungsEs } = this.state
+  validUrsprungsEs (nameUrsprungsEs) {
+    // when nameUrsprungsEs is passed back from child component, this function is called right after setting state of nameUrsprungsEs
+    // so state would not yet be updated! > needs to be passed directly
+    const { zusammenfassend } = this.state
+    if (!nameUrsprungsEs) nameUrsprungsEs = this.state.nameUrsprungsEs
     let validUrsprungsEs = true
     if (zusammenfassend && !nameUrsprungsEs) validUrsprungsEs = false
     this.setState({
@@ -413,21 +416,6 @@ export default React.createClass({
     const validPcsToImport = this.state.pcsToImport.length > 0
     this.setState({ validPcsToImport: validPcsToImport })
     return validPcsToImport
-  },
-
-  ursprungsEsOptions () {
-    const { pcs } = this.state
-    // don't want combining pcs
-    let options = _.filter(pcs, function (pc) {
-      return !pc.combining
-    })
-    options = _.pluck(options, 'name')
-    options = options.map(function (name) {
-      return (<option key={name} value={name}>{name}</option>)
-    })
-    // add an empty option at the beginning
-    options.unshift(<option key='noValue' value=''></option>)
-    return options
   },
 
   namePopover () {
@@ -494,36 +482,6 @@ export default React.createClass({
     )
   },
 
-  ursprungsEsPopover () {
-    return (
-      <Popover title='Was heisst "eigenständig"?'>
-        <p>Eine zusammenfassende Eigenschaftensammlung wird zwei mal importiert:</p>
-        <ol>
-          <li>Als <strong>eigenständige</strong> Eigenschaftensammlung.</li>
-          <li>Gemeinsam mit bzw. zusätzlich zu anderen in eine <strong>zusammenfassende</strong> Eigenschaftensammlung.</li>
-        </ol>
-        <p>Wählen Sie hier den Namen der eigenständigen Sammlung.</p>
-        <p><strong>Zweck:</strong> In der zusammenfassenden Sammlung ist bei jedem Datensatz beschrieben, woher er stammt.</p>
-      </Popover>
-    )
-  },
-
-  // TODO: modularize
-  ursprungsEs () {
-    const { nameUrsprungsEs, validUrsprungsEs } = this.state
-    return (
-      <div className={validUrsprungsEs ? 'form-group' : 'form-group has-error'}>
-        <OverlayTrigger trigger='click' placement='right' overlay={this.ursprungsEsPopover()}>
-          <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.ursprungsEsPopover()}>
-            <label className='control-label withPopover' htmlFor='dsUrsprungsDs' id='dsUrsprungsDsLabel'>eigenständige Eigenschaftensammlung</label>
-          </OverlayTrigger>
-        </OverlayTrigger>
-        <select className='form-control controls input-sm' id='dsUrsprungsDs' selected={nameUrsprungsEs} onChange={this.onChangeNameUrsprungsEs}>{this.ursprungsEsOptions()}</select>
-        {validUrsprungsEs ? null : <div className='validateDiv feld'>Bitte wählen Sie die eigenständige Eigenschaftensammlung</div>}
-      </div>
-    )
-  },
-
   alertEditingPcDisallowed () {
     return (
       <Alert className='feld' bsStyle='danger'>
@@ -534,7 +492,7 @@ export default React.createClass({
   },
 
   render () {
-    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, esBearbeitenErlaubt, pcsToImport, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validPcsToImport, activePanel, aeIdField, importIdField, pcs } = this.state
+    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, pcsToImport, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs, validPcsToImport, activePanel, aeIdField, importIdField, pcs } = this.state
     const { email } = this.props
 
     return (
@@ -545,7 +503,7 @@ export default React.createClass({
             <Well className='well-sm'><a href='//youtu.be/nqd-v6YxkOY' target='_blank'><b>Auf Youtube sehen, wie es geht</b></a></Well>
             <WellAutorenrechte />
 
-            <NameBestehend nameBestehend={nameBestehend} beschreibung={beschreibung} datenstand={datenstand} nutzungsbedingungen={nutzungsbedingungen} link={link} zusammenfassend={zusammenfassend} email={email} pcs={pcs} onChangeNameBestehend={this.onChangeNameBestehend} />
+            <SelectNameBestehend nameBestehend={nameBestehend} beschreibung={beschreibung} datenstand={datenstand} nutzungsbedingungen={nutzungsbedingungen} link={link} zusammenfassend={zusammenfassend} email={email} pcs={pcs} onChangeNameBestehend={this.onChangeNameBestehend} />
 
             <div className='controls feld'>
               <button type='button' className='btn btn-primary btn-default' style={{'display': 'none', 'marginBottom': 6 + 'px'}}>Gewählte Eigenschaftensammlung und alle ihre Eigenschaften aus allen Arten und/oder Lebensräumen entfernen</button>
@@ -615,12 +573,7 @@ export default React.createClass({
               <input type='checkbox' label={'zusammenfassend'} checked={zusammenfassend} onChange={this.onChangeZusammenfassend} />
             </div>
 
-            {zusammenfassend ? this.ursprungsEs() : null}
-
-            <div className='form-group'>
-              <label className='control-label' htmlFor='dsAnzDs' id='dsAnzDsLabel'></label>
-              <div id='dsAnzDs' className='feldtext controls'></div>
-            </div>
+            {zusammenfassend ? <SelectUrsprungsEs nameUrsprungsEs={nameUrsprungsEs} pcs={pcs} validUrsprungsEs={validUrsprungsEs} onChangeNameUrsprungsEs={this.onChangeNameUrsprungsEs} /> : null}
           </Panel>
 
           <Panel collapsible header='2. Eigenschaften laden' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
