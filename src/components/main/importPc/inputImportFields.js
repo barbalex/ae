@@ -8,6 +8,7 @@ export default React.createClass({
   displayName: 'InputImportFields',
 
   propTypes: {
+    importIdField: React.PropTypes.string,
     pcsToImport: React.PropTypes.array,
     onChangeImportId: React.PropTypes.func
   },
@@ -18,7 +19,7 @@ export default React.createClass({
   },
 
   render () {
-    const { pcsToImport } = this.props
+    const { pcsToImport, importIdField } = this.props
 
      // get a list of all keys
     let keys = []
@@ -32,7 +33,7 @@ export default React.createClass({
     })
 
     return (
-      <Input type='select' label={'Feld mit eindeutiger ID in den Importdaten'} multiple className='form-control controls' style={style} bsSize='small' onChange={this.onChange}>
+      <Input type='select' label={'Feld mit eindeutiger ID in den Importdaten'} multiple className='form-control controls' style={style} bsSize='small' value={[importIdField]} onChange={this.onChange}>
         {options}
       </Input>
     )
