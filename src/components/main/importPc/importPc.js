@@ -493,7 +493,6 @@ export default React.createClass({
             <WellAnforderungenAnCsv />
             <WellAnforderungenInhaltlich />
 
-            <label className='sr-only' htmlFor='pcFile'>Datei wählen</label>
             <input type='file' className='form-control' id='pcFile' onChange={this.onChangePcFile} />
             {validPcsToImport ? null : <div className='validateDiv'>Bitte wählen Sie eine Datei</div>}
 
