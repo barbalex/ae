@@ -109,7 +109,6 @@ export default React.createClass({
   },
 
   componentDidMount () {
-    // listen to stores
     this.listenTo(app.propertyCollectionsStore, this.onChangePropertyCollectionsStore)
     // show login of not logged in
     const { email } = this.props
@@ -254,6 +253,7 @@ export default React.createClass({
     const that = this
 
     if (idsAeIdField && idsImportIdField) {
+      // start analysis
       const ids = _.pluck(pcsToImport, idsImportIdField)
       let idsToImportWithDuplicates = _.pluck(pcsToImport, idsImportIdField)
       idsToImportWithDuplicates = _.filter(idsToImportWithDuplicates, function (id) {
@@ -266,9 +266,9 @@ export default React.createClass({
         idsNumberOfRecordsWithIdValue: idsNumberOfRecordsWithIdValue,
         idsDuplicate: idsDuplicate
       })
-      // start analysis
       getItemsById(idsAeIdField, ids)
         .then(function (objectsToImportPcsInTo) {
+          // go on with analysis
           const idAttribute = idsAeIdField === 'GUID' ? '_id' : 'Taxonomien[0].Eigenschaften["Taxonomie ID"]'
           const idsFetched = _.pluck(objectsToImportPcsInTo, idAttribute)
           const idsImportable = _.intersection(idsToImport, idsFetched)
