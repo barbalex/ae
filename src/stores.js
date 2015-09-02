@@ -20,28 +20,66 @@ export default function (Actions) {
   app.propertyCollectionsStore = Reflux.createStore({
     /*
      * queries property collections
-     * keeps last query result in array for fast delivery
+     * keeps last query result in pouch (_local/pcs.pcs) for fast delivery
+     * app.js sets default _local/pcs.pcs = [] if not exists on app start
      * pc's are arrays of the form:
      * [collectionType, pcName, combining, importedBy, {Beschreibung: xxx, Datenstand: xxx, Link: xxx, Nutzungsbedingungen: xxx}]
      */
     listenables: Actions,
 
-    propertyCollections: [],
+    getPcs () {
+      return new Promise(function (resolve, reject) {
+        app.localDb.get('_local/pcs', { include_docs: true })
+          .then(function (doc) {
+            resolve(doc.pcs)
+          })
+          .catch(function (error) {
+            reject('loginStore: error getting property collections from localDb: ' + error)
+          })
+      })
+    },
+
+    savePcs (pcs) {
+      app.localDb.get('_local/pcs', { include_docs: true })
+        .then(function (doc) {
+          doc.pcs = pcs
+          return app.localDb.put(doc)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
 
     getPcByName (pcName) {
-      return _.find(this.propertyCollections, function (pc) {
-        return pc.name === pcName
+      const that = this
+      return new Promise(function (resolve, reject) {
+        that.getPcs()
+          .then(function (pcs) {
+            const pc = _.find(pcs, function (pc) {
+              return pc.name === pcName
+            })
+            resolve(pc)
+          })
+          .catch(function (error) {
+            reject(error)
+          })
       })
     },
 
     onQueryPropertyCollections () {
-      // if pc's exist, send them immediately
-      if (this.propertyCollections.length > 0) this.trigger(this.propertyCollections)
-      // now fetch up to date pc's
       const that = this
+      // if pc's exist, send them immediately
+      this.getPcs()
+        .then(function (pcs) {
+          if (pcs.length > 0) that.trigger(pcs)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+      // now fetch up to date pc's
       queryPropertyCollections()
         .then(function (pcs) {
-          that.propertyCollections = pcs
+          that.savePcs(pcs)
           that.trigger(pcs)
         })
         .catch(function (error) {
@@ -53,8 +91,9 @@ export default function (Actions) {
   app.loginStore = Reflux.createStore({
     /*
      * contains email of logged in user
-     * well, it is saved in pouch as local doc
+     * well, it is saved in pouch as local doc _local/login
      * and contains "logIn" bool which states if user needs to log in
+     * app.js sets default _local/login if not exists on app start
      */
     listenables: Actions,
 

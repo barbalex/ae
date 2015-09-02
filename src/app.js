@@ -63,6 +63,13 @@ app.extend({
       })
     })
     .then(function () {
+      // initiate pcs data if necessary
+      return that.localDb.putIfNotExists({
+        _id: '_local/pcs',
+        pcs: []
+      })
+    })
+    .then(function () {
       // initiate actions, stores and router
       // extend app with them so they can be called in modules
       // and accessed in the browser console
