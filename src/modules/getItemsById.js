@@ -12,7 +12,7 @@ import queryFlora from '../queries/floraById.js'
 import queryMoose from '../queries/mooseById.js'
 import queryMacromycetes from '../queries/macromycetesById.js'
 
-export default function (idField, ids) {
+export default (idField, ids) => {
   // build object of functions, to call dynamically
   const dynamicFuntions = {
     GUID: queryGuid,
@@ -21,14 +21,10 @@ export default function (idField, ids) {
     Moose: queryMoose,
     Macromycetes: queryMacromycetes
   }
-  return new Promise(function (resolve, reject) {
+  return new Promise((resolve, reject) => {
     // call the apropriate function and pass the ids
     dynamicFuntions[idField](ids)
-      .then(function (docs) {
-        resolve(docs)
-      })
-      .catch(function (error) {
-        reject('error fetching docs', error)
-      })
+      .then((docs) => resolve(docs))
+      .catch((error) => reject('error fetching docs', error))
   })
 }

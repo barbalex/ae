@@ -2,22 +2,15 @@
 
 import getPathsFromLocalPathDb from './getPathsFromLocalPathDb.js'
 
-export default function (path) {
-  // console.log('path', path)
+export default (path) => {
   const pathString = path.join('/')
-  return new Promise(function (resolve, reject) {
-    if (!pathString) {
-      reject('objectStore, getPath: no pathString passed')
-    }
+  return new Promise((resolve, reject) => {
+    if (!pathString) reject('objectStore, getPath: no pathString passed')
     getPathsFromLocalPathDb()
-      .then(function (paths) {
-        // console.log('paths', paths)
+      .then((paths) => {
         const guid = paths[pathString]
-        // console.log('guid', guid)
         resolve(guid)
       })
-      .catch(function (error) {
-        reject('objectStore, getPath: error getting path:', error)
-      })
+      .catch((error) => reject('objectStore, getPath: error getting path:', error))
   })
 }

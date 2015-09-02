@@ -2,10 +2,10 @@
 
 import app from 'ampersand-app'
 
-export default function (items) {
+export default (items) => {
   const options = []
   // used to use _.map but it returned bad options because in always returns a value
-  items.forEach(function (object) {
+  items.forEach((object) => {
     if (object.Taxonomie && object.Taxonomie.Eigenschaften) {
       const eig = object.Taxonomie.Eigenschaften
       if (eig['Artname vollständig']) {
@@ -28,9 +28,7 @@ export default function (items) {
 
   // save to db
   app.localFilterOptionsDb.bulkDocs(options)
-    .catch(function (error) {
-      app.Actions.showError({title: 'buildFilterOptions.js: error saving to localFilterOptionsDb:', msg: error})
-    })
+    .catch((error) => app.Actions.showError({title: 'buildFilterOptions.js: error saving to localFilterOptionsDb:', msg: error}))
 
   return options
 }

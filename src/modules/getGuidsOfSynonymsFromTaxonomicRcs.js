@@ -5,13 +5,13 @@
 
 'use strict'
 
-export default function (taxRcs) {
+export default (taxRcs) => {
   let guidsOfSynonyms = []
-  taxRcs.forEach(function (rc) {
+  taxRcs.forEach((rc) => {
     if (rc['Art der Beziehungen'] && rc['Art der Beziehungen'] === 'synonym' && rc.Beziehungen) {
-      rc.Beziehungen.forEach(function (relation) {
+      rc.Beziehungen.forEach((relation) => {
         if (relation.Beziehungspartner) {
-          relation.Beziehungspartner.forEach(function (relationPartner) {
+          relation.Beziehungspartner.forEach((relationPartner) => {
             if (relationPartner.GUID) {
               guidsOfSynonyms.push(relationPartner.GUID)
             }

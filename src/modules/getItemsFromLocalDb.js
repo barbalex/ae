@@ -2,17 +2,13 @@
 
 import app from 'ampersand-app'
 
-export default function () {
-  return new Promise(function (resolve, reject) {
+export default () => {
+  return new Promise((resolve, reject) => {
     app.localDb.allDocs({include_docs: true})
-      .then(function (result) {
-        const items = result.rows.map(function (row) {
-          return row.doc
-        })
+      .then((result) => {
+        const items = result.rows.map((row) => row.doc)
         resolve(items)
       })
-      .catch(function (error) {
-        reject('objectStore: error getting items from localDb:', error)
-      })
+      .catch((error) => reject('objectStore: error getting items from localDb:', error))
   })
 }

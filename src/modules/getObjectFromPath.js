@@ -10,38 +10,28 @@ import isGuid from './isGuid.js'
 import replaceProblematicPathCharactersFromArray from './replaceProblematicPathCharactersFromArray.js'
 import getGuidFromPath from './getGuidFromPath.js'
 
-export default function (path) {
-  return new Promise(function (resolve, reject) {
+export default (path) => {
+  return new Promise((resolve, reject) => {
     // check if a guidPath was passed
     const isGuidPath = path.length === 1 && isGuid(path[0])
     if (isGuidPath) {
       app.objectStore.getItem(path[0])
-        .then(function (item) {
-          resolve(item)
-        })
-        .catch(function (error) {
-          reject('getObjectFromPath, error getting item for guid ' + path[0] + ':', error)
-        })
+        .then((item) => resolve(item))
+        .catch((error) => reject('getObjectFromPath, error getting item for guid ' + path[0] + ':', error))
     }
 
     // check if the pathname equals an object's path
     path = replaceProblematicPathCharactersFromArray(path)
     getGuidFromPath(path)
-      .then(function (guid) {
+      .then((guid) => {
         if (guid) {
           app.objectStore.getItem(guid)
-            .then(function (item) {
-              resolve(item)
-            })
-            .catch(function (error) {
-              reject('getObjectFromPath, error getting item for guid ' + guid + ':', error)
-            })
+            .then((item) => resolve(item))
+            .catch((error) => reject('getObjectFromPath, error getting item for guid ' + guid + ':', error))
         } else {
           resolve(null)
         }
       })
-      .catch(function (error) {
-        reject('getObjectFromPath, error getting path from objectStore:', error)
-      })
+      .catch((error) => reject('getObjectFromPath, error getting path from objectStore:', error))
   })
 }

@@ -1,6 +1,6 @@
 'use strict'
 
-export default function (object) {
+export default (object) => {
   if (object && object.Taxonomie && object.Taxonomie.Eigenschaften) {
     const properties = object.Taxonomie.Eigenschaften
     let link = ''

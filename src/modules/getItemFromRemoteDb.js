@@ -2,17 +2,13 @@
 
 import app from 'ampersand-app'
 
-export default function (guid) {
-  return new Promise(function (resolve, reject) {
+export default (guid) => {
+  return new Promise((resolve, reject) => {
     if (!guid) {
       reject('objectStore, getItem: no guid passed')
     }
     app.remoteDb.get(guid)
-      .then(function (item) {
-        resolve(item)
-      })
-      .catch(function (error) {
-        reject('objectStore: error getting item from localDb:', error)
-      })
+      .then((item) => resolve(item))
+      .catch((error) => reject('objectStore: error getting item from localDb:', error))
   })
 }
