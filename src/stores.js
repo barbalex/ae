@@ -49,7 +49,7 @@ export default (Actions) => {
         this.trigger(this.errors)
         setTimeout(() => {
           this.errors.pop()
-          this.trigger(that.errors)
+          this.trigger(this.errors)
         }, this.duration)
       }
     }
@@ -94,18 +94,17 @@ export default (Actions) => {
     },
 
     onQueryPropertyCollections () {
-      const that = this
       // if pc's exist, send them immediately
       this.getPcs()
         .then((pcs) => {
-          if (pcs.length > 0) that.trigger(pcs)
+          if (pcs.length > 0) this.trigger(pcs)
         })
         .catch((error) => app.Actions.showError({title: 'propertyCollectionsStore, error getting existing pcs:', msg: error}))
       // now fetch up to date pc's
       queryPcs()
         .then((pcs) => {
-          that.savePcs(pcs)
-          that.trigger(pcs)
+          this.savePcs(pcs)
+          this.trigger(pcs)
         })
         .catch((error) => app.Actions.showError({title: 'propertyCollectionsStore, error querying up to date pcs:', msg: error}))
     }
@@ -130,7 +129,6 @@ export default (Actions) => {
 
     onLogin (passedVariables) {
       // console.log('loginStore: onLogin, passedVariables', passedVariables)
-      const that = this
       const logIn = passedVariables.logIn
       const email = passedVariables.email
       // change email only if it was passed
@@ -145,7 +143,7 @@ export default (Actions) => {
             } else {
               passedVariables.email = doc.email
             }
-            that.trigger(passedVariables)
+            this.trigger(passedVariables)
             return app.localDb.put(doc)
           }
         })
@@ -196,7 +194,6 @@ export default (Actions) => {
     },
 
     onLoadFilterOptionsStoreCompleted (newItemsPassed) {
-      const that = this
       let filterOptions = []
       // get existing filterOptions
       this.getOptions()
@@ -207,7 +204,7 @@ export default (Actions) => {
             filterOptions: filterOptions,
             loading: false
           }
-          that.trigger(payload)
+          this.trigger(payload)
         })
         .catch((error) => app.Actions.showError({title: 'filterOptionsStore: error preparing trigger:', msg: error}))
     }
@@ -246,7 +243,6 @@ export default (Actions) => {
     item: {},
 
     onLoadActiveObjectStoreCompleted (item) {
-      const that = this
       // only change if something has changed
       if (!_.isEqual(item, this.item)) {
         // item can be an object or {}
@@ -257,12 +253,10 @@ export default (Actions) => {
         // now check for synonym objects
         // if they exist: trigger again and pass synonyms
         getSynonymsOfObject(item)
-          .then(function (synonymObjects) {
-            if (synonymObjects.length > 0) that.trigger(item, synonymObjects)
+          .then((synonymObjects) => {
+            if (synonymObjects.length > 0) this.trigger(item, synonymObjects)
           })
-          .catch(function (error) {
-            app.Actions.showError({title: 'activeObjectStore: error fetching synonyms of object:', msg: error})
-          })
+          .catch((error) => app.Actions.showError({title: 'activeObjectStore: error fetching synonyms of object:', msg: error}))
       }
     }
   })
@@ -280,28 +274,21 @@ export default (Actions) => {
     groupsLoading: [],
 
     groupsLoaded () {
-      return new Promise(function (resolve, reject) {
+      return new Promise((resolve, reject) => {
         getGroupsLoadedFromLocalGroupsDb()
-          .then(function (groupsLoaded) {
-            resolve(groupsLoaded)
-          })
-          .catch(function (error) {
-            reject('objectStore, groupsLoaded: error getting groups loaded:', error)
-          })
+          .then((groupsLoaded) => resolve(groupsLoaded))
+          .catch((error) => reject('objectStore, groupsLoaded: error getting groups loaded:', error))
       })
     },
 
     isGroupLoaded (gruppe) {
-      const that = this
-      return new Promise(function (resolve, reject) {
-        that.groupsLoaded()
-          .then(function (groupsLoaded) {
+      return new Promise((resolve, reject) => {
+        this.groupsLoaded()
+          .then((groupsLoaded) => {
             const groupIsLoaded = _.includes(groupsLoaded, gruppe)
             resolve(groupIsLoaded)
           })
-          .catch(function (error) {
-            reject('objectStore, isGroupLoaded: error getting groups loaded:', error)
-          })
+          .catch((error) => reject('objectStore, isGroupLoaded: error getting groups loaded:', error))
       })
     },
 
@@ -309,39 +296,34 @@ export default (Actions) => {
       // groups: after loading all groups in parallel from remoteDb
       // need to pass a single action for all
       // otherwise 5 addGroupsLoadedToLocalGroupsDb calls occur at the same moment...
-      const that = this
       const { group, allGroups, finishedLoading } = objectPassed
       const gruppen = getGruppen()
 
       getGroupsLoadedFromLocalGroupsDb()
-        .then(function (groupsLoaded) {
+        .then((groupsLoaded) => {
           // if an object with this group is contained in groupsLoading, remove it
           if (allGroups) {
-            that.groupsLoading = []
+            this.groupsLoading = []
           } else {
-            that.groupsLoading = _.reject(that.groupsLoading, function (groupObject) {
-              return groupObject.group === group
-            })
+            this.groupsLoading = _.reject(this.groupsLoading, (groupObject) => groupObject.group === group)
           }
           // add the passed object, if it is not yet loaded
           if (!finishedLoading) {
             // add it to the beginning of the array
-            that.groupsLoading.unshift(objectPassed)
+            this.groupsLoading.unshift(objectPassed)
           }
           groupsLoaded = allGroups ? gruppen : _.union(groupsLoaded, [group])
           if (finishedLoading) {
             // remove this group from groupsLoading
-            that.groupsLoading = _.without(that.groupsLoading, group)
+            this.groupsLoading = _.without(this.groupsLoading, group)
             // load next group if on is queued
-            if (that.groupsLoading.length > 0) {
+            if (this.groupsLoading.length > 0) {
               // get group of last element
-              const nextGroup = that.groupsLoading[that.groupsLoading.length - 1].group
+              const nextGroup = this.groupsLoading[this.groupsLoading.length - 1].group
               // load if
               loadGroupFromRemote(nextGroup)
-                .then(function () {
-                  return Actions.loadObjectStore.completed(nextGroup)
-                })
-                .catch(function (error) {
+                .then(() => Actions.loadObjectStore.completed(nextGroup))
+                .catch((error) => {
                   const errorMsg = 'Actions.loadObjectStore, error loading group ' + nextGroup + ': ' + error
                   Actions.loadObjectStore.failed(errorMsg, nextGroup)
                 })
@@ -349,20 +331,16 @@ export default (Actions) => {
             // write change to groups loaded to localGroupsDb
             const groupsToPass = allGroups ? gruppen : [group]
             addGroupsLoadedToLocalGroupsDb(groupsToPass)
-              .catch(function (error) {
-                app.Actions.showError({title: 'loadingGroupsStore, onShowGroupLoading, error adding group(s) to localGroupsDb:', msg: error})
-              })
+              .catch((error) => app.Actions.showError({title: 'loadingGroupsStore, onShowGroupLoading, error adding group(s) to localGroupsDb:', msg: error}))
           }
           // inform views
           const payload = {
-            groupsLoadingObjects: that.groupsLoading,
+            groupsLoadingObjects: this.groupsLoading,
             groupsLoaded: groupsLoaded
           }
-          that.trigger(payload)
+          this.trigger(payload)
         })
-        .catch(function (error) {
-          app.Actions.showError({title: 'loadingGroupsStore, onShowGroupLoading, error getting groups loaded from localGroupsDb:', msg: error})
-        })
+        .catch((error) => app.Actions.showError({title: 'loadingGroupsStore, onShowGroupLoading, error getting groups loaded from localGroupsDb:', msg: error}))
     }
   })
 
@@ -384,21 +362,17 @@ export default (Actions) => {
     },
 
     getItem (guid) {
-      return new Promise(function (resolve, reject) {
+      return new Promise((resolve, reject) => {
         getItemFromLocalDb(guid)
-          .then(function (item) {
+          .then((item) => {
             // if no item is found in localDb, get from remote
             // important on first load of an object url
             // in order for this to work, getItemFromLocalDb returns null when not finding the doc
             if (!item) return getItemFromRemoteDb(guid)
             return item
           })
-          .then(function (item) {
-            resolve(item)
-          })
-          .catch(function (error) {
-            reject('objectStore, getItem: error getting item from guid' + guid + ':', error)
-          })
+          .then((item) => resolve(item))
+          .catch((error) => reject('objectStore, getItem: error getting item from guid' + guid + ':', error))
       })
     },
 
@@ -407,25 +381,16 @@ export default (Actions) => {
     },
 
     onLoadPouchFromRemoteCompleted () {
-      const that = this
-
       this.getHierarchy()
-        .then(function (hierarchy) {
-          // trigger change so components can set loading state
-          that.trigger(hierarchy)
-        })
-        .catch(function (error) {
-          app.Actions.showError({title: 'objectStore, onLoadObjectStore, error getting data:', msg: error})
-        })
+        // trigger change so components can set loading state
+        .then((hierarchy) => this.trigger(hierarchy))
+        .catch((error) => app.Actions.showError({title: 'objectStore, onLoadObjectStore, error getting data:', msg: error}))
     },
 
     onLoadPouchFromLocalCompleted (groupsLoadedInPouch) {
-      const that = this
       Actions.loadFilterOptionsStore()
       this.getHierarchy()
-        .then(function (hierarchy) {
-          that.trigger(hierarchy)
-        })
+        .then((hierarchy) => this.trigger(hierarchy))
     },
 
     onLoadPouchFromLocalFailed (error) {
@@ -433,28 +398,16 @@ export default (Actions) => {
     },
 
     onLoadObjectStore (gruppe) {
-      const that = this
-
       this.getHierarchy()
-        .then(function (hierarchy) {
-          // trigger change so components can set loading state
-          that.trigger(hierarchy)
-        })
-        .catch(function (error) {
-          app.Actions.showError({title: 'objectStore, onLoadObjectStore, error getting data:', msg: error})
-        })
+        // trigger change so components can set loading state
+        .then((hierarchy) => this.trigger(hierarchy))
+        .catch((error) => app.Actions.showError({title: 'objectStore, onLoadObjectStore, error getting data:', msg: error}))
     },
 
     onLoadObjectStoreCompleted (gruppe) {
-      const that = this
       this.getHierarchy()
-        .then(function (hierarchy) {
-          // tell views that data has changed
-          that.trigger(hierarchy)
-        })
-        .catch(function (error) {
-          app.Actions.showError({title: 'objectStore, onLoadObjectStore, error getting data:', msg: error})
-        })
+        .then((hierarchy) => this.trigger(hierarchy))
+        .catch((error) => app.Actions.showError({title: 'objectStore, onLoadObjectStore, error getting data:', msg: error}))
     },
 
     onLoadObjectStoreFailed (error, gruppe) {
