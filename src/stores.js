@@ -23,7 +23,7 @@ export default function (Actions) {
      * keeps last query result in pouch (_local/pcs.pcs) for fast delivery
      * app.js sets default _local/pcs.pcs = [] if not exists on app start
      * pc's are arrays of the form:
-     * [collectionType, pcName, combining, importedBy, {Beschreibung: xxx, Datenstand: xxx, Link: xxx, Nutzungsbedingungen: xxx}]
+     * [collectionType, pcName, combining, importedBy, {Beschreibung: xxx, Datenstand: xxx, Link: xxx, Nutzungsbedingungen: xxx}, count: xxx]
      */
     listenables: Actions,
 
@@ -50,13 +50,13 @@ export default function (Actions) {
         })
     },
 
-    getPcByName (pcName) {
+    getPcByName (name) {
       const that = this
       return new Promise(function (resolve, reject) {
         that.getPcs()
           .then(function (pcs) {
             const pc = _.find(pcs, function (pc) {
-              return pc.name === pcName
+              return pc.name === name
             })
             resolve(pc)
           })
