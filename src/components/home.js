@@ -19,7 +19,7 @@ import Login from './main/login.js'
 
 const gruppen = getGruppen()
 
-const Home = React.createClass({
+export default React.createClass({
   displayName: 'Home',
 
   mixins: [ListenerMixin],
@@ -257,5 +257,3 @@ const Home = React.createClass({
     )
   }
 })
-
-export default Home
