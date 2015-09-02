@@ -1,5 +1,4 @@
 'use strict'
 
-export default function (idname) {
-  return idname.replace(/\s+/g, ' ').replace(/ /g, '').replace(/,/g, '').replace(/\./g, '').replace(/:/g, '').replace(/-/g, '').replace(/\//g, '').replace(/\(/g, '').replace(/\)/g, '').replace(/\&/g, '')
-}
+export default (idname) =>
+  idname.replace(/\s+/g, ' ').replace(/ /g, '').replace(/,/g, '').replace(/\./g, '').replace(/:/g, '').replace(/-/g, '').replace(/\//g, '').replace(/\(/g, '').replace(/\)/g, '').replace(/\&/g, '')

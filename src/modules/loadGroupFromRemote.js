@@ -10,25 +10,23 @@ import _ from 'lodash'
 import getCouchUrl from './getCouchUrl.js'
 import buildHierarchy from './buildHierarchy.js'
 
-export default function (gruppe, callback) {
-  return new Promise(function (resolve, reject) {
+export default (gruppe, callback) => {
+  return new Promise((resolve, reject) => {
     app.loadingGroupsStore.isGroupLoaded(gruppe)
-      .then(function (groupIsLoaded) {
+      .then((groupIsLoaded) => {
         if (!groupIsLoaded) {
           // this group does not exist yet in the store
           const gruppeString = gruppe === 'Lebensräume' ? 'lr' : (gruppe === 'Macromycetes' ? 'pilze' : gruppe.toLowerCase())
           app.remoteDb.get('ae-' + gruppeString)
-            .then(function (doc) {
-              return _.keys(doc._attachments)
-            })
-            .then(function (attachments) {
+            .then((doc) =>_.keys(doc._attachments))
+            .then((attachments) => {
               // sort attachments so the one with the last docs is loaded last
               // reason: write the checkpoint for the last docs only
               // use attachments.length to show progress bar
               attachments.sort()
               let series = PouchDB.utils.Promise.resolve()
-              attachments.forEach(function (fileName, index) {
-                series = series.then(function () {
+              attachments.forEach((fileName, index) => {
+                series = series.then(() => {
                   // couchUrl is: http://localhost:5984/artendb      (local dev)
                   // couchUrl is: http://arteigenschaften.ch/artendb (production, untested yet)
                   const progressPercent = (index + 1) / attachments.length * 100
@@ -47,27 +45,25 @@ export default function (gruppe, callback) {
                   return app.localDb.load(loadUrl, {proxy: couchUrl})
                 })
               })
-              series.then(function () {
+              series.then(() => {
                 // let regular replication catch up if objects have changed since dump was created
                 app.Actions.showGroupLoading({
                   group: gruppe,
                   message: 'Repliziere ' + gruppe + '...'
                 })
                 return app.localDb.replicate.from(app.remoteDb, {
-                  filter: function (doc) {
-                    return (doc.Gruppe && doc.Gruppe === gruppe)
-                  },
+                  filter: (doc) => (doc.Gruppe && doc.Gruppe === gruppe),
                   batch_size: 500
                 })
               })
-              .then(function () {
+              .then(() => {
                 app.Actions.showGroupLoading({
                   group: gruppe,
                   message: 'Baue Taxonomie für ' + gruppe + '...'
                 })
                 return app.objectStore.getItems()
               })
-              .then(function (items) {
+              .then((items) => {
                 // need to build filter options, hierarchy and paths only for groups newly loaded
                 const itemsOfGroup = _.filter(items, 'Gruppe', gruppe)
                 app.Actions.loadFilterOptionsStore(itemsOfGroup)
@@ -77,7 +73,7 @@ export default function (gruppe, callback) {
                 const hierarchy = buildHierarchy(itemsOfGroup)
                 return app.localHierarchyDb.bulkDocs(hierarchy)
               })
-              .then(function (hierarchy) {
+              .then((hierarchy) => {
                 app.Actions.showGroupLoading({
                   group: gruppe,
                   finishedLoading: true
@@ -85,19 +81,19 @@ export default function (gruppe, callback) {
                 if (callback) callback
                 resolve(true)
               })
-              .catch(function (error) {
+              .catch((error) =>
                 reject('loadGroupFromRemote.js: error loading group' + gruppe + 'from remoteDb:', error)
-              })
+              )
             })
-            .catch(function (error) {
+            .catch((error) =>
               reject('loadGroupFromRemote.js: error loading group' + gruppe + 'from remoteDb:', error)
-            })
+            )
         } else {
           resolve(true)
         }
       })
-      .catch(function (error) {
+      .catch((error) =>
         reject('loadGroupFromRemote.js, error getting isGroupLoaded for group ' + gruppe + ': ' + error)
-      })
+      )
   })
 }

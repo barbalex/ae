@@ -16,7 +16,7 @@ function replaceAll (string, find, replace) {
   return null
 }
 
-export default function (el) {
+export default (el) => {
   el = replaceAll(el, '.', '')
   el = replaceAll(el, '(', '')
   el = replaceAll(el, ')', '')

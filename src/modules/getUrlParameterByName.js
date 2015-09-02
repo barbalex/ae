@@ -7,7 +7,7 @@
 
 'use strict'
 
-export default function (name) {
+export default (name) => {
   name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]')
   const regex = new RegExp('[\\?&]' + name + '=([^&#]*)')
   const results = regex.exec(window.location.search)

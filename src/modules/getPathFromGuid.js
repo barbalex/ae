@@ -23,14 +23,10 @@ function extractPayloadFromObject (object) {
   return payload
 }
 
-export default function (guid) {
-  return new Promise(function (resolve, reject) {
+export default (guid) => {
+  return new Promise((resolve, reject) => {
     app.objectStore.getItem(guid)
-      .then(function (object) {
-        resolve(extractPayloadFromObject(object))
-      })
-      .catch(function (error) {
-        reject('getPathFromGuid.js: error getting Item from objectStore:', error)
-      })
+      .then((object) => resolve(extractPayloadFromObject(object)))
+      .catch((error) => reject('getPathFromGuid.js: error getting Item from objectStore:', error))
   })
 }

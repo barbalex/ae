@@ -7,12 +7,12 @@
 
 import _ from 'lodash'
 
-export default function (relations) {
-  relations.sort(function (a, b) {
+export default (relations) => {
+  relations.sort((a, b) => {
     let aName
     let bName
 
-    _.each(a.Beziehungspartner, function (beziehungspartner) {
+    _.each(a.Beziehungspartner, (beziehungspartner) => {
       if (beziehungspartner.Gruppe === 'Lebensräume') {
         // sortiert werden soll bei Lebensräumen zuerst nach Taxonomie, dann nach Name
         aName = beziehungspartner.Gruppe + beziehungspartner.Taxonomie + beziehungspartner.Name
@@ -20,7 +20,7 @@ export default function (relations) {
         aName = beziehungspartner.Gruppe + beziehungspartner.Name
       }
     })
-    _.each(b.Beziehungspartner, function (beziehungspartner) {
+    _.each(b.Beziehungspartner, (beziehungspartner) => {
       if (beziehungspartner.Gruppe === 'Lebensräume') {
         bName = beziehungspartner.Gruppe + beziehungspartner.Taxonomie + beziehungspartner.Name
       } else {
