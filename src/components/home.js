@@ -251,7 +251,7 @@ export default React.createClass({
             path={path} />
         </div>
         {this.email()}
-        {showMain ? <Main object={object} groupsLoadedOrLoading={groupsLoadedOrLoading} synonymObjects={synonymObjects} showImportPC={showImportPC} showImportRC={showImportRC} showOrganizations={showOrganizations} email={email} /> : ''}
+        {showMain ? <Main object={object} allGroupsLoaded={allGroupsLoaded} groupsLoadedOrLoading={groupsLoadedOrLoading} groupsLoadingObjects={groupsLoadingObjects} synonymObjects={synonymObjects} showImportPC={showImportPC} showImportRC={showImportRC} showOrganizations={showOrganizations} email={email} /> : ''}
         {showLogin ? <Login /> : ''}
       </NavHelper>
     )

@@ -25,6 +25,7 @@ import getObjectsFromFile from './getObjectsFromFile.js'
 import isValidUrl from '../../../modules/isValidUrl.js'
 import getSuccessTypeFromAnalysis from './getSuccessTypeFromAnalysis.js'
 import getItemsById from '../../../modules/getItemsById.js'
+import AlertLoadAllGroups from './alertLoadAllGroups.js'
 
 export default React.createClass({
   displayName: 'ImportPropertyCollections',
@@ -32,6 +33,8 @@ export default React.createClass({
   mixins: [ListenerMixin],
 
   propTypes: {
+    groupsLoadingObjects: React.PropTypes.array,
+    allGroupsLoaded: React.PropTypes.bool,
     groupsLoadedOrLoading: React.PropTypes.array,
     nameBestehend: React.PropTypes.string,
     name: React.PropTypes.string,
@@ -58,6 +61,7 @@ export default React.createClass({
     panel1Done: React.PropTypes.bool,
     panel2Done: React.PropTypes.bool,
     panel3Done: React.PropTypes.bool,
+    ultimatelyAlertLoadAllGroups: React.PropTypes.bool,
     activePanel: React.PropTypes.number,
     validName: React.PropTypes.bool,
     validBeschreibung: React.PropTypes.bool,
@@ -98,6 +102,7 @@ export default React.createClass({
       panel1Done: false,
       panel2Done: false,
       panel3Done: false,
+      ultimatelyAlertLoadAllGroups: false,
       activePanel: 1,
       validName: true,
       validBeschreibung: true,
@@ -302,7 +307,7 @@ export default React.createClass({
   },
 
   onClickPanel (number, event) {
-    let { activePanel } = this.state
+    let { activePanel, allGroupsLoaded } = this.state
 
     // make sure the heading was clicked
     const parent = event.target.parentElement
@@ -317,8 +322,9 @@ export default React.createClass({
       this.setState({ activePanel: 1 })
       break
     case 2:
+      if (!allGroupsLoaded) this.setState({ ultimatelyAlertLoadAllGroups: true })
       const isPanel1Done = this.isPanel1Done()
-      if (isPanel1Done) this.setState({ activePanel: 2 })
+      if (isPanel1Done && allGroupsLoaded) this.setState({ activePanel: 2 })
       break
     case 3:
       const isPanel2Done = this.isPanel2Done()
@@ -470,14 +476,17 @@ export default React.createClass({
   },
 
   render () {
-    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, pcsToImport, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs, validPcsToImport, activePanel, idsAeIdField, idsImportIdField, pcs, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete } = this.state
-    const { groupsLoadedOrLoading, email } = this.props
+    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, pcsToImport, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs, validPcsToImport, activePanel, idsAeIdField, idsImportIdField, pcs, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups } = this.state
+    const { groupsLoadedOrLoading, email, allGroupsLoaded, groupsLoadingObjects } = this.props
+    const showLoadAllGroups = email && !allGroupsLoaded
+    const alertAllGroupsBsStyle = ultimatelyAlertLoadAllGroups ? 'danger' : 'info'
 
     return (
       <div>
         <h4>Eigenschaften importieren</h4>
         <Accordion activeKey={activePanel}>
           <Panel collapsible header='1. Eigenschaftensammlung beschreiben' eventKey={1} onClick={this.onClickPanel.bind(this, 1)}>
+            {showLoadAllGroups ? <AlertLoadAllGroups open='true' groupsLoadingObjects={groupsLoadingObjects} alertAllGroupsBsStyle={alertAllGroupsBsStyle} /> : null}
             <Well className='well-sm'><a href='//youtu.be/nqd-v6YxkOY' target='_blank'><b>Auf Youtube sehen, wie es geht</b></a></Well>
             <WellAutorenrechte />
 
