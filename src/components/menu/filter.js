@@ -21,7 +21,7 @@ export default React.createClass({
   },*/
 
   propTypes: {
-    options: React.PropTypes.array,
+    filterOptions: React.PropTypes.array,
     loadingFilterOptions: React.PropTypes.bool/*,
     value: React.PropTypes.string*/
   },
@@ -57,7 +57,7 @@ export default React.createClass({
   },
 
   render () {
-    const { options, loadingFilterOptions } = this.props
+    const { filterOptions, loadingFilterOptions } = this.props
 
     const removeGlyphStyle = {
       fontSize: 13 + 'px',
@@ -79,7 +79,7 @@ export default React.createClass({
             ref={'typeahead'}
             placeholder={loadingFilterOptions ? 'Ergänze Suchindex...' : 'suchen'}
             maxVisible={10}
-            options={options}
+            options={filterOptions}
             filterOption={'label'}
             displayOption={'label'}
             onOptionSelected={this.onSelectObject}
@@ -94,7 +94,7 @@ export default React.createClass({
 
     const loadingIndicator = <p>Lade Suchindex...</p>
 
-    if (loadingFilterOptions && !options) return loadingIndicator
+    if (loadingFilterOptions && !filterOptions) return loadingIndicator
     return filterField
   }
 })

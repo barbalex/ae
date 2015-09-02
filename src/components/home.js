@@ -63,7 +63,7 @@ const Home = React.createClass({
       synonymObjects: [],
       object: undefined,
       guid: guid,
-      options: [],
+      filterOptions: [],
       loadingFilterOptions: false,
       showImportPC: showImportPC,
       showImportRC: showImportRC,
@@ -168,7 +168,7 @@ const Home = React.createClass({
     const { options, loading } = payload
     if (options) {
       this.setState({
-        options: options,
+        filterOptions: options,
         loadingFilterOptions: loading
       })
     } else {
@@ -226,8 +226,8 @@ const Home = React.createClass({
   },
 
   render () {
-    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, options, loadingFilterOptions, showImportPC, showImportRC, showOrganizations, logIn, email } = this.state
-    const showFilter = options.length > 0 || loadingFilterOptions
+    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, showImportPC, showImportRC, showOrganizations, logIn, email } = this.state
+    const showFilter = filterOptions.length > 0 || loadingFilterOptions
     const showMain = object !== undefined || showImportRC || showImportPC || showOrganizations
     const showLogin = logIn && !email
 
@@ -242,7 +242,7 @@ const Home = React.createClass({
             <ResizeButton />
           </div>
           {this.createGruppen()}
-          {showFilter ? <Filter options={options} loadingFilterOptions={loadingFilterOptions} /> : ''}
+          {showFilter ? <Filter filterOptions={filterOptions} loadingFilterOptions={loadingFilterOptions} /> : ''}
           <TreeFromHierarchyObject
             hierarchy={hierarchy}
             groupsLoadingObjects={groupsLoadingObjects}
