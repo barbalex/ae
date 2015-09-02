@@ -38,22 +38,14 @@ export default () => {
       .then((groupsLoaded) => {
         groupsLoading = _.difference(groups, groupsLoaded)
         // load all groups not yet loaded
-        groupsLoading.forEach((group) => {
-          Actions.loadObjectStore(group)
-        })
+        groupsLoading.forEach((group) => Actions.loadObjectStore(group))
       })
-      .catch((error) => {
-        Actions.loadPouchFromRemote.failed('Actions.loadPouchFromRemote, error loading groups:', error)
-      })
+      .catch((error) => Actions.loadPouchFromRemote.failed('Actions.loadPouchFromRemote, error loading groups:', error))
   })
 
-  Actions.loadFilterOptionsStore.listen((items) => {
-    Actions.loadFilterOptionsStore.completed(items)
-  })
+  Actions.loadFilterOptionsStore.listen((items) => Actions.loadFilterOptionsStore.completed(items))
 
-  Actions.loadPouchFromLocal.listen((groupsLoadedInPouch) => {
-    Actions.loadPouchFromLocal.completed(groupsLoadedInPouch)
-  })
+  Actions.loadPouchFromLocal.listen((groupsLoadedInPouch) => Actions.loadPouchFromLocal.completed(groupsLoadedInPouch))
 
   Actions.loadObjectStore.listen((gruppe) => {
     // make sure gruppe was passed
@@ -76,9 +68,7 @@ export default () => {
     if (app.loadingGroupsStore.groupsLoading.length === 1) {
       // o.k., no other group is being loaded - go on
       loadGroupFromRemote(gruppe)
-        .then(() => {
-          return Actions.loadObjectStore.completed(gruppe)
-        })
+        .then(() => Actions.loadObjectStore.completed(gruppe))
         .catch((error) => {
           const errorMsg = 'Actions.loadObjectStore, error loading group ' + gruppe + ': ' + error
           Actions.loadObjectStore.failed(errorMsg, gruppe)
@@ -92,26 +82,21 @@ export default () => {
       Actions.loadActiveObjectStore.completed({})
     } else {
       app.objectStore.getItem(guid)
-        .then((object) => {
-          // group is already loaded
-          // pass object to activeObjectStore by completing action
-          // if object is empty, store will have no item
-          // so there is never a failed action
-          Actions.loadActiveObjectStore.completed(object)
-        })
+        // group is already loaded
+        // pass object to activeObjectStore by completing action
+        // if object is empty, store will have no item
+        // so there is never a failed action
+        .then((object) => Actions.loadActiveObjectStore.completed(object))
         .catch((error) => {
           // this group is not loaded yet
           // get Object from couch
           app.remoteDb.get(guid, { include_docs: true })
-            .then((object) => {
-              Actions.loadActiveObjectStore.completed(object)
-            })
-            .catch((error) => {
-              app.Actions.showError({
+            .then((object) => Actions.loadActiveObjectStore.completed(object))
+            .catch((error) => app.Actions.showError({
                 title: 'error fetching doc from remoteDb with guid ' + guid + ':',
                 msg: error
               })
-            })
+            )
         })
     }
   })

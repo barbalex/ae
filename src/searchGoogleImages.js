@@ -1,6 +1,6 @@
 'use strict'
 
-export default function (object) {
+export default (object) => {
   let googleBilderLink = 'https://www.google.ch/search?num=10&hl=de&site=imghp&tbm=isch&source=hp&bih=824&q="'
   const tax = object.Taxonomie.Eigenschaften
 

@@ -69,7 +69,9 @@ export default (Actions) => {
       return new Promise((resolve, reject) => {
         app.localDb.get('_local/pcs', { include_docs: true })
           .then((doc) => resolve(doc.pcs))
-          .catch((error) => reject('loginStore: error getting property collections from localDb: ' + error))
+          .catch((error) =>
+            reject('loginStore: error getting property collections from localDb: ' + error)
+          )
       })
     },
 
@@ -79,7 +81,9 @@ export default (Actions) => {
           doc.pcs = pcs
           return app.localDb.put(doc)
         })
-        .catch((error) => app.Actions.showError({title: 'propertyCollectionsStore, savePcs:', msg: error}))
+        .catch((error) =>
+          app.Actions.showError({title: 'propertyCollectionsStore, savePcs:', msg: error})
+        )
     },
 
     getPcByName (name) {
@@ -99,14 +103,18 @@ export default (Actions) => {
         .then((pcs) => {
           if (pcs.length > 0) this.trigger(pcs)
         })
-        .catch((error) => app.Actions.showError({title: 'propertyCollectionsStore, error getting existing pcs:', msg: error}))
+        .catch((error) =>
+          app.Actions.showError({title: 'propertyCollectionsStore, error getting existing pcs:', msg: error})
+        )
       // now fetch up to date pc's
       queryPcs()
         .then((pcs) => {
           this.savePcs(pcs)
           this.trigger(pcs)
         })
-        .catch((error) => app.Actions.showError({title: 'propertyCollectionsStore, error querying up to date pcs:', msg: error}))
+        .catch((error) =>
+          app.Actions.showError({title: 'propertyCollectionsStore, error querying up to date pcs:', msg: error})
+        )
     }
   })
 
@@ -123,7 +131,9 @@ export default (Actions) => {
       return new Promise((resolve, reject) => {
         app.localDb.get('_local/login', { include_docs: true })
           .then((doc) => resolve(doc))
-          .catch((error) => reject('loginStore: error getting login from localDb: ' + error))
+          .catch((error) =>
+            reject('loginStore: error getting login from localDb: ' + error)
+          )
       })
     },
 
@@ -147,7 +157,9 @@ export default (Actions) => {
             return app.localDb.put(doc)
           }
         })
-        .catch((error) => app.Actions.showError({title: 'loginStore: error logging in:', msg: error}))
+        .catch((error) =>
+          app.Actions.showError({title: 'loginStore: error logging in:', msg: error})
+        )
     }
   })
 
@@ -162,7 +174,9 @@ export default (Actions) => {
       // get existing paths
       addPathsFromItemsToLocalPathDb(newItemsPassed)
         .then(() => this.trigger(true))
-        .catch((error) => app.Actions.showError({title: 'pathStore: error adding paths from passed items:', msg: error}))
+        .catch((error) =>
+          app.Actions.showError({title: 'pathStore: error adding paths from passed items:', msg: error})
+        )
     }
   })
 
@@ -181,7 +195,9 @@ export default (Actions) => {
             const filterOptions = result.rows.map((row) => row.doc)
             resolve(filterOptions)
           })
-          .catch((error) => reject('filterOptionsStore: error fetching filterOptions from localFilterOptionsDb:', error))
+          .catch((error) =>
+            reject('filterOptionsStore: error fetching filterOptions from localFilterOptionsDb:', error)
+          )
       })
     },
 
@@ -206,7 +222,9 @@ export default (Actions) => {
           }
           this.trigger(payload)
         })
-        .catch((error) => app.Actions.showError({title: 'filterOptionsStore: error preparing trigger:', msg: error}))
+        .catch((error) =>
+          app.Actions.showError({title: 'filterOptionsStore: error preparing trigger:', msg: error})
+        )
     }
   })
 
@@ -256,7 +274,9 @@ export default (Actions) => {
           .then((synonymObjects) => {
             if (synonymObjects.length > 0) this.trigger(item, synonymObjects)
           })
-          .catch((error) => app.Actions.showError({title: 'activeObjectStore: error fetching synonyms of object:', msg: error}))
+          .catch((error) =>
+            app.Actions.showError({title: 'activeObjectStore: error fetching synonyms of object:', msg: error})
+          )
       }
     }
   })
@@ -277,7 +297,9 @@ export default (Actions) => {
       return new Promise((resolve, reject) => {
         getGroupsLoadedFromLocalGroupsDb()
           .then((groupsLoaded) => resolve(groupsLoaded))
-          .catch((error) => reject('objectStore, groupsLoaded: error getting groups loaded:', error))
+          .catch((error) =>
+            reject('objectStore, groupsLoaded: error getting groups loaded:', error)
+          )
       })
     },
 
@@ -288,7 +310,9 @@ export default (Actions) => {
             const groupIsLoaded = _.includes(groupsLoaded, gruppe)
             resolve(groupIsLoaded)
           })
-          .catch((error) => reject('objectStore, isGroupLoaded: error getting groups loaded:', error))
+          .catch((error) =>
+            reject('objectStore, isGroupLoaded: error getting groups loaded:', error)
+          )
       })
     },
 
@@ -331,7 +355,9 @@ export default (Actions) => {
             // write change to groups loaded to localGroupsDb
             const groupsToPass = allGroups ? gruppen : [group]
             addGroupsLoadedToLocalGroupsDb(groupsToPass)
-              .catch((error) => app.Actions.showError({title: 'loadingGroupsStore, onShowGroupLoading, error adding group(s) to localGroupsDb:', msg: error}))
+              .catch((error) =>
+                app.Actions.showError({title: 'loadingGroupsStore, onShowGroupLoading, error adding group(s) to localGroupsDb:', msg: error})
+              )
           }
           // inform views
           const payload = {
@@ -340,7 +366,9 @@ export default (Actions) => {
           }
           this.trigger(payload)
         })
-        .catch((error) => app.Actions.showError({title: 'loadingGroupsStore, onShowGroupLoading, error getting groups loaded from localGroupsDb:', msg: error}))
+        .catch((error) =>
+          app.Actions.showError({title: 'loadingGroupsStore, onShowGroupLoading, error getting groups loaded from localGroupsDb:', msg: error})
+        )
     }
   })
 
@@ -372,7 +400,9 @@ export default (Actions) => {
             return item
           })
           .then((item) => resolve(item))
-          .catch((error) => reject('objectStore, getItem: error getting item from guid' + guid + ':', error))
+          .catch((error) =>
+            reject('objectStore, getItem: error getting item from guid' + guid + ':', error)
+          )
       })
     },
 
@@ -384,7 +414,9 @@ export default (Actions) => {
       this.getHierarchy()
         // trigger change so components can set loading state
         .then((hierarchy) => this.trigger(hierarchy))
-        .catch((error) => app.Actions.showError({title: 'objectStore, onLoadObjectStore, error getting data:', msg: error}))
+        .catch((error) =>
+          app.Actions.showError({title: 'objectStore, onLoadObjectStore, error getting data:', msg: error})
+        )
     },
 
     onLoadPouchFromLocalCompleted (groupsLoadedInPouch) {
@@ -401,13 +433,17 @@ export default (Actions) => {
       this.getHierarchy()
         // trigger change so components can set loading state
         .then((hierarchy) => this.trigger(hierarchy))
-        .catch((error) => app.Actions.showError({title: 'objectStore, onLoadObjectStore, error getting data:', msg: error}))
+        .catch((error) =>
+          app.Actions.showError({title: 'objectStore, onLoadObjectStore, error getting data:', msg: error})
+        )
     },
 
     onLoadObjectStoreCompleted (gruppe) {
       this.getHierarchy()
         .then((hierarchy) => this.trigger(hierarchy))
-        .catch((error) => app.Actions.showError({title: 'objectStore, onLoadObjectStore, error getting data:', msg: error}))
+        .catch((error) =>
+          app.Actions.showError({title: 'objectStore, onLoadObjectStore, error getting data:', msg: error})
+        )
     },
 
     onLoadObjectStoreFailed (error, gruppe) {

@@ -1,6 +1,6 @@
 'use strict'
 
-export default function (object) {
+export default (object) => {
   let wikipediaLink = '//de.wikipedia.org/wiki/'
 
   switch (object.Gruppe) {

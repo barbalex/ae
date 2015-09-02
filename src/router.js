@@ -30,7 +30,7 @@ export default Router.extend({
     let showOrganizations = false
 
     app.loginStore.getLogin()
-      .then(function (login) {
+      .then((login) => {
         const email = login.email
 
         if (path.length === 2 && path[0] === 'importieren') {
@@ -74,8 +74,6 @@ export default Router.extend({
           document.body
         )
       })
-      .catch(function (error) {
-        app.Actions.showError({title: 'router.js: error during routing:', msg: error})
-      })
+      .catch((error) => app.Actions.showError({title: 'router.js: error during routing:', msg: error}))
   }
 })

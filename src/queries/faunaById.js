@@ -2,6 +2,7 @@
  * creates a design doc and puts it into the localDb
  * then queries it with the provided options, passing an array of ids (Taxonomie ID)
  * emits the Taxonomie ID as key and guid as value
+ * no es6 in ddocs!
  */
 
 'use strict'
@@ -9,8 +10,8 @@
 import app from 'ampersand-app'
 import _ from 'lodash'
 
-export default function (ids) {
-  return new Promise(function (resolve, reject) {
+export default (ids) => {
+  return new Promise((resolve, reject) => {
     const ddoc = {
       _id: '_design/faunaById',
       views: {
@@ -25,23 +26,21 @@ export default function (ids) {
     }
 
     app.localDb.put(ddoc)
-      .catch(function (error) {
+      .catch((error) => {
         // ignore if doc already exists
         if (error.status !== 409) reject(error)
       })
-      .then(function (response) {
+      .then((response) => {
         const options = {
           keys: ids,
           include_docs: true
         }
         return app.localDb.query('faunaById', options)
       })
-      .then(function (result) {
+      .then((result) => {
         const fauna = _.pluck(result.rows, 'doc')
         resolve(fauna)
       })
-      .catch(function (error) {
-        reject(error)
-      })
+      .catch((error) => reject(error))
   })
 }

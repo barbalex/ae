@@ -1,6 +1,7 @@
 /*
  * creates a design doc and puts it into the localDb
  * then queries it with the provided options
+ * no es6 in ddocs!
  */
 
 'use strict'
@@ -8,8 +9,8 @@
 import app from 'ampersand-app'
 import _ from 'lodash'
 
-export default function () {
-  return new Promise(function (resolve, reject) {
+export default () => {
+  return new Promise((resolve, reject) => {
     const ddoc = {
       _id: '_design/moose',
       views: {
@@ -24,19 +25,17 @@ export default function () {
     }
 
     app.localDb.put(ddoc)
-      .catch(function (error) {
+      .catch((error) => {
         // ignore if doc already exists
         if (error.status !== 409) reject(error)
       })
-      .then(function (response) {
+      .then((response) => {
         return app.localDb.query('moose', { include_docs: true })
       })
-      .then(function (result) {
+      .then((result) => {
         const moose = _.pluck(result.rows, 'doc')
         resolve(moose)
       })
-      .catch(function (error) {
-        reject(error)
-      })
+      .catch((error) => reject(error))
   })
 }
