@@ -29,14 +29,15 @@ export default function (Actions) {
      * the errorStore triggers, passing the errors array
      * ...then triggers again after removing the last error some time later
      *
-     * Test: app.Actions.showError({title: 'testTitle',msg:'testMessage'})
+     * Test: app.Actions.showError({title: 'testTitle', msg: 'testMessage'})
+     * template: app.Actions.showError({title: 'title', msg: error})
      */
     listenables: Actions,
 
     errors: [],
 
     // this is how long the error will be shown
-    duration: 8000,
+    duration: 10000,
 
     onShowError (error) {
       if (!error) {
