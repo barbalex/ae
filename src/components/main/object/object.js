@@ -54,14 +54,10 @@ export default React.createClass({
       const rcs = object.Beziehungssammlungen
 
       // regular relation collections
-      objectRcs = _.filter(rcs, function (rc) {
-        return !rc.Typ
-      })
+      objectRcs = _.filter(rcs, (rc) => !rc.Typ)
 
       if (objectRcs.length > 0) {
-        const rcComponent = _.map(objectRcs, function (rc) {
-          return <RelationCollection key={rc.Name} object={object} relationCollection={rc} />
-        })
+        const rcComponent = _.map(objectRcs, (rc) => <RelationCollection key={rc.Name} object={object} relationCollection={rc} />)
         rcsComponent = (
           <div>
             <h4>Beziehungen:</h4>
@@ -71,13 +67,9 @@ export default React.createClass({
       }
 
       // taxonomic relation collections
-      taxRcs = _.filter(rcs, function (rc) {
-        return rc.Typ && rc.Typ === 'taxonomisch'
-      })
+      taxRcs = _.filter(rcs, (rc) => rc.Typ && rc.Typ === 'taxonomisch')
       if (taxRcs.length > 0) {
-        const taxRcComponent = _.map(taxRcs, function (rc) {
-          return <RelationCollection key={rc.Name} object={object} relationCollection={rc} />
-        })
+        const taxRcComponent = _.map(taxRcs, (rc) => <RelationCollection key={rc.Name} object={object} relationCollection={rc} />)
         taxRcsComponent = (
           <div>
             <h4>Taxonomische Beziehungen:</h4>
@@ -94,9 +86,7 @@ export default React.createClass({
     // property collections
     if (object.Eigenschaftensammlungen && object.Eigenschaftensammlungen.length > 0) {
       const pcs = object.Eigenschaftensammlungen
-      const pcComponent = _.map(pcs, function (pc) {
-        return <PropertyCollection key={pc.Name} pcType='Datensammlung' object={object} propertyCollection={pc}/>
-      })
+      const pcComponent = _.map(pcs, (pc) => <PropertyCollection key={pc.Name} pcType='Datensammlung' object={object} propertyCollection={pc}/>)
       pcsComponent = (
         <div>
           <h4>Eigenschaften:</h4>
@@ -110,11 +100,10 @@ export default React.createClass({
     }
 
     if (synonymObjects.length > 0) {
-      synonymObjects.forEach(function (synonymObject) {
-
+      synonymObjects.forEach((synonymObject) => {
         // property collections
         if (synonymObject.Eigenschaftensammlungen && synonymObject.Eigenschaftensammlungen.length > 0) {
-          _.each(synonymObject.Eigenschaftensammlungen, function (pc) {
+          synonymObject.Eigenschaftensammlungen.forEach((pc) => {
             if (!_.includes(namesOfPcsBuilt, pc.Name)) {
               // this pc is not yet shown
               pcsOfSynonyms.push(pc)
@@ -126,7 +115,7 @@ export default React.createClass({
 
         // relation collections
         if (synonymObject.Beziehungssammlungen && synonymObject.Beziehungssammlungen.length > 0) {
-          _.each(synonymObject.Beziehungssammlungen, function (rcOfSynonym) {
+          synonymObject.Beziehungssammlungen.forEach((rcOfSynonym) => {
             if (!_.includes(namesOfRcsBuilt, rcOfSynonym.Name) && rcOfSynonym['Art der Beziehungen'] !== 'synonym' && rcOfSynonym.Typ !== 'taxonomisch') {
               // this rc is not yet shown and is not taxonomic
               rcsOfSynonyms.push(rcOfSynonym)
@@ -135,16 +124,14 @@ export default React.createClass({
             } else if (rcOfSynonym['Art der Beziehungen'] !== 'synonym' && rcOfSynonym.Typ !== 'taxonomisch') {
               // this rc is already shown
               // but there could be relations that are not shown yet
-              const rcOfOriginal = _.find(object.Beziehungssammlungen, function (rc) {
-                return rc.Name === rcOfSynonym.Name
-              })
+              const rcOfOriginal = _.find(object.Beziehungssammlungen, (rc) => rc.Name === rcOfSynonym.Name)
 
               if (rcOfSynonym.Beziehungen && rcOfSynonym.Beziehungen.length > 0 && rcOfOriginal && rcOfOriginal.Beziehungen && rcOfOriginal.Beziehungen.length > 0) {
                 // Both objects have relations in the same relation collection
                 // remove relations existing in original object from synonym
-                rcOfSynonym.Beziehungen = _.reject(rcOfSynonym.Beziehungen, function (relationOfSynonym) {
+                rcOfSynonym.Beziehungen = _.reject(rcOfSynonym.Beziehungen, (relationOfSynonym) => {
                   // search in relations of original object for a relation with the same relation partners
-                  const relationOfOriginalWithSamePartners = _.find(rcOfOriginal.Beziehungen, function (relationOfOriginal) {
+                  const relationOfOriginalWithSamePartners = _.find(rcOfOriginal.Beziehungen, (relationOfOriginal) => {
                     if (relationOfSynonym.Beziehungspartner.length > 0 && relationOfOriginal.Beziehungspartner.length > 0) {
                       return relationOfSynonym.Beziehungspartner[0].GUID === relationOfOriginal.Beziehungspartner[0].GUID
                     }
@@ -163,9 +150,7 @@ export default React.createClass({
       })
 
       if (pcsOfSynonyms.length > 0) {
-        const pcComponent = _.map(pcsOfSynonyms, function (pc) {
-          return <PropertyCollection key={pc.Name} pcType='Datensammlung' object={object} propertyCollection={pc}/>
-        })
+        const pcComponent = _.map(pcsOfSynonyms, (pc) => <PropertyCollection key={pc.Name} pcType='Datensammlung' object={object} propertyCollection={pc}/>)
         pcsOfSynonymsComponent = (
           <div>
             <h4>Eigenschaften von Synonymen:</h4>
@@ -175,9 +160,7 @@ export default React.createClass({
       }
 
       if (rcsOfSynonyms.length > 0) {
-        const rcComponent = _.map(rcsOfSynonyms, function (rc) {
-          return <RelationCollection key={rc.Name} object={object} relationCollection={rc} />
-        })
+        const rcComponent = _.map(rcsOfSynonyms, (rc) => <RelationCollection key={rc.Name} object={object} relationCollection={rc} />)
         rcsOfSynonymsComponent = (
           <div>
             <h4>Beziehungen von Synonymen:</h4>

@@ -61,7 +61,7 @@ export default React.createClass({
   },
 
   render () {
-    const { allGroupsLoaded, groupsLoadedOrLoading,  groupsLoadingObjects, object, synonymObjects, showImportPC/*, showImportRC*/, showOrganizations, email } = this.props
+    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, synonymObjects, showImportPC/*, showImportRC*/, showOrganizations, email } = this.props
     const { formClassNames, errors } = this.state
     const showObject = object !== undefined
 

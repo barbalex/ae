@@ -59,14 +59,12 @@ export default React.createClass({
     const that = this
     if (this.validSignin()) {
       app.remoteDb.login(email, password)
-        .then(function (response) {
-          const loginVariables = {
+        .then((response) => app.Actions.login({
             logIn: false,
             email: email
-          }
-          app.Actions.login(loginVariables)
-        })
-        .catch(function (error) {
+          })
+        )
+        .catch((error) => {
           that.setState({
             loginError: error
           })

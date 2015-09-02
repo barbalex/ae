@@ -31,18 +31,11 @@ export default React.createClass({
 
     return (
       <div className='form-group'>
-          <label
-            className='control-label'
-          >
+          <label className='control-label'>
             {label + ':'}
           </label>
-          <p
-            className='form-control-static feldtext controls'
-          >
-            <a
-              href={url}
-              onClick={this.onClickUrl}
-            >
+          <p className='form-control-static feldtext controls'>
+            <a href={url} onClick={this.onClickUrl}>
               {value}
             </a>
           </p>

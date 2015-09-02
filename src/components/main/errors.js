@@ -28,17 +28,15 @@ export default React.createClass({
   render () {
     const { errors } = this.props
     const show = errors.length > 0
-    const errorMessages = errors.map(function (error, index) {
-      return (
-        <div className='errorContainer' key={index}>
-          <div className='error'>
-            {error.title ? <p>{error.title}</p> : null}
-            <p><em>{error.msg}</em></p>
-          </div>
-          {index + 1 < errors.length ? <hr/> : null}
+    const errorMessages = errors.map((error, index) => (
+      <div className='errorContainer' key={index}>
+        <div className='error'>
+          {error.title ? <p>{error.title}</p> : null}
+          <p><em>{error.msg}</em></p>
         </div>
-      )
-    })
+        {index + 1 < errors.length ? <hr/> : null}
+      </div>
+    ))
     const glyphStyle = {
       position: 'absolute',
       top: 3 + 'px',

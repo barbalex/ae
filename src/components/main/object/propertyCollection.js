@@ -15,7 +15,7 @@ import LinksToSameGroup from './linksToSameGroup.js'
 import FieldInput from './fieldInput.js'
 import Field from './field.js'
 
-const buildFieldForProperty = function (propertyCollection, object, value, key, pcType) {
+function buildFieldForProperty (propertyCollection, object, value, key, pcType) {
   const pcName = propertyCollection.Name.replace(/"/g, "'")
   if (typeof value === 'string') {
     // bad hack because jsx shows &#39; not as ' but as &#39;
@@ -32,16 +32,14 @@ const buildFieldForProperty = function (propertyCollection, object, value, key, 
     // console.log('value', value)
     // get name from guid
     app.objectStore.getItem(value)
-      .then(function (linkedObject) {
+      .then((linkedObject) => {
         if (linkedObject) {
           const linkedObjectId = linkedObject._id
           const linkedObjectName = linkedObject.Taxonomie.Eigenschaften['Artname vollständig']
           return <LinkToSameGroup key={key} fieldName={key} guid ={linkedObjectId} objectName={linkedObjectName} />
         }
       })
-      .catch(function (error) {
-        app.Actions.showError({title: 'propertyCollection.js: error getting item from objectStore:', msg: error})
-      })
+      .catch((error) => app.Actions.showError({title: 'propertyCollection.js: error getting item from objectStore:', msg: error}))
   }
   if ((key === 'Gültige Namen' || key === 'Eingeschlossene Arten') && object.Gruppe === 'Flora') {
     // build array of links
@@ -90,9 +88,7 @@ export default React.createClass({
       </div>
     )
 
-    const properties = _.map(propertyCollection.Eigenschaften, function (value, key) {
-      return buildFieldForProperty(propertyCollection, object, value, key, pcType)
-    })
+    const properties = _.map(propertyCollection.Eigenschaften, (value, key) => buildFieldForProperty(propertyCollection, object, value, key, pcType))
 
     const showPcDescription = object.Gruppe !== 'Lebensräume' || pcType !== 'Taxonomie'
     // const showEditToobar = object.Gruppe === 'Lebensräume' && pcType === 'Taxonomie'  TODO: implement later

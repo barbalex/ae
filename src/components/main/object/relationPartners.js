@@ -20,8 +20,7 @@ export default React.createClass({
     let relationPartners = []
 
     if (relation.Beziehungspartner && relation.Beziehungspartner.length > 0) {
-      relationPartners = _.map(relation.Beziehungspartner, function (bezPartner) {
-
+      relationPartners = _.map(relation.Beziehungspartner, (bezPartner) => {
         // label field with Rolle if it exists
         const label = bezPartner.Rolle ? bezPartner.Rolle : 'Beziehungspartner'
         const value = bezPartner.Gruppe + ': ' + (bezPartner.Taxonomie ? bezPartner.Taxonomie + ' > ' : '') + bezPartner.Name

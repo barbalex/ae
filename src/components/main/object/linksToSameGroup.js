@@ -21,23 +21,23 @@ export default React.createClass({
   onClick (guid, event) {
     event.preventDefault()
     getPathFromGuid(guid)
-      .then(function (result) {
+      .then((result) => {
         const path = result.path
         if (guid) app.Actions.loadActiveObjectStore(guid)
         app.Actions.loadActivePathStore(path, guid)
       })
-      .catch(function (error) {
+      .catch((error) =>
         app.Actions.showError({title: 'linksToSameGroup.js: error getting path for guid ' + guid + ':', msg: error})
-      })
+      )
   },
 
   render () {
     const { objects, fieldName } = this.props
     const that = this
 
-    const linkArray = _.map(objects, function (object) {
+    const linkArray = _.map(objects, (object) => {
       getPathFromGuid(object.guid)
-        .then(function (result) {
+        .then((result) => {
           const url = result.url
           return (
             <p className='controls feldtext'>
@@ -47,9 +47,9 @@ export default React.createClass({
             </p>
           )
         })
-        .catch(function (error) {
+        .catch((error) =>
           app.Actions.showError({title: 'linksToSameGroup.js: error getting path for guid ' + object.guid + ':', msg: error})
-        })
+        )
     })
 
     return (

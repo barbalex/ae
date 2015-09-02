@@ -23,21 +23,21 @@ export default React.createClass({
     const { guid } = this.props
 
     getPathFromGuid(guid)
-      .then(function (result) {
+      .then((result) => {
         const path = result.path
         if (guid) app.Actions.loadActiveObjectStore(guid)
         app.Actions.loadActivePathStore(path, guid)
       })
-      .catch(function (error) {
+      .catch((error) =>
         app.Actions.showError({title: 'linkToSameGroup.js: error getting path for guid ' + guid + ':', msg: error})
-      })
+      )
   },
 
   render () {
     const { fieldName, guid, objectName } = this.props
 
     getPathFromGuid(guid)
-        .then(function (result) {
+        .then((result) => {
           const url = result.url
           return (
             <div className='form-group'>
@@ -52,8 +52,8 @@ export default React.createClass({
             </div>
           )
         })
-        .catch(function (error) {
+        .catch((error) =>
           app.Actions.showError({title: 'linkToSameGroup.js: error getting path for guid ' + guid + ':', msg: error})
-        })
+        )
   }
 })

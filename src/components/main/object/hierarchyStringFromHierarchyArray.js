@@ -8,10 +8,9 @@
 
 import _ from 'lodash'
 
-export default function (hierarchyArray) {
+export default (hierarchyArray) => {
   if (!_.isArray(hierarchyArray)) return ''
 
   const names = _.pluck(hierarchyArray, 'Name')
-
   return names.join('\n')
 }
