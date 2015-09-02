@@ -170,20 +170,20 @@ export default function (Actions) {
       return new Promise(function (resolve, reject) {
         app.localFilterOptionsDb.allDocs({include_docs: true})
           .then(function (result) {
-            const options = result.rows.map(function (row) {
+            const filterOptions = result.rows.map(function (row) {
               return row.doc
             })
-            resolve(options)
+            resolve(filterOptions)
           })
           .catch(function (error) {
-            reject('filterOptionsStore: error fetching options from localFilterOptionsDb:', error)
+            reject('filterOptionsStore: error fetching filterOptions from localFilterOptionsDb:', error)
           })
       })
     },
 
     onLoadFilterOptionsStore () {
       const payload = {
-        options: null,
+        filterOptions: null,
         loading: true
       }
       this.trigger(payload)
@@ -191,14 +191,14 @@ export default function (Actions) {
 
     onLoadFilterOptionsStoreCompleted (newItemsPassed) {
       const that = this
-      let options = []
-      // get existing options
+      let filterOptions = []
+      // get existing filterOptions
       this.getOptions()
         .then(function (optionsFromPouch) {
-          options = options.concat(optionsFromPouch)
-          if (newItemsPassed) options = options.concat(buildFilterOptions(newItemsPassed))
+          filterOptions = filterOptions.concat(optionsFromPouch)
+          if (newItemsPassed) filterOptions = filterOptions.concat(buildFilterOptions(newItemsPassed))
           const payload = {
-            options: options,
+            filterOptions: filterOptions,
             loading: false
           }
           that.trigger(payload)

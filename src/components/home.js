@@ -165,10 +165,10 @@ const Home = React.createClass({
   },
 
   onFilterOptionsStoreChange (payload) {
-    const { options, loading } = payload
-    if (options) {
+    const { filterOptions, loading } = payload
+    if (filterOptions) {
       this.setState({
-        filterOptions: options,
+        filterOptions: filterOptions,
         loadingFilterOptions: loading
       })
     } else {
