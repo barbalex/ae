@@ -16,7 +16,7 @@ import getGruppen from './modules/gruppen.js'
 import loadGroupFromRemote from './modules/loadGroupFromRemote.js'
 import queryPcs from './queries/pcs.js'
 
-export default function (Actions) {
+export default (Actions) => {
   app.errorStore = Reflux.createStore({
     /*
      * receives an error object with two keys: title, msg
@@ -45,12 +45,11 @@ export default function (Actions) {
         this.errors = []
         this.trigger(this.errors)
       } else {
-        const that = this
         this.errors.unshift(error)
         this.trigger(this.errors)
-        setTimeout(function () {
-          that.errors.pop()
-          that.trigger(that.errors)
+        setTimeout(() => {
+          this.errors.pop()
+          this.trigger(that.errors)
         }, this.duration)
       }
     }
@@ -67,41 +66,30 @@ export default function (Actions) {
     listenables: Actions,
 
     getPcs () {
-      return new Promise(function (resolve, reject) {
+      return new Promise((resolve, reject) => {
         app.localDb.get('_local/pcs', { include_docs: true })
-          .then(function (doc) {
-            resolve(doc.pcs)
-          })
-          .catch(function (error) {
-            reject('loginStore: error getting property collections from localDb: ' + error)
-          })
+          .then((doc) => resolve(doc.pcs))
+          .catch((error) => reject('loginStore: error getting property collections from localDb: ' + error))
       })
     },
 
     savePcs (pcs) {
       app.localDb.get('_local/pcs', { include_docs: true })
-        .then(function (doc) {
+        .then((doc) => {
           doc.pcs = pcs
           return app.localDb.put(doc)
         })
-        .catch(function (error) {
-          app.Actions.showError({title: 'propertyCollectionsStore, savePcs:', msg: error})
-        })
+        .catch((error) => app.Actions.showError({title: 'propertyCollectionsStore, savePcs:', msg: error}))
     },
 
     getPcByName (name) {
-      const that = this
-      return new Promise(function (resolve, reject) {
-        that.getPcs()
-          .then(function (pcs) {
-            const pc = _.find(pcs, function (pc) {
-              return pc.name === name
-            })
+      return new Promise((resolve, reject) => {
+        this.getPcs()
+          .then((pcs) => {
+            const pc = _.find(pcs, (pc) => pc.name === name)
             resolve(pc)
           })
-          .catch(function (error) {
-            reject(error)
-          })
+          .catch((error) => reject(error))
       })
     },
 
@@ -109,21 +97,17 @@ export default function (Actions) {
       const that = this
       // if pc's exist, send them immediately
       this.getPcs()
-        .then(function (pcs) {
+        .then((pcs) => {
           if (pcs.length > 0) that.trigger(pcs)
         })
-        .catch(function (error) {
-          app.Actions.showError({title: 'propertyCollectionsStore, error getting existing pcs:', msg: error})
-        })
+        .catch((error) => app.Actions.showError({title: 'propertyCollectionsStore, error getting existing pcs:', msg: error}))
       // now fetch up to date pc's
       queryPcs()
-        .then(function (pcs) {
+        .then((pcs) => {
           that.savePcs(pcs)
           that.trigger(pcs)
         })
-        .catch(function (error) {
-          app.Actions.showError({title: 'propertyCollectionsStore, error querying up to date pcs:', msg: error})
-        })
+        .catch((error) => app.Actions.showError({title: 'propertyCollectionsStore, error querying up to date pcs:', msg: error}))
     }
   })
 
@@ -137,14 +121,10 @@ export default function (Actions) {
     listenables: Actions,
 
     getLogin () {
-      return new Promise(function (resolve, reject) {
+      return new Promise((resolve, reject) => {
         app.localDb.get('_local/login', { include_docs: true })
-          .then(function (doc) {
-            resolve(doc)
-          })
-          .catch(function (error) {
-            reject('loginStore: error getting login from localDb: ' + error)
-          })
+          .then((doc) => resolve(doc))
+          .catch((error) => reject('loginStore: error getting login from localDb: ' + error))
       })
     },
 
@@ -157,7 +137,7 @@ export default function (Actions) {
       const changeEmail = email !== undefined
 
       app.localDb.get('_local/login', { include_docs: true })
-        .then(function (doc) {
+        .then((doc) => {
           if (doc.logIn !== logIn || (changeEmail && doc.email !== email) || (logIn && !email)) {
             doc.logIn = logIn
             if (changeEmail) {
@@ -169,9 +149,7 @@ export default function (Actions) {
             return app.localDb.put(doc)
           }
         })
-        .catch(function (error) {
-          app.Actions.showError({title: 'loginStore: error logging in:', msg: error})
-        })
+        .catch((error) => app.Actions.showError({title: 'loginStore: error logging in:', msg: error}))
     }
   })
 
@@ -183,15 +161,10 @@ export default function (Actions) {
     listenables: Actions,
 
     onLoadPathStore (newItemsPassed) {
-      const that = this
       // get existing paths
       addPathsFromItemsToLocalPathDb(newItemsPassed)
-        .then(function () {
-          that.trigger(true)
-        })
-        .catch(function (error) {
-          app.Actions.showError({title: 'pathStore: error adding paths from passed items:', msg: error})
-        })
+        .then(() => this.trigger(true))
+        .catch((error) => app.Actions.showError({title: 'pathStore: error adding paths from passed items:', msg: error}))
     }
   })
 
@@ -204,17 +177,13 @@ export default function (Actions) {
     listenables: Actions,
 
     getOptions () {
-      return new Promise(function (resolve, reject) {
+      return new Promise((resolve, reject) => {
         app.localFilterOptionsDb.allDocs({include_docs: true})
-          .then(function (result) {
-            const filterOptions = result.rows.map(function (row) {
-              return row.doc
-            })
+          .then((result) => {
+            const filterOptions = result.rows.map((row) => row.doc)
             resolve(filterOptions)
           })
-          .catch(function (error) {
-            reject('filterOptionsStore: error fetching filterOptions from localFilterOptionsDb:', error)
-          })
+          .catch((error) => reject('filterOptionsStore: error fetching filterOptions from localFilterOptionsDb:', error))
       })
     },
 
@@ -231,7 +200,7 @@ export default function (Actions) {
       let filterOptions = []
       // get existing filterOptions
       this.getOptions()
-        .then(function (optionsFromPouch) {
+        .then((optionsFromPouch) => {
           filterOptions = filterOptions.concat(optionsFromPouch)
           if (newItemsPassed) filterOptions = filterOptions.concat(buildFilterOptions(newItemsPassed))
           const payload = {
@@ -240,9 +209,7 @@ export default function (Actions) {
           }
           that.trigger(payload)
         })
-        .catch(function (error) {
-          app.Actions.showError({title: 'filterOptionsStore: error preparing trigger:', msg: error})
-        })
+        .catch((error) => app.Actions.showError({title: 'filterOptionsStore: error preparing trigger:', msg: error}))
     }
   })
 

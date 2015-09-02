@@ -15,7 +15,7 @@ PouchDB.plugin(pouchdbLoad)
 // The store is listening to all actions, and the components in turn are listening to the store.
 // Thus the flow is: User interaction -> component calls action -> store reacts and triggers -> components update
 
-export default function () {
+export default () => {
   let Actions = Reflux.createActions({
     loadPouchFromRemote: {children: ['completed', 'failed']},
     loadPouchFromLocal: {children: ['completed', 'failed']},
@@ -30,32 +30,32 @@ export default function () {
     showError: {}
   })
 
-  Actions.loadPouchFromRemote.listen(function () {
+  Actions.loadPouchFromRemote.listen(() => {
     const groups = getGruppen()
     let groupsLoading = []
     // get groups already loaded
     app.loadingGroupsStore.groupsLoaded()
-      .then(function (groupsLoaded) {
+      .then((groupsLoaded) => {
         groupsLoading = _.difference(groups, groupsLoaded)
         // load all groups not yet loaded
-        groupsLoading.forEach(function (group) {
+        groupsLoading.forEach((group) => {
           Actions.loadObjectStore(group)
         })
       })
-      .catch(function (error) {
+      .catch((error) => {
         Actions.loadPouchFromRemote.failed('Actions.loadPouchFromRemote, error loading groups:', error)
       })
   })
 
-  Actions.loadFilterOptionsStore.listen(function (items) {
+  Actions.loadFilterOptionsStore.listen((items) => {
     Actions.loadFilterOptionsStore.completed(items)
   })
 
-  Actions.loadPouchFromLocal.listen(function (groupsLoadedInPouch) {
+  Actions.loadPouchFromLocal.listen((groupsLoadedInPouch) => {
     Actions.loadPouchFromLocal.completed(groupsLoadedInPouch)
   })
 
-  Actions.loadObjectStore.listen(function (gruppe) {
+  Actions.loadObjectStore.listen((gruppe) => {
     // make sure gruppe was passed
     if (!gruppe) return false
     // make sure a valid group was passed
@@ -76,37 +76,37 @@ export default function () {
     if (app.loadingGroupsStore.groupsLoading.length === 1) {
       // o.k., no other group is being loaded - go on
       loadGroupFromRemote(gruppe)
-        .then(function () {
+        .then(() => {
           return Actions.loadObjectStore.completed(gruppe)
         })
-        .catch(function (error) {
+        .catch((error) => {
           const errorMsg = 'Actions.loadObjectStore, error loading group ' + gruppe + ': ' + error
           Actions.loadObjectStore.failed(errorMsg, gruppe)
         })
     }
   })
 
-  Actions.loadActiveObjectStore.listen(function (guid) {
+  Actions.loadActiveObjectStore.listen((guid) => {
     // check if group is loaded > get object from objectStore
     if (!guid) {
       Actions.loadActiveObjectStore.completed({})
     } else {
       app.objectStore.getItem(guid)
-        .then(function (object) {
+        .then((object) => {
           // group is already loaded
           // pass object to activeObjectStore by completing action
           // if object is empty, store will have no item
           // so there is never a failed action
           Actions.loadActiveObjectStore.completed(object)
         })
-        .catch(function (error) {
+        .catch((error) => {
           // this group is not loaded yet
           // get Object from couch
           app.remoteDb.get(guid, { include_docs: true })
-            .then(function (object) {
+            .then((object) => {
               Actions.loadActiveObjectStore.completed(object)
             })
-            .catch(function (error) {
+            .catch((error) => {
               app.Actions.showError({
                 title: 'error fetching doc from remoteDb with guid ' + guid + ':',
                 msg: error
