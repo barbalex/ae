@@ -44,7 +44,7 @@ export default function () {
         if (error.status !== 409) reject(error)
       })
       .then(function (response) {
-        console.log('pcs: response from putting ddoc')
+        // console.log('pcs: response from putting ddoc')
         const options = {
           group_level: 4,
           reduce: '_count'
@@ -52,26 +52,22 @@ export default function () {
         return app.localDb.query('pcs', options)
       })
       .then(function (result) {
-        // TODO: see if count can be extracted
-        console.log('pcs.js: result', result)
-        let pcs = result.rows
-        // get the keys
-        pcs = _.pluck(pcs, 'key')
-        // group by name
-        pcs = _.uniq(pcs, function (pc) {
-          return pc[0]
+        const rows = result.rows
+        const uniqueRows = _.uniq(rows, function (row) {
+          return row.key[0]
+        })
+        let pcs = uniqueRows.map(function (row) {
+          return {
+            name: row.key[0],
+            combining: row.key[1],
+            importedBy: row.key[2],
+            fields: row.key[3],
+            count: row.value
+          }
         })
         // sort by pcName
         pcs = _.sortBy(pcs, function (pc) {
-          return pc[0]
-        })
-        pcs = _.map(pcs, function (pc) {
-          return {
-            name: pc[0],
-            combining: pc[1],
-            importedBy: pc[2],
-            fields: pc[3]
-          }
+          return pc.name
         })
         resolve(pcs)
       })
