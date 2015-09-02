@@ -6,6 +6,7 @@ export default React.createClass({
   displayName: 'InputNameBestehend',
 
   propTypes: {
+    groupsLoadedOrLoading: React.PropTypes.array,
     nameBestehend: React.PropTypes.string,
     email: React.PropTypes.string,
     pcs: React.PropTypes.array,
@@ -19,7 +20,7 @@ export default React.createClass({
   },
 
   options () {
-    const { email, pcs } = this.props
+    const { email, pcs, groupsLoadedOrLoading } = this.props
 
     if (pcs && pcs.length > 0) {
       let options = pcs.map(function (pc) {
@@ -35,9 +36,11 @@ export default React.createClass({
       // add an empty option at the beginning
       options.unshift(<option key='noValue' value='' waehlbar={true}></option>)
       return options
-    } else {
+    } else if (groupsLoadedOrLoading.length > 0) {
       // this option is showed while loading
-      return (<option value='' waehlbar={true}>Lade Daten...</option>)
+      return <option value='' waehlbar={true}>Lade Daten...</option>
+    } else {
+      return <option value='' waehlbar={true}>Keine Gruppe geladen</option>
     }
   },
 

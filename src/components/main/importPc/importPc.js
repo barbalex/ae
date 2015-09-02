@@ -32,6 +32,7 @@ export default React.createClass({
   mixins: [ListenerMixin],
 
   propTypes: {
+    groupsLoadedOrLoading: React.PropTypes.array,
     nameBestehend: React.PropTypes.string,
     name: React.PropTypes.string,
     beschreibung: React.PropTypes.string,
@@ -470,7 +471,7 @@ export default React.createClass({
 
   render () {
     const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, pcsToImport, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs, validPcsToImport, activePanel, idsAeIdField, idsImportIdField, pcs, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete } = this.state
-    const { email } = this.props
+    const { groupsLoadedOrLoading, email } = this.props
 
     return (
       <div>
@@ -480,7 +481,7 @@ export default React.createClass({
             <Well className='well-sm'><a href='//youtu.be/nqd-v6YxkOY' target='_blank'><b>Auf Youtube sehen, wie es geht</b></a></Well>
             <WellAutorenrechte />
 
-            <InputNameBestehend nameBestehend={nameBestehend} beschreibung={beschreibung} datenstand={datenstand} nutzungsbedingungen={nutzungsbedingungen} link={link} zusammenfassend={zusammenfassend} email={email} pcs={pcs} onChangeNameBestehend={this.onChangeNameBestehend} />
+            <InputNameBestehend nameBestehend={nameBestehend} beschreibung={beschreibung} datenstand={datenstand} nutzungsbedingungen={nutzungsbedingungen} link={link} zusammenfassend={zusammenfassend} email={email} pcs={pcs} groupsLoadedOrLoading={groupsLoadedOrLoading} onChangeNameBestehend={this.onChangeNameBestehend} />
 
             <div className='controls feld'>
               <button type='button' className='btn btn-primary btn-default' style={{'display': 'none', 'marginBottom': 6 + 'px'}}>Gewählte Eigenschaftensammlung und alle ihre Eigenschaften aus allen Arten und/oder Lebensräumen entfernen</button>

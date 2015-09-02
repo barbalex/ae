@@ -226,7 +226,7 @@ const Home = React.createClass({
   },
 
   render () {
-    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, showImportPC, showImportRC, showOrganizations, logIn, email } = this.state
+    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, showImportPC, showImportRC, showOrganizations, logIn, email, groupsLoadedOrLoading } = this.state
     const showFilter = filterOptions.length > 0 || loadingFilterOptions
     const showMain = object !== undefined || showImportRC || showImportPC || showOrganizations
     const showLogin = logIn && !email
@@ -251,7 +251,7 @@ const Home = React.createClass({
             path={path} />
         </div>
         {this.email()}
-        {showMain ? <Main object={object} synonymObjects={synonymObjects} showImportPC={showImportPC} showImportRC={showImportRC} showOrganizations={showOrganizations} email={email} /> : ''}
+        {showMain ? <Main object={object} groupsLoadedOrLoading={groupsLoadedOrLoading} synonymObjects={synonymObjects} showImportPC={showImportPC} showImportRC={showImportRC} showOrganizations={showOrganizations} email={email} /> : ''}
         {showLogin ? <Login /> : ''}
       </NavHelper>
     )

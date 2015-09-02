@@ -19,7 +19,8 @@ export default React.createClass({
     showImportPC: React.PropTypes.bool,
     showImportRC: React.PropTypes.bool,
     showOrganizations: React.PropTypes.bool,
-    email: React.PropTypes.string
+    email: React.PropTypes.string,
+    groupsLoadedOrLoading: React.PropTypes.array
   },
 
   getInitialState () {
@@ -46,7 +47,7 @@ export default React.createClass({
   },
 
   render () {
-    const { object, synonymObjects, showImportPC/*, showImportRC*/, showOrganizations, email } = this.props
+    const { groupsLoadedOrLoading, object, synonymObjects, showImportPC/*, showImportRC*/, showOrganizations, email } = this.props
     const { formClassNames } = this.state
     const showObject = object !== undefined
 
@@ -54,7 +55,7 @@ export default React.createClass({
       <fieldset id='main'>
         <form className={formClassNames} autoComplete='off'>
           {showObject ? <Objekt object={object} synonymObjects={synonymObjects} /> : ''}
-          {showImportPC ? <ImportPc email={email} /> : ''}
+          {showImportPC ? <ImportPc email={email} groupsLoadedOrLoading={groupsLoadedOrLoading} /> : ''}
           {showOrganizations ? <Organizations email={email} /> : ''}
         </form>
       </fieldset>
