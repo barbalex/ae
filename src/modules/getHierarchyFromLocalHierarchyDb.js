@@ -12,8 +12,7 @@ export default function () {
         resolve(hierarchy)
       })
       .catch(function (error) {
-        console.log('getHierarchyFromLocalHierarchyDb.js: error getting items from localHierarchyDb:', error)
-        reject(error)
+        reject('getHierarchyFromLocalHierarchyDb.js: error getting items from localHierarchyDb: ' + error)
       })
   })
 }

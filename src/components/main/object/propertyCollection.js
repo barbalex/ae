@@ -40,7 +40,7 @@ const buildFieldForProperty = function (propertyCollection, object, value, key, 
         }
       })
       .catch(function (error) {
-        console.log('propertyCollection.js: error getting item from objectStore:', error)
+        app.Actions.showError({title: 'propertyCollection.js: error getting item from objectStore:', msg: error})
       })
   }
   if ((key === 'Gültige Namen' || key === 'Eingeschlossene Arten') && object.Gruppe === 'Flora') {

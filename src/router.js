@@ -75,7 +75,7 @@ export default Router.extend({
         )
       })
       .catch(function (error) {
-        console.log('router.js: error during routing:', error)
+        app.Actions.showError({title: 'router.js: error during routing:', msg: error})
       })
   }
 })

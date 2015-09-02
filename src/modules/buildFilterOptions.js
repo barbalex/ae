@@ -29,7 +29,7 @@ export default function (items) {
   // save to db
   app.localFilterOptionsDb.bulkDocs(options)
     .catch(function (error) {
-      console.log('buildFilterOptions.js: error saving to localFilterOptionsDb:', error)
+      app.Actions.showError({title: 'buildFilterOptions.js: error saving to localFilterOptionsDb:', msg: error})
     })
 
   return options

@@ -29,7 +29,7 @@ export default React.createClass({
         app.Actions.loadActivePathStore(path, guid)
       })
       .catch(function (error) {
-        console.log('linkToSameGroup.js: error getting path for guid ' + guid + ':', error)
+        app.Actions.showError({title: 'linkToSameGroup.js: error getting path for guid ' + guid + ':', msg: error})
       })
   },
 
@@ -53,7 +53,7 @@ export default React.createClass({
           )
         })
         .catch(function (error) {
-          console.log('linkToSameGroup.js: error getting path for guid ' + guid + ':', error)
+          app.Actions.showError({title: 'linkToSameGroup.js: error getting path for guid ' + guid + ':', msg: error})
         })
   }
 })

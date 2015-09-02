@@ -167,7 +167,7 @@ export default React.createClass({
         }
       })
       .catch(function (error) {
-        console.log(error)
+        app.Actions.showError({msg: error})
       })
   },
 
@@ -230,7 +230,7 @@ export default React.createClass({
           that.validPcsToImport()
         })
         .catch(function (error) {
-          console.log('error reading file:', error)
+          app.Actions.showError({title: 'error reading file:', msg: error})
         })
     }
   },
@@ -296,7 +296,7 @@ export default React.createClass({
           })
         })
         .catch(function (error) {
-          console.log(error)
+          app.Actions.showError({msg: error})
         })
     }
   },

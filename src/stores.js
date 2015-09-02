@@ -85,7 +85,7 @@ export default function (Actions) {
           return app.localDb.put(doc)
         })
         .catch(function (error) {
-          console.log(error)
+          app.Actions.showError({title: 'propertyCollectionsStore, savePcs:', msg: error})
         })
     },
 
@@ -113,7 +113,7 @@ export default function (Actions) {
           if (pcs.length > 0) that.trigger(pcs)
         })
         .catch(function (error) {
-          console.log(error)
+          app.Actions.showError({title: 'propertyCollectionsStore, error getting existing pcs:', msg: error})
         })
       // now fetch up to date pc's
       queryPcs()
@@ -122,7 +122,7 @@ export default function (Actions) {
           that.trigger(pcs)
         })
         .catch(function (error) {
-          console.log('propertyCollectionsStore: error querying property collections:', error)
+          app.Actions.showError({title: 'propertyCollectionsStore, error querying up to date pcs:', msg: error})
         })
     }
   })
@@ -158,7 +158,6 @@ export default function (Actions) {
 
       app.localDb.get('_local/login', { include_docs: true })
         .then(function (doc) {
-          // console.log('loginStore: login doc', doc)
           if (doc.logIn !== logIn || (changeEmail && doc.email !== email) || (logIn && !email)) {
             doc.logIn = logIn
             if (changeEmail) {
@@ -166,13 +165,12 @@ export default function (Actions) {
             } else {
               passedVariables.email = doc.email
             }
-            // console.log('loginStore: triggering passedVariables:', passedVariables)
             that.trigger(passedVariables)
             return app.localDb.put(doc)
           }
         })
         .catch(function (error) {
-          console.log('loginStore: error logging in:', error)
+          app.Actions.showError({title: 'loginStore: error logging in:', msg: error})
         })
     }
   })
@@ -192,7 +190,7 @@ export default function (Actions) {
           that.trigger(true)
         })
         .catch(function (error) {
-          console.log('pathStore: error adding paths from passed items:', error)
+          app.Actions.showError({title: 'pathStore: error adding paths from passed items:', msg: error})
         })
     }
   })
@@ -243,7 +241,7 @@ export default function (Actions) {
           that.trigger(payload)
         })
         .catch(function (error) {
-          console.log('filterOptionsStore: error preparing trigger:', error)
+          app.Actions.showError({title: 'filterOptionsStore: error preparing trigger:', msg: error})
         })
     }
   })
@@ -296,7 +294,7 @@ export default function (Actions) {
             if (synonymObjects.length > 0) that.trigger(item, synonymObjects)
           })
           .catch(function (error) {
-            console.log('activeObjectStore: error fetching synonyms of object:', error)
+            app.Actions.showError({title: 'activeObjectStore: error fetching synonyms of object:', msg: error})
           })
       }
     }
@@ -385,7 +383,7 @@ export default function (Actions) {
             const groupsToPass = allGroups ? gruppen : [group]
             addGroupsLoadedToLocalGroupsDb(groupsToPass)
               .catch(function (error) {
-                console.log('loadingGroupsStore, onShowGroupLoading, error adding group(s) to localGroupsDb:', error)
+                app.Actions.showError({title: 'loadingGroupsStore, onShowGroupLoading, error adding group(s) to localGroupsDb:', msg: error})
               })
           }
           // inform views
@@ -396,7 +394,7 @@ export default function (Actions) {
           that.trigger(payload)
         })
         .catch(function (error) {
-          console.log('loadingGroupsStore, onShowGroupLoading, error getting groups loaded from localGroupsDb:', error)
+          app.Actions.showError({title: 'loadingGroupsStore, onShowGroupLoading, error getting groups loaded from localGroupsDb:', msg: error})
         })
     }
   })
@@ -450,7 +448,7 @@ export default function (Actions) {
           that.trigger(hierarchy)
         })
         .catch(function (error) {
-          console.log('objectStore, onLoadObjectStore, error getting data:', error)
+          app.Actions.showError({title: 'objectStore, onLoadObjectStore, error getting data:', msg: error})
         })
     },
 
@@ -464,7 +462,7 @@ export default function (Actions) {
     },
 
     onLoadPouchFromLocalFailed (error) {
-      console.log('objectStore: error loading objectStore from pouch:', error)
+      app.Actions.showError({title: 'objectStore: error loading objectStore from pouch:', msg: error})
     },
 
     onLoadObjectStore (gruppe) {
@@ -476,7 +474,7 @@ export default function (Actions) {
           that.trigger(hierarchy)
         })
         .catch(function (error) {
-          console.log('objectStore, onLoadObjectStore, error getting data:', error)
+          app.Actions.showError({title: 'objectStore, onLoadObjectStore, error getting data:', msg: error})
         })
     },
 
@@ -488,7 +486,7 @@ export default function (Actions) {
           that.trigger(hierarchy)
         })
         .catch(function (error) {
-          console.log('objectStore, onLoadObjectStore, error getting data:', error)
+          app.Actions.showError({title: 'objectStore, onLoadObjectStore, error getting data:', msg: error})
         })
     },
 
@@ -498,7 +496,7 @@ export default function (Actions) {
         group: gruppe,
         finishedLoading: true
       })
-      console.log('objectStore: loading items failed with error: ', error)
+      app.Actions.showError({title: 'objectStore: loading items failed with error:', msg: error})
     }
   })
 }

@@ -107,7 +107,10 @@ export default function () {
               Actions.loadActiveObjectStore.completed(object)
             })
             .catch(function (error) {
-              console.log('error fetching doc from remoteDb with guid ' + guid + ':', error)
+              app.Actions.showError({
+                title: 'error fetching doc from remoteDb with guid ' + guid + ':',
+                msg: error
+              })
             })
         })
     }

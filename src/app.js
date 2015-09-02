@@ -91,7 +91,7 @@ app.extend({
       }
     })
     .catch(function (error) {
-      console.log('app.js: error initializing app:', error)
+      app.Actions.showError({title: 'app.js: error initializing app:', msg: error})
     })
   }
 })

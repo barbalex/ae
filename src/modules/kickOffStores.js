@@ -15,7 +15,7 @@ export default function (path, gruppe, guid) {
         return app.Actions.loadActiveObjectStore(guid)
       })
       .catch(function (error) {
-        console.log('kickOffStores.js: error loading active object store or getting path for guid ' + guid + ':', error)
+        app.Actions.showError({title: 'kickOffStores.js: error loading active object store or getting path for guid ' + guid + ':', msg: error})
       })
   } else if (path && path.length > 0) {
     app.Actions.loadActivePathStore(path, guid)
@@ -26,7 +26,7 @@ export default function (path, gruppe, guid) {
         return app.Actions.loadActiveObjectStore(object._id)
       })
       .catch(function (error) {
-        console.log('kickOffStores.js: error loading active object store or getting path for path "' + path + '":', error)
+        app.Actions.showError({title: 'kickOffStores.js: error loading active object store or getting path for path "' + path + '":', msg: error})
       })
   }
   app.loadingGroupsStore.isGroupLoaded(gruppe)
@@ -34,6 +34,6 @@ export default function (path, gruppe, guid) {
       if (!groupIsLoaded) app.Actions.loadObjectStore(gruppe)
     })
     .catch(function (error) {
-      console.log('kickOffStores.js: error getting groups from localGroupsDb:', error)
+      app.Actions.showError({title: 'kickOffStores.js: error getting groups from localGroupsDb:', msg: error})
     })
 }

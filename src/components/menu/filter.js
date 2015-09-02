@@ -45,7 +45,7 @@ export default React.createClass({
         app.Actions.loadActivePathStore(path, guid)
       })
       .catch(function (error) {
-        console.log('filter.js: error getting path for guid ' + guid + ':', error)
+        app.Actions.showError({title: 'filter.js: error getting path for guid ' + guid + ':', msg: error})
       })
 
     /*this.setState({

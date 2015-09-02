@@ -32,7 +32,7 @@ export default React.createClass({
       return (
         <div className='errorContainer' key={index}>
           <div className='error'>
-            {error.title ? <p>{error.title}:</p> : null}
+            {error.title ? <p>{error.title}</p> : null}
             <p><em>{error.msg}</em></p>
           </div>
           {index + 1 < errors.length ? <hr/> : null}
