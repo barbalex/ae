@@ -12,9 +12,9 @@ import _ from 'lodash'
 export default function () {
   return new Promise(function (resolve, reject) {
     const ddoc = {
-      _id: '_design/propertyCollections',
+      _id: '_design/pcs',
       views: {
-        'propertyCollections': {
+        'pcs': {
           map: function (doc) {
             if (doc.Typ && doc.Typ === 'Objekt') {
               if (doc.Eigenschaftensammlungen) {
@@ -28,11 +28,12 @@ export default function () {
                       felder[x] = es[x]
                     }
                   }
-                  emit(['Datensammlung', es.Name, esZusammenfassend, es['importiert von'], felder], doc._id)
+                  emit([es.Name, esZusammenfassend, es['importiert von'], felder], null)
                 })
               }
             }
-          }.toString()
+          }.toString(),
+          reduce: '_count'
         }
       }
     }
@@ -43,35 +44,33 @@ export default function () {
         if (error.status !== 409) reject(error)
       })
       .then(function (response) {
-        console.log('propertyCollections: response from putting ddoc')
+        console.log('pcs: response from putting ddoc')
         const options = {
-          startkey: ['Datensammlung'],
-          endkey: ['Datensammlung', {}, {}, {}, {}],
-          group_level: 5,
+          group_level: 4,
           reduce: '_count'
         }
-        return app.localDb.query('propertyCollections', options)
+        return app.localDb.query('pcs', options)
       })
       .then(function (result) {
-        console.log('propertyCollections.js: result', result)
+        // TODO: see if count can be extracted
+        console.log('pcs.js: result', result)
         let pcs = result.rows
         // get the keys
         pcs = _.pluck(pcs, 'key')
         // group by name
         pcs = _.uniq(pcs, function (pc) {
-          return pc[1]
+          return pc[0]
         })
         // sort by pcName
         pcs = _.sortBy(pcs, function (pc) {
-          return pc[1]
+          return pc[0]
         })
         pcs = _.map(pcs, function (pc) {
           return {
-            type: pc[0],
-            name: pc[1],
-            combining: pc[2],
-            importedBy: pc[3],
-            fields: pc[4]
+            name: pc[0],
+            combining: pc[1],
+            importedBy: pc[2],
+            fields: pc[3]
           }
         })
         resolve(pcs)

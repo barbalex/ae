@@ -110,6 +110,7 @@ export default React.createClass({
 
   componentDidMount () {
     this.listenTo(app.propertyCollectionsStore, this.onChangePropertyCollectionsStore)
+    this.listenTo(app.objectStore, this.onObjectStoreChange)
     // show login of not logged in
     const { email } = this.props
     if (!email) {
@@ -131,6 +132,11 @@ export default React.createClass({
     this.setState({
       pcs: pcs
     })
+  },
+
+  onObjectStoreChange () {
+    // reload property collections
+    app.Actions.queryPropertyCollections()
   },
 
   onChangeNameBestehend (nameBestehend) {

@@ -14,7 +14,7 @@ import getSynonymsOfObject from './modules/getSynonymsOfObject.js'
 import addGroupsLoadedToLocalGroupsDb from './modules/addGroupsLoadedToLocalGroupsDb.js'
 import getGruppen from './modules/gruppen.js'
 import loadGroupFromRemote from './modules/loadGroupFromRemote.js'
-import queryPropertyCollections from './queries/propertyCollections.js'
+import queryPcs from './queries/pcs.js'
 
 export default function (Actions) {
   app.propertyCollectionsStore = Reflux.createStore({
@@ -77,7 +77,7 @@ export default function (Actions) {
           console.log(error)
         })
       // now fetch up to date pc's
-      queryPropertyCollections()
+      queryPcs()
         .then(function (pcs) {
           that.savePcs(pcs)
           that.trigger(pcs)
