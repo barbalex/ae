@@ -129,9 +129,7 @@ export default React.createClass({
     pcs.forEach(function (pc) {
       pc.importedBy = pc.importedBy || 'alex@gabriel-software.ch'
     })
-    this.setState({
-      pcs: pcs
-    })
+    this.setState({ pcs: pcs })
   },
 
   onObjectStoreChange () {
@@ -140,10 +138,11 @@ export default React.createClass({
   },
 
   onChangeNameBestehend (nameBestehend) {
+    const that = this
     const editingPcIsAllowed = this.isEditingPcAllowed(nameBestehend)
-
     app.propertyCollectionsStore.getPcByName(nameBestehend)
       .then(function (pc) {
+        console.log('importPc.js, onChangeNameBestehend: pc', pc)
         // only go on if pc exists (prevent error)
         if (pc) {
           const beschreibung = pc.fields.Beschreibung
@@ -151,7 +150,7 @@ export default React.createClass({
           const nutzungsbedingungen = pc.fields.Nutzungsbedingungen
           const link = pc.fields.Link
           const zusammenfassend = pc.combining
-          this.setState({
+          that.setState({
             beschreibung: beschreibung,
             datenstand: datenstand,
             nutzungsbedingungen: nutzungsbedingungen,
@@ -159,7 +158,7 @@ export default React.createClass({
             zusammenfassend: zusammenfassend
           })
           if (editingPcIsAllowed) {
-            this.setState({
+            that.setState({
               nameBestehend: nameBestehend,
               name: nameBestehend
             })
