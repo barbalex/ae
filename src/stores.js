@@ -17,6 +17,44 @@ import loadGroupFromRemote from './modules/loadGroupFromRemote.js'
 import queryPcs from './queries/pcs.js'
 
 export default function (Actions) {
+  app.errorStore = Reflux.createStore({
+    /*
+     * receives an error object with two keys: title, msg
+     * keeps error objects in the array errors
+     * deletes errors after a defined time - the time while the error will be shown to the user
+     *
+     * if a view wants to inform of an error it
+     * calls action showError and passes the object
+     *
+     * the errorStore triggers, passing the errors array
+     * ...then triggers again after removing the last error some time later
+     *
+     * Test: app.Actions.showError({title: 'testTitle',msg:'testMessage'})
+     */
+    listenables: Actions,
+
+    errors: [],
+
+    // this is how long the error will be shown
+    duration: 8000,
+
+    onShowError (error) {
+      if (!error) {
+        // user wants to remove error messages
+        this.errors = []
+        this.trigger(this.errors)
+      } else {
+        const that = this
+        this.errors.unshift(error)
+        this.trigger(this.errors)
+        setTimeout(function () {
+          that.errors.pop()
+          that.trigger(that.errors)
+        }, this.duration)
+      }
+    }
+  })
+
   app.propertyCollectionsStore = Reflux.createStore({
     /*
      * queries property collections

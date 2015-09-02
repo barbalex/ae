@@ -13,6 +13,7 @@
  * 
  * 3. FORMS....................die rechte Spalte
  *    allgemein / querbeet
+ *    errors
  *    main
  *    login
  *    exportieren
@@ -560,6 +561,41 @@ option
   margin-bottom: 15px !important
 
 
+
+
+
+/*--------------------------------*\
+    3. #FORMS
+       #errors
+\*--------------------------------*/
+
+#errors
+  position: absolute
+  bottom: 8px
+  right: 8px
+  background-color: orange
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2)
+  border: 1px solid #CCC
+  border-radius: 3px
+  padding-top: 10px
+  padding-bottom: 10px
+
+#errors .error
+  padding-left: 10px
+  padding-right: 10px
+
+#errors .error p  
+  margin-bottom: -2px
+
+#errors .errorContainer
+  border: none
+
+#errors hr
+  margin-top: 8px
+  margin-bottom: 8px
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2)
+  border: 1px solid #CCC
+    
 
 
 

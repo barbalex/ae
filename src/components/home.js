@@ -231,7 +231,7 @@ export default React.createClass({
     const showMain = object !== undefined || showImportRC || showImportPC || showOrganizations
     const showLogin = logIn && !email
 
-    // MenuButton needs NOT to be inside menu
+    // MenuButton needs to be outside of the menu
     // otherwise the menu can't be shown outside when menu is short
     return (
       <NavHelper>
