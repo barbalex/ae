@@ -26,6 +26,8 @@ import getObjectsFromFile from './getObjectsFromFile.js'
 import isValidUrl from '../../../modules/isValidUrl.js'
 import getSuccessTypeFromAnalysis from './getSuccessTypeFromAnalysis.js'
 import getItemsById from '../../../modules/getItemsById.js'
+import convertValue from '../../../modules/convertValue.js'
+import sortObjectArrayByName from '../../../modules/sortObjectArrayByName.js'
 import AlertLoadAllGroups from './alertLoadAllGroups.js'
 
 export default React.createClass({
@@ -294,7 +296,7 @@ export default React.createClass({
     pcsToImport.forEach((pc) => {
       // find the object to add it to
       const objectToImportPcInTo = _.find(objectsToImportPcsInTo, (object) => pc[idsImportIdField] === _.get(object, idPath))
-      if (objectsToImportPcsInTo) {
+      if (objectToImportPcInTo) {
         // build pc
         let pc = {}
         pc.Name = name
@@ -311,14 +313,18 @@ export default React.createClass({
           // dont import idField or empty fields
           if (field !== idsImportIdField && value !== '' && value !== null) {
             // convert values / types if necessary
-            let valueConverted = null
-            if (value == -1) valueConverted = true
-            if (value == 'true') valueConverted = true
-            if (value == 'false') valueConverted = false
-            if (!isNaN(value)) valueConverted = parseInt(value, 10)
+            pc.Eigenschaften[field] = convertValue(value)
           }
         })
+        // make sure, Eigenschaftensammlungen exists
+        if (!objectToImportPcInTo.Eigenschaftensammlungen) objectToImportPcInTo.Eigenschaftensammlungen = []
+        // if a pc with this name existed already, remove it
+        objectToImportPcInTo.Eigenschaftensammlungen = _.reject(objectToImportPcInTo.Eigenschaftensammlungen, (es) => es.name === name)
+        objectToImportPcInTo.Eigenschaftensammlungen.push(pc)
+        objectToImportPcInTo.Eigenschaftensammlungen = sortObjectArrayByName(objectToImportPcInTo.Eigenschaftensammlungen)
       }
+      // save objectsToImportPcsInTo
+      app.localDb.bulkDocs(objectsToImportPcsInTo)
     })
   },
 
