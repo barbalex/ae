@@ -5,26 +5,24 @@
 
 'use strict'
 
-import _ from 'lodash'
-
 export default (relations) => {
   relations.sort((a, b) => {
     let aName
     let bName
 
-    _.each(a.Beziehungspartner, (beziehungspartner) => {
-      if (beziehungspartner.Gruppe === 'Lebensräume') {
+    a.Beziehungspartner.forEach((partner) => {
+      if (partner.Gruppe === 'Lebensräume') {
         // sortiert werden soll bei Lebensräumen zuerst nach Taxonomie, dann nach Name
-        aName = beziehungspartner.Gruppe + beziehungspartner.Taxonomie + beziehungspartner.Name
+        aName = partner.Gruppe + partner.Taxonomie + partner.Name
       } else {
-        aName = beziehungspartner.Gruppe + beziehungspartner.Name
+        aName = partner.Gruppe + partner.Name
       }
     })
-    _.each(b.Beziehungspartner, (beziehungspartner) => {
-      if (beziehungspartner.Gruppe === 'Lebensräume') {
-        bName = beziehungspartner.Gruppe + beziehungspartner.Taxonomie + beziehungspartner.Name
+    b.Beziehungspartner.forEach((partner) => {
+      if (partner.Gruppe === 'Lebensräume') {
+        bName = partner.Gruppe + partner.Taxonomie + partner.Name
       } else {
-        bName = beziehungspartner.Gruppe + beziehungspartner.Name
+        bName = partner.Gruppe + partner.Name
       }
     })
     if (aName && bName) {

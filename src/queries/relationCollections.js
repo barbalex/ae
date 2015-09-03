@@ -7,7 +7,7 @@ function (doc) {
 
   if (doc.Typ && doc.Typ === 'Objekt') {
     if (doc.Beziehungssammlungen) {
-      _.each(doc.Beziehungssammlungen, function (bs) {
+      doc.Beziehungssammlungen.forEach(function (bs) {
         // bsZusammenfassend ergänzen
         const bsZusammenfassend = !!bs.zusammenfassend
         let felder = {}
