@@ -2,7 +2,7 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import { Accordion, Panel, Well, Input, Alert, Button } from 'react-bootstrap'
+import { Accordion, Panel, Well, Alert, Button } from 'react-bootstrap'
 import _ from 'lodash'
 import { ListenerMixin } from 'reflux'
 import WellAutorenrechte from './wellAutorenrechte.js'
@@ -136,7 +136,7 @@ export default React.createClass({
     pcs.forEach(function (pc) {
       pc.importedBy = pc.importedBy || 'alex@gabriel-software.ch'
     })
-    this.setState({ pcs: pcs })
+    this.setState({ pcs })
   },
 
   onObjectStoreChange () {
@@ -156,19 +156,9 @@ export default React.createClass({
           const nutzungsbedingungen = pc.fields.Nutzungsbedingungen
           const link = pc.fields.Link
           const zusammenfassend = pc.combining
-          that.setState({
-            beschreibung: beschreibung,
-            datenstand: datenstand,
-            nutzungsbedingungen: nutzungsbedingungen,
-            link: link,
-            zusammenfassend: zusammenfassend
-          })
-          if (editingPcIsAllowed) {
-            that.setState({
-              nameBestehend: nameBestehend,
-              name: nameBestehend
-            })
-          }
+          const name = nameBestehend
+          that.setState({ beschreibung, datenstand, nutzungsbedingungen, link, zusammenfassend })
+          if (editingPcIsAllowed) that.setState({ nameBestehend, name })
         }
       })
       .catch(function (error) {
@@ -177,7 +167,7 @@ export default React.createClass({
   },
 
   onChangeName (name) {
-    this.setState({ name: name })
+    this.setState({ name })
   },
 
   onBlurName (name) {
@@ -185,19 +175,19 @@ export default React.createClass({
   },
 
   onChangeBeschreibung (beschreibung) {
-    this.setState({ beschreibung: beschreibung })
+    this.setState({ beschreibung })
   },
 
   onChangeDatenstand (datenstand) {
-    this.setState({ datenstand: datenstand })
+    this.setState({ datenstand })
   },
 
   onChangeNutzungsbedingungen (nutzungsbedingungen) {
-    this.setState({ nutzungsbedingungen: nutzungsbedingungen })
+    this.setState({ nutzungsbedingungen })
   },
 
   onChangeLink (link) {
-    this.setState({ link: link })
+    this.setState({ link })
   },
 
   onBlurLink () {
@@ -205,16 +195,12 @@ export default React.createClass({
   },
 
   onChangeZusammenfassend (zusammenfassend) {
-    this.setState({
-      zusammenfassend: zusammenfassend,
-      nameUrsprungsEs: null
-    })
+    const nameUrsprungsEs = null
+    this.setState({ zusammenfassend, nameUrsprungsEs })
   },
 
   onChangeNameUrsprungsEs (nameUrsprungsEs) {
-    this.setState({
-      nameUrsprungsEs: nameUrsprungsEs
-    })
+    this.setState({ nameUrsprungsEs })
     this.validUrsprungsEs(nameUrsprungsEs)
   },
 
@@ -222,16 +208,12 @@ export default React.createClass({
     const that = this
     // always empty pcsToImport first
     // otherwise weird things happen
-    this.setState({
-      pcsToImport: []
-    })
+    this.setState({ pcsToImport: [] })
     if (event.target.files[0] !== undefined) {
       const file = event.target.files[0]
       getObjectsFromFile(file)
         .then(function (pcsToImport) {
-          that.setState({
-            pcsToImport: pcsToImport
-          })
+          that.setState({ pcsToImport })
           that.validPcsToImport()
         })
         .catch(function (error) {
@@ -242,7 +224,7 @@ export default React.createClass({
 
   onChangeAeId (idsAeIdField) {
     const { idsImportIdField } = this.state
-    this.setState({ idsAeIdField: idsAeIdField })
+    this.setState({ idsAeIdField })
     this.onChangeId(idsAeIdField, idsImportIdField)
   },
 
@@ -258,14 +240,14 @@ export default React.createClass({
           idsNotANumber.push(pc[idsImportIdField])
         }
       })
-      this.setState({ idsNotANumber: idsNotANumber })
+      this.setState({ idsNotANumber })
     }
-    this.setState({ idsImportIdField: idsImportIdField })
+    this.setState({ idsImportIdField })
     this.onChangeId(idsAeIdField, idsImportIdField, idsNotANumber)
   },
 
   // need to get values directly because state has not been updated yet
-  onChangeId (idsAeIdField, idsImportIdField, idsNotANumber) {
+  onChangeId (idsAeIdField, idsImportIdField) {
     const { pcsToImport } = this.state
     const that = this
 
@@ -279,10 +261,7 @@ export default React.createClass({
       const idsToImport = _.unique(idsToImportWithDuplicates)
       const idsNumberOfRecordsWithIdValue = idsToImportWithDuplicates.length
       const idsDuplicate = _.difference(idsToImportWithDuplicates, idsToImport)
-      this.setState({
-        idsNumberOfRecordsWithIdValue: idsNumberOfRecordsWithIdValue,
-        idsDuplicate: idsDuplicate
-      })
+      this.setState({ idsNumberOfRecordsWithIdValue, idsDuplicate })
       getItemsById(idsAeIdField, ids)
         .then(function (objectsToImportPcsInTo) {
           // go on with analysis
@@ -291,14 +270,9 @@ export default React.createClass({
           const idsImportable = _.intersection(idsToImport, idsFetched)
           const idsNumberImportable = idsImportable.length
           const idsNotImportable = _.difference(idsToImport, idsFetched)
-
+          const idsAnalysisComplete = true
           // finished? render...
-          that.setState({
-            idsNumberImportable: idsNumberImportable,
-            idsNotImportable: idsNotImportable,
-            idsAnalysisComplete: true,
-            objectsToImportPcsInTo: objectsToImportPcsInTo
-          })
+          that.setState({ idsNumberImportable, idsNotImportable, idsAnalysisComplete, objectsToImportPcsInTo })
         })
         .catch(function (error) {
           app.Actions.showError({msg: error})
@@ -349,36 +323,30 @@ export default React.createClass({
     const validUrsprungsEs = this.validUrsprungsEs()
     const validEmail = !!email
     // check if panel 1 is done
-    const isPanel1Done = validName && validBeschreibung && validDatenstand && validNutzungsbedingungen && validLink && validUrsprungsEs && validEmail
-    this.setState({ panel1Done: isPanel1Done })
-    if (!isPanel1Done) this.setState({ activePanel: 1 })
-    return isPanel1Done
+    const panel1Done = validName && validBeschreibung && validDatenstand && validNutzungsbedingungen && validLink && validUrsprungsEs && validEmail
+    this.setState({ panel1Done })
+    if (!panel1Done) this.setState({ activePanel: 1 })
+    return panel1Done
   },
 
   isPanel2Done () {
     const validPcsToImport = this.validPcsToImport()
-    const isPanel1Done = this.isPanel1Done()
-    const isPanel2Done = isPanel1Done && validPcsToImport
-    this.setState({ panel2Done: isPanel2Done })
-    if (isPanel1Done && !isPanel2Done) this.setState({ activePanel: 2 })
-    return isPanel2Done
+    const panel1Done = this.isPanel1Done()
+    const panel2Done = panel1Done && validPcsToImport
+    this.setState({ panel2Done })
+    if (panel1Done && !panel2Done) this.setState({ activePanel: 2 })
+    return panel2Done
   },
 
   isPanel3Done () {
     const { objectsToImportPcsInTo, pcsToImport, idsNumberImportable, idsNotImportable, idsNotANumber, idsDuplicate } = this.state
     const isPanel2Done = this.isPanel2Done()
-    const variablesToPass = {
-      pcsToImport: pcsToImport,
-      idsNumberImportable: idsNumberImportable,
-      idsNotImportable: idsNotImportable,
-      idsNotANumber: idsNotANumber,
-      idsDuplicate: idsDuplicate
-    }
+    const variablesToPass = {pcsToImport, idsNumberImportable, idsNotImportable, idsNotANumber, idsDuplicate}
     const idsAnalysisResultType = getSuccessTypeFromAnalysis(variablesToPass)
-    const isPanel3Done = idsAnalysisResultType !== 'danger' && objectsToImportPcsInTo.length > 0
-    this.setState({ panel3Done: isPanel3Done })
-    if (isPanel2Done && !isPanel3Done) this.setState({ activePanel: 3 })
-    return isPanel3Done
+    const panel3Done = idsAnalysisResultType !== 'danger' && objectsToImportPcsInTo.length > 0
+    this.setState({ panel3Done })
+    if (isPanel2Done && !panel3Done) this.setState({ activePanel: 3 })
+    return panel3Done
   },
 
   isEditingPcAllowed (name) {
@@ -387,9 +355,7 @@ export default React.createClass({
     const that = this
     // set editing allowed to true
     // reason: close alert if it is still shown from last select
-    this.setState({
-      esBearbeitenErlaubt: true
-    })
+    this.setState({ esBearbeitenErlaubt: true })
     // check if this name exists
     // if so and it is not combining: check if it was imported by the user
     const samePc = _.find(pcs, function (pc) {
@@ -397,9 +363,7 @@ export default React.createClass({
     })
     const esBearbeitenErlaubt = !samePc || (samePc && (samePc.combining || samePc.importedBy === email))
     if (!esBearbeitenErlaubt) {
-      this.setState({
-        esBearbeitenErlaubt: false
-      })
+      this.setState({ esBearbeitenErlaubt: false })
       // delete text after a second
       setTimeout(function () {
         that.setState({
@@ -409,9 +373,7 @@ export default React.createClass({
       }, 1000)
       // close alert after 8 seconds
       setTimeout(function () {
-        that.setState({
-          esBearbeitenErlaubt: true
-        })
+        that.setState({ esBearbeitenErlaubt: true })
       }, 8000)
     }
     return esBearbeitenErlaubt
@@ -419,32 +381,32 @@ export default React.createClass({
 
   validName () {
     const validName = !!this.state.name
-    this.setState({ validName: validName })
+    this.setState({ validName })
     return validName
   },
 
   validBeschreibung () {
     const validBeschreibung = !!this.state.beschreibung
-    this.setState({ validBeschreibung: validBeschreibung })
+    this.setState({ validBeschreibung })
     return validBeschreibung
   },
 
   validDatenstand () {
     const validDatenstand = !!this.state.datenstand
-    this.setState({ validDatenstand: validDatenstand })
+    this.setState({ validDatenstand })
     return validDatenstand
   },
 
   validNutzungsbedingungen () {
     const validNutzungsbedingungen = !!this.state.nutzungsbedingungen
-    this.setState({ validNutzungsbedingungen: validNutzungsbedingungen })
+    this.setState({ validNutzungsbedingungen })
     return validNutzungsbedingungen
   },
 
   validLink () {
     const link = this.state.link
     const validLink = !link || isValidUrl(link)
-    this.setState({ validLink: validLink })
+    this.setState({ validLink })
     return validLink
   },
 
@@ -455,15 +417,13 @@ export default React.createClass({
     if (!nameUrsprungsEs) nameUrsprungsEs = this.state.nameUrsprungsEs
     let validUrsprungsEs = true
     if (zusammenfassend && !nameUrsprungsEs) validUrsprungsEs = false
-    this.setState({
-      validUrsprungsEs: validUrsprungsEs
-    })
+    this.setState({ validUrsprungsEs })
     return validUrsprungsEs
   },
 
   validPcsToImport () {
     const validPcsToImport = this.state.pcsToImport.length > 0
-    this.setState({ validPcsToImport: validPcsToImport })
+    this.setState({ validPcsToImport })
     return validPcsToImport
   },
 
@@ -477,7 +437,7 @@ export default React.createClass({
   },
 
   render () {
-    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, pcsToImport, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs, validPcsToImport, activePanel, idsAeIdField, idsImportIdField, pcs, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, isPanel3Done } = this.state
+    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, pcsToImport, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs, validPcsToImport, activePanel, idsAeIdField, idsImportIdField, pcs, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, panel3Done } = this.state
     const { groupsLoadedOrLoading, email, allGroupsLoaded, groupsLoadingObjects } = this.props
     const showLoadAllGroups = email && !allGroupsLoaded
     const alertAllGroupsBsStyle = ultimatelyAlertLoadAllGroups ? 'danger' : 'info'
@@ -528,9 +488,8 @@ export default React.createClass({
           </Panel>
 
           <Panel collapsible header='4. Import ausführen' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>
-            {/*TODO: depending on onChangeIdsAnalysisResult, show buttons*/}
-            {isPanel3Done ? <Button className='btn-primary' id='dsImportieren' style={{'marginBottom': 6 + 'px'}}>Eigenschaftensammlung mit allen Eigenschaften importieren</Button> : null }
-            {isPanel3Done ? <Button className='btn-primary' id='dsEntfernen' style={{'marginBottom': 6 + 'px'}}>Eigenschaftensammlung mit allen Eigenschaften aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen</Button> : null}
+            {panel3Done ? <Button className='btn-primary' style={{'marginBottom': 6 + 'px'}}>Eigenschaftensammlung mit allen Eigenschaften importieren</Button> : null }
+            {panel3Done ? <Button className='btn-primary' style={{'marginBottom': 6 + 'px'}}>Eigenschaftensammlung mit allen Eigenschaften aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen</Button> : null}
             <div className='progress'>
               <div id='dsImportProgressbar' className='progress-bar' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'><span id='dsImportProgressbarText'></span>
               </div>

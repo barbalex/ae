@@ -49,15 +49,13 @@ export default React.createClass({
   },
 
   onError (errors) {
-    this.setState({ errors: errors })
+    this.setState({ errors })
   },
 
   onResize () {
     const thisWidth = React.findDOMNode(this).offsetWidth
     const formClassNames = thisWidth > 700 ? 'form form-horizontal' : 'form'
-    this.setState({
-      formClassNames: formClassNames
-    })
+    this.setState({ formClassNames })
   },
 
   render () {

@@ -65,28 +65,24 @@ export default React.createClass({
           })
         )
         .catch((error) => {
-          that.setState({
-            loginError: error
-          })
+          that.setState({ loginError: error })
         })
     }
   },
 
   onBlurEmail (event) {
     const email = event.target.value
-    this.setState({email: email})
+    this.setState({ email })
     this.validEmail(email)
   },
 
   onBlurPassword (event) {
     const password = event.target.value
-    this.setState({password: password})
+    this.setState({ password })
   },
 
   onAlertDismiss () {
-    this.setState({
-      loginError: null
-    })
+    this.setState({ loginError: null })
   },
 
   schliessen () {
@@ -100,18 +96,16 @@ export default React.createClass({
   validEmail (email) {
     email = email || this.state.email
     const validEmail = email && validateEmail(email)
-    this.setState({
-      invalidEmail: !validEmail
-    })
+    const invalidEmail = !validEmail
+    this.setState({ invalidEmail })
     return validEmail
   },
 
   validPassword (password) {
     password = password || this.state.password
     const validPassword = !!password
-    this.setState({
-      invalidPassword: !validPassword
-    })
+    const invalidPassword = !validPassword
+    this.setState({ invalidPassword })
     return validPassword
   },
 

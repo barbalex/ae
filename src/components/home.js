@@ -91,18 +91,11 @@ export default React.createClass({
     const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
     const allGroupsLoaded = groupsNotLoaded.length === 0
 
-    this.setState({
-      groupsLoadingObjects: groupsLoadingObjects,
-      groupsLoadedOrLoading: groupsLoadedOrLoading,
-      allGroupsLoaded: allGroupsLoaded
-    })
+    this.setState({ groupsLoadingObjects, groupsLoadedOrLoading, allGroupsLoaded })
   },
 
   onLoginStoreChange (passedVariables) {
-    this.setState({
-      logIn: passedVariables.logIn,
-      email: passedVariables.email
-    })
+    this.setState(passedVariables)
   },
 
   onActivePathStoreChange (path, guid) {
@@ -150,31 +143,21 @@ export default React.createClass({
   },
 
   onObjectStoreChange (hierarchy) {
-    this.setState({
-      hierarchy: hierarchy || this.state.hierarchy
-    })
+    hierarchy = hierarchy || this.state.hierarchy
+    this.setState({ hierarchy })
   },
 
   onActiveObjectStoreChange (object, synonymObjects) {
     const guid = object._id
-    this.setState({
-      object: object,
-      guid: guid,
-      synonymObjects: synonymObjects
-    })
+    this.setState({ object, guid, synonymObjects })
   },
 
   onFilterOptionsStoreChange (payload) {
-    const { filterOptions, loading } = payload
+    const { filterOptions, loading: loadingFilterOptions } = payload
     if (filterOptions) {
-      this.setState({
-        filterOptions: filterOptions,
-        loadingFilterOptions: loading
-      })
+      this.setState({ filterOptions, loadingFilterOptions })
     } else {
-      this.setState({
-        loadingFilterOptions: loading
-      })
+      this.setState({ loadingFilterOptions })
     }
   },
 
