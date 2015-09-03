@@ -23,13 +23,9 @@ export default React.createClass({
   options () {
     const { pcs } = this.props
     // don't want combining pcs
-    let options = _.filter(pcs, function (pc) {
-      return !pc.combining
-    })
+    let options = _.filter(pcs, (pc) => !pc.combining)
     options = _.pluck(options, 'name')
-    options = options.map(function (name) {
-      return (<option key={name} value={name}>{name}</option>)
-    })
+    options = options.map((name) => <option key={name} value={name}>{name}</option>)
     // add an empty option at the beginning
     options.unshift(<option key='noValue' value=''></option>)
     return options

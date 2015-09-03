@@ -29,17 +29,15 @@ export default React.createClass({
 
     // get a list of all keys
     let keys = []
-    pcsToImport.forEach(function (pc) {
+    pcsToImport.forEach((pc) => {
       keys = _.union(keys, _.keys(pc))
     })
 
-    const thead = keys.map(function (key, index) {
-      return <th key={index}>{key}</th>
-    })
-    const tbody = pcsToImport.map(function (pc, index) {
+    const thead = keys.map((key, index) => <th key={index}>{key}</th>)
+    const tbody = pcsToImport.map((pc, index) => {
       // need only the first 10
       if (index < 10) {
-        const rows = _.map(keys, function (key) {
+        const rows = _.map(keys, (key) => {
           // return values for not existing fieds!
           // if not, table gets torn apart
           const value = pc[key] || ''

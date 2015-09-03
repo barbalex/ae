@@ -23,7 +23,7 @@ export default React.createClass({
     const { email, pcs, groupsLoadedOrLoading } = this.props
 
     if (pcs && pcs.length > 0) {
-      let options = pcs.map(function (pc) {
+      let options = pcs.map((pc) => {
         const name = pc.name
         const combining = pc.combining
         const importedBy = pc.importedBy
@@ -31,7 +31,7 @@ export default React.createClass({
         // or: user is admin
         const mutable = (importedBy === email || combining || Boolean(window.localStorage.admin))
         const className = mutable ? 'adbGruenFett' : 'adbGrauNormal'
-        return (<option key={name} value={name} className={className} waehlbar={mutable}>{name}</option>)
+        return <option key={name} value={name} className={className} waehlbar={mutable}>{name}</option>
       })
       // add an empty option at the beginning
       options.unshift(<option key='noValue' value='' waehlbar={true}></option>)

@@ -133,7 +133,7 @@ export default React.createClass({
 
   onChangePropertyCollectionsStore (pcs) {
     // email has empty values. Set default
-    pcs.forEach(function (pc) {
+    pcs.forEach((pc) => {
       pc.importedBy = pc.importedBy || 'alex@gabriel-software.ch'
     })
     this.setState({ pcs })
@@ -145,10 +145,9 @@ export default React.createClass({
   },
 
   onChangeNameBestehend (nameBestehend) {
-    const that = this
     const editingPcIsAllowed = this.isEditingPcAllowed(nameBestehend)
     app.propertyCollectionsStore.getPcByName(nameBestehend)
-      .then(function (pc) {
+      .then((pc) => {
         // only go on if pc exists (prevent error)
         if (pc) {
           const beschreibung = pc.fields.Beschreibung
@@ -157,13 +156,11 @@ export default React.createClass({
           const link = pc.fields.Link
           const zusammenfassend = pc.combining
           const name = nameBestehend
-          that.setState({ beschreibung, datenstand, nutzungsbedingungen, link, zusammenfassend })
-          if (editingPcIsAllowed) that.setState({ nameBestehend, name })
+          this.setState({ beschreibung, datenstand, nutzungsbedingungen, link, zusammenfassend })
+          if (editingPcIsAllowed) this.setState({ nameBestehend, name })
         }
       })
-      .catch(function (error) {
-        app.Actions.showError({msg: error})
-      })
+      .catch((error) => app.Actions.showError({msg: error}))
   },
 
   onChangeName (name) {
@@ -205,20 +202,17 @@ export default React.createClass({
   },
 
   onChangePcFile (event) {
-    const that = this
     // always empty pcsToImport first
     // otherwise weird things happen
     this.setState({ pcsToImport: [] })
     if (event.target.files[0] !== undefined) {
       const file = event.target.files[0]
       getObjectsFromFile(file)
-        .then(function (pcsToImport) {
-          that.setState({ pcsToImport })
-          that.validPcsToImport()
+        .then((pcsToImport) => {
+          this.setState({ pcsToImport })
+          this.validPcsToImport()
         })
-        .catch(function (error) {
-          app.Actions.showError({title: 'error reading file:', msg: error})
-        })
+        .catch((error) => app.Actions.showError({title: 'error reading file:', msg: error}))
     }
   },
 
@@ -233,7 +227,7 @@ export default React.createClass({
     let idsNotANumber = []
     // make sure data in idsImportIdField is a number, if it is not a GUID
     if (idsImportIdField !== 'GUID') {
-      pcsToImport.forEach(function (pc, index) {
+      pcsToImport.forEach((pc, index) => {
         if (!isNaN(pc[idsImportIdField])) {
           pc[idsImportIdField] = parseInt(pc[idsImportIdField], 10)
         } else {
@@ -249,21 +243,18 @@ export default React.createClass({
   // need to get values directly because state has not been updated yet
   onChangeId (idsAeIdField, idsImportIdField) {
     const { pcsToImport } = this.state
-    const that = this
 
     if (idsAeIdField && idsImportIdField) {
       // start analysis
       const ids = _.pluck(pcsToImport, idsImportIdField)
       let idsToImportWithDuplicates = _.pluck(pcsToImport, idsImportIdField)
-      idsToImportWithDuplicates = _.filter(idsToImportWithDuplicates, function (id) {
-        return !!id
-      })
+      idsToImportWithDuplicates = _.filter(idsToImportWithDuplicates, (id) => !!id)
       const idsToImport = _.unique(idsToImportWithDuplicates)
       const idsNumberOfRecordsWithIdValue = idsToImportWithDuplicates.length
       const idsDuplicate = _.difference(idsToImportWithDuplicates, idsToImport)
       this.setState({ idsNumberOfRecordsWithIdValue, idsDuplicate })
       getItemsById(idsAeIdField, ids)
-        .then(function (objectsToImportPcsInTo) {
+        .then((objectsToImportPcsInTo) => {
           // go on with analysis
           const idAttribute = idsAeIdField === 'GUID' ? '_id' : 'Taxonomien[0].Eigenschaften["Taxonomie ID"]'
           const idsFetched = _.pluck(objectsToImportPcsInTo, idAttribute)
@@ -272,11 +263,9 @@ export default React.createClass({
           const idsNotImportable = _.difference(idsToImport, idsFetched)
           const idsAnalysisComplete = true
           // finished? render...
-          that.setState({ idsNumberImportable, idsNotImportable, idsAnalysisComplete, objectsToImportPcsInTo })
+          this.setState({ idsNumberImportable, idsNotImportable, idsAnalysisComplete, objectsToImportPcsInTo })
         })
-        .catch(function (error) {
-          app.Actions.showError({msg: error})
-        })
+        .catch((error) => app.Actions.showError({msg: error}))
     }
   },
 
@@ -352,28 +341,25 @@ export default React.createClass({
   isEditingPcAllowed (name) {
     const { pcs } = this.state
     const { email } = this.props
-    const that = this
     // set editing allowed to true
     // reason: close alert if it is still shown from last select
     this.setState({ esBearbeitenErlaubt: true })
     // check if this name exists
     // if so and it is not combining: check if it was imported by the user
-    const samePc = _.find(pcs, function (pc) {
-      return pc.name === name
-    })
+    const samePc = _.find(pcs, (pc) => pc.name === name)
     const esBearbeitenErlaubt = !samePc || (samePc && (samePc.combining || samePc.importedBy === email))
     if (!esBearbeitenErlaubt) {
       this.setState({ esBearbeitenErlaubt: false })
       // delete text after a second
-      setTimeout(function () {
-        that.setState({
+      setTimeout(() => {
+        this.setState({
           nameBestehend: null,
           name: null
         })
       }, 1000)
       // close alert after 8 seconds
-      setTimeout(function () {
-        that.setState({ esBearbeitenErlaubt: true })
+      setTimeout(() => {
+        this.setState({ esBearbeitenErlaubt: true })
       }, 8000)
     }
     return esBearbeitenErlaubt
