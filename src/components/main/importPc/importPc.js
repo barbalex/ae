@@ -15,6 +15,7 @@ import InputBeschreibung from './inputBeschreibung.js'
 import InputDatenstand from './inputDatenstand.js'
 import InputNutzungsbedingungen from './inputNutzungsbedingungen.js'
 import InputLink from './inputLink.js'
+import InputImportiertVon from './inputImportiertVon.js'
 import InputZusammenfassend from './inputZusammenfassend.js'
 import InputUrsprungsEs from './inputUrsprungsEs.js'
 import AlertIdsAnalysisResult from './alertIdsAnalysisResult.js'
@@ -476,7 +477,7 @@ export default React.createClass({
   },
 
   render () {
-    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, pcsToImport, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs, validPcsToImport, activePanel, idsAeIdField, idsImportIdField, pcs, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups } = this.state
+    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, pcsToImport, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs, validPcsToImport, activePanel, idsAeIdField, idsImportIdField, pcs, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, isPanel3Done } = this.state
     const { groupsLoadedOrLoading, email, allGroupsLoaded, groupsLoadingObjects } = this.props
     const showLoadAllGroups = email && !allGroupsLoaded
     const alertAllGroupsBsStyle = ultimatelyAlertLoadAllGroups ? 'danger' : 'info'
@@ -504,7 +505,7 @@ export default React.createClass({
             <InputDatenstand datenstand={datenstand} validDatenstand={validDatenstand} onChangeDatenstand={this.onChangeDatenstand} />
             <InputNutzungsbedingungen nutzungsbedingungen={nutzungsbedingungen} validNutzungsbedingungen={validNutzungsbedingungen} onChangeNutzungsbedingungen={this.onChangeNutzungsbedingungen} />
             <InputLink link={link} validLink={validLink} onChangeLink={this.onChangeLink} onBlurLink={this.onBlurLink} />
-            <Input type='text' label={'importiert von'} className='controls input-sm' value={importiertVon} disabled />
+            <InputImportiertVon importiertVon={importiertVon} />
             <InputZusammenfassend zusammenfassend={zusammenfassend} onChangeZusammenfassend={this.onChangeZusammenfassend} />
             {zusammenfassend ? <InputUrsprungsEs nameUrsprungsEs={nameUrsprungsEs} pcs={pcs} validUrsprungsEs={validUrsprungsEs} onChangeNameUrsprungsEs={this.onChangeNameUrsprungsEs} /> : null}
           </Panel>
@@ -528,8 +529,8 @@ export default React.createClass({
 
           <Panel collapsible header='4. Import ausführen' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>
             {/*TODO: depending on onChangeIdsAnalysisResult, show buttons*/}
-            <Button className='btn-primary' id='dsImportieren' style={{'marginBottom': 6 + 'px'}}>Eigenschaftensammlung mit allen Eigenschaften importieren</Button>
-            <Button className='btn-primary' id='dsEntfernen' style={{'marginBottom': 6 + 'px'}}>Eigenschaftensammlung mit allen Eigenschaften aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen</Button>
+            {isPanel3Done ? <Button className='btn-primary' id='dsImportieren' style={{'marginBottom': 6 + 'px'}}>Eigenschaftensammlung mit allen Eigenschaften importieren</Button> : null }
+            {isPanel3Done ? <Button className='btn-primary' id='dsEntfernen' style={{'marginBottom': 6 + 'px'}}>Eigenschaftensammlung mit allen Eigenschaften aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen</Button> : null}
             <div className='progress'>
               <div id='dsImportProgressbar' className='progress-bar' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'><span id='dsImportProgressbarText'></span>
               </div>
