@@ -33,15 +33,13 @@ export default React.createClass({
 
   render () {
     const { objects, fieldName } = this.props
-    const that = this
-
     const linkArray = _.map(objects, (object) => {
       getPathFromGuid(object.guid)
         .then((result) => {
           const url = result.url
           return (
             <p className='controls feldtext'>
-              <a href={url} className='form-control-static linkZuArtGleicherGruppe' onClick={that.onClick.bind(that, object._id)}>
+              <a href={url} className='form-control-static linkZuArtGleicherGruppe' onClick={this.onClick.bind(this, object._id)}>
                 {object.Name}
               </a>
             </p>

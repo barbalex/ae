@@ -99,10 +99,7 @@ export default React.createClass({
   },
 
   onActivePathStoreChange (path, guid) {
-    let state = {
-      path: path,
-      guid: guid
-    }
+    let state = { path, guid }
 
     let gruppe = null
     let showImportPC = false
@@ -183,29 +180,26 @@ export default React.createClass({
   },
 
   createButtons () {
-    const that = this
     const groupsLoadedOrLoading = this.state.groupsLoadedOrLoading
     const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
-    return _.map(groupsNotLoaded, function (gruppe) {
-      return that.button(gruppe)
-    })
+    return _.map(groupsNotLoaded, (gruppe) => this.button(gruppe))
   },
 
   button (gruppe) {
     const label = gruppe.replace('Macromycetes', 'Pilze')
     return (
-            <Input
-              key={gruppe}
-              type='checkbox'
-              label={label}
-              onClick={this.onClickGruppe.bind(this, gruppe)} />
-          )
+      <Input
+        key={gruppe}
+        type='checkbox'
+        label={label}
+        onClick={this.onClickGruppe.bind(this, gruppe)} />
+    )
   },
 
   email () {
     const email = this.state.email
     const text = email ? email : 'nicht angemeldet'
-    return (<div id='email'>{text}</div>)
+    return <div id='email'>{text}</div>
   },
 
   render () {

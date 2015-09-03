@@ -15,7 +15,7 @@ PouchDB.plugin(pouchdbLoad)
 // The store is listening to all actions, and the components in turn are listening to the store.
 // Thus the flow is: User interaction -> component calls action -> store reacts and triggers -> components update
 
-export default function () {
+export default () => {
   let Actions = Reflux.createActions({
     loadPouchFromRemote: {children: ['completed', 'failed']},
     loadPouchFromLocal: {children: ['completed', 'failed']},

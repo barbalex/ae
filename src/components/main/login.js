@@ -56,7 +56,6 @@ export default React.createClass({
 
   onClickLogin () {
     const { email, password } = this.state
-    const that = this
     if (this.validSignin()) {
       app.remoteDb.login(email, password)
         .then((response) => app.Actions.login({
@@ -65,7 +64,7 @@ export default React.createClass({
           })
         )
         .catch((error) => {
-          that.setState({ loginError: error })
+          this.setState({ loginError: error })
         })
     }
   },

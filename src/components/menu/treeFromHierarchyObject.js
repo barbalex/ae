@@ -37,7 +37,7 @@ export default React.createClass({
     )
 
     // sort loading objects by name
-    const loadingMessage = _.map(groupsLoadingObjects, function (groupLoadingObject) {
+    const loadingMessage = _.map(groupsLoadingObjects, (groupLoadingObject) => {
       let { message, group, progressPercent } = groupLoadingObject
       // Macromycetes shall appear as Pilze
       message = message.replace('Macromycetes', 'Pilze')

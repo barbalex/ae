@@ -36,32 +36,29 @@ const Nodes = React.createClass({
 
     // find guid of last path element
     getObjectFromPath(pathToLoad)
-      .then(function (objectToLoad) {
+      .then((objectToLoad) => {
         guidOfObjectToLoad = objectToLoad && objectToLoad._id ? objectToLoad._id : null
         // kick of actions
         app.Actions.loadActivePathStore(pathToLoad, guidOfObjectToLoad)
         app.Actions.loadActiveObjectStore(guidOfObjectToLoad)
       })
-      .catch(function (error) {
+      .catch((error) =>
         app.Actions.showError({title: 'treeNodesFromHierarchyObject.js: error getting object from path:', msg: error})
-      })
+      )
   },
 
   render () {
     let nodes
-    const that = this
     const { hierarchy, object, path } = this.props
     nodes = _.chain(hierarchy)
-      .sortBy(function (hO) {
-        return hO.Name
-      })
-      .map(function (hO) {
+      .sortBy((hO) => hO.Name)
+      .map((hO) => {
         const level = hO.path.length
         const activeKey = path[level - 1]
         const keyIsActive = replaceProblematicPathCharactersFromString(hO.Name) === path[level - 1]
         const keyIsObjectShown = object !== undefined && hO.GUID && object._id === hO.GUID
         const glyph = keyIsActive ? (keyIsObjectShown ? 'forward' : 'triangle-bottom') : (hO.children && hO.children.length > 0 ? 'triangle-right' : 'minus')
-        const onClickNode = that.onClickNode.bind(that, {'hO': hO, 'path': path})
+        const onClickNode = this.onClickNode.bind(this, {'hO': hO, 'path': path})
         const showNode = replaceProblematicPathCharactersFromString(hO.Name) === activeKey && hO.children
 
         return (

@@ -40,13 +40,11 @@ export default React.createClass({
 
     app.Actions.loadActiveObjectStore(guid)
     getPathFromGuid(guid)
-      .then(function (result) {
+      .then((result) => {
         const path = result.path
         app.Actions.loadActivePathStore(path, guid)
       })
-      .catch(function (error) {
-        app.Actions.showError({title: 'filter.js: error getting path for guid ' + guid + ':', msg: error})
-      })
+      .catch((error) => app.Actions.showError({title: 'filter.js: error getting path for guid ' + guid + ':', msg: error}))
 
     /*this.setState({
       itemFiltered: {
