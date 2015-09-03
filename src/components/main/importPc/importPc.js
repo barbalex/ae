@@ -149,7 +149,6 @@ export default React.createClass({
     const editingPcIsAllowed = this.isEditingPcAllowed(nameBestehend)
     app.propertyCollectionsStore.getPcByName(nameBestehend)
       .then(function (pc) {
-        console.log('importPc.js, onChangeNameBestehend: pc', pc)
         // only go on if pc exists (prevent error)
         if (pc) {
           const beschreibung = pc.fields.Beschreibung
@@ -308,7 +307,8 @@ export default React.createClass({
   },
 
   onClickPanel (number, event) {
-    let { activePanel, allGroupsLoaded } = this.state
+    let { activePanel } = this.state
+    const { allGroupsLoaded } = this.props
 
     // make sure the heading was clicked
     const parent = event.target.parentElement
