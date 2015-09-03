@@ -293,9 +293,9 @@ export default React.createClass({
     const { objectsToImportPcsInTo, pcsToImport, idsAeIdField, idsImportIdField, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs } = this.state
     const idPath = idsAeIdField === 'GUID' ? '_id' : 'Taxonomien[0].Eigenschaften["Taxonomie ID"]'
     // loop pcsToImport
-    pcsToImport.forEach((pc) => {
+    pcsToImport.forEach((pcToImport) => {
       // find the object to add it to
-      const objectToImportPcInTo = _.find(objectsToImportPcsInTo, (object) => pc[idsImportIdField] === _.get(object, idPath))
+      const objectToImportPcInTo = _.find(objectsToImportPcsInTo, (object) => pcToImport[idsImportIdField] === _.get(object, idPath))
       if (objectToImportPcInTo) {
         // build pc
         let pc = {}
@@ -309,7 +309,7 @@ export default React.createClass({
         if (nameUrsprungsEs) pc.Ursprungsdatensammlung = nameUrsprungsEs
         pc.Eigenschaften = {}
         // now add fields of pc
-        _.forEach(pc, (field, value) => {
+        _.forEach(pcToImport, (value, field) => {
           // dont import idField or empty fields
           if (field !== idsImportIdField && value !== '' && value !== null) {
             // convert values / types if necessary
@@ -325,6 +325,11 @@ export default React.createClass({
       }
       // save objectsToImportPcsInTo
       app.localDb.bulkDocs(objectsToImportPcsInTo)
+        .then((result) => {
+          console.log('result', result)
+          // now show 10 links
+        })
+        .catch((error) => app.Actions.showError({title: 'Fehler beim Importieren:', msg: error}))
     })
   },
 
