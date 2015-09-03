@@ -744,21 +744,18 @@ option
        #importieren
 \*--------------------------------*/
 
-/*die Schaltflächen um Importe auszuführen, sollten untereinander liegen, das ist übersichtlicher als nebeneinander*/
-#importDsImportAusfuehrenCollapse button,
-#importBsImportAusfuehrenCollapse button
-  display: block
-
-/*
-** Auswahlliste um bestehende DS/BS zu wählen: wählbare sollen grün und fett sein, nicht wählbare grau und normal
-*/
+// Auswahlliste um bestehende DS/BS zu wählen: 
+// wählbare sollen dunkel sein, nicht wählbare grau
 .adbGruenFett
   color: black
   font-weight: bold
-
 .adbGrauNormal
   color: #B2B2B2
   font-weight: normal
+
+// if two buttons follow each other, place them apart
+.form-horizontal button
+  margin-right: 8px
 
 .progress
   margin-top: 18px

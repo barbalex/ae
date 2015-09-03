@@ -2,7 +2,7 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import { Accordion, Panel, Well, Alert, Button } from 'react-bootstrap'
+import { Accordion, Panel, Well, Alert, Button, Glyphicon } from 'react-bootstrap'
 import _ from 'lodash'
 import { ListenerMixin } from 'reflux'
 import WellAutorenrechte from './wellAutorenrechte.js'
@@ -500,8 +500,8 @@ export default React.createClass({
           </Panel>
 
           <Panel collapsible header='4. Import ausführen' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>
-            {panel3Done ? <Button className='btn-primary' style={{'marginBottom': 6 + 'px'}}>Eigenschaftensammlung mit allen Eigenschaften importieren</Button> : null }
-            {panel3Done ? <Button className='btn-primary' style={{'marginBottom': 6 + 'px'}}>Eigenschaftensammlung mit allen Eigenschaften aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen</Button> : null}
+            {panel3Done ? <Button className='btn-primary' style={{'marginBottom': 6 + 'px'}}><Glyphicon glyph='download-alt'/> Eigenschaftensammlung importieren</Button> : null }
+            {panel3Done ? <Button bsStyle='danger' style={{'marginBottom': 6 + 'px'}}><Glyphicon glyph='trash'/> Eigenschaftensammlung aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen</Button> : null}
             <div className='progress'>
               <div id='dsImportProgressbar' className='progress-bar' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'><span id='dsImportProgressbarText'></span>
               </div>
