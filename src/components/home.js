@@ -172,20 +172,20 @@ export default React.createClass({
             Gruppen laden:
           </div>
           <div id='groupCheckboxes'>
-            {this.createButtons()}
+            {this.groupCheckboxes()}
           </div>
         </div>
       )
     }
   },
 
-  createButtons () {
+  groupCheckboxes () {
     const groupsLoadedOrLoading = this.state.groupsLoadedOrLoading
     const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
-    return _.map(groupsNotLoaded, (gruppe) => this.button(gruppe))
+    return groupsNotLoaded.map((gruppe) => this.groupCheckbox(gruppe))
   },
 
-  button (gruppe) {
+  groupCheckbox (gruppe) {
     const label = gruppe.replace('Macromycetes', 'Pilze')
     return (
       <Input

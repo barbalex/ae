@@ -33,7 +33,7 @@ export default React.createClass({
 
   render () {
     const { objects, fieldName } = this.props
-    const linkArray = _.map(objects, (object) => {
+    const linkArray = objects.map((object) => {
       getPathFromGuid(object.guid)
         .then((result) => {
           const url = result.url

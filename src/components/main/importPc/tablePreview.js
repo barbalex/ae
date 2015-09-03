@@ -37,7 +37,7 @@ export default React.createClass({
     const tbody = pcsToImport.map((pc, index) => {
       // need only the first 10
       if (index < 10) {
-        const rows = _.map(keys, (key) => {
+        const rows = keys.map((key) => {
           // return values for not existing fieds!
           // if not, table gets torn apart
           const value = pc[key] || ''

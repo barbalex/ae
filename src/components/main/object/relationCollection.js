@@ -24,7 +24,7 @@ export default React.createClass({
 
     rc.Beziehungen = sortRelationsByName(rc.Beziehungen)
 
-    const relations = _.map(rc.Beziehungen, (relation, index) =>
+    const relations = rc.Beziehungen.map((relation, index) =>
       (
         <div key={index}>
           <RelationPartners relation={relation} />
