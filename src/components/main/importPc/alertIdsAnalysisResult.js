@@ -32,18 +32,18 @@ export default React.createClass({
     if (!(idsImportIdField && idsAeIdField)) return null
 
     if (!idsAnalysisComplete) {
-      return <Alert bsStyle='info' className='feld'>Bitte warten, die Daten werden analysiert.<br/>Das kann eine Weile dauern...</Alert>
+      return <Alert bsStyle='info'>Bitte warten, die Daten werden analysiert.<br/>Das kann eine Weile dauern...</Alert>
     }
 
-    const titleText = `Die Importtabelle enthält ${pcsToImport.length} Datensätze:`
+    const titleText = <p>Die Importtabelle enthält {pcsToImport.length} Datensätze:</p>
     const recordsWithIdValueText = `${idsNumberOfRecordsWithIdValue} enthalten einen Wert im Feld "${idsImportIdField}"`
     const idsDuplicateText = `${idsDuplicate.length} enthalten die folgenden mehrfach vorkommenden IDs: ` + _.unique(idsDuplicate).join(', ')
     const recordsImportableText = `${idsNumberImportable} können zugeordnet und importiert werden`
 
-    const idsNotNumbersText = `Achtung: ${idsNotANumber.length} Datensätze mit den folgenden Werten im Feld "${idsImportIdField}" enthalten keine Zahlen:`
+    const idsNotNumbersText = `${idsNotANumber.length} mit den folgenden Werten im Feld "${idsImportIdField}" enthalten keine Zahlen:`
     const idsNotNumbersList = idsNotANumber.join(' | ')
 
-    const recordsNotImportableText = `Achtung: ${idsNotImportable.length} Datensätze mit den folgenden Werten im Feld "${idsImportIdField}" können nicht zugeordnet und importiert werden:`
+    const recordsNotImportableText = `${idsNotImportable.length} mit den folgenden Werten im Feld "${idsImportIdField}" können nicht zugeordnet und importiert werden:`
     const idsNotImportableList = idsNotImportable.join(' | ')
 
     const variablesToPass = {
@@ -56,14 +56,15 @@ export default React.createClass({
     const successType = getSuccessTypeFromAnalysis(variablesToPass)
 
     return (
-      <Alert bsStyle={successType} className='feld'>
+      <Alert bsStyle={successType}>
+        <p><strong>Ergebnis der Analyse</strong></p>
         {titleText}
         <ul>
           <li>{recordsWithIdValueText}</li>
           {idsNotANumber.length === 0 ? null : <li>{idsNotNumbersText}<br/>{idsNotNumbersList}</li>}
           {idsDuplicate.length === 0 ? null : <li>{idsDuplicateText}</li>}
-          <li>{recordsImportableText}</li>
           {idsNotImportable.length === 0 ? null : <li>{recordsNotImportableText}<br/>{idsNotImportableList}</li>}
+          <li>{recordsImportableText}</li>
         </ul>
       </Alert>
     )

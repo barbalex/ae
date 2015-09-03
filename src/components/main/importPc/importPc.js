@@ -204,7 +204,13 @@ export default React.createClass({
   onChangePcFile (event) {
     // always empty pcsToImport first
     // otherwise weird things happen
-    this.setState({ pcsToImport: [] })
+    // also reset analysis
+    this.setState({
+      pcsToImport: [],
+      idsAnalysisComplete: false,
+      idsAeIdField: null,
+      idsImportIdField: null
+    })
     if (event.target.files[0] !== undefined) {
       const file = event.target.files[0]
       getObjectsFromFile(file)
@@ -218,26 +224,16 @@ export default React.createClass({
 
   onChangeAeId (idsAeIdField) {
     const { idsImportIdField } = this.state
-    this.setState({ idsAeIdField })
+    const idsAnalysisComplete = false
+    this.setState({ idsAeIdField, idsAnalysisComplete })
     this.onChangeId(idsAeIdField, idsImportIdField)
   },
 
   onChangeImportId (idsImportIdField) {
-    const { pcsToImport, idsAeIdField } = this.state
-    let idsNotANumber = []
-    // make sure data in idsImportIdField is a number, if it is not a GUID
-    if (idsImportIdField !== 'GUID') {
-      pcsToImport.forEach((pc, index) => {
-        if (!isNaN(pc[idsImportIdField])) {
-          pc[idsImportIdField] = parseInt(pc[idsImportIdField], 10)
-        } else {
-          idsNotANumber.push(pc[idsImportIdField])
-        }
-      })
-      this.setState({ idsNotANumber })
-    }
-    this.setState({ idsImportIdField })
-    this.onChangeId(idsAeIdField, idsImportIdField, idsNotANumber)
+    const { idsAeIdField } = this.state
+    const idsAnalysisComplete = false
+    this.setState({ idsImportIdField, idsAnalysisComplete })
+    this.onChangeId(idsAeIdField, idsImportIdField)
   },
 
   // need to get values directly because state has not been updated yet
@@ -246,20 +242,50 @@ export default React.createClass({
 
     if (idsAeIdField && idsImportIdField) {
       // start analysis
+
+      // make sure data in idsImportIdField is a number, if idsAeIdField is not a GUID
+      let idsNotANumber = []
+      if (idsAeIdField !== 'GUID') {
+        // the id field in the import data should be a number
+        pcsToImport.forEach((pc, index) => {
+          if (!isNaN(pc[idsImportIdField])) {
+            // the data in the field is a number
+            // force it to be one
+            pc[idsImportIdField] = parseInt(pc[idsImportIdField], 10)
+          } else {
+            // the data in the field is not a number!
+            idsNotANumber.push(pc[idsImportIdField])
+          }
+        })
+      }
+
       const ids = _.pluck(pcsToImport, idsImportIdField)
       let idsToImportWithDuplicates = _.pluck(pcsToImport, idsImportIdField)
       idsToImportWithDuplicates = _.filter(idsToImportWithDuplicates, (id) => !!id)
       const idsToImport = _.unique(idsToImportWithDuplicates)
       const idsNumberOfRecordsWithIdValue = idsToImportWithDuplicates.length
       const idsDuplicate = _.difference(idsToImportWithDuplicates, idsToImport)
-      this.setState({ idsNumberOfRecordsWithIdValue, idsDuplicate })
+      let idsNumberImportable = 0
+      this.setState({ idsNumberOfRecordsWithIdValue, idsDuplicate, idsNotANumber })
+      // if ids should be numbers but some are not, an error can occur when fetching from the database
+      // so dont fetch
+      if (idsNotANumber.length > 0) return this.setState({ idsAnalysisComplete: true })
       getItemsById(idsAeIdField, ids)
         .then((objectsToImportPcsInTo) => {
+          // DANGER: if idsNotANumber has ids, wrong ids can have been fetched
+          // remove docs with ids in idsNotANumber from objectsToImportPcsInTo
+          if (idsNotANumber.length > 0) {
+            objectsToImportPcsInTo = _.filter(objectsToImportPcsInTo, function (object) {
+              const idIsNotANumber = _.includes(idsNotANumber, object.Taxonomien[0].Eigenschaften['Taxonomie ID'])
+              return !idIsNotANumber
+            })
+          }
           // go on with analysis
           const idAttribute = idsAeIdField === 'GUID' ? '_id' : 'Taxonomien[0].Eigenschaften["Taxonomie ID"]'
           const idsFetched = _.pluck(objectsToImportPcsInTo, idAttribute)
           const idsImportable = _.intersection(idsToImport, idsFetched)
-          const idsNumberImportable = idsImportable.length
+          idsNumberImportable = idsImportable.length
+          // get ids not fetched
           const idsNotImportable = _.difference(idsToImport, idsFetched)
           const idsAnalysisComplete = true
           // finished? render...
