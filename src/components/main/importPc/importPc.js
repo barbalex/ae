@@ -169,6 +169,11 @@ export default React.createClass({
       .catch((error) => app.Actions.showError({msg: error}))
   },
 
+  onClickDeletePc () {
+    const { nameBestehend } = this.state
+    
+  },
+
   onChangeName (name) {
     this.setState({ name })
   },
@@ -511,10 +516,7 @@ export default React.createClass({
             <WellAutorenrechte />
 
             <InputNameBestehend nameBestehend={nameBestehend} beschreibung={beschreibung} datenstand={datenstand} nutzungsbedingungen={nutzungsbedingungen} link={link} zusammenfassend={zusammenfassend} email={email} pcs={pcs} groupsLoadedOrLoading={groupsLoadedOrLoading} onChangeNameBestehend={this.onChangeNameBestehend} />
-
-            <div className='controls feld'>
-              <button type='button' className='btn btn-primary btn-default' style={{'display': 'none', 'marginBottom': 6 + 'px'}}>Gewählte Eigenschaftensammlung und alle ihre Eigenschaften aus allen Arten und/oder Lebensräumen entfernen</button>
-            </div>
+            {nameBestehend ? <Button className='btn-primary feld' onClick={this.onClickDeletePc}><Glyphicon glyph='trash'/> Diese Eigenschaftensammlung aus allen Arten bzw. Lebensräumen entfernen</Button> : null}
 
             <hr />
 
