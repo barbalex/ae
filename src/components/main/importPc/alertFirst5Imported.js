@@ -29,13 +29,16 @@ export default React.createClass({
     const first10Ids = idsImported.slice(0, 5)
     const alertStyle = { marginTop: 11 }
 
-    getPathsFromLocalPathDb()
-      .then((paths) => this.setState({ paths: paths }))
-      .catch((error) => app.Actions.showError({title: 'Fehler beim Aufbauen der Beispiele:', msg: error}))
+    // only get paths on first render
+    if (!paths) {
+      getPathsFromLocalPathDb()
+        .then((paths) => this.setState({ paths: paths }))
+        .catch((error) => app.Actions.showError({title: 'Fehler beim Aufbauen der Beispiele:', msg: error}))
+    }
 
     const examples = first10Ids.map((id, index) => {
       const path = _.findKey(paths, (value) => value === id)
-      const href = `${window.location.host}/${path}?id=${id}`
+      const href = `${window.location.protocol}//${window.location.host}/${path}?id=${id}`
       return <li key={index}><a href={href} target='_blank'>Beispiel {index + 1}</a></li>
     })
 
