@@ -75,6 +75,17 @@ export default (Actions) => {
       })
     },
 
+    savePc (pc) {
+      app.localDb.get('_local/pcs', { include_docs: true })
+        .then((doc) => {
+          doc.pcs.push(pc)
+          return app.localDb.put(doc)
+        })
+        .catch((error) =>
+          app.Actions.showError({title: 'propertyCollectionsStore, savePc:', msg: error})
+        )
+    },
+
     savePcs (pcs) {
       app.localDb.get('_local/pcs', { include_docs: true })
         .then((doc) => {
