@@ -11,6 +11,7 @@ import WellAnforderungenAnCsv from './wellAnforderungenAnCsv.js'
 import WellAnforderungenInhaltlich from './wellAnforderungenInhaltlich.js'
 import InputNameBestehend from './inputNameBestehend.js'
 import InputName from './inputName.js'
+import AlertEditingPcDisallowed from './alertEditingPcDisallowed.js'
 import InputBeschreibung from './inputBeschreibung.js'
 import InputDatenstand from './inputDatenstand.js'
 import InputNutzungsbedingungen from './inputNutzungsbedingungen.js'
@@ -497,18 +498,6 @@ export default React.createClass({
     return validPcsToImport
   },
 
-  alertEditingPcDisallowed () {
-    const style = {
-      marginBottom: 5
-    }
-    return (
-      <Alert className='feld' bsStyle='danger' style={style}>
-        Sie können nur Eigenschaftensammlungen verändern, die Sie selber importiert haben. Ausnahme: zusammenfassende.<br/>
-        Bitte wählen Sie einen anderen Namen.
-      </Alert>
-    )
-  },
-
   render () {
     const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, pcsToImport, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs, validPcsToImport, activePanel, idsAeIdField, idsImportIdField, pcs, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, panel3Done, importingProgress, objectsToImportPcsInTo } = this.state
     const { groupsLoadedOrLoading, email, allGroupsLoaded, groupsLoadingObjects } = this.props
@@ -531,7 +520,7 @@ export default React.createClass({
             <hr />
 
             <InputName name={name} validName={validName} onChangeName={this.onChangeName} onBlurName={this.onBlurName} />
-            {esBearbeitenErlaubt ? null : this.alertEditingPcDisallowed()}
+            {esBearbeitenErlaubt ? null : <AlertEditingPcDisallowed />}
             <InputBeschreibung beschreibung={beschreibung} validBeschreibung={validBeschreibung} onChangeBeschreibung={this.onChangeBeschreibung} />
             <InputDatenstand datenstand={datenstand} validDatenstand={validDatenstand} onChangeDatenstand={this.onChangeDatenstand} />
             <InputNutzungsbedingungen nutzungsbedingungen={nutzungsbedingungen} validNutzungsbedingungen={validNutzungsbedingungen} onChangeNutzungsbedingungen={this.onChangeNutzungsbedingungen} />
