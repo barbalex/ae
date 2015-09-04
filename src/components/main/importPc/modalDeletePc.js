@@ -18,7 +18,7 @@ export default React.createClass({
     show: React.PropTypes.bool,
     showAlertIndex: React.PropTypes.bool,
     nameBestehend: React.PropTypes.string,
-    setBackNameBestehend: React.PropTypes.func,
+    removeDeletedNameBestehend: React.PropTypes.func,
     closeModal: React.PropTypes.func,
     deletingProgress: React.PropTypes.number,
     docsToDelete: React.PropTypes.array
@@ -39,7 +39,7 @@ export default React.createClass({
   },
 
   onClickDelete () {
-    const { nameBestehend, setBackNameBestehend } = this.props
+    const { nameBestehend, removeDeletedNameBestehend } = this.props
     this.setState({ showAlertIndex: true }, () => {
       objectsByPcsName(nameBestehend)
         .then((docs) => {
@@ -55,9 +55,9 @@ export default React.createClass({
                 )
                 .catch((error) => app.Actions.showError({title: `Das Objekt mit der ID ${doc._id} wurde nicht aktualisiert. Fehlermeldung:`, msg: error}))
             })
-            // set nameBestehend back
-            setBackNameBestehend()
           })
+          // set nameBestehend back
+          removeDeletedNameBestehend()
         })
         .catch((error) => app.Actions.showError({title: 'Fehler beim Versuch, die Eigenschaften zu löschen:', msg: error}))
     })

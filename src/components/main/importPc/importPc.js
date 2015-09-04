@@ -175,10 +175,37 @@ export default React.createClass({
     }
   },
 
-  setBackNameBestehend () {
+  addNewNameBestehend () {
+    let { pcs, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend } = this.state
+    const pc = {
+      name: name,
+      combining: zusammenfassend,
+      importedBy: importiertVon,
+      fields: {
+        Beschreibung: beschreibung,
+        Datenstand: datenstand,
+        Nutzungsbedingungen: nutzungsbedingungen,
+        Link: link,
+        'importiert von': importiertVon
+      },
+      count: 0
+    }
+    pcs.push(pc)
+    pcs = _.sortBy(pcs, (pc) => pc.name)
+    app.propertyCollectionsStore.savePc(pc)
+    this.setState({ pcs }, () => app.Actions.queryPropertyCollections())
+  },
+
+  removeDeletedNameBestehend () {
+    let { pcs, nameBestehend } = this.state
     // this is passed as a callback to ButtonDeletePc.js > ModalConfirmPc.js
     // set back nameBestehend, then reload property collections
-    this.setState({ nameBestehend: null }, () => app.Actions.queryPropertyCollections())
+    // remove from pcs
+    pcs = _.reject(pcs, (pc) => pc.name === nameBestehend)
+    // dont forget to update the version in the collection store
+    app.propertyCollectionsStore.savePcs(pcs)
+    nameBestehend = null
+    this.setState({ nameBestehend, pcs }, () => app.Actions.queryPropertyCollections())
   },
 
   onChangeName (name) {
@@ -348,9 +375,9 @@ export default React.createClass({
             })
             .catch((error) => app.Actions.showError({title: 'Fehler beim Importieren:', msg: error}))
         }
-        // now update nameBestehend
-        app.Actions.queryPropertyCollections()
       })
+      // update nameBestehend
+      this.addNewNameBestehend()
     })
   },
 
@@ -515,7 +542,7 @@ export default React.createClass({
             <WellAutorenrechte />
 
             <InputNameBestehend nameBestehend={nameBestehend} beschreibung={beschreibung} datenstand={datenstand} nutzungsbedingungen={nutzungsbedingungen} link={link} zusammenfassend={zusammenfassend} email={email} pcs={pcs} groupsLoadedOrLoading={groupsLoadedOrLoading} onChangeNameBestehend={this.onChangeNameBestehend} />
-            {showDeletePcButton ? <ButtonDeletePc nameBestehend={nameBestehend} setBackNameBestehend={this.setBackNameBestehend} /> : null}
+            {showDeletePcButton ? <ButtonDeletePc nameBestehend={nameBestehend} removeDeletedNameBestehend={this.removeDeletedNameBestehend} /> : null}
 
             <hr />
 
