@@ -35,7 +35,6 @@ export default (name) => {
         if (error.status !== 409) reject(error)
       })
       .then((response) => {
-        // console.log('objectsByPcsName: response from putting ddoc')
         const options = {
           key: name,
           include_docs: true

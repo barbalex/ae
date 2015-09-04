@@ -6,7 +6,7 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import { Modal, Button } from 'react-bootstrap'
+import { Modal, Button, Alert, ProgressBar } from 'react-bootstrap'
 import _ from 'lodash'
 import objectsByPcsName from '../../../queries/objectsByPcsName.js'
 
@@ -15,14 +15,18 @@ export default React.createClass({
 
   propTypes: {
     show: React.PropTypes.bool,
+    showAlertIndex: React.PropTypes.bool,
     nameBestehend: React.PropTypes.string,
     setNameBestehend: React.PropTypes.func,
-    closeModal: React.PropTypes.func
+    closeModal: React.PropTypes.func,
+    deletingProgress: React.PropTypes.number
   },
 
   getInitialState () {
     return {
-      show: true
+      show: true,
+      showAlertIndex: false,
+      deletingProgress: null
     }
   },
 
@@ -33,11 +37,22 @@ export default React.createClass({
 
   onClickDelete () {
     const { nameBestehend } = this.props
-    objectsByPcsName(nameBestehend)
-      .then((ids) => {
-        console.log('modalDeletePc.js, ids', ids)
-      })
-      .catch((error) => app.Actions.showError({title: 'Fehler beim Versuch, die Eigenschaften zu löschen:', msg: error}))
+    this.setState({ showAlertIndex: true }, () => {
+      objectsByPcsName(nameBestehend)
+        .then((docs) => {
+          this.setState({ showAlertIndex: false }, () => {
+            docs.forEach((doc, index) => {
+              doc.Eigenschaftensammlungen = _.reject(doc.Eigenschaftensammlungen, (es) => es.Name === nameBestehend)
+              app.localDb.put(doc)
+                .then(() => {
+                  this.setState({ deletingProgress: Math.round((index + 1) / docs.length * 100) })
+                })
+                .catch((error) => app.Actions.showError({title: `Das Objekt mit der ID ${doc._id} wurde nicht aktualisiert. Fehlermeldung:`, msg: error}))
+            })
+          })
+        })
+        .catch((error) => app.Actions.showError({title: 'Fehler beim Versuch, die Eigenschaften zu löschen:', msg: error}))
+    })
   },
 
   schliessen () {
@@ -46,7 +61,7 @@ export default React.createClass({
   },
 
   render () {
-    const { show } = this.state
+    const { show, showAlertIndex, deletingProgress } = this.state
     const { nameBestehend } = this.props
 
     return (
@@ -57,8 +72,8 @@ export default React.createClass({
           </Modal.Header>
           <Modal.Body>
             <p>Sie möchten die Eigenschaftensammlung "{nameBestehend}" und alle ihre Eigenschaften endgültig aus allen Arten und/oder Lebensräumen entfernen?</p>
-
-            // TODO: delete, show progress, then set nameBestehend to null
+            {showAlertIndex ? <Alert bsStyle='info'>Hole Arten/Lebensräume, um die Eigenschaftensammlung daraus zu löschen.<br/>Beim ersten Mal muss der Index aufgebaut werden. Das dauert einige Minuten...</Alert> : null}
+            {deletingProgress !== null ? <ProgressBar bsStyle='success' now={deletingProgress} label={`${deletingProgress}% gelöscht`} /> : null}
           </Modal.Body>
           <Modal.Footer>
             <Button className='btn-primary' onClick={this.onClickDelete}>ja, löschen!</Button>

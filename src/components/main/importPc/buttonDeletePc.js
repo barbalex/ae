@@ -29,7 +29,7 @@ export default React.createClass({
 
   render () {
     const { setNameBestehend, nameBestehend } = this.props
-    const { showConfirmModal, closeModal } = this.state
+    const { showConfirmModal } = this.state
     return (
       <div>
         <Button className='btn-primary feld' onClick={this.onClickDeletePc}><Glyphicon glyph='trash'/> Diese Eigenschaftensammlung aus allen Arten bzw. Lebensräumen entfernen</Button>
