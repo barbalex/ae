@@ -22,6 +22,8 @@ import AlertIdsAnalysisResult from './alertIdsAnalysisResult.js'
 import TablePreview from './tablePreview.js'
 import InputImportFields from './inputImportFields.js'
 import InputAeId from './inputAeId.js'
+import ProgressbarImport from './progressbarImport.js'
+import AlertFirst10Imported from './alertFirst10Imported.js'
 import getObjectsFromFile from './getObjectsFromFile.js'
 import isValidUrl from '../../../modules/isValidUrl.js'
 import getSuccessTypeFromAnalysis from './getSuccessTypeFromAnalysis.js'
@@ -60,6 +62,7 @@ export default React.createClass({
     idsNumberImportable: React.PropTypes.number,
     idsNotImportable: React.PropTypes.array,
     idsNotANumber: React.PropTypes.array,
+    importingProgress: React.PropTypes.number,
     esBearbeitenErlaubt: React.PropTypes.bool,
     panel1Done: React.PropTypes.bool,
     panel2Done: React.PropTypes.bool,
@@ -102,6 +105,7 @@ export default React.createClass({
       idsNumberImportable: 0,
       idsNotImportable: [],
       idsNotANumber: [],
+      importingProgress: null,
       panel1Done: false,
       panel2Done: false,
       panel3Done: false,
@@ -225,22 +229,18 @@ export default React.createClass({
   },
 
   onChangeAeId (idsAeIdField) {
-    const { idsImportIdField } = this.state
     const idsAnalysisComplete = false
-    this.setState({ idsAeIdField, idsAnalysisComplete })
-    this.onChangeId(idsAeIdField, idsImportIdField)
+    this.setState({ idsAeIdField, idsAnalysisComplete }, this.onChangeId)
   },
 
   onChangeImportId (idsImportIdField) {
-    const { idsAeIdField } = this.state
     const idsAnalysisComplete = false
-    this.setState({ idsImportIdField, idsAnalysisComplete })
-    this.onChangeId(idsAeIdField, idsImportIdField)
+    this.setState({ idsImportIdField, idsAnalysisComplete }, this.onChangeId)
   },
 
   // need to get values directly because state has not been updated yet
-  onChangeId (idsAeIdField, idsImportIdField) {
-    const { pcsToImport } = this.state
+  onChangeId () {
+    const { idsAeIdField, idsImportIdField, pcsToImport } = this.state
 
     if (idsAeIdField && idsImportIdField) {
       // start analysis
@@ -291,45 +291,54 @@ export default React.createClass({
 
   onClickImportieren () {
     const { objectsToImportPcsInTo, pcsToImport, idsAeIdField, idsImportIdField, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs } = this.state
-    const idPath = idsAeIdField === 'GUID' ? '_id' : 'Taxonomien[0].Eigenschaften["Taxonomie ID"]'
-    // loop pcsToImport
-    pcsToImport.forEach((pcToImport) => {
-      // find the object to add it to
-      const objectToImportPcInTo = _.find(objectsToImportPcsInTo, (object) => pcToImport[idsImportIdField] === _.get(object, idPath))
-      if (objectToImportPcInTo) {
-        // build pc
-        let pc = {}
-        pc.Name = name
-        pc.Beschreibung = beschreibung
-        pc.Datenstand = datenstand
-        pc.Nutzungsbedingungen = nutzungsbedingungen
-        if (link) pc.Link = link
-        pc['importiert von'] = importiertVon
-        if (zusammenfassend) pc.zusammenfassend = zusammenfassend
-        if (nameUrsprungsEs) pc.Ursprungsdatensammlung = nameUrsprungsEs
-        pc.Eigenschaften = {}
-        // now add fields of pc
-        _.forEach(pcToImport, (value, field) => {
-          // dont import idField or empty fields
-          if (field !== idsImportIdField && value !== '' && value !== null) {
-            // convert values / types if necessary
-            pc.Eigenschaften[field] = convertValue(value)
-          }
-        })
-        // make sure, Eigenschaftensammlungen exists
-        if (!objectToImportPcInTo.Eigenschaftensammlungen) objectToImportPcInTo.Eigenschaftensammlungen = []
-        // if a pc with this name existed already, remove it
-        objectToImportPcInTo.Eigenschaftensammlungen = _.reject(objectToImportPcInTo.Eigenschaftensammlungen, (es) => es.name === name)
-        objectToImportPcInTo.Eigenschaftensammlungen.push(pc)
-        objectToImportPcInTo.Eigenschaftensammlungen = sortObjectArrayByName(objectToImportPcInTo.Eigenschaftensammlungen)
-      }
-      // save objectsToImportPcsInTo
-      app.localDb.bulkDocs(objectsToImportPcsInTo)
-        .then((result) => {
-          console.log('result', result)
-          // now show 10 links
-        })
-        .catch((error) => app.Actions.showError({title: 'Fehler beim Importieren:', msg: error}))
+
+    let importingProgress = 0
+    let idsImported = []
+    // alert say "Daten werden vorbereitet..."
+    this.setState({ importingProgress }, () => {
+      const idPath = idsAeIdField === 'GUID' ? '_id' : 'Taxonomien[0].Eigenschaften["Taxonomie ID"]'
+      // loop pcsToImport
+      pcsToImport.forEach((pcToImport, index) => {
+        // find the object to add it to
+        const objectToImportPcInTo = _.find(objectsToImportPcsInTo, (object) => pcToImport[idsImportIdField] === _.get(object, idPath))
+        if (objectToImportPcInTo) {
+          // build pc
+          let pc = {}
+          pc.Name = name
+          pc.Beschreibung = beschreibung
+          pc.Datenstand = datenstand
+          pc.Nutzungsbedingungen = nutzungsbedingungen
+          if (link) pc.Link = link
+          pc['importiert von'] = importiertVon
+          if (zusammenfassend) pc.zusammenfassend = zusammenfassend
+          if (nameUrsprungsEs) pc.Ursprungsdatensammlung = nameUrsprungsEs
+          pc.Eigenschaften = {}
+          // now add fields of pc
+          _.forEach(pcToImport, (value, field) => {
+            // dont import idField or empty fields
+            if (field !== idsImportIdField && value !== '' && value !== null) {
+              // convert values / types if necessary
+              pc.Eigenschaften[field] = convertValue(value)
+            }
+          })
+          // make sure, Eigenschaftensammlungen exists
+          if (!objectToImportPcInTo.Eigenschaftensammlungen) objectToImportPcInTo.Eigenschaftensammlungen = []
+          // if a pc with this name existed already, remove it
+          objectToImportPcInTo.Eigenschaftensammlungen = _.reject(objectToImportPcInTo.Eigenschaftensammlungen, (es) => es.name === name)
+          objectToImportPcInTo.Eigenschaftensammlungen.push(pc)
+          objectToImportPcInTo.Eigenschaftensammlungen = sortObjectArrayByName(objectToImportPcInTo.Eigenschaftensammlungen)
+          // write to db
+          app.localDb.put(objectToImportPcInTo)
+            .then(() => {
+              importingProgress = Math.round((index + 1) / pcsToImport.length * 100)
+              this.setState({ importingProgress })
+              idsImported.push(objectToImportPcInTo._id)
+            })
+            .catch((error) => app.Actions.showError({title: 'Fehler beim Importieren:', msg: error}))
+        }
+        // now update nameBestehend
+        app.Actions.queryPropertyCollections()
+      })
     })
   },
 
@@ -487,13 +496,13 @@ export default React.createClass({
   },
 
   render () {
-    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, pcsToImport, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs, validPcsToImport, activePanel, idsAeIdField, idsImportIdField, pcs, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, panel3Done } = this.state
+    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, pcsToImport, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs, validPcsToImport, activePanel, idsAeIdField, idsImportIdField, pcs, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, panel3Done, importingProgress, objectsToImportPcsInTo } = this.state
     const { groupsLoadedOrLoading, email, allGroupsLoaded, groupsLoadingObjects } = this.props
     const showLoadAllGroups = email && !allGroupsLoaded
     const alertAllGroupsBsStyle = ultimatelyAlertLoadAllGroups ? 'danger' : 'info'
 
     return (
-      <div>
+      <div id='importieren'>
         <h4>Eigenschaften importieren</h4>
         <Accordion activeKey={activePanel}>
           <Panel collapsible header='1. Eigenschaftensammlung beschreiben' eventKey={1} onClick={this.onClickPanel.bind(this, 1)}>
@@ -532,22 +541,16 @@ export default React.createClass({
           </Panel>
 
           <Panel collapsible header="3. ID's identifizieren" eventKey={3} onClick={this.onClickPanel.bind(this, 3)}>
-            <InputImportFields idsImportIdField={idsImportIdField} pcsToImport={pcsToImport} onChangeImportId={this.onChangeImportId} />
+            {pcsToImport.length > 0 ? <InputImportFields idsImportIdField={idsImportIdField} pcsToImport={pcsToImport} onChangeImportId={this.onChangeImportId} /> : null}
             <InputAeId idsAeIdField={idsAeIdField} onChangeAeId={this.onChangeAeId} />
-            <AlertIdsAnalysisResult idsAeIdField={idsAeIdField} idsImportIdField={idsImportIdField} pcsToImport={pcsToImport} idsNumberOfRecordsWithIdValue={idsNumberOfRecordsWithIdValue} idsDuplicate={idsDuplicate} idsNumberImportable={idsNumberImportable} idsNotImportable={idsNotImportable} idsAnalysisComplete={idsAnalysisComplete} idsNotANumber={idsNotANumber} />
+            {idsImportIdField && idsAeIdField ? <AlertIdsAnalysisResult idsImportIdField={idsImportIdField} pcsToImport={pcsToImport} idsNumberOfRecordsWithIdValue={idsNumberOfRecordsWithIdValue} idsDuplicate={idsDuplicate} idsNumberImportable={idsNumberImportable} idsNotImportable={idsNotImportable} idsAnalysisComplete={idsAnalysisComplete} idsNotANumber={idsNotANumber} /> : null}
           </Panel>
 
           <Panel collapsible header='4. Import ausführen' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>
             {panel3Done ? <Button className='btn-primary' onClick={this.onClickImportieren}><Glyphicon glyph='download-alt'/> Eigenschaftensammlung importieren</Button> : null }
-            {panel3Done ? <Button bsStyle='danger'><Glyphicon glyph='trash'/> Eigenschaftensammlung aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen</Button> : null}
-            <div className='progress'>
-              <div id='dsImportProgressbar' className='progress-bar' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'><span id='dsImportProgressbarText'></span>
-              </div>
-            </div>
-            <div id='importDsImportAusfuehrenHinweis' className='alert alert-info'>
-              <Button className='close' data-dismiss='alert'>&times;</Button>
-              <div id='importDsImportAusfuehrenHinweisText'></div>
-            </div>
+            {panel3Done ? <Button bsStyle='danger' disabled><Glyphicon glyph='trash'/> Eigenschaftensammlung aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen</Button> : null}
+            {importingProgress !== null ? <ProgressbarImport importingProgress={importingProgress} /> : null}
+            {importingProgress === 100 ? <AlertFirst10Imported objectsToImportPcsInTo={objectsToImportPcsInTo} idsNotImportable={idsNotImportable} /> : null}
           </Panel>
 
         </Accordion>

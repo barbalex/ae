@@ -26,10 +26,8 @@ export default React.createClass({
   },
 
   render () {
-    const { pcsToImport, idsImportIdField, idsAeIdField, idsAnalysisComplete, idsNumberOfRecordsWithIdValue, idsNumberImportable, idsDuplicate, idsNotANumber } = this.props
+    const { pcsToImport, idsImportIdField, idsAnalysisComplete, idsNumberOfRecordsWithIdValue, idsNumberImportable, idsDuplicate, idsNotANumber } = this.props
     let { idsNotImportable } = this.props
-
-    if (!(idsImportIdField && idsAeIdField)) return null
 
     if (!idsAnalysisComplete) {
       return <Alert bsStyle='info'>Bitte warten, die Daten werden analysiert.<br/>Das kann eine Weile dauern...</Alert>
