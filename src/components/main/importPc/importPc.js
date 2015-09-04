@@ -2,7 +2,7 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import { Accordion, Panel, Well, Alert, Button, Glyphicon } from 'react-bootstrap'
+import { Accordion, Panel, Well, Button, Glyphicon } from 'react-bootstrap'
 import _ from 'lodash'
 import { ListenerMixin } from 'reflux'
 import WellAutorenrechte from './wellAutorenrechte.js'
@@ -25,7 +25,7 @@ import TablePreview from './tablePreview.js'
 import InputImportFields from './inputImportFields.js'
 import InputAeId from './inputAeId.js'
 import ProgressbarImport from './progressbarImport.js'
-import AlertFirst10Imported from './alertFirst10Imported.js'
+import AlertFirst5Imported from './alertFirst5Imported.js'
 import getObjectsFromFile from './getObjectsFromFile.js'
 import isValidUrl from '../../../modules/isValidUrl.js'
 import getSuccessTypeFromAnalysis from './getSuccessTypeFromAnalysis.js'
@@ -175,9 +175,10 @@ export default React.createClass({
     }
   },
 
-  setNameBestehend (nameBestehend) {
+  setBackNameBestehend () {
     // this is passed as a callback to ButtonDeletePc.js > ModalConfirmPc.js
-    this.setState({ nameBestehend })
+    // set back nameBestehend, then reload property collections
+    this.setState({ nameBestehend: null }, () => app.Actions.queryPropertyCollections())
   },
 
   onChangeName (name) {
@@ -514,7 +515,7 @@ export default React.createClass({
             <WellAutorenrechte />
 
             <InputNameBestehend nameBestehend={nameBestehend} beschreibung={beschreibung} datenstand={datenstand} nutzungsbedingungen={nutzungsbedingungen} link={link} zusammenfassend={zusammenfassend} email={email} pcs={pcs} groupsLoadedOrLoading={groupsLoadedOrLoading} onChangeNameBestehend={this.onChangeNameBestehend} />
-            {showDeletePcButton ? <ButtonDeletePc nameBestehend={nameBestehend} setNameBestehend={this.setNameBestehend} /> : null}
+            {showDeletePcButton ? <ButtonDeletePc nameBestehend={nameBestehend} setBackNameBestehend={this.setBackNameBestehend} /> : null}
 
             <hr />
 
@@ -550,7 +551,7 @@ export default React.createClass({
             {panel3Done ? <Button className='btn-primary' onClick={this.onClickImportieren}><Glyphicon glyph='download-alt'/> Eigenschaftensammlung importieren</Button> : null }
             {panel3Done ? <Button bsStyle='danger' disabled><Glyphicon glyph='trash'/> Eigenschaftensammlung aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen</Button> : null}
             {importingProgress !== null ? <ProgressbarImport importingProgress={importingProgress} /> : null}
-            {importingProgress === 100 ? <AlertFirst10Imported objectsToImportPcsInTo={objectsToImportPcsInTo} idsNotImportable={idsNotImportable} /> : null}
+            {importingProgress === 100 ? <AlertFirst5Imported objectsToImportPcsInTo={objectsToImportPcsInTo} idsNotImportable={idsNotImportable} /> : null}
           </Panel>
 
         </Accordion>
