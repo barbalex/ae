@@ -71,6 +71,7 @@ export default React.createClass({
   render () {
     const { show, showAlertIndex, deletingProgress, docsToDelete } = this.state
     const { nameBestehend } = this.props
+    const showWollenSie = deletingProgress === null && !showAlertIndex
 
     return (
       <div className='static-modal'>
@@ -79,7 +80,7 @@ export default React.createClass({
             <Modal.Title>Eigenschaftensammlung löschen</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            {deletingProgress === null ? <p>Sie möchten die Eigenschaftensammlung "{nameBestehend}" und alle ihre Eigenschaften endgültig aus allen Arten und/oder Lebensräumen entfernen?</p> : null}
+            {showWollenSie ? <p>Sie möchten die Eigenschaftensammlung "{nameBestehend}" und alle ihre Eigenschaften endgültig aus allen Arten und/oder Lebensräumen entfernen?</p> : null}
             {showAlertIndex ? <p>Hole Arten/Lebensräume, um die Eigenschaftensammlung daraus zu löschen.<br/>Beim ersten Mal muss der Index aufgebaut werden. Das dauert einige Minuten...</p> : null}
             {deletingProgress !== null ? <ProgressBar bsStyle='success' now={deletingProgress} label={`${deletingProgress}% gelöscht`} /> : null}
             {deletingProgress === 100 ? <AlertFirst5Deleted docsToDelete={docsToDelete} nameBestehend={nameBestehend} /> : null}
