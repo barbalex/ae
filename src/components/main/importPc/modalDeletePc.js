@@ -7,6 +7,8 @@
 import app from 'ampersand-app'
 import React from 'react'
 import { Modal, Button } from 'react-bootstrap'
+import _ from 'lodash'
+import objectsByPcsName from '../../../queries/objectsByPcsName.js'
 
 export default React.createClass({
   displayName: 'ModalDeletePc',
@@ -31,14 +33,9 @@ export default React.createClass({
 
   onClickDelete () {
     const { nameBestehend } = this.props
-    const startkey = [{nameBestehend}]
-    const endkey = [{nameBestehend}, {}, {}, {}]
-    const options = { startkey, endkey }
-    console.log('options', options)
-    app.localDb.query('pcs')
-      .then((result) => {
-        const rows = result.rows
-        console.log('rows', rows)
+    objectsByPcsName(nameBestehend)
+      .then((ids) => {
+        console.log('modalDeletePc.js, ids', ids)
       })
       .catch((error) => app.Actions.showError({title: 'Fehler beim Versuch, die Eigenschaften zu löschen:', msg: error}))
   },
