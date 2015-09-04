@@ -27,7 +27,7 @@ export default React.createClass({
       keys = _.union(keys, _.keys(pc))
     })
 
-    const style = { height: ((keys.length * 19) + 9) + 'px' }
+    const style = { height: ((keys.length * 18) + 9) + 'px' }
     const options = keys.map((key, index) => <option key={index} value={key}>{key}</option>)
 
     return (
