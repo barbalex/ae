@@ -10,6 +10,7 @@ import WellTechnAnforderungenAnDatei from './wellTechnAnforderungenAnDatei.js'
 import WellAnforderungenAnCsv from './wellAnforderungenAnCsv.js'
 import WellAnforderungenInhaltlich from './wellAnforderungenInhaltlich.js'
 import InputNameBestehend from './inputNameBestehend.js'
+import ButtonDeletePc from './buttonDeletePc.js'
 import InputName from './inputName.js'
 import AlertEditingPcDisallowed from './alertEditingPcDisallowed.js'
 import InputBeschreibung from './inputBeschreibung.js'
@@ -152,8 +153,6 @@ export default React.createClass({
   },
 
   onChangeNameBestehend (nameBestehend) {
-    console.log('nameBestehend', nameBestehend)
-    console.log('!nameBestehend', !nameBestehend)
     const editingPcIsAllowed = this.isEditingPcAllowed(nameBestehend)
     if (nameBestehend) {
       app.propertyCollectionsStore.getPcByName(nameBestehend)
@@ -176,9 +175,9 @@ export default React.createClass({
     }
   },
 
-  onClickDeletePc () {
-    const { nameBestehend } = this.state
-
+  setNameBestehend (nameBestehend) {
+    // this is passed as a callback to ButtonDeletePc.js > ModalConfirmPc.js
+    this.setState({ nameBestehend })
   },
 
   onChangeName (name) {
@@ -515,7 +514,7 @@ export default React.createClass({
             <WellAutorenrechte />
 
             <InputNameBestehend nameBestehend={nameBestehend} beschreibung={beschreibung} datenstand={datenstand} nutzungsbedingungen={nutzungsbedingungen} link={link} zusammenfassend={zusammenfassend} email={email} pcs={pcs} groupsLoadedOrLoading={groupsLoadedOrLoading} onChangeNameBestehend={this.onChangeNameBestehend} />
-            {showDeletePcButton ? <Button className='btn-primary feld' onClick={this.onClickDeletePc}><Glyphicon glyph='trash'/> Diese Eigenschaftensammlung aus allen Arten bzw. Lebensräumen entfernen</Button> : null}
+            {showDeletePcButton ? <ButtonDeletePc nameBestehend={nameBestehend} setNameBestehend={this.setNameBestehend} /> : null}
 
             <hr />
 
