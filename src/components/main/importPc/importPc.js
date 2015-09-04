@@ -151,27 +151,33 @@ export default React.createClass({
   },
 
   onChangeNameBestehend (nameBestehend) {
+    console.log('nameBestehend', nameBestehend)
+    console.log('!nameBestehend', !nameBestehend)
     const editingPcIsAllowed = this.isEditingPcAllowed(nameBestehend)
-    app.propertyCollectionsStore.getPcByName(nameBestehend)
-      .then((pc) => {
-        // only go on if pc exists (prevent error)
-        if (pc) {
-          const beschreibung = pc.fields.Beschreibung
-          const datenstand = pc.fields.Datenstand
-          const nutzungsbedingungen = pc.fields.Nutzungsbedingungen
-          const link = pc.fields.Link
-          const zusammenfassend = pc.combining
-          const name = nameBestehend
-          this.setState({ beschreibung, datenstand, nutzungsbedingungen, link, zusammenfassend })
-          if (editingPcIsAllowed) this.setState({ nameBestehend, name })
-        }
-      })
-      .catch((error) => app.Actions.showError({msg: error}))
+    if (nameBestehend) {
+      app.propertyCollectionsStore.getPcByName(nameBestehend)
+        .then((pc) => {
+          // only go on if pc exists (prevent error)
+          if (pc) {
+            const beschreibung = pc.fields.Beschreibung
+            const datenstand = pc.fields.Datenstand
+            const nutzungsbedingungen = pc.fields.Nutzungsbedingungen
+            const link = pc.fields.Link
+            const zusammenfassend = pc.combining
+            const name = nameBestehend
+            this.setState({ beschreibung, datenstand, nutzungsbedingungen, link, zusammenfassend })
+            if (editingPcIsAllowed) this.setState({ nameBestehend, name })
+          }
+        })
+        .catch((error) => app.Actions.showError({msg: error}))
+    } else {
+      this.setState({ nameBestehend: null })
+    }
   },
 
   onClickDeletePc () {
     const { nameBestehend } = this.state
-    
+
   },
 
   onChangeName (name) {
@@ -492,8 +498,11 @@ export default React.createClass({
   },
 
   alertEditingPcDisallowed () {
+    const style = {
+      marginBottom: 5
+    }
     return (
-      <Alert className='feld' bsStyle='danger'>
+      <Alert className='feld' bsStyle='danger' style={style}>
         Sie können nur Eigenschaftensammlungen verändern, die Sie selber importiert haben. Ausnahme: zusammenfassende.<br/>
         Bitte wählen Sie einen anderen Namen.
       </Alert>
@@ -505,6 +514,7 @@ export default React.createClass({
     const { groupsLoadedOrLoading, email, allGroupsLoaded, groupsLoadingObjects } = this.props
     const showLoadAllGroups = email && !allGroupsLoaded
     const alertAllGroupsBsStyle = ultimatelyAlertLoadAllGroups ? 'danger' : 'info'
+    const showDeletePcButton = !!nameBestehend
 
     return (
       <div id='importieren'>
@@ -516,7 +526,7 @@ export default React.createClass({
             <WellAutorenrechte />
 
             <InputNameBestehend nameBestehend={nameBestehend} beschreibung={beschreibung} datenstand={datenstand} nutzungsbedingungen={nutzungsbedingungen} link={link} zusammenfassend={zusammenfassend} email={email} pcs={pcs} groupsLoadedOrLoading={groupsLoadedOrLoading} onChangeNameBestehend={this.onChangeNameBestehend} />
-            {nameBestehend ? <Button className='btn-primary feld' onClick={this.onClickDeletePc}><Glyphicon glyph='trash'/> Diese Eigenschaftensammlung aus allen Arten bzw. Lebensräumen entfernen</Button> : null}
+            {showDeletePcButton ? <Button className='btn-primary feld' onClick={this.onClickDeletePc}><Glyphicon glyph='trash'/> Diese Eigenschaftensammlung aus allen Arten bzw. Lebensräumen entfernen</Button> : null}
 
             <hr />
 

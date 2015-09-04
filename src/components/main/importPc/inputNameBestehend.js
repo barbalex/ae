@@ -31,16 +31,16 @@ export default React.createClass({
         // or: user is admin
         const mutable = (importedBy === email || combining || Boolean(window.localStorage.admin))
         const className = mutable ? 'adbGruenFett' : 'adbGrauNormal'
-        return <option key={name} value={name} className={className} waehlbar={mutable}>{name}</option>
+        return <option key={name} value={name} className={className}>{name}</option>
       })
       // add an empty option at the beginning
-      options.unshift(<option key='noValue' value='' waehlbar={true}></option>)
+      options.unshift(<option key='noValue' value={null}></option>)
       return options
     } else if (groupsLoadedOrLoading.length > 0) {
       // this option is showed while loading
-      return <option value='' waehlbar={true}>Lade Daten...</option>
+      return <option value={null}>Lade Daten...</option>
     } else {
-      return <option value='' waehlbar={true}>Keine Gruppe geladen</option>
+      return <option value={null}>Keine Gruppe geladen</option>
     }
   },
 
