@@ -79,7 +79,7 @@ export default React.createClass({
 
   onSelectDropdowButton () {
     // make sure, the menu closes
-    () => true
+    return () => true
   },
 
   render () {
