@@ -166,6 +166,7 @@ export default React.createClass({
             const zusammenfassend = pc.combining
             const name = nameBestehend
             this.setState({ beschreibung, datenstand, nutzungsbedingungen, link, zusammenfassend })
+            this.resetStateFollowingPanel1()
             if (editingPcIsAllowed) this.setState({ nameBestehend, name })
           }
         })
@@ -173,6 +174,24 @@ export default React.createClass({
     } else {
       this.setState({ nameBestehend: null })
     }
+  },
+
+  resetStateFollowingPanel1 () {
+    this.setState({
+      pcsToImport: [],
+      objectsToImportPcsInTo: [],
+      idsImportIdField: null,
+      idsAeIdField: null,
+      idsAnalysisComplete: false,
+      idsNumberOfRecordsWithIdValue: 0,
+      idsDuplicate: [],
+      idsNumberImportable: 0,
+      idsNotImportable: [],
+      idsNotANumber: [],
+      importingProgress: null,
+      panel2Done: false,
+      panel3Done: false
+    })
   },
 
   addNewNameBestehend () {
@@ -268,6 +287,7 @@ export default React.createClass({
       idsAeIdField: null,
       idsImportIdField: null
     })
+    this.resetStateFollowingPanel2()
     if (event.target.files[0] !== undefined) {
       const file = event.target.files[0]
       getObjectsFromFile(file)
@@ -277,6 +297,19 @@ export default React.createClass({
         })
         .catch((error) => app.Actions.showError({title: 'error reading file:', msg: error}))
     }
+  },
+
+  resetStateFollowingPanel2 () {
+    this.setState({
+      objectsToImportPcsInTo: [],
+      idsNumberOfRecordsWithIdValue: 0,
+      idsDuplicate: [],
+      idsNumberImportable: 0,
+      idsNotImportable: [],
+      idsNotANumber: [],
+      importingProgress: null,
+      panel3Done: false
+    })
   },
 
   onChangeAeId (idsAeIdField) {
@@ -292,6 +325,8 @@ export default React.createClass({
   // need to get values directly because state has not been updated yet
   onChangeId () {
     const { idsAeIdField, idsImportIdField, pcsToImport } = this.state
+
+    this.resetStateFollowingPanel3()
 
     if (idsAeIdField && idsImportIdField) {
       // start analysis
@@ -338,6 +373,12 @@ export default React.createClass({
         })
         .catch((error) => app.Actions.showError({msg: error}))
     }
+  },
+
+  resetStateFollowingPanel3 () {
+    this.setState({
+      importingProgress: null
+    })
   },
 
   onClickImportieren () {
