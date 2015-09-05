@@ -176,6 +176,13 @@ export default React.createClass({
   },
 
   addNewNameBestehend () {
+    /**
+     * goal is to update the list of pcs and therewith the dropdown lists in nameBestehend and ursprungsEs
+     * we could do it by querying the db again with app.Actions.queryPropertyCollections()
+     * but this is 1. very slow so happens too late and 2. uses lots of ressources
+     * so we manually add the new pc to pcs
+     * and then update pcs in state and store
+     */
     let { pcs, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend } = this.state
     const pc = {
       name: name,
@@ -193,19 +200,24 @@ export default React.createClass({
     pcs.push(pc)
     pcs = _.sortBy(pcs, (pc) => pc.name)
     app.propertyCollectionsStore.savePc(pc)
-    this.setState({ pcs }, () => app.Actions.queryPropertyCollections())
+    this.setState({ pcs })
   },
 
+  // this is passed as a callback to ButtonDeletePc.js > ModalConfirmPc.js
   removeDeletedNameBestehend () {
+    /**
+     * goal is to update the list of pcs and therewith the dropdown lists in nameBestehend and ursprungsEs
+     * we could do it by querying the db again with app.Actions.queryPropertyCollections()
+     * but this is 1. very slow so happens too late and 2. uses lots of ressources
+     * so we manually remove the new pc from pcs
+     * and then update pcs in state and store
+     */
     let { pcs, nameBestehend } = this.state
-    // this is passed as a callback to ButtonDeletePc.js > ModalConfirmPc.js
-    // set back nameBestehend, then reload property collections
-    // remove from pcs
     pcs = _.reject(pcs, (pc) => pc.name === nameBestehend)
-    // dont forget to update the version in the collection store
+    // update pcs in the collection store
     app.propertyCollectionsStore.savePcs(pcs)
     nameBestehend = null
-    this.setState({ nameBestehend, pcs }, () => app.Actions.queryPropertyCollections())
+    this.setState({ nameBestehend, pcs })
   },
 
   onChangeName (name) {

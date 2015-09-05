@@ -79,6 +79,7 @@ export default (Actions) => {
       app.localDb.get('_local/pcs', { include_docs: true })
         .then((doc) => {
           doc.pcs.push(pc)
+          doc.pcs = _.sortBy(doc.pcs, (pc) => pc.name)
           return app.localDb.put(doc)
         })
         .catch((error) =>

@@ -44,7 +44,7 @@ export default React.createClass({
 
     return (
       <Alert bsStyle='info' style={alertStyle}>
-        <p>Eigenschaftensammlungen wurden in {idsImported.length} Arten/Lebensräume importiert.<br/>
+        <p>{idsImported.length} Eigenschaftensammlungen wurden in Arten/Lebensräume importiert.<br/>
           5 Beispiele zur Kontrolle:
         </p>
         {paths ? <ul>{examples}</ul> : null}
