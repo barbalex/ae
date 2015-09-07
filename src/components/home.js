@@ -7,6 +7,7 @@ import { Input } from 'react-bootstrap'
 import _ from 'lodash'
 import MenuButton from './menu/menuButton'
 import ResizeButton from './menu/resizeButton.js'
+import Gruppen from './menu/gruppen.js'
 import Filter from './menu/filter.js'
 import FaviconImage from '../../img/aster_144.png'
 import Favicon from 'react-favicon'
@@ -158,44 +159,6 @@ export default React.createClass({
     }
   },
 
-  onClickGruppe (gruppe) {
-    app.Actions.loadObjectStore(gruppe)
-  },
-
-  createGruppen () {
-    const groupsLoadedOrLoading = this.state.groupsLoadedOrLoading
-    const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
-    if (groupsNotLoaded.length > 0) {
-      return (
-        <div id='groups'>
-          <div id='groupCheckboxesTitle'>
-            Gruppen laden:
-          </div>
-          <div id='groupCheckboxes'>
-            {this.groupCheckboxes()}
-          </div>
-        </div>
-      )
-    }
-  },
-
-  groupCheckboxes () {
-    const groupsLoadedOrLoading = this.state.groupsLoadedOrLoading
-    const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
-    return groupsNotLoaded.map((gruppe) => this.groupCheckbox(gruppe))
-  },
-
-  groupCheckbox (gruppe) {
-    const label = gruppe.replace('Macromycetes', 'Pilze')
-    return (
-      <Input
-        key={gruppe}
-        type='checkbox'
-        label={label}
-        onClick={this.onClickGruppe.bind(this, gruppe)} />
-    )
-  },
-
   email () {
     const email = this.state.email
     const text = email ? email : 'nicht angemeldet'
@@ -204,6 +167,8 @@ export default React.createClass({
 
   render () {
     const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, showImportPC, showImportRC, showOrganizations, logIn, email, groupsLoadedOrLoading } = this.state
+    const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
+    const showGruppen = groupsNotLoaded.length > 0
     const showFilter = filterOptions.length > 0 || loadingFilterOptions
     const showMain = object !== undefined || showImportRC || showImportPC || showOrganizations
     const showLogin = logIn && !email
@@ -218,8 +183,8 @@ export default React.createClass({
           <div id='menuLine'>
             <ResizeButton />
           </div>
-          {this.createGruppen()}
-          {showFilter ? <Filter filterOptions={filterOptions} loadingFilterOptions={loadingFilterOptions} /> : ''}
+          {showGruppen ? <Gruppen groupsLoadedOrLoading={groupsLoadedOrLoading} /> : null}
+          {showFilter ? <Filter filterOptions={filterOptions} loadingFilterOptions={loadingFilterOptions} /> : null}
           <TreeFromHierarchyObject
             hierarchy={hierarchy}
             groupsLoadingObjects={groupsLoadingObjects}
@@ -228,8 +193,8 @@ export default React.createClass({
             path={path} />
         </div>
         {this.email()}
-        {showMain ? <Main object={object} allGroupsLoaded={allGroupsLoaded} groupsLoadedOrLoading={groupsLoadedOrLoading} groupsLoadingObjects={groupsLoadingObjects} synonymObjects={synonymObjects} showImportPC={showImportPC} showImportRC={showImportRC} showOrganizations={showOrganizations} email={email} /> : ''}
-        {showLogin ? <Login /> : ''}
+        {showMain ? <Main object={object} allGroupsLoaded={allGroupsLoaded} groupsLoadedOrLoading={groupsLoadedOrLoading} groupsLoadingObjects={groupsLoadingObjects} synonymObjects={synonymObjects} showImportPC={showImportPC} showImportRC={showImportRC} showOrganizations={showOrganizations} email={email} /> : null}
+        {showLogin ? <Login /> : null}
       </NavHelper>
     )
   }
