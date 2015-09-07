@@ -4,8 +4,10 @@ import getPathsFromLocalPathDb from './getPathsFromLocalPathDb.js'
 
 export default (path) => {
   const pathString = path.join('/')
+
   return new Promise((resolve, reject) => {
-    if (!pathString) reject('objectStore, getPath: no pathString passed')
+    if (!path) reject('objectStore, getPath: no path passed')
+    if (path.length === 0) resolve(null)
     getPathsFromLocalPathDb()
       .then((paths) => {
         const guid = paths[pathString]
