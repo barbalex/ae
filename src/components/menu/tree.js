@@ -29,12 +29,9 @@ export default React.createClass({
     if (windowWidth > 1000) treeMaxHeight = windowHeight - 169  // initial value on desktop
     treeMaxHeight -= groupsLoadingHeight                        // correction if groups are loading
     if (allGroupsLoaded) treeMaxHeight += 59                    // correction if all groups are loaded
-
-    const tree = (
-      <div>
-        <Nodes hierarchy={hierarchy} object={object} path={path} />
-      </div>
-    )
+    const treeStyle = {
+      maxHeight: treeMaxHeight
+    }
 
     // sort loading objects by name
     const loadingMessage = groupsLoadingObjects.map((groupLoadingObject) => {
@@ -48,8 +45,8 @@ export default React.createClass({
 
     return (
       <div>
-        <div id='tree' style={{maxHeight: treeMaxHeight + 'px'}} className='baum'>
-          {hierarchy ? tree : null}
+        <div id='tree' style={treeStyle}>
+          {hierarchy ? <div><Nodes hierarchy={hierarchy} object={object} path={path} /></div> : null}
         </div>
         {loading ? loadingMessage : null}
       </div>
