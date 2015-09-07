@@ -25,7 +25,7 @@ export default React.createClass({
     const { docsToDelete, nameBestehend } = this.props
     const { paths } = this.state
     const idsOfObjects = _.pluck(docsToDelete, '_id')
-    const first10Ids = idsOfObjects.slice(0, 5)
+    const first5Ids = idsOfObjects.slice(0, 5)
     const alertStyle = { marginTop: 11 }
 
     // only get paths on first render
@@ -35,7 +35,7 @@ export default React.createClass({
         .catch((error) => app.Actions.showError({title: 'Fehler beim Aufbauen der Beispiele:', msg: error}))
     }
 
-    const examples = first10Ids.map((id, index) => {
+    const examples = first5Ids.map((id, index) => {
       const path = _.findKey(paths, (value) => value === id)
       const href = `${window.location.protocol}//${window.location.host}/${path}?id=${id}`
       return <li key={index}><a href={href} target='_blank'>Beispiel {index + 1}</a></li>

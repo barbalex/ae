@@ -11,6 +11,7 @@ import WellAnforderungenAnCsv from './wellAnforderungenAnCsv.js'
 import WellAnforderungenInhaltlich from './wellAnforderungenInhaltlich.js'
 import InputNameBestehend from './inputNameBestehend.js'
 import ButtonDeletePc from './buttonDeletePc.js'
+import ButtonDeletePcInstances from './buttonDeletePcInstances.js'
 import InputName from './inputName.js'
 import AlertEditingPcDisallowed from './alertEditingPcDisallowed.js'
 import InputBeschreibung from './inputBeschreibung.js'
@@ -55,6 +56,7 @@ export default React.createClass({
     email: React.PropTypes.string,
     pcs: React.PropTypes.array,
     pcsToImport: React.PropTypes.array,
+    pcsRemoved: React.PropTypes.bool,
     objectsToImportPcsInTo: React.PropTypes.array,
     idsImportIdField: React.PropTypes.string,
     idsAeIdField: React.PropTypes.string,
@@ -98,6 +100,7 @@ export default React.createClass({
       esBearbeitenErlaubt: true,
       pcs: [],
       pcsToImport: [],
+      pcsRemoved: false,
       objectsToImportPcsInTo: [],
       idsImportIdField: null,
       idsAeIdField: null,
@@ -222,9 +225,11 @@ export default React.createClass({
     this.setState({ pcs })
   },
 
-  // this is passed as a callback to ButtonDeletePc.js > ModalConfirmPc.js
-  deletePc () {
+  resetUiAfterDeleting () {
     /**
+     * this is passed as a callback to ButtonDeletePc.js > ModalDeletePc.js
+     * objects are deleted in ModalDeletePc.js
+     *
      * goal is to update the list of pcs and therewith the dropdown lists in nameBestehend and ursprungsEs
      * we could do it by querying the db again with app.Actions.queryPropertyCollections()
      * but this is 1. very slow so happens too late and 2. uses lots of ressources
@@ -237,6 +242,11 @@ export default React.createClass({
     app.propertyCollectionsStore.savePcs(pcs)
     nameBestehend = null
     this.setState({ nameBestehend, pcs })
+  },
+
+  resetUiAfterRemoving () {
+    const pcsRemoved = true
+    this.setState({ pcsRemoved })
   },
 
   onChangeName (name) {
@@ -429,12 +439,13 @@ export default React.createClass({
             .catch((error) => app.Actions.showError({title: 'Fehler beim Importieren:', msg: error}))
         }
       })
+      // reset pcsRemoved to show button to remove again
+      const pcsRemoved = false
+      this.setState({ pcsRemoved })
       // update nameBestehend
       this.addNewNameBestehend()
     })
   },
-
-  
 
   onClickPanel (number, event) {
     let { activePanel } = this.state
@@ -581,11 +592,12 @@ export default React.createClass({
   },
 
   render () {
-    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, pcsToImport, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs, validPcsToImport, activePanel, idsAeIdField, idsImportIdField, pcs, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, panel3Done, importingProgress, objectsToImportPcsInTo } = this.state
+    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, pcsToImport, pcsRemoved, objectsToImportPcsInTo, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs, validPcsToImport, activePanel, idsAeIdField, idsImportIdField, pcs, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, panel3Done, importingProgress, objectsToImportPcsInTo } = this.state
     const { groupsLoadedOrLoading, email, allGroupsLoaded, groupsLoadingObjects } = this.props
     const showLoadAllGroups = email && !allGroupsLoaded
     const alertAllGroupsBsStyle = ultimatelyAlertLoadAllGroups ? 'danger' : 'info'
     const showDeletePcButton = !!nameBestehend
+    const showDeletePcInstancesButton = panel3Done && !pcsRemoved
 
     return (
       <div id='importieren'>
@@ -597,7 +609,7 @@ export default React.createClass({
             <WellAutorenrechte />
 
             <InputNameBestehend nameBestehend={nameBestehend} beschreibung={beschreibung} datenstand={datenstand} nutzungsbedingungen={nutzungsbedingungen} link={link} zusammenfassend={zusammenfassend} email={email} pcs={pcs} groupsLoadedOrLoading={groupsLoadedOrLoading} onChangeNameBestehend={this.onChangeNameBestehend} />
-            {showDeletePcButton ? <ButtonDeletePc nameBestehend={nameBestehend} deletePc={this.deletePc} /> : null}
+            {showDeletePcButton ? <ButtonDeletePc nameBestehend={nameBestehend} resetUiAfterDeleting={this.resetUiAfterDeleting} /> : null}
 
             <hr />
 
@@ -630,8 +642,8 @@ export default React.createClass({
           </Panel>
 
           <Panel collapsible header='4. Import ausführen' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>
-            {panel3Done ? <Button className='btn-primary' onClick={this.onClickImportieren}><Glyphicon glyph='download-alt'/> Eigenschaftensammlung importieren</Button> : null }
-            {panel3Done ? <Button bsStyle='danger' disabled><Glyphicon glyph='trash'/> Eigenschaftensammlung aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen</Button> : null}
+            {panel3Done ? <Button className='btn-primary' onClick={this.onClickImportieren}><Glyphicon glyph='download-alt'/> Eigenschaftensammlung "{name}" importieren</Button> : null }
+            {showDeletePcInstancesButton ? <ButtonDeletePcInstances name={name} objectsToImportPcsInTo={objectsToImportPcsInTo} resetUiAfterRemoving={this.resetUiAfterRemoving} /> : null}
             {importingProgress !== null ? <ProgressbarImport importingProgress={importingProgress} /> : null}
             {importingProgress === 100 ? <AlertFirst5Imported objectsToImportPcsInTo={objectsToImportPcsInTo} idsNotImportable={idsNotImportable} /> : null}
           </Panel>

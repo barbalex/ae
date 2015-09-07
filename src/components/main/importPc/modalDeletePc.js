@@ -15,10 +15,9 @@ export default React.createClass({
   displayName: 'ModalDeletePc',
 
   propTypes: {
-    show: React.PropTypes.bool,
     showAlertIndex: React.PropTypes.bool,
     nameBestehend: React.PropTypes.string,
-    deletePc: React.PropTypes.func,
+    resetUiAfterDeleting: React.PropTypes.func,
     closeModal: React.PropTypes.func,
     deletingProgress: React.PropTypes.number,
     docsToDelete: React.PropTypes.array
@@ -26,7 +25,6 @@ export default React.createClass({
 
   getInitialState () {
     return {
-      show: true,
       showAlertIndex: false,
       deletingProgress: null,
       docsToDelete: []
@@ -35,11 +33,10 @@ export default React.createClass({
 
   onHide () {
     console.log('onHide')
-    // this.onClickLogin()
   },
 
   onClickDelete () {
-    const { nameBestehend, deletePc } = this.props
+    const { nameBestehend, resetUiAfterDeleting } = this.props
     this.setState({ showAlertIndex: true }, () => {
       objectsByPcsName(nameBestehend)
         .then((docs) => {
@@ -57,7 +54,7 @@ export default React.createClass({
             })
           })
           // set nameBestehend back
-          deletePc()
+          resetUiAfterDeleting()
         })
         .catch((error) => app.Actions.showError({title: 'Fehler beim Versuch, die Eigenschaften zu löschen:', msg: error}))
     })
@@ -69,13 +66,13 @@ export default React.createClass({
   },
 
   render () {
-    const { show, showAlertIndex, deletingProgress, docsToDelete } = this.state
+    const { showAlertIndex, deletingProgress, docsToDelete } = this.state
     const { nameBestehend } = this.props
     const showWollenSie = deletingProgress === null && !showAlertIndex
 
     return (
       <div className='static-modal'>
-        <Modal.Dialog show={show} onHide={this.onHide}>
+        <Modal.Dialog onHide={this.onHide}>
           <Modal.Header>
             <Modal.Title>Eigenschaftensammlung löschen</Modal.Title>
           </Modal.Header>
