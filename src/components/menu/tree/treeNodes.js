@@ -4,8 +4,8 @@ import app from 'ampersand-app'
 import React from 'react'
 import { Glyphicon } from 'react-bootstrap'
 import _ from 'lodash'
-import replaceProblematicPathCharactersFromString from '../../modules/replaceProblematicPathCharactersFromString.js'
-import getObjectFromPath from '../../modules/getObjectFromPath.js'
+import replaceProblematicPathCharactersFromString from '../../../modules/replaceProblematicPathCharactersFromString.js'
+import getObjectFromPath from '../../../modules/getObjectFromPath.js'
 
 const Nodes = React.createClass({
   displayName: 'TreeLowerLevel',
