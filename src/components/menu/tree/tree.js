@@ -1,10 +1,9 @@
 'use strict'
 
 import React from 'react'
-import { ProgressBar } from 'react-bootstrap'
-import _ from 'lodash'
 import $ from 'jquery'
 import Nodes from './treeNodes.js'
+import LoadingMessage from './loadingMessage.js'
 
 export default React.createClass({
   displayName: 'TreeLevel1',
@@ -33,22 +32,24 @@ export default React.createClass({
       maxHeight: treeMaxHeight
     }
 
-    // sort loading objects by name
-    const loadingMessage = groupsLoadingObjects.map((groupLoadingObject) => {
-      let { message, group, progressPercent } = groupLoadingObject
-      // Macromycetes shall appear as Pilze
-      message = message.replace('Macromycetes', 'Pilze')
-      const groupName = group.toLowerCase()
-      if (progressPercent || progressPercent === 0) return <ProgressBar bsStyle='success' key={groupName} now={progressPercent} label={message} />
-      return <p key={groupName}>{message}</p>
-    })
-
     return (
       <div>
         <div id='tree' style={treeStyle}>
-          {hierarchy ? <div><Nodes hierarchy={hierarchy} object={object} path={path} /></div> : null}
+          {hierarchy ?
+            <div>
+              <Nodes
+                hierarchy={hierarchy}
+                object={object}
+                path={path} />
+            </div>
+            : null
+          }
         </div>
-        {loading ? loadingMessage : null}
+        {loading ?
+          <LoadingMessage
+            groupsLoadingObjects={groupsLoadingObjects} />
+          : null
+        }
       </div>
     )
   }
