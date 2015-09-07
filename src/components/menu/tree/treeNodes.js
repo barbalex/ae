@@ -8,7 +8,7 @@ import replaceProblematicPathCharactersFromString from '../../../modules/replace
 import getObjectFromPath from '../../../modules/getObjectFromPath.js'
 
 const Nodes = React.createClass({
-  displayName: 'TreeLowerLevel',
+  displayName: 'TreeNodes',
 
   propTypes: {
     hierarchy: React.PropTypes.array,  // = hierarchy objects OF THIS LEVEL
