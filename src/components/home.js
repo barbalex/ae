@@ -11,6 +11,7 @@ import Gruppen from './menu/gruppen.js'
 import Filter from './menu/filter.js'
 import FaviconImage from '../../img/aster_144.png'
 import Favicon from 'react-favicon'
+import Email from './email.js'
 import Main from './main/main.js'
 import Tree from './menu/tree.js'
 import getGruppen from '../modules/gruppen.js'
@@ -125,14 +126,8 @@ export default React.createClass({
       // must be home
       gruppe = null
     }
-
-    _.assign(state, {
-      object: undefined,
-      gruppe: gruppe,
-      showImportPC: showImportPC,
-      showImportRC: showImportRC,
-      showOrganizations: showOrganizations
-    })
+    const object = undefined
+    _.assign(state, { object, gruppe: gruppe, showImportPC, showImportRC, showOrganizations })
 
     this.setState(state)
 
@@ -159,12 +154,6 @@ export default React.createClass({
     }
   },
 
-  email () {
-    const email = this.state.email
-    const text = email ? email : 'nicht angemeldet'
-    return <div id='email'>{text}</div>
-  },
-
   render () {
     const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, showImportPC, showImportRC, showOrganizations, logIn, email, groupsLoadedOrLoading } = this.state
     const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
@@ -183,8 +172,17 @@ export default React.createClass({
           <div id='menuLine'>
             <ResizeButton />
           </div>
-          {showGruppen ? <Gruppen groupsLoadedOrLoading={groupsLoadedOrLoading} /> : null}
-          {showFilter ? <Filter filterOptions={filterOptions} loadingFilterOptions={loadingFilterOptions} /> : null}
+          {showGruppen ?
+            <Gruppen
+              groupsLoadedOrLoading={groupsLoadedOrLoading} />
+            : null
+          }
+          {showFilter ?
+            <Filter
+              filterOptions={filterOptions}
+              loadingFilterOptions={loadingFilterOptions} />
+            : null
+          }
           <Tree
             hierarchy={hierarchy}
             groupsLoadingObjects={groupsLoadingObjects}
@@ -192,8 +190,20 @@ export default React.createClass({
             object={object}
             path={path} />
         </div>
-        {this.email()}
-        {showMain ? <Main object={object} allGroupsLoaded={allGroupsLoaded} groupsLoadedOrLoading={groupsLoadedOrLoading} groupsLoadingObjects={groupsLoadingObjects} synonymObjects={synonymObjects} showImportPC={showImportPC} showImportRC={showImportRC} showOrganizations={showOrganizations} email={email} /> : null}
+        <Email email={email} />
+        {showMain ?
+          <Main
+            object={object}
+            allGroupsLoaded={allGroupsLoaded}
+            groupsLoadedOrLoading={groupsLoadedOrLoading}
+            groupsLoadingObjects={groupsLoadingObjects}
+            synonymObjects={synonymObjects}
+            showImportPC={showImportPC}
+            showImportRC={showImportRC}
+            showOrganizations={showOrganizations}
+            email={email} />
+          : null
+        }
         {showLogin ? <Login /> : null}
       </NavHelper>
     )
