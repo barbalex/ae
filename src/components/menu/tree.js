@@ -4,7 +4,7 @@ import React from 'react'
 import { ProgressBar } from 'react-bootstrap'
 import _ from 'lodash'
 import $ from 'jquery'
-import Nodes from './treeNodesFromHierarchyObject.js'
+import Nodes from './treeNodes.js'
 
 export default React.createClass({
   displayName: 'TreeLevel1',

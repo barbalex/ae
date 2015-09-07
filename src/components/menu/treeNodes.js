@@ -43,7 +43,7 @@ const Nodes = React.createClass({
         app.Actions.loadActiveObjectStore(guidOfObjectToLoad)
       })
       .catch((error) =>
-        app.Actions.showError({title: 'treeNodesFromHierarchyObject.js: error getting object from path:', msg: error})
+        app.Actions.showError({title: 'treeNodes.js: error getting object from path:', msg: error})
       )
   },
 

@@ -12,7 +12,7 @@ import Filter from './menu/filter.js'
 import FaviconImage from '../../img/aster_144.png'
 import Favicon from 'react-favicon'
 import Main from './main/main.js'
-import TreeFromHierarchyObject from './menu/treeFromHierarchyObject.js'
+import Tree from './menu/tree.js'
 import getGruppen from '../modules/gruppen.js'
 import NavHelper from '../components/navHelper.js'
 import kickOffStores from '../modules/kickOffStores.js'
@@ -185,7 +185,7 @@ export default React.createClass({
           </div>
           {showGruppen ? <Gruppen groupsLoadedOrLoading={groupsLoadedOrLoading} /> : null}
           {showFilter ? <Filter filterOptions={filterOptions} loadingFilterOptions={loadingFilterOptions} /> : null}
-          <TreeFromHierarchyObject
+          <Tree
             hierarchy={hierarchy}
             groupsLoadingObjects={groupsLoadingObjects}
             allGroupsLoaded={allGroupsLoaded}
