@@ -52,7 +52,7 @@ const Nodes = React.createClass({
     const { hierarchy, object, path } = this.props
     nodes = _.chain(hierarchy)
       .sortBy((hO) => hO.Name)
-      .map((hO) => {
+      .map((hO, index) => {
         const level = hO.path.length
         const activeKey = path[level - 1]
         const keyIsActive = replaceProblematicPathCharactersFromString(hO.Name) === path[level - 1]
@@ -62,7 +62,7 @@ const Nodes = React.createClass({
         const showNode = replaceProblematicPathCharactersFromString(hO.Name) === activeKey && hO.children
 
         return (
-          <li key={hO.Name} level={level} hO={hO} onClick={onClickNode}>
+          <li key={index} level={level} hO={hO} onClick={onClickNode}>
             <Glyphicon glyph={glyph} onClick={onClickNode}/>
             <div className={keyIsActive ? 'active' : null}>{hO.Name.replace('&#39;', '\'')}</div>
             {showNode ? <Nodes hierarchy={hO.children} object={object} path={path}/> : ''}
