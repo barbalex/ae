@@ -49,9 +49,9 @@ export default React.createClass({
     return (
       <div>
         <div id='tree' style={{maxHeight: treeMaxHeight + 'px'}} className='baum'>
-          {hierarchy ? tree : ''}
+          {hierarchy ? tree : null}
         </div>
-        {loading ? loadingMessage : ''}
+        {loading ? loadingMessage : null}
       </div>
     )
   }
