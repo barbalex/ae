@@ -223,7 +223,7 @@ export default React.createClass({
   },
 
   // this is passed as a callback to ButtonDeletePc.js > ModalConfirmPc.js
-  removeDeletedNameBestehend () {
+  deletePc () {
     /**
      * goal is to update the list of pcs and therewith the dropdown lists in nameBestehend and ursprungsEs
      * we could do it by querying the db again with app.Actions.queryPropertyCollections()
@@ -434,6 +434,8 @@ export default React.createClass({
     })
   },
 
+  
+
   onClickPanel (number, event) {
     let { activePanel } = this.state
     const { allGroupsLoaded } = this.props
@@ -595,7 +597,7 @@ export default React.createClass({
             <WellAutorenrechte />
 
             <InputNameBestehend nameBestehend={nameBestehend} beschreibung={beschreibung} datenstand={datenstand} nutzungsbedingungen={nutzungsbedingungen} link={link} zusammenfassend={zusammenfassend} email={email} pcs={pcs} groupsLoadedOrLoading={groupsLoadedOrLoading} onChangeNameBestehend={this.onChangeNameBestehend} />
-            {showDeletePcButton ? <ButtonDeletePc nameBestehend={nameBestehend} removeDeletedNameBestehend={this.removeDeletedNameBestehend} /> : null}
+            {showDeletePcButton ? <ButtonDeletePc nameBestehend={nameBestehend} deletePc={this.deletePc} /> : null}
 
             <hr />
 

@@ -18,7 +18,7 @@ export default React.createClass({
     show: React.PropTypes.bool,
     showAlertIndex: React.PropTypes.bool,
     nameBestehend: React.PropTypes.string,
-    removeDeletedNameBestehend: React.PropTypes.func,
+    deletePc: React.PropTypes.func,
     closeModal: React.PropTypes.func,
     deletingProgress: React.PropTypes.number,
     docsToDelete: React.PropTypes.array
@@ -39,7 +39,7 @@ export default React.createClass({
   },
 
   onClickDelete () {
-    const { nameBestehend, removeDeletedNameBestehend } = this.props
+    const { nameBestehend, deletePc } = this.props
     this.setState({ showAlertIndex: true }, () => {
       objectsByPcsName(nameBestehend)
         .then((docs) => {
@@ -57,7 +57,7 @@ export default React.createClass({
             })
           })
           // set nameBestehend back
-          removeDeletedNameBestehend()
+          deletePc()
         })
         .catch((error) => app.Actions.showError({title: 'Fehler beim Versuch, die Eigenschaften zu löschen:', msg: error}))
     })
