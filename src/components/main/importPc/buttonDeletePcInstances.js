@@ -10,8 +10,9 @@ export default React.createClass({
   propTypes: {
     showConfirmModal: React.PropTypes.bool,
     name: React.PropTypes.string,
-    objectsToImportPcsInTo: React.PropTypes.array,
-    resetUiAfterRemoving: React.PropTypes.func
+    idsOfAeObjects: React.PropTypes.array,
+    resetUiAfterRemoving: React.PropTypes.func,
+    pcsRemoved: React.PropTypes.bool
   },
 
   getInitialState () {
@@ -29,15 +30,17 @@ export default React.createClass({
   },
 
   render () {
-    const { name, objectsToImportPcsInTo, resetUiAfterRemoving } = this.props
+    const { name, idsOfAeObjects, resetUiAfterRemoving, pcsRemoved } = this.props
     const { showConfirmModal } = this.state
     const divStyle = {
       display: 'inline-block'
     }
+
+    console.log('buttonDeletePcInstances.js, pcsRemoved', pcsRemoved)
     return (
       <div style={divStyle}>
-        <Button bsStyle='danger' onClick={this.onClickDeletePcInstances}><Glyphicon glyph='trash'/> Eigenschaftensammlung "{name}" aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen</Button>
-        {showConfirmModal ? <ModalDeletePcInstances name={name} objectsToImportPcsInTo={objectsToImportPcsInTo} resetUiAfterRemoving={resetUiAfterRemoving} closeModal={this.closeModal} /> : null}
+        <Button bsStyle='danger' onClick={this.onClickDeletePcInstances} disabled={pcsRemoved}><Glyphicon glyph='trash'/> Eigenschaftensammlung "{name}" aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen</Button>
+        {showConfirmModal ? <ModalDeletePcInstances name={name} idsOfAeObjects={idsOfAeObjects} resetUiAfterRemoving={resetUiAfterRemoving} closeModal={this.closeModal} /> : null}
       </div>
     )
   }

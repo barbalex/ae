@@ -10,7 +10,7 @@ export default React.createClass({
   displayName: 'AlertFirst5Deleted',
 
   propTypes: {
-    docsToDelete: React.PropTypes.array,
+    idsOfAeObjects: React.PropTypes.array,
     nameBestehend: React.PropTypes.string,
     paths: React.PropTypes.object
   },
@@ -22,10 +22,9 @@ export default React.createClass({
   },
 
   render () {
-    const { docsToDelete, nameBestehend } = this.props
+    const { idsOfAeObjects, nameBestehend } = this.props
     const { paths } = this.state
-    const idsOfObjects = _.pluck(docsToDelete, '_id')
-    const first5Ids = idsOfObjects.slice(0, 5)
+    const first5Ids = idsOfAeObjects.slice(0, 5)
     const alertStyle = { marginTop: 11 }
 
     // only get paths on first render
@@ -43,7 +42,7 @@ export default React.createClass({
 
     return (
       <Alert bsStyle='info' style={alertStyle}>
-        <p>Aus {docsToDelete.length} Datensätzen wurde die Eigenschaftensammlung "{nameBestehend}" entfernt.<br/>
+        <p>Aus {idsOfAeObjects.length} Datensätzen wurde die Eigenschaftensammlung "{nameBestehend}" entfernt.<br/>
           5 Beispiele zur Kontrolle:
         </p>
         {paths ? <ul>{examples}</ul> : null}

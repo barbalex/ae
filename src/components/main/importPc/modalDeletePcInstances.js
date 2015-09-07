@@ -9,13 +9,14 @@ import React from 'react'
 import { Modal, Button, ProgressBar } from 'react-bootstrap'
 import _ from 'lodash'
 import AlertFirst5Deleted from './alertFirst5Deleted.js'
+import getGuidsById from '../../../modules/getGuidsById.js'
 
 export default React.createClass({
   displayName: 'ModalDeletePcInstances',
 
   propTypes: {
     name: React.PropTypes.string,
-    objectsToImportPcsInTo: React.PropTypes.array,
+    idsOfAeObjects: React.PropTypes.array,
     resetUiAfterRemoving: React.PropTypes.func,
     closeModal: React.PropTypes.func,
     deletingProgress: React.PropTypes.number
@@ -32,16 +33,20 @@ export default React.createClass({
   },
 
   onClickRemove () {
-    const { name, objectsToImportPcsInTo, resetUiAfterRemoving } = this.props
-    objectsToImportPcsInTo.forEach((doc, index) => {
-      doc.Eigenschaftensammlungen = _.reject(doc.Eigenschaftensammlungen, (es) => es.Name === name)
-      app.localDb.put(doc)
+    const { name, idsOfAeObjects, resetUiAfterRemoving } = this.props
+    idsOfAeObjects.forEach((guid, index) => {
+      app.objectStore.getItem(guid)
+        .then((doc) => {
+          doc.Eigenschaftensammlungen = _.reject(doc.Eigenschaftensammlungen, (es) => es.Name === name)
+          return app.localDb.put(doc)
+        })
         .then(() => {
-          const deletingProgress = Math.round((index + 1) / objectsToImportPcsInTo.length * 100)
+          const deletingProgress = Math.round((index + 1) / idsOfAeObjects.length * 100)
           this.setState({ deletingProgress })
+          // TODO: rebuild index afterwards
           if (deletingProgress === 100) resetUiAfterRemoving()
         })
-        .catch((error) => app.Actions.showError({title: `Das Objekt mit der ID ${doc._id} wurde nicht aktualisiert. Fehlermeldung:`, msg: error}))
+        .catch((error) => app.Actions.showError({title: `Das Objekt mit der GUID ${guid} wurde nicht aktualisiert. Fehlermeldung:`, msg: error}))
     })
   },
 
@@ -51,7 +56,7 @@ export default React.createClass({
   },
 
   render () {
-    const { deletingProgress, objectsToImportPcsInTo } = this.state
+    const { deletingProgress, idsOfAeObjects } = this.state
     const { name } = this.props
     const showWollenSie = deletingProgress === null
 
@@ -64,7 +69,7 @@ export default React.createClass({
           <Modal.Body>
             {showWollenSie ? <p>Sie möchten die Eigenschaftensammlung "{name}" und alle ihre Eigenschaften endgültig aus allen in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen?</p> : null}
             {deletingProgress !== null ? <ProgressBar bsStyle='success' now={deletingProgress} label={`${deletingProgress}% entfernt`} /> : null}
-            {deletingProgress === 100 ? <AlertFirst5Deleted docsToDelete={objectsToImportPcsInTo} nameBestehend={name} /> : null}
+            {deletingProgress === 100 ? <AlertFirst5Deleted docsToDelete={idsOfAeObjects} nameBestehend={name} /> : null}
           </Modal.Body>
           <Modal.Footer>
             {deletingProgress === null ? <Button className='btn-primary' onClick={this.onClickRemove}>ja, entfernen!</Button> : null}

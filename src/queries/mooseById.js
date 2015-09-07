@@ -8,7 +8,6 @@
 'use strict'
 
 import app from 'ampersand-app'
-import _ from 'lodash'
 
 export default (ids) => {
   return new Promise((resolve, reject) => {
@@ -18,7 +17,7 @@ export default (ids) => {
         'mooseById': {
           map: function (doc) {
             if (doc.Typ && doc.Typ === 'Objekt' && doc.Gruppe && doc.Gruppe === 'Moose') {
-              emit(doc.Taxonomien[0].Eigenschaften['Taxonomie ID'], doc._id)
+              emit(doc.Taxonomien[0].Eigenschaften['Taxonomie ID'], null)
             }
           }.toString()
         }
@@ -32,14 +31,16 @@ export default (ids) => {
       })
       .then((response) => {
         const options = {
-          keys: ids,
-          include_docs: true
+          keys: ids
         }
         return app.localDb.query('mooseById', options)
       })
       .then((result) => {
-        const moose = _.pluck(result.rows, 'doc')
-        resolve(moose)
+        let returnObject = {}
+        result.rows.forEach((row) => {
+          returnObject[row.key] = row.id
+        })
+        resolve(returnObject)
       })
       .catch((error) => reject(error))
   })

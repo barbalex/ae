@@ -30,7 +30,7 @@ import AlertFirst5Imported from './alertFirst5Imported.js'
 import getObjectsFromFile from './getObjectsFromFile.js'
 import isValidUrl from '../../../modules/isValidUrl.js'
 import getSuccessTypeFromAnalysis from './getSuccessTypeFromAnalysis.js'
-import getItemsById from '../../../modules/getItemsById.js'
+import getGuidsById from '../../../modules/getGuidsById.js'
 import convertValue from '../../../modules/convertValue.js'
 import sortObjectArrayByName from '../../../modules/sortObjectArrayByName.js'
 import AlertLoadAllGroups from './alertLoadAllGroups.js'
@@ -57,7 +57,7 @@ export default React.createClass({
     pcs: React.PropTypes.array,
     pcsToImport: React.PropTypes.array,
     pcsRemoved: React.PropTypes.bool,
-    objectsToImportPcsInTo: React.PropTypes.array,
+    idsOfAeObjects: React.PropTypes.array,
     idsImportIdField: React.PropTypes.string,
     idsAeIdField: React.PropTypes.string,
     idsAnalysisComplete: React.PropTypes.bool,
@@ -101,7 +101,7 @@ export default React.createClass({
       pcs: [],
       pcsToImport: [],
       pcsRemoved: false,
-      objectsToImportPcsInTo: [],
+      idsOfAeObjects: [],
       idsImportIdField: null,
       idsAeIdField: null,
       idsAnalysisComplete: false,
@@ -182,7 +182,7 @@ export default React.createClass({
   resetStateFollowingPanel1 () {
     this.setState({
       pcsToImport: [],
-      objectsToImportPcsInTo: [],
+      idsOfAeObjects: [],
       idsImportIdField: null,
       idsAeIdField: null,
       idsAnalysisComplete: false,
@@ -311,7 +311,7 @@ export default React.createClass({
 
   resetStateFollowingPanel2 () {
     this.setState({
-      objectsToImportPcsInTo: [],
+      idsOfAeObjects: [],
       idsNumberOfRecordsWithIdValue: 0,
       idsDuplicate: [],
       idsNumberImportable: 0,
@@ -356,30 +356,40 @@ export default React.createClass({
           }
         })
       }
-
       const ids = _.pluck(pcsToImport, idsImportIdField)
-      let idsToImportWithDuplicates = _.pluck(pcsToImport, idsImportIdField)
-      idsToImportWithDuplicates = _.filter(idsToImportWithDuplicates, (id) => !!id)
-      const idsToImport = _.unique(idsToImportWithDuplicates)
-      const idsNumberOfRecordsWithIdValue = idsToImportWithDuplicates.length
-      const idsDuplicate = _.difference(idsToImportWithDuplicates, idsToImport)
-      let idsNumberImportable = 0
-      this.setState({ idsNumberOfRecordsWithIdValue, idsDuplicate, idsNotANumber })
       // if ids should be numbers but some are not, an error can occur when fetching from the database
       // so dont fetch
-      if (idsNotANumber.length > 0) return this.setState({ idsAnalysisComplete: true })
-      getItemsById(idsAeIdField, ids)
-        .then((objectsToImportPcsInTo) => {
+      if (idsNotANumber.length > 0) return this.setState({ idsAnalysisComplete: true, idsNotANumber: idsNotANumber })
+      getGuidsById(idsAeIdField, ids)
+        .then((idGuidObject) => {
+          // now add guids to pcsToImport
+          pcsToImport.forEach((pc) => {
+            const importId = pc[idsImportIdField]
+            pc._id = idGuidObject[importId]
+          })
+          let idsToImportWithDuplicates = _.pluck(pcsToImport, idsImportIdField)
+          // remove emtpy values
+          idsToImportWithDuplicates = _.filter(idsToImportWithDuplicates, (id) => !!id)
+          // remove duplicates
+          const idsToImport = _.unique(idsToImportWithDuplicates)
+          const idsNumberOfRecordsWithIdValue = idsToImportWithDuplicates.length
+          const idsDuplicate = _.difference(idsToImportWithDuplicates, idsToImport)
           // go on with analysis
-          const idAttribute = idsAeIdField === 'GUID' ? '_id' : 'Taxonomien[0].Eigenschaften["Taxonomie ID"]'
-          const idsFetched = _.pluck(objectsToImportPcsInTo, idAttribute)
-          const idsImportable = _.intersection(idsToImport, idsFetched)
-          idsNumberImportable = idsImportable.length
+          const idsOfAeObjects = _.values(idGuidObject)
+
+          const idGuidImportable = _.omit(idGuidObject, (guid, id) => !guid)
+          const idsImportable = _.keys(idGuidImportable)
+          // Problem: extracting from keys converts numbers to strings! Convert back
+          idsImportable.forEach((id, index) => {
+            if (!isNaN(id)) idsImportable[index] = parseInt(id, 10)
+          })
+
+          const idsNumberImportable = idsImportable.length
           // get ids not fetched
-          const idsNotImportable = _.difference(idsToImport, idsFetched)
+          const idsNotImportable = _.difference(idsToImport, idsImportable)
           const idsAnalysisComplete = true
           // finished? render...
-          this.setState({ idsNumberImportable, idsNotImportable, idsAnalysisComplete, objectsToImportPcsInTo })
+          this.setState({ idsNumberImportable, idsNotImportable, idsAnalysisComplete, idsOfAeObjects, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNotANumber })
         })
         .catch((error) => app.Actions.showError({msg: error}))
     }
@@ -392,49 +402,50 @@ export default React.createClass({
   },
 
   onClickImportieren () {
-    const { objectsToImportPcsInTo, pcsToImport, idsAeIdField, idsImportIdField, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs } = this.state
+    const { pcsToImport, idsImportIdField, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs } = this.state
 
     let importingProgress = 0
     let idsImported = []
     // alert say "Daten werden vorbereitet..."
     this.setState({ importingProgress }, () => {
-      const idPath = idsAeIdField === 'GUID' ? '_id' : 'Taxonomien[0].Eigenschaften["Taxonomie ID"]'
       // loop pcsToImport
       pcsToImport.forEach((pcToImport, index) => {
-        // find the object to add it to
-        const objectToImportPcInTo = _.find(objectsToImportPcsInTo, (object) => pcToImport[idsImportIdField] === _.get(object, idPath))
-        if (objectToImportPcInTo) {
-          // build pc
-          let pc = {}
-          pc.Name = name
-          pc.Beschreibung = beschreibung
-          pc.Datenstand = datenstand
-          pc.Nutzungsbedingungen = nutzungsbedingungen
-          if (link) pc.Link = link
-          pc['importiert von'] = importiertVon
-          if (zusammenfassend) pc.zusammenfassend = zusammenfassend
-          if (nameUrsprungsEs) pc.Ursprungsdatensammlung = nameUrsprungsEs
-          pc.Eigenschaften = {}
-          // now add fields of pc
-          _.forEach(pcToImport, (value, field) => {
-            // dont import idField or empty fields
-            if (field !== idsImportIdField && value !== '' && value !== null) {
-              // convert values / types if necessary
-              pc.Eigenschaften[field] = convertValue(value)
-            }
-          })
-          // make sure, Eigenschaftensammlungen exists
-          if (!objectToImportPcInTo.Eigenschaftensammlungen) objectToImportPcInTo.Eigenschaftensammlungen = []
-          // if a pc with this name existed already, remove it
-          objectToImportPcInTo.Eigenschaftensammlungen = _.reject(objectToImportPcInTo.Eigenschaftensammlungen, (es) => es.name === name)
-          objectToImportPcInTo.Eigenschaftensammlungen.push(pc)
-          objectToImportPcInTo.Eigenschaftensammlungen = sortObjectArrayByName(objectToImportPcInTo.Eigenschaftensammlungen)
-          // write to db
-          app.localDb.put(objectToImportPcInTo)
+        // get the object to add it to
+        if (pcsToImport._id) {
+          app.objectStore.getItem(pcsToImport._id)
+            .then((objectToImportPcInTo) => {
+              // build pc
+              let pc = {}
+              pc.Name = name
+              pc.Beschreibung = beschreibung
+              pc.Datenstand = datenstand
+              pc.Nutzungsbedingungen = nutzungsbedingungen
+              if (link) pc.Link = link
+              pc['importiert von'] = importiertVon
+              if (zusammenfassend) pc.zusammenfassend = zusammenfassend
+              if (nameUrsprungsEs) pc.Ursprungsdatensammlung = nameUrsprungsEs
+              pc.Eigenschaften = {}
+              // now add fields of pc
+              _.forEach(pcToImport, (value, field) => {
+                // dont import _id, idField or empty fields
+                if (field !== '_id' && field !== idsImportIdField && value !== '' && value !== null) {
+                  // convert values / types if necessary
+                  pc.Eigenschaften[field] = convertValue(value)
+                }
+              })
+              // make sure, Eigenschaftensammlungen exists
+              if (!objectToImportPcInTo.Eigenschaftensammlungen) objectToImportPcInTo.Eigenschaftensammlungen = []
+              // if a pc with this name existed already, remove it
+              objectToImportPcInTo.Eigenschaftensammlungen = _.reject(objectToImportPcInTo.Eigenschaftensammlungen, (es) => es.name === name)
+              objectToImportPcInTo.Eigenschaftensammlungen.push(pc)
+              objectToImportPcInTo.Eigenschaftensammlungen = sortObjectArrayByName(objectToImportPcInTo.Eigenschaftensammlungen)
+              // write to db
+              return app.localDb.put(objectToImportPcInTo)
+            })
             .then(() => {
               importingProgress = Math.round((index + 1) / pcsToImport.length * 100)
               this.setState({ importingProgress })
-              idsImported.push(objectToImportPcInTo._id)
+              idsImported.push(pcsToImport._id)
             })
             .catch((error) => app.Actions.showError({title: 'Fehler beim Importieren:', msg: error}))
         }
@@ -506,11 +517,11 @@ export default React.createClass({
   },
 
   isPanel3Done () {
-    const { objectsToImportPcsInTo, pcsToImport, idsNumberImportable, idsNotImportable, idsNotANumber, idsDuplicate } = this.state
+    const { idsOfAeObjects, pcsToImport, idsNumberImportable, idsNotImportable, idsNotANumber, idsDuplicate } = this.state
     const isPanel2Done = this.isPanel2Done()
     const variablesToPass = {pcsToImport, idsNumberImportable, idsNotImportable, idsNotANumber, idsDuplicate}
     const idsAnalysisResultType = getSuccessTypeFromAnalysis(variablesToPass)
-    const panel3Done = idsAnalysisResultType !== 'danger' && objectsToImportPcsInTo.length > 0
+    const panel3Done = idsAnalysisResultType !== 'danger' && idsOfAeObjects.length > 0
     this.setState({ panel3Done })
     if (isPanel2Done && !panel3Done) this.setState({ activePanel: 3 })
     return panel3Done
@@ -592,12 +603,12 @@ export default React.createClass({
   },
 
   render () {
-    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, pcsToImport, pcsRemoved, objectsToImportPcsInTo, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs, validPcsToImport, activePanel, idsAeIdField, idsImportIdField, pcs, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, panel3Done, importingProgress, objectsToImportPcsInTo } = this.state
+    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, pcsToImport, pcsRemoved, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs, validPcsToImport, activePanel, idsAeIdField, idsImportIdField, pcs, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, panel3Done, importingProgress } = this.state
     const { groupsLoadedOrLoading, email, allGroupsLoaded, groupsLoadingObjects } = this.props
     const showLoadAllGroups = email && !allGroupsLoaded
     const alertAllGroupsBsStyle = ultimatelyAlertLoadAllGroups ? 'danger' : 'info'
     const showDeletePcButton = !!nameBestehend
-    const showDeletePcInstancesButton = panel3Done && !pcsRemoved
+    const showDeletePcInstancesButton = panel3Done
 
     return (
       <div id='importieren'>
@@ -643,9 +654,9 @@ export default React.createClass({
 
           <Panel collapsible header='4. Import ausführen' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>
             {panel3Done ? <Button className='btn-primary' onClick={this.onClickImportieren}><Glyphicon glyph='download-alt'/> Eigenschaftensammlung "{name}" importieren</Button> : null }
-            {showDeletePcInstancesButton ? <ButtonDeletePcInstances name={name} objectsToImportPcsInTo={objectsToImportPcsInTo} resetUiAfterRemoving={this.resetUiAfterRemoving} /> : null}
-            {importingProgress !== null ? <ProgressbarImport importingProgress={importingProgress} /> : null}
-            {importingProgress === 100 ? <AlertFirst5Imported objectsToImportPcsInTo={objectsToImportPcsInTo} idsNotImportable={idsNotImportable} /> : null}
+            {showDeletePcInstancesButton ? <ButtonDeletePcInstances name={name} idsOfAeObjects={idsOfAeObjects} pcsRemoved={pcsRemoved} resetUiAfterRemoving={this.resetUiAfterRemoving} /> : null}
+            {importingProgress !== null && !pcsRemoved ? <ProgressbarImport importingProgress={importingProgress} /> : null}
+            {importingProgress === 100 && !pcsRemoved ? <AlertFirst5Imported idsOfAeObjects={idsOfAeObjects} idsNotImportable={idsNotImportable} /> : null}
           </Panel>
 
         </Accordion>

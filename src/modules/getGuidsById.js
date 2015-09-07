@@ -24,7 +24,7 @@ export default (idField, ids) => {
   return new Promise((resolve, reject) => {
     // call the apropriate function and pass the ids
     dynamicFuntions[idField](ids)
-      .then((docs) => resolve(docs))
-      .catch((error) => reject('error fetching docs', error))
+      .then((returnObjects) => resolve(returnObjects))
+      .catch((error) => reject('error fetching GUIDs', error))
   })
 }

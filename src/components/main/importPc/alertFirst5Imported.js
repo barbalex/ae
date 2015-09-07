@@ -10,7 +10,7 @@ export default React.createClass({
   displayName: 'AlertFirst5Imported',
 
   propTypes: {
-    objectsToImportPcsInTo: React.PropTypes.array,
+    idsOfAeObjects: React.PropTypes.array,
     idsNotImportable: React.PropTypes.array,
     paths: React.PropTypes.object
   },
@@ -22,11 +22,10 @@ export default React.createClass({
   },
 
   render () {
-    const { objectsToImportPcsInTo, idsNotImportable } = this.props
+    const { idsOfAeObjects, idsNotImportable } = this.props
     const { paths } = this.state
-    const idsOfObjects = _.pluck(objectsToImportPcsInTo, '_id')
-    const idsImported = _.difference(idsOfObjects, idsNotImportable)
-    const first10Ids = idsImported.slice(0, 5)
+    const idsImported = _.difference(idsOfAeObjects, idsNotImportable)
+    const first5Ids = idsImported.slice(0, 5)
     const alertStyle = { marginTop: 11 }
 
     // only get paths on first render
@@ -36,7 +35,7 @@ export default React.createClass({
         .catch((error) => app.Actions.showError({title: 'Fehler beim Aufbauen der Beispiele:', msg: error}))
     }
 
-    const examples = first10Ids.map((id, index) => {
+    const examples = first5Ids.map((id, index) => {
       const path = _.findKey(paths, (value) => value === id)
       const href = `${window.location.protocol}//${window.location.host}/${path}?id=${id}`
       return <li key={index}><a href={href} target='_blank'>Beispiel {index + 1}</a></li>
