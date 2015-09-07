@@ -159,6 +159,7 @@ export default React.createClass({
     const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
     const showGruppen = groupsNotLoaded.length > 0
     const showFilter = filterOptions.length > 0 || loadingFilterOptions
+    const showTree = groupsLoadedOrLoading.length > 0
     const showMain = object !== undefined || showImportRC || showImportPC || showOrganizations
     const showLogin = logIn && !email
 
@@ -183,12 +184,15 @@ export default React.createClass({
               loadingFilterOptions={loadingFilterOptions} />
             : null
           }
-          <Tree
-            hierarchy={hierarchy}
-            groupsLoadingObjects={groupsLoadingObjects}
-            allGroupsLoaded={allGroupsLoaded}
-            object={object}
-            path={path} />
+          {showTree ?
+            <Tree
+              hierarchy={hierarchy}
+              groupsLoadingObjects={groupsLoadingObjects}
+              allGroupsLoaded={allGroupsLoaded}
+              object={object}
+              path={path} />
+            : null
+          }
         </div>
         <Email email={email} />
         {showMain ?
