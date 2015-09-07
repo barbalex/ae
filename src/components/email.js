@@ -1,6 +1,7 @@
 'use strict'
 
 import React from 'react'
+import { OverlayTrigger, Popover } from 'react-bootstrap'
 
 export default React.createClass({
   displayName: 'Email',
@@ -9,10 +10,25 @@ export default React.createClass({
     email: React.PropTypes.string
   },
 
+  onClickAbmelden () {
+    console.log('abmelden clicked')
+  },
+
   render () {
     const { email } = this.props
-    const text = email ? email : 'nicht angemeldet'
 
-    return <div id='email'>{text}</div>
+    if (email) {
+      return (
+        <OverlayTrigger
+          trigger='click'
+          placement='left'
+          overlay={
+            <Popover arrowOffsetTop='10' onClick={this.onClickAbmelden}><p>abmelden</p></Popover>
+          }>
+          <div id='email'>{email}</div>
+        </OverlayTrigger>
+      )
+    }
+    return <div id='email'>nicht angemeldet</div>
   }
 })

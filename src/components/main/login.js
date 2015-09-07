@@ -43,19 +43,22 @@ export default React.createClass({
   },
 
   onHide () {
-    console.log('onHide')
-    // this.onClickLogin()
+    // weird things happen if this is not here ???!!!
+    // console.log('onHide')
   },
 
   onKeyDown (event) {
     const enter = 13
     if (event.keyCode === enter) {
+      console.log('enter was clicked')
       this.onClickLogin()
     }
   },
 
   onClickLogin () {
     const { email, password } = this.state
+    console.log('login.js, onClickLogin, email', email)
+    console.log('login.js, onClickLogin, password', password)
     if (this.validSignin()) {
       app.remoteDb.login(email, password)
         .then((response) => app.Actions.login({
