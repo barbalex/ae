@@ -257,6 +257,17 @@ body
        allgemein / querbeet
 \*--------------------------------*/
 
+/**
+ * this is to make modals behave when they are contained
+ * inside another element
+ */
+.modal-container {
+  position: relative;
+}
+.modal-container .modal, .modal-container .modal-backdrop {
+  position: absolute;
+}
+
 .popover-title
   background: linear-gradient(180deg, #FDEEC1, #FFECB5)
 

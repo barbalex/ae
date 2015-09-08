@@ -11,8 +11,9 @@ export default React.createClass({
     showConfirmModal: React.PropTypes.bool,
     name: React.PropTypes.string,
     idsOfAeObjects: React.PropTypes.array,
-    resetUiAfterRemoving: React.PropTypes.func,
-    pcsRemoved: React.PropTypes.bool
+    pcsRemoved: React.PropTypes.bool,
+    deletingProgress: React.PropTypes.number,
+    onClickRemovePcInstances: React.PropTypes.func
   },
 
   getInitialState () {
@@ -30,15 +31,17 @@ export default React.createClass({
   },
 
   render () {
-    const { name, idsOfAeObjects, resetUiAfterRemoving, pcsRemoved } = this.props
+    const { name, idsOfAeObjects, pcsRemoved, deletingProgress, onClickRemovePcInstances } = this.props
     const { showConfirmModal } = this.state
+    const showConfirmModal_ = showConfirmModal && !deletingProgress
     const divStyle = {
       display: 'inline-block'
     }
+
     return (
       <div style={divStyle}>
         <Button bsStyle='danger' onClick={this.onClickDeletePcInstances} disabled={pcsRemoved}><Glyphicon glyph='trash'/> Eigenschaftensammlung "{name}" aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen</Button>
-        {showConfirmModal ? <ModalDeletePcInstances name={name} idsOfAeObjects={idsOfAeObjects} resetUiAfterRemoving={resetUiAfterRemoving} closeModal={this.closeModal} /> : null}
+        {showConfirmModal_ ? <ModalDeletePcInstances name={name} idsOfAeObjects={idsOfAeObjects} onClickRemovePcInstances={onClickRemovePcInstances} closeModal={this.closeModal} /> : null}
       </div>
     )
   }

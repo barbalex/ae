@@ -63,7 +63,7 @@ export default (Actions) => {
      */
     listenables: Actions,
 
-    deletePcByPcName (name, callback) {
+    deletePcByPcName (name) {
       /**
        * gets name of pc
        * removes pc's with this name from all objects
@@ -74,7 +74,8 @@ export default (Actions) => {
       let idsOfAeObjects = []
       let deletingProgress = null
       let showAlertIndex = false
-      this.trigger({ idsOfAeObjects, deletingProgress, showAlertIndex })
+      let nameBestehend = name
+      this.trigger({ idsOfAeObjects, deletingProgress, showAlertIndex, nameBestehend })
       objectsIdsByPcsName(name)
         .then((ids) => {
           idsOfAeObjects = ids
@@ -86,12 +87,14 @@ export default (Actions) => {
               })
               .then(() => {
                 deletingProgress = Math.round((index + 1) / ids.length * 100)
-                if (deletingProgress === 100) showAlertIndex = true
-                this.trigger({ idsOfAeObjects, deletingProgress, showAlertIndex })
+                if (deletingProgress === 100) {
+                  showAlertIndex = true
+                  nameBestehend = null
+                }
+                this.trigger({ idsOfAeObjects, deletingProgress, showAlertIndex, nameBestehend })
               })
               .catch((error) => app.Actions.showError({title: `Fehler: Das Objekt mit der ID ${id} wurde nicht aktualisiert:`, msg: error}))
           })
-          if (callback) callback()
         })
         .catch((error) => app.Actions.showError({title: 'Fehler beim Versuch, die Eigenschaften zu löschen:', msg: error}))
     },
@@ -100,8 +103,25 @@ export default (Actions) => {
       this.deletePcByPcName(name, callback)
     },
 
-    onRemovePcInstances () {
-      // TODO
+    onRemovePcInstances (name, idsOfAeObjects) {
+      /*// trigger first time to remove progressbar and alert from last import
+      let deletingProgress = 0
+      let pcsRemoved = false
+      this.trigger({ deletingProgress, pcsRemoved })*/
+      idsOfAeObjects.forEach((guid, index) => {
+        app.objectStore.getItem(guid)
+          .then((doc) => {
+            doc.Eigenschaftensammlungen = _.reject(doc.Eigenschaftensammlungen, (es) => es.Name === name)
+            return app.localDb.put(doc)
+          })
+          .then(() => {
+            const deletingProgress = Math.round((index + 1) / idsOfAeObjects.length * 100)
+            let pcsRemoved = false
+            if (deletingProgress === 100) pcsRemoved = true
+            this.trigger({ deletingProgress, pcsRemoved })
+          })
+          .catch((error) => app.Actions.showError({title: `Fehler: Das Objekt mit der GUID ${guid} wurde nicht aktualisiert:`, msg: error}))
+      })
     }
 
   })

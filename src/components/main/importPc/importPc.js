@@ -2,7 +2,7 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import { Accordion, Panel, Well, Button, Glyphicon } from 'react-bootstrap'
+import { Accordion, Panel, Well, ProgressBar, Button, Glyphicon } from 'react-bootstrap'
 import _ from 'lodash'
 import { ListenerMixin } from 'reflux'
 import WellAutorenrechte from './wellAutorenrechte.js'
@@ -27,6 +27,7 @@ import InputImportFields from './inputImportFields.js'
 import InputAeId from './inputAeId.js'
 import ProgressbarImport from './progressbarImport.js'
 import AlertFirst5Imported from './alertFirst5Imported.js'
+import AlertFirst5Deleted from './alertFirst5Deleted.js'
 import getObjectsFromFile from './getObjectsFromFile.js'
 import isValidUrl from '../../../modules/isValidUrl.js'
 import getSuccessTypeFromAnalysis from './getSuccessTypeFromAnalysis.js'
@@ -67,6 +68,7 @@ export default React.createClass({
     idsNotImportable: React.PropTypes.array,
     idsNotANumber: React.PropTypes.array,
     importingProgress: React.PropTypes.number,
+    deletingProgress: React.PropTypes.number,
     esBearbeitenErlaubt: React.PropTypes.bool,
     panel1Done: React.PropTypes.bool,
     panel2Done: React.PropTypes.bool,
@@ -111,6 +113,7 @@ export default React.createClass({
       idsNotImportable: [],
       idsNotANumber: [],
       importingProgress: null,
+      deletingProgress: null,
       panel1Done: false,
       panel2Done: false,
       panel3Done: false,
@@ -128,7 +131,7 @@ export default React.createClass({
 
   componentDidMount () {
     this.listenTo(app.propertyCollectionsStore, this.onChangePropertyCollectionsStore)
-    // this.listenTo(app.objectStore, this.onObjectStoreChange)
+    this.listenTo(app.objectsPcsStore, this.onChangeObjectsPcsStore)
     // show login of not logged in
     const { email } = this.props
     if (!email) {
@@ -146,10 +149,9 @@ export default React.createClass({
     this.setState({ pcs })
   },
 
-  /*onObjectStoreChange () {
-    // reload property collections
-    app.Actions.queryPropertyCollections()
-  },*/
+  onChangeObjectsPcsStore (stateVariables) {
+    this.setState(stateVariables)
+  },
 
   onChangeNameBestehend (nameBestehend) {
     const editingPcIsAllowed = this.isEditingPcAllowed(nameBestehend)
@@ -188,6 +190,7 @@ export default React.createClass({
       idsNotImportable: [],
       idsNotANumber: [],
       importingProgress: null,
+      deletingProgress: null,
       panel2Done: false,
       panel3Done: false
     })
@@ -234,12 +237,6 @@ export default React.createClass({
     // app.propertyCollectionsStore.removePcByName(nameBestehend)
     const nameBestehend = null
     this.setState({ nameBestehend })
-  },
-
-  resetUiAfterRemoving () {
-    const pcsRemoved = true
-    this.setState({ pcsRemoved })
-    // TODO: query pcs to rebuild index?
   },
 
   onChangeName (name) {
@@ -311,6 +308,7 @@ export default React.createClass({
       idsNotImportable: [],
       idsNotANumber: [],
       importingProgress: null,
+      deletingProgress: null,
       panel3Done: false
     })
   },
@@ -390,7 +388,8 @@ export default React.createClass({
 
   resetStateFollowingPanel3 () {
     this.setState({
-      importingProgress: null
+      importingProgress: null,
+      deletingProgress: null
     })
   },
 
@@ -449,6 +448,14 @@ export default React.createClass({
       // update nameBestehend
       this.addNewNameBestehend()
     })
+  },
+
+  onClickRemovePcInstances () {
+    const { name, idsOfAeObjects } = this.state
+    // first remove progressbar and alert from last import
+    let deletingProgress = 0
+    let pcsRemoved = false
+    this.setState({ deletingProgress, pcsRemoved }, () => app.Actions.removePcInstances(name, idsOfAeObjects))
   },
 
   onClickPanel (number, event) {
@@ -596,7 +603,7 @@ export default React.createClass({
   },
 
   render () {
-    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, pcsToImport, pcsRemoved, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs, validPcsToImport, activePanel, idsAeIdField, idsImportIdField, pcs, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, panel3Done, importingProgress } = this.state
+    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, pcsToImport, pcsRemoved, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs, validPcsToImport, activePanel, idsAeIdField, idsImportIdField, pcs, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, panel3Done, importingProgress, deletingProgress } = this.state
     const { groupsLoadedOrLoading, email, allGroupsLoaded, groupsLoadingObjects } = this.props
     const showLoadAllGroups = email && !allGroupsLoaded
     const alertAllGroupsBsStyle = ultimatelyAlertLoadAllGroups ? 'danger' : 'info'
@@ -649,9 +656,11 @@ export default React.createClass({
 
           <Panel collapsible header='4. Import ausführen' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>
             {panel3Done ? <Button className='btn-primary' onClick={this.onClickImportieren}><Glyphicon glyph='download-alt'/> Eigenschaftensammlung "{name}" importieren</Button> : null }
-            {showDeletePcInstancesButton ? <ButtonDeletePcInstances name={name} idsOfAeObjects={idsOfAeObjects} pcsRemoved={pcsRemoved} resetUiAfterRemoving={this.resetUiAfterRemoving} /> : null}
+            {showDeletePcInstancesButton ? <ButtonDeletePcInstances name={name} idsOfAeObjects={idsOfAeObjects} pcsRemoved={pcsRemoved} deletingProgress={deletingProgress} onClickRemovePcInstances={this.onClickRemovePcInstances} /> : null}
             {showProgressbarImport ? <ProgressbarImport importingProgress={importingProgress} /> : null}
             {showAlertFirst5Imported ? <AlertFirst5Imported idsOfAeObjects={idsOfAeObjects} idsNotImportable={idsNotImportable} /> : null}
+            {deletingProgress !== null ? <ProgressBar bsStyle='success' now={deletingProgress} label={`${deletingProgress}% entfernt`} /> : null}
+            {deletingProgress === 100 ? <AlertFirst5Deleted idsOfAeObjects={idsOfAeObjects} nameBestehend={name} /> : null}
           </Panel>
 
         </Accordion>

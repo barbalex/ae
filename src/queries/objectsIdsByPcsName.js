@@ -14,9 +14,9 @@ import _ from 'lodash'
 export default (name) => {
   return new Promise((resolve, reject) => {
     const ddoc = {
-      _id: '_design/objectsByPcsName',
+      _id: '_design/objectsIdsByPcsName',
       views: {
-        'objectsByPcsName': {
+        'objectsIdsByPcsName': {
           map: function (doc) {
             if (doc.Typ && doc.Typ === 'Objekt') {
               if (doc.Eigenschaftensammlungen) {
@@ -39,7 +39,7 @@ export default (name) => {
         const options = {
           key: name
         }
-        return app.localDb.query('objectsByPcsName', options)
+        return app.localDb.query('objectsIdsByPcsName', options)
       })
       .then((result) => {
         const ids = _.pluck(result.rows, 'id')
