@@ -413,7 +413,7 @@ export default (Actions) => {
           })
           .then((item) => resolve(item))
           .catch((error) =>
-            reject('objectStore, getItem: error getting item from guid' + guid + ':', error)
+            reject('objectStore, getItem: error getting item from guid' + guid + ': ', error)
           )
       })
     },
