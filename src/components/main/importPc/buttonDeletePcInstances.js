@@ -30,8 +30,18 @@ export default React.createClass({
     this.setState({ showConfirmModal: true })
   },
 
+  onClickRemove () {
+    /**
+     * need this extra callback because the modal has to have state showConfirmModal: false
+     * otherwise when after deleting is reimported, the modal opens...
+     */
+    const { onClickRemovePcInstances } = this.props
+    this.setState({ showConfirmModal: false })
+    onClickRemovePcInstances()
+  },
+
   render () {
-    const { name, idsOfAeObjects, pcsRemoved, deletingProgress, onClickRemovePcInstances } = this.props
+    const { name, idsOfAeObjects, pcsRemoved, deletingProgress } = this.props
     const { showConfirmModal } = this.state
     const showConfirmModal_ = showConfirmModal && !deletingProgress
     const divStyle = {
@@ -41,7 +51,7 @@ export default React.createClass({
     return (
       <div style={divStyle}>
         <Button bsStyle='danger' onClick={this.onClickDeletePcInstances} disabled={pcsRemoved}><Glyphicon glyph='trash'/> Eigenschaftensammlung "{name}" aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen</Button>
-        {showConfirmModal_ ? <ModalDeletePcInstances name={name} idsOfAeObjects={idsOfAeObjects} onClickRemovePcInstances={onClickRemovePcInstances} closeModal={this.closeModal} /> : null}
+        {showConfirmModal_ ? <ModalDeletePcInstances name={name} idsOfAeObjects={idsOfAeObjects} onClickRemovePcInstances={this.onClickRemove} closeModal={this.closeModal} /> : null}
       </div>
     )
   }

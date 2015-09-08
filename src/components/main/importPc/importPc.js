@@ -397,9 +397,11 @@ export default React.createClass({
     const { pcsToImport, idsImportIdField, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs } = this.state
 
     let importingProgress = 0
+    // set back deleting progress to close progressbar and deletion examples
+    let deletingProgress = null
     let idsImported = []
     // alert say "Daten werden vorbereitet..."
-    this.setState({ importingProgress }, () => {
+    this.setState({ importingProgress, deletingProgress }, () => {
       // loop pcsToImport
       pcsToImport.forEach((pcToImport, index) => {
         // get the object to add it to
@@ -453,9 +455,9 @@ export default React.createClass({
   onClickRemovePcInstances () {
     const { name, idsOfAeObjects } = this.state
     // first remove progressbar and alert from last import
-    let deletingProgress = 0
+    let importingProgress = null
     let pcsRemoved = false
-    this.setState({ deletingProgress, pcsRemoved }, () => app.Actions.removePcInstances(name, idsOfAeObjects))
+    this.setState({ importingProgress, pcsRemoved }, () => app.Actions.removePcInstances(name, idsOfAeObjects))
   },
 
   onClickPanel (number, event) {
