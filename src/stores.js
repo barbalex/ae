@@ -76,14 +76,31 @@ export default (Actions) => {
     },
 
     savePc (pc) {
+      let pcs
       app.localDb.get('_local/pcs', { include_docs: true })
         .then((doc) => {
           doc.pcs.push(pc)
           doc.pcs = _.sortBy(doc.pcs, (pc) => pc.name)
+          pcs = doc.pcs
           return app.localDb.put(doc)
         })
+        .then(() => this.trigger(pcs))
         .catch((error) =>
-          app.Actions.showError({title: 'propertyCollectionsStore, savePc:', msg: error})
+          app.Actions.showError({title: 'Fehler in propertyCollectionsStore, savePc:', msg: error})
+        )
+    },
+
+    removePcByName (name) {
+      let pcs
+      app.localDb.get('_local/pcs', { include_docs: true })
+        .then((doc) => {
+          doc.pcs = _.reject(doc.pcs, (pc) => pc.name === name)
+          pcs = doc.pcs
+          return app.localDb.put(doc)
+        })
+        .then(() => this.trigger(pcs))
+        .catch((error) =>
+          app.Actions.showError({title: 'Fehler in propertyCollectionsStore, removePcByName:', msg: error})
         )
     },
 
@@ -93,6 +110,7 @@ export default (Actions) => {
           doc.pcs = pcs
           return app.localDb.put(doc)
         })
+        .then(() => this.trigger(pcs))
         .catch((error) =>
           app.Actions.showError({title: 'propertyCollectionsStore, savePcs:', msg: error})
         )
@@ -121,8 +139,8 @@ export default (Actions) => {
       // now fetch up to date pc's
       queryPcs()
         .then((pcs) => {
-          this.savePcs(pcs)
           this.trigger(pcs)
+          return this.savePcs(pcs)
         })
         .catch((error) =>
           app.Actions.showError({title: 'propertyCollectionsStore, error querying up to date pcs:', msg: error})
@@ -214,11 +232,9 @@ export default (Actions) => {
     },
 
     onLoadFilterOptionsStore () {
-      const payload = {
-        filterOptions: null,
-        loading: true
-      }
-      this.trigger(payload)
+      const filterOptions = null
+      const loading = true
+      this.trigger({ filterOptions, loading })
     },
 
     onLoadFilterOptionsStoreCompleted (newItemsPassed) {
@@ -228,11 +244,8 @@ export default (Actions) => {
         .then((optionsFromPouch) => {
           filterOptions = filterOptions.concat(optionsFromPouch)
           if (newItemsPassed) filterOptions = filterOptions.concat(buildFilterOptions(newItemsPassed))
-          const payload = {
-            filterOptions: filterOptions,
-            loading: false
-          }
-          this.trigger(payload)
+          const loading = false
+          this.trigger({ filterOptions, loading })
         })
         .catch((error) =>
           app.Actions.showError({title: 'filterOptionsStore: error preparing trigger:', msg: error})

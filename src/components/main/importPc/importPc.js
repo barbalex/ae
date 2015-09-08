@@ -128,7 +128,7 @@ export default React.createClass({
 
   componentDidMount () {
     this.listenTo(app.propertyCollectionsStore, this.onChangePropertyCollectionsStore)
-    this.listenTo(app.objectStore, this.onObjectStoreChange)
+    // this.listenTo(app.objectStore, this.onObjectStoreChange)
     // show login of not logged in
     const { email } = this.props
     if (!email) {
@@ -150,10 +150,10 @@ export default React.createClass({
     this.setState({ pcs })
   },
 
-  onObjectStoreChange () {
+  /*onObjectStoreChange () {
     // reload property collections
     app.Actions.queryPropertyCollections()
-  },
+  },*/
 
   onChangeNameBestehend (nameBestehend) {
     const editingPcIsAllowed = this.isEditingPcAllowed(nameBestehend)
@@ -202,10 +202,11 @@ export default React.createClass({
      * goal is to update the list of pcs and therewith the dropdown lists in nameBestehend and ursprungsEs
      * we could do it by querying the db again with app.Actions.queryPropertyCollections()
      * but this is 1. very slow so happens too late and 2. uses lots of ressources
-     * so we manually add the new pc to pcs
-     * and then update pcs in state and store
+     * so we build a new pc
+     * and add it to the propertyCollectionsStore
+     * propertyCollectionsStore triggers new pcs and lists get refreshed
      */
-    let { pcs, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend } = this.state
+    let { name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend } = this.state
     const pc = {
       name: name,
       combining: zusammenfassend,
@@ -219,10 +220,7 @@ export default React.createClass({
       },
       count: 0
     }
-    pcs.push(pc)
-    pcs = _.sortBy(pcs, (pc) => pc.name)
     app.propertyCollectionsStore.savePc(pc)
-    this.setState({ pcs })
   },
 
   resetUiAfterDeleting () {
@@ -234,14 +232,12 @@ export default React.createClass({
      * we could do it by querying the db again with app.Actions.queryPropertyCollections()
      * but this is 1. very slow so happens too late and 2. uses lots of ressources
      * so we manually remove the new pc from pcs
-     * and then update pcs in state and store
+     * and then update pcs in state and store (this is done when propertyCollectionsStore triggers new pcs)
      */
-    let { pcs, nameBestehend } = this.state
-    pcs = _.reject(pcs, (pc) => pc.name === nameBestehend)
-    // update pcs in the collection store
-    app.propertyCollectionsStore.savePcs(pcs)
+    let { nameBestehend } = this.state
+    app.propertyCollectionsStore.removePcByName(nameBestehend)
     nameBestehend = null
-    this.setState({ nameBestehend, pcs })
+    this.setState({ nameBestehend })
   },
 
   resetUiAfterRemoving () {
