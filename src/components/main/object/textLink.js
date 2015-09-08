@@ -15,7 +15,6 @@ export default React.createClass({
   propTypes: {
     label: React.PropTypes.string,
     value: React.PropTypes.string,
-    url: React.PropTypes.string,
     gruppe: React.PropTypes.string,
     guid: React.PropTypes.string
   },
@@ -27,7 +26,9 @@ export default React.createClass({
   },
 
   render () {
-    const { label, value, url } = this.props
+    const { label, value, guid } = this.props
+    // can't use getPathFromGuid because it is possible that the relation partner's group was not loaded yet
+    const url = '/' + guid
 
     return (
       <div className='form-group'>
