@@ -35,8 +35,6 @@ export default React.createClass({
     const divStyle = {
       display: 'inline-block'
     }
-
-    console.log('buttonDeletePcInstances.js, pcsRemoved', pcsRemoved)
     return (
       <div style={divStyle}>
         <Button bsStyle='danger' onClick={this.onClickDeletePcInstances} disabled={pcsRemoved}><Glyphicon glyph='trash'/> Eigenschaftensammlung "{name}" aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen</Button>
