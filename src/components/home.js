@@ -3,7 +3,6 @@
 import app from 'ampersand-app'
 import { ListenerMixin } from 'reflux'
 import React from 'react'
-import { Input } from 'react-bootstrap'
 import _ from 'lodash'
 import MenuButton from './menu/menuButton'
 import ResizeButton from './menu/resizeButton.js'
