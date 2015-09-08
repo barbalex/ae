@@ -6,7 +6,6 @@
 
 import React from 'react'
 import { Accordion, Panel } from 'react-bootstrap'
-import _ from 'lodash'
 import PropertyCollectionDescription from './propertyCollectionDescription.js'
 import RelationPartners from './relationPartners.js'
 import RelationFields from './relationFields.js'
