@@ -33,7 +33,7 @@ export default React.createClass({
     const { showConfirmModal } = this.state
     return (
       <div>
-        <Button className='btn-primary feld' onClick={this.onClickDeletePc} disabled={!enableDeletePcButton}><Glyphicon glyph='trash'/> Diese Eigenschaftensammlung aus allen Arten/Lebensräumen entfernen</Button>
+        <Button bsStyle='danger' className='feld' onClick={this.onClickDeletePc} disabled={!enableDeletePcButton}><Glyphicon glyph='trash'/> Diese Eigenschaftensammlung aus allen Arten/Lebensräumen entfernen</Button>
         {showConfirmModal ? <ModalDeletePc nameBestehend={nameBestehend} resetUiAfterDeleting={resetUiAfterDeleting} closeModal={this.closeModal} /> : null}
       </div>
     )
