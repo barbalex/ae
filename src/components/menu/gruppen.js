@@ -22,14 +22,14 @@ export default React.createClass({
   groupCheckboxes () {
     const { groupsLoadedOrLoading } = this.props
     const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
-    return groupsNotLoaded.map((gruppe) => this.groupCheckbox(gruppe))
+    return groupsNotLoaded.map((gruppe, index) => this.groupCheckbox(gruppe, index))
   },
 
-  groupCheckbox (gruppe) {
+  groupCheckbox (gruppe, index) {
     const label = gruppe.replace('Macromycetes', 'Pilze')
     return (
       <Input
-        key={gruppe}
+        key={index}
         type='checkbox'
         label={label}
         onClick={this.onClickGruppe.bind(this, gruppe)} />

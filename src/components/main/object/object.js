@@ -57,7 +57,7 @@ export default React.createClass({
       objectRcs = _.filter(rcs, (rc) => !rc.Typ)
 
       if (objectRcs.length > 0) {
-        const rcComponent = objectRcs.map((rc) => <RelationCollection key={rc.Name} object={object} relationCollection={rc} />)
+        const rcComponent = objectRcs.map((rc, index) => <RelationCollection key={index} object={object} relationCollection={rc} />)
         rcsComponent = (
           <div>
             <h4>Beziehungen:</h4>
@@ -69,7 +69,7 @@ export default React.createClass({
       // taxonomic relation collections
       taxRcs = _.filter(rcs, (rc) => rc.Typ && rc.Typ === 'taxonomisch')
       if (taxRcs.length > 0) {
-        const taxRcComponent = taxRcs.map((rc) => <RelationCollection key={rc.Name} object={object} relationCollection={rc} />)
+        const taxRcComponent = taxRcs.map((rc, index) => <RelationCollection key={index} object={object} relationCollection={rc} />)
         taxRcsComponent = (
           <div>
             <h4>Taxonomische Beziehungen:</h4>
@@ -86,7 +86,7 @@ export default React.createClass({
     // property collections
     if (object.Eigenschaftensammlungen && object.Eigenschaftensammlungen.length > 0) {
       const pcs = object.Eigenschaftensammlungen
-      const pcComponent = pcs.map((pc) => <PropertyCollection key={pc.Name} pcType='Datensammlung' object={object} propertyCollection={pc}/>)
+      const pcComponent = pcs.map((pc, index) => <PropertyCollection key={index} pcType='Datensammlung' object={object} propertyCollection={pc}/>)
       pcsComponent = (
         <div>
           <h4>Eigenschaften:</h4>
@@ -150,7 +150,7 @@ export default React.createClass({
       })
 
       if (pcsOfSynonyms.length > 0) {
-        const pcComponent = pcsOfSynonyms.map((pc) => <PropertyCollection key={pc.Name} pcType='Datensammlung' object={object} propertyCollection={pc}/>)
+        const pcComponent = pcsOfSynonyms.map((pc, index) => <PropertyCollection key={index} pcType='Datensammlung' object={object} propertyCollection={pc}/>)
         pcsOfSynonymsComponent = (
           <div>
             <h4>Eigenschaften von Synonymen:</h4>
@@ -160,7 +160,7 @@ export default React.createClass({
       }
 
       if (rcsOfSynonyms.length > 0) {
-        const rcComponent = rcsOfSynonyms.map((rc) => <RelationCollection key={rc.Name} object={object} relationCollection={rc} />)
+        const rcComponent = rcsOfSynonyms.map((rc, index) => <RelationCollection key={index} object={object} relationCollection={rc} />)
         rcsOfSynonymsComponent = (
           <div>
             <h4>Beziehungen von Synonymen:</h4>

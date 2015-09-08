@@ -14,14 +14,13 @@ export default React.createClass({
     const { groupsLoadingObjects } = this.props
 
     // sort loading objects by name
-    const loadingMessage = groupsLoadingObjects.map((groupLoadingObject) => {
-      let { message, group, progressPercent } = groupLoadingObject
+    const loadingMessage = groupsLoadingObjects.map((groupLoadingObject, index) => {
+      let { message, progressPercent } = groupLoadingObject
       // Macromycetes shall appear as Pilze
       message = message.replace('Macromycetes', 'Pilze')
-      const groupName = group.toLowerCase()
 
-      if (progressPercent || progressPercent === 0) return <ProgressBar bsStyle='success' key={groupName} now={progressPercent} label={message} />
-      return <p key={groupName}>{message}</p>
+      if (progressPercent || progressPercent === 0) return <ProgressBar bsStyle='success' key={index} now={progressPercent} label={message} />
+      return <p key={index}>{message}</p>
     })
 
     return loadingMessage

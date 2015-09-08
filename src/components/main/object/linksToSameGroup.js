@@ -33,12 +33,12 @@ export default React.createClass({
 
   render () {
     const { objects, fieldName } = this.props
-    const linkArray = objects.map((object) => {
+    const linkArray = objects.map((object, index) => {
       getPathFromGuid(object.guid)
         .then((result) => {
           const url = result.url
           return (
-            <p className='controls feldtext'>
+            <p key={index} className='controls feldtext'>
               <a href={url} className='form-control-static linkZuArtGleicherGruppe' onClick={this.onClick.bind(this, object._id)}>
                 {object.Name}
               </a>
