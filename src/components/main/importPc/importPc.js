@@ -230,9 +230,9 @@ export default React.createClass({
      * so we manually remove the new pc from pcs
      * and then update pcs in state and store (this is done when propertyCollectionsStore triggers new pcs)
      */
-    let { nameBestehend } = this.state
-    app.propertyCollectionsStore.removePcByName(nameBestehend)
-    nameBestehend = null
+    // let { nameBestehend } = this.state
+    // app.propertyCollectionsStore.removePcByName(nameBestehend)
+    const nameBestehend = null
     this.setState({ nameBestehend })
   },
 

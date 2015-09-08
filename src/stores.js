@@ -15,6 +15,7 @@ import addGroupsLoadedToLocalGroupsDb from './modules/addGroupsLoadedToLocalGrou
 import getGruppen from './modules/gruppen.js'
 import loadGroupFromRemote from './modules/loadGroupFromRemote.js'
 import queryPcs from './queries/pcs.js'
+import objectsIdsByPcsName from './queries/objectsIdsByPcsName.js'
 
 export default (Actions) => {
   app.errorStore = Reflux.createStore({
@@ -53,6 +54,56 @@ export default (Actions) => {
         }, this.duration)
       }
     }
+  })
+
+  app.objectsPcsStore = Reflux.createStore({
+    /**
+     * used to manipulate property collections in objects
+     * when importing and deleting property collections
+     */
+    listenables: Actions,
+
+    deletePcByPcName (name, callback) {
+      /**
+       * gets name of pc
+       * removes pc's with this name from all objects
+       * is listened to by importPc.js
+       * returns: idsOfAeObjects, deletingProgress, showAlertIndex
+       * if a callback is passed, it is executed at the end
+       */
+      let idsOfAeObjects = []
+      let deletingProgress = null
+      let showAlertIndex = false
+      this.trigger({ idsOfAeObjects, deletingProgress, showAlertIndex })
+      objectsIdsByPcsName(name)
+        .then((ids) => {
+          idsOfAeObjects = ids
+          ids.forEach((id, index) => {
+            app.objectStore.getItem(id)
+              .then((doc) => {
+                doc.Eigenschaftensammlungen = _.reject(doc.Eigenschaftensammlungen, (es) => es.Name === name)
+                return app.localDb.put(doc)
+              })
+              .then(() => {
+                deletingProgress = Math.round((index + 1) / ids.length * 100)
+                if (deletingProgress === 100) showAlertIndex = true
+                this.trigger({ idsOfAeObjects, deletingProgress, showAlertIndex })
+              })
+              .catch((error) => app.Actions.showError({title: `Fehler: Das Objekt mit der ID ${id} wurde nicht aktualisiert:`, msg: error}))
+          })
+          if (callback) callback()
+        })
+        .catch((error) => app.Actions.showError({title: 'Fehler beim Versuch, die Eigenschaften zu löschen:', msg: error}))
+    },
+
+    onDeletePcByName (name, callback) {
+      this.deletePcByPcName(name, callback)
+    },
+
+    onRemovePcInstances () {
+      // TODO
+    }
+
   })
 
   app.propertyCollectionsStore = Reflux.createStore({
@@ -422,22 +473,8 @@ export default (Actions) => {
       })
     },
 
-    deletePcByPcName (name) {
-      /**
-       * gets name of pc
-       * removes pc's with this name from all objects
-       */
-      return new Promise((resolve, reject) => {
-        // TODO
-      })
-    },
-
     getHierarchy () {
       return getHierarchyFromLocalHierarchyDb()
-    },
-
-    onDeletePcByName (name) {
-      // TODO
     },
 
     onLoadPouchFromRemoteCompleted () {

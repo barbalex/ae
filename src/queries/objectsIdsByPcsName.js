@@ -1,7 +1,8 @@
 /*
  * creates a design doc and puts it into the localDb
  * then queries it with the provided options
- * then returns an object for every property collection
+ * then returns a list of guids of property collections
+ * that contain the pc with the name
  * no es6 in ddocs!
  */
 
@@ -36,14 +37,13 @@ export default (name) => {
       })
       .then((response) => {
         const options = {
-          key: name,
-          include_docs: true
+          key: name
         }
         return app.localDb.query('objectsByPcsName', options)
       })
       .then((result) => {
-        const docs = _.pluck(result.rows, 'doc')
-        resolve(docs)
+        const ids = _.pluck(result.rows, 'id')
+        resolve(ids)
       })
       .catch((error) => reject(error))
   })
