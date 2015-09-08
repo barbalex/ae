@@ -42,11 +42,10 @@ export default React.createClass({
         })
         .then(() => {
           const deletingProgress = Math.round((index + 1) / idsOfAeObjects.length * 100)
-          this.setState({ deletingProgress })
-          // TODO: rebuild index afterwards
+          this.setState({ deletingProgress }, () => true)
           if (deletingProgress === 100) resetUiAfterRemoving()
         })
-        .catch((error) => app.Actions.showError({title: `Das Objekt mit der GUID ${guid} wurde nicht aktualisiert. Fehlermeldung:`, msg: error}))
+        .catch((error) => app.Actions.showError({title: `Fehler: Das Objekt mit der GUID ${guid} wurde nicht aktualisiert:`, msg: error}))
     })
   },
 
@@ -64,7 +63,7 @@ export default React.createClass({
       <div className='static-modal'>
         <Modal.Dialog onHide={this.onHide}>
           <Modal.Header>
-            <Modal.Title>Eigenschaftensammlung entfernen</Modal.Title>
+            <Modal.Title>Eigenschaftensammlung "{name}" entfernen</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             {showWollenSie ? <p>Sie möchten die Eigenschaftensammlung "{name}" und alle ihre Eigenschaften endgültig aus allen in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen?</p> : null}

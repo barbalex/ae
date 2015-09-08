@@ -104,18 +104,6 @@ export default (Actions) => {
         )
     },
 
-    savePcs (pcs) {
-      app.localDb.get('_local/pcs', { include_docs: true })
-        .then((doc) => {
-          doc.pcs = pcs
-          return app.localDb.put(doc)
-        })
-        .then(() => this.trigger(pcs))
-        .catch((error) =>
-          app.Actions.showError({title: 'propertyCollectionsStore, savePcs:', msg: error})
-        )
-    },
-
     getPcByName (name) {
       return new Promise((resolve, reject) => {
         this.getPcs()
@@ -139,6 +127,10 @@ export default (Actions) => {
       // now fetch up to date pc's
       queryPcs()
         .then((pcs) => {
+          // email has empty values. Set default
+          pcs.forEach((pc) => {
+            pc.importedBy = pc.importedBy || 'alex@gabriel-software.ch'
+          })
           this.trigger(pcs)
           return this.savePcs(pcs)
         })
@@ -168,7 +160,6 @@ export default (Actions) => {
     },
 
     onLogin (passedVariables) {
-      // console.log('loginStore: onLogin, passedVariables', passedVariables)
       const logIn = passedVariables.logIn
       const email = passedVariables.email
       // change email only if it was passed
@@ -431,8 +422,22 @@ export default (Actions) => {
       })
     },
 
+    deletePcByPcName (name) {
+      /**
+       * gets name of pc
+       * removes pc's with this name from all objects
+       */
+      return new Promise((resolve, reject) => {
+        // TODO
+      })
+    },
+
     getHierarchy () {
       return getHierarchyFromLocalHierarchyDb()
+    },
+
+    onDeletePcByName (name) {
+      // TODO
     },
 
     onLoadPouchFromRemoteCompleted () {

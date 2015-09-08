@@ -50,7 +50,7 @@ export default React.createClass({
                 .then(() =>
                   this.setState({ deletingProgress: Math.round((index + 1) / docs.length * 100) })
                 )
-                .catch((error) => app.Actions.showError({title: `Das Objekt mit der ID ${doc._id} wurde nicht aktualisiert. Fehlermeldung:`, msg: error}))
+                .catch((error) => app.Actions.showError({title: `Fehler: Das Objekt mit der ID ${doc._id} wurde nicht aktualisiert:`, msg: error}))
             })
           })
           // set nameBestehend back
@@ -74,7 +74,7 @@ export default React.createClass({
       <div className='static-modal'>
         <Modal.Dialog onHide={this.onHide}>
           <Modal.Header>
-            <Modal.Title>Eigenschaftensammlung löschen</Modal.Title>
+            <Modal.Title>Eigenschaftensammlung "{nameBestehend}" löschen</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             {showWollenSie ? <p>Sie möchten die Eigenschaftensammlung "{nameBestehend}" und alle ihre Eigenschaften endgültig aus allen Arten und/oder Lebensräumen entfernen?</p> : null}

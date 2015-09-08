@@ -27,6 +27,7 @@ export default () => {
     login: {},
     showGroupLoading: {},
     queryPropertyCollections: {},
+    deletePcByName: {},
     showError: {}
   })
 

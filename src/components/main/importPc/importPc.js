@@ -143,10 +143,6 @@ export default React.createClass({
   },
 
   onChangePropertyCollectionsStore (pcs) {
-    // email has empty values. Set default
-    pcs.forEach((pc) => {
-      pc.importedBy = pc.importedBy || 'alex@gabriel-software.ch'
-    })
     this.setState({ pcs })
   },
 
@@ -243,6 +239,7 @@ export default React.createClass({
   resetUiAfterRemoving () {
     const pcsRemoved = true
     this.setState({ pcsRemoved })
+    // TODO: query pcs to rebuild index?
   },
 
   onChangeName (name) {
@@ -605,6 +602,8 @@ export default React.createClass({
     const alertAllGroupsBsStyle = ultimatelyAlertLoadAllGroups ? 'danger' : 'info'
     const enableDeletePcButton = !!nameBestehend
     const showDeletePcInstancesButton = panel3Done
+    const showProgressbarImport = importingProgress !== null && !pcsRemoved
+    const showAlertFirst5Imported = importingProgress === 100 && !pcsRemoved
 
     return (
       <div id='importieren'>
@@ -651,8 +650,8 @@ export default React.createClass({
           <Panel collapsible header='4. Import ausführen' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>
             {panel3Done ? <Button className='btn-primary' onClick={this.onClickImportieren}><Glyphicon glyph='download-alt'/> Eigenschaftensammlung "{name}" importieren</Button> : null }
             {showDeletePcInstancesButton ? <ButtonDeletePcInstances name={name} idsOfAeObjects={idsOfAeObjects} pcsRemoved={pcsRemoved} resetUiAfterRemoving={this.resetUiAfterRemoving} /> : null}
-            {importingProgress !== null && !pcsRemoved ? <ProgressbarImport importingProgress={importingProgress} /> : null}
-            {importingProgress === 100 && !pcsRemoved ? <AlertFirst5Imported idsOfAeObjects={idsOfAeObjects} idsNotImportable={idsNotImportable} /> : null}
+            {showProgressbarImport ? <ProgressbarImport importingProgress={importingProgress} /> : null}
+            {showAlertFirst5Imported ? <AlertFirst5Imported idsOfAeObjects={idsOfAeObjects} idsNotImportable={idsNotImportable} /> : null}
           </Panel>
 
         </Accordion>
