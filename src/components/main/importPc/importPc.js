@@ -411,8 +411,9 @@ export default React.createClass({
       // loop pcsToImport
       pcsToImport.forEach((pcToImport, index) => {
         // get the object to add it to
-        if (pcsToImport._id) {
-          app.objectStore.getItem(pcsToImport._id)
+        const guid = pcToImport._id
+        if (guid) {
+          app.objectStore.getItem(guid)
             .then((objectToImportPcInTo) => {
               // build pc
               let pc = {}
@@ -444,8 +445,7 @@ export default React.createClass({
             })
             .then(() => {
               importingProgress = Math.round((index + 1) / pcsToImport.length * 100)
-              this.setState({ importingProgress })
-              idsImported.push(pcsToImport._id)
+              this.setState({ importingProgress }, () => idsImported.push(pcToImport._id))
             })
             .catch((error) => app.Actions.showError({title: 'Fehler beim Importieren:', msg: error}))
         }
@@ -607,7 +607,7 @@ export default React.createClass({
     const { groupsLoadedOrLoading, email, allGroupsLoaded, groupsLoadingObjects } = this.props
     const showLoadAllGroups = email && !allGroupsLoaded
     const alertAllGroupsBsStyle = ultimatelyAlertLoadAllGroups ? 'danger' : 'info'
-    const showDeletePcButton = !!nameBestehend
+    const enableDeletePcButton = !!nameBestehend
     const showDeletePcInstancesButton = panel3Done
 
     return (
@@ -620,7 +620,7 @@ export default React.createClass({
             <WellAutorenrechte />
 
             <InputNameBestehend nameBestehend={nameBestehend} beschreibung={beschreibung} datenstand={datenstand} nutzungsbedingungen={nutzungsbedingungen} link={link} zusammenfassend={zusammenfassend} email={email} pcs={pcs} groupsLoadedOrLoading={groupsLoadedOrLoading} onChangeNameBestehend={this.onChangeNameBestehend} />
-            {showDeletePcButton ? <ButtonDeletePc nameBestehend={nameBestehend} resetUiAfterDeleting={this.resetUiAfterDeleting} /> : null}
+            <ButtonDeletePc nameBestehend={nameBestehend} enableDeletePcButton={enableDeletePcButton} resetUiAfterDeleting={this.resetUiAfterDeleting} />
 
             <hr />
 
