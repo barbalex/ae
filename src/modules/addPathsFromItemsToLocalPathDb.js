@@ -41,7 +41,7 @@ export default (items) => {
         // combine them
         paths = pathsFromDb
       }
-      _.assign(paths, pathsOfGruppe)
+      paths = Object.assign(paths, pathsOfGruppe)
       app.localPathDb.put(paths)
         .then(() => resolve(paths))
         .catch((error) =>

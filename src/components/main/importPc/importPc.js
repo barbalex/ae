@@ -154,10 +154,13 @@ export default React.createClass({
   },
 
   onChangeNameBestehend (nameBestehend) {
+    console.log('nameBestehend', nameBestehend)
     const editingPcIsAllowed = this.isEditingPcAllowed(nameBestehend)
+    console.log('editingPcIsAllowed', editingPcIsAllowed)
     if (nameBestehend) {
       app.propertyCollectionsStore.getPcByName(nameBestehend)
         .then((pc) => {
+          console.log('pc', pc)
           // only go on if pc exists (prevent error)
           if (pc) {
             const beschreibung = pc.fields.Beschreibung
@@ -169,6 +172,7 @@ export default React.createClass({
             let state = { beschreibung, datenstand, nutzungsbedingungen, link, zusammenfassend }
             state = Object.assign(state, this.stateFollowingPanel1Reset())
             if (editingPcIsAllowed) state = Object.assign(state, { nameBestehend, name })
+            console.log('state', state)
             this.setState(state)
           }
         })
@@ -508,8 +512,9 @@ export default React.createClass({
     const validEmail = !!email
     // check if panel 1 is done
     const panel1Done = validName && validBeschreibung && validDatenstand && validNutzungsbedingungen && validLink && validUrsprungsEs && validEmail
-    this.setState({ panel1Done })
-    if (!panel1Done) this.setState({ activePanel: 1 })
+    let state = { panel1Done }
+    if (!panel1Done) state = Object.assign(state, { activePanel: 1 })
+    this.setState(state)
     return panel1Done
   },
 
@@ -517,8 +522,9 @@ export default React.createClass({
     const validPcsToImport = this.validPcsToImport()
     const panel1Done = this.isPanel1Done()
     const panel2Done = panel1Done && validPcsToImport
-    this.setState({ panel2Done })
-    if (panel1Done && !panel2Done) this.setState({ activePanel: 2 })
+    let state = { panel2Done }
+    if (panel1Done && !panel2Done) state = Object.assign(state, { activePanel: 2 })
+    this.setState(state)
     return panel2Done
   },
 
@@ -528,8 +534,9 @@ export default React.createClass({
     const variablesToPass = {pcsToImport, idsNumberImportable, idsNotImportable, idsNotANumber, idsDuplicate}
     const idsAnalysisResultType = getSuccessTypeFromAnalysis(variablesToPass)
     const panel3Done = idsAnalysisResultType !== 'danger' && idsOfAeObjects.length > 0
-    this.setState({ panel3Done })
-    if (isPanel2Done && !panel3Done) this.setState({ activePanel: 3 })
+    let state = { panel3Done }
+    if (isPanel2Done && !panel3Done) state = Object.assign(state, { activePanel: 3 })
+    this.setState(state)
     return panel3Done
   },
 
