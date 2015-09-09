@@ -66,9 +66,7 @@ export default React.createClass({
             email: email
           })
         )
-        .catch((error) => {
-          this.setState({ loginError: error })
-        })
+        .catch((error) => this.setState({ loginError: error }))
     }
   },
 
