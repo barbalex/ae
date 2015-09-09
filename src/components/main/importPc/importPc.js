@@ -658,7 +658,7 @@ export default React.createClass({
 
           <Panel collapsible header='4. Import ausführen' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>
             {panel3Done ? <Button className='btn-primary' onClick={this.onClickImportieren}><Glyphicon glyph='download-alt'/> Eigenschaftensammlung "{name}" importieren</Button> : null }
-            {showDeletePcInstancesButton ? <ButtonDeletePcInstances name={name} idsOfAeObjects={idsOfAeObjects} pcsRemoved={pcsRemoved} deletingProgress={deletingProgress} onClickRemovePcInstances={this.onClickRemovePcInstances} /> : null}
+            {showDeletePcInstancesButton ? <ButtonDeletePcInstances name={name} pcsRemoved={pcsRemoved} deletingProgress={deletingProgress} onClickRemovePcInstances={this.onClickRemovePcInstances} /> : null}
             {showProgressbarImport ? <ProgressbarImport importingProgress={importingProgress} /> : null}
             {showAlertFirst5Imported ? <AlertFirst5Imported idsOfAeObjects={idsOfAeObjects} idsNotImportable={idsNotImportable} /> : null}
             {deletingProgress !== null ? <ProgressBar bsStyle='success' now={deletingProgress} label={`${deletingProgress}% entfernt`} /> : null}
