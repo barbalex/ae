@@ -106,8 +106,8 @@ export default React.createClass({
           <DropdownButton title='Mehr...' bsSize='small' onSelect={this.onSelectDropdowButton()}>
             <MenuItem onClick={this.openOrganisationen}>Organisationen und Benutzer</MenuItem>
             <MenuItem divider/>
-            <MenuItem onClick={this.replicateFromAe}>Daten von arteigenschaften.ch replizieren</MenuItem>
-            <MenuItem onClick={this.replicateToAe}>Daten nach arteigenschaften.ch replizieren</MenuItem>
+            <MenuItem onClick={this.replicateFromAe}>Daten <strong>von</strong> arteigenschaften.ch replizieren</MenuItem>
+            <MenuItem onClick={this.replicateToAe}>Daten <strong>nach</strong> arteigenschaften.ch replizieren</MenuItem>
             <MenuItem divider/>
             <MenuItem onClick={this.openAdminPage} disabled={true}>Administration</MenuItem>
             <MenuItem divider/>

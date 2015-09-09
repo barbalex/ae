@@ -25,11 +25,11 @@ export default React.createClass({
       tooltipText = 'Replikation gescheitert um:' + replicatingToAeTime
     }
 
-    const tooltip = <Tooltip bsStyle='default'>{tooltipText}</Tooltip>
+    const tooltip = <Tooltip id='replicatingToAeTooltip' bsStyle='info'>{tooltipText}</Tooltip>
 
     return (
       <OverlayTrigger placement='left' overlay={tooltip}>
-        <div id='replicateToAe'><Glyphicon glyph='cloud-upload' style={style}/></div>
+        <Glyphicon id='replicateToAe' glyph='cloud-upload' style={style}/>
       </OverlayTrigger>
     )
   }
