@@ -38,7 +38,7 @@ export default React.createClass({
     const examples = first5Ids.map((id, index) => {
       const path = _.findKey(paths, (value) => value === id)
       const href = `${window.location.protocol}//${window.location.host}/${path}?id=${id}`
-      return <li key={index}><a href={href} target='_blank'>Beispiel {index + 1}</a></li>
+      return <li key={index}><a href={href} target='_blank'>{path.replace(/\//g, ' > ')}</a></li>
     })
 
     return (

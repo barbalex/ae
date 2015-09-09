@@ -64,18 +64,19 @@ export default (Actions) => {
     listenables: Actions,
 
     deletePcByPcName (name) {
+      console.log('objectsPcsStore, name', name)
       /**
        * gets name of pc
        * removes pc's with this name from all objects
        * is listened to by importPc.js
-       * returns: idsOfAeObjects, deletingPcInstancesProgress, showAlertIndex
+       * returns: idsOfAeObjects, deletingPcProgress, showAlertIndex
        * if a callback is passed, it is executed at the end
        */
       let idsOfAeObjects = []
-      let deletingPcInstancesProgress = null
+      let deletingPcProgress = null
       let showAlertIndex = false
       let nameBestehend = name
-      this.trigger({ idsOfAeObjects, deletingPcInstancesProgress, showAlertIndex, nameBestehend })
+      this.trigger({ idsOfAeObjects, deletingPcProgress, showAlertIndex, nameBestehend })
       objectsIdsByPcsName(name)
         .then((ids) => {
           idsOfAeObjects = ids
@@ -86,12 +87,12 @@ export default (Actions) => {
                 return app.localDb.put(doc)
               })
               .then(() => {
-                deletingPcInstancesProgress = Math.round((index + 1) / ids.length * 100)
-                if (deletingPcInstancesProgress === 100) {
+                deletingPcProgress = Math.round((index + 1) / ids.length * 100)
+                if (deletingPcProgress === 100) {
                   showAlertIndex = true
-                  nameBestehend = null
+                  // TODO: remove pc from pcsStore
                 }
-                this.trigger({ idsOfAeObjects, deletingPcInstancesProgress, showAlertIndex, nameBestehend })
+                this.trigger({ idsOfAeObjects, deletingPcProgress, showAlertIndex })
               })
               .catch((error) => app.Actions.showError({title: `Fehler: Das Objekt mit der ID ${id} wurde nicht aktualisiert:`, msg: error}))
           })

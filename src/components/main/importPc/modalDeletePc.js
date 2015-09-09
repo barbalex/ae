@@ -42,8 +42,8 @@ export default React.createClass({
   },
 
   render () {
-    const { showAlertIndex, deletingPcProgress } = this.state
-    const { nameBestehend } = this.props
+    const { showAlertIndex } = this.state
+    const { nameBestehend, deletingPcProgress } = this.props
     const showWollenSie = deletingPcProgress === null && !showAlertIndex
 
     return (

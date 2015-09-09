@@ -26,6 +26,7 @@ import TablePreview from './tablePreview.js'
 import InputImportFields from './inputImportFields.js'
 import InputAeId from './inputAeId.js'
 import ProgressbarImport from './progressbarImport.js'
+import ProgressbarDeletePc from './progressbarDeletePc.js'
 import AlertFirst5Imported from './alertFirst5Imported.js'
 import AlertFirst5Deleted from './alertFirst5Deleted.js'
 import getObjectsFromFile from './getObjectsFromFile.js'
@@ -625,7 +626,7 @@ export default React.createClass({
 
             <InputNameBestehend nameBestehend={nameBestehend} beschreibung={beschreibung} datenstand={datenstand} nutzungsbedingungen={nutzungsbedingungen} link={link} zusammenfassend={zusammenfassend} email={email} pcs={pcs} groupsLoadedOrLoading={groupsLoadedOrLoading} onChangeNameBestehend={this.onChangeNameBestehend} />
             <ButtonDeletePc nameBestehend={nameBestehend} enableDeletePcButton={enableDeletePcButton} deletingPcProgress={deletingPcProgress} onClickDeletePc={this.onClickDeletePc} />
-            {deletingPcProgress !== null ? <ProgressBar bsStyle='success' now={deletingPcInstancesProgress} label={`${deletingPcInstancesProgress}% gelöscht`} /> : null}
+            {deletingPcProgress !== null ? <ProgressbarDeletePc progress={deletingPcProgress} /> : null}
             {deletingPcProgress === 100 ? <AlertFirst5Deleted idsOfAeObjects={idsOfAeObjects} nameBestehend={nameBestehend} /> : null}
 
             <hr />
