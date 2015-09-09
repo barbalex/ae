@@ -1,36 +1,34 @@
 'use strict'
 
 import React from 'react'
-import { OverlayTrigger, Popover, Glyphicon } from 'react-bootstrap'
+import { OverlayTrigger, Tooltip, Glyphicon } from 'react-bootstrap'
 
 export default React.createClass({
   displayName: 'ReplicatingToAe',
 
   propTypes: {
-    replicatingToAe: React.PropTypes.string
+    replicatingToAe: React.PropTypes.string,
+    replicatingToAeTime: React.PropTypes.string
   },
 
   render () {
-    const { replicatingToAe } = this.props
+    const { replicatingToAe, replicatingToAeTime } = this.props
 
     let style = {}
-    let popoverText = 'repliziere zu arteigenschaften.ch'
+    let tooltipText = 'repliziere zu arteigenschaften.ch seit ' + replicatingToAeTime
     if (replicatingToAe === 'success') {
       style.color = '#00AA00'
-      popoverText = 'erfolgreich repliziert'
+      tooltipText = 'zuletzt repliziert: ' + replicatingToAeTime
     }
     if (replicatingToAe === 'error') {
       style.color = 'red'
-      popoverText = 'Replikation gescheitert'
+      tooltipText = 'Replikation gescheitert um:' + replicatingToAeTime
     }
 
+    const tooltip = <Tooltip bsStyle='default'>{tooltipText}</Tooltip>
+
     return (
-      <OverlayTrigger
-        trigger='hover'
-        placement='left'
-        overlay={
-          <Popover>{popoverText}</Popover>
-        }>
+      <OverlayTrigger placement='left' overlay={tooltip}>
         <div id='replicateToAe'><Glyphicon glyph='cloud-upload' style={style}/></div>
       </OverlayTrigger>
     )

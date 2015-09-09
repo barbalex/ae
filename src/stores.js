@@ -25,10 +25,10 @@ export default (Actions) => {
     listenables: Actions,
 
     onReplicateToAe () {
-      this.trigger({ replicateToAe: 'replicating' })
+      this.trigger('replicating')
       app.localDb.replicate.to(app.remoteDb)
-        .then((result) => this.trigger({ replicateToAe: 'success' }))
-        .catch((error) => this.trigger({ replicateToAe: 'error' }))
+        .then((result) => this.trigger('success'))
+        .catch((error) => this.trigger('error'))
     }
   })
 
