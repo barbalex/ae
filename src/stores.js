@@ -187,13 +187,10 @@ export default (Actions) => {
     },
 
     getPcByName (name) {
-      console.log('propertyCollectionsStore, getPcByName, name:', name)
       return new Promise((resolve, reject) => {
         this.getPcs()
           .then((pcs) => {
-            console.log('propertyCollectionsStore, getPcByName, pcs:', pcs)
             const pc = _.find(pcs, (pc) => pc.name === name)
-            console.log('propertyCollectionsStore, getPcByName, pc:', pc)
             resolve(pc)
           })
           .catch((error) => reject(error))
