@@ -9,7 +9,7 @@ export default React.createClass({
 
   propTypes: {
     email: React.PropTypes.string,
-    replicatingToAe: React.PropTypes.bool
+    replicatingToAe: React.PropTypes.string
   },
 
   render () {
@@ -18,7 +18,7 @@ export default React.createClass({
     return (
       <div id='symbols'>
         <div className='pull-right'>
-          {replicatingToAe ? <ReplicatingToAe /> : null}
+          {replicatingToAe ? <ReplicatingToAe replicatingToAe={replicatingToAe} /> : null}
           <Email email={email} />
         </div>
       </div>

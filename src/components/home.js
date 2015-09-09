@@ -42,7 +42,7 @@ export default React.createClass({
     showOrganizations: React.PropTypes.bool,
     logIn: React.PropTypes.bool,
     email: React.PropTypes.string,
-    replicatingToAe: React.PropTypes.bool
+    replicatingToAe: React.PropTypes.string
   },
 
   getInitialState () {
@@ -72,7 +72,7 @@ export default React.createClass({
       showOrganizations: showOrganizations,
       logIn: false,
       email: email,
-      replicatingToAe: false
+      replicatingToAe: null
     }
   },
 
@@ -84,6 +84,11 @@ export default React.createClass({
     this.listenTo(app.activeObjectStore, this.onActiveObjectStoreChange)
     this.listenTo(app.filterOptionsStore, this.onFilterOptionsStoreChange)
     this.listenTo(app.loadingGroupsStore, this.onLoadingGroupsStoreChange)
+    this.listenTo(app.replicateToAeStore, this.onReplicateToAeStoreChange)
+  },
+
+  onReplicateToAeStoreChange (state) {
+    this.setState(state)
   },
 
   onLoadingGroupsStoreChange (payload) {

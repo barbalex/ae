@@ -20,6 +20,18 @@ import convertValue from './modules/convertValue.js'
 import sortObjectArrayByName from './modules/sortObjectArrayByName.js'
 
 export default (Actions) => {
+  app.replicateToAeStore = Reflux.createStore({
+
+    listenables: Actions,
+
+    onReplicateToAe () {
+      this.trigger({ replicateToAe: 'replicating' })
+      app.localDb.replicate.to(app.remoteDb)
+        .then((result) => this.trigger({ replicateToAe: 'success' }))
+        .catch((error) => this.trigger({ replicateToAe: 'error' }))
+    }
+  })
+
   app.errorStore = Reflux.createStore({
     /*
      * receives an error object with two keys: title, msg

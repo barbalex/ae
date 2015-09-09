@@ -30,7 +30,8 @@ export default () => {
     deletePcByName: {},
     importPcs: {},
     deletePcInstances: {},
-    showError: {}
+    showError: {},
+    replicateToAe: {}
   })
 
   Actions.loadPouchFromRemote.listen(() => {

@@ -65,7 +65,11 @@ export default React.createClass({
     app.Actions.login(loginVariables)*/
   },
 
-  replicate () {
+  replicateToAe () {
+    app.Actions.replicateToAe()
+  },
+
+  replicateFromAe () {
     app.Actions.loadPouchFromRemote()
   },
 
@@ -102,7 +106,8 @@ export default React.createClass({
           <DropdownButton title='Mehr...' bsSize='small' onSelect={this.onSelectDropdowButton()}>
             <MenuItem onClick={this.openOrganisationen}>Organisationen und Benutzer</MenuItem>
             <MenuItem divider/>
-            <MenuItem onClick={this.replicate}>Daten replizieren</MenuItem>
+            <MenuItem onClick={this.replicateFromAe}>Daten von arteigenschaften.ch replizieren</MenuItem>
+            <MenuItem onClick={this.replicateToAe}>Daten nach arteigenschaften.ch replizieren</MenuItem>
             <MenuItem divider/>
             <MenuItem onClick={this.openAdminPage} disabled={true}>Administration</MenuItem>
             <MenuItem divider/>
