@@ -290,7 +290,6 @@ export default React.createClass({
     this.setState(state, this.onChangeId)
   },
 
-  // need to get values directly because state has not been updated yet
   onChangeId () {
     const { idsAeIdField, idsImportIdField, pcsToImport } = this.state
 
@@ -335,7 +334,7 @@ export default React.createClass({
 
           const idGuidImportable = _.omit(idGuidObject, (guid, id) => !guid)
           const idsImportable = _.keys(idGuidImportable)
-          // Problem: extracting from keys converts numbers to strings! Convert back
+          // extracting from keys converts numbers to strings! Convert back
           idsImportable.forEach((id, index) => {
             if (!isNaN(id)) idsImportable[index] = parseInt(id, 10)
           })
