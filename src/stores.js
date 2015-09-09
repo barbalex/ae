@@ -64,19 +64,17 @@ export default (Actions) => {
     listenables: Actions,
 
     deletePcByPcName (name) {
-      console.log('objectsPcsStore, name', name)
       /**
        * gets name of pc
        * removes pc's with this name from all objects
        * is listened to by importPc.js
-       * returns: idsOfAeObjects, deletingPcProgress, showAlertIndex
+       * returns: idsOfAeObjects, deletingPcProgress
        * if a callback is passed, it is executed at the end
        */
       let idsOfAeObjects = []
       let deletingPcProgress = null
-      let showAlertIndex = false
       let nameBestehend = name
-      this.trigger({ idsOfAeObjects, deletingPcProgress, showAlertIndex, nameBestehend })
+      this.trigger({ idsOfAeObjects, deletingPcProgress, nameBestehend })
       objectsIdsByPcsName(name)
         .then((ids) => {
           idsOfAeObjects = ids
@@ -88,11 +86,8 @@ export default (Actions) => {
               })
               .then(() => {
                 deletingPcProgress = Math.round((index + 1) / ids.length * 100)
-                if (deletingPcProgress === 100) {
-                  showAlertIndex = true
-                  // TODO: remove pc from pcsStore
-                }
-                this.trigger({ idsOfAeObjects, deletingPcProgress, showAlertIndex })
+                if (deletingPcProgress === 100) app.propertyCollectionsStore.removePcByName(name)
+                this.trigger({ idsOfAeObjects, deletingPcProgress })
               })
               .catch((error) => app.Actions.showError({title: `Fehler: Das Objekt mit der ID ${id} wurde nicht aktualisiert:`, msg: error}))
           })

@@ -43,7 +43,7 @@ export default React.createClass({
             <p>Sie möchten die Eigenschaftensammlung "{name}" und alle ihre Eigenschaften endgültig aus allen in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen?</p>
           </Modal.Body>
           <Modal.Footer>
-            <Button className='btn-primary' onClick={this.onClickRemove}>ja, entfernen!</Button>
+            <Button bsStyle='danger' onClick={this.onClickRemove}>ja, entfernen!</Button>
             <Button onClick={this.schliessen}>schliessen</Button>
           </Modal.Footer>
         </Modal.Dialog>

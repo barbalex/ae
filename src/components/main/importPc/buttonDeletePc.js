@@ -42,12 +42,12 @@ export default React.createClass({
   render () {
     const { nameBestehend, enableDeletePcButton, deletingPcProgress } = this.props
     const { show } = this.state
-    const showConfirmModal = show && !deletingPcProgress
+    const showConfirmModal = show && deletingPcProgress === null
 
     return (
       <div>
         {nameBestehend ? <Button bsStyle='danger' className='feld' onClick={this.onClickDeletePc} disabled={!enableDeletePcButton}><Glyphicon glyph='trash'/> Eigenschaftensammlung "{nameBestehend}" aus allen Arten/Lebensräumen entfernen</Button> : null}
-        {showConfirmModal ? <ModalDeletePc nameBestehend={nameBestehend} onClickDeletePc={this.onClickDelete} deletingPcProgress={deletingPcProgress} closeModal={this.closeModal} /> : null}
+        {showConfirmModal ? <ModalDeletePc nameBestehend={nameBestehend} onClickDeletePc={this.onClickDelete} closeModal={this.closeModal} /> : null}
       </div>
     )
   }

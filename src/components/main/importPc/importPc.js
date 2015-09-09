@@ -27,6 +27,7 @@ import InputImportFields from './inputImportFields.js'
 import InputAeId from './inputAeId.js'
 import ProgressbarImport from './progressbarImport.js'
 import ProgressbarDeletePc from './progressbarDeletePc.js'
+import AlertDeletePcBuildingIndex from './alertDeletePcBuildingIndex.js'
 import AlertFirst5Imported from './alertFirst5Imported.js'
 import AlertFirst5Deleted from './alertFirst5Deleted.js'
 import getObjectsFromFile from './getObjectsFromFile.js'
@@ -152,8 +153,8 @@ export default React.createClass({
     this.setState({ pcs })
   },
 
-  onChangeObjectsPcsStore (stateVariables) {
-    this.setState(stateVariables)
+  onChangeObjectsPcsStore (state) {
+    this.setState(state)
   },
 
   onChangeNameBestehend (nameBestehend) {
@@ -449,9 +450,10 @@ export default React.createClass({
   onClickDeletePc () {
     const { name, idsOfAeObjects } = this.state
     // first remove progressbar and alert from last import
-    let importingProgress = null
-    let pcsRemoved = false
-    this.setState({ importingProgress, pcsRemoved }, () => app.Actions.deletePcByName(name, idsOfAeObjects))
+    const importingProgress = null
+    const pcsRemoved = false
+    const deletingPcProgress = 0
+    this.setState({ importingProgress, pcsRemoved, deletingPcProgress }, () => app.Actions.deletePcByName(name, idsOfAeObjects))
   },
 
   onClickRemovePcInstances () {
@@ -609,6 +611,7 @@ export default React.createClass({
     const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, pcsToImport, pcsRemoved, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs, validPcsToImport, activePanel, idsAeIdField, idsImportIdField, pcs, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, panel3Done, importingProgress, deletingPcInstancesProgress, deletingPcProgress } = this.state
     const { groupsLoadedOrLoading, email, allGroupsLoaded, groupsLoadingObjects } = this.props
     const showLoadAllGroups = email && !allGroupsLoaded
+    const showAlertDeletePcBuildingIndex = deletingPcProgress && deletingPcProgress < 100
     const alertAllGroupsBsStyle = ultimatelyAlertLoadAllGroups ? 'danger' : 'info'
     const enableDeletePcButton = !!nameBestehend
     const showDeletePcInstancesButton = panel3Done
@@ -626,6 +629,7 @@ export default React.createClass({
 
             <InputNameBestehend nameBestehend={nameBestehend} beschreibung={beschreibung} datenstand={datenstand} nutzungsbedingungen={nutzungsbedingungen} link={link} zusammenfassend={zusammenfassend} email={email} pcs={pcs} groupsLoadedOrLoading={groupsLoadedOrLoading} onChangeNameBestehend={this.onChangeNameBestehend} />
             <ButtonDeletePc nameBestehend={nameBestehend} enableDeletePcButton={enableDeletePcButton} deletingPcProgress={deletingPcProgress} onClickDeletePc={this.onClickDeletePc} />
+            {showAlertDeletePcBuildingIndex ? <AlertDeletePcBuildingIndex /> : null}
             {deletingPcProgress !== null ? <ProgressbarDeletePc progress={deletingPcProgress} /> : null}
             {deletingPcProgress === 100 ? <AlertFirst5Deleted idsOfAeObjects={idsOfAeObjects} nameBestehend={nameBestehend} /> : null}
 

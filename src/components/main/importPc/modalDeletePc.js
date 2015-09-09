@@ -4,27 +4,16 @@
 
 'use strict'
 
-import app from 'ampersand-app'
 import React from 'react'
-import { Modal, Button, ProgressBar } from 'react-bootstrap'
-import _ from 'lodash'
-import AlertFirst5Deleted from './alertFirst5Deleted.js'
+import { Modal, Button } from 'react-bootstrap'
 
 export default React.createClass({
   displayName: 'ModalDeletePc',
 
   propTypes: {
-    showAlertIndex: React.PropTypes.bool,
     nameBestehend: React.PropTypes.string,
     onClickDeletePc: React.PropTypes.func,
-    closeModal: React.PropTypes.func,
-    deletingPcProgress: React.PropTypes.number
-  },
-
-  getInitialState () {
-    return {
-      showAlertIndex: false
-    }
+    closeModal: React.PropTypes.func
   },
 
   onHide () {
@@ -33,7 +22,7 @@ export default React.createClass({
 
   onClickDelete () {
     const { onClickDeletePc } = this.props
-    this.setState({ showAlertIndex: true }, () => onClickDeletePc())
+    onClickDeletePc()
   },
 
   schliessen () {
@@ -42,9 +31,7 @@ export default React.createClass({
   },
 
   render () {
-    const { showAlertIndex } = this.state
-    const { nameBestehend, deletingPcProgress } = this.props
-    const showWollenSie = deletingPcProgress === null && !showAlertIndex
+    const { nameBestehend } = this.props
 
     return (
       <div className='static-modal'>
@@ -53,11 +40,10 @@ export default React.createClass({
             <Modal.Title>Eigenschaftensammlung "{nameBestehend}" löschen</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            {showWollenSie ? <p>Sie möchten die Eigenschaftensammlung "{nameBestehend}" und alle ihre Eigenschaften endgültig aus allen Arten und/oder Lebensräumen entfernen?</p> : null}
-            {showAlertIndex ? <p>Hole Arten/Lebensräume, um die Eigenschaftensammlung daraus zu löschen.<br/>Beim ersten Mal muss der Index aufgebaut werden. Das dauert einige Minuten...</p> : null}
+            <p>Sie möchten die Eigenschaftensammlung "{nameBestehend}" und alle ihre Eigenschaften endgültig aus allen Arten und/oder Lebensräumen entfernen?</p>
           </Modal.Body>
           <Modal.Footer>
-            {deletingPcProgress === null ? <Button className='btn-primary' onClick={this.onClickDelete}>ja, löschen!</Button> : null}
+            <Button bsStyle='danger' onClick={this.onClickDelete}>ja, löschen!</Button>
             <Button onClick={this.schliessen}>schliessen</Button>
           </Modal.Footer>
         </Modal.Dialog>
