@@ -166,9 +166,10 @@ export default React.createClass({
             const link = pc.fields.Link
             const zusammenfassend = pc.combining
             const name = nameBestehend
-            this.setState({ beschreibung, datenstand, nutzungsbedingungen, link, zusammenfassend })
-            this.resetStateFollowingPanel1()
-            if (editingPcIsAllowed) this.setState({ nameBestehend, name })
+            let state = { beschreibung, datenstand, nutzungsbedingungen, link, zusammenfassend }
+            state = Object.assign(state, this.stateFollowingPanel1Reset())
+            if (editingPcIsAllowed) state = Object.assign(state, { nameBestehend, name })
+            this.setState(state)
           }
         })
         .catch((error) => app.Actions.showError({msg: error}))
@@ -177,8 +178,8 @@ export default React.createClass({
     }
   },
 
-  resetStateFollowingPanel1 () {
-    this.setState({
+  stateFollowingPanel1Reset () {
+    return {
       pcsToImport: [],
       idsOfAeObjects: [],
       idsImportIdField: null,
@@ -193,7 +194,7 @@ export default React.createClass({
       deletingProgress: null,
       panel2Done: false,
       panel3Done: false
-    })
+    }
   },
 
   addNewNameBestehend () {
