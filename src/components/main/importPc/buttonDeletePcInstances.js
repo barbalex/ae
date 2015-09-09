@@ -32,8 +32,8 @@ export default React.createClass({
 
   onClickRemove () {
     /**
-     * need this extra callback because the modal has to have state show: false
-     * otherwise when after deleting is reimported, the modal opens...
+     * need this extra callback because the modal has to have state 'show: false'
+     * otherwise when after deleting is reimported, the modal opens
      */
     const { onClickRemovePcInstances } = this.props
     this.setState({ show: false })
@@ -51,7 +51,7 @@ export default React.createClass({
     return (
       <div style={divStyle}>
         <Button bsStyle='danger' onClick={this.onClickDeletePcInstances} disabled={pcsRemoved}><Glyphicon glyph='trash'/> Eigenschaftensammlung "{name}" aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen</Button>
-        {showConfirmModal ? <ModalDeletePcInstances name={name} idsOfAeObjects={idsOfAeObjects} onClickRemovePcInstances={this.onClickRemove} closeModal={this.closeModal} /> : null}
+        {showConfirmModal ? <ModalDeletePcInstances name={name} onClickRemovePcInstances={this.onClickRemove} closeModal={this.closeModal} /> : null}
       </div>
     )
   }
