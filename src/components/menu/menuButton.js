@@ -111,7 +111,7 @@ export default React.createClass({
             <MenuItem onClick={this.openOrganisationen}>Organisationen und Benutzer</MenuItem>
             <MenuItem divider/>
             <li role='presentation' className='dropdown-header'>Daten:</li>
-            <MenuItem onClick={this.loadPouchFromRemote}>Alle (fehlenden) Gruppen laden</MenuItem>
+            <MenuItem onClick={this.loadPouchFromRemote}>Fehlende Gruppen laden</MenuItem>
             <MenuItem onClick={this.replicateFromAe}><strong>Von</strong> arteigenschaften.ch replizieren</MenuItem>
             <MenuItem onClick={this.replicateToAe}><strong>Nach</strong> arteigenschaften.ch replizieren</MenuItem>
             <MenuItem divider/>
