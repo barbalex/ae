@@ -4,7 +4,6 @@
 
 'use strict'
 
-import app from 'ampersand-app'
 import React from 'react'
 import { Modal, Button } from 'react-bootstrap'
 
@@ -13,7 +12,6 @@ export default React.createClass({
 
   propTypes: {
     name: React.PropTypes.string,
-    idsOfAeObjects: React.PropTypes.array,
     closeModal: React.PropTypes.func,
     onClickRemovePcInstances: React.PropTypes.func
   },

@@ -282,13 +282,14 @@ export default React.createClass({
     // always empty pcsToImport first
     // otherwise weird things happen
     // also reset analysis
-    this.setState({
+    let state = {
       pcsToImport: [],
       idsAnalysisComplete: false,
       idsAeIdField: null,
       idsImportIdField: null
-    })
-    this.resetStateFollowingPanel2()
+    }
+    state = Object.assign(state, this.stateFollowingPanel2Reset())
+    this.setState(state)
     if (event.target.files[0] !== undefined) {
       const file = event.target.files[0]
       getObjectsFromFile(file)
@@ -300,8 +301,8 @@ export default React.createClass({
     }
   },
 
-  resetStateFollowingPanel2 () {
-    this.setState({
+  stateFollowingPanel2Reset () {
+    return {
       idsOfAeObjects: [],
       idsNumberOfRecordsWithIdValue: 0,
       idsDuplicate: [],
@@ -311,24 +312,26 @@ export default React.createClass({
       importingProgress: null,
       deletingProgress: null,
       panel3Done: false
-    })
+    }
   },
 
   onChangeAeId (idsAeIdField) {
     const idsAnalysisComplete = false
-    this.setState({ idsAeIdField, idsAnalysisComplete }, this.onChangeId)
+    let state = { idsAeIdField, idsAnalysisComplete }
+    state = Object.assign(state, this.stateFollowingPanel3Reset())
+    this.setState(state, this.onChangeId)
   },
 
   onChangeImportId (idsImportIdField) {
     const idsAnalysisComplete = false
-    this.setState({ idsImportIdField, idsAnalysisComplete }, this.onChangeId)
+    let state = { idsImportIdField, idsAnalysisComplete }
+    state = Object.assign(state, this.stateFollowingPanel3Reset())
+    this.setState(state, this.onChangeId)
   },
 
   // need to get values directly because state has not been updated yet
   onChangeId () {
     const { idsAeIdField, idsImportIdField, pcsToImport } = this.state
-
-    this.resetStateFollowingPanel3()
 
     if (idsAeIdField && idsImportIdField) {
       // start analysis
@@ -387,11 +390,11 @@ export default React.createClass({
     }
   },
 
-  resetStateFollowingPanel3 () {
-    this.setState({
+  stateFollowingPanel3Reset () {
+    return {
       importingProgress: null,
       deletingProgress: null
-    })
+    }
   },
 
   onClickImportieren () {

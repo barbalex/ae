@@ -126,7 +126,7 @@ export default React.createClass({
       gruppe = null
     }
     const object = undefined
-    _.assign(state, { object, gruppe: gruppe, showImportPC, showImportRC, showOrganizations })
+    state = Object.assign(state, { object, gruppe, showImportPC, showImportRC, showOrganizations })
 
     this.setState(state)
 
@@ -146,11 +146,9 @@ export default React.createClass({
 
   onFilterOptionsStoreChange (payload) {
     const { filterOptions, loading: loadingFilterOptions } = payload
-    if (filterOptions) {
-      this.setState({ filterOptions, loadingFilterOptions })
-    } else {
-      this.setState({ loadingFilterOptions })
-    }
+    let state = { loadingFilterOptions }
+    if (filterOptions) state = Object.assign(state, { filterOptions })
+    this.setState(state)
   },
 
   render () {

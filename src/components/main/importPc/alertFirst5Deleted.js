@@ -30,7 +30,7 @@ export default React.createClass({
     // only get paths on first render
     if (!paths) {
       getPathsFromLocalPathDb()
-        .then((paths) => this.setState({ paths: paths }))
+        .then((paths) => this.setState({ paths }))
         .catch((error) => app.Actions.showError({title: 'Fehler beim Aufbauen der Beispiele:', msg: error}))
     }
 
