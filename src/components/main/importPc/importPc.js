@@ -34,8 +34,6 @@ import getObjectsFromFile from './getObjectsFromFile.js'
 import isValidUrl from '../../../modules/isValidUrl.js'
 import getSuccessTypeFromAnalysis from './getSuccessTypeFromAnalysis.js'
 import getGuidsById from '../../../modules/getGuidsById.js'
-import convertValue from '../../../modules/convertValue.js'
-import sortObjectArrayByName from '../../../modules/sortObjectArrayByName.js'
 import AlertLoadAllGroups from './alertLoadAllGroups.js'
 
 export default React.createClass({
@@ -202,32 +200,6 @@ export default React.createClass({
     }
   },
 
-  addNewNameBestehend () {
-    /**
-     * goal is to update the list of pcs and therewith the dropdown lists in nameBestehend and ursprungsEs
-     * we could do it by querying the db again with app.Actions.queryPropertyCollections()
-     * but this is 1. very slow so happens too late and 2. uses lots of ressources
-     * so we build a new pc
-     * and add it to the propertyCollectionsStore
-     * propertyCollectionsStore triggers new pcs and lists get refreshed
-     */
-    let { name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend } = this.state
-    const pc = {
-      name: name,
-      combining: zusammenfassend,
-      importedBy: importiertVon,
-      fields: {
-        Beschreibung: beschreibung,
-        Datenstand: datenstand,
-        Nutzungsbedingungen: nutzungsbedingungen,
-        Link: link,
-        'importiert von': importiertVon
-      },
-      count: 0
-    }
-    app.propertyCollectionsStore.savePc(pc)
-  },
-
   onChangeName (name) {
     this.setState({ name })
   },
@@ -389,62 +361,7 @@ export default React.createClass({
 
   onClickImportieren () {
     const { pcsToImport, idsImportIdField, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs } = this.state
-
-    let importingProgress = 0
-    // set back deleting progress to close progressbar and deletion examples
-    const deletingPcInstancesProgress = null
-    const deletingPcProgress = null
-    let idsImported = []
-    // alert say "Daten werden vorbereitet..."
-    this.setState({ importingProgress, deletingPcInstancesProgress, deletingPcProgress }, () => {
-      // loop pcsToImport
-      pcsToImport.forEach((pcToImport, index) => {
-        // get the object to add it to
-        const guid = pcToImport._id
-        if (guid) {
-          app.objectStore.getItem(guid)
-            .then((objectToImportPcInTo) => {
-              // build pc
-              let pc = {}
-              pc.Name = name
-              pc.Beschreibung = beschreibung
-              pc.Datenstand = datenstand
-              pc.Nutzungsbedingungen = nutzungsbedingungen
-              if (link) pc.Link = link
-              pc['importiert von'] = importiertVon
-              if (zusammenfassend) pc.zusammenfassend = zusammenfassend
-              if (nameUrsprungsEs) pc.Ursprungsdatensammlung = nameUrsprungsEs
-              pc.Eigenschaften = {}
-              // now add fields of pc
-              _.forEach(pcToImport, (value, field) => {
-                // dont import _id, idField or empty fields
-                if (field !== '_id' && field !== idsImportIdField && value !== '' && value !== null) {
-                  // convert values / types if necessary
-                  pc.Eigenschaften[field] = convertValue(value)
-                }
-              })
-              // make sure, Eigenschaftensammlungen exists
-              if (!objectToImportPcInTo.Eigenschaftensammlungen) objectToImportPcInTo.Eigenschaftensammlungen = []
-              // if a pc with this name existed already, remove it
-              objectToImportPcInTo.Eigenschaftensammlungen = _.reject(objectToImportPcInTo.Eigenschaftensammlungen, (es) => es.name === name)
-              objectToImportPcInTo.Eigenschaftensammlungen.push(pc)
-              objectToImportPcInTo.Eigenschaftensammlungen = sortObjectArrayByName(objectToImportPcInTo.Eigenschaftensammlungen)
-              // write to db
-              return app.localDb.put(objectToImportPcInTo)
-            })
-            .then(() => {
-              importingProgress = Math.round((index + 1) / pcsToImport.length * 100)
-              this.setState({ importingProgress }, () => idsImported.push(pcToImport._id))
-            })
-            .catch((error) => app.Actions.showError({title: 'Fehler beim Importieren:', msg: error}))
-        }
-      })
-      // reset pcsRemoved to show button to remove again
-      const pcsRemoved = false
-      this.setState({ pcsRemoved })
-      // update nameBestehend
-      this.addNewNameBestehend()
-    })
+    app.Actions.importPcs({ pcsToImport, idsImportIdField, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs })
   },
 
   onClickDeletePc () {
