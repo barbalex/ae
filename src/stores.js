@@ -72,7 +72,6 @@ export default (Actions) => {
       // set back deleting progress to close progressbar and deletion examples
       const deletingPcInstancesProgress = null
       const deletingPcProgress = null
-      let idsImported = []
       // alert say "Daten werden vorbereitet..."
       this.trigger({ importingProgress, deletingPcInstancesProgress, deletingPcProgress })
 
@@ -113,41 +112,44 @@ export default (Actions) => {
             })
             .then(() => {
               importingProgress = Math.round((index + 1) / pcsToImport.length * 100)
-              this.trigger({ importingProgress })
-              idsImported.push(pcToImport._id)
+              let state = { importingProgress }
+              if (importingProgress === 100) {
+                // reset pcsRemoved to show button to remove again
+                const pcsRemoved = false
+                state = Object.assign(state, { pcsRemoved })
+                /**
+                 * update nameBestehend
+                 * goal is to update the list of pcs and therewith the dropdown lists in nameBestehend and ursprungsEs
+                 * we could do it by querying the db again with app.Actions.queryPropertyCollections()
+                 * but this is 1. very slow so happens too late and 2. uses lots of ressources
+                 * so we build a new pc
+                 * and add it to the propertyCollectionsStore
+                 * propertyCollectionsStore triggers new pcs and lists get refreshed
+                 */
+                const pc = {
+                  name: name,
+                  combining: zusammenfassend,
+                  importedBy: importiertVon,
+                  fields: {
+                    Beschreibung: beschreibung,
+                    Datenstand: datenstand,
+                    Nutzungsbedingungen: nutzungsbedingungen,
+                    Link: link,
+                    'importiert von': importiertVon
+                  },
+                  count: 0
+                }
+                app.propertyCollectionsStore.savePc(pc)
+              }
+              this.trigger(state)
             })
             .catch((error) => app.Actions.showError({title: 'Fehler beim Importieren:', msg: error}))
         }
       })
-      // reset pcsRemoved to show button to remove again
-      const pcsRemoved = false
-      this.trigger({ pcsRemoved })
-      /**
-       * update nameBestehend
-       * goal is to update the list of pcs and therewith the dropdown lists in nameBestehend and ursprungsEs
-       * we could do it by querying the db again with app.Actions.queryPropertyCollections()
-       * but this is 1. very slow so happens too late and 2. uses lots of ressources
-       * so we build a new pc
-       * and add it to the propertyCollectionsStore
-       * propertyCollectionsStore triggers new pcs and lists get refreshed
-       */
-      const pc = {
-        name: name,
-        combining: zusammenfassend,
-        importedBy: importiertVon,
-        fields: {
-          Beschreibung: beschreibung,
-          Datenstand: datenstand,
-          Nutzungsbedingungen: nutzungsbedingungen,
-          Link: link,
-          'importiert von': importiertVon
-        },
-        count: 0
-      }
-      app.propertyCollectionsStore.savePc(pc)
     },
 
     onDeletePcByName (name) {
+      console.log('objectsPcsStore, onDeletePcByName, name', name)
       /**
        * gets name of pc
        * removes pc's with this name from all objects
@@ -180,6 +182,8 @@ export default (Actions) => {
     },
 
     onRemovePcInstances (name, idsOfAeObjects) {
+      console.log('objectsPcsStore, onRemovePcInstances, name', name)
+      console.log('objectsPcsStore, onRemovePcInstances, idsOfAeObjects', idsOfAeObjects)
       idsOfAeObjects.forEach((guid, index) => {
         app.objectStore.getItem(guid)
           .then((doc) => {
