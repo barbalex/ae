@@ -154,13 +154,10 @@ export default React.createClass({
   },
 
   onChangeNameBestehend (nameBestehend) {
-    console.log('nameBestehend', nameBestehend)
     const editingPcIsAllowed = this.isEditingPcAllowed(nameBestehend)
-    console.log('editingPcIsAllowed', editingPcIsAllowed)
     if (nameBestehend) {
       app.propertyCollectionsStore.getPcByName(nameBestehend)
         .then((pc) => {
-          console.log('pc', pc)
           // only go on if pc exists (prevent error)
           if (pc) {
             const beschreibung = pc.fields.Beschreibung
@@ -172,7 +169,6 @@ export default React.createClass({
             let state = { beschreibung, datenstand, nutzungsbedingungen, link, zusammenfassend }
             state = Object.assign(state, this.stateFollowingPanel1Reset())
             if (editingPcIsAllowed) state = Object.assign(state, { nameBestehend, name })
-            console.log('state', state)
             this.setState(state)
           }
         })
@@ -553,16 +549,12 @@ export default React.createClass({
     if (!esBearbeitenErlaubt) {
       this.setState({ esBearbeitenErlaubt: false })
       // delete text after a second
-      setTimeout(() => {
-        this.setState({
+      setTimeout(() => this.setState({
           nameBestehend: null,
           name: null
-        })
-      }, 1000)
+        }), 1000)
       // close alert after 8 seconds
-      setTimeout(() => {
-        this.setState({ esBearbeitenErlaubt: true })
-      }, 8000)
+      setTimeout(() => this.setState({ esBearbeitenErlaubt: true }), 8000)
     }
     return esBearbeitenErlaubt
   },

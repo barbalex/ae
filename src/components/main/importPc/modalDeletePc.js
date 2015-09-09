@@ -34,9 +34,7 @@ export default React.createClass({
 
   onClickDelete () {
     const { nameBestehend, resetUiAfterDeleting } = this.props
-    this.setState({ showAlertIndex: true }, () => {
-      app.Actions.deletePcByName(nameBestehend, resetUiAfterDeleting)
-    })
+    this.setState({ showAlertIndex: true }, () => app.Actions.deletePcByName(nameBestehend, resetUiAfterDeleting))
   },
 
   schliessen () {
