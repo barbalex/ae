@@ -149,7 +149,6 @@ export default (Actions) => {
     },
 
     onDeletePcByName (name) {
-      console.log('objectsPcsStore, onDeletePcByName, name', name)
       /**
        * gets name of pc
        * removes pc's with this name from all objects
@@ -182,8 +181,6 @@ export default (Actions) => {
     },
 
     onDeletePcInstances (name, idsOfAeObjects) {
-      console.log('objectsPcsStore, onDeletePcInstances, name', name)
-      console.log('objectsPcsStore, onDeletePcInstances, idsOfAeObjects', idsOfAeObjects)
       idsOfAeObjects.forEach((guid, index) => {
         app.objectStore.getItem(guid)
           .then((doc) => {

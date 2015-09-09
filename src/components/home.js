@@ -10,7 +10,7 @@ import Gruppen from './menu/gruppen.js'
 import Filter from './menu/filter.js'
 import FaviconImage from '../../img/aster_144.png'
 import Favicon from 'react-favicon'
-import Email from './email.js'
+import Symbols from './symbols.js'
 import Main from './main/main.js'
 import Tree from './menu/tree/tree.js'
 import getGruppen from '../modules/gruppen.js'
@@ -41,7 +41,8 @@ export default React.createClass({
     showImportRC: React.PropTypes.bool,
     showOrganizations: React.PropTypes.bool,
     logIn: React.PropTypes.bool,
-    email: React.PropTypes.string
+    email: React.PropTypes.string,
+    replicatingToAe: React.PropTypes.bool
   },
 
   getInitialState () {
@@ -70,7 +71,8 @@ export default React.createClass({
       showImportRC: showImportRC,
       showOrganizations: showOrganizations,
       logIn: false,
-      email: email
+      email: email,
+      replicatingToAe: false
     }
   },
 
@@ -152,7 +154,7 @@ export default React.createClass({
   },
 
   render () {
-    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, showImportPC, showImportRC, showOrganizations, logIn, email, groupsLoadedOrLoading } = this.state
+    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, showImportPC, showImportRC, showOrganizations, logIn, email, groupsLoadedOrLoading, replicatingToAe } = this.state
     const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
     const showGruppen = groupsNotLoaded.length > 0
     const showFilter = filterOptions.length > 0 || loadingFilterOptions
@@ -191,7 +193,7 @@ export default React.createClass({
             : null
           }
         </div>
-        <Email email={email} />
+        <Symbols email={email} replicatingToAe={replicatingToAe} />
         {showMain ?
           <Main
             object={object}
