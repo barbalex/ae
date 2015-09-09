@@ -31,7 +31,8 @@ export default () => {
     importPcs: {},
     deletePcInstances: {},
     showError: {},
-    replicateToAe: {}
+    replicateToAe: {},
+    replicateFromAe: {}
   })
 
   Actions.loadPouchFromRemote.listen(() => {

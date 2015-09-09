@@ -18,11 +18,11 @@ export default React.createClass({
     let tooltipText = 'repliziere zu arteigenschaften.ch seit ' + replicatingToAeTime
     if (replicatingToAe === 'success') {
       style.color = '#00AA00'
-      tooltipText = 'zuletzt repliziert: ' + replicatingToAeTime
+      tooltipText = 'zuletzt zu arteigenschaften.ch repliziert: ' + replicatingToAeTime
     }
     if (replicatingToAe === 'error') {
       style.color = 'red'
-      tooltipText = 'Replikation gescheitert um:' + replicatingToAeTime
+      tooltipText = 'Replikation zu arteigenschaften.ch gescheitert um:' + replicatingToAeTime
     }
 
     const tooltip = <Tooltip id='replicatingToAeTooltip' bsStyle='info'>{tooltipText}</Tooltip>

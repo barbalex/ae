@@ -73,6 +73,10 @@ export default React.createClass({
     app.Actions.loadPouchFromRemote()
   },
 
+  loadPouchFromRemote () {
+    app.Actions.loadPouchFromRemote()
+  },
+
   openAdminPage () {
     console.log('openAdminPage was clicked')
   // TODO
@@ -106,6 +110,7 @@ export default React.createClass({
           <DropdownButton title='Mehr...' bsSize='small' onSelect={this.onSelectDropdowButton()}>
             <MenuItem onClick={this.openOrganisationen}>Organisationen und Benutzer</MenuItem>
             <MenuItem divider/>
+            <MenuItem onClick={this.loadPouchFromRemote}>Alle (fehlenden) Gruppen laden</MenuItem>
             <MenuItem onClick={this.replicateFromAe}>Daten <strong>von</strong> arteigenschaften.ch replizieren</MenuItem>
             <MenuItem onClick={this.replicateToAe}>Daten <strong>nach</strong> arteigenschaften.ch replizieren</MenuItem>
             <MenuItem divider/>

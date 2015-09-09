@@ -44,7 +44,9 @@ export default React.createClass({
     logIn: React.PropTypes.bool,
     email: React.PropTypes.string,
     replicatingToAe: React.PropTypes.string,
-    replicatingToAeTime: React.PropTypes.string
+    replicatingToAeTime: React.PropTypes.string,
+    replicatingFromAe: React.PropTypes.string,
+    replicatingFromAeTime: React.PropTypes.string
   },
 
   getInitialState () {
@@ -75,7 +77,9 @@ export default React.createClass({
       logIn: false,
       email: email,
       replicatingToAe: null,
-      replicatingToAeTime: null
+      replicatingToAeTime: null,
+      replicatingFromAe: null,
+      replicatingFromAeTime: null
     }
   },
 
@@ -88,6 +92,13 @@ export default React.createClass({
     this.listenTo(app.filterOptionsStore, this.onFilterOptionsStoreChange)
     this.listenTo(app.loadingGroupsStore, this.onLoadingGroupsStoreChange)
     this.listenTo(app.replicateToAeStore, this.onReplicateToAeStoreChange)
+    this.listenTo(app.replicateFromAeStore, this.onReplicateFromAeStoreChange)
+  },
+
+  onReplicateFromAeStoreChange (replicatingFromAe) {
+    console.log('home.js, onReplicateFromAeStoreChange, replicatingFromAe', replicatingFromAe)
+    const replicatingFromAeTime = moment().format('HH:mm')
+    this.setState({ replicatingFromAe, replicatingFromAeTime })
   },
 
   onReplicateToAeStoreChange (replicatingToAe) {
@@ -164,7 +175,7 @@ export default React.createClass({
   },
 
   render () {
-    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, showImportPC, showImportRC, showOrganizations, logIn, email, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime } = this.state
+    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, showImportPC, showImportRC, showOrganizations, logIn, email, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime } = this.state
     const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
     const showGruppen = groupsNotLoaded.length > 0
     const showFilter = filterOptions.length > 0 || loadingFilterOptions
@@ -203,7 +214,7 @@ export default React.createClass({
             : null
           }
         </div>
-        <Symbols email={email} replicatingToAe={replicatingToAe} replicatingToAeTime={replicatingToAeTime} />
+        <Symbols email={email} replicatingToAe={replicatingToAe} replicatingToAeTime={replicatingToAeTime} replicatingFromAe={replicatingFromAe} replicatingFromAeTime={replicatingFromAeTime} />
         {showMain ?
           <Main
             object={object}

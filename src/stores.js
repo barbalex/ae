@@ -20,6 +20,22 @@ import convertValue from './modules/convertValue.js'
 import sortObjectArrayByName from './modules/sortObjectArrayByName.js'
 
 export default (Actions) => {
+  app.replicateFromAeStore = Reflux.createStore({
+
+    listenables: Actions,
+
+    onReplicateFromAe () {
+      this.trigger('replicating')
+      const options = {
+        filter: (doc) => doc.Gruppe,
+        batch_size: 500
+      }
+      app.localDb.replicate.from(app.remoteDb, options)
+        .then((result) => this.trigger('success'))
+        .catch((error) => this.trigger('error'))
+    }
+  })
+
   app.replicateToAeStore = Reflux.createStore({
 
     listenables: Actions,
@@ -591,15 +607,6 @@ export default (Actions) => {
 
     getHierarchy () {
       return getHierarchyFromLocalHierarchyDb()
-    },
-
-    onLoadPouchFromRemoteCompleted () {
-      this.getHierarchy()
-        // trigger change so components can set loading state
-        .then((hierarchy) => this.trigger(hierarchy))
-        .catch((error) =>
-          app.Actions.showError({title: 'objectStore, onLoadObjectStore, error getting data:', msg: error})
-        )
     },
 
     onLoadPouchFromLocalCompleted (groupsLoadedInPouch) {
