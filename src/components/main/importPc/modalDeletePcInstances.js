@@ -22,6 +22,7 @@ export default React.createClass({
 
   onClickRemove () {
     const { onClickRemovePcInstances } = this.props
+    console.log('modalDeletePcInstances.js: removing, onClickRemovePcInstances', onClickRemovePcInstances)
     onClickRemovePcInstances()
   },
 

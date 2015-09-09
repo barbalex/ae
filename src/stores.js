@@ -181,9 +181,9 @@ export default (Actions) => {
         .catch((error) => app.Actions.showError({title: 'Fehler beim Versuch, die Eigenschaften zu löschen:', msg: error}))
     },
 
-    onRemovePcInstances (name, idsOfAeObjects) {
-      console.log('objectsPcsStore, onRemovePcInstances, name', name)
-      console.log('objectsPcsStore, onRemovePcInstances, idsOfAeObjects', idsOfAeObjects)
+    onDeletePcInstances (name, idsOfAeObjects) {
+      console.log('objectsPcsStore, onDeletePcInstances, name', name)
+      console.log('objectsPcsStore, onDeletePcInstances, idsOfAeObjects', idsOfAeObjects)
       idsOfAeObjects.forEach((guid, index) => {
         app.objectStore.getItem(guid)
           .then((doc) => {

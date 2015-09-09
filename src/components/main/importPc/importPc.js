@@ -373,7 +373,10 @@ export default React.createClass({
   },
 
   onClickRemovePcInstances () {
+    console.log('importPc.js, onClickRemovePcInstances')
     const { name, idsOfAeObjects } = this.state
+    console.log('importPc.js, onClickRemovePcInstances, name', name)
+    console.log('importPc.js, onClickRemovePcInstances, idsOfAeObjects', idsOfAeObjects)
     // first remove progressbar and alert from last import
     let importingProgress = null
     let pcsRemoved = false
@@ -547,7 +550,7 @@ export default React.createClass({
             <ButtonDeletePc nameBestehend={nameBestehend} enableDeletePcButton={enableDeletePcButton} deletingPcProgress={deletingPcProgress} onClickDeletePc={this.onClickDeletePc} />
             {showAlertDeletePcBuildingIndex ? <AlertDeletePcBuildingIndex /> : null}
             {deletingPcProgress !== null ? <ProgressbarDeletePc progress={deletingPcProgress} /> : null}
-            {deletingPcProgress === 100 ? <AlertFirst5Deleted idsOfAeObjects={idsOfAeObjects} nameBestehend={nameBestehend} /> : null}
+            {deletingPcProgress === 100 ? <div className='feld'><AlertFirst5Deleted idsOfAeObjects={idsOfAeObjects} nameBestehend={nameBestehend} /></div> : null}
 
             <hr />
 

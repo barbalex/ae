@@ -43,7 +43,7 @@ export default React.createClass({
     })
 
     return (
-      <Alert bsStyle='info' className='feld' style={alertStyle}>
+      <Alert bsStyle='info' style={alertStyle}>
         <p>Aus {idsOfAeObjects.length} Datensätzen wurde die Eigenschaftensammlung "{nameBestehend}" entfernt.<br/>
           Beispiele zur Kontrolle:
         </p>
