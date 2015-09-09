@@ -11,7 +11,7 @@ export default React.createClass({
     show: React.PropTypes.bool,
     name: React.PropTypes.string,
     pcsRemoved: React.PropTypes.bool,
-    deletingProgress: React.PropTypes.number,
+    deletingPcInstancesProgress: React.PropTypes.number,
     onClickRemovePcInstances: React.PropTypes.func
   },
 
@@ -40,9 +40,9 @@ export default React.createClass({
   },
 
   render () {
-    const { name, pcsRemoved, deletingProgress } = this.props
+    const { name, pcsRemoved, deletingPcInstancesProgress } = this.props
     const { show } = this.state
-    const showConfirmModal = show && !deletingProgress
+    const showConfirmModal = show && !deletingPcInstancesProgress
     const divStyle = {
       display: 'inline-block'
     }

@@ -68,7 +68,8 @@ export default React.createClass({
     idsNotImportable: React.PropTypes.array,
     idsNotANumber: React.PropTypes.array,
     importingProgress: React.PropTypes.number,
-    deletingProgress: React.PropTypes.number,
+    deletingPcInstancesProgress: React.PropTypes.number,
+    deletingPcProgress: React.PropTypes.number,
     esBearbeitenErlaubt: React.PropTypes.bool,
     panel1Done: React.PropTypes.bool,
     panel2Done: React.PropTypes.bool,
@@ -113,7 +114,8 @@ export default React.createClass({
       idsNotImportable: [],
       idsNotANumber: [],
       importingProgress: null,
-      deletingProgress: null,
+      deletingPcInstancesProgress: null,
+      deletingPcProgress: null,
       panel1Done: false,
       panel2Done: false,
       panel3Done: false,
@@ -191,7 +193,8 @@ export default React.createClass({
       idsNotImportable: [],
       idsNotANumber: [],
       importingProgress: null,
-      deletingProgress: null,
+      deletingPcInstancesProgress: null,
+      deletingPcProgress: null,
       panel2Done: false,
       panel3Done: false
     }
@@ -221,23 +224,6 @@ export default React.createClass({
       count: 0
     }
     app.propertyCollectionsStore.savePc(pc)
-  },
-
-  resetUiAfterDeleting () {
-    /**
-     * this is passed as a callback to ButtonDeletePc.js > ModalDeletePc.js
-     * objects are deleted in ModalDeletePc.js
-     *
-     * goal is to update the list of pcs and therewith the dropdown lists in nameBestehend and ursprungsEs
-     * we could do it by querying the db again with app.Actions.queryPropertyCollections()
-     * but this is 1. very slow so happens too late and 2. uses lots of ressources
-     * so we manually remove the new pc from pcs
-     * and then update pcs in state and store (this is done when propertyCollectionsStore triggers new pcs)
-     */
-    // let { nameBestehend } = this.state
-    // app.propertyCollectionsStore.removePcByName(nameBestehend)
-    const nameBestehend = null
-    this.setState({ nameBestehend })
   },
 
   onChangeName (name) {
@@ -310,7 +296,8 @@ export default React.createClass({
       idsNotImportable: [],
       idsNotANumber: [],
       importingProgress: null,
-      deletingProgress: null,
+      deletingPcInstancesProgress: null,
+      deletingPcProgress: null,
       panel3Done: false
     }
   },
@@ -393,7 +380,8 @@ export default React.createClass({
   stateFollowingPanel3Reset () {
     return {
       importingProgress: null,
-      deletingProgress: null
+      deletingPcInstancesProgress: null,
+      deletingPcProgress: null
     }
   },
 
@@ -402,10 +390,11 @@ export default React.createClass({
 
     let importingProgress = 0
     // set back deleting progress to close progressbar and deletion examples
-    let deletingProgress = null
+    const deletingPcInstancesProgress = null
+    const deletingPcProgress = null
     let idsImported = []
     // alert say "Daten werden vorbereitet..."
-    this.setState({ importingProgress, deletingProgress }, () => {
+    this.setState({ importingProgress, deletingPcInstancesProgress, deletingPcProgress }, () => {
       // loop pcsToImport
       pcsToImport.forEach((pcToImport, index) => {
         // get the object to add it to
@@ -454,6 +443,14 @@ export default React.createClass({
       // update nameBestehend
       this.addNewNameBestehend()
     })
+  },
+
+  onClickDeletePc () {
+    const { name, idsOfAeObjects } = this.state
+    // first remove progressbar and alert from last import
+    let importingProgress = null
+    let pcsRemoved = false
+    this.setState({ importingProgress, pcsRemoved }, () => app.Actions.deletePcByName(name, idsOfAeObjects))
   },
 
   onClickRemovePcInstances () {
@@ -608,7 +605,7 @@ export default React.createClass({
   },
 
   render () {
-    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, pcsToImport, pcsRemoved, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs, validPcsToImport, activePanel, idsAeIdField, idsImportIdField, pcs, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, panel3Done, importingProgress, deletingProgress } = this.state
+    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, pcsToImport, pcsRemoved, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs, validPcsToImport, activePanel, idsAeIdField, idsImportIdField, pcs, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, panel3Done, importingProgress, deletingPcInstancesProgress, deletingPcProgress } = this.state
     const { groupsLoadedOrLoading, email, allGroupsLoaded, groupsLoadingObjects } = this.props
     const showLoadAllGroups = email && !allGroupsLoaded
     const alertAllGroupsBsStyle = ultimatelyAlertLoadAllGroups ? 'danger' : 'info'
@@ -627,7 +624,9 @@ export default React.createClass({
             <WellAutorenrechte />
 
             <InputNameBestehend nameBestehend={nameBestehend} beschreibung={beschreibung} datenstand={datenstand} nutzungsbedingungen={nutzungsbedingungen} link={link} zusammenfassend={zusammenfassend} email={email} pcs={pcs} groupsLoadedOrLoading={groupsLoadedOrLoading} onChangeNameBestehend={this.onChangeNameBestehend} />
-            <ButtonDeletePc nameBestehend={nameBestehend} enableDeletePcButton={enableDeletePcButton} resetUiAfterDeleting={this.resetUiAfterDeleting} />
+            <ButtonDeletePc nameBestehend={nameBestehend} enableDeletePcButton={enableDeletePcButton} deletingPcProgress={deletingPcProgress} onClickDeletePc={this.onClickDeletePc} />
+            {deletingPcProgress !== null ? <ProgressBar bsStyle='success' now={deletingPcInstancesProgress} label={`${deletingPcInstancesProgress}% gelöscht`} /> : null}
+            {deletingPcProgress === 100 ? <AlertFirst5Deleted idsOfAeObjects={idsOfAeObjects} nameBestehend={nameBestehend} /> : null}
 
             <hr />
 
@@ -661,11 +660,11 @@ export default React.createClass({
 
           <Panel collapsible header='4. Import ausführen' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>
             {panel3Done ? <Button className='btn-primary' onClick={this.onClickImportieren}><Glyphicon glyph='download-alt'/> Eigenschaftensammlung "{name}" importieren</Button> : null }
-            {showDeletePcInstancesButton ? <ButtonDeletePcInstances name={name} pcsRemoved={pcsRemoved} deletingProgress={deletingProgress} onClickRemovePcInstances={this.onClickRemovePcInstances} /> : null}
+            {showDeletePcInstancesButton ? <ButtonDeletePcInstances name={name} pcsRemoved={pcsRemoved} deletingPcInstancesProgress={deletingPcInstancesProgress} onClickRemovePcInstances={this.onClickRemovePcInstances} /> : null}
             {showProgressbarImport ? <ProgressbarImport importingProgress={importingProgress} /> : null}
             {showAlertFirst5Imported ? <AlertFirst5Imported idsOfAeObjects={idsOfAeObjects} idsNotImportable={idsNotImportable} /> : null}
-            {deletingProgress !== null ? <ProgressBar bsStyle='success' now={deletingProgress} label={`${deletingProgress}% entfernt`} /> : null}
-            {deletingProgress === 100 ? <AlertFirst5Deleted idsOfAeObjects={idsOfAeObjects} nameBestehend={name} /> : null}
+            {deletingPcInstancesProgress !== null ? <ProgressBar bsStyle='success' now={deletingPcInstancesProgress} label={`${deletingPcInstancesProgress}% entfernt`} /> : null}
+            {deletingPcInstancesProgress === 100 ? <AlertFirst5Deleted idsOfAeObjects={idsOfAeObjects} nameBestehend={name} /> : null}
           </Panel>
 
         </Accordion>

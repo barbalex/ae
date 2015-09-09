@@ -68,14 +68,14 @@ export default (Actions) => {
        * gets name of pc
        * removes pc's with this name from all objects
        * is listened to by importPc.js
-       * returns: idsOfAeObjects, deletingProgress, showAlertIndex
+       * returns: idsOfAeObjects, deletingPcInstancesProgress, showAlertIndex
        * if a callback is passed, it is executed at the end
        */
       let idsOfAeObjects = []
-      let deletingProgress = null
+      let deletingPcInstancesProgress = null
       let showAlertIndex = false
       let nameBestehend = name
-      this.trigger({ idsOfAeObjects, deletingProgress, showAlertIndex, nameBestehend })
+      this.trigger({ idsOfAeObjects, deletingPcInstancesProgress, showAlertIndex, nameBestehend })
       objectsIdsByPcsName(name)
         .then((ids) => {
           idsOfAeObjects = ids
@@ -86,12 +86,12 @@ export default (Actions) => {
                 return app.localDb.put(doc)
               })
               .then(() => {
-                deletingProgress = Math.round((index + 1) / ids.length * 100)
-                if (deletingProgress === 100) {
+                deletingPcInstancesProgress = Math.round((index + 1) / ids.length * 100)
+                if (deletingPcInstancesProgress === 100) {
                   showAlertIndex = true
                   nameBestehend = null
                 }
-                this.trigger({ idsOfAeObjects, deletingProgress, showAlertIndex, nameBestehend })
+                this.trigger({ idsOfAeObjects, deletingPcInstancesProgress, showAlertIndex, nameBestehend })
               })
               .catch((error) => app.Actions.showError({title: `Fehler: Das Objekt mit der ID ${id} wurde nicht aktualisiert:`, msg: error}))
           })
@@ -99,15 +99,15 @@ export default (Actions) => {
         .catch((error) => app.Actions.showError({title: 'Fehler beim Versuch, die Eigenschaften zu löschen:', msg: error}))
     },
 
-    onDeletePcByName (name, callback) {
-      this.deletePcByPcName(name, callback)
+    onDeletePcByName (name) {
+      this.deletePcByPcName(name)
     },
 
     onRemovePcInstances (name, idsOfAeObjects) {
       /*// trigger first time to remove progressbar and alert from last import
-      let deletingProgress = 0
+      let deletingPcInstancesProgress = 0
       let pcsRemoved = false
-      this.trigger({ deletingProgress, pcsRemoved })*/
+      this.trigger({ deletingPcInstancesProgress, pcsRemoved })*/
       idsOfAeObjects.forEach((guid, index) => {
         app.objectStore.getItem(guid)
           .then((doc) => {
@@ -115,10 +115,10 @@ export default (Actions) => {
             return app.localDb.put(doc)
           })
           .then(() => {
-            const deletingProgress = Math.round((index + 1) / idsOfAeObjects.length * 100)
+            const deletingPcInstancesProgress = Math.round((index + 1) / idsOfAeObjects.length * 100)
             let pcsRemoved = false
-            if (deletingProgress === 100) pcsRemoved = true
-            this.trigger({ deletingProgress, pcsRemoved })
+            if (deletingPcInstancesProgress === 100) pcsRemoved = true
+            this.trigger({ deletingPcInstancesProgress, pcsRemoved })
           })
           .catch((error) => app.Actions.showError({title: `Fehler: Das Objekt mit der GUID ${guid} wurde nicht aktualisiert:`, msg: error}))
       })

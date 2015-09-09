@@ -8,33 +8,45 @@ export default React.createClass({
   displayName: 'ButtonDeletePc',
 
   propTypes: {
-    showConfirmModal: React.PropTypes.bool,
+    show: React.PropTypes.bool,
     nameBestehend: React.PropTypes.string,
-    resetUiAfterDeleting: React.PropTypes.func,
-    enableDeletePcButton: React.PropTypes.bool
+    onClickDeletePc: React.PropTypes.func,
+    enableDeletePcButton: React.PropTypes.bool,
+    deletingPcProgress: React.PropTypes.number
   },
 
   getInitialState () {
     return {
-      showConfirmModal: false
+      show: false
     }
   },
 
   closeModal () {
-    this.setState({ showConfirmModal: false })
+    this.setState({ show: false })
   },
 
   onClickDeletePc () {
-    this.setState({ showConfirmModal: true })
+    this.setState({ show: true })
+  },
+
+  onClickDelete () {
+    /**
+     * need this extra callback because the modal has to have state 'show: false'
+     * otherwise when after deleting is reimported, the modal opens
+     */
+    const { onClickDeletePc } = this.props
+    this.setState({ show: false })
+    onClickDeletePc()
   },
 
   render () {
-    const { resetUiAfterDeleting, nameBestehend, enableDeletePcButton } = this.props
-    const { showConfirmModal } = this.state
+    const { nameBestehend, enableDeletePcButton, deletingPcProgress } = this.props
+    const { show } = this.state
+    const showConfirmModal = show && !deletingPcProgress
     return (
       <div>
-        <Button bsStyle='danger' className='feld' onClick={this.onClickDeletePc} disabled={!enableDeletePcButton}><Glyphicon glyph='trash'/> Diese Eigenschaftensammlung aus allen Arten/Lebensräumen entfernen</Button>
-        {showConfirmModal ? <ModalDeletePc nameBestehend={nameBestehend} resetUiAfterDeleting={resetUiAfterDeleting} closeModal={this.closeModal} /> : null}
+        {nameBestehend ? <Button bsStyle='danger' className='feld' onClick={this.onClickDeletePc} disabled={!enableDeletePcButton}><Glyphicon glyph='trash'/> Eigenschaftensammlung "{nameBestehend}" aus allen Arten/Lebensräumen entfernen</Button> : null}
+        {showConfirmModal ? <ModalDeletePc nameBestehend={nameBestehend} onClickDeletePc={this.onClickDelete} closeModal={this.closeModal} /> : null}
       </div>
     )
   }

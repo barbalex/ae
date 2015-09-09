@@ -16,10 +16,9 @@ export default React.createClass({
   propTypes: {
     showAlertIndex: React.PropTypes.bool,
     nameBestehend: React.PropTypes.string,
-    resetUiAfterDeleting: React.PropTypes.func,
+    onClickDeletePc: React.PropTypes.func,
     closeModal: React.PropTypes.func,
-    deletingProgress: React.PropTypes.number,
-    idsOfAeObjects: React.PropTypes.array
+    deletingPcProgress: React.PropTypes.number
   },
 
   getInitialState () {
@@ -33,8 +32,8 @@ export default React.createClass({
   },
 
   onClickDelete () {
-    const { nameBestehend, resetUiAfterDeleting } = this.props
-    this.setState({ showAlertIndex: true }, () => app.Actions.deletePcByName(nameBestehend, resetUiAfterDeleting))
+    const { onClickDeletePc } = this.props
+    this.setState({ showAlertIndex: true }, () => onClickDeletePc())
   },
 
   schliessen () {
@@ -43,9 +42,9 @@ export default React.createClass({
   },
 
   render () {
-    const { showAlertIndex, deletingProgress, idsOfAeObjects } = this.state
+    const { showAlertIndex, deletingPcProgress } = this.state
     const { nameBestehend } = this.props
-    const showWollenSie = deletingProgress === null && !showAlertIndex
+    const showWollenSie = deletingPcProgress === null && !showAlertIndex
 
     return (
       <div className='static-modal'>
@@ -56,11 +55,9 @@ export default React.createClass({
           <Modal.Body>
             {showWollenSie ? <p>Sie möchten die Eigenschaftensammlung "{nameBestehend}" und alle ihre Eigenschaften endgültig aus allen Arten und/oder Lebensräumen entfernen?</p> : null}
             {showAlertIndex ? <p>Hole Arten/Lebensräume, um die Eigenschaftensammlung daraus zu löschen.<br/>Beim ersten Mal muss der Index aufgebaut werden. Das dauert einige Minuten...</p> : null}
-            {deletingProgress !== null ? <ProgressBar bsStyle='success' now={deletingProgress} label={`${deletingProgress}% gelöscht`} /> : null}
-            {deletingProgress === 100 ? <AlertFirst5Deleted idsOfAeObjects={idsOfAeObjects} nameBestehend={nameBestehend} /> : null}
           </Modal.Body>
           <Modal.Footer>
-            {deletingProgress === null ? <Button className='btn-primary' onClick={this.onClickDelete}>ja, löschen!</Button> : null}
+            {deletingPcProgress === null ? <Button className='btn-primary' onClick={this.onClickDelete}>ja, löschen!</Button> : null}
             <Button onClick={this.schliessen}>schliessen</Button>
           </Modal.Footer>
         </Modal.Dialog>
