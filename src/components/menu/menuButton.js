@@ -70,7 +70,7 @@ export default React.createClass({
   },
 
   replicateFromAe () {
-    app.Actions.loadPouchFromRemote()
+    app.Actions.replicateFromAe()
   },
 
   loadPouchFromRemote () {
@@ -110,9 +110,10 @@ export default React.createClass({
           <DropdownButton title='Mehr...' bsSize='small' onSelect={this.onSelectDropdowButton()}>
             <MenuItem onClick={this.openOrganisationen}>Organisationen und Benutzer</MenuItem>
             <MenuItem divider/>
+            <li role='presentation' className='dropdown-header'>Daten:</li>
             <MenuItem onClick={this.loadPouchFromRemote}>Alle (fehlenden) Gruppen laden</MenuItem>
-            <MenuItem onClick={this.replicateFromAe}>Daten <strong>von</strong> arteigenschaften.ch replizieren</MenuItem>
-            <MenuItem onClick={this.replicateToAe}>Daten <strong>nach</strong> arteigenschaften.ch replizieren</MenuItem>
+            <MenuItem onClick={this.replicateFromAe}><strong>Von</strong> arteigenschaften.ch replizieren</MenuItem>
+            <MenuItem onClick={this.replicateToAe}><strong>Nach</strong> arteigenschaften.ch replizieren</MenuItem>
             <MenuItem divider/>
             <MenuItem onClick={this.openAdminPage} disabled={true}>Administration</MenuItem>
             <MenuItem divider/>

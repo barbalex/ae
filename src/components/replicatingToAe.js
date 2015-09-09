@@ -15,21 +15,21 @@ export default React.createClass({
     const { replicatingToAe, replicatingToAeTime } = this.props
 
     let style = {}
-    let tooltipText = 'repliziere zu arteigenschaften.ch seit ' + replicatingToAeTime
+    let tooltipText = 'repliziere nach arteigenschaften.ch seit ' + replicatingToAeTime
     if (replicatingToAe === 'success') {
       style.color = '#00AA00'
-      tooltipText = 'zuletzt zu arteigenschaften.ch repliziert: ' + replicatingToAeTime
+      tooltipText = 'zuletzt nach arteigenschaften.ch repliziert: ' + replicatingToAeTime
     }
     if (replicatingToAe === 'error') {
       style.color = 'red'
-      tooltipText = 'Replikation zu arteigenschaften.ch gescheitert um:' + replicatingToAeTime
+      tooltipText = 'Replikation nach arteigenschaften.ch gescheitert um:' + replicatingToAeTime
     }
 
     const tooltip = <Tooltip id='replicatingToAeTooltip' bsStyle='info'>{tooltipText}</Tooltip>
 
     return (
       <OverlayTrigger placement='left' overlay={tooltip}>
-        <Glyphicon id='replicateToAe' glyph='cloud-upload' style={style}/>
+        <Glyphicon id='replicateToAe' className='symbols symbol' glyph='cloud-upload' style={style}/>
       </OverlayTrigger>
     )
   }

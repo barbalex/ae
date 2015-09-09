@@ -96,13 +96,11 @@ export default React.createClass({
   },
 
   onReplicateFromAeStoreChange (replicatingFromAe) {
-    console.log('home.js, onReplicateFromAeStoreChange, replicatingFromAe', replicatingFromAe)
     const replicatingFromAeTime = moment().format('HH:mm')
     this.setState({ replicatingFromAe, replicatingFromAeTime })
   },
 
   onReplicateToAeStoreChange (replicatingToAe) {
-    console.log('home.js, onReplicateToAeStoreChange, replicatingToAe', replicatingToAe)
     const replicatingToAeTime = moment().format('HH:mm')
     this.setState({ replicatingToAe, replicatingToAeTime })
   },

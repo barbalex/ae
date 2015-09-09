@@ -25,10 +25,10 @@ export default React.createClass({
           overlay={
             <Popover arrowOffsetTop='10' onClick={this.onClickAbmelden}><p>abmelden</p></Popover>
           }>
-          <div id='email'>{email}</div>
+          <div id='email' className='symbols link'>{email}</div>
         </OverlayTrigger>
       )
     }
-    return <div id='email'>nicht angemeldet</div>
+    return <div id='email' className='symbols'>nicht angemeldet</div>
   }
 })
