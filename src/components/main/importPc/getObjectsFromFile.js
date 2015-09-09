@@ -1,7 +1,6 @@
 'use strict'
 
 import _ from 'lodash'
-import xlsx from 'xlsx'
 import d3 from 'd3'
 
 export default (file) => {
@@ -28,10 +27,10 @@ export default (file) => {
     if (fileType === 'xlsx') {
       reader.onload = (onloadEvent) => {
         const data = onloadEvent.target.result
-        const workbook = xlsx.read(data, {type: 'binary'})
+        const workbook = window.XLSX.read(data, {type: 'binary'})
         const sheetName = workbook.SheetNames[0]
         const worksheet = workbook.Sheets[sheetName]
-        const pcsToImport = xlsx.utils.sheet_to_json(worksheet)
+        const pcsToImport = window.XLSX.utils.sheet_to_json(worksheet)
         resolve(pcsToImport)
       }
       reader.onerror = (error) => reject('error reading file: ' + error)

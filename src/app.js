@@ -12,6 +12,8 @@ import actions from './actions.js'
 import stores from './stores'
 import pouchUrl from './modules/getCouchUrl.js'
 import getGroupsLoadedFromLocalGroupsDb from './modules/getGroupsLoadedFromLocalGroupsDb.js'
+// this lib can not be imported directly - need to load it as a global using https://github.com/webpack/script-loader
+import 'script!../node_modules/xlsx/dist/xlsx.core.min.js'
 
 // set up pouchdb plugins
 PouchDB.plugin(pouchdbUpsert)
