@@ -461,7 +461,7 @@ export default React.createClass({
     // first remove progressbar and alert from last import
     let importingProgress = null
     let pcsRemoved = false
-    this.setState({ importingProgress, pcsRemoved }, () => app.Actions.removePcInstances(name, idsOfAeObjects))
+    this.setState({ importingProgress, pcsRemoved }, () => app.Actions.deletePcInstances(name, idsOfAeObjects))
   },
 
   onClickPanel (number, event) {

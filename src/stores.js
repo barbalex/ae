@@ -63,7 +63,11 @@ export default (Actions) => {
      */
     listenables: Actions,
 
-    deletePcByPcName (name) {
+    onImportPcs () {
+
+    },
+
+    onDeletePcByName (name) {
       /**
        * gets name of pc
        * removes pc's with this name from all objects
@@ -95,15 +99,7 @@ export default (Actions) => {
         .catch((error) => app.Actions.showError({title: 'Fehler beim Versuch, die Eigenschaften zu löschen:', msg: error}))
     },
 
-    onDeletePcByName (name) {
-      this.deletePcByPcName(name)
-    },
-
     onRemovePcInstances (name, idsOfAeObjects) {
-      /*// trigger first time to remove progressbar and alert from last import
-      let deletingPcInstancesProgress = 0
-      let pcsRemoved = false
-      this.trigger({ deletingPcInstancesProgress, pcsRemoved })*/
       idsOfAeObjects.forEach((guid, index) => {
         app.objectStore.getItem(guid)
           .then((doc) => {

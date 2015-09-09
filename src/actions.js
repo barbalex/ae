@@ -28,7 +28,8 @@ export default () => {
     showGroupLoading: {},
     queryPropertyCollections: {},
     deletePcByName: {},
-    removePcInstances: {},
+    importPcs: {},
+    deletePcInstances: {},
     showError: {}
   })
 
