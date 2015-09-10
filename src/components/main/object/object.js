@@ -171,7 +171,7 @@ export default React.createClass({
     }
 
     return (
-      <div id='formContent'>
+      <div className='formContent'>
         <h4>Taxonomie:</h4>
         {taxComponent ? taxComponent : ''}
         {taxRcsComponent ? taxRcsComponent : ''}

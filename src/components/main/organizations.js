@@ -24,7 +24,7 @@ export default React.createClass({
 
   render () {
     return (
-      <div>
+      <div className='formContent'>
         <h4>Organisationen und Benutzer</h4>
         <Accordion>
           <Panel header='Organisation' eventKey='1'>

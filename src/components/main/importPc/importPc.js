@@ -537,7 +537,7 @@ export default React.createClass({
     const showAlertFirst5Imported = importingProgress === 100 && !pcsRemoved
 
     return (
-      <div id='importieren'>
+      <div id='importieren' className='formContent'>
         <h4>Eigenschaften importieren</h4>
         <Accordion activeKey={activePanel}>
           <Panel collapsible header='1. Eigenschaftensammlung beschreiben' eventKey={1} onClick={this.onClickPanel.bind(this, 1)}>
