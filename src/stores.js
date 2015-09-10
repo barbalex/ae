@@ -349,8 +349,7 @@ export default (Actions) => {
     },
 
     onLogin (passedVariables) {
-      const logIn = passedVariables.logIn
-      const email = passedVariables.email
+      const { logIn, email } = passedVariables
       // change email only if it was passed
       const changeEmail = email !== undefined
 
