@@ -7,7 +7,7 @@ import _ from 'lodash'
 import moment from 'moment'
 import MenuButton from './menu/menuButton'
 import ResizeButton from './menu/resizeButton.js'
-import Gruppen from './menu/groups.js'
+import Groups from './menu/groups.js'
 import Filter from './menu/filter.js'
 import FaviconImage from '../../img/aster_144.png'
 import Favicon from 'react-favicon'
@@ -198,6 +198,11 @@ export default React.createClass({
     let homeStyle = {}
     if (pcsQuerying) homeStyle.cursor = 'progress'
 
+    console.log('home.js, render. state', this.state)
+    console.log('home.js, render. groupsNotLoaded', groupsNotLoaded)
+    console.log('home.js, render. showGruppen', showGruppen)
+    console.log('home.js, render. showTree', showTree)
+
     // MenuButton needs to be outside of the menu
     // otherwise the menu can't be shown outside when menu is short
     return (
@@ -209,7 +214,7 @@ export default React.createClass({
             <ResizeButton />
           </div>
           {showGruppen ?
-            <Gruppen
+            <Groups
               groupsLoadedOrLoading={groupsLoadedOrLoading} />
             : null
           }
