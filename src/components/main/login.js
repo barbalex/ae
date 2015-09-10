@@ -18,8 +18,7 @@ export default React.createClass({
     invalidPassword: React.PropTypes.bool,
     email: React.PropTypes.string,
     password: React.PropTypes.string,
-    loginError: React.PropTypes.string,
-    onHide: React.PropTypes.func
+    loginError: React.PropTypes.string
   },
 
   getInitialState () {
@@ -28,14 +27,12 @@ export default React.createClass({
       invalidPassword: false,
       email: null,
       password: null,
-      loginError: null,
-      onHide: this.onHide()
+      loginError: null
     }
   },
 
   componentDidMount () {
     $(document.body).on('keydown', this.onKeyDown)
-    React.findDOMNode(this.refs.emailInput).focus()
   },
 
   componentWillUnMount () {
@@ -50,15 +47,27 @@ export default React.createClass({
   onKeyDown (event) {
     const enter = 13
     if (event.keyCode === enter) {
-      console.log('enter was clicked')
-      this.onClickLogin()
+      // if enter was pressed in one of the fields,
+      // update the value first
+      const targetId = event.target.id
+      const value = event.target.value
+      switch (targetId) {
+      case 'email':
+        const email = value
+        this.setState({ email }, this.onClickLogin())
+        break
+      case 'password':
+        const password = value
+        this.setState({ password }, this.onClickLogin())
+        break
+      default:
+        this.onClickLogin()
+      }
     }
   },
 
   onClickLogin () {
     const { email, password } = this.state
-    console.log('login.js, onClickLogin, email', email)
-    console.log('login.js, onClickLogin, password', password)
     if (this.validSignin()) {
       app.remoteDb.login(email, password)
         .then((response) => app.Actions.login({
@@ -66,7 +75,7 @@ export default React.createClass({
             email: email
           })
         )
-        .catch((error) => this.setState({ loginError: error }))
+        .catch((error) => this.setState({ email: null, loginError: error }))
     }
   },
 
@@ -117,8 +126,11 @@ export default React.createClass({
 
   render () {
     const { invalidEmail, invalidPassword, loginError } = this.state
-    const emailInputBsStyle = invalidEmail ? 'error' : null
-    const passwordInputBsStyle = invalidPassword ? 'error' : null
+    const emailInputBsStyle = invalidEmail ? 'danger' : null
+    const passwordInputBsStyle = invalidPassword ? 'danger' : null
+    const styleAlert = {
+      marginBottom: 8
+    }
 
     return (
       <div className='static-modal'>
@@ -131,20 +143,20 @@ export default React.createClass({
             <form className={'form'} autoComplete='off'>
               <p className='anmelden'>Für diese Funktion müssen Sie angemeldet sein.<br/><a href='mailto:alex@gabriel-software.ch'>Mailen Sie mir</a>, um ein Login zu erhalten.</p>
               <div className='formGroup'>
-                <Input ref={'emailInput'} type='email' label={'Email'} bsSize='small' className={'controls'} placeholder='Email' bsStyle={emailInputBsStyle} onBlur={this.onBlurEmail} required autofocus />
+                <Input type='email' id='email' label={'Email'} bsSize='small' className={'controls'} placeholder='Email' bsStyle={emailInputBsStyle} onBlur={this.onBlurEmail} required autoFocus />
                 {invalidEmail ? <div className='validateDivAfterRBC'>Bitte Email prüfen</div> : ''}
               </div>
               <div className='formGroup'>
-                <Input type='password' id='passwortArt' label={'Passwort'} className={'controls'} placeholder='Passwort' bsStyle={passwordInputBsStyle} onBlur={this.onBlurPassword} required />
+                <Input type='password' id='password' label={'Passwort'} className={'controls'} placeholder='Passwort' bsStyle={passwordInputBsStyle} onBlur={this.onBlurPassword} required />
                 {invalidPassword ? <div className='validateDivAfterRBC'>Bitte Passwort prüfen</div> : ''}
               </div>
-              {loginError ? <Alert bsStyle='error' onDismiss={this.onAlertDismiss}>Fehler beim Anmelden: {loginError}</Alert> : ''}
+              {loginError ? <Alert bsStyle='danger' onDismiss={this.onAlertDismiss} style={styleAlert}>Fehler beim Anmelden: {loginError}</Alert> : ''}
               <p className='Passwort' style={{'marginBottom': -5 + 'px'}}>Passwort vergessen?<br/><a href='mailto:alex@gabriel-software.ch'>Mailen Sie mir</a>, möglichst mit derselben email-Adresse, die Sie für das Konto verwenden.</p>
             </form>
           </Modal.Body>
 
           <Modal.Footer>
-            <Button className='btn-primary' onClick={this.onClickLogin}>anmelden</Button>
+            <Button ref='anmeldenButton' className='btn-primary' onClick={this.onClickLogin}>anmelden</Button>
             <Button onClick={this.schliessen}>schliessen</Button>
           </Modal.Footer>
 
