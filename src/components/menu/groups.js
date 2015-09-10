@@ -2,8 +2,8 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import { Input } from 'react-bootstrap'
 import _ from 'lodash'
+import GroupCheckbox from './groupCheckbox.js'
 import getGruppen from '../../modules/gruppen.js'
 
 const gruppen = getGruppen()
@@ -15,23 +15,10 @@ export default React.createClass({
     groupsLoadedOrLoading: React.PropTypes.array
   },
 
-  onClickGruppe (gruppe) {
-    app.Actions.loadObjectStore(gruppe)
-  },
-
   groupCheckboxes () {
     const { groupsLoadedOrLoading } = this.props
     const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
-    return groupsNotLoaded.map((gruppe, index) => {
-      const label = gruppe.replace('Macromycetes', 'Pilze')
-      return (
-        <Input
-          key={index}
-          type='checkbox'
-          label={label}
-          onClick={this.onClickGruppe.bind(this, gruppe)} />
-      )
-    })
+    return groupsNotLoaded.map((gruppe, index) => <GroupCheckbox key={index} group={gruppe} />)
   },
 
   render () {
