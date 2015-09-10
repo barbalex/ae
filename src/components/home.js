@@ -46,7 +46,8 @@ export default React.createClass({
     replicatingToAe: React.PropTypes.string,
     replicatingToAeTime: React.PropTypes.string,
     replicatingFromAe: React.PropTypes.string,
-    replicatingFromAeTime: React.PropTypes.string
+    replicatingFromAeTime: React.PropTypes.string,
+    pcsQuerying: React.PropTypes.bool
   },
 
   getInitialState () {
@@ -79,7 +80,8 @@ export default React.createClass({
       replicatingToAe: null,
       replicatingToAeTime: null,
       replicatingFromAe: null,
-      replicatingFromAeTime: null
+      replicatingFromAeTime: null,
+      pcsQuerying: false
     }
   },
 
@@ -94,6 +96,11 @@ export default React.createClass({
     this.listenTo(app.replicateToAeStore, this.onReplicateToAeStoreChange)
     this.listenTo(app.replicateFromAeStore, this.onReplicateFromAeStoreChange)
     this.listenTo(app.objectsPcsStore, this.onChangeObjectsPcsStore)
+    this.listenTo(app.propertyCollectionsStore, this.onChangePropertyCollectionsStore)
+  },
+
+  onChangePropertyCollectionsStore (pcs, pcsQuerying) {
+    this.setState({ pcsQuerying })
   },
 
   onChangeObjectsPcsStore () {
@@ -181,18 +188,20 @@ export default React.createClass({
   },
 
   render () {
-    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, showImportPC, showImportRC, showOrganizations, logIn, email, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime } = this.state
+    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, showImportPC, showImportRC, showOrganizations, logIn, email, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, pcsQuerying } = this.state
     const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
     const showGruppen = groupsNotLoaded.length > 0
     const showFilter = filterOptions.length > 0 || loadingFilterOptions
     const showTree = groupsLoadedOrLoading.length > 0
     const showMain = object !== undefined || showImportRC || showImportPC || showOrganizations
     const showLogin = logIn && !email
+    let homeStyle = {}
+    if (pcsQuerying) homeStyle.cursor = 'progress'
 
     // MenuButton needs to be outside of the menu
     // otherwise the menu can't be shown outside when menu is short
     return (
-      <NavHelper>
+      <NavHelper style={homeStyle}>
         <Favicon url={[FaviconImage]}/>
         <MenuButton object={object} />
         <div id='menu' className='menu'>
@@ -222,6 +231,7 @@ export default React.createClass({
         </div>
         <Symbols
           email={email}
+          pcsQuerying={pcsQuerying}
           replicatingToAe={replicatingToAe}
           replicatingToAeTime={replicatingToAeTime}
           replicatingFromAe={replicatingFromAe}

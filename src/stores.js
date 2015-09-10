@@ -234,8 +234,14 @@ export default (Actions) => {
      * app.js sets default _local/pcs.pcs = [] if not exists on app start
      * pc's are arrays of the form:
      * [collectionType, pcName, combining, importedBy, {Beschreibung: xxx, Datenstand: xxx, Link: xxx, Nutzungsbedingungen: xxx}, count: xxx]
+     *
+     * when this store triggers it passes two variables:
+     * pcs: the propberty collections
+     * pcsQuerying: true/false: are pcs being queryied? if true: show warning in symbols
      */
     listenables: Actions,
+
+    pcsQuerying: false,
 
     getPcs () {
       return new Promise((resolve, reject) => {
@@ -256,7 +262,7 @@ export default (Actions) => {
           pcs = doc.pcs
           return app.localDb.put(doc)
         })
-        .then(() => this.trigger(pcs))
+        .then(() => this.trigger(pcs, this.pcsQuerying))
         .catch((error) =>
           app.Actions.showError({title: 'Fehler in propertyCollectionsStore, savePc:', msg: error})
         )
@@ -281,7 +287,7 @@ export default (Actions) => {
           pcs = doc.pcs
           return app.localDb.put(doc)
         })
-        .then(() => this.trigger(pcs))
+        .then(() => this.trigger(pcs, this.pcsQuerying))
         .catch((error) =>
           app.Actions.showError({title: 'Fehler in propertyCollectionsStore, removePcByName:', msg: error})
         )
@@ -300,21 +306,21 @@ export default (Actions) => {
 
     onQueryPropertyCollections () {
       // if pc's exist, send them immediately
+      this.pcsQuerying = true
       this.getPcs()
-        .then((pcs) => {
-          if (pcs.length > 0) this.trigger(pcs)
-        })
+        .then((pcs) => this.trigger(pcs, this.pcsQuerying))
         .catch((error) =>
           app.Actions.showError({title: 'propertyCollectionsStore, error getting existing pcs:', msg: error})
         )
       // now fetch up to date pc's
       queryPcs()
         .then((pcs) => {
+          this.pcsQuerying = false
           // email has empty values. Set default
           pcs.forEach((pc) => {
             pc.importedBy = pc.importedBy || 'alex@gabriel-software.ch'
           })
-          this.trigger(pcs)
+          this.trigger(pcs, this.pcsQuerying)
           return this.savePcs(pcs)
         })
         .catch((error) =>
