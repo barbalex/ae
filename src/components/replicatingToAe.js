@@ -15,14 +15,14 @@ export default React.createClass({
     const { replicatingToAe, replicatingToAeTime } = this.props
 
     let style = {}
-    let tooltipText = 'repliziere nach arteigenschaften.ch seit ' + replicatingToAeTime
+    let tooltipText = 'Repliziere nach arteigenschaften.ch seit ' + replicatingToAeTime
     if (replicatingToAe === 'success') {
       style.color = '#00AA00'
-      tooltipText = 'zuletzt nach arteigenschaften.ch repliziert: ' + replicatingToAeTime
+      tooltipText = 'Zuletzt nach arteigenschaften.ch repliziert: ' + replicatingToAeTime
     }
     if (replicatingToAe === 'error') {
       style.color = 'red'
-      tooltipText = 'Replikation nach arteigenschaften.ch gescheitert um:' + replicatingToAeTime
+      tooltipText = 'Replikation nach arteigenschaften.ch gescheitert um: ' + replicatingToAeTime
     }
 
     const tooltip = <Tooltip id='replicatingToAeTooltip' bsStyle='info'>{tooltipText}</Tooltip>

@@ -4,6 +4,7 @@ import app from 'ampersand-app'
 import React from 'react'
 import { Alert } from 'react-bootstrap'
 import _ from 'lodash'
+import ReplicationNotice from './replicationNotice.js'
 import getPathsFromLocalPathDb from '../../../modules/getPathsFromLocalPathDb.js'
 
 export default React.createClass({
@@ -12,7 +13,9 @@ export default React.createClass({
   propTypes: {
     idsOfAeObjects: React.PropTypes.array,
     idsNotImportable: React.PropTypes.array,
-    paths: React.PropTypes.object
+    paths: React.PropTypes.object,
+    replicatingToAe: React.PropTypes.string,
+    replicatingToAeTime: React.PropTypes.string
   },
 
   getInitialState () {
@@ -22,7 +25,7 @@ export default React.createClass({
   },
 
   render () {
-    const { idsOfAeObjects, idsNotImportable } = this.props
+    const { idsOfAeObjects, idsNotImportable, replicatingToAe, replicatingToAeTime } = this.props
     const { paths } = this.state
     const idsImported = _.difference(idsOfAeObjects, idsNotImportable)
     const first5Ids = idsImported.slice(0, 5)
@@ -49,6 +52,7 @@ export default React.createClass({
           Beispiele zur Kontrolle:
         </p>
         {paths ? <ul>{examples}</ul> : null}
+        {paths ? <ReplicationNotice replicatingToAe={replicatingToAe} replicatingToAeTime={replicatingToAeTime} /> : null}
       </Alert>
     )
   }

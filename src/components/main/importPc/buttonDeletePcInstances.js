@@ -35,7 +35,6 @@ export default React.createClass({
      * otherwise when after deleting is reimported, the modal opens
      */
     const { onClickRemovePcInstances } = this.props
-    console.log('buttonDeletePcInstances.js: removing, onClickRemovePcInstances', onClickRemovePcInstances)
     onClickRemovePcInstances()
     this.setState({ show: false })
   },

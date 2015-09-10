@@ -82,7 +82,9 @@ export default React.createClass({
     validNutzungsbedingungen: React.PropTypes.bool,
     validLink: React.PropTypes.bool,
     validUrsprungsEs: React.PropTypes.bool,
-    validPcsToImport: React.PropTypes.bool
+    validPcsToImport: React.PropTypes.bool,
+    replicatingToAe: React.PropTypes.string,
+    replicatingToAeTime: React.PropTypes.string
   },
 
   // nameBestehend ... nameUrsprungsEs: input fields
@@ -373,13 +375,10 @@ export default React.createClass({
   },
 
   onClickRemovePcInstances () {
-    console.log('importPc.js, onClickRemovePcInstances')
     const { name, idsOfAeObjects } = this.state
-    console.log('importPc.js, onClickRemovePcInstances, name', name)
-    console.log('importPc.js, onClickRemovePcInstances, idsOfAeObjects', idsOfAeObjects)
     // first remove progressbar and alert from last import
-    let importingProgress = null
-    let pcsRemoved = false
+    const importingProgress = null
+    const pcsRemoved = false
     this.setState({ importingProgress, pcsRemoved }, () => app.Actions.deletePcInstances(name, idsOfAeObjects))
   },
 
@@ -528,7 +527,7 @@ export default React.createClass({
 
   render () {
     const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, pcsToImport, pcsRemoved, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs, validPcsToImport, activePanel, idsAeIdField, idsImportIdField, pcs, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, panel3Done, importingProgress, deletingPcInstancesProgress, deletingPcProgress } = this.state
-    const { groupsLoadedOrLoading, email, allGroupsLoaded, groupsLoadingObjects } = this.props
+    const { groupsLoadedOrLoading, email, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime } = this.props
     const showLoadAllGroups = email && !allGroupsLoaded
     const showAlertDeletePcBuildingIndex = deletingPcProgress && deletingPcProgress < 100
     const alertAllGroupsBsStyle = ultimatelyAlertLoadAllGroups ? 'danger' : 'info'
@@ -550,7 +549,7 @@ export default React.createClass({
             <ButtonDeletePc nameBestehend={nameBestehend} enableDeletePcButton={enableDeletePcButton} deletingPcProgress={deletingPcProgress} onClickDeletePc={this.onClickDeletePc} />
             {showAlertDeletePcBuildingIndex ? <AlertDeletePcBuildingIndex /> : null}
             {deletingPcProgress !== null ? <ProgressbarDeletePc progress={deletingPcProgress} /> : null}
-            {deletingPcProgress === 100 ? <div className='feld'><AlertFirst5Deleted idsOfAeObjects={idsOfAeObjects} nameBestehend={nameBestehend} /></div> : null}
+            {deletingPcProgress === 100 ? <div className='feld'><AlertFirst5Deleted idsOfAeObjects={idsOfAeObjects} nameBestehend={nameBestehend} replicatingToAe={replicatingToAe} replicatingToAeTime={replicatingToAeTime} /></div> : null}
 
             <hr />
 
@@ -586,9 +585,9 @@ export default React.createClass({
             {panel3Done ? <Button className='btn-primary' onClick={this.onClickImportieren}><Glyphicon glyph='download-alt'/> Eigenschaftensammlung "{name}" importieren</Button> : null }
             {showDeletePcInstancesButton ? <ButtonDeletePcInstances name={name} pcsRemoved={pcsRemoved} deletingPcInstancesProgress={deletingPcInstancesProgress} onClickRemovePcInstances={this.onClickRemovePcInstances} /> : null}
             {showProgressbarImport ? <ProgressbarImport importingProgress={importingProgress} /> : null}
-            {showAlertFirst5Imported ? <AlertFirst5Imported idsOfAeObjects={idsOfAeObjects} idsNotImportable={idsNotImportable} /> : null}
+            {showAlertFirst5Imported ? <AlertFirst5Imported idsOfAeObjects={idsOfAeObjects} idsNotImportable={idsNotImportable} replicatingToAe={replicatingToAe} replicatingToAeTime={replicatingToAeTime} /> : null}
             {deletingPcInstancesProgress !== null ? <ProgressBar bsStyle='success' now={deletingPcInstancesProgress} label={`${deletingPcInstancesProgress}% entfernt`} /> : null}
-            {deletingPcInstancesProgress === 100 ? <AlertFirst5Deleted idsOfAeObjects={idsOfAeObjects} nameBestehend={name} /> : null}
+            {deletingPcInstancesProgress === 100 ? <AlertFirst5Deleted idsOfAeObjects={idsOfAeObjects} nameBestehend={name} replicatingToAe={replicatingToAe} replicatingToAeTime={replicatingToAeTime} /> : null}
           </Panel>
 
         </Accordion>

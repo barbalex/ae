@@ -28,7 +28,9 @@ export default React.createClass({
     allGroupsLoaded: React.PropTypes.bool,
     groupsLoadedOrLoading: React.PropTypes.array,
     groupsLoadingObjects: React.PropTypes.array,
-    errors: React.PropTypes.array
+    errors: React.PropTypes.array,
+    replicatingToAe: React.PropTypes.string,
+    replicatingToAeTime: React.PropTypes.string
   },
 
   getInitialState () {
@@ -59,7 +61,7 @@ export default React.createClass({
   },
 
   render () {
-    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, synonymObjects, showImportPC/*, showImportRC*/, showOrganizations, email } = this.props
+    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, synonymObjects, showImportPC/*, showImportRC*/, showOrganizations, email, replicatingToAe, replicatingToAeTime } = this.props
     const { formClassNames, errors } = this.state
     const showObject = object !== undefined
 
@@ -67,9 +69,27 @@ export default React.createClass({
       <fieldset id='main'>
         <form className={formClassNames} autoComplete='off'>
           <Errors errors={errors} />
-          {showObject ? <Objekt object={object} synonymObjects={synonymObjects} /> : ''}
-          {showImportPC ? <ImportPc email={email} groupsLoadedOrLoading={groupsLoadedOrLoading} groupsLoadingObjects={groupsLoadingObjects} allGroupsLoaded={allGroupsLoaded} /> : ''}
-          {showOrganizations ? <Organizations email={email} /> : ''}
+          {showObject ?
+            <Objekt
+              object={object}
+              synonymObjects={synonymObjects} />
+            : ''
+          }
+          {showImportPC ?
+            <ImportPc
+              email={email}
+              groupsLoadedOrLoading={groupsLoadedOrLoading}
+              groupsLoadingObjects={groupsLoadingObjects}
+              allGroupsLoaded={allGroupsLoaded}
+              replicatingToAe={replicatingToAe}
+              replicatingToAeTime={replicatingToAeTime} />
+            : ''
+          }
+          {showOrganizations ?
+            <Organizations
+              email={email} />
+            : ''
+          }
         </form>
       </fieldset>
     )

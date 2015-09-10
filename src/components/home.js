@@ -93,6 +93,14 @@ export default React.createClass({
     this.listenTo(app.loadingGroupsStore, this.onLoadingGroupsStoreChange)
     this.listenTo(app.replicateToAeStore, this.onReplicateToAeStoreChange)
     this.listenTo(app.replicateFromAeStore, this.onReplicateFromAeStoreChange)
+    this.listenTo(app.objectsPcsStore, this.onChangeObjectsPcsStore)
+  },
+
+  onChangeObjectsPcsStore () {
+    // set back replication to ae state
+    const replicatingToAe = null
+    const replicatingToAeTime = null
+    this.setState({ replicatingToAe, replicatingToAeTime })
   },
 
   onReplicateFromAeStoreChange (replicatingFromAe) {
@@ -212,7 +220,12 @@ export default React.createClass({
             : null
           }
         </div>
-        <Symbols email={email} replicatingToAe={replicatingToAe} replicatingToAeTime={replicatingToAeTime} replicatingFromAe={replicatingFromAe} replicatingFromAeTime={replicatingFromAeTime} />
+        <Symbols
+          email={email}
+          replicatingToAe={replicatingToAe}
+          replicatingToAeTime={replicatingToAeTime}
+          replicatingFromAe={replicatingFromAe}
+          replicatingFromAeTime={replicatingFromAeTime} />
         {showMain ?
           <Main
             object={object}
@@ -223,7 +236,9 @@ export default React.createClass({
             showImportPC={showImportPC}
             showImportRC={showImportRC}
             showOrganizations={showOrganizations}
-            email={email} />
+            email={email}
+            replicatingToAe={replicatingToAe}
+            replicatingToAeTime={replicatingToAeTime} />
           : null
         }
         {showLogin ? <Login /> : null}
