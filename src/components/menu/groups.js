@@ -1,6 +1,5 @@
 'use strict'
 
-import app from 'ampersand-app'
 import React from 'react'
 import _ from 'lodash'
 import GroupCheckbox from './groupCheckbox.js'
@@ -9,28 +8,26 @@ import getGruppen from '../../modules/gruppen.js'
 const gruppen = getGruppen()
 
 export default React.createClass({
-  displayName: 'Gruppen',
+  displayName: 'Groups',
 
   propTypes: {
     groupsLoadedOrLoading: React.PropTypes.array
   },
 
-  groupCheckboxes () {
-    const { groupsLoadedOrLoading } = this.props
-    const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
-    return groupsNotLoaded.map((gruppe, index) => <GroupCheckbox key={index} group={gruppe} />)
-  },
-
   render () {
-    // MenuButton needs to be outside of the menu
-    // otherwise the menu can't be shown outside when menu is short
+    const { groupsLoadedOrLoading } = this.props
+    console.log('groups.js, groupsLoadedOrLoading', groupsLoadedOrLoading)
+    const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
+    console.log('groups.js, groupsNotLoaded', groupsNotLoaded)
+    const groupCheckboxes = groupsNotLoaded.map((group, index) => <GroupCheckbox key={index} group={group} />)
+
     return (
       <div id='groups'>
         <div id='groupCheckboxesTitle'>
           Gruppen laden:
         </div>
         <div id='groupCheckboxes'>
-          {this.groupCheckboxes()}
+          {groupCheckboxes}
         </div>
       </div>
     )

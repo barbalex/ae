@@ -32,6 +32,8 @@ export default React.createClass({
       maxHeight: treeMaxHeight
     }
 
+    console.log('tree.js, loading', loading)
+
     return (
       <div>
         <div id='tree' style={treeStyle}>
