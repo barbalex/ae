@@ -299,8 +299,8 @@ export default React.createClass({
     partner.Gruppe = object.Gruppe
     if (object.Gruppe === 'Lebensräume') {
       partner.Taxonomie = _.get(object, 'Taxonomie.Name')
-      const label = _.get(object, 'Taxonomie.Eigenschaften.Taxonomie.Label')
-      const einheit = _.get(object, 'Taxonomie.Eigenschaften.Taxonomie.Einheit')
+      const label = _.get(object, 'Taxonomie.Eigenschaften.Label')
+      const einheit = _.get(object, 'Taxonomie.Eigenschaften.Einheit')
       if (label) {
         partner.Name = label + ': ' + einheit
       } else {
@@ -333,7 +333,6 @@ export default React.createClass({
           }
         })
       }
-      // TODO
       // now prepare Beziehungspartner for import
       // also: output this info:
       // - idsWithoutPartner
@@ -346,6 +345,7 @@ export default React.createClass({
       rcsToImport.forEach((rc, index) => {
         // Beziehungspartner in import data can be a single guid or a list of guids split by ', '
         // in ae it needs to be an array of objects
+        console.log('rc.Beziehungspartner', rc.Beziehungspartner)
         let rPartnerIds = rc.Beziehungspartner.split(', ')
         // analyse
         if (rPartnerIds.length === 0) idsWithoutPartner.push(rc[idsImportIdField])
@@ -404,9 +404,10 @@ export default React.createClass({
           // get ids not fetched
           const idsNotImportable = _.difference(idsToImportWithDuplicates, idsImportable)
           // finished? render...
-          const relationState = { idsNumberImportable, idsNotImportable, idsAnalysisComplete, idsOfAeObjects, idsNumberOfRecordsWithIdValue, idsNotANumber }
+          const relationState = { rcsToImport, idsNumberImportable, idsNotImportable, idsAnalysisComplete, idsOfAeObjects, idsNumberOfRecordsWithIdValue, idsNotANumber }
           const state = Object.assign(rcPartnerState, relationState)
           this.setState(state)
+          console.log('rcsToImport', rcsToImport)
         })
         .catch((error) => app.Actions.showError({msg: error}))
     }
