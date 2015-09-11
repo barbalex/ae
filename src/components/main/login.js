@@ -126,8 +126,8 @@ export default React.createClass({
 
   render () {
     const { invalidEmail, invalidPassword, loginError } = this.state
-    const emailInputBsStyle = invalidEmail ? 'danger' : null
-    const passwordInputBsStyle = invalidPassword ? 'danger' : null
+    const emailInputBsStyle = invalidEmail ? 'error' : null
+    const passwordInputBsStyle = invalidPassword ? 'error' : null
     const styleAlert = {
       marginBottom: 8
     }
