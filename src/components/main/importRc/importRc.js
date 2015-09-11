@@ -63,7 +63,6 @@ export default React.createClass({
     idsAeIdField: React.PropTypes.string,
     idsAnalysisComplete: React.PropTypes.bool,
     idsNumberOfRecordsWithIdValue: React.PropTypes.number,
-    idsDuplicate: React.PropTypes.array,
     idsNumberImportable: React.PropTypes.number,
     idsNotImportable: React.PropTypes.array,
     idsNotANumber: React.PropTypes.array,
@@ -111,7 +110,6 @@ export default React.createClass({
       idsAeIdField: null,
       idsAnalysisComplete: false,
       idsNumberOfRecordsWithIdValue: 0,
-      idsDuplicate: [],
       idsNumberImportable: 0,
       idsNotImportable: [],
       idsNotANumber: [],
@@ -190,7 +188,6 @@ export default React.createClass({
       idsAeIdField: null,
       idsAnalysisComplete: false,
       idsNumberOfRecordsWithIdValue: 0,
-      idsDuplicate: [],
       idsNumberImportable: 0,
       idsNotImportable: [],
       idsNotANumber: [],
@@ -267,7 +264,6 @@ export default React.createClass({
     return {
       idsOfAeObjects: [],
       idsNumberOfRecordsWithIdValue: 0,
-      idsDuplicate: [],
       idsNumberImportable: 0,
       idsNotImportable: [],
       idsNotANumber: [],
@@ -297,7 +293,6 @@ export default React.createClass({
 
     if (idsAeIdField && idsImportIdField) {
       // start analysis
-
       // make sure data in idsImportIdField is a number, if idsAeIdField is not a GUID
       let idsNotANumber = []
       if (idsAeIdField !== 'GUID') {
@@ -316,7 +311,8 @@ export default React.createClass({
       const ids = _.pluck(rcsToImport, idsImportIdField)
       // if ids should be numbers but some are not, an error can occur when fetching from the database
       // so dont fetch
-      if (idsNotANumber.length > 0) return this.setState({ idsAnalysisComplete: true, idsNotANumber: idsNotANumber })
+      const idsAnalysisComplete = true
+      if (idsNotANumber.length > 0) return this.setState({ idsAnalysisComplete, idsNotANumber })
       getGuidsById(idsAeIdField, ids)
         .then((idGuidObject) => {
           // now add guids to rcsToImport
@@ -327,13 +323,8 @@ export default React.createClass({
           let idsToImportWithDuplicates = _.pluck(rcsToImport, idsImportIdField)
           // remove emtpy values
           idsToImportWithDuplicates = _.filter(idsToImportWithDuplicates, (id) => !!id)
-          // remove duplicates
-          const idsToImport = _.unique(idsToImportWithDuplicates)
           const idsNumberOfRecordsWithIdValue = idsToImportWithDuplicates.length
-          const idsDuplicate = _.difference(idsToImportWithDuplicates, idsToImport)
-          // go on with analysis
           const idsOfAeObjects = _.values(idGuidObject)
-
           const idGuidImportable = _.omit(idGuidObject, (guid, id) => !guid)
           const idsImportable = _.keys(idGuidImportable)
           // extracting from keys converts numbers to strings! Convert back
@@ -341,12 +332,14 @@ export default React.createClass({
             if (!isNaN(id)) idsImportable[index] = parseInt(id, 10)
           })
 
-          const idsNumberImportable = idsImportable.length
+          let idsNumberImportable = 0
+          idsToImportWithDuplicates.forEach((id) => {
+            if (_.includes(idsImportable, id)) idsNumberImportable++
+          })
           // get ids not fetched
-          const idsNotImportable = _.difference(idsToImport, idsImportable)
-          const idsAnalysisComplete = true
+          const idsNotImportable = _.difference(idsToImportWithDuplicates, idsImportable)
           // finished? render...
-          this.setState({ idsNumberImportable, idsNotImportable, idsAnalysisComplete, idsOfAeObjects, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNotANumber })
+          this.setState({ idsNumberImportable, idsNotImportable, idsAnalysisComplete, idsOfAeObjects, idsNumberOfRecordsWithIdValue, idsNotANumber })
         })
         .catch((error) => app.Actions.showError({msg: error}))
     }
@@ -443,9 +436,9 @@ export default React.createClass({
   },
 
   isPanel3Done () {
-    const { idsOfAeObjects, rcsToImport, idsNumberImportable, idsNotImportable, idsNotANumber, idsDuplicate } = this.state
+    const { idsOfAeObjects, rcsToImport, idsNumberImportable, idsNotImportable, idsNotANumber } = this.state
     const isPanel2Done = this.isPanel2Done()
-    const variablesToPass = {rcsToImport, idsNumberImportable, idsNotImportable, idsNotANumber, idsDuplicate}
+    const variablesToPass = {rcsToImport, idsNumberImportable, idsNotImportable, idsNotANumber }
     const idsAnalysisResultType = getSuccessTypeFromAnalysis(variablesToPass)
     const panel3Done = idsAnalysisResultType !== 'danger' && idsOfAeObjects.length > 0
     let state = { panel3Done }
@@ -526,7 +519,7 @@ export default React.createClass({
   },
 
   render () {
-    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsBs, bsBearbeitenErlaubt, rcsToImport, rcsRemoved, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsBs, validRcsToImport, activePanel, idsAeIdField, idsImportIdField, rcs, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, panel3Done, importingProgress, deletingRcInstancesProgress, deletingRcProgress } = this.state
+    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsBs, bsBearbeitenErlaubt, rcsToImport, rcsRemoved, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsBs, validRcsToImport, activePanel, idsAeIdField, idsImportIdField, rcs, idsNumberOfRecordsWithIdValue, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, panel3Done, importingProgress, deletingRcInstancesProgress, deletingRcProgress } = this.state
     const { groupsLoadedOrLoading, email, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime } = this.props
     const showLoadAllGroups = email && !allGroupsLoaded
     const showAlertDeleteRcBuildingIndex = deletingRcProgress && deletingRcProgress < 100
@@ -577,7 +570,7 @@ export default React.createClass({
           <Panel collapsible header="3. ID's identifizieren" eventKey={3} onClick={this.onClickPanel.bind(this, 3)}>
             {rcsToImport.length > 0 ? <InputImportFields idsImportIdField={idsImportIdField} rcsToImport={rcsToImport} onChangeImportId={this.onChangeImportId} /> : null}
             <InputAeId idsAeIdField={idsAeIdField} onChangeAeId={this.onChangeAeId} />
-            {idsImportIdField && idsAeIdField ? <AlertIdsAnalysisResult idsImportIdField={idsImportIdField} idsAeIdField={idsAeIdField} rcsToImport={rcsToImport} idsNumberOfRecordsWithIdValue={idsNumberOfRecordsWithIdValue} idsDuplicate={idsDuplicate} idsNumberImportable={idsNumberImportable} idsNotImportable={idsNotImportable} idsAnalysisComplete={idsAnalysisComplete} idsNotANumber={idsNotANumber} /> : null}
+            {idsImportIdField && idsAeIdField ? <AlertIdsAnalysisResult idsImportIdField={idsImportIdField} idsAeIdField={idsAeIdField} rcsToImport={rcsToImport} idsNumberOfRecordsWithIdValue={idsNumberOfRecordsWithIdValue} idsNumberImportable={idsNumberImportable} idsNotImportable={idsNotImportable} idsAnalysisComplete={idsAnalysisComplete} idsNotANumber={idsNotANumber} /> : null}
           </Panel>
 
           <Panel collapsible header='4. Import ausführen' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>

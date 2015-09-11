@@ -1,8 +1,7 @@
 'use strict'
 
-export default (variablesPassed) => {
-  const { pcsToImport, idsNumberImportable, idsNotImportable, idsNotANumber, idsDuplicate } = variablesPassed
+export default ({ rcsToImport, idsNumberImportable, idsNotImportable, idsNotANumber }) => {
   if (idsNotImportable.length > 0 || idsNotANumber.length > 0) return 'danger'
-  if ((idsNumberImportable < pcsToImport.length) || idsDuplicate.length > 0) return 'warning'
+  if ((idsNumberImportable < rcsToImport.length)) return 'warning'
   return 'success'
 }

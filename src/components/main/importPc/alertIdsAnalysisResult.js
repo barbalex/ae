@@ -34,8 +34,8 @@ export default React.createClass({
       return (
         <Alert bsStyle='info'>Bitte warten, die Daten werden analysiert.<br/>
           Das kann eine Weile dauern...<br/>
-          ...vor allem wenn Sie zum ersten Mal Daten mit Hilfe einer ID eines nationalen Zentrums importieren -<br/>
-          dann muss nämlich der entsprechende Index aufgebaut werden.</Alert>
+          ...vor allem wenn Sie zum ersten Mal Daten mit Hilfe einer ID eines nationalen Zentrums importieren:<br/>
+          ...dann muss nämlich der entsprechende Index aufgebaut werden.</Alert>
       )
     }
 
@@ -49,15 +49,7 @@ export default React.createClass({
 
     const recordsNotImportableText = `${idsNotImportable.length} mit den folgenden Werten im Feld "${idsImportIdField}" können nicht zugeordnet und importiert werden:`
     const idsNotImportableList = idsNotImportable.join(' | ')
-
-    const variablesToPass = {
-      pcsToImport: pcsToImport,
-      idsNumberImportable: idsNumberImportable,
-      idsNotImportable: idsNotImportable,
-      idsNotANumber: idsNotANumber,
-      idsDuplicate: idsDuplicate
-    }
-    const successType = getSuccessTypeFromAnalysis(variablesToPass)
+    const successType = getSuccessTypeFromAnalysis({ pcsToImport, idsNumberImportable, idsNotImportable, idsNotANumber, idsDuplicate })
 
     return (
       <Alert bsStyle={successType}>
