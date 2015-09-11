@@ -10,6 +10,7 @@ import { ListenerMixin } from 'reflux'
 import React from 'react'
 import Objekt from './object/object.js'
 import ImportPc from './importPc/importPc.js'
+import ImportRc from './importRc/importRc.js'
 import Organizations from './organizations.js'
 import Errors from './errors.js'
 
@@ -21,8 +22,8 @@ export default React.createClass({
   propTypes: {
     object: React.PropTypes.object,
     synonymObjects: React.PropTypes.array,
-    showImportPC: React.PropTypes.bool,
-    showImportRC: React.PropTypes.bool,
+    showImportPc: React.PropTypes.bool,
+    showImportRc: React.PropTypes.bool,
     showOrganizations: React.PropTypes.bool,
     email: React.PropTypes.string,
     allGroupsLoaded: React.PropTypes.bool,
@@ -61,7 +62,7 @@ export default React.createClass({
   },
 
   render () {
-    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, synonymObjects, showImportPC/*, showImportRC*/, showOrganizations, email, replicatingToAe, replicatingToAeTime } = this.props
+    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, synonymObjects, showImportPc, showImportRc, showOrganizations, email, replicatingToAe, replicatingToAeTime } = this.props
     const { formClassNames, errors } = this.state
     const showObject = object !== undefined
 
@@ -75,8 +76,18 @@ export default React.createClass({
               synonymObjects={synonymObjects} />
             : ''
           }
-          {showImportPC ?
+          {showImportPc ?
             <ImportPc
+              email={email}
+              groupsLoadedOrLoading={groupsLoadedOrLoading}
+              groupsLoadingObjects={groupsLoadingObjects}
+              allGroupsLoaded={allGroupsLoaded}
+              replicatingToAe={replicatingToAe}
+              replicatingToAeTime={replicatingToAeTime} />
+            : ''
+          }
+          {showImportRc ?
+            <ImportRc
               email={email}
               groupsLoadedOrLoading={groupsLoadedOrLoading}
               groupsLoadingObjects={groupsLoadingObjects}

@@ -25,8 +25,8 @@ export default Router.extend({
     // followed by ?id=<guid> if an object is shown
     let guid = getUrlParameterByName('id')
     let gruppe = null
-    let showImportPC = false
-    let showImportRC = false
+    let showImportPc = false
+    let showImportRc = false
     let showOrganizations = false
 
     app.loginStore.getLogin()
@@ -35,10 +35,10 @@ export default Router.extend({
 
         if (path.length === 2 && path[0] === 'importieren') {
           if (path[1] === 'eigenschaften') {
-            showImportPC = true
+            showImportPc = true
             gruppe = null
           } else if (path[1] === 'beziehungen') {
-            showImportPC = true
+            showImportRc = true
             gruppe = null
           }
         } else if (path.length === 1 && isGuid(path[0])) {
@@ -67,8 +67,8 @@ export default Router.extend({
             gruppe={gruppe}
             guid={guid}
             path={path}
-            showImportPC={showImportPC}
-            showImportRC={showImportRC}
+            showImportPc={showImportPc}
+            showImportRc={showImportRc}
             showOrganizations={showOrganizations}
             email={email} />,
           document.body

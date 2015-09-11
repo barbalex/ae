@@ -9,7 +9,7 @@ export default React.createClass({
     groupsLoadedOrLoading: React.PropTypes.array,
     nameBestehend: React.PropTypes.string,
     email: React.PropTypes.string,
-    pcs: React.PropTypes.array,
+    rcs: React.PropTypes.array,
     onChangeNameBestehend: React.PropTypes.func
   },
 
@@ -20,14 +20,14 @@ export default React.createClass({
   },
 
   options () {
-    const { email, pcs, groupsLoadedOrLoading } = this.props
+    const { email, rcs, groupsLoadedOrLoading } = this.props
 
-    if (pcs && pcs.length > 0) {
-      let options = pcs.map((pc, index) => {
-        const name = pc.name
-        const combining = pc.combining
-        const importedBy = pc.importedBy
-        // mutable: only those imported by user and combining pc's
+    if (rcs && rcs.length > 0) {
+      let options = rcs.map((rc, index) => {
+        const name = rc.name
+        const combining = rc.combining
+        const importedBy = rc.importedBy
+        // mutable: only those imported by user and combining rc's
         // or: user is admin
         const mutable = (importedBy === email || combining || Boolean(window.localStorage.admin))
         const className = mutable ? 'adbGruenFett' : 'adbGrauNormal'

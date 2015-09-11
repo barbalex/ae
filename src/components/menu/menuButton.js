@@ -16,53 +16,19 @@ export default React.createClass({
 
   exportProperties () {
     console.log('exportProperties was clicked')
-  // TODO
-  /* previously:
-  zeigeFormular('export')
-  delete window.adb.exportierenObjekte*/
   },
 
   importPropertyCollection () {
-    // console.log('importPropertyCollection was clicked')
     app.Actions.loadActivePathStore(['importieren', 'eigenschaften'])
-  // testen, ob der Browser das Importieren unterstützt
-  // wenn nein, melden
-  // TODO
-  /* previously:
-  if (isFileAPIAvailable()) {
-    zeigeFormular('importDs')
-    // Ist der User noch angemeldet? Wenn ja: Anmeldung überspringen
-    if (pruefeAnmeldung('ds')) {
-      $('#importDsDsBeschreibenCollapse').collapse('show')
-    }
-  }
-  */
   },
 
   importRelationsCollection () {
-    console.log('importRelationsCollection was clicked')
-  // testen, ob der Browser das Importieren unterstützt
-  // wenn nein, melden
-  // TODO
-  /* previously:
-  if (isFileAPIAvailable()) {
-    zeigeFormular('importBs')
-    // Ist der User noch angemeldet? Wenn ja: Anmeldung überspringen
-    if (pruefeAnmeldung('bs')) {
-      $('#importBsDsBeschreibenCollapse').collapse('show')
-    }
-  }
-  */
+    // console.log('importRelationsCollection was clicked')
+    app.Actions.loadActivePathStore(['importieren', 'beziehungen'])
   },
 
   openOrganisationen () {
-    // console.log('open Organisationen was clicked')
     app.Actions.loadActivePathStore(['organisationen_und_benutzer'])
-    /*const loginVariables = {
-      logIn: true,
-      email: undefined
-    }
-    app.Actions.login(loginVariables)*/
   },
 
   replicateToAe () {
@@ -105,7 +71,7 @@ export default React.createClass({
           <DropdownButton title='Import' bsSize='small' onSelect={this.onSelectDropdowButton()}>
             <li role='presentation' className='dropdown-header'>Importieren oder löschen:</li>
             <MenuItem onClick={this.importPropertyCollection}>Eigenschaften</MenuItem>
-            <MenuItem onClick={this.importRelationsCollection} disabled={true}>Beziehungen</MenuItem>
+            <MenuItem onClick={this.importRelationsCollection}>Beziehungen</MenuItem>
           </DropdownButton>
           <DropdownButton title='Mehr...' bsSize='small' onSelect={this.onSelectDropdowButton()}>
             <MenuItem onClick={this.openOrganisationen}>Organisationen und Benutzer</MenuItem>

@@ -55,7 +55,7 @@ export default React.createClass({
     zusammenfassend: React.PropTypes.bool,
     nameUrsprungsEs: React.PropTypes.string,
     email: React.PropTypes.string,
-    pcs: React.PropTypes.array,
+    rcs: React.PropTypes.array,
     pcsToImport: React.PropTypes.array,
     pcsRemoved: React.PropTypes.bool,
     idsOfAeObjects: React.PropTypes.array,
@@ -103,7 +103,7 @@ export default React.createClass({
       zusammenfassend: null,
       nameUrsprungsEs: null,
       esBearbeitenErlaubt: true,
-      pcs: [],
+      rcs: [],
       pcsToImport: [],
       pcsRemoved: false,
       idsOfAeObjects: [],
@@ -134,7 +134,7 @@ export default React.createClass({
   },
 
   componentDidMount () {
-    this.listenTo(app.propertyCollectionsStore, this.onChangePropertyCollectionsStore)
+    this.listenTo(app.propertyCollectionsStore, this.onChangeRelationCollectionsStore)
     this.listenTo(app.objectsRcsStore, this.onChangeObjectsRcsStore)
     // show login of not logged in
     const { email } = this.props
@@ -149,8 +149,8 @@ export default React.createClass({
     app.Actions.queryPropertyCollections()
   },
 
-  onChangePropertyCollectionsStore (pcs) {
-    this.setState({ pcs })
+  onChangeRelationCollectionsStore (rcs) {
+    this.setState({ rcs })
   },
 
   onChangeObjectsRcsStore (state) {
@@ -161,14 +161,14 @@ export default React.createClass({
     const editingRcIsAllowed = this.isEditingRcAllowed(nameBestehend)
     if (nameBestehend) {
       app.propertyCollectionsStore.getRcByName(nameBestehend)
-        .then((pc) => {
-          // only go on if pc exists (prevent error)
-          if (pc) {
-            const beschreibung = pc.fields.Beschreibung
-            const datenstand = pc.fields.Datenstand
-            const nutzungsbedingungen = pc.fields.Nutzungsbedingungen
-            const link = pc.fields.Link
-            const zusammenfassend = pc.combining
+        .then((rc) => {
+          // only go on if rc exists (prevent error)
+          if (rc) {
+            const beschreibung = rc.fields.Beschreibung
+            const datenstand = rc.fields.Datenstand
+            const nutzungsbedingungen = rc.fields.Nutzungsbedingungen
+            const link = rc.fields.Link
+            const zusammenfassend = rc.combining
             const name = nameBestehend
             let state = { beschreibung, datenstand, nutzungsbedingungen, link, zusammenfassend }
             state = Object.assign(state, this.stateFollowingPanel1Reset())
@@ -302,14 +302,14 @@ export default React.createClass({
       let idsNotANumber = []
       if (idsAeIdField !== 'GUID') {
         // the id field in the import data should be a number
-        pcsToImport.forEach((pc, index) => {
-          if (!isNaN(pc[idsImportIdField])) {
+        pcsToImport.forEach((rc, index) => {
+          if (!isNaN(rc[idsImportIdField])) {
             // the data in the field is a number
             // force it to be one
-            pc[idsImportIdField] = parseInt(pc[idsImportIdField], 10)
+            rc[idsImportIdField] = parseInt(rc[idsImportIdField], 10)
           } else {
             // the data in the field is not a number!
-            idsNotANumber.push(pc[idsImportIdField])
+            idsNotANumber.push(rc[idsImportIdField])
           }
         })
       }
@@ -320,9 +320,9 @@ export default React.createClass({
       getGuidsById(idsAeIdField, ids)
         .then((idGuidObject) => {
           // now add guids to pcsToImport
-          pcsToImport.forEach((pc) => {
-            const importId = pc[idsImportIdField]
-            pc._id = idGuidObject[importId]
+          pcsToImport.forEach((rc) => {
+            const importId = rc[idsImportIdField]
+            rc._id = idGuidObject[importId]
           })
           let idsToImportWithDuplicates = _.pluck(pcsToImport, idsImportIdField)
           // remove emtpy values
@@ -455,14 +455,14 @@ export default React.createClass({
   },
 
   isEditingRcAllowed (name) {
-    const { pcs } = this.state
+    const { rcs } = this.state
     const { email } = this.props
     // set editing allowed to true
     // reason: close alert if it is still shown from last select
     this.setState({ esBearbeitenErlaubt: true })
     // check if this name exists
     // if so and it is not combining: check if it was imported by the user
-    const sameRc = _.find(pcs, (pc) => pc.name === name)
+    const sameRc = _.find(rcs, (rc) => rc.name === name)
     const esBearbeitenErlaubt = !sameRc || (sameRc && (sameRc.combining || sameRc.importedBy === email))
     if (!esBearbeitenErlaubt) {
       this.setState({ esBearbeitenErlaubt: false })
@@ -526,7 +526,7 @@ export default React.createClass({
   },
 
   render () {
-    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, pcsToImport, pcsRemoved, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs, validRcsToImport, activePanel, idsAeIdField, idsImportIdField, pcs, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, panel3Done, importingProgress, deletingRcInstancesProgress, deletingRcProgress } = this.state
+    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, pcsToImport, pcsRemoved, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs, validRcsToImport, activePanel, idsAeIdField, idsImportIdField, rcs, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, panel3Done, importingProgress, deletingRcInstancesProgress, deletingRcProgress } = this.state
     const { groupsLoadedOrLoading, email, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime } = this.props
     const showLoadAllGroups = email && !allGroupsLoaded
     const showAlertDeleteRcBuildingIndex = deletingRcProgress && deletingRcProgress < 100
@@ -538,14 +538,14 @@ export default React.createClass({
 
     return (
       <div id='importieren' className='formContent'>
-        <h4>Eigenschaften importieren</h4>
+        <h4>Beziehungen importieren</h4>
         <Accordion activeKey={activePanel}>
-          <Panel collapsible header='1. Eigenschaftensammlung beschreiben' eventKey={1} onClick={this.onClickPanel.bind(this, 1)}>
+          <Panel collapsible header='1. Beziehungssammlung beschreiben' eventKey={1} onClick={this.onClickPanel.bind(this, 1)}>
             {showLoadAllGroups ? <AlertLoadAllGroups open='true' groupsLoadingObjects={groupsLoadingObjects} alertAllGroupsBsStyle={alertAllGroupsBsStyle} /> : null}
             <Well className='well-sm'><a href='//youtu.be/nqd-v6YxkOY' target='_blank'><b>Auf Youtube sehen, wie es geht</b></a></Well>
             <WellAutorenrechte />
 
-            <InputNameBestehend nameBestehend={nameBestehend} beschreibung={beschreibung} datenstand={datenstand} nutzungsbedingungen={nutzungsbedingungen} link={link} zusammenfassend={zusammenfassend} email={email} pcs={pcs} groupsLoadedOrLoading={groupsLoadedOrLoading} onChangeNameBestehend={this.onChangeNameBestehend} />
+            <InputNameBestehend nameBestehend={nameBestehend} beschreibung={beschreibung} datenstand={datenstand} nutzungsbedingungen={nutzungsbedingungen} link={link} zusammenfassend={zusammenfassend} email={email} rcs={rcs} groupsLoadedOrLoading={groupsLoadedOrLoading} onChangeNameBestehend={this.onChangeNameBestehend} />
             <ButtonDeleteRc nameBestehend={nameBestehend} enableDeleteRcButton={enableDeleteRcButton} deletingRcProgress={deletingRcProgress} onClickDeleteRc={this.onClickDeleteRc} />
             {showAlertDeleteRcBuildingIndex ? <AlertDeleteRcBuildingIndex /> : null}
             {deletingRcProgress !== null ? <ProgressbarDeleteRc progress={deletingRcProgress} /> : null}
@@ -561,7 +561,7 @@ export default React.createClass({
             <InputLink link={link} validLink={validLink} onChangeLink={this.onChangeLink} onBlurLink={this.onBlurLink} />
             <InputImportiertVon importiertVon={importiertVon} />
             <InputZusammenfassend zusammenfassend={zusammenfassend} onChangeZusammenfassend={this.onChangeZusammenfassend} />
-            {zusammenfassend ? <InputUrsprungsEs nameUrsprungsEs={nameUrsprungsEs} pcs={pcs} validUrsprungsEs={validUrsprungsEs} onChangeNameUrsprungsEs={this.onChangeNameUrsprungsEs} /> : null}
+            {zusammenfassend ? <InputUrsprungsEs nameUrsprungsEs={nameUrsprungsEs} rcs={rcs} validUrsprungsEs={validUrsprungsEs} onChangeNameUrsprungsEs={this.onChangeNameUrsprungsEs} /> : null}
           </Panel>
 
           <Panel collapsible header='2. Eigenschaften laden' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>

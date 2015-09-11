@@ -9,7 +9,7 @@ export default React.createClass({
 
   propTypes: {
     nameUrsprungsEs: React.PropTypes.string,
-    pcs: React.PropTypes.array,
+    rcs: React.PropTypes.array,
     validUrsprungsEs: React.PropTypes.bool,
     onChangeNameUrsprungsEs: React.PropTypes.func
   },
@@ -21,9 +21,9 @@ export default React.createClass({
   },
 
   options () {
-    const { pcs } = this.props
-    // don't want combining pcs
-    let options = _.filter(pcs, (pc) => !pc.combining)
+    const { rcs } = this.props
+    // don't want combining rcs
+    let options = _.filter(rcs, (rc) => !rc.combining)
     options = _.pluck(options, 'name')
     options = options.map((name, index) => <option key={index} value={name}>{name}</option>)
     // add an empty option at the beginning

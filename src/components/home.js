@@ -38,8 +38,8 @@ export default React.createClass({
     guid: React.PropTypes.string,
     options: React.PropTypes.array,
     loadingFilterOptions: React.PropTypes.bool,
-    showImportPC: React.PropTypes.bool,
-    showImportRC: React.PropTypes.bool,
+    showImportPc: React.PropTypes.bool,
+    showImportRc: React.PropTypes.bool,
     showOrganizations: React.PropTypes.bool,
     logIn: React.PropTypes.bool,
     email: React.PropTypes.string,
@@ -51,7 +51,7 @@ export default React.createClass({
   },
 
   getInitialState () {
-    const { gruppe, guid, path, showImportPC, showImportRC, showOrganizations, email } = this.props
+    const { gruppe, guid, path, showImportPc, showImportRc, showOrganizations, email } = this.props
     const groupsLoadedOrLoading = gruppe ? [gruppe] : []
 
     // this happens on first load
@@ -72,8 +72,8 @@ export default React.createClass({
       guid: guid,
       filterOptions: [],
       loadingFilterOptions: false,
-      showImportPC: showImportPC,
-      showImportRC: showImportRC,
+      showImportPc: showImportPc,
+      showImportRc: showImportRc,
       showOrganizations: showOrganizations,
       logIn: false,
       email: email,
@@ -139,16 +139,16 @@ export default React.createClass({
     let state = { path, guid }
 
     let gruppe = null
-    let showImportPC = false
-    let showImportRC = false
+    let showImportPc = false
+    let showImportRc = false
     let showOrganizations = false
 
     if (path.length === 2 && path[0] === 'importieren') {
       if (path[1] === 'eigenschaften') {
-        showImportPC = true
+        showImportPc = true
         gruppe = null
       } else if (path[1] === 'beziehungen') {
-        showImportRC = true
+        showImportRc = true
         gruppe = null
       }
     } else if (path.length === 1 && path[0] === 'organisationen_und_benutzer') {
@@ -162,7 +162,7 @@ export default React.createClass({
       gruppe = null
     }
     const object = undefined
-    state = Object.assign(state, { object, gruppe, showImportPC, showImportRC, showOrganizations })
+    state = Object.assign(state, { object, gruppe, showImportPc, showImportRc, showOrganizations })
 
     this.setState(state)
 
@@ -188,12 +188,12 @@ export default React.createClass({
   },
 
   render () {
-    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, showImportPC, showImportRC, showOrganizations, logIn, email, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, pcsQuerying } = this.state
+    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, showImportPc, showImportRc, showOrganizations, logIn, email, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, pcsQuerying } = this.state
     const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
     const showGruppen = groupsNotLoaded.length > 0
     const showFilter = filterOptions.length > 0 || loadingFilterOptions
     const showTree = groupsLoadedOrLoading.length > 0
-    const showMain = object !== undefined || showImportRC || showImportPC || showOrganizations
+    const showMain = object !== undefined || showImportRc || showImportPc || showOrganizations
     const showLogin = logIn && !email
     let homeStyle = {}
     if (pcsQuerying) homeStyle.cursor = 'progress'
@@ -243,8 +243,8 @@ export default React.createClass({
             groupsLoadedOrLoading={groupsLoadedOrLoading}
             groupsLoadingObjects={groupsLoadingObjects}
             synonymObjects={synonymObjects}
-            showImportPC={showImportPC}
-            showImportRC={showImportRC}
+            showImportPc={showImportPc}
+            showImportRc={showImportRc}
             showOrganizations={showOrganizations}
             email={email}
             replicatingToAe={replicatingToAe}
