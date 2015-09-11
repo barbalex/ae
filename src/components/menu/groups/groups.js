@@ -3,7 +3,7 @@
 import React from 'react'
 import _ from 'lodash'
 import GroupCheckbox from './groupCheckbox.js'
-import getGruppen from '../../modules/gruppen.js'
+import getGruppen from '../../../modules/gruppen.js'
 
 const gruppen = getGruppen()
 
