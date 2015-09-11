@@ -32,13 +32,15 @@ export default React.createClass({
     rcsToImport.forEach((pc) => {
       keys = _.union(keys, _.keys(pc))
     })
+    // remove '_id' from keys
+    keys = _.without(keys, '_id')
 
     const thead = keys.map((key, index) => <th key={index}>{key}</th>)
     const tbody = rcsToImport.map((pc, index) => {
       // need only the first 10
       if (index < 10) {
         const rows = keys.map((key) => {
-          // return values for not existing fieds!
+          // return values for not existing fields!
           // if not, table gets torn apart
           const value = pc[key] || ''
           return <td key={key}>{value}</td>
