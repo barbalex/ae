@@ -37,10 +37,10 @@ export default React.createClass({
       <div className='static-modal'>
         <Modal.Dialog onHide={this.onHide}>
           <Modal.Header>
-            <Modal.Title>Eigenschaftensammlung "{name}" entfernen</Modal.Title>
+            <Modal.Title>Beziehungssammlung "{name}" entfernen</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <p>Sie möchten die Eigenschaftensammlung "{name}" und alle ihre Eigenschaften endgültig aus allen in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen?</p>
+            <p>Sie möchten die Beziehungssammlung "{name}" und alle ihre Eigenschaften endgültig aus allen in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen?</p>
           </Modal.Body>
           <Modal.Footer>
             <Button bsStyle='danger' onClick={this.onClickRemove}>ja, entfernen!</Button>

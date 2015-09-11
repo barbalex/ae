@@ -9,7 +9,7 @@ export default React.createClass({
 
   propTypes: {
     idsImportIdField: React.PropTypes.string,
-    pcsToImport: React.PropTypes.array,
+    rcsToImport: React.PropTypes.array,
     onChangeImportId: React.PropTypes.func
   },
 
@@ -19,11 +19,11 @@ export default React.createClass({
   },
 
   render () {
-    const { pcsToImport, idsImportIdField } = this.props
+    const { rcsToImport, idsImportIdField } = this.props
 
      // get a list of all keys
     let keys = []
-    pcsToImport.forEach((pc) => {
+    rcsToImport.forEach((pc) => {
       keys = _.union(keys, _.keys(pc))
     })
 

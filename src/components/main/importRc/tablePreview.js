@@ -8,33 +8,33 @@ export default React.createClass({
   displayName: 'TablePreview',
 
   propTypes: {
-    pcsToImport: React.PropTypes.array
+    rcsToImport: React.PropTypes.array
   },
 
   render () {
-    const { pcsToImport } = this.props
+    const { rcsToImport } = this.props
     const legendStyle = { marginBottom: 2 + 'px', paddingLeft: 5 + 'px' }
     const tablePreviewStyle = { marginTop: 10 + 'px' }
     let legend = ''
 
-    if (pcsToImport.length > 10) {
-      legend = 'Vorschau der ersten 10 von ' + pcsToImport.length + ' Datensätzen:'
-    } else if (pcsToImport.length > 1) {
-      legend = 'Vorschau der ' + pcsToImport.length + ' Datensätze:'
-    } else if (pcsToImport.length === 1) {
-      legend = 'Vorschau der ' + pcsToImport.length + ' Datensätze:'
+    if (rcsToImport.length > 10) {
+      legend = 'Vorschau der ersten 10 von ' + rcsToImport.length + ' Datensätzen:'
+    } else if (rcsToImport.length > 1) {
+      legend = 'Vorschau der ' + rcsToImport.length + ' Datensätze:'
+    } else if (rcsToImport.length === 1) {
+      legend = 'Vorschau der ' + rcsToImport.length + ' Datensätze:'
     } else {
       legend = 'Vorschau:'
     }
 
     // get a list of all keys
     let keys = []
-    pcsToImport.forEach((pc) => {
+    rcsToImport.forEach((pc) => {
       keys = _.union(keys, _.keys(pc))
     })
 
     const thead = keys.map((key, index) => <th key={index}>{key}</th>)
-    const tbody = pcsToImport.map((pc, index) => {
+    const tbody = rcsToImport.map((pc, index) => {
       // need only the first 10
       if (index < 10) {
         const rows = keys.map((key) => {

@@ -70,7 +70,7 @@ export default React.createClass({
     importingProgress: React.PropTypes.number,
     deletingRcInstancesProgress: React.PropTypes.number,
     deletingRcProgress: React.PropTypes.number,
-    esBearbeitenErlaubt: React.PropTypes.bool,
+    bsBearbeitenErlaubt: React.PropTypes.bool,
     panel1Done: React.PropTypes.bool,
     panel2Done: React.PropTypes.bool,
     panel3Done: React.PropTypes.bool,
@@ -102,7 +102,7 @@ export default React.createClass({
       importiertVon: this.props.email,
       zusammenfassend: null,
       nameUrsprungsBs: null,
-      esBearbeitenErlaubt: true,
+      bsBearbeitenErlaubt: true,
       rcs: [],
       rcsToImport: [],
       rcsRemoved: false,
@@ -240,7 +240,7 @@ export default React.createClass({
     this.validUrsprungsBs(nameUrsprungsBs)
   },
 
-  onChangeRcFile (event) {
+  onChangeFile (event) {
     // always empty rcsToImport first
     // otherwise weird things happen
     // also reset analysis
@@ -256,10 +256,14 @@ export default React.createClass({
       const file = event.target.files[0]
       getObjectsFromFile(file)
         .then((rcsToImport) => {
+          // rcsToImport = [ 'a', 'b' ]
+          // rcsToImport = []
+          console.log('rcsToImport', rcsToImport)
+          // TODO: error follows
           this.setState({ rcsToImport })
           this.validRcsToImport()
         })
-        .catch((error) => app.Actions.showError({title: 'error reading file:', msg: error}))
+        .catch((error) => app.Actions.showError({title: 'Fehler beim Lesen der Datei:', msg: error}))
     }
   },
 
@@ -459,22 +463,22 @@ export default React.createClass({
     const { email } = this.props
     // set editing allowed to true
     // reason: close alert if it is still shown from last select
-    this.setState({ esBearbeitenErlaubt: true })
+    this.setState({ bsBearbeitenErlaubt: true })
     // check if this name exists
     // if so and it is not combining: check if it was imported by the user
     const sameRc = _.find(rcs, (rc) => rc.name === name)
-    const esBearbeitenErlaubt = !sameRc || (sameRc && (sameRc.combining || sameRc.importedBy === email))
-    if (!esBearbeitenErlaubt) {
-      this.setState({ esBearbeitenErlaubt: false })
+    const bsBearbeitenErlaubt = !sameRc || (sameRc && (sameRc.combining || sameRc.importedBy === email))
+    if (!bsBearbeitenErlaubt) {
+      this.setState({ bsBearbeitenErlaubt: false })
       // delete text after a second
       setTimeout(() => this.setState({
           nameBestehend: null,
           name: null
         }), 1000)
       // close alert after 8 seconds
-      setTimeout(() => this.setState({ esBearbeitenErlaubt: true }), 8000)
+      setTimeout(() => this.setState({ bsBearbeitenErlaubt: true }), 8000)
     }
-    return esBearbeitenErlaubt
+    return bsBearbeitenErlaubt
   },
 
   validName () {
@@ -526,7 +530,7 @@ export default React.createClass({
   },
 
   render () {
-    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsBs, esBearbeitenErlaubt, rcsToImport, rcsRemoved, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsBs, validRcsToImport, activePanel, idsAeIdField, idsImportIdField, rcs, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, panel3Done, importingProgress, deletingRcInstancesProgress, deletingRcProgress } = this.state
+    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsBs, bsBearbeitenErlaubt, rcsToImport, rcsRemoved, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsBs, validRcsToImport, activePanel, idsAeIdField, idsImportIdField, rcs, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, panel3Done, importingProgress, deletingRcInstancesProgress, deletingRcProgress } = this.state
     const { groupsLoadedOrLoading, email, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime } = this.props
     const showLoadAllGroups = email && !allGroupsLoaded
     const showAlertDeleteRcBuildingIndex = deletingRcProgress && deletingRcProgress < 100
@@ -553,7 +557,7 @@ export default React.createClass({
             <hr />
 
             <InputName name={name} validName={validName} onChangeName={this.onChangeName} onBlurName={this.onBlurName} />
-            {esBearbeitenErlaubt ? null : <AlertEditingRcDisallowed />}
+            {bsBearbeitenErlaubt ? null : <AlertEditingRcDisallowed />}
             <InputBeschreibung beschreibung={beschreibung} validBeschreibung={validBeschreibung} onChangeBeschreibung={this.onChangeBeschreibung} />
             <InputDatenstand datenstand={datenstand} validDatenstand={validDatenstand} onChangeDatenstand={this.onChangeDatenstand} />
             <InputNutzungsbedingungen nutzungsbedingungen={nutzungsbedingungen} validNutzungsbedingungen={validNutzungsbedingungen} onChangeNutzungsbedingungen={this.onChangeNutzungsbedingungen} />
@@ -568,7 +572,7 @@ export default React.createClass({
             <WellAnforderungenAnCsv />
             <WellAnforderungenInhaltlich />
 
-            <input type='file' className='form-control' id='pcFile' onChange={this.onChangeRcFile} />
+            <input type='file' className='form-control' onChange={this.onChangeFile} />
             {validRcsToImport ? null : <div className='validateDiv'>Bitte wählen Sie eine Datei</div>}
 
             {rcsToImport.length > 0 ? <TablePreview rcsToImport={rcsToImport} /> : null}

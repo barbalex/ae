@@ -240,7 +240,7 @@ export default React.createClass({
     this.validUrsprungsEs(nameUrsprungsEs)
   },
 
-  onChangePcFile (event) {
+  onChangeFile (event) {
     // always empty pcsToImport first
     // otherwise weird things happen
     // also reset analysis
@@ -569,7 +569,7 @@ export default React.createClass({
             <WellAnforderungenAnCsv />
             <WellAnforderungenInhaltlich />
 
-            <input type='file' className='form-control' id='pcFile' onChange={this.onChangePcFile} />
+            <input type='file' className='form-control' onChange={this.onChangeFile} />
             {validPcsToImport ? null : <div className='validateDiv'>Bitte wählen Sie eine Datei</div>}
 
             {pcsToImport.length > 0 ? <TablePreview pcsToImport={pcsToImport} /> : null}

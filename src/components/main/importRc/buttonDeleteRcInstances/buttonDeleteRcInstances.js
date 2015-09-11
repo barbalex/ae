@@ -10,7 +10,7 @@ export default React.createClass({
   propTypes: {
     show: React.PropTypes.bool,
     name: React.PropTypes.string,
-    pcsRemoved: React.PropTypes.bool,
+    rcsRemoved: React.PropTypes.bool,
     deletingRcInstancesProgress: React.PropTypes.number,
     onClickRemoveRcInstances: React.PropTypes.func
   },
@@ -40,7 +40,7 @@ export default React.createClass({
   },
 
   render () {
-    const { name, pcsRemoved, deletingRcInstancesProgress } = this.props
+    const { name, rcsRemoved, deletingRcInstancesProgress } = this.props
     const { show } = this.state
     const showConfirmModal = show && !deletingRcInstancesProgress
     const divStyle = {
@@ -49,7 +49,7 @@ export default React.createClass({
 
     return (
       <div style={divStyle}>
-        <Button bsStyle='danger' onClick={this.onClickDeleteRcInstances} disabled={pcsRemoved}><Glyphicon glyph='trash'/> Eigenschaftensammlung "{name}" aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen</Button>
+        <Button bsStyle='danger' onClick={this.onClickDeleteRcInstances} disabled={rcsRemoved}><Glyphicon glyph='trash'/> Beziehungssammlung "{name}" aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen</Button>
         {showConfirmModal ? <ModalDeleteRcInstances name={name} onClickRemoveRcInstances={this.onClickRemove} closeModal={this.closeModal} /> : null}
       </div>
     )

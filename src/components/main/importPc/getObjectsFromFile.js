@@ -14,8 +14,8 @@ export default (file) => {
         const data = onloadEvent.target.result
         const objects = d3.csv.parse(data)
         // d3 adds missing fields as '' > remove them
-        objects.forEach((pc, index) => {
-          _.forEach(pc, (value, key) => {
+        objects.forEach((object, index) => {
+          _.forEach(object, (value, key) => {
             if (value === '') delete objects[index][key]
           })
         })
