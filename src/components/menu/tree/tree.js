@@ -32,6 +32,8 @@ export default React.createClass({
       maxHeight: treeMaxHeight
     }
 
+    const loadingMessages = groupsLoadingObjects.map((groupLoadingObject, index) => <LoadingMessage key={index} groupLoadingObject={groupLoadingObject} />)
+
     console.log('tree.js, loading', loading)
 
     return (
@@ -48,8 +50,7 @@ export default React.createClass({
           }
         </div>
         {loading ?
-          <LoadingMessage
-            groupsLoadingObjects={groupsLoadingObjects} />
+          loadingMessages
           : null
         }
       </div>
