@@ -198,11 +198,6 @@ export default React.createClass({
     let homeStyle = {}
     if (pcsQuerying) homeStyle.cursor = 'progress'
 
-    console.log('home.js, render. state', this.state)
-    console.log('home.js, render. groupsNotLoaded', groupsNotLoaded)
-    console.log('home.js, render. showGruppen', showGruppen)
-    console.log('home.js, render. showTree', showTree)
-
     // MenuButton needs to be outside of the menu
     // otherwise the menu can't be shown outside when menu is short
     return (

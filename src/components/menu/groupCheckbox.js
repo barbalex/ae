@@ -17,7 +17,6 @@ export default React.createClass({
 
   render () {
     const { group } = this.props
-    console.log('groupCheckbox.js, group', group)
     const label = group.replace('Macromycetes', 'Pilze')
     return (
       <Input type='checkbox' label={label} onClick={this.onClickGruppe.bind(this, group)} />

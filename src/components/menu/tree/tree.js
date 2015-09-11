@@ -34,8 +34,6 @@ export default React.createClass({
 
     const loadingMessages = groupsLoadingObjects.map((groupLoadingObject, index) => <LoadingMessage key={index} groupLoadingObject={groupLoadingObject} />)
 
-    console.log('tree.js, loading', loading)
-
     return (
       <div>
         <div id='tree' style={treeStyle}>
