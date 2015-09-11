@@ -15,7 +15,9 @@ import addGroupsLoadedToLocalGroupsDb from './modules/addGroupsLoadedToLocalGrou
 import getGruppen from './modules/gruppen.js'
 import loadGroupFromRemote from './modules/loadGroupFromRemote.js'
 import queryPcs from './queries/pcs.js'
+import queryRcs from './queries/rcs.js'
 import objectsIdsByPcsName from './queries/objectsIdsByPcsName.js'
+import objectsIdsByRcsName from './queries/objectsIdsByRcsName.js'
 import convertValue from './modules/convertValue.js'
 import sortObjectArrayByName from './modules/sortObjectArrayByName.js'
 
@@ -227,6 +229,147 @@ export default (Actions) => {
 
   })
 
+  app.objectsRcsStore = Reflux.createStore({
+    /**
+     * used to manipulate relation collections in objects
+     * when importing and deleting relation collections
+     */
+    listenables: Actions,
+
+    onImportRcs (state) {
+      const { rcsToImport, idsImportIdField, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs } = state
+
+      let importingProgress = 0
+      // set back deleting progress to close progressbar and deletion examples
+      const deletingRcInstancesProgress = null
+      const deletingRcProgress = null
+      // alert say "Daten werden vorbereitet..."
+      this.trigger({ importingProgress, deletingRcInstancesProgress, deletingRcProgress })
+
+      // loop rcsToImport
+      rcsToImport.forEach((rcToImport, index) => {
+        // get the object to add it to
+        const guid = rcToImport._id
+        if (guid) {
+          app.objectStore.getItem(guid)
+            .then((objectToImportRcInTo) => {
+              // build rc
+              let rc = {}
+              rc.Name = name
+              rc.Beschreibung = beschreibung
+              rc.Datenstand = datenstand
+              rc.Nutzungsbedingungen = nutzungsbedingungen
+              if (link) rc.Link = link
+              rc['importiert von'] = importiertVon
+              if (zusammenfassend) rc.zusammenfassend = zusammenfassend
+              if (nameUrsprungsEs) rc.Ursprungsdatensammlung = nameUrsprungsEs
+              rc.Eigenschaften = {}
+              // now add fields of rc
+              _.forEach(rcToImport, (value, field) => {
+                // dont import _id, idField or empty fields
+                if (field !== '_id' && field !== idsImportIdField && value !== '' && value !== null) {
+                  // convert values / types if necessary
+                  rc.Eigenschaften[field] = convertValue(value)
+                }
+              })
+              // make sure, Beziehungssammlungen exists
+              if (!objectToImportRcInTo.Beziehungssammlungen) objectToImportRcInTo.Beziehungssammlungen = []
+              // if a rc with this name existed already, remove it
+              objectToImportRcInTo.Beziehungssammlungen = _.reject(objectToImportRcInTo.Beziehungssammlungen, (bs) => bs.name === name)
+              objectToImportRcInTo.Beziehungssammlungen.push(rc)
+              objectToImportRcInTo.Beziehungssammlungen = sortObjectArrayByName(objectToImportRcInTo.Beziehungssammlungen)
+              // write to db
+              return app.localDb.put(objectToImportRcInTo)
+            })
+            .then(() => {
+              importingProgress = Math.round((index + 1) / rcsToImport.length * 100)
+              let state = { importingProgress }
+              if (importingProgress === 100) {
+                // reset rcsRemoved to show button to remove again
+                const rcsRemoved = false
+                state = Object.assign(state, { rcsRemoved })
+                /**
+                 * update nameBestehend
+                 * goal is to update the list of rcs and therewith the dropdown lists in nameBestehend and ursprungsEs
+                 * we could do it by querying the db again with app.Actions.queryPropertyCollections()
+                 * but this is 1. very slow so happens too late and 2. uses lots of ressources
+                 * so we build a new rc
+                 * and add it to the relationCollectionsStore
+                 * relationCollectionsStore triggers new rcs and lists get refreshed
+                 */
+                const rc = {
+                  name: name,
+                  combining: zusammenfassend,
+                  importedBy: importiertVon,
+                  fields: {
+                    Beschreibung: beschreibung,
+                    Datenstand: datenstand,
+                    Nutzungsbedingungen: nutzungsbedingungen,
+                    Link: link,
+                    'importiert von': importiertVon
+                  },
+                  count: 0
+                }
+                app.relationCollectionsStore.saveRc(rc)
+              }
+              this.trigger(state)
+            })
+            .catch((error) => app.Actions.showError({title: 'Fehler beim Importieren:', msg: error}))
+        }
+      })
+    },
+
+    onDeleteRcByName (name) {
+      /**
+       * gets name of rc
+       * removes rc's with this name from all objects
+       * is listened to by importRc.js
+       * returns: idsOfAeObjects, deletingRcProgress
+       * if a callback is passed, it is executed at the end
+       */
+      let idsOfAeObjects = []
+      let deletingRcProgress = null
+      let nameBestehend = name
+      this.trigger({ idsOfAeObjects, deletingRcProgress, nameBestehend })
+      objectsIdsByRcsName(name)
+        .then((ids) => {
+          idsOfAeObjects = ids
+          ids.forEach((id, index) => {
+            app.objectStore.getItem(id)
+              .then((doc) => {
+                doc.Beziehungssammlungen = _.reject(doc.Beziehungssammlungen, (rc) => rc.Name === name)
+                return app.localDb.put(doc)
+              })
+              .then(() => {
+                deletingRcProgress = Math.round((index + 1) / ids.length * 100)
+                if (deletingRcProgress === 100) app.relationCollectionsStore.removeRcByName(name)
+                this.trigger({ idsOfAeObjects, deletingRcProgress })
+              })
+              .catch((error) => app.Actions.showError({title: `Fehler: Das Objekt mit der ID ${id} wurde nicht aktualisiert:`, msg: error}))
+          })
+        })
+        .catch((error) => app.Actions.showError({title: 'Fehler beim Versuch, die Eigenschaften zu löschen:', msg: error}))
+    },
+
+    onDeleteRcInstances (name, idsOfAeObjects) {
+      idsOfAeObjects.forEach((guid, index) => {
+        app.objectStore.getItem(guid)
+          .then((doc) => {
+            doc.Beziehungssammlungen = _.reject(doc.Beziehungssammlungen, (rc) => rc.Name === name)
+            return app.localDb.put(doc)
+          })
+          .then(() => {
+            const deletingRcInstancesProgress = Math.round((index + 1) / idsOfAeObjects.length * 100)
+            let rcsRemoved = false
+            if (deletingRcInstancesProgress === 100) rcsRemoved = true
+            this.trigger({ deletingRcInstancesProgress, rcsRemoved })
+          })
+          .catch((error) => app.Actions.showError({title: `Fehler: Das Objekt mit der GUID ${guid} wurde nicht aktualisiert:`, msg: error}))
+      })
+    }
+
+  })
+
   app.propertyCollectionsStore = Reflux.createStore({
     /*
      * queries property collections
@@ -325,6 +468,108 @@ export default (Actions) => {
         })
         .catch((error) =>
           app.Actions.showError({title: 'propertyCollectionsStore, error querying up to date pcs:', msg: error})
+        )
+    }
+  })
+
+  app.relationCollectionsStore = Reflux.createStore({
+    /*
+     * queries relation collections
+     * keeps last query result in pouch (_local/rcs.rcs) for fast delivery
+     * app.js sets default _local/rcs.rcs = [] if not exists on app start
+     * rc's are arrays of the form:
+     * [collectionType, rcName, combining, importedBy, {Beschreibung: xxx, Datenstand: xxx, Link: xxx, Nutzungsbedingungen: xxx}, count: xxx]
+     *
+     * when this store triggers it passes two variables:
+     * rcs: the relation collections
+     * rcsQuerying: true/false: are rcs being queryied? if true: show warning in symbols
+     */
+    listenables: Actions,
+
+    rcsQuerying: false,
+
+    getRcs () {
+      return new Promise((resolve, reject) => {
+        app.localDb.get('_local/rcs', { include_docs: true })
+          .then((doc) => resolve(doc.rcs))
+          .catch((error) =>
+            reject('loginStore: error getting relation collections from localDb: ' + error)
+          )
+      })
+    },
+
+    saveRc (rc) {
+      let rcs
+      app.localDb.get('_local/rcs', { include_docs: true })
+        .then((doc) => {
+          doc.rcs.push(rc)
+          doc.rcs = _.sortBy(doc.rcs, (rc) => rc.name)
+          rcs = doc.rcs
+          return app.localDb.put(doc)
+        })
+        .then(() => this.trigger(rcs, this.rcsQuerying))
+        .catch((error) =>
+          app.Actions.showError({title: 'Fehler in relationCollectionsStore, saveRc:', msg: error})
+        )
+    },
+
+    saveRcs (rcs) {
+      app.localDb.get('_local/rcs', { include_docs: true })
+        .then((doc) => {
+          doc.rcs = rcs
+          return app.localDb.put(doc)
+        })
+        .catch((error) =>
+          app.Actions.showError({title: 'Fehler in relationCollectionsStore, saveRcs:', msg: error})
+        )
+    },
+
+    removeRcByName (name) {
+      let rcs
+      app.localDb.get('_local/rcs', { include_docs: true })
+        .then((doc) => {
+          doc.rcs = _.reject(doc.rcs, (rc) => rc.name === name)
+          rcs = doc.rcs
+          return app.localDb.put(doc)
+        })
+        .then(() => this.trigger(rcs, this.rcsQuerying))
+        .catch((error) =>
+          app.Actions.showError({title: 'Fehler in relationCollectionsStore, removeRcByName:', msg: error})
+        )
+    },
+
+    getRcByName (name) {
+      return new Promise((resolve, reject) => {
+        this.getRcs()
+          .then((rcs) => {
+            const rc = _.find(rcs, (rc) => rc.name === name)
+            resolve(rc)
+          })
+          .catch((error) => reject(error))
+      })
+    },
+
+    onQueryRelationCollections () {
+      // if rc's exist, send them immediately
+      this.rcsQuerying = true
+      this.getRcs()
+        .then((rcs) => this.trigger(rcs, this.rcsQuerying))
+        .catch((error) =>
+          app.Actions.showError({title: 'relationCollectionsStore, error getting existing rcs:', msg: error})
+        )
+      // now fetch up to date rc's
+      queryRcs()
+        .then((rcs) => {
+          this.rcsQuerying = false
+          // email has empty values. Set default
+          rcs.forEach((rc) => {
+            rc.importedBy = rc.importedBy || 'alex@gabriel-software.ch'
+          })
+          this.trigger(rcs, this.rcsQuerying)
+          return this.saveRcs(rcs)
+        })
+        .catch((error) =>
+          app.Actions.showError({title: 'relationCollectionsStore, error querying up to date rcs:', msg: error})
         )
     }
   })

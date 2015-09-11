@@ -5,19 +5,19 @@ import { OverlayTrigger, Popover } from 'react-bootstrap'
 import _ from 'lodash'
 
 export default React.createClass({
-  displayName: 'InputUrsprungsEs',
+  displayName: 'InputUrsprungsBs',
 
   propTypes: {
-    nameUrsprungsEs: React.PropTypes.string,
+    nameUrsprungsBs: React.PropTypes.string,
     rcs: React.PropTypes.array,
-    validUrsprungsEs: React.PropTypes.bool,
-    onChangeNameUrsprungsEs: React.PropTypes.func
+    validUrsprungsBs: React.PropTypes.bool,
+    onChangeNameUrsprungsBs: React.PropTypes.func
   },
 
   onChange (event) {
-    const nameUrsprungsEs = event.target.value
+    const nameUrsprungsBs = event.target.value
     // tell parent component
-    this.props.onChangeNameUrsprungsEs(nameUrsprungsEs)
+    this.props.onChangeNameUrsprungsBs(nameUrsprungsBs)
   },
 
   options () {
@@ -46,17 +46,17 @@ export default React.createClass({
   },
 
   render () {
-    const { nameUrsprungsEs, validUrsprungsEs } = this.props
+    const { nameUrsprungsBs, validUrsprungsBs } = this.props
 
     return (
-      <div className={validUrsprungsEs ? 'form-group' : 'form-group has-error'}>
+      <div className={validUrsprungsBs ? 'form-group' : 'form-group has-error'}>
         <OverlayTrigger trigger='click' placement='right' overlay={this.popover()}>
           <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.popover()}>
             <label className='control-label withPopover' htmlFor='dsUrsprungsDs' id='dsUrsprungsDsLabel'>eigenständige Eigenschaftensammlung</label>
           </OverlayTrigger>
         </OverlayTrigger>
-        <select className='form-control controls input-sm' id='dsUrsprungsDs' selected={nameUrsprungsEs} onChange={this.onChange}>{this.options()}</select>
-        {validUrsprungsEs ? null : <div className='validateDiv feld'>Bitte wählen Sie die eigenständige Eigenschaftensammlung</div>}
+        <select className='form-control controls input-sm' id='dsUrsprungsDs' selected={nameUrsprungsBs} onChange={this.onChange}>{this.options()}</select>
+        {validUrsprungsBs ? null : <div className='validateDiv feld'>Bitte wählen Sie die eigenständige Eigenschaftensammlung</div>}
       </div>
     )
   }

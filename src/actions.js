@@ -27,9 +27,13 @@ export default () => {
     login: {},
     showGroupLoading: {},
     queryPropertyCollections: {},
+    queryRelationCollections: {},
     deletePcByName: {},
+    deleteRcByName: {},
     importPcs: {},
+    importRcs: {},
     deletePcInstances: {},
+    deleteRcInstances: {},
     showError: {},
     replicateToAe: {},
     replicateFromAe: {}

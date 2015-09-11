@@ -22,9 +22,9 @@ export default React.createClass({
     return (
       <Popover title='So beschreiben Sie die Sammlung:'>
         <p>Die Beschreibung sollte im ersten Teil etwa einem klassischen Literaturzitat entsprechen.<br/>
-          Beispiel: "Gigon A. et al. (1998): Blaue Listen der erfolgreich erhaltenen oder geförderten Tier- und Pflanzenarten der Roten Listen. Methodik und Anwendung in der nördlichen Schweiz. Veröff. Geobot. Inst. ETH, Stiftung Rübel, Zürich 129: 1-137 + 180 pp. Appendicesn".</p>
-        <p>In einem zweiten Teil sollte beschrieben werden, welche Informationen die Eigenschaftensammlung enthält.<br/>
-          Beispiel: "Eigenschaften von 207 Tierarten und 885 Pflanzenarten".</p>
+          Beispiel: "Delarze R. & Gonseth Y. (2008): Lebensräume der Schweiz".</p>
+        <p>In einem zweiten Teil sollte beschrieben werden, welche Informationen die Datensammlung enthält.<br/>
+          Beispiel: "Delarze R. & Gonseth Y. (2008): Lebensräume der Schweiz. 791 Beziehungen zwischen 279 Lebensräumen und Tierarten".</p>
         <p>Es kann sehr nützlich sein, zu wissen, wozu die Informationen zusammengestellt wurden.</p>
       </Popover>
     )

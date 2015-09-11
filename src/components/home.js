@@ -47,7 +47,8 @@ export default React.createClass({
     replicatingToAeTime: React.PropTypes.string,
     replicatingFromAe: React.PropTypes.string,
     replicatingFromAeTime: React.PropTypes.string,
-    pcsQuerying: React.PropTypes.bool
+    pcsQuerying: React.PropTypes.bool,
+    rcsQuerying: React.PropTypes.bool
   },
 
   getInitialState () {
@@ -81,7 +82,8 @@ export default React.createClass({
       replicatingToAeTime: null,
       replicatingFromAe: null,
       replicatingFromAeTime: null,
-      pcsQuerying: false
+      pcsQuerying: false,
+      rcsQuerying: false
     }
   },
 
@@ -97,10 +99,15 @@ export default React.createClass({
     this.listenTo(app.replicateFromAeStore, this.onReplicateFromAeStoreChange)
     this.listenTo(app.objectsPcsStore, this.onChangeObjectsPcsStore)
     this.listenTo(app.propertyCollectionsStore, this.onChangePropertyCollectionsStore)
+    this.listenTo(app.relationCollectionsStore, this.onChangeRelationCollectionsStore)
   },
 
   onChangePropertyCollectionsStore (pcs, pcsQuerying) {
     this.setState({ pcsQuerying })
+  },
+
+  onChangeRelationCollectionsStore (rcs, rcsQuerying) {
+    this.setState({ rcsQuerying })
   },
 
   onChangeObjectsPcsStore () {
@@ -188,7 +195,7 @@ export default React.createClass({
   },
 
   render () {
-    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, showImportPc, showImportRc, showOrganizations, logIn, email, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, pcsQuerying } = this.state
+    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, showImportPc, showImportRc, showOrganizations, logIn, email, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, pcsQuerying, rcsQuerying } = this.state
     const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
     const showGruppen = groupsNotLoaded.length > 0
     const showFilter = filterOptions.length > 0 || loadingFilterOptions
@@ -196,7 +203,7 @@ export default React.createClass({
     const showMain = object !== undefined || showImportRc || showImportPc || showOrganizations
     const showLogin = logIn && !email
     let homeStyle = {}
-    if (pcsQuerying) homeStyle.cursor = 'progress'
+    if (pcsQuerying || rcsQuerying) homeStyle.cursor = 'progress'
 
     // MenuButton needs to be outside of the menu
     // otherwise the menu can't be shown outside when menu is short
@@ -232,6 +239,7 @@ export default React.createClass({
         <Symbols
           email={email}
           pcsQuerying={pcsQuerying}
+          rcsQuerying={rcsQuerying}
           replicatingToAe={replicatingToAe}
           replicatingToAeTime={replicatingToAeTime}
           replicatingFromAe={replicatingFromAe}

@@ -22,7 +22,7 @@ export default React.createClass({
         <p>Die Informationen in einer zusammenfassenden Eigenschaftensammlung wurden aus mehreren eigenständigen Eigenschaftensammlungen zusammegefasst.</p>
         <p>Zweck: Jede Art bzw. jeder Lebensraum enthält die jeweils aktuellste Information zum Thema.</p>
         <p>Beispiel: Rote Liste.</p>
-        <p>Mehr Infos <a href='https://github.com/FNSKtZH/artendb#zusammenfassende-pcs' target='_blank'>im Projektbeschrieb</a>.</p>
+        <p>Mehr Infos <a href='https://github.com/FNSKtZH/artendb/blob/master/README.md#zusammenfassende-eigenschaftensammlungen' target='_blank'>im Projektbeschrieb</a>.</p>
         <p><em>Tipp: Klicken Sie auf "zusammenfassend", damit diese Meldung offen bleibt.</em></p>
       </Popover>
     )
