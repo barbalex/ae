@@ -66,6 +66,9 @@ export default React.createClass({
     idsNumberImportable: React.PropTypes.number,
     idsNotImportable: React.PropTypes.array,
     idsNotANumber: React.PropTypes.array,
+    idsWithoutPartner: React.PropTypes.array,
+    rPartnerIdsToImport: React.PropTypes.array,
+    rPartnerIdsImportable: React.PropTypes.array,
     importingProgress: React.PropTypes.number,
     deletingRcInstancesProgress: React.PropTypes.number,
     deletingRcProgress: React.PropTypes.number,
@@ -113,6 +116,9 @@ export default React.createClass({
       idsNumberImportable: 0,
       idsNotImportable: [],
       idsNotANumber: [],
+      idsWithoutPartner: [],
+      rPartnerIdsToImport: [],
+      rPartnerIdsImportable: [],
       importingProgress: null,
       deletingRcInstancesProgress: null,
       deletingRcProgress: null,
@@ -288,6 +294,25 @@ export default React.createClass({
     this.setState(state, this.onChangeId)
   },
 
+  buildPartnerFromObject (object) {
+    let partner = {}
+    partner.Gruppe = object.Gruppe
+    if (object.Gruppe === 'Lebensräume') {
+      partner.Taxonomie = _.get(object, 'Taxonomie.Name')
+      const label = _.get(object, 'Taxonomie.Eigenschaften.Taxonomie.Label')
+      const einheit = _.get(object, 'Taxonomie.Eigenschaften.Taxonomie.Einheit')
+      if (label) {
+        partner.Name = label + ': ' + einheit
+      } else {
+        partner.Name = einheit
+      }
+    } else {
+      partner.Name = object.Taxonomie.Eigenschaften['Artname vollständig']
+    }
+    partner.GUID = object._id
+    return partner
+  },
+
   onChangeId () {
     const { idsAeIdField, idsImportIdField, rcsToImport } = this.state
 
@@ -308,6 +333,42 @@ export default React.createClass({
           }
         })
       }
+      // TODO
+      // now prepare Beziehungspartner for import
+      // also: output this info:
+      // - idsWithoutPartner
+      // - rPartnerIdsToImport
+      // - rPartnerIdsImportable
+      let idsWithoutPartner = []
+      let rPartnerIdsToImport = []
+      let rPartnerIdsImportable = []
+
+      rcsToImport.forEach((rc, index) => {
+        // Beziehungspartner in import data can be a single guid or a list of guids split by ', '
+        // in ae it needs to be an array of objects
+        let rPartnerIds = rc.Beziehungspartner.split(', ')
+        // analyse
+        if (rPartnerIds.length === 0) idsWithoutPartner.push(rc[idsImportIdField])
+        rPartnerIdsToImport.push(rPartnerIds)
+        // build rc.Beziehungspartner
+        let rPartners = []
+        // get an array of all partner objects
+        Promise.all(rPartnerIds.map((id) => {
+          return app.objectStore.getItem(id)
+        }))
+        .then((objects) => {
+          // now build rPartner for each rPartnerId
+          objects.forEach((object) => {
+            rPartnerIdsImportable.push(object._id)
+            rPartners.push(this.buildPartnerFromObject(object))
+          })
+          rc.Beziehungspartner = rPartners
+        })
+        .catch((error) => {
+          // ignore - can simply be that no object was found for id
+        })
+      })
+
       const ids = _.pluck(rcsToImport, idsImportIdField)
       // if ids should be numbers but some are not, an error can occur when fetching from the database
       // so dont fetch
