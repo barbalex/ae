@@ -587,7 +587,7 @@ export default React.createClass({
   },
 
   render () {
-    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsBs, bsBearbeitenErlaubt, rcsToImport, rcsRemoved, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsBs, validRcsToImport, activePanel, idsAeIdField, idsImportIdField, rcs, idsNumberOfRecordsWithIdValue, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, panel3Done, importingProgress, deletingRcInstancesProgress, deletingRcProgress } = this.state
+    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsBs, bsBearbeitenErlaubt, rcsToImport, rcsRemoved, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsBs, validRcsToImport, activePanel, idsAeIdField, idsImportIdField, rcs, idsNumberOfRecordsWithIdValue, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, panel3Done, importingProgress, deletingRcInstancesProgress, deletingRcProgress, idsWithoutPartner, rPartnerIdsToImport, rPartnerIdsImportable } = this.state
     const { groupsLoadedOrLoading, email, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime } = this.props
     const showLoadAllGroups = email && !allGroupsLoaded
     const showAlertDeleteRcBuildingIndex = deletingRcProgress && deletingRcProgress < 100
@@ -638,7 +638,7 @@ export default React.createClass({
           <Panel collapsible header="3. ID's identifizieren" eventKey={3} onClick={this.onClickPanel.bind(this, 3)}>
             {rcsToImport.length > 0 ? <InputImportFields idsImportIdField={idsImportIdField} rcsToImport={rcsToImport} onChangeImportId={this.onChangeImportId} /> : null}
             <InputAeId idsAeIdField={idsAeIdField} onChangeAeId={this.onChangeAeId} />
-            {idsImportIdField && idsAeIdField ? <AlertIdsAnalysisResult idsImportIdField={idsImportIdField} idsAeIdField={idsAeIdField} rcsToImport={rcsToImport} idsNumberOfRecordsWithIdValue={idsNumberOfRecordsWithIdValue} idsNumberImportable={idsNumberImportable} idsNotImportable={idsNotImportable} idsAnalysisComplete={idsAnalysisComplete} idsNotANumber={idsNotANumber} /> : null}
+            {idsImportIdField && idsAeIdField ? <AlertIdsAnalysisResult idsImportIdField={idsImportIdField} idsAeIdField={idsAeIdField} rcsToImport={rcsToImport} idsNumberOfRecordsWithIdValue={idsNumberOfRecordsWithIdValue} idsNumberImportable={idsNumberImportable} idsNotImportable={idsNotImportable} idsAnalysisComplete={idsAnalysisComplete} idsNotANumber={idsNotANumber} idsWithoutPartner={idsWithoutPartner} rPartnerIdsToImport={rPartnerIdsToImport} rPartnerIdsImportable={rPartnerIdsImportable} /> : null}
           </Panel>
 
           <Panel collapsible header='4. Import ausführen' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>

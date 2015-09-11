@@ -26,6 +26,8 @@ export default React.createClass({
     rcsToImport.forEach((pc) => {
       keys = _.union(keys, _.keys(pc))
     })
+    // remove field '_id'
+    keys = _.without(keys, '_id')
 
     const style = { height: ((keys.length * 18) + 9) + 'px' }
     const options = keys.map((key, index) => <option key={index} value={key}>{key}</option>)

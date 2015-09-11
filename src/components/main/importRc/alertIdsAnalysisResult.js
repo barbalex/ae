@@ -19,13 +19,14 @@ export default React.createClass({
     idsNumberOfRecordsWithIdValue: React.PropTypes.number,
     idsNumberImportable: React.PropTypes.number,
     idsNotImportable: React.PropTypes.array,
-    idsNotANumber: React.PropTypes.array
-
+    idsNotANumber: React.PropTypes.array,
+    idsWithoutPartner: React.PropTypes.array,
+    rPartnerIdsToImport: React.PropTypes.array,
+    rPartnerIdsImportable: React.PropTypes.array
   },
 
   render () {
-    const { rcsToImport, idsImportIdField, idsAeIdField, idsAnalysisComplete, idsNumberOfRecordsWithIdValue, idsNumberImportable, idsNotANumber } = this.props
-    let { idsNotImportable } = this.props
+    const { rcsToImport, idsImportIdField, idsAeIdField, idsAnalysisComplete, idsNumberOfRecordsWithIdValue, idsNumberImportable, idsNotANumber, idsWithoutPartner, rPartnerIdsToImport, rPartnerIdsImportable, idsNotImportable } = this.props
 
     if (!idsAnalysisComplete) {
       if (idsAeIdField === 'GUID') return <Alert bsStyle='info'>Bitte warten, die Daten werden analysiert...</Alert>
@@ -46,6 +47,12 @@ export default React.createClass({
 
     const recordsNotImportableText = `${idsNotImportable.length} mit den folgenden Werten im Feld "${idsImportIdField}" können nicht zugeordnet und importiert werden:`
     const idsNotImportableList = idsNotImportable.join(' | ')
+
+    const idsWithoutPartnerText = `${idsWithoutPartner.length} haben keinen Beziehungspartner:`
+    const idsWithoutPartnerList = idsWithoutPartner.join(' | ')
+
+    const rPartnerText = `Von ${rPartnerIdsToImport.length} Beziehungspartnern können ${rPartnerIdsImportable.length} importiert werden`
+
     const successType = getSuccessTypeFromAnalysis({ rcsToImport, idsNumberImportable, idsNotImportable, idsNotANumber })
 
     return (
@@ -57,6 +64,8 @@ export default React.createClass({
           {idsNotANumber.length === 0 ? null : <li>{idsNotNumbersText}<br/>{idsNotNumbersList}</li>}
           {idsNotImportable.length === 0 ? null : <li>{recordsNotImportableText}<br/>{idsNotImportableList}</li>}
           <li>{recordsImportableText}</li>
+          {idsWithoutPartner.length === 0 ? null : <li>{idsWithoutPartnerText}<br/>{idsWithoutPartnerList}</li>}
+          <li>{rPartnerText}</li>
         </ul>
       </Alert>
     )
