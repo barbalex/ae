@@ -23,7 +23,9 @@ export default React.createClass({
 
   render () {
     const { visible } = this.state
-
+    /**
+     * TODO: Braucht es jetzt Hochzeichen um Feldinhalt?
+     */
     return (
       <Well className='well-sm'><b>Zusätzliche Anforderungen an csv-Dateien</b> <a href='#' onClick={this.onClickToggle} className='showNextHidden'>{visible ? '...weniger' : '...mehr'}</a>
         <ul className='adb-hidden' style={{'display': visible ? 'block' : 'none'}}>
