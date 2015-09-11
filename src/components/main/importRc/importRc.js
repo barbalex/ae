@@ -368,12 +368,16 @@ export default React.createClass({
           // ignore - can simply be that no object was found for id
         })
       })
+      const rcPartnerState = { idsWithoutPartner, rPartnerIdsToImport, rPartnerIdsImportable }
 
       const ids = _.pluck(rcsToImport, idsImportIdField)
       // if ids should be numbers but some are not, an error can occur when fetching from the database
       // so dont fetch
       const idsAnalysisComplete = true
-      if (idsNotANumber.length > 0) return this.setState({ idsAnalysisComplete, idsNotANumber })
+      if (idsNotANumber.length > 0) {
+        const state = Object.assign(rcPartnerState, { idsAnalysisComplete, idsNotANumber })
+        return this.setState(state)
+      }
       getGuidsById(idsAeIdField, ids)
         .then((idGuidObject) => {
           // now add guids to rcsToImport
@@ -400,7 +404,9 @@ export default React.createClass({
           // get ids not fetched
           const idsNotImportable = _.difference(idsToImportWithDuplicates, idsImportable)
           // finished? render...
-          this.setState({ idsNumberImportable, idsNotImportable, idsAnalysisComplete, idsOfAeObjects, idsNumberOfRecordsWithIdValue, idsNotANumber })
+          const relationState = { idsNumberImportable, idsNotImportable, idsAnalysisComplete, idsOfAeObjects, idsNumberOfRecordsWithIdValue, idsNotANumber }
+          const state = Object.assign(rcPartnerState, relationState)
+          this.setState(state)
         })
         .catch((error) => app.Actions.showError({msg: error}))
     }
