@@ -29,9 +29,16 @@ export default React.createClass({
     const { pcsToImport, idsImportIdField, idsAeIdField, idsAnalysisComplete, idsNumberOfRecordsWithIdValue, idsNumberImportable, idsDuplicate, idsNotANumber } = this.props
     let { idsNotImportable } = this.props
 
+    console.log('idsAeIdField', idsAeIdField)
+
     if (!idsAnalysisComplete) {
-      if (idsAeIdField === 'GUID') return <Alert bsStyle='info'>Bitte warten, die Daten werden analysiert.</Alert>
-      return <Alert bsStyle='info'>Bitte warten, die Daten werden analysiert.<br/>Das kann eine Weile dauern...<br/>...vor allem wenn Sie zum ersten Mal Daten mit Hilfe einer ID eines nationalen Zentrums importieren - dann muss nämlich der entsprechende Index aufgebaut werden und das kann Minuten dauern.</Alert>
+      if (idsAeIdField === 'GUID') return <Alert bsStyle='info'>Bitte warten, die Daten werden analysiert...</Alert>
+      return (
+        <Alert bsStyle='info'>Bitte warten, die Daten werden analysiert.<br/>
+          Das kann eine Weile dauern...<br/>
+          ...vor allem wenn Sie zum ersten Mal Daten mit Hilfe einer ID eines nationalen Zentrums importieren -<br/>
+          dann muss nämlich der entsprechende Index aufgebaut werden.</Alert>
+      )
     }
 
     const titleText = <p>Die Importtabelle enthält {pcsToImport.length} Datensätze:</p>

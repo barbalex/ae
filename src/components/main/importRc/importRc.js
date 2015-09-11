@@ -256,10 +256,6 @@ export default React.createClass({
       const file = event.target.files[0]
       getObjectsFromFile(file)
         .then((rcsToImport) => {
-          // rcsToImport = [ 'a', 'b' ]
-          // rcsToImport = []
-          console.log('rcsToImport', rcsToImport)
-          // TODO: error follows
           this.setState({ rcsToImport })
           this.validRcsToImport()
         })
@@ -567,7 +563,7 @@ export default React.createClass({
             {zusammenfassend ? <InputUrsprungsBs nameUrsprungsBs={nameUrsprungsBs} rcs={rcs} validUrsprungsBs={validUrsprungsBs} onChangeNameUrsprungsBs={this.onChangeNameUrsprungsBs} /> : null}
           </Panel>
 
-          <Panel collapsible header='2. Eigenschaften laden' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
+          <Panel collapsible header='2. Beziehungen laden' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
             <WellTechnAnforderungenAnDatei />
             <WellAnforderungenAnCsv />
             <WellAnforderungenInhaltlich />
@@ -581,7 +577,7 @@ export default React.createClass({
           <Panel collapsible header="3. ID's identifizieren" eventKey={3} onClick={this.onClickPanel.bind(this, 3)}>
             {rcsToImport.length > 0 ? <InputImportFields idsImportIdField={idsImportIdField} rcsToImport={rcsToImport} onChangeImportId={this.onChangeImportId} /> : null}
             <InputAeId idsAeIdField={idsAeIdField} onChangeAeId={this.onChangeAeId} />
-            {idsImportIdField && idsAeIdField ? <AlertIdsAnalysisResult idsImportIdField={idsImportIdField} rcsToImport={rcsToImport} idsNumberOfRecordsWithIdValue={idsNumberOfRecordsWithIdValue} idsDuplicate={idsDuplicate} idsNumberImportable={idsNumberImportable} idsNotImportable={idsNotImportable} idsAnalysisComplete={idsAnalysisComplete} idsNotANumber={idsNotANumber} /> : null}
+            {idsImportIdField && idsAeIdField ? <AlertIdsAnalysisResult idsImportIdField={idsImportIdField} idsAeIdField={idsAeIdField} rcsToImport={rcsToImport} idsNumberOfRecordsWithIdValue={idsNumberOfRecordsWithIdValue} idsDuplicate={idsDuplicate} idsNumberImportable={idsNumberImportable} idsNotImportable={idsNotImportable} idsAnalysisComplete={idsAnalysisComplete} idsNotANumber={idsNotANumber} /> : null}
           </Panel>
 
           <Panel collapsible header='4. Import ausführen' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>
