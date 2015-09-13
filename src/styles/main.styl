@@ -39,7 +39,7 @@ body
   hyphens: auto
 
 #menuBtn
-  position: fixed
+  position: absolute
   top: 17px
   left: 16px
   z-index: 2
@@ -85,6 +85,9 @@ body
 /* über 1000px nebeneinander
    force-mobile: damit kann die Mobil-Sicht manuell gewählt werden */
 @media screen and (min-width: 1001px)
+
+  #menuBtn
+    position: fixed
 
   body:not(.force-mobile) #menu
     width: 383px
