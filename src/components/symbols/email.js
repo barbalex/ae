@@ -2,7 +2,7 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import { OverlayTrigger, Popover, Dropdown, MenuItem } from 'react-bootstrap'
+import { Dropdown, MenuItem } from 'react-bootstrap'
 
 export default React.createClass({
   displayName: 'Email',
