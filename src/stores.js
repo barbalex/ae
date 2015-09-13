@@ -597,7 +597,6 @@ export default (Actions) => {
       const { logIn, email } = passedVariables
       // change email only if it was passed
       const changeEmail = email !== undefined
-
       app.localDb.get('_local/login', { include_docs: true })
         .then((doc) => {
           if (doc.logIn !== logIn || (changeEmail && doc.email !== email) || (logIn && !email)) {

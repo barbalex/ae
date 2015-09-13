@@ -28,11 +28,21 @@ export default React.createClass({
     return (
       <div id='symbols'>
         <div className='pull-right'>
-          <Email email={email} />
-          {showReplicatingToAe ? <ReplicatingToAe replicatingToAe={replicatingToAe} replicatingToAeTime={replicatingToAeTime} /> : null}
-          {showReplicatingFromAe ? <ReplicatingFromAe replicatingFromAe={replicatingFromAe} replicatingFromAeTime={replicatingFromAeTime} /> : null}
-          {pcsQuerying ? <PcsQuerying /> : null}
-          {rcsQuerying ? <RcsQuerying /> : null}
+          <div className='symbol-div'>
+            <Email email={email} />
+          </div>
+          <div className='symbol-div'>
+            {showReplicatingFromAe ? <ReplicatingFromAe replicatingFromAe={replicatingFromAe} replicatingFromAeTime={replicatingFromAeTime} /> : null}
+          </div>
+          <div className='symbol-div'>
+            {showReplicatingToAe ? <ReplicatingToAe replicatingToAe={replicatingToAe} replicatingToAeTime={replicatingToAeTime} /> : null}
+          </div>
+          <div className='symbol-div'>
+            {pcsQuerying ? <PcsQuerying /> : null}
+          </div>
+          <div className='symbol-div'>
+            {rcsQuerying ? <RcsQuerying /> : null}
+          </div>
         </div>
       </div>
     )
