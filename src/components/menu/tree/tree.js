@@ -19,10 +19,9 @@ export default React.createClass({
   },
 
   getInitialState () {
-    return {
-      windowHeight: null,
-      windowWidth: null
-    }
+    const windowHeight = window.innerHeight
+    const windowWidth = window.innerWidth
+    return { windowHeight, windowWidth }
   },
 
   componentDidMount () {
@@ -46,9 +45,6 @@ export default React.createClass({
     const loading = groupsLoadingObjects && groupsLoadingObjects.length > 0
 
     // calculate max height of tree
-    // const windowHeight = window.innerHeight
-    // const windowWidth = window.innerWidth
-
     const groupsLoadingHeight = 22 * (groupsLoadingObjects.length)
     let maxHeight = windowHeight - 302                      // initial value on mobile
     if (windowWidth > 1000) maxHeight = windowHeight - 160  // initial value on desktop
