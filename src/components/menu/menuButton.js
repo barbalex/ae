@@ -68,12 +68,12 @@ export default React.createClass({
           <Button onClick={this.searchGoogleImages} bsSize='small' disabled={!isObject} href={googleLink} target='_blank'>Bilder</Button>
           <Button onClick={this.searchWikipediaArticle} bsSize='small' disabled={!isObject} href={wikipediaLink} target='_blank'>Wikipedia</Button>
           <Button onClick={this.exportProperties} bsSize='small' disabled={true}>Export</Button>
-          <DropdownButton title='Import' bsSize='small' onSelect={this.onSelectDropdowButton()}>
+          <DropdownButton id='importDropdown' title='Import' bsSize='small' onSelect={this.onSelectDropdowButton()}>
             <li role='presentation' className='dropdown-header'>Importieren oder löschen:</li>
             <MenuItem onClick={this.importPropertyCollection}>Eigenschaften</MenuItem>
             <MenuItem onClick={this.importRelationsCollection}>Beziehungen</MenuItem>
           </DropdownButton>
-          <DropdownButton title='Mehr...' bsSize='small' onSelect={this.onSelectDropdowButton()}>
+          <DropdownButton id='moreDropdown' title='Mehr...' bsSize='small' onSelect={this.onSelectDropdowButton()}>
             <MenuItem onClick={this.openOrganisationen}>Organisationen und Benutzer</MenuItem>
             <MenuItem divider/>
             <li role='presentation' className='dropdown-header'>Daten:</li>

@@ -20,7 +20,7 @@ export default React.createClass({
     return (
       <OverlayTrigger
         placement='left'
-        overlay={<Tooltip>{bodyElement.hasClass('force-mobile') ? 'in zwei Spalten anzeigen' : 'ganze Breite nutzen'}</Tooltip>}
+        overlay={<Tooltip id='btnResizeTooltip'>{bodyElement.hasClass('force-mobile') ? 'in zwei Spalten anzeigen' : 'ganze Breite nutzen'}</Tooltip>}
       >
         <Button
           id='btnResize'

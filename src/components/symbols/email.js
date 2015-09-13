@@ -39,7 +39,7 @@ export default React.createClass({
           trigger='click'
           placement='left'
           rootClose={true}
-          overlay={<Popover arrowOffsetTop='10' onClick={this.onClickAbmelden}><p style={popoverStyle}>abmelden</p></Popover>}>
+          overlay={<Popover id='emailPopover' arrowOffsetTop='10' onClick={this.onClickAbmelden}><p style={popoverStyle}>abmelden</p></Popover>}>
           <div id='email' className='symbols link'>{email}</div>
         </OverlayTrigger>
       )
@@ -49,7 +49,7 @@ export default React.createClass({
         trigger='click'
         placement='left'
         rootClose={true}
-        overlay={<Popover arrowOffsetTop='10' onClick={this.onClickAnmelden}><p style={popoverStyle}>anmelden</p></Popover>}>
+        overlay={<Popover id='emailPopover' arrowOffsetTop='10' onClick={this.onClickAnmelden}><p style={popoverStyle}>anmelden</p></Popover>}>
         <div id='email' className='symbols link'>nicht angemeldet</div>
       </OverlayTrigger>
     )
