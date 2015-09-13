@@ -30,44 +30,37 @@ export default React.createClass({
     }
   },
 
-  componentDidMount () {
-    document.body.addEventListener('keydown', this.onKeyDown)
-  },
-
-  componentWillUnMount () {
-    document.body.removeEventListener('keydown', this.onKeyDown)
-  },
-
   onHide () {
     // weird things happen if this is not here ???!!!
     // console.log('onHide')
   },
 
-  onKeyDown (event) {
+  onKeyDownEmail (event) {
+    const { password } = this.state
     const enter = 13
     if (event.keyCode === enter) {
-      // if enter was pressed in one of the fields,
-      // update the value first
-      const targetId = event.target.id
-      const value = event.target.value
-      switch (targetId) {
-      case 'email':
-        const email = value
-        this.setState({ email }, this.onClickLogin())
-        break
-      case 'password':
-        const password = value
-        this.setState({ password }, this.onClickLogin())
-        break
-      default:
-        this.onClickLogin()
-      }
+      // if enter was pressed, update the value first
+      const email = event.target.value
+      console.log('email:', email)
+      this.setState({ email })
+      this.checkSignin(email, password)
     }
   },
 
-  onClickLogin () {
-    const { email, password } = this.state
-    if (this.validSignin()) {
+  onKeyDownPassword (event) {
+    const { email } = this.state
+    const enter = 13
+    if (event.keyCode === enter) {
+      // if enter was pressed, update the value first
+      const password = event.target.value
+      console.log('password:', password)
+      this.setState({ password })
+      this.checkSignin(email, password)
+    }
+  },
+
+  checkSignin (email, password) {
+    if (this.validSignin(email, password)) {
       app.remoteDb.login(email, password)
         .then((response) => app.Actions.login({
             logIn: false,
@@ -76,6 +69,11 @@ export default React.createClass({
         )
         .catch((error) => this.setState({ email: null, loginError: error }))
     }
+  },
+
+  onClickLogin () {
+    const { email, password } = this.state
+    this.checkSignin(email, password)
   },
 
   onBlurEmail (event) {
@@ -94,15 +92,10 @@ export default React.createClass({
   },
 
   schliessen () {
-    app.Actions.login({logIn: false})
-    // TODO: how navigate back? history.back() only backs the url
-    // console.log('document.referrer:', document.referrer)
-    // window.history.back()
-    // app.router.reload()
+    app.Actions.login({ logIn: false })
   },
 
   validEmail (email) {
-    email = email || this.state.email
     const validEmail = email && validateEmail(email)
     const invalidEmail = !validEmail
     this.setState({ invalidEmail })
@@ -110,16 +103,15 @@ export default React.createClass({
   },
 
   validPassword (password) {
-    password = password || this.state.password
     const validPassword = !!password
     const invalidPassword = !validPassword
     this.setState({ invalidPassword })
     return validPassword
   },
 
-  validSignin () {
-    const validEmail = this.validEmail()
-    const validPassword = this.validPassword()
+  validSignin (email, password) {
+    const validEmail = this.validEmail(email)
+    const validPassword = this.validPassword(password)
     return validEmail && validPassword
   },
 
@@ -142,11 +134,11 @@ export default React.createClass({
             <form className={'form'} autoComplete='off'>
               <p className='anmelden'>Für diese Funktion müssen Sie angemeldet sein.<br/><a href='mailto:alex@gabriel-software.ch'>Mailen Sie mir</a>, um ein Login zu erhalten.</p>
               <div className='formGroup'>
-                <Input type='email' id='email' label={'Email'} bsSize='small' className={'controls'} placeholder='Email' bsStyle={emailInputBsStyle} onBlur={this.onBlurEmail} required autoFocus />
+                <Input type='email' id='email' label={'Email'} bsSize='small' className={'controls'} placeholder='Email' bsStyle={emailInputBsStyle} onBlur={this.onBlurEmail} onKeyDown={this.onKeyDownEmail} required autoFocus />
                 {invalidEmail ? <div className='validateDivAfterRBC'>Bitte Email prüfen</div> : ''}
               </div>
               <div className='formGroup'>
-                <Input type='password' id='password' label={'Passwort'} className={'controls'} placeholder='Passwort' bsStyle={passwordInputBsStyle} onBlur={this.onBlurPassword} required />
+                <Input type='password' id='password' label={'Passwort'} className={'controls'} placeholder='Passwort' bsStyle={passwordInputBsStyle} onBlur={this.onBlurPassword} onKeyDown={this.onKeyDownPassword} required />
                 {invalidPassword ? <div className='validateDivAfterRBC'>Bitte Passwort prüfen</div> : ''}
               </div>
               {loginError ? <Alert bsStyle='danger' onDismiss={this.onAlertDismiss} style={styleAlert}>Fehler beim Anmelden: {loginError}</Alert> : ''}
