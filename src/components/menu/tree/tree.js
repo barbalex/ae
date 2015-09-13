@@ -1,7 +1,6 @@
 'use strict'
 
 import React from 'react'
-import $ from 'jquery'
 import Nodes from './treeNodes.js'
 import LoadingMessage from './loadingMessage.js'
 
@@ -21,11 +20,12 @@ export default React.createClass({
     const loading = groupsLoadingObjects && groupsLoadingObjects.length > 0
 
     // calculate max height of tree
-    const windowHeight = $(window).height()
-    const windowWidth = $(window).width()
+    const windowHeight = window.innerHeight
+    const windowWidth = window.innerWidth
+
     const groupsLoadingHeight = 22 * (groupsLoadingObjects.length)
     let treeMaxHeight = windowHeight - 302                      // initial value on mobile
-    if (windowWidth > 1000) treeMaxHeight = windowHeight - 169  // initial value on desktop
+    if (windowWidth > 1000) treeMaxHeight = windowHeight - 160  // initial value on desktop
     treeMaxHeight -= groupsLoadingHeight                        // correction if groups are loading
     if (allGroupsLoaded) treeMaxHeight += 59                    // correction if all groups are loaded
     const treeStyle = {

@@ -12,6 +12,8 @@
   "author": "Alexander Gabriel",
   "license": "ISC",
   "dependencies": {
+    "amp-has-class": "^1.0.3",
+    "amp-toggle-class": "^1.1.0",
     "ampersand-app": "1.0.4",
     "ampersand-router": "3.0.2",
     "autolinker": "0.18.1",
@@ -26,7 +28,6 @@
     "file-loader": "0.8.4",
     "gulp": "3.9.0",
     "hjs-webpack": "2.13.1",
-    "jquery": "2.1.4",
     "json-loader": "0.5.2",
     "local-links": "1.4.0",
     "lodash": "3.10.1",

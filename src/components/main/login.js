@@ -7,7 +7,6 @@
 import app from 'ampersand-app'
 import React from 'react'
 import { Modal, Input, Alert, Button } from 'react-bootstrap'
-import $ from 'jquery'
 import validateEmail from '../../modules/validateEmail.js'
 
 export default React.createClass({
@@ -32,11 +31,11 @@ export default React.createClass({
   },
 
   componentDidMount () {
-    $(document.body).on('keydown', this.onKeyDown)
+    document.body.addEventListener('keydown', this.onKeyDown)
   },
 
   componentWillUnMount () {
-    $(document.body).off('keydown', this.onKeyDown)
+    document.body.removeEventListener('keydown', this.onKeyDown)
   },
 
   onHide () {
