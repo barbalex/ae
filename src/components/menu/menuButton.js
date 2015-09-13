@@ -19,6 +19,7 @@ export default React.createClass({
   },
 
   importPropertyCollection () {
+    console.log('importPropertyCollection')
     app.Actions.loadActivePathStore(['importieren', 'eigenschaften'])
   },
 
@@ -51,11 +52,6 @@ export default React.createClass({
   */
   },
 
-  onSelectDropdowButton () {
-    // make sure, the menu closes
-    return () => true
-  },
-
   render () {
     const { object } = this.props
     const isObject = object && _.keys(object).length > 0
@@ -68,22 +64,22 @@ export default React.createClass({
           <Button onClick={this.searchGoogleImages} bsSize='small' disabled={!isObject} href={googleLink} target='_blank'>Bilder</Button>
           <Button onClick={this.searchWikipediaArticle} bsSize='small' disabled={!isObject} href={wikipediaLink} target='_blank'>Wikipedia</Button>
           <Button onClick={this.exportProperties} bsSize='small' disabled={true}>Export</Button>
-          <DropdownButton id='importDropdown' title='Import' bsSize='small' onSelect={this.onSelectDropdowButton()}>
-            <li role='presentation' className='dropdown-header'>Importieren oder löschen:</li>
-            <MenuItem onClick={this.importPropertyCollection}>Eigenschaften</MenuItem>
-            <MenuItem onClick={this.importRelationsCollection}>Beziehungen</MenuItem>
+          <DropdownButton id='importDropdown' title='Import' bsSize='small'>
+            <MenuItem header={true}>Importieren oder löschen:</MenuItem>
+            <MenuItem onSelect={this.importPropertyCollection}>Eigenschaften</MenuItem>
+            <MenuItem onSelect={this.importRelationsCollection}>Beziehungen</MenuItem>
           </DropdownButton>
-          <DropdownButton id='moreDropdown' title='Mehr...' bsSize='small' onSelect={this.onSelectDropdowButton()}>
-            <MenuItem onClick={this.openOrganisationen}>Organisationen und Benutzer</MenuItem>
+          <DropdownButton id='moreDropdown' title='Mehr...' bsSize='small'>
+            <MenuItem onSelect={this.openOrganisationen}>Organisationen und Benutzer</MenuItem>
             <MenuItem divider/>
-            <li role='presentation' className='dropdown-header'>Daten:</li>
-            <MenuItem onClick={this.loadPouchFromRemote}>Fehlende Gruppen laden</MenuItem>
-            <MenuItem onClick={this.replicateFromAe}><strong>Von</strong> arteigenschaften.ch replizieren</MenuItem>
-            <MenuItem onClick={this.replicateToAe}><strong>Nach</strong> arteigenschaften.ch replizieren</MenuItem>
+            <MenuItem header={true}>Daten:</MenuItem>
+            <MenuItem onSelect={this.loadPouchFromRemote}>Fehlende Gruppen laden</MenuItem>
+            <MenuItem onSelect={this.replicateFromAe}><strong>Von</strong> arteigenschaften.ch replizieren</MenuItem>
+            <MenuItem onSelect={this.replicateToAe}><strong>Nach</strong> arteigenschaften.ch replizieren</MenuItem>
             <MenuItem divider/>
-            <MenuItem onClick={this.openAdminPage} disabled={true}>Administration</MenuItem>
+            <MenuItem onSelect={this.openAdminPage} disabled={true}>Administration</MenuItem>
             <MenuItem divider/>
-            <li role='presentation' className='dropdown-header'>Über arteigenschaften.ch:</li>
+            <MenuItem header={true}>Über arteigenschaften.ch:</MenuItem>
             <MenuItem href='//github.com/FNSKtZH/artendb/blob/master/README.md' target='_blank'>Projekt-Beschreibung</MenuItem>
             <MenuItem href='//github.com/FNSKtZH/artendb' target='_blank'>Code</MenuItem>
             <MenuItem href='//github.com/FNSKtZH/artendb/commits/master' target='_blank'>Letzte Änderungen</MenuItem>
