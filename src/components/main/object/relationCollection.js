@@ -20,6 +20,7 @@ export default React.createClass({
 
   render () {
     const rc = this.props.relationCollection
+    if (!rc.Beziehungen || rc.Beziehungen.length === 0) return null
 
     rc.Beziehungen = sortRelationsByName(rc.Beziehungen)
 
