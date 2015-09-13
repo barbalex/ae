@@ -6,6 +6,7 @@
 'use strict'
 
 import app from 'ampersand-app'
+import _ from 'lodash'
 import { ListenerMixin } from 'reflux'
 import React from 'react'
 import Objekt from './object/object.js'
@@ -43,7 +44,7 @@ export default React.createClass({
   },
 
   componentDidMount () {
-    window.addEventListener('resize', this.onResize)
+    window.addEventListener('resize', _.debounce(this.onResize, 150))
     this.listenTo(app.errorStore, this.onError)
   },
 
