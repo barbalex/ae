@@ -345,7 +345,6 @@ export default React.createClass({
       rcsToImport.forEach((rc, index) => {
         // Beziehungspartner in import data can be a single guid or a list of guids split by ', '
         // in ae it needs to be an array of objects
-        console.log('rc.Beziehungspartner', rc.Beziehungspartner)
         let rPartnerIds = rc.Beziehungspartner.split(', ')
         // analyse
         if (rPartnerIds.length === 0) idsWithoutPartner.push(rc[idsImportIdField])
@@ -362,7 +361,9 @@ export default React.createClass({
             rPartnerIdsImportable.push(object._id)
             rPartners.push(this.buildPartnerFromObject(object))
           })
-          rc.Beziehungspartner = rPartners
+          // push this in rPartners, not Beziehungssammlungen
+          // - that is shown in ui so should not be changed
+          rc.rPartners = rPartners
         })
         .catch((error) => {
           // ignore - can simply be that no object was found for id

@@ -20,6 +20,7 @@ import objectsIdsByPcsName from './queries/objectsIdsByPcsName.js'
 import objectsIdsByRcsName from './queries/objectsIdsByRcsName.js'
 import convertValue from './modules/convertValue.js'
 import sortObjectArrayByName from './modules/sortObjectArrayByName.js'
+import buildRcFirstLevel from './buildRcFirstLevel.js'
 
 export default (Actions) => {
   app.replicateFromAeStore = Reflux.createStore({
@@ -237,7 +238,8 @@ export default (Actions) => {
     listenables: Actions,
 
     onImportRcs (state) {
-      const { rcsToImport, idsImportIdField, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs } = state
+      const { idsImportIdField, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs } = state
+      let { rcsToImport } = state
 
       let importingProgress = 0
       // set back deleting progress to close progressbar and deletion examples
@@ -245,77 +247,101 @@ export default (Actions) => {
       const deletingRcProgress = null
       // alert say "Daten werden vorbereitet..."
       this.trigger({ importingProgress, deletingRcInstancesProgress, deletingRcProgress })
+      // make sure there are no rcsToImport without _id
+      rcsToImport = _.filter(rcsToImport, (rcToImport) => !!rcToImport._id)
+      console.log('rcsToImport', rcsToImport)
+      /**
+       * prepare rcsToImport:
+       * combine all objects with the same _id like this:
+       * 1. build an object with keys = _id's, values = array of all import-objects with this _id
+       * 2. loop the keys of this object and combine the import-objects like this:
+       * 2.1: use relation description from state
+       * 2.2: combine relation partners of all objects in field Beziehungen
+       */
+      let rcs = []
+      // 1. build an object with keys = _id's, values = array of all import-objects with this _id
+      let rcsToImportObject = _.groupBy(rcsToImport, '_id')
+      // 2. loop the keys of this object and combine the import-objects
+      _.forEach(rcsToImportObject, (rcToImportArray, id) => {
+        // use relation description from state
+        let rc = buildRcFirstLevel({ id, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs })
+        // combine relation partners of all objects in field Beziehungen
+        rc.Beziehungen = rcToImportArray.map((rcToImport) => rcToImport.rPartners)
+        rcs.push(rc)
+      })
+      console.log('rcs', rcs)
 
+      
+
+      // need to make absolutely sure that the calls are made in series
+      // because the same object can be manipulated several times
+      let series = Promise.resolve()
       // loop rcsToImport
       rcsToImport.forEach((rcToImport, index) => {
-        // get the object to add it to
-        const guid = rcToImport._id
-        if (guid) {
-          app.objectStore.getItem(guid)
-            .then((objectToImportRcInTo) => {
-              // build rc
-              let rc = {}
-              rc.Name = name
-              rc.Beschreibung = beschreibung
-              rc.Datenstand = datenstand
-              rc.Nutzungsbedingungen = nutzungsbedingungen
-              if (link) rc.Link = link
-              rc['importiert von'] = importiertVon
-              if (zusammenfassend) rc.zusammenfassend = zusammenfassend
-              if (nameUrsprungsEs) rc.Ursprungsdatensammlung = nameUrsprungsEs
-              rc.Eigenschaften = {}
-              // now add fields of rc
-              _.forEach(rcToImport, (value, field) => {
-                // dont import _id, idField or empty fields
-                if (field !== '_id' && field !== idsImportIdField && value !== '' && value !== null) {
-                  // convert values / types if necessary
-                  rc.Eigenschaften[field] = convertValue(value)
+        series = series
+          // get the object to add it to
+          .then(() => app.objectStore.getItem(rcToImport._id))
+          .then((objectToImportRcInTo) => {
+            // build rc
+            let rc = buildRcFirstLevel({ name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs })
+            // now add relations of rc
+            _.forEach(rcToImport, (value, field) => {
+              // dont import _id, idField, Beziehungspartner or empty fields
+              if (field !== '_id' && value !== '' && value !== null) {
+                if (field === 'rPartners') {
+                  // add all rPartner-objects
+                  // // they were built when analysing
+                  rc.Beziehungspartner = value
+                } else {
+                  // this is a propverty of the relation
+                  rc.Beziehungen[field] = convertValue(value)
                 }
-              })
-              // make sure, Beziehungssammlungen exists
-              if (!objectToImportRcInTo.Beziehungssammlungen) objectToImportRcInTo.Beziehungssammlungen = []
-              // if a rc with this name existed already, remove it
-              objectToImportRcInTo.Beziehungssammlungen = _.reject(objectToImportRcInTo.Beziehungssammlungen, (bs) => bs.name === name)
-              objectToImportRcInTo.Beziehungssammlungen.push(rc)
-              objectToImportRcInTo.Beziehungssammlungen = sortObjectArrayByName(objectToImportRcInTo.Beziehungssammlungen)
-              // write to db
-              return app.localDb.put(objectToImportRcInTo)
-            })
-            .then(() => {
-              importingProgress = Math.round((index + 1) / rcsToImport.length * 100)
-              let state = { importingProgress }
-              if (importingProgress === 100) {
-                // reset rcsRemoved to show button to remove again
-                const rcsRemoved = false
-                state = Object.assign(state, { rcsRemoved })
-                /**
-                 * update nameBestehend
-                 * goal is to update the list of rcs and therewith the dropdown lists in nameBestehend and ursprungsEs
-                 * we could do it by querying the db again with app.Actions.queryPropertyCollections()
-                 * but this is 1. very slow so happens too late and 2. uses lots of ressources
-                 * so we build a new rc
-                 * and add it to the relationCollectionsStore
-                 * relationCollectionsStore triggers new rcs and lists get refreshed
-                 */
-                const rc = {
-                  name: name,
-                  combining: zusammenfassend,
-                  importedBy: importiertVon,
-                  fields: {
-                    Beschreibung: beschreibung,
-                    Datenstand: datenstand,
-                    Nutzungsbedingungen: nutzungsbedingungen,
-                    Link: link,
-                    'importiert von': importiertVon
-                  },
-                  count: 0
-                }
-                app.relationCollectionsStore.saveRc(rc)
               }
-              this.trigger(state)
             })
-            .catch((error) => app.Actions.showError({title: 'Fehler beim Importieren:', msg: error}))
-        }
+            console.log('rc after adding Beziehungen', rc)
+            // make sure, Beziehungssammlungen exists
+            if (!objectToImportRcInTo.Beziehungssammlungen) objectToImportRcInTo.Beziehungssammlungen = []
+            // if a rc with this name existed already, remove it
+            objectToImportRcInTo.Beziehungssammlungen = _.reject(objectToImportRcInTo.Beziehungssammlungen, (bs) => bs.name === name)
+            objectToImportRcInTo.Beziehungssammlungen.push(rc)
+            objectToImportRcInTo.Beziehungssammlungen = sortObjectArrayByName(objectToImportRcInTo.Beziehungssammlungen)
+            // write to db
+            return app.localDb.put(objectToImportRcInTo)
+          })
+          .then(() => {
+            importingProgress = Math.round((index + 1) / rcsToImport.length * 100)
+            let state = { importingProgress }
+            if (importingProgress === 100) {
+              // reset rcsRemoved to show button to remove again
+              const rcsRemoved = false
+              state = Object.assign(state, { rcsRemoved })
+              /**
+               * update nameBestehend
+               * goal is to update the list of rcs and therewith the dropdown lists in nameBestehend and ursprungsEs
+               * we could do it by querying the db again with app.Actions.queryPropertyCollections()
+               * but this is 1. very slow so happens too late and 2. uses lots of ressources
+               * so we build a new rc
+               * and add it to the relationCollectionsStore
+               * relationCollectionsStore triggers new rcs and lists get refreshed
+               */
+              const rc = {
+                name: name,
+                combining: zusammenfassend,
+                importedBy: importiertVon,
+                fields: {
+                  Beschreibung: beschreibung,
+                  Datenstand: datenstand,
+                  Nutzungsbedingungen: nutzungsbedingungen,
+                  Link: link,
+                  'importiert von': importiertVon
+                },
+                count: 0
+              }
+              app.relationCollectionsStore.saveRc(rc)
+            }
+            this.trigger(state)
+          })
+          .catch((error) => app.Actions.showError({title: 'Fehler beim Importieren:', msg: error}))
       })
     },
 
