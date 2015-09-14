@@ -57,13 +57,17 @@ export default React.createClass({
     }
   },
 
+  onToggle () {
+    // react-bootstrap wants this to exist...
+  },
+
   render () {
     const { email } = this.props
     const { open } = this.state
 
     if (email) {
       return (
-        <Dropdown id='emailDropdown' open={open}>
+        <Dropdown id='emailDropdown' open={open} onToggle={this.onToggle}>
           <p bsRole='toggle' className='symbols link' onClick={this.toggleDropdown}>
             {email}
           </p>
@@ -74,7 +78,7 @@ export default React.createClass({
       )
     }
     return (
-      <Dropdown id='emailDropdown' open={open}>
+      <Dropdown id='emailDropdown' open={open} onToggle={this.onToggle}>
         <p bsRole='toggle' className='symbols link' onClick={this.toggleDropdown}>
           nicht angemeldet
         </p>
