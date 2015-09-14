@@ -267,13 +267,20 @@ export default (Actions) => {
         // use relation description from state
         let rc = buildRcFirstLevel({ id, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs })
         // combine relation partners of all objects in field Beziehungen
-        rc.Beziehungen = rcToImportArray.map((rcToImport) => rcToImport.rPartners)
+        rc.Beziehungen = []
         // use other properties from first
-        _.forEach(rcToImportArray[0], (value, field) => {
+        _.forEach(rcToImportArray, (value, field) => {
+          let relation = {
+            Beziehungspartner: []
+          }
+          if (field === 'rPartners') {
+            relation.Beziehungspartner = relation.Beziehungspartner.concat(value)
+          }
           if (field !== '_id' && field !== 'rPartners' && field !== 'Beziehungspartner' && value !== '' && value !== null) {
             // this is a propverty of the relation
-            rc[field] = convertValue(value)
+            relation[field] = convertValue(value)
           }
+          rc.Beziehungen.push(relation)
         })
         rcs.push(rc)
       })

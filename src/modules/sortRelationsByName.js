@@ -1,6 +1,7 @@
 /*
  * gets an array with the relations
  * returns this array sorted by the relations name
+ * TODO: catch if a relation does not have Beziehungspartner
  */
 
 'use strict'
