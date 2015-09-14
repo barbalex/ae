@@ -20,7 +20,7 @@ import objectsIdsByPcsName from './queries/objectsIdsByPcsName.js'
 import objectsIdsByRcsName from './queries/objectsIdsByRcsName.js'
 import convertValue from './modules/convertValue.js'
 import sortObjectArrayByName from './modules/sortObjectArrayByName.js'
-import buildRcFirstLevel from './buildRcFirstLevel.js'
+import buildRcFirstLevel from './modules/buildRcFirstLevel.js'
 
 export default (Actions) => {
   app.replicateFromAeStore = Reflux.createStore({
@@ -257,6 +257,7 @@ export default (Actions) => {
        * 2. loop the keys of this object and combine the import-objects like this:
        * 2.1: use relation description from state
        * 2.2: combine relation partners of all objects in field Beziehungen
+       * 2.3: use other properties from first
        */
       let rcs = []
       // 1. build an object with keys = _id's, values = array of all import-objects with this _id
@@ -267,43 +268,31 @@ export default (Actions) => {
         let rc = buildRcFirstLevel({ id, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs })
         // combine relation partners of all objects in field Beziehungen
         rc.Beziehungen = rcToImportArray.map((rcToImport) => rcToImport.rPartners)
+        // use other properties from first
+        _.forEach(rcToImportArray[0], (value, field) => {
+          if (field !== '_id' && field !== 'rPartners' && field !== 'Beziehungspartner' && value !== '' && value !== null) {
+            // this is a propverty of the relation
+            rc[field] = convertValue(value)
+          }
+        })
         rcs.push(rc)
       })
       console.log('rcs', rcs)
 
-      
-
       // need to make absolutely sure that the calls are made in series
       // because the same object can be manipulated several times
       let series = Promise.resolve()
-      // loop rcsToImport
-      rcsToImport.forEach((rcToImport, index) => {
+      // loop rcs
+      rcs.forEach((rcToImport, index) => {
         series = series
           // get the object to add it to
           .then(() => app.objectStore.getItem(rcToImport._id))
           .then((objectToImportRcInTo) => {
-            // build rc
-            let rc = buildRcFirstLevel({ name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs })
-            // now add relations of rc
-            _.forEach(rcToImport, (value, field) => {
-              // dont import _id, idField, Beziehungspartner or empty fields
-              if (field !== '_id' && value !== '' && value !== null) {
-                if (field === 'rPartners') {
-                  // add all rPartner-objects
-                  // // they were built when analysing
-                  rc.Beziehungspartner = value
-                } else {
-                  // this is a propverty of the relation
-                  rc.Beziehungen[field] = convertValue(value)
-                }
-              }
-            })
-            console.log('rc after adding Beziehungen', rc)
             // make sure, Beziehungssammlungen exists
             if (!objectToImportRcInTo.Beziehungssammlungen) objectToImportRcInTo.Beziehungssammlungen = []
             // if a rc with this name existed already, remove it
             objectToImportRcInTo.Beziehungssammlungen = _.reject(objectToImportRcInTo.Beziehungssammlungen, (bs) => bs.name === name)
-            objectToImportRcInTo.Beziehungssammlungen.push(rc)
+            objectToImportRcInTo.Beziehungssammlungen.push(rcToImport)
             objectToImportRcInTo.Beziehungssammlungen = sortObjectArrayByName(objectToImportRcInTo.Beziehungssammlungen)
             // write to db
             return app.localDb.put(objectToImportRcInTo)
