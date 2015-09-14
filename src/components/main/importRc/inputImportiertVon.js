@@ -12,7 +12,7 @@ export default React.createClass({
 
   popover () {
     return (
-      <Popover>
+      <Popover id='InputImportiertVonPopover'>
         <p>Das ist immer die Email des angemeldeten Benutzers</p>
       </Popover>
     )

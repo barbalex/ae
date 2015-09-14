@@ -20,7 +20,7 @@ export default React.createClass({
 
   popover () {
     return (
-      <Popover title='So beschreiben Sie die Sammlung:'>
+      <Popover id='InputBeschreibungPopover' title='So beschreiben Sie die Sammlung:'>
         <p>Die Beschreibung sollte im ersten Teil etwa einem klassischen Literaturzitat entsprechen.<br/>
           Beispiel: "Gigon A. et al. (1998): Blaue Listen der erfolgreich erhaltenen oder geförderten Tier- und Pflanzenarten der Roten Listen. Methodik und Anwendung in der nördlichen Schweiz. Veröff. Geobot. Inst. ETH, Stiftung Rübel, Zürich 129: 1-137 + 180 pp. Appendicesn".</p>
         <p>In einem zweiten Teil sollte beschrieben werden, welche Informationen die Eigenschaftensammlung enthält.<br/>

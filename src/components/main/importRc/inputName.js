@@ -24,7 +24,7 @@ export default React.createClass({
 
   popover () {
     return (
-      <Popover title='So wählen Sie einen guten Namen:'>
+      <Popover id='inputNamePopover' title='So wählen Sie einen guten Namen:'>
         <p>Er sollte ungefähr dem ersten Teil eines Literaturzitats entsprechen. Beispiel: "Delarze (2008)".</p>
         <p>Danach sollte der Namen die Art der Beziehung ausdrücken. Beispiel: "Delarze (2008): Art charakterisiert Lebensraum"</p>
         <p>Wurden die Informationen spezifisch für einen bestimmten Kanton oder die ganze Schweiz erarbeitet?<br/>Wenn ja: Bitte das entsprechende Kürzel voranstellen. Beispiel: "CH Delarze (2008): Art charakterisiert Lebensraum".</p>

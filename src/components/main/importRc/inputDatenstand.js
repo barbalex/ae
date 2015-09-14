@@ -20,7 +20,7 @@ export default React.createClass({
 
   popover () {
     return (
-      <Popover title='Wozu ein Datenstand?'>
+      <Popover id='InputDatenstandPopover' title='Wozu ein Datenstand?'>
         <p>Hier sieht der Nutzer, wann die Eigenschaftensammlung zuletzt aktualisiert wurde.</p>
       </Popover>
     )

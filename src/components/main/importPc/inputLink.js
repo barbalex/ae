@@ -24,7 +24,7 @@ export default React.createClass({
 
   popover () {
     return (
-      <Popover title='Wozu ein Link?'>
+      <Popover id='InputLinkPopover' title='Wozu ein Link?'>
         <p>Kann die Originalpublikation verlinkt werden?</p>
         <p>Oder eine erläuternde Webseite?</p>
       </Popover>

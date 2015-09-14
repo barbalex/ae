@@ -33,7 +33,7 @@ export default React.createClass({
 
   popover () {
     return (
-      <Popover title='Was heisst "eigenständig"?'>
+      <Popover id='InputUrsprungsBsPopover' title='Was heisst "eigenständig"?'>
         <p>Eine zusammenfassende Beziehungssammlung wird zwei mal importiert:</p>
         <ol>
           <li>Als <strong>eigenständige</strong> Beziehungssammlung.</li>

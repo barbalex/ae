@@ -33,7 +33,7 @@ export default React.createClass({
 
   popover () {
     return (
-      <Popover title='Was heisst "eigenständig"?'>
+      <Popover id='InputUrsprungsEsPopover' title='Was heisst "eigenständig"?'>
         <p>Eine zusammenfassende Eigenschaftensammlung wird zwei mal importiert:</p>
         <ol>
           <li>Als <strong>eigenständige</strong> Eigenschaftensammlung.</li>

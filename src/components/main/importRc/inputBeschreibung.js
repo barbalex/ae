@@ -20,7 +20,7 @@ export default React.createClass({
 
   popover () {
     return (
-      <Popover title='So beschreiben Sie die Sammlung:'>
+      <Popover id='InputBeschreibungPopover' title='So beschreiben Sie die Sammlung:'>
         <p>Die Beschreibung sollte im ersten Teil etwa einem klassischen Literaturzitat entsprechen.<br/>
           Beispiel: "Delarze R. & Gonseth Y. (2008): Lebensräume der Schweiz".</p>
         <p>In einem zweiten Teil sollte beschrieben werden, welche Informationen die Datensammlung enthält.<br/>
