@@ -260,19 +260,18 @@ export default (Actions) => {
        */
       let rcs = []
       // 1. build an object with keys = _id's, values = array of all import-objects with this _id
-      let rcsToImportObject = _.groupBy(rcsToImport, '_id')
+      let rcsToImportObjects = _.groupBy(rcsToImport, '_id')
       // 2. loop the keys of this object and combine the import-objects
-      _.forEach(rcsToImportObject, (rcToImportArray, id) => {
+      _.forEach(rcsToImportObjects, (rcToImportArray, id) => {
+        const rcstoImportObject = rcToImportArray[0]
         // use relation description from state
         let rc = buildRcFirstLevel({ id, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs })
         // combine relation partners of all objects in field Beziehungen
         rcToImportArray.forEach((rcToImport, index) => {
-          let relation = {
-            Beziehungspartner: []
-          }
-          _.forEach(rcToImport, (value, field) => {
+          let relation = {}
+          _.forEach(rcstoImportObject, (value, field) => {
             if (field === 'rPartners') {
-              relation.Beziehungspartner = relation.Beziehungspartner.concat(value)
+              relation.Beziehungspartner = value
             }
             if (field !== '_id' && field !== 'rPartners' && field !== 'Beziehungspartner' && field !== idsImportIdField && value !== '' && value !== null) {
               // use other properties from any
