@@ -32,8 +32,8 @@ export default React.createClass({
     rcsToImport.forEach((pc) => {
       keys = _.union(keys, _.keys(pc))
     })
-    // remove '_id' from keys
-    keys = _.without(keys, '_id')
+    // remove '_id' and 'rPartners' from keys
+    keys = _.without(keys, '_id', 'rPartners')
 
     const thead = keys.map((key, index) => <th key={index}>{key}</th>)
     const tbody = rcsToImport.map((pc, index) => {
