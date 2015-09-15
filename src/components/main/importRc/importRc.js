@@ -408,7 +408,6 @@ export default React.createClass({
           const relationState = { rcsToImport, idsNumberImportable, idsNotImportable, idsAnalysisComplete, idsOfAeObjects, idsNumberOfRecordsWithIdValue, idsNotANumber }
           const state = Object.assign(rcPartnerState, relationState)
           this.setState(state)
-          console.log('rcsToImport', rcsToImport)
         })
         .catch((error) => app.Actions.showError({msg: error}))
     }

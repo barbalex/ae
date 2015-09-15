@@ -248,8 +248,9 @@ export default (Actions) => {
       // alert say "Daten werden vorbereitet..."
       this.trigger({ importingProgress, deletingRcInstancesProgress, deletingRcProgress })
       // make sure there are no rcsToImport without _id
-      rcsToImport = _.filter(rcsToImport, (rcToImport) => !!rcToImport._id)
       console.log('rcsToImport', rcsToImport)
+      rcsToImport = _.filter(rcsToImport, (rcToImport) => !!rcToImport._id)
+      console.log('rcsToImport after removing empty ids', rcsToImport)
       /**
        * prepare rcsToImport:
        * combine all objects with the same _id like this:
@@ -262,26 +263,33 @@ export default (Actions) => {
       let rcs = []
       // 1. build an object with keys = _id's, values = array of all import-objects with this _id
       let rcsToImportObject = _.groupBy(rcsToImport, '_id')
+      console.log('rcsToImportObject', rcsToImportObject)
       // 2. loop the keys of this object and combine the import-objects
       _.forEach(rcsToImportObject, (rcToImportArray, id) => {
+        console.log('rcToImportArray', rcToImportArray)
         // use relation description from state
         let rc = buildRcFirstLevel({ id, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs })
         // combine relation partners of all objects in field Beziehungen
-        rc.Beziehungen = []
         // use other properties from first
-        _.forEach(rcToImportArray, (value, field) => {
+        rcToImportArray.forEach((rcToImport, index) => {
           let relation = {
             Beziehungspartner: []
           }
-          if (field === 'rPartners') {
-            relation.Beziehungspartner = relation.Beziehungspartner.concat(value)
-          }
-          if (field !== '_id' && field !== 'rPartners' && field !== 'Beziehungspartner' && value !== '' && value !== null) {
-            // this is a propverty of the relation
-            relation[field] = convertValue(value)
-          }
+          _.forEach(rcToImport, (value, field) => {
+            console.log('field', field)
+            console.log('value', value)
+            if (field === 'rPartners') {
+              relation.Beziehungspartner = relation.Beziehungspartner.concat(value)
+            }
+            if (field !== '_id' && field !== 'rPartners' && field !== 'Beziehungspartner' && field !== idsImportIdField && value !== '' && value !== null) {
+              // this is a propverty of the relation
+              relation[field] = convertValue(value)
+            }
+          })
+          console.log('relation', relation)
           rc.Beziehungen.push(relation)
         })
+        console.log('rc before pushing to rcs', rc)
         rcs.push(rc)
       })
       console.log('rcs', rcs)
