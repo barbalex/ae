@@ -27,6 +27,7 @@ export default Router.extend({
     let gruppe = null
     let showImportPc = false
     let showImportRc = false
+    let showExportieren = false
     let showOrganizations = false
 
     app.loginStore.getLogin()
@@ -44,6 +45,10 @@ export default Router.extend({
         } else if (path.length === 1 && isGuid(path[0])) {
           // this is a path of style /<guid>
           guid = path[0]
+          gruppe = null
+        } else if (path.length === 1 && path[0] === 'exportieren') {
+          // this is a path of style /<guid>
+          showExportieren = true
           gruppe = null
         } else if (path.length === 1 && path[0] === 'indexhtml') {
           // this is a path of style /index.html?id=<guid>
@@ -69,6 +74,7 @@ export default Router.extend({
             path={path}
             showImportPc={showImportPc}
             showImportRc={showImportRc}
+            showExportieren={showExportieren}
             showOrganizations={showOrganizations}
             email={email} />,
           document.body

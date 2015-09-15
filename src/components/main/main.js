@@ -25,6 +25,7 @@ export default React.createClass({
     synonymObjects: React.PropTypes.array,
     showImportPc: React.PropTypes.bool,
     showImportRc: React.PropTypes.bool,
+    showExportieren: React.PropTypes.bool,
     showOrganizations: React.PropTypes.bool,
     email: React.PropTypes.string,
     allGroupsLoaded: React.PropTypes.bool,
@@ -63,7 +64,7 @@ export default React.createClass({
   },
 
   render () {
-    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, synonymObjects, showImportPc, showImportRc, showOrganizations, email, replicatingToAe, replicatingToAeTime } = this.props
+    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, synonymObjects, showImportPc, showImportRc, showExportieren, showOrganizations, email, replicatingToAe, replicatingToAeTime } = this.props
     const { formClassNames, errors } = this.state
     const showObject = object !== undefined
 
@@ -75,7 +76,7 @@ export default React.createClass({
             <Objekt
               object={object}
               synonymObjects={synonymObjects} />
-            : ''
+            : null
           }
           {showImportPc ?
             <ImportPc
@@ -85,7 +86,7 @@ export default React.createClass({
               allGroupsLoaded={allGroupsLoaded}
               replicatingToAe={replicatingToAe}
               replicatingToAeTime={replicatingToAeTime} />
-            : ''
+            : null
           }
           {showImportRc ?
             <ImportRc
@@ -97,10 +98,14 @@ export default React.createClass({
               replicatingToAeTime={replicatingToAeTime} />
             : ''
           }
+          {showExportieren ?
+            <Export />
+            : null
+          }
           {showOrganizations ?
             <Organizations
               email={email} />
-            : ''
+            : null
           }
         </form>
       </fieldset>

@@ -40,6 +40,7 @@ export default React.createClass({
     loadingFilterOptions: React.PropTypes.bool,
     showImportPc: React.PropTypes.bool,
     showImportRc: React.PropTypes.bool,
+    showExportieren: React.PropTypes.bool,
     showOrganizations: React.PropTypes.bool,
     logIn: React.PropTypes.bool,
     email: React.PropTypes.string,
@@ -52,12 +53,12 @@ export default React.createClass({
   },
 
   getInitialState () {
-    const { gruppe, guid, path, showImportPc, showImportRc, showOrganizations, email } = this.props
+    const { gruppe, guid, path, showImportPc, showImportRc, showExportieren, showOrganizations, email } = this.props
     const groupsLoadedOrLoading = gruppe ? [gruppe] : []
 
     // this happens on first load
     // need to kick off stores
-    if (!(path.length === 2 && path[0] === 'importieren') && !(path.length === 1 && path[0] === 'organisationen_und_benutzer') && path[0]) {
+    if (!(path.length === 2 && path[0] === 'importieren') && !(path.length === 1 && path[0] === 'organisationen_und_benutzer') && !(path.length === 1 && path[0] === 'exportieren') && path[0]) {
       // this would be an object url
       kickOffStores(path, gruppe, guid)
     }
@@ -75,6 +76,7 @@ export default React.createClass({
       loadingFilterOptions: false,
       showImportPc: showImportPc,
       showImportRc: showImportRc,
+      showExportieren: showExportieren,
       showOrganizations: showOrganizations,
       logIn: false,
       email: email,
@@ -148,6 +150,7 @@ export default React.createClass({
     let gruppe = null
     let showImportPc = false
     let showImportRc = false
+    let showExportieren = false
     let showOrganizations = false
 
     if (path.length === 2 && path[0] === 'importieren') {
@@ -161,6 +164,9 @@ export default React.createClass({
     } else if (path.length === 1 && path[0] === 'organisationen_und_benutzer') {
       showOrganizations = true
       gruppe = null
+    } else if (path.length === 1 && path[0] === 'exportieren') {
+      showExportieren = true
+      gruppe = null
     } else if (path[0]) {
       // this would be an object url
       gruppe = path[0]
@@ -169,7 +175,7 @@ export default React.createClass({
       gruppe = null
     }
     const object = undefined
-    state = Object.assign(state, { object, gruppe, showImportPc, showImportRc, showOrganizations })
+    state = Object.assign(state, { object, gruppe, showImportPc, showImportRc, showExportieren, showOrganizations })
 
     this.setState(state)
 
@@ -195,12 +201,12 @@ export default React.createClass({
   },
 
   render () {
-    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, showImportPc, showImportRc, showOrganizations, logIn, email, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, pcsQuerying, rcsQuerying } = this.state
+    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, showImportPc, showImportRc, showExportieren, showOrganizations, logIn, email, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, pcsQuerying, rcsQuerying } = this.state
     const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
     const showGruppen = groupsNotLoaded.length > 0
     const showFilter = filterOptions.length > 0 || loadingFilterOptions
     const showTree = groupsLoadedOrLoading.length > 0
-    const showMain = object !== undefined || showImportRc || showImportPc || showOrganizations
+    const showMain = object !== undefined || showImportRc || showImportPc || showExportieren || showOrganizations
     const showLogin = logIn && !email
     let homeStyle = {}
     if (pcsQuerying || rcsQuerying) homeStyle.cursor = 'progress'
@@ -253,6 +259,7 @@ export default React.createClass({
             synonymObjects={synonymObjects}
             showImportPc={showImportPc}
             showImportRc={showImportRc}
+            showExportieren={showExportieren}
             showOrganizations={showOrganizations}
             email={email}
             replicatingToAe={replicatingToAe}

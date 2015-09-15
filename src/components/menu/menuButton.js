@@ -16,6 +16,7 @@ export default React.createClass({
 
   exportProperties () {
     console.log('exportProperties was clicked')
+    app.Actions.loadActivePathStore(['exportieren'])
   },
 
   importPropertyCollection () {
@@ -63,7 +64,7 @@ export default React.createClass({
         <ButtonGroup>
           <Button onClick={this.searchGoogleImages} bsSize='small' disabled={!isObject} href={googleLink} target='_blank'>Bilder</Button>
           <Button onClick={this.searchWikipediaArticle} bsSize='small' disabled={!isObject} href={wikipediaLink} target='_blank'>Wikipedia</Button>
-          <Button onClick={this.exportProperties} bsSize='small' disabled={true}>Export</Button>
+          <Button onClick={this.exportProperties} bsSize='small'>Export</Button>
           <DropdownButton id='importDropdown' title='Import' bsSize='small'>
             <MenuItem header={true}>Importieren oder löschen:</MenuItem>
             <MenuItem onSelect={this.importPropertyCollection}>Eigenschaften</MenuItem>
