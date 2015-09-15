@@ -29,7 +29,7 @@ export default React.createClass({
         <div key={index}>
           <RelationPartners relation={relation} />
           <RelationFields relation={relation} relationCollection={rc} />
-          {index < rc.Beziehungen.length - 1 ? <hr/> : ''}
+          {index < rc.Beziehungen.length - 1 ? <hr/> : null}
         </div>
       )
     )
