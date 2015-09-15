@@ -248,9 +248,7 @@ export default (Actions) => {
       // alert say "Daten werden vorbereitet..."
       this.trigger({ importingProgress, deletingRcInstancesProgress, deletingRcProgress })
       // make sure there are no rcsToImport without _id
-      console.log('rcsToImport', rcsToImport)
       rcsToImport = _.filter(rcsToImport, (rcToImport) => !!rcToImport._id)
-      console.log('rcsToImport after removing empty ids', rcsToImport)
       /**
        * prepare rcsToImport:
        * combine all objects with the same _id like this:
@@ -258,62 +256,52 @@ export default (Actions) => {
        * 2. loop the keys of this object and combine the import-objects like this:
        * 2.1: use relation description from state
        * 2.2: combine relation partners of all objects in field Beziehungen
-       * 2.3: use other properties from first
+       * 2.3: use other properties from any
        */
       let rcs = []
       // 1. build an object with keys = _id's, values = array of all import-objects with this _id
       let rcsToImportObject = _.groupBy(rcsToImport, '_id')
-      console.log('rcsToImportObject', rcsToImportObject)
       // 2. loop the keys of this object and combine the import-objects
       _.forEach(rcsToImportObject, (rcToImportArray, id) => {
-        console.log('rcToImportArray', rcToImportArray)
         // use relation description from state
         let rc = buildRcFirstLevel({ id, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs })
         // combine relation partners of all objects in field Beziehungen
-        // use other properties from first
         rcToImportArray.forEach((rcToImport, index) => {
           let relation = {
             Beziehungspartner: []
           }
           _.forEach(rcToImport, (value, field) => {
-            console.log('field', field)
-            console.log('value', value)
             if (field === 'rPartners') {
               relation.Beziehungspartner = relation.Beziehungspartner.concat(value)
             }
             if (field !== '_id' && field !== 'rPartners' && field !== 'Beziehungspartner' && field !== idsImportIdField && value !== '' && value !== null) {
-              // this is a propverty of the relation
+              // use other properties from any
+              // this is a property of the relation
               relation[field] = convertValue(value)
             }
           })
-          console.log('relation', relation)
           rc.Beziehungen.push(relation)
         })
-        console.log('rc before pushing to rcs', rc)
         rcs.push(rc)
       })
-      console.log('rcs', rcs)
 
-      // need to make absolutely sure that the calls are made in series
-      // because the same object can be manipulated several times
-      let series = Promise.resolve()
       // loop rcs
       rcs.forEach((rcToImport, index) => {
-        series = series
-          // get the object to add it to
-          .then(() => app.objectStore.getItem(rcToImport._id))
+        app.objectStore.getItem(rcToImport._id)
           .then((objectToImportRcInTo) => {
             // make sure, Beziehungssammlungen exists
             if (!objectToImportRcInTo.Beziehungssammlungen) objectToImportRcInTo.Beziehungssammlungen = []
             // if a rc with this name existed already, remove it
-            objectToImportRcInTo.Beziehungssammlungen = _.reject(objectToImportRcInTo.Beziehungssammlungen, (bs) => bs.name === name)
+            objectToImportRcInTo.Beziehungssammlungen = _.reject(objectToImportRcInTo.Beziehungssammlungen, (bs) => bs.Name === name)
+            // remove _id
+            delete rcToImport._id
             objectToImportRcInTo.Beziehungssammlungen.push(rcToImport)
             objectToImportRcInTo.Beziehungssammlungen = sortObjectArrayByName(objectToImportRcInTo.Beziehungssammlungen)
             // write to db
             return app.localDb.put(objectToImportRcInTo)
           })
           .then(() => {
-            importingProgress = Math.round((index + 1) / rcsToImport.length * 100)
+            importingProgress = Math.round((index + 1) / rcs.length * 100)
             let state = { importingProgress }
             if (importingProgress === 100) {
               // reset rcsRemoved to show button to remove again

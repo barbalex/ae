@@ -12,6 +12,5 @@ export default ({ id, name, beschreibung, datenstand, nutzungsbedingungen, link,
   if (zusammenfassend) rc.zusammenfassend = zusammenfassend
   if (nameUrsprungsEs) rc.Ursprungsdatensammlung = nameUrsprungsEs
   rc.Beziehungen = []
-  console.log('buildRcFirstLevel.js, rc', rc)
   return rc
 }
