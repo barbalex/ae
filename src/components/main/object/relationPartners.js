@@ -5,7 +5,6 @@
 'use strict'
 
 import React from 'react'
-import _ from 'lodash'
 import TextLink from './textLink.js'
 
 export default React.createClass({
@@ -20,12 +19,15 @@ export default React.createClass({
     let relationPartners = []
 
     if (relation.Beziehungspartner && relation.Beziehungspartner.length > 0) {
-      relationPartners = _.map(relation.Beziehungspartner, (bezPartner) => {
+      relation.Beziehungspartner.forEach((bezPartner, index) => {
         // label field with Rolle if it exists
-        const label = bezPartner.Rolle ? bezPartner.Rolle : 'Beziehungspartner'
+        let label = bezPartner.Rolle ? bezPartner.Rolle : 'Beziehungspartner'
+        // give only the first bezPartner a label
+        label = index > 0 ? null : label
         const value = bezPartner.Gruppe + ': ' + (bezPartner.Taxonomie ? bezPartner.Taxonomie + ' > ' : '') + bezPartner.Name
 
-        return <TextLink key={bezPartner.GUID} label={label} value={value} gruppe={bezPartner.Gruppe} guid={bezPartner.GUID} />
+        const textLink = <TextLink key={bezPartner.GUID} label={label} value={value} gruppe={bezPartner.Gruppe} guid={bezPartner.GUID} />
+        relationPartners.push(textLink)
       })
     }
 
