@@ -5,15 +5,17 @@ import app from 'ampersand-app'
 import PouchDB from 'pouchdb'
 import pouchdbUpsert from 'pouchdb-upsert'
 import pouchdbAuthentication from 'pouchdb-authentication'
-// make webpack import styles
-import './styles/main.styl'
 import Router from './router.js'
 import actions from './actions.js'
 import stores from './stores'
 import pouchUrl from './modules/getCouchUrl.js'
 import getGroupsLoadedFromLocalGroupsDb from './modules/getGroupsLoadedFromLocalGroupsDb.js'
+// make webpack import styles
+import './styles/main.styl'
 // this lib can not be imported directly - need to load it as a global using https://github.com/webpack/script-loader
 import 'script!../node_modules/xlsx/dist/xlsx.core.min.js'
+// make webpack import server.js
+import 'file?name=server.js!../server.js'
 
 // set up pouchdb plugins
 PouchDB.plugin(pouchdbUpsert)
