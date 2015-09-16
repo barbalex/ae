@@ -641,7 +641,7 @@ export default React.createClass({
             {idsImportIdField && idsAeIdField ? <AlertIdsAnalysisResult idsImportIdField={idsImportIdField} idsAeIdField={idsAeIdField} rcsToImport={rcsToImport} idsNumberOfRecordsWithIdValue={idsNumberOfRecordsWithIdValue} idsNumberImportable={idsNumberImportable} idsNotImportable={idsNotImportable} idsAnalysisComplete={idsAnalysisComplete} idsNotANumber={idsNotANumber} idsWithoutPartner={idsWithoutPartner} rPartnerIdsToImport={rPartnerIdsToImport} rPartnerIdsImportable={rPartnerIdsImportable} /> : null}
           </Panel>
 
-          <Panel collapsible header='4. Import ausführen' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>
+          <Panel collapsible header='4. importieren' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>
             {panel3Done ? <Button className='btn-primary' onClick={this.onClickImportieren}><Glyphicon glyph='download-alt'/> Eigenschaftensammlung "{name}" importieren</Button> : null }
             {showDeleteRcInstancesButton ? <ButtonDeleteRcInstances name={name} rcsRemoved={rcsRemoved} deletingRcInstancesProgress={deletingRcInstancesProgress} onClickRemoveRcInstances={this.onClickRemoveRcInstances} /> : null}
             {showProgressbarImport ? <ProgressbarImport importingProgress={importingProgress} /> : null}

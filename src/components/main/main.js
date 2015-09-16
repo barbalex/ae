@@ -12,6 +12,7 @@ import React from 'react'
 import Objekt from './object/object.js'
 import ImportPc from './importPc/importPc.js'
 import ImportRc from './importRc/importRc.js'
+import Export from './export/export.js'
 import Organizations from './organizations.js'
 import Errors from './errors.js'
 

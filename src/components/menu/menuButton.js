@@ -15,17 +15,14 @@ export default React.createClass({
   },
 
   exportProperties () {
-    console.log('exportProperties was clicked')
     app.Actions.loadActivePathStore(['exportieren'])
   },
 
   importPropertyCollection () {
-    console.log('importPropertyCollection')
     app.Actions.loadActivePathStore(['importieren', 'eigenschaften'])
   },
 
   importRelationsCollection () {
-    // console.log('importRelationsCollection was clicked')
     app.Actions.loadActivePathStore(['importieren', 'beziehungen'])
   },
 
