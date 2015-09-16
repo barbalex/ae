@@ -4,11 +4,15 @@
 import React from 'react'
 import { Accordion, Panel } from 'react-bootstrap'
 import _ from 'lodash'
+import WellSoGehts from './wellSoGehts.js'
+import GroupsToExport from './groupsToExport.js'
 
 export default React.createClass({
   displayName: 'Main',
 
   propTypes: {
+    groupsToExport: React.PropTypes.array,
+    groupsLoadedOrLoading: React.PropTypes.array,
     activePanel: React.PropTypes.number
   },
 
@@ -18,6 +22,7 @@ export default React.createClass({
   // validXxx: to check validity of these fields
   getInitialState () {
     return {
+      groupsToExport: [],
       activePanel: 1
     }
   },
@@ -78,14 +83,26 @@ export default React.createClass({
     return panel3Done
   },
 
+  onChangeGroupsToExport (group, checked) {
+    let { groupsToExport } = this.state
+    if (checked) groupsToExport.push(group)
+    if (!checked) groupsToExport = _.without(groupsToExport, group)
+    this.setState({ groupsToExport })
+  },
+
   render () {
-    const { activePanel } = this.state
+    const { groupsLoadedOrLoading } = this.props
+    const { groupsToExport, activePanel } = this.state
     return (
-      <div id='exportieren' className='formContent'>
+      <div id='export' className='formContent'>
         <h4>Eigenschaften exportieren</h4>
         <Accordion activeKey={activePanel}>
           <Panel collapsible header='1. Gruppe(n) wählen' eventKey={1} onClick={this.onClickPanel.bind(this, 1)}>
-            
+            <WellSoGehts />
+            <GroupsToExport
+              groupsLoadedOrLoading={groupsLoadedOrLoading}
+              groupsToExport={groupsToExport}
+              onChangeGroupsToExport={this.onChangeGroupsToExport} />
           </Panel>
 
           <Panel collapsible header='2. filtern' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>

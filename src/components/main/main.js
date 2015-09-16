@@ -100,7 +100,8 @@ export default React.createClass({
             : ''
           }
           {showExportieren ?
-            <Export />
+            <Export
+            groupsLoadedOrLoading={groupsLoadedOrLoading} />
             : null
           }
           {showOrganizations ?
