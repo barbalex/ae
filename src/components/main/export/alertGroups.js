@@ -24,6 +24,7 @@ export default React.createClass({
     const resultText = 'Die Eigenschaften wurden aufgebaut.'
     const taxonomienZusammenfassenText = taxonomienZusammenfassen ? 'Taxonomien werden zusammengefasst.' : 'Taxonomien werden einzeln dargestellt.'
     const style = {
+      marginTop: 8,
       marginBottom: 5
     }
     return (
