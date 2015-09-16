@@ -6,14 +6,18 @@ import { Accordion, Panel } from 'react-bootstrap'
 import _ from 'lodash'
 import WellSoGehts from './wellSoGehts.js'
 import GroupsToExport from './groupsToExport.js'
-import ButtonTaxonomienZusammenfassen from './buttonTaxonomienZusammenfassen.js'
 import WellTaxonomienZusammenfassen from './wellTaxonomienZusammenfassen.js'
+import AlertGroups from './alertGroups.js'
 
 export default React.createClass({
   displayName: 'Main',
 
   propTypes: {
     groupsToExport: React.PropTypes.array,
+    buildingFields: React.PropTypes.bool,
+    errorBuildingFields: React.PropTypes.string,
+    pcs: React.PropTypes.array,
+    rcs: React.PropTypes.array,
     groupsLoadedOrLoading: React.PropTypes.array,
     taxonomienZusammenfassen: React.PropTypes.bool,
     activePanel: React.PropTypes.number
@@ -26,6 +30,10 @@ export default React.createClass({
   getInitialState () {
     return {
       groupsToExport: [],
+      buildingFields: false,
+      errorBuildingFields: null,
+      pcs: [],
+      rcs: [],
       taxonomienZusammenfassen: false,
       activePanel: 1
     }
@@ -100,7 +108,8 @@ export default React.createClass({
 
   render () {
     const { groupsLoadedOrLoading } = this.props
-    const { groupsToExport, taxonomienZusammenfassen, activePanel } = this.state
+    const { groupsToExport, buildingFields, pcs, rcs, taxonomienZusammenfassen, errorBuildingFields, activePanel } = this.state
+    const showAlertGroups = groupsToExport.length > 0
     return (
       <div id='export' className='formContent'>
         <h4>Eigenschaften exportieren</h4>
@@ -111,10 +120,17 @@ export default React.createClass({
               groupsLoadedOrLoading={groupsLoadedOrLoading}
               groupsToExport={groupsToExport}
               onChangeGroupsToExport={this.onChangeGroupsToExport} />
-            <ButtonTaxonomienZusammenfassen
+            <WellTaxonomienZusammenfassen
               taxonomienZusammenfassen={taxonomienZusammenfassen}
               onChangeTaxonomienZusammenfassen={this.onChangeTaxonomienZusammenfassen} />
-            <WellTaxonomienZusammenfassen />
+            {showAlertGroups ?
+              <AlertGroups
+                buildingFields={buildingFields}
+                pcs={pcs}
+                rcs={rcs}
+                errorBuildingFields={errorBuildingFields} />
+              : null
+            }
           </Panel>
 
           <Panel collapsible header='2. filtern' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>

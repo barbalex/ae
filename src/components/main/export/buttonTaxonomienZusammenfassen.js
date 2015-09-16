@@ -18,14 +18,11 @@ export default React.createClass({
 
   render () {
     const { taxonomienZusammenfassen } = this.props
-    const style = {
-      marginBottom: 9
-    }
 
-    const buttonText = taxonomienZusammenfassen ? 'Taxonomien einzeln behandeln' : 'Taxonomien zusammenfassen'
+    const buttonText = taxonomienZusammenfassen ? 'Felder der gewählten Taxonomien einzeln behandeln' : 'Felder der gewählten Taxonomien zusammenfassen'
 
     return (
-      <Button onClick={this.onClick} style={style}>
+      <Button onClick={this.onClick}>
         {buttonText}
       </Button>
     )
