@@ -12,7 +12,7 @@
 import app from 'ampersand-app'
 import _ from 'lodash'
 
-export default () => {
+export default (group) => {
   return new Promise((resolve, reject) => {
     const ddoc = {
       _id: '_design/fields',
@@ -71,21 +71,24 @@ export default () => {
         if (error.status !== 409) reject(error)
       })
       .then((response) => {
-        // console.log('fields: response from putting ddoc')
+        console.log('fields: response from putting ddoc')
         const options = {
           group_level: 5,
+          startkey: [group],
+          endkey: [group, {}, {}, {}, {}],
           reduce: '_count'
         }
         return app.localDb.query('fields', options)
       })
       .then((result) => {
+        console.log('fields: result', result)
         const rows = result.rows
         let fields = rows.map((row) => ({
           group: row.key[0],
-          collection: row.key[1],
+          cType: row.key[1],
           cName: row.key[2],
-          field: row.key[3],
-          type: row.key[4],
+          fName: row.key[3],
+          fType: row.key[4],
           count: row.value
         }))
         // sort by pcName

@@ -1,6 +1,6 @@
 'use strict'
 
-// import app from 'ampersand-app'
+import app from 'ampersand-app'
 import React from 'react'
 import { Accordion, Panel } from 'react-bootstrap'
 import _ from 'lodash'
@@ -8,6 +8,7 @@ import WellSoGehts from './wellSoGehts.js'
 import GroupsToExport from './groupsToExport.js'
 import WellTaxonomienZusammenfassen from './wellTaxonomienZusammenfassen.js'
 import AlertGroups from './alertGroups.js'
+import queryFields from '../../../queries/fields.js'
 
 export default React.createClass({
   displayName: 'Main',
@@ -96,10 +97,30 @@ export default React.createClass({
   },
 
   onChangeGroupsToExport (group, checked) {
+    console.log('export.js, onChangeGroupsToExport, group', group)
+    console.log('export.js, onChangeGroupsToExport, checked', checked)
     let { groupsToExport } = this.state
     if (checked) groupsToExport.push(group)
     if (!checked) groupsToExport = _.without(groupsToExport, group)
     this.setState({ groupsToExport })
+    // TODO: get fields
+    // TODO: depend on checked
+    // TODO: promise.all for all groups chosen
+    // now fetch up to date pc's
+    queryFields(group)
+      .then((fields) => {
+        console.log('fields', fields)
+        /*this.pcsQuerying = false
+        // email has empty values. Set default
+        pcs.forEach((pc) => {
+          pc.importedBy = pc.importedBy || 'alex@gabriel-software.ch'
+        })
+        this.trigger(pcs, this.pcsQuerying)
+        return this.savePcs(pcs)*/
+      })
+      .catch((error) =>
+        app.Actions.showError({title: 'propertyCollectionsStore, error querying up to date pcs:', msg: error})
+      )
   },
 
   onChangeTaxonomienZusammenfassen (taxonomienZusammenfassen) {
