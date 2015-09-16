@@ -6,6 +6,8 @@ import { Accordion, Panel } from 'react-bootstrap'
 import _ from 'lodash'
 import WellSoGehts from './wellSoGehts.js'
 import GroupsToExport from './groupsToExport.js'
+import ButtonTaxonomienZusammenfassen from './buttonTaxonomienZusammenfassen.js'
+import WellTaxonomienZusammenfassen from './wellTaxonomienZusammenfassen.js'
 
 export default React.createClass({
   displayName: 'Main',
@@ -13,6 +15,7 @@ export default React.createClass({
   propTypes: {
     groupsToExport: React.PropTypes.array,
     groupsLoadedOrLoading: React.PropTypes.array,
+    taxonomienZusammenfassen: React.PropTypes.bool,
     activePanel: React.PropTypes.number
   },
 
@@ -23,6 +26,7 @@ export default React.createClass({
   getInitialState () {
     return {
       groupsToExport: [],
+      taxonomienZusammenfassen: false,
       activePanel: 1
     }
   },
@@ -90,9 +94,13 @@ export default React.createClass({
     this.setState({ groupsToExport })
   },
 
+  onChangeTaxonomienZusammenfassen (taxonomienZusammenfassen) {
+    this.setState({ taxonomienZusammenfassen })
+  },
+
   render () {
     const { groupsLoadedOrLoading } = this.props
-    const { groupsToExport, activePanel } = this.state
+    const { groupsToExport, taxonomienZusammenfassen, activePanel } = this.state
     return (
       <div id='export' className='formContent'>
         <h4>Eigenschaften exportieren</h4>
@@ -103,6 +111,9 @@ export default React.createClass({
               groupsLoadedOrLoading={groupsLoadedOrLoading}
               groupsToExport={groupsToExport}
               onChangeGroupsToExport={this.onChangeGroupsToExport} />
+            <ButtonTaxonomienZusammenfassen
+              taxonomienZusammenfassen={taxonomienZusammenfassen} />
+            <WellTaxonomienZusammenfassen />
           </Panel>
 
           <Panel collapsible header='2. filtern' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
