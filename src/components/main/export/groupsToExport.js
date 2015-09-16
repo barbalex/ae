@@ -22,9 +22,9 @@ export default React.createClass({
   render () {
     const { groupsToExport, groupsLoadedOrLoading } = this.props
 
-    const groupCheckboxes = groupsLoadedOrLoading.map((group) => {
+    const groupCheckboxes = groupsLoadedOrLoading.map((group, index) => {
       const checked = _.includes(groupsToExport, group)
-      return <Input type='checkbox' label={group} checked={checked} onChange={this.onChangeGroup.bind(this, group)} />
+      return <Input key={index} type='checkbox' label={group} checked={checked} onChange={this.onChangeGroup.bind(this, group)} />
     })
 
     return (

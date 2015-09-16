@@ -2,34 +2,32 @@
 
 import React from 'react'
 import { Button } from 'react-bootstrap'
-import _ from 'lodash'
 
 export default React.createClass({
   displayName: 'GroupsToExport',
 
   propTypes: {
-    taxonomienZusammenfassen: React.PropTypes.array,
+    taxonomienZusammenfassen: React.PropTypes.bool,
     onChangeTaxonomienZusammenfassen: React.PropTypes.func
   },
 
-  onChangeGroup (group, event) {
-    const { onChangeGroupsToExport } = this.props
-    const checked = event.target.checked
-    onChangeGroupsToExport(group, checked)
+  onClick () {
+    const { onChangeTaxonomienZusammenfassen, taxonomienZusammenfassen } = this.props
+    onChangeTaxonomienZusammenfassen(!taxonomienZusammenfassen)
   },
 
   render () {
     const { taxonomienZusammenfassen } = this.props
+    const style = {
+      marginBottom: 9
+    }
 
-    const groupCheckboxes = groupsLoadedOrLoading.map((group) => {
-      const checked = _.includes(groupsToExport, group)
-      return <Input type='checkbox' label={group} checked={checked} onChange={this.onChangeGroup.bind(this, group)} />
-    })
+    const buttonText = taxonomienZusammenfassen ? 'Taxonomien einzeln behandeln' : 'Taxonomien zusammenfassen'
 
     return (
-      <div className='checkbox'>
-        {groupCheckboxes}
-      </div>
+      <Button onClick={this.onClick} style={style}>
+        {buttonText}
+      </Button>
     )
   }
 

@@ -112,7 +112,8 @@ export default React.createClass({
               groupsToExport={groupsToExport}
               onChangeGroupsToExport={this.onChangeGroupsToExport} />
             <ButtonTaxonomienZusammenfassen
-              taxonomienZusammenfassen={taxonomienZusammenfassen} />
+              taxonomienZusammenfassen={taxonomienZusammenfassen}
+              onChangeTaxonomienZusammenfassen={this.onChangeTaxonomienZusammenfassen} />
             <WellTaxonomienZusammenfassen />
           </Panel>
 
