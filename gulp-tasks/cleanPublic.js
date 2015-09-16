@@ -1,8 +1,6 @@
 'use strict'
 
-var gulp = require('gulp'),
-  del = require('del')
+const gulp = require('gulp')
+const del = require('del')
 
-gulp.task('cleanPublic', function (cb) {
-  del(['public'], cb)
-})
+gulp.task('cleanPublic', (cb) => del(['public'], cb))
