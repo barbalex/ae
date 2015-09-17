@@ -16,7 +16,7 @@ export default React.createClass({
 
     return (
       <OverlayTrigger placement='left' overlay={tooltip}>
-        <p className='symbols text' style={pStyle}>Lade aktuelle Eigenschaften...</p>
+        <p className='symbols text' style={pStyle}>Lade aktuelle Felder...</p>
       </OverlayTrigger>
     )
   }
