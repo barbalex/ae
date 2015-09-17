@@ -58,7 +58,7 @@
 - Wikipedia Artikel suchen
 - Eigenschaftensammlungen importieren
 - Beziehungssammlungen importieren
-- ...diese anschliessend mit der zentralen Datenbank (jetzt natürlich auf efassen.ch, nicht arteigenschaften.ch) replizieren.<br/>
+- ...diese anschliessend mit der zentralen Datenbank (vorläufig auf [erfassen.ch](http://erfassen.ch), nicht [arteigenschaften.ch(http://arteigenschaften.ch)]) replizieren.<br/>
   Es wäre ganz einfach, nach jedem Import automatisch zu replizieren. Aber so wie es jetzt realisiert ist, kann jemand auch eigene Daten importieren, ohne sie mit arteigenschaften.ch zu teilen. Das kann in Einzelfällen auch ein Vorteil sein
 - Aktuelle Daten von der zentralen Datenbank (jetzt erfassen.ch) replizieren.<br/>
   Es wäre einfach, bei jedem Start der Anwendung von der zentralen Datenbank zu replizieren, wenn der Benutzer bereits alle Gruppen geladen hat. Das wäre vermutlich sinnvoll
