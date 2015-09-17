@@ -443,7 +443,6 @@ export default (Actions) => {
       this.fieldsQuerying = true
       this.getFields()
         .then((allFields) => {
-          console.log('fieldsStore, onQueryFields, allFields from local', allFields)
           const fields = _.filter(allFields, (field) => _.includes(groupsToExport, field.group))
           console.log('fieldsStore, onQueryFields, fields from local', fields)
           return this.trigger(fields, this.fieldsQuerying)
@@ -454,7 +453,6 @@ export default (Actions) => {
       // now fetch up to date fields
       queryFields()
         .then((allFields) => {
-          console.log('fieldsStore, onQueryFields, allFields from query', allFields)
           const fields = _.filter(allFields, (field) => _.includes(groupsToExport, field.group))
           console.log('fieldsStore, onQueryFields, fields from query', fields)
           this.fieldsQuerying = false
