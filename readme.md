@@ -30,4 +30,4 @@ Arteigenschaften.ch wird mit folgenden Mitteln neu aufgebaut:
 - [hapi.js](http://hapijs.com) liefert die Applikation an den Browser...
 - ...der sie dann ohne weitere Hilfe des Servers ausführt. Es handelt sich daher um eine reine ["Native Web App"](https://blog.andyet.com/2015/01/22/native-web-apps)
 - Die Daten werden mit Hilfe von [pouchdb](http://pouchdb.com) im Browser gespeichert
-- Schnittstellen zu anderen Anwendungen werden wie bisher direkt durch die CouchApp gewährleistet. Ev. wird in einem zweiten Schritt ein unabhängiger api-Server erstellt, der alle Schnittstellen mit Hilfe von [hapi.js](http://hapijs.com) bereitstellt
+- Schnittstellen zu anderen Anwendungen werden wie bisher direkt durch die CouchApp gewährleistet. Ev. wird in einem zweiten Schritt ein unabhängiger api-Server erstellt, der sie mit Hilfe von [hapi.js](http://hapijs.com) bereitstellt
