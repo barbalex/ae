@@ -4,11 +4,12 @@ import app from 'ampersand-app'
 import React from 'react'
 import { Accordion, Panel } from 'react-bootstrap'
 import _ from 'lodash'
-import WellSoGehts from './wellSoGehts.js'
+import WellSoGehtsGruppeWaehlen from './wellSoGehtsGruppeWaehlen.js'
 import GroupsToExport from './groupsToExport.js'
 import WellTaxonomienZusammenfassen from './wellTaxonomienZusammenfassen.js'
 import AlertGroups from './alertGroups.js'
 import AlertLoadGroups from './alertLoadGroups.js'
+import WellSoGehtsFiltern from './wellSoGehtsFiltern.js'
 
 export default React.createClass({
   displayName: 'Main',
@@ -64,7 +65,8 @@ export default React.createClass({
   },
 
   isPanel1Done () {
-    const panel1Done = false
+    const { fields } = this.props
+    const panel1Done = fields.length > 0
     let state = { panel1Done }
     if (!panel1Done) state = Object.assign(state, { activePanel: 1 })
     this.setState(state)
@@ -112,7 +114,7 @@ export default React.createClass({
         <Accordion activeKey={activePanel}>
           <Panel collapsible header='1. Gruppe(n) wählen' eventKey={1} onClick={this.onClickPanel.bind(this, 1)}>
             {showAlertLoadGroups ? <AlertLoadGroups /> : null}
-            {!showAlertLoadGroups ? <WellSoGehts /> : null}
+            {!showAlertLoadGroups ? <WellSoGehtsGruppeWaehlen /> : null}
             {!showAlertLoadGroups ?
               <GroupsToExport
                 groupsLoadedOrLoading={groupsLoadedOrLoading}
@@ -137,7 +139,7 @@ export default React.createClass({
           </Panel>
 
           <Panel collapsible header='2. filtern' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
-            
+            <WellSoGehtsFiltern />
           </Panel>
 
           <Panel collapsible header="3. Eigenschaften wählen" eventKey={3} onClick={this.onClickPanel.bind(this, 3)}>

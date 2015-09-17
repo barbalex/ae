@@ -4,7 +4,7 @@ import React from 'react'
 import { Well } from 'react-bootstrap'
 
 export default React.createClass({
-  displayName: 'WellSoGehts',
+  displayName: 'WellSoGehtsGruppeWaehlen',
 
   propTypes: {
     visible: React.PropTypes.bool
