@@ -39,11 +39,11 @@
   - Zentraler Datenserver und Replikationsdrehscheibe
   - Schnittstellen zu EvAB und ALT (unverändert)
   - Anwendungsserver: Beim erstmaligen Besuch von erfassen.ch wird die Anwendung vom Server an den Browser übergeben. Danach liefert der Server nur noch Updates
-- Die Anwendung ist (jetzt noch nicht ganz, dazu braucht es dann https) nach dem ersten Laden vom Server bzw. dem Internet unabhängig
-- Daher funktioniert Einiges viel schneller: Daten müssen nach dem erstmaligen Laden nicht über das Internet geholt werden
+- Die Anwendung ist (jetzt noch nicht ganz, dazu braucht es https) nach dem ersten Laden vom Server bzw. dem Internet unabhängig
+- Daher funktioniert Einiges viel schneller:<br/>Daten müssen nach dem erstmaligen Laden nicht über das Internet geholt werden
 - Anderes ist langsamer: 
-  - Indizes müssen lokal aufgebaut werden - das kann den Browser recht stark belasten. Indizes werden für Im- und Exporte benötigt
-  - Die Anwendung beansprucht recht viel Festplattenspeicher. Nach dem Laden aller Gruppen ca. 680 MB. Wenn man Indizes nutzt, werden daraus Gigabites
+  - Indizes müssen lokal aufgebaut werden - das kann den Browser recht stark belasten.<br/>Indizes werden für Im- und Exporte benötigt
+  - Die Anwendung beansprucht recht viel Festplattenspeicher. Nach dem Laden aller Gruppen ca. 680 MB.<br/>Wenn man Indizes nutzt, werden daraus Gigabites
 - Da viele Aufgaben, die bisher der Server übernahm, neu von der Anwendung wahrgenommen werden, reicht der kleinste verfügbare Server
 - Die Möglichkeit, später einmal Taxonomien zu importieren, ist strukturell vorgespurt
 
@@ -59,16 +59,17 @@
 - Eigenschaftensammlungen importieren
 - Beziehungssammlungen importieren
 - ...diese anschliessend mit der zentralen Datenbank (jetzt natürlich auf efassen.ch, nicht arteigenschaften.ch) replizieren.<br/>
-  Es wäre ganz einfach, nach jedem Import automatisch zu replizieren. Aber so wie es jetzt ist, kann jemand auch einmal eigene Daten importieren, ohne sie mit arteigenschaften.ch zu teilen. Ich sehe das als möglichen Vorteil
-- Daten von der zentralen Datenbank (jetzt erfassen.ch) replizieren (falls z.B. jemand Anderes neue Daten importiert hat).<br/>
-  Ich könnte ganz einfach einstellen, dass die Anwendung bei jedem Start von der Zentralen Datenbank repliziert, falls der Benutzer bereits alle Gruppen geladen hat. Das wäre vermutlich sinnvoll
-- Vor allem bei Importen gibt es bessere Informationen und Rückmeldungen
+  Es wäre ganz einfach, nach jedem Import automatisch zu replizieren. Aber so wie es jetzt realisiert ist, kann jemand auch eigene Daten importieren, ohne sie mit arteigenschaften.ch zu teilen. Das kann in Einzelfällen auch ein Vorteil sein
+- Aktuelle Daten von der zentralen Datenbank (jetzt erfassen.ch) replizieren.<br/>
+  Es wäre einfach, bei jedem Start der Anwendung von der zentralen Datenbank zu replizieren, wenn der Benutzer bereits alle Gruppen geladen hat. Das wäre vermutlich sinnvoll
+- Vor allem bei Im- und Exporten werden Informationen und Rückmeldungen verbessert
 - Die Anwendung passt sich an den Handy-Bildschirm an - und läuft auf meinem zugegeben neuen Nexus recht schön (allerdings auf WLAN getestet)
-- Jede Hierarchiestufe hat ihre eigene als Link nutzbare URL
-- Links sind aussagekräftig (wenn auch nicht besonders lesbar, weil Leerzeichen in der URL von Browsern mit "%20" dargestellt werden)
-- Wo möglich wird bei langsamen Vorgängen der Fortschritt angezeigt, z.B. beim Laden von Gruppen. Leider ist das nicht immer möglich, z.B. wenn Indizes gebaut werden
+- Jede Hierarchiestufe hat ihre eigene verlinkbare URL
+- Links sind aussagekräftig, wenn auch nicht besonders lesbar, weil Leerzeichen in der URL von Browsern mit "%20" dargestellt werden
+- Wo möglich wird bei langsamen Vorgängen der Fortschritt angezeigt, z.B. beim Laden von Gruppen.<br/>Leider ist das nicht immer möglich, z.B. wenn Indizes gebaut werden
 
-Die Anwendung ist auf [erfassen.ch](http://erfassen.ch) aufgeschaltet. Man kann hier üben, soviel man will. Test-Login: User "z@z.ch", Passwort "z".
+Die Anwendung ist auf [erfassen.ch](http://erfassen.ch) aufgeschaltet. Man kann hier üben, soviel man will.
+Test-Login: User "z@z.ch", Passwort "z".
 
 ####To Do
 
