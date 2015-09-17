@@ -41,12 +41,12 @@
   - Schnittstellen zu EvAB und ALT (unverändert)
   - Anwendungsserver: Beim erstmaligen Besuch von [erfassen.ch](http://erfassen.ch) wird die Anwendung vom Server an den Browser übergeben. Danach liefert der Server nur noch Updates
 - Die Anwendung ist (jetzt noch nicht ganz, dazu braucht es https) nach dem ersten Laden vom Server bzw. dem Internet unabhängig
-- Daher funktioniert einiges viel schneller:<br/>Daten müssen nach dem erstmaligen Laden nicht über das Internet geholt werden
+- Daher funktioniert einiges viel schneller, denn die Daten müssen nach dem erstmaligen Laden nicht über das Internet gebeamt werden
 - Anderes ist langsamer: 
-  - Indizes müssen lokal aufgebaut werden - das kann den Browser recht stark belasten.<br/>Indizes werden für Im- und Exporte benötigt
-  - Die Anwendung beansprucht recht viel Festplattenspeicher. Nach dem Laden aller Gruppen ca. 680 MB.<br/>Wenn man Indizes nutzt, werden daraus Gigabites
-- Da viele Aufgaben, die bisher der Server übernahm, neu von der Anwendung wahrgenommen werden, reicht der kleinste verfügbare Server
-- Die Möglichkeit, später einmal Taxonomien zu importieren, ist strukturell vorgespurt
+  - Indizes müssen lokal aufgebaut werden - das kann den Browser stark belasten.<br/>Indizes werden für Importe und Exporte benötigt
+  - Die Anwendung beansprucht viel Festplattenspeicher: Nach dem erstmaligen Laden aller Gruppen ca. 680 MB.<br/>Wenn man Indizes nutzt, werden daraus bis zu einigen Gigabites
+- Da viele Aufgaben neu von der Anwendung wahrgenommen werden, reicht der kleinste verfügbare Server
+- Die Anwendung ist strukturell vorbereitet: Künftig kann der Import von Taxonomien ermöglicht werden
 
 ###Aktueller Stand
 ####Man kann jetzt:
