@@ -12,7 +12,7 @@
 import app from 'ampersand-app'
 import _ from 'lodash'
 
-export default (group) => {
+export default () => {
   return new Promise((resolve, reject) => {
     const ddoc = {
       _id: '_design/fields',
@@ -74,8 +74,6 @@ export default (group) => {
         console.log('fields: response from putting ddoc')
         const options = {
           group_level: 5,
-          startkey: [group],
-          endkey: [group, {}, {}, {}, {}],
           reduce: '_count'
         }
         return app.localDb.query('fields', options)

@@ -74,6 +74,12 @@ app.extend({
         rcs: []
       })
     )
+    // initiate fields data if necessary
+    .then(() => this.localDb.putIfNotExists({
+        _id: '_local/fields',
+        fields: []
+      })
+    )
     .then(() => {
       // initiate actions, stores and router
       // extend app with them so they can be called in modules

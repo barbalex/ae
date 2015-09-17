@@ -28,6 +28,7 @@ export default () => {
     showGroupLoading: {},
     queryPropertyCollections: {},
     queryRelationCollections: {},
+    queryFields: {},
     deletePcByName: {},
     deleteRcByName: {},
     importPcs: {},

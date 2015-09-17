@@ -16,6 +16,7 @@ import getGruppen from './modules/gruppen.js'
 import loadGroupFromRemote from './modules/loadGroupFromRemote.js'
 import queryPcs from './queries/pcs.js'
 import queryRcs from './queries/rcs.js'
+import queryFields from './queries/fields.js'
 import objectsIdsByPcsName from './queries/objectsIdsByPcsName.js'
 import objectsIdsByRcsName from './queries/objectsIdsByRcsName.js'
 import convertValue from './modules/convertValue.js'
@@ -387,6 +388,85 @@ export default (Actions) => {
 
   })
 
+  app.fieldsStore = Reflux.createStore({
+    /*
+     * queries fields
+     * keeps last query result in pouch (_local/fields.fields) for fast delivery
+     * app.js sets default _local/fields.fields = [] if not exists on app start
+     * fields's are arrays of objects of the form:
+     * key: doc.Gruppe, 'Datensammlung', datensammlung.Name, feldname, typeof feldwert
+     * value: _count
+     *
+     * when this store triggers it passes two variables:
+     * fields: the fields
+     * fieldsQuerying: true/false: are fields being queryied? if true: show warning in symbols
+     */
+    listenables: Actions,
+
+    fieldsQuerying: false,
+
+    getFields () {
+      return new Promise((resolve, reject) => {
+        app.localDb.get('_local/fields', { include_docs: true })
+          .then((doc) => resolve(doc.fields))
+          .catch((error) =>
+            reject('Fehler in fieldsStore, getFields: ' + error)
+          )
+      })
+    },
+
+    saveFields (fields) {
+      app.localDb.get('_local/fields', { include_docs: true })
+        .then((doc) => {
+          doc.fields = fields
+          return app.localDb.put(doc)
+        })
+        .catch((error) =>
+          app.Actions.showError({title: 'Fehler in fieldsStore, saveFields:', msg: error})
+        )
+    },
+
+    getFieldsOfGroups (groups) {
+      return new Promise((resolve, reject) => {
+        this.getFields()
+          .then((fields) => {
+            const groupsFields = _.filter(fields, (field) => _.includes(groups, field.group))
+            resolve(groupsFields)
+          })
+          .catch((error) => reject(error))
+      })
+    },
+
+    onQueryFields (groupsToExport) {
+      // if fields exist, send them immediately
+      console.log('fieldsStore, onQueryFields, groupsToExport', groupsToExport)
+      this.fieldsQuerying = true
+      this.getFields()
+        .then((allFields) => {
+          console.log('fieldsStore, onQueryFields, allFields from local', allFields)
+          const fields = _.filter(allFields, (field) => _.includes(groupsToExport, field.group))
+          console.log('fieldsStore, onQueryFields, fields from local', fields)
+          return this.trigger(fields, this.fieldsQuerying)
+        })
+        .catch((error) =>
+          app.Actions.showError({title: 'fieldsStore, error getting existing fields:', msg: error})
+        )
+      // now fetch up to date fields
+      queryFields()
+        .then((allFields) => {
+          console.log('fieldsStore, onQueryFields, allFields from query', allFields)
+          const fields = _.filter(allFields, (field) => _.includes(groupsToExport, field.group))
+          console.log('fieldsStore, onQueryFields, fields from query', fields)
+          this.fieldsQuerying = false
+          this.trigger(fields, this.fieldsQuerying)
+          return this.saveFields(allFields)
+        })
+        .catch((error) =>
+          app.Actions.showError({title: 'fieldsStore, error querying up to date fields:', msg: error})
+        )
+    }
+  })
+
   app.propertyCollectionsStore = Reflux.createStore({
     /*
      * queries property collections
@@ -408,7 +488,7 @@ export default (Actions) => {
         app.localDb.get('_local/pcs', { include_docs: true })
           .then((doc) => resolve(doc.pcs))
           .catch((error) =>
-            reject('loginStore: error getting property collections from localDb: ' + error)
+            reject('Fehler in propertyCollectionsStore, getPcs: ' + error)
           )
       })
     },

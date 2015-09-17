@@ -8,14 +8,14 @@ import WellSoGehts from './wellSoGehts.js'
 import GroupsToExport from './groupsToExport.js'
 import WellTaxonomienZusammenfassen from './wellTaxonomienZusammenfassen.js'
 import AlertGroups from './alertGroups.js'
-import queryFields from '../../../queries/fields.js'
+import AlertLoadGroups from './alertLoadGroups.js'
 
 export default React.createClass({
   displayName: 'Main',
 
   propTypes: {
     groupsToExport: React.PropTypes.array,
-    buildingFields: React.PropTypes.bool,
+    fieldsQuerying: React.PropTypes.bool,
     errorBuildingFields: React.PropTypes.string,
     fields: React.PropTypes.array,
     groupsLoadedOrLoading: React.PropTypes.array,
@@ -23,16 +23,10 @@ export default React.createClass({
     activePanel: React.PropTypes.number
   },
 
-  // nameBestehend ... nameUrsprungsEs: input fields
-  // idsAnalysisComplete ... idsNotANumber: for analysing import file and id fields
-  // panel1Done, panel2Done, panel3Done: to guide inputting
-  // validXxx: to check validity of these fields
   getInitialState () {
     return {
       groupsToExport: [],
-      buildingFields: false,
       errorBuildingFields: null,
-      fields: [],
       taxonomienZusammenfassen: false,
       activePanel: 1
     }
@@ -98,31 +92,8 @@ export default React.createClass({
     let { groupsToExport } = this.state
     if (checked) groupsToExport.push(group)
     if (!checked) groupsToExport = _.without(groupsToExport, group)
-    let buildingFields = true
-    this.setState({ groupsToExport, buildingFields })
-    // TODO: get fields
-    // TODO: depend on checked
-    // TODO: promise.all for all groups chosen
-    // now fetch up to date pc's
-    const fieldPromises = groupsToExport.map((group) => queryFields(group))
-    Promise.all(fieldPromises)
-      .then((fieldsArrays) => {
-        const fields = _.flatten(fieldsArrays)
-        console.log('export.js, fields', fields)
-        buildingFields = false
-        this.setState({ buildingFields, fields })
-
-        /*this.pcsQuerying = false
-        // email has empty values. Set default
-        pcs.forEach((pc) => {
-          pc.importedBy = pc.importedBy || 'alex@gabriel-software.ch'
-        })
-        this.trigger(pcs, this.pcsQuerying)
-        return this.savePcs(pcs)*/
-      })
-      .catch((error) =>
-        app.Actions.showError({title: 'propertyCollectionsStore, error querying up to date pcs:', msg: error})
-      )
+    this.setState({ groupsToExport })
+    app.Actions.queryFields(groupsToExport)
   },
 
   onChangeTaxonomienZusammenfassen (taxonomienZusammenfassen) {
@@ -130,25 +101,33 @@ export default React.createClass({
   },
 
   render () {
-    const { groupsLoadedOrLoading } = this.props
-    const { groupsToExport, buildingFields, fields, taxonomienZusammenfassen, errorBuildingFields, activePanel } = this.state
-    const showAlertGroups = groupsToExport.length > 0
+    const { groupsLoadedOrLoading, fieldsQuerying, fields } = this.props
+    const { groupsToExport, taxonomienZusammenfassen, errorBuildingFields, activePanel } = this.state
+    const showAlertLoadGroups = groupsLoadedOrLoading.length === 0
+    const showAlertGroups = groupsToExport.length > 0 && !showAlertLoadGroups
     return (
       <div id='export' className='formContent'>
         <h4>Eigenschaften exportieren</h4>
         <Accordion activeKey={activePanel}>
           <Panel collapsible header='1. Gruppe(n) wählen' eventKey={1} onClick={this.onClickPanel.bind(this, 1)}>
-            <WellSoGehts />
-            <GroupsToExport
-              groupsLoadedOrLoading={groupsLoadedOrLoading}
-              groupsToExport={groupsToExport}
-              onChangeGroupsToExport={this.onChangeGroupsToExport} />
-            <WellTaxonomienZusammenfassen
-              taxonomienZusammenfassen={taxonomienZusammenfassen}
-              onChangeTaxonomienZusammenfassen={this.onChangeTaxonomienZusammenfassen} />
+            {showAlertLoadGroups ? <AlertLoadGroups /> : null}
+            {!showAlertLoadGroups ? <WellSoGehts /> : null}
+            {!showAlertLoadGroups ?
+              <GroupsToExport
+                groupsLoadedOrLoading={groupsLoadedOrLoading}
+                groupsToExport={groupsToExport}
+                onChangeGroupsToExport={this.onChangeGroupsToExport} />
+              : null
+            }
+            {!showAlertLoadGroups ?
+              <WellTaxonomienZusammenfassen
+                taxonomienZusammenfassen={taxonomienZusammenfassen}
+                onChangeTaxonomienZusammenfassen={this.onChangeTaxonomienZusammenfassen} />
+              : null
+            }
             {showAlertGroups ?
               <AlertGroups
-                buildingFields={buildingFields}
+                fieldsQuerying={fieldsQuerying}
                 fields={fields}
                 errorBuildingFields={errorBuildingFields} />
               : null
