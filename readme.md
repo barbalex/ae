@@ -53,7 +53,7 @@
 - Daten laden
 - Daten anzeigen
 - Daten suchen
-- Falls man die Anwendung beim ersten Besuch direkt mit einem Art-Link öffnet [(Beispiel)](http://erfassen.ch/Moose/Musci%20Laubmoose/Buxbaumiaceae/Buxbaumia/Buxbaumia%20aphylla%20Hedw?id=6B7B1CC6-7505-4D79-8E24-F43E464EDB48), lädt sie die Art von der zentralen Datenbank, zeigt sie an und lädt anschliessend die entsprechende Gruppe nach.<br/>So sieht man die Art rasch und muss nicht warten, bis die Gruppe geladen ist. Der Strukturbaum wird dargestellt, sobald die Gruppe fertig geladen ist
+- Falls man die Anwendung beim ersten Besuch direkt mit einem Art-Link öffnet [(Beispiel)](http://erfassen.ch/Moose/Musci%20Laubmoose/Buxbaumiaceae/Buxbaumia/Buxbaumia%20aphylla%20Hedw?id=6B7B1CC6-7505-4D79-8E24-F43E464EDB48), lädt sie die Art von der zentralen Datenbank, zeigt sie an und lädt anschliessend die entsprechende Gruppe nach.<br/>So sieht man die Art rasch und muss nicht warten, bis die Gruppe geladen ist.<br/>Der Strukturbaum wird dargestellt, sobald die Gruppe fertig geladen ist
 - Bilder auf Google suchen
 - Wikipedia Artikel suchen
 - Eigenschaftensammlungen importieren
