@@ -6,9 +6,9 @@
 
 Arteigenschaften.ch wird mit folgenden Mitteln neu aufgebaut:
 
-- für die Applikation wird keine CouchApp mehr benutzt
+- Für die Applikation wird keine CouchApp mehr benutzt
   - ermöglicht die nachfolgenden Vorteile
-- alle Abhängigkeiten werden mit [npm](https://www.npmjs.com) verwaltet
+- Alle Abhängigkeiten werden mit [npm](https://www.npmjs.com) verwaltet
   - einfachere Aktualisierung
   - zuverlässige und schnelle Installation der Enwicklungsumgebung
 - [ES6](https://github.com/lukehoban/es6features), die künftige Version von [JavaScript](http://en.wikipedia.org/wiki/JavaScript)
