@@ -56,10 +56,10 @@
 - Falls man die Anwendung beim ersten Besuch direkt mit einem Art-Link öffnet [(Beispiel)](http://erfassen.ch/Moose/Musci%20Laubmoose/Buxbaumiaceae/Buxbaumia/Buxbaumia%20aphylla%20Hedw?id=6B7B1CC6-7505-4D79-8E24-F43E464EDB48), lädt sie die Art von der zentralen Datenbank, zeigt sie an und lädt anschliessend die entsprechende Gruppe nach.<br/>So sieht man die Art rasch und muss nicht warten, bis die Gruppe geladen ist.<br/>Der Strukturbaum wird dargestellt, sobald die Gruppe fertig geladen ist
 - Bilder auf Google suchen
 - Wikipedia Artikel suchen
-- Eigenschaftensammlungen importieren
-- Beziehungssammlungen importieren
-- ...diese anschliessend mit der zentralen Datenbank (vorläufig auf [erfassen.ch](http://erfassen.ch), nicht [arteigenschaften.ch(http://arteigenschaften.ch)]) replizieren.<br/>
-  Es wäre ganz einfach, nach jedem Import automatisch zu replizieren. Aber so wie es jetzt realisiert ist, kann jemand auch eigene Daten importieren, ohne sie mit arteigenschaften.ch zu teilen. Das kann in Einzelfällen auch ein Vorteil sein
+- Eigenschaftensammlungen importieren...
+- Beziehungssammlungen importieren...
+- ...und anschliessend mit der zentralen Datenbank (vorläufig auf [erfassen.ch](http://erfassen.ch), nicht [arteigenschaften.ch](http://arteigenschaften.ch)) replizieren.<br/>
+  Es wäre einfach, nach jedem Import automatisch zu replizieren. Aber so wie es jetzt realisiert ist, kann jemand eigene Daten importieren, ohne sie mit [arteigenschaften.ch](http://arteigenschaften.ch) zu teilen. Das kann in Einzelfällen auch ein Vorteil sein
 - Aktuelle Daten von der zentralen Datenbank (jetzt erfassen.ch) replizieren.<br/>
   Es wäre einfach, bei jedem Start der Anwendung von der zentralen Datenbank zu replizieren, wenn der Benutzer bereits alle Gruppen geladen hat. Das wäre vermutlich sinnvoll
 - Vor allem bei Im- und Exporten werden Informationen und Rückmeldungen verbessert
@@ -68,7 +68,7 @@
 - Links sind aussagekräftig, wenn auch nicht besonders lesbar, weil Leerzeichen in der URL von Browsern mit "%20" dargestellt werden
 - Wo möglich wird bei langsamen Vorgängen der Fortschritt angezeigt, z.B. beim Laden von Gruppen.<br/>Leider ist das nicht immer möglich, z.B. wenn Indizes gebaut werden
 
-Die Anwendung ist auf [erfassen.ch](http://erfassen.ch) aufgeschaltet. Man kann hier üben, soviel man will.
+Die Anwendung ist auf [erfassen.ch](http://erfassen.ch) aufgeschaltet. Man kann hier üben, soviel man will.<br/>
 Test-Login: User "z@z.ch", Passwort "z".
 
 ####To Do
