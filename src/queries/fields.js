@@ -81,7 +81,7 @@ export default (group) => {
         return app.localDb.query('fields', options)
       })
       .then((result) => {
-        console.log('fields: result', result)
+        console.log('fields.js, result', result)
         const rows = result.rows
         let fields = rows.map((row) => ({
           group: row.key[0],

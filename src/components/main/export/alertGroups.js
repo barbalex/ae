@@ -9,27 +9,35 @@ export default React.createClass({
   propTypes: {
     taxonomienZusammenfassen: React.PropTypes.bool,
     buildingFields: React.PropTypes.bool,
-    pcs: React.PropTypes.array,
-    rcs: React.PropTypes.array
+    fields: React.PropTypes.array
   },
 
   // TODO: add progressbar?
   render () {
-    const { taxonomienZusammenfassen, buildingFields, pcs, rcs } = this.props
-    // TODO: style depending on success or error
+    const { taxonomienZusammenfassen, buildingFields, fields } = this.props
+    // buildingFields === true && fields.length === 0
+    let resultText = 'Die Eigenschaften werden aufgebaut...'
+    let taxonomienZusammenfassenText = null
     let bsStyle = 'info'
-    if (buildingFields) bsStyle = 'info'
-    if (!buildingFields && (pcs.length > 0 || rcs.length > 0)) bsStyle = 'success'
+    if (buildingFields && fields.length > 0) {
+      resultText = 'Die Eigenschaften werden ergänzt...'
+    }
+    if (!buildingFields && fields.length > 0) {
+      bsStyle = 'success'
+      resultText = 'Die Eigenschaften wurden aufgebaut.'
+      taxonomienZusammenfassenText = taxonomienZusammenfassen ? 'Taxonomien werden zusammengefasst.' : 'Taxonomien werden einzeln dargestellt.'
+    }
     // TODO: add version for error
-    const resultText = 'Die Eigenschaften wurden aufgebaut.'
-    const taxonomienZusammenfassenText = taxonomienZusammenfassen ? 'Taxonomien werden zusammengefasst.' : 'Taxonomien werden einzeln dargestellt.'
+    
     const style = {
       marginTop: 8,
-      marginBottom: 5
+      marginBottom: 0
     }
+    const showFirstTime = buildingFields && fields.length === 0
     return (
       <Alert bsStyle={bsStyle} style={style}>
         <p>{resultText}</p>
+        {showFirstTime ? <p>Beim esten Mal kann dies besonders lange dauern, falls der Index aufgebaut werden muss.</p> : null}
         <p>{taxonomienZusammenfassenText}</p>
       </Alert>
     )

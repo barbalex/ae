@@ -17,8 +17,7 @@ export default React.createClass({
     groupsToExport: React.PropTypes.array,
     buildingFields: React.PropTypes.bool,
     errorBuildingFields: React.PropTypes.string,
-    pcs: React.PropTypes.array,
-    rcs: React.PropTypes.array,
+    fields: React.PropTypes.array,
     groupsLoadedOrLoading: React.PropTypes.array,
     taxonomienZusammenfassen: React.PropTypes.bool,
     activePanel: React.PropTypes.number
@@ -33,8 +32,7 @@ export default React.createClass({
       groupsToExport: [],
       buildingFields: false,
       errorBuildingFields: null,
-      pcs: [],
-      rcs: [],
+      fields: [],
       taxonomienZusammenfassen: false,
       activePanel: 1
     }
@@ -97,19 +95,23 @@ export default React.createClass({
   },
 
   onChangeGroupsToExport (group, checked) {
-    console.log('export.js, onChangeGroupsToExport, group', group)
-    console.log('export.js, onChangeGroupsToExport, checked', checked)
     let { groupsToExport } = this.state
     if (checked) groupsToExport.push(group)
     if (!checked) groupsToExport = _.without(groupsToExport, group)
-    this.setState({ groupsToExport })
+    let buildingFields = true
+    this.setState({ groupsToExport, buildingFields })
     // TODO: get fields
     // TODO: depend on checked
     // TODO: promise.all for all groups chosen
     // now fetch up to date pc's
-    queryFields(group)
-      .then((fields) => {
-        console.log('fields', fields)
+    const fieldPromises = groupsToExport.map((group) => queryFields(group))
+    Promise.all(fieldPromises)
+      .then((fieldsArrays) => {
+        const fields = _.flatten(fieldsArrays)
+        console.log('export.js, fields', fields)
+        buildingFields = false
+        this.setState({ buildingFields, fields })
+
         /*this.pcsQuerying = false
         // email has empty values. Set default
         pcs.forEach((pc) => {
@@ -129,7 +131,7 @@ export default React.createClass({
 
   render () {
     const { groupsLoadedOrLoading } = this.props
-    const { groupsToExport, buildingFields, pcs, rcs, taxonomienZusammenfassen, errorBuildingFields, activePanel } = this.state
+    const { groupsToExport, buildingFields, fields, taxonomienZusammenfassen, errorBuildingFields, activePanel } = this.state
     const showAlertGroups = groupsToExport.length > 0
     return (
       <div id='export' className='formContent'>
@@ -147,8 +149,7 @@ export default React.createClass({
             {showAlertGroups ?
               <AlertGroups
                 buildingFields={buildingFields}
-                pcs={pcs}
-                rcs={rcs}
+                fields={fields}
                 errorBuildingFields={errorBuildingFields} />
               : null
             }
