@@ -40,7 +40,7 @@
   - Schnittstellen zu EvAB und ALT (unverändert)
   - Anwendungsserver: Beim erstmaligen Besuch von erfassen.ch wird die Anwendung vom Server an den Browser übergeben. Danach liefert der Server nur noch Updates
 - Die Anwendung ist (jetzt noch nicht ganz, dazu braucht es https) nach dem ersten Laden vom Server bzw. dem Internet unabhängig
-- Daher funktioniert Einiges viel schneller:<br/>Daten müssen nach dem erstmaligen Laden nicht über das Internet geholt werden
+- Daher funktioniert einiges viel schneller:<br/>Daten müssen nach dem erstmaligen Laden nicht über das Internet geholt werden
 - Anderes ist langsamer: 
   - Indizes müssen lokal aufgebaut werden - das kann den Browser recht stark belasten.<br/>Indizes werden für Im- und Exporte benötigt
   - Die Anwendung beansprucht recht viel Festplattenspeicher. Nach dem Laden aller Gruppen ca. 680 MB.<br/>Wenn man Indizes nutzt, werden daraus Gigabites
@@ -53,7 +53,7 @@
 - Daten laden
 - Daten anzeigen
 - Daten suchen
-- Falls man die Anwendung beim ersten Besuch direkt mit einem Art-Link öffnet [(Beispiel)](http://erfassen.ch/Moose/Musci%20Laubmoose/Buxbaumiaceae/Buxbaumia/Buxbaumia%20aphylla%20Hedw?id=6B7B1CC6-7505-4D79-8E24-F43E464EDB48), lädt sie die Art von der zentralen Datenbank, zeigt sie an und lädt anschliessend die entsprechende Gruppe nach (damit man nicht warten muss, bis die Gruppe geladen ist, bevor man die Art sieht)
+- Falls man die Anwendung beim ersten Besuch direkt mit einem Art-Link öffnet [(Beispiel)](http://erfassen.ch/Moose/Musci%20Laubmoose/Buxbaumiaceae/Buxbaumia/Buxbaumia%20aphylla%20Hedw?id=6B7B1CC6-7505-4D79-8E24-F43E464EDB48), lädt sie die Art von der zentralen Datenbank, zeigt sie an und lädt anschliessend die entsprechende Gruppe nach. So sieht man die Art rasch und muss nicht warten, bis die Gruppe geladen ist. Der Strukturbaum wird dargestellt, sobald die Gruppe fertig geladen ist
 - Bilder auf Google suchen
 - Wikipedia Artikel suchen
 - Eigenschaftensammlungen importieren
