@@ -33,7 +33,7 @@ export default React.createClass({
     }
 
     return (
-      <Well id='wellTaxonomienZusammenfassen' className='well-sm'>
+      <Well id='wellTaxonomienZusammenfassen' className='well-sm last-well'>
         <b>Felder der gewählten Taxonomien zusammenfassen?</b> <a href='#' onClick={this.onClickToggle} className='showNextHidden'>{visible ? '...weniger' : '...mehr'}</a>
         <div className='adb-hidden' style={{'display': visible ? 'block' : 'none'}}>
           <ul>
