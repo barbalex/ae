@@ -35,6 +35,7 @@
 ###Unterschiede zur bisherigen Anwendung
 
 - Neuste Technologie, stark verringerte Komplexität, viel bessere Unterhalt- und Erweiterbarkeit
+  - Ein mit Flux und React bewandter Software-Ingenieur kann sich sehr rasch einarbeiten
 - Der Server hat jetzt diese Aufgaben:
   - Zentraler Datenserver und Replikationsdrehscheibe
   - Schnittstellen zu EvAB und ALT (unverändert)
