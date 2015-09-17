@@ -1,10 +1,10 @@
-#arteigenschaften.ch, neu aufgebaut
+#[arteigenschaften.ch](http://arteigenschaften.ch), neu aufgebaut
  
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](https://github.com/feross/standard)
 [![js-standard-style](https://img.shields.io/badge/license-ISC-brightgreen.svg)](https://github.com/barbalex/gs/blob/master/license.md)
 [![js-standard-style](https://david-dm.org/barbalex/ae.svg)](https://david-dm.org/barbalex/ae)
 
-###[Arteigenschaften.ch](http://arteigenschaften.ch) wird mit folgenden Mitteln neu aufgebaut:
+###Diese Technologien werden verwendet:
 
 - Für die Applikation wird keine CouchApp mehr benutzt
   - ermöglicht die nachfolgenden Vorteile
@@ -53,7 +53,7 @@
 - Daten laden
 - Daten anzeigen
 - Daten suchen
-- Falls man die Anwendung beim ersten Besuch direkt mit einem Art-Link öffnet [(Beispiel)](http://erfassen.ch/Moose/Musci%20Laubmoose/Buxbaumiaceae/Buxbaumia/Buxbaumia%20aphylla%20Hedw?id=6B7B1CC6-7505-4D79-8E24-F43E464EDB48), lädt sie die Art von der zentralen Datenbank, zeigt sie an und lädt anschliessend die entsprechende Gruppe nach.<br/>So sieht man die Art rasch und muss nicht warten, bis die Gruppe geladen ist.<br/>Der Strukturbaum wird dargestellt, sobald die Gruppe fertig geladen ist
+- Falls man die Anwendung beim ersten Besuch direkt mit einem Art-Link öffnet [(Beispiel)](http://erfassen.ch/Moose/Musci%20Laubmoose/Buxbaumiaceae/Buxbaumia/Buxbaumia%20aphylla%20Hedw?id=6B7B1CC6-7505-4D79-8E24-F43E464EDB48), lädt sie die Art von der zentralen Datenbank, zeigt sie an und lädt anschliessend die entsprechende Gruppe nach.<br/>So sieht man die Art rasch. Sobald die Gruppe fertig geladen ist, wird der Strukturbaum aufgebaut
 - Bilder auf Google suchen
 - Wikipedia Artikel suchen
 - Eigenschaftensammlungen importieren...
@@ -63,7 +63,7 @@
 - Aktuelle Daten von der zentralen Datenbank (jetzt [erfassen.ch](http://erfassen.ch)) replizieren.<br/>
   Es wäre einfach, bei jedem Start der Anwendung von der zentralen Datenbank zu replizieren, wenn der Benutzer bereits alle Gruppen geladen hat. Das wäre vermutlich sinnvoll
 - Vor allem bei Im- und Exporten werden Informationen und Rückmeldungen verbessert
-- Die Anwendung passt sich an den Handy-Bildschirm an - und läuft auf meinem zugegeben neuen Nexus recht schön (allerdings auf WLAN getestet)
+- Die Anwendung passt sich an den Handy-Bildschirm an - und läuft auf meinem zugegeben Nexus 6 recht schön (allerdings auf WLAN getestet)
 - Jede Hierarchiestufe hat ihre eigene verlinkbare URL
 - Links sind aussagekräftig, wenn auch nicht besonders lesbar, weil Leerzeichen in der URL von Browsern mit "%20" dargestellt werden
 - Wo möglich wird bei langsamen Vorgängen der Fortschritt angezeigt, z.B. beim Laden von Gruppen.<br/>Leider ist das nicht immer möglich, z.B. wenn Indizes gebaut werden
