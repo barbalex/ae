@@ -10,6 +10,7 @@ import WellTaxonomienZusammenfassen from './wellTaxonomienZusammenfassen.js'
 import AlertGroups from './alertGroups.js'
 import AlertLoadGroups from './alertLoadGroups.js'
 import WellSoGehtsFiltern from './wellSoGehtsFiltern.js'
+import WellTippsTricksFiltern from './wellTippsTricksFiltern.js'
 
 export default React.createClass({
   displayName: 'Main',
@@ -140,6 +141,7 @@ export default React.createClass({
 
           <Panel collapsible header='2. filtern' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
             <WellSoGehtsFiltern />
+            <WellTippsTricksFiltern />
           </Panel>
 
           <Panel collapsible header="3. Eigenschaften wählen" eventKey={3} onClick={this.onClickPanel.bind(this, 3)}>
