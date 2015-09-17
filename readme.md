@@ -38,7 +38,7 @@
 - Der Server hat jetzt diese Aufgaben:
   - Zentraler Datenserver und Replikationsdrehscheibe
   - Schnittstellen zu EvAB und ALT (unverändert)
-  - Anwendungsserver: Beim erstmaligen Besuch von erfassen.ch wird die Anwendung vom Server an den Browser übergeben. Danach liefert der Server nur noch Updates
+  - Anwendungsserver: Beim erstmaligen Besuch von [erfassen.ch](http://erfassen.ch) wird die Anwendung vom Server an den Browser übergeben. Danach liefert der Server nur noch Updates
 - Die Anwendung ist (jetzt noch nicht ganz, dazu braucht es https) nach dem ersten Laden vom Server bzw. dem Internet unabhängig
 - Daher funktioniert einiges viel schneller:<br/>Daten müssen nach dem erstmaligen Laden nicht über das Internet geholt werden
 - Anderes ist langsamer: 
@@ -60,7 +60,7 @@
 - Beziehungssammlungen importieren...
 - ...und anschliessend mit der zentralen Datenbank replizieren (vorläufig auf [erfassen.ch](http://erfassen.ch), nicht [arteigenschaften.ch](http://arteigenschaften.ch)).<br/>
   Es wäre einfach, nach jedem Import automatisch zu replizieren. Aber so wie es jetzt realisiert ist, kann jemand eigene Daten importieren, ohne sie mit [arteigenschaften.ch](http://arteigenschaften.ch) zu teilen. Das kann in Einzelfällen auch ein Vorteil sein
-- Aktuelle Daten von der zentralen Datenbank (jetzt erfassen.ch) replizieren.<br/>
+- Aktuelle Daten von der zentralen Datenbank (jetzt [erfassen.ch](http://erfassen.ch)) replizieren.<br/>
   Es wäre einfach, bei jedem Start der Anwendung von der zentralen Datenbank zu replizieren, wenn der Benutzer bereits alle Gruppen geladen hat. Das wäre vermutlich sinnvoll
 - Vor allem bei Im- und Exporten werden Informationen und Rückmeldungen verbessert
 - Die Anwendung passt sich an den Handy-Bildschirm an - und läuft auf meinem zugegeben neuen Nexus recht schön (allerdings auf WLAN getestet)
