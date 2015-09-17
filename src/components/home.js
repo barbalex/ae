@@ -119,8 +119,8 @@ export default React.createClass({
     this.setState({ rcsQuerying })
   },
 
-  onChangeFieldsStore (fields, fieldsQuerying, fieldsQueryingError) {
-    this.setState({ fields, fieldsQuerying, fieldsQueryingError })
+  onChangeFieldsStore (state) {
+    this.setState(state)
   },
 
   onChangeObjectsPcsStore () {

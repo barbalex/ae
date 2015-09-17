@@ -403,8 +403,6 @@ export default (Actions) => {
      */
     listenables: Actions,
 
-    fieldsQuerying: false,
-
     getFields () {
       return new Promise((resolve, reject) => {
         app.localDb.get('_local/fields', { include_docs: true })
@@ -440,12 +438,14 @@ export default (Actions) => {
     onQueryFields (groupsToExport) {
       // if fields exist, send them immediately
       console.log('fieldsStore, onQueryFields, groupsToExport', groupsToExport)
-      this.fieldsQuerying = true
+      let fields = []
+      let fieldsQuerying = true
+      let fieldsQueryingError = null
       this.getFields()
         .then((allFields) => {
-          const fields = _.filter(allFields, (field) => _.includes(groupsToExport, field.group))
+          fields = _.filter(allFields, (field) => _.includes(groupsToExport, field.group))
           console.log('fieldsStore, onQueryFields, fields from local', fields)
-          return this.trigger(fields, this.fieldsQuerying)
+          return this.trigger({ fields, fieldsQuerying, fieldsQueryingError })
         })
         .catch((error) =>
           app.Actions.showError({title: 'fieldsStore, error getting existing fields:', msg: error})
@@ -453,15 +453,18 @@ export default (Actions) => {
       // now fetch up to date fields
       queryFields()
         .then((allFields) => {
-          const fields = _.filter(allFields, (field) => _.includes(groupsToExport, field.group))
+          fields = _.filter(allFields, (field) => _.includes(groupsToExport, field.group))
           console.log('fieldsStore, onQueryFields, fields from query', fields)
-          this.fieldsQuerying = false
-          this.trigger(fields, this.fieldsQuerying)
+          fieldsQuerying = false
+          this.trigger({ fields, fieldsQuerying, fieldsQueryingError })
           return this.saveFields(allFields)
         })
-        .catch((error) =>
-          app.Actions.showError({title: 'fieldsStore, error querying up to date fields:', msg: error})
-        )
+        .catch((error) => {
+          fields = []
+          fieldsQuerying = false
+          fieldsQueryingError = error
+          this.trigger({ fields, fieldsQuerying, fieldsQueryingError })
+        })
     }
   })
 
