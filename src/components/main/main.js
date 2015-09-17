@@ -28,6 +28,7 @@ export default React.createClass({
     showImportRc: React.PropTypes.bool,
     showExportieren: React.PropTypes.bool,
     fieldsQuerying: React.PropTypes.bool,
+    fieldsQueryingError: React.PropTypes.string,
     fields: React.PropTypes.array,
     showOrganizations: React.PropTypes.bool,
     email: React.PropTypes.string,
@@ -67,7 +68,7 @@ export default React.createClass({
   },
 
   render () {
-    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, synonymObjects, showImportPc, showImportRc, showExportieren, fieldsQuerying, fields, showOrganizations, email, replicatingToAe, replicatingToAeTime } = this.props
+    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, synonymObjects, showImportPc, showImportRc, showExportieren, fieldsQuerying, fieldsQueryingError, fields, showOrganizations, email, replicatingToAe, replicatingToAeTime } = this.props
     const { formClassNames, errors } = this.state
     const showObject = object !== undefined
 
@@ -105,6 +106,7 @@ export default React.createClass({
             <Export
               groupsLoadedOrLoading={groupsLoadedOrLoading}
               fieldsQuerying={fieldsQuerying}
+              fieldsQueryingError={fieldsQueryingError}
               fields={fields} />
             : null
           }

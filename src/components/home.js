@@ -51,6 +51,7 @@ export default React.createClass({
     pcsQuerying: React.PropTypes.bool,
     rcsQuerying: React.PropTypes.bool,
     fieldsQuerying: React.PropTypes.bool,
+    fieldsQueryingError: React.PropTypes.bool,
     fields: React.PropTypes.array
   },
 
@@ -89,6 +90,7 @@ export default React.createClass({
       pcsQuerying: false,
       rcsQuerying: false,
       fieldsQuerying: false,
+      fieldsQueryingError: null,
       fields: []
     }
   },
@@ -117,8 +119,8 @@ export default React.createClass({
     this.setState({ rcsQuerying })
   },
 
-  onChangeFieldsStore (fields, fieldsQuerying) {
-    this.setState({ fields, fieldsQuerying })
+  onChangeFieldsStore (fields, fieldsQuerying, fieldsQueryingError) {
+    this.setState({ fields, fieldsQuerying, fieldsQueryingError })
   },
 
   onChangeObjectsPcsStore () {
@@ -210,7 +212,7 @@ export default React.createClass({
   },
 
   render () {
-    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, showImportPc, showImportRc, showExportieren, showOrganizations, logIn, email, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, pcsQuerying, rcsQuerying, fieldsQuerying, fields } = this.state
+    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, showImportPc, showImportRc, showExportieren, showOrganizations, logIn, email, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, pcsQuerying, rcsQuerying, fieldsQuerying, fieldsQueryingError, fields } = this.state
     const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
     const showGruppen = groupsNotLoaded.length > 0
     const showFilter = filterOptions.length > 0 || loadingFilterOptions
@@ -272,6 +274,7 @@ export default React.createClass({
             showImportRc={showImportRc}
             showExportieren={showExportieren}
             fieldsQuerying={fieldsQuerying}
+            fieldsQueryingError={fieldsQueryingError}
             fields={fields}
             showOrganizations={showOrganizations}
             email={email}

@@ -16,6 +16,7 @@ export default React.createClass({
   propTypes: {
     groupsToExport: React.PropTypes.array,
     fieldsQuerying: React.PropTypes.bool,
+    fieldsQueryingError: React.PropTypes.string,
     errorBuildingFields: React.PropTypes.string,
     fields: React.PropTypes.array,
     groupsLoadedOrLoading: React.PropTypes.array,
@@ -101,7 +102,7 @@ export default React.createClass({
   },
 
   render () {
-    const { groupsLoadedOrLoading, fieldsQuerying, fields } = this.props
+    const { groupsLoadedOrLoading, fieldsQuerying, fieldsQueryingError, fields } = this.props
     const { groupsToExport, taxonomienZusammenfassen, errorBuildingFields, activePanel } = this.state
     const showAlertLoadGroups = groupsLoadedOrLoading.length === 0
     const showAlertGroups = groupsToExport.length > 0 && !showAlertLoadGroups
@@ -128,6 +129,7 @@ export default React.createClass({
             {showAlertGroups ?
               <AlertGroups
                 fieldsQuerying={fieldsQuerying}
+                fieldsQueryingError={fieldsQueryingError}
                 fields={fields}
                 errorBuildingFields={errorBuildingFields} />
               : null

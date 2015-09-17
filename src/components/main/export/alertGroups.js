@@ -9,13 +9,12 @@ export default React.createClass({
   propTypes: {
     taxonomienZusammenfassen: React.PropTypes.bool,
     fieldsQuerying: React.PropTypes.bool,
+    fieldsQueryingError: React.PropTypes.string,
     fields: React.PropTypes.array
   },
 
-  // TODO: add progressbar?
   render () {
-    const { taxonomienZusammenfassen, fieldsQuerying, fields } = this.props
-    console.log('AlertGroups, render, fields', fields)
+    const { taxonomienZusammenfassen, fieldsQuerying, fieldsQueryingError, fields } = this.props
     // fieldsQuerying === true && fields.length === 0
     let resultText = 'Die Eigenschaften werden aufgebaut...'
     let taxonomienZusammenfassenText = null
@@ -28,8 +27,11 @@ export default React.createClass({
       resultText = 'Die Eigenschaften wurden aufgebaut.'
       taxonomienZusammenfassenText = taxonomienZusammenfassen ? 'Taxonomien werden zusammengefasst.' : 'Taxonomien werden einzeln dargestellt.'
     }
-    // TODO: add version for error
-    
+    if (fieldsQueryingError) {
+      bsStyle = 'danger'
+      resultText = 'Fehler: ' + fieldsQueryingError
+      taxonomienZusammenfassenText = null
+    }
     const style = {
       marginTop: 8,
       marginBottom: 0
