@@ -461,7 +461,7 @@ export default (Actions) => {
       })
     },
 
-    onQueryFields (groupsToExport, group) {
+    onQueryFields (groupsToExport, group, taxonomienZusammenfassen) {
       // if fields exist, send them immediately
       let taxonomyFields = {}
       let pcFields = {}
@@ -470,10 +470,10 @@ export default (Actions) => {
       let fieldsQueryingError = null
       this.getFields()
         .then((allFields) => {
-          taxonomyFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'taxonomy')
+          taxonomyFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'taxonomy', taxonomienZusammenfassen)
+          console.log('fieldsStore, onQueryFields, fields from local, taxonomyFields', taxonomyFields)
           pcFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'propertyCollection')
           relationFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'relation')
-          console.log('fieldsStore, onQueryFields, fields from local, taxonomyFields', taxonomyFields)
           if (!group) {
             // if no group was passed, the zusammenfassen option was changed
             fieldsQuerying = false
@@ -483,10 +483,7 @@ export default (Actions) => {
             // if so: queryFieldsOfGroup
             // only do this if group was passed
             const groupsInAllFields = _.uniq(_.pluck(allFields, 'group'))
-            console.log('fieldsStore, group', group)
-            console.log('fieldsStore, groupsInAllFields', groupsInAllFields)
             const fieldsExistForRequestedGroup = _.includes(groupsInAllFields, group)
-            console.log('fieldsStore, fieldsExistForRequestedGroup', fieldsExistForRequestedGroup)
             fieldsQuerying = !fieldsExistForRequestedGroup
             this.trigger({ taxonomyFields, pcFields, relationFields, fieldsQuerying, fieldsQueryingError })
             if (!fieldsExistForRequestedGroup) {
@@ -495,7 +492,7 @@ export default (Actions) => {
                 .then((fieldsOfGroup) => this.saveFieldsOfGroup(fieldsOfGroup, group))
                 // .then(() => this.getFields())
                 .then((allFields) => {
-                  taxonomyFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'taxonomy')
+                  taxonomyFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'taxonomy', taxonomienZusammenfassen)
                   pcFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'propertyCollection')
                   relationFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'relation')
                   console.log('fieldsStore, onQueryFields, fields from query, taxonomyFields', taxonomyFields)
