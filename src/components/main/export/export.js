@@ -20,9 +20,9 @@ export default React.createClass({
     fieldsQuerying: React.PropTypes.bool,
     fieldsQueryingError: React.PropTypes.string,
     errorBuildingFields: React.PropTypes.string,
-    taxonomyFields: React.PropTypes.array,
-    pcFields: React.PropTypes.array,
-    relationFields: React.PropTypes.array,
+    taxonomyFields: React.PropTypes.object,
+    pcFields: React.PropTypes.object,
+    relationFields: React.PropTypes.object,
     groupsLoadedOrLoading: React.PropTypes.array,
     taxonomienZusammenfassen: React.PropTypes.bool,
     activePanel: React.PropTypes.number
@@ -69,7 +69,7 @@ export default React.createClass({
 
   isPanel1Done () {
     const { taxonomyFields } = this.props
-    const panel1Done = taxonomyFields.length > 0
+    const panel1Done = Object.keys(taxonomyFields).length > 0
     let state = { panel1Done }
     if (!panel1Done) state = Object.assign(state, { activePanel: 1 })
     this.setState(state)
@@ -107,7 +107,7 @@ export default React.createClass({
   },
 
   render () {
-    const { groupsLoadedOrLoading, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields } = this.props
+    const { groupsLoadedOrLoading, fieldsQuerying, fieldsQueryingError, taxonomyFields } = this.props
     const { groupsToExport, taxonomienZusammenfassen, errorBuildingFields, activePanel } = this.state
     const showAlertLoadGroups = groupsLoadedOrLoading.length === 0
     const showAlertGroups = groupsToExport.length > 0 && !showAlertLoadGroups

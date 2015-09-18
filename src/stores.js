@@ -441,14 +441,20 @@ export default (Actions) => {
     onQueryFields (groupsToExport) {
       // if fields exist, send them immediately
       console.log('fieldsStore, onQueryFields, groupsToExport', groupsToExport)
-      let fields = []
+      let taxonomyFields = {}
+      let pcFields = {}
+      let relationFields = {}
       let fieldsQuerying = true
       let fieldsQueryingError = null
       this.getFields()
         .then((allFields) => {
-          fields = _.filter(allFields, (field) => _.includes(groupsToExport, field.group))
-          console.log('fieldsStore, onQueryFields, fields from local', fields)
-          return this.trigger({ fields, fieldsQuerying, fieldsQueryingError })
+          taxonomyFields = getTaxonomieFieldsForGroupsToExport(allFields, groupsToExport)
+          pcFields = getPcFieldsForGroupsToExport(allFields, groupsToExport)
+          relationFields = getRelationFieldsForGroupsToExport(allFields, groupsToExport)
+          console.log('fieldsStore, onQueryFields, fields from local, taxonomyFields', taxonomyFields)
+          // console.log('fieldsStore, onQueryFields, fields from local, pcFields', pcFields)
+          // console.log('fieldsStore, onQueryFields, fields from local, relationFields', relationFields)
+          return this.trigger({ taxonomyFields, pcFields, relationFields, fieldsQuerying, fieldsQueryingError })
         })
         .catch((error) =>
           app.Actions.showError({title: 'fieldsStore, error getting existing fields:', msg: error})
@@ -456,17 +462,23 @@ export default (Actions) => {
       // now fetch up to date fields
       queryFields()
         .then((allFields) => {
-          fields = _.filter(allFields, (field) => _.includes(groupsToExport, field.group))
-          console.log('fieldsStore, onQueryFields, fields from query', fields)
+          taxonomyFields = getTaxonomieFieldsForGroupsToExport(allFields, groupsToExport)
+          pcFields = getPcFieldsForGroupsToExport(allFields, groupsToExport)
+          relationFields = getRelationFieldsForGroupsToExport(allFields, groupsToExport)
+          console.log('fieldsStore, onQueryFields, fields from local, taxonomyFields', taxonomyFields)
+          // console.log('fieldsStore, onQueryFields, fields from local, pcFields', pcFields)
+          // console.log('fieldsStore, onQueryFields, fields from local, relationFields', relationFields)
           fieldsQuerying = false
-          this.trigger({ fields, fieldsQuerying, fieldsQueryingError })
+          this.trigger({ taxonomyFields, pcFields, relationFields, fieldsQuerying, fieldsQueryingError })
           return this.saveFields(allFields)
         })
         .catch((error) => {
-          fields = []
+          taxonomyFields = {}
+          pcFields = {}
+          relationFields = {}
           fieldsQuerying = false
           fieldsQueryingError = error
-          this.trigger({ fields, fieldsQuerying, fieldsQueryingError })
+          this.trigger({ taxonomyFields, pcFields, relationFields, fieldsQuerying, fieldsQueryingError })
         })
     }
   })

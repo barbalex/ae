@@ -52,9 +52,9 @@ export default React.createClass({
     rcsQuerying: React.PropTypes.bool,
     fieldsQuerying: React.PropTypes.bool,
     fieldsQueryingError: React.PropTypes.bool,
-    taxonomyFields: React.PropTypes.array,
-    pcFields: React.PropTypes.array,
-    relationFields: React.PropTypes.array
+    taxonomyFields: React.PropTypes.object,
+    pcFields: React.PropTypes.object,
+    relationFields: React.PropTypes.object
   },
 
   getInitialState () {
@@ -94,9 +94,9 @@ export default React.createClass({
       fieldsQuerying: false,
       fieldsQueryingError: null,
       fields: [],
-      taxonomyFields: [],
-      pcFields: [],
-      relationFields: []
+      taxonomyFields: {},
+      pcFields: {},
+      relationFields: {}
     }
   },
 
