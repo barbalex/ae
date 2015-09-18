@@ -96,14 +96,19 @@ export default React.createClass({
 
   onChangeGroupsToExport (group, checked) {
     let { groupsToExport } = this.state
+    const { taxonomienZusammenfassen } = this.state
     if (checked) groupsToExport.push(group)
     if (!checked) groupsToExport = _.without(groupsToExport, group)
     this.setState({ groupsToExport })
-    app.Actions.queryFields(groupsToExport, group)
+    app.Actions.queryFields(groupsToExport, group, taxonomienZusammenfassen)
   },
 
   onChangeTaxonomienZusammenfassen (taxonomienZusammenfassen) {
+    const { groupsToExport } = this.state
+    const group = null
     this.setState({ taxonomienZusammenfassen })
+    // recalculate taxonomyFields
+    app.Actions.queryFields(groupsToExport, group, taxonomienZusammenfassen)
   },
 
   render () {
