@@ -5,11 +5,12 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server",
-    "prebuild": "gulp cleanPublic",
+    "clean": "gulp cleanPublic",
+    "prebuild": "npm run clean",
     "build": "set NODE_ENV=production&& webpack",
     "test": "standard",
     "deploy": "gulp sftp",
-    "yolo": "npm run build && npm run deploy"
+    "yolo": "npm run build && npm run deploy && npm run clean"
   },
   "author": "Alexander Gabriel",
   "license": "ISC",
