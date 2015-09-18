@@ -15,7 +15,7 @@ export default React.createClass({
 
   render () {
     const { taxonomienZusammenfassen, fieldsQuerying, fieldsQueryingError, taxonomyFields } = this.props
-    // fieldsQuerying === true && taxonomyFields.length === 0
+    // fieldsQuerying && taxonomyFields.length === 0
     let resultText = 'Die Eigenschaften werden aufgebaut...'
     let taxonomienZusammenfassenText = null
     let bsStyle = 'info'

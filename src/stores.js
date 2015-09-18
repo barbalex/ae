@@ -470,46 +470,45 @@ export default (Actions) => {
       let fieldsQueryingError = null
       this.getFields()
         .then((allFields) => {
-          console.log('fieldsStore, onQueryFields, fields from local, allFields', allFields)
           taxonomyFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'taxonomy')
           pcFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'propertyCollection')
           relationFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'relation')
           console.log('fieldsStore, onQueryFields, fields from local, taxonomyFields', taxonomyFields)
-          console.log('fieldsStore, onQueryFields, fields from local, pcFields', pcFields)
-          console.log('fieldsStore, onQueryFields, fields from local, relationFields', relationFields)
-          return this.trigger({ taxonomyFields, pcFields, relationFields, fieldsQuerying, fieldsQueryingError })
-          // TODO: check if group is not in allFields
+          // check if group is not in allFields
           // if so: queryFieldsOfGroup
-          // 
-          // 
-          // 
+          const groupsInAllFields = _.uniq(_.pluck(allFields, 'group'))
+          console.log('fieldsStore, group', group)
+          console.log('fieldsStore, groupsInAllFields', groupsInAllFields)
+          const fieldsExistForRequestedGroup = _.includes(groupsInAllFields, group)
+          console.log('fieldsStore, fieldsExistForRequestedGroup', fieldsExistForRequestedGroup)
+          fieldsQuerying = !fieldsExistForRequestedGroup
+          this.trigger({ taxonomyFields, pcFields, relationFields, fieldsQuerying, fieldsQueryingError })
+          if (!fieldsExistForRequestedGroup) {
+            // fetch up to date fields for the requested group
+            queryFieldsOfGroup(group)
+              .then((fieldsOfGroup) => this.saveFieldsOfGroup(fieldsOfGroup, group))
+              // .then(() => this.getFields())
+              .then((allFields) => {
+                taxonomyFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'taxonomy')
+                pcFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'propertyCollection')
+                relationFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'relation')
+                console.log('fieldsStore, onQueryFields, fields from query, taxonomyFields', taxonomyFields)
+                fieldsQuerying = false
+                return this.trigger({ taxonomyFields, pcFields, relationFields, fieldsQuerying, fieldsQueryingError })
+              })
+              .catch((error) => {
+                taxonomyFields = {}
+                pcFields = {}
+                relationFields = {}
+                fieldsQuerying = false
+                fieldsQueryingError = error
+                this.trigger({ taxonomyFields, pcFields, relationFields, fieldsQuerying, fieldsQueryingError })
+              })
+          }
         })
         .catch((error) =>
           app.Actions.showError({title: 'fieldsStore, error getting existing fields:', msg: error})
         )
-      // now fetch up to date fields for the requested group
-      queryFieldsOfGroup(group)
-        .then((fieldsOfGroup) => this.saveFieldsOfGroup(fieldsOfGroup, group))
-        // .then(() => this.getFields())
-        .then((allFields) => {
-          console.log('fieldsStore, onQueryFields, fields from query, allFields', allFields)
-          taxonomyFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'taxonomy')
-          pcFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'propertyCollection')
-          relationFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'relation')
-          console.log('fieldsStore, onQueryFields, fields from query, taxonomyFields', taxonomyFields)
-          console.log('fieldsStore, onQueryFields, fields from query, pcFields', pcFields)
-          console.log('fieldsStore, onQueryFields, fields from query, relationFields', relationFields)
-          fieldsQuerying = false
-          return this.trigger({ taxonomyFields, pcFields, relationFields, fieldsQuerying, fieldsQueryingError })
-        })
-        .catch((error) => {
-          taxonomyFields = {}
-          pcFields = {}
-          relationFields = {}
-          fieldsQuerying = false
-          fieldsQueryingError = error
-          this.trigger({ taxonomyFields, pcFields, relationFields, fieldsQuerying, fieldsQueryingError })
-        })
     }
   })
 
