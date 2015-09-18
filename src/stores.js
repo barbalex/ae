@@ -36,7 +36,10 @@ export default (Actions) => {
         batch_size: 500
       }
       app.localDb.replicate.from(app.remoteDb, options)
-        .then((result) => this.trigger('success'))
+        .then((result) => {
+          this.trigger('success')
+          app.fieldsStore.emptyFields()
+        })
         .catch((error) => this.trigger('error'))
     }
   })
@@ -179,6 +182,7 @@ export default (Actions) => {
             .catch((error) => app.Actions.showError({title: 'Fehler beim Importieren:', msg: error}))
         }
       })
+      app.fieldsStore.emptyFields()
     },
 
     onDeletePcByName (name) {
@@ -209,6 +213,7 @@ export default (Actions) => {
               })
               .catch((error) => app.Actions.showError({title: `Fehler: Das Objekt mit der ID ${id} wurde nicht aktualisiert:`, msg: error}))
           })
+          app.fieldsStore.emptyFields()
         })
         .catch((error) => app.Actions.showError({title: 'Fehler beim Versuch, die Eigenschaften zu löschen:', msg: error}))
     },
@@ -228,6 +233,7 @@ export default (Actions) => {
           })
           .catch((error) => app.Actions.showError({title: `Fehler: Das Objekt mit der GUID ${guid} wurde nicht aktualisiert:`, msg: error}))
       })
+      app.fieldsStore.emptyFields()
     }
 
   })
@@ -336,6 +342,7 @@ export default (Actions) => {
           })
           .catch((error) => app.Actions.showError({title: 'Fehler beim Importieren:', msg: error}))
       })
+      app.fieldsStore.emptyFields()
     },
 
     onDeleteRcByName (name) {
@@ -366,6 +373,7 @@ export default (Actions) => {
               })
               .catch((error) => app.Actions.showError({title: `Fehler: Das Objekt mit der ID ${id} wurde nicht aktualisiert:`, msg: error}))
           })
+          app.fieldsStore.emptyFields()
         })
         .catch((error) => app.Actions.showError({title: 'Fehler beim Versuch, die Eigenschaften zu löschen:', msg: error}))
     },
@@ -385,6 +393,7 @@ export default (Actions) => {
           })
           .catch((error) => app.Actions.showError({title: `Fehler: Das Objekt mit der GUID ${guid} wurde nicht aktualisiert:`, msg: error}))
       })
+      app.fieldsStore.emptyFields()
     }
 
   })
