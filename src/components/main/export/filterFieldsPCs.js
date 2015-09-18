@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { Input } from 'react-bootstrap'
+import SelectComparisonOperator from './selectComparisonOperator.js'
 
 export default React.createClass({
   displayName: 'FilterFieldsPcs',
@@ -9,6 +10,10 @@ export default React.createClass({
   propTypes: {
     pcFields: React.PropTypes.object,
     onChangeFilterField: React.PropTypes.func
+  },
+
+  onChangeCoSelect (fName, event) {
+    console.log('coSelect for ' + fName + ':', event.target.value)
   },
 
   onChange (fName, event) {
@@ -27,6 +32,7 @@ export default React.createClass({
       collection.push(title)
       const fields = Object.keys(cNameObject).map((fNameKey, fIndex) => {
         const fNameKeyObject = cNameObject[fNameKey]
+        const selectComparisonOperator = <SelectComparisonOperator fNameKey={fNameKey} onChangeCoSelect={this.onChangeCoSelect} />
         return (
           <Input
             key={fIndex}
@@ -34,7 +40,8 @@ export default React.createClass({
             label={fNameKey}
             bsSize='small'
             className={'controls'}
-            onChange={this.onChange.bind(this, fNameKey)} />
+            onChange={this.onChange.bind(this, fNameKey)}
+            buttonBefore={selectComparisonOperator} />
         )
       })
       collection.push(

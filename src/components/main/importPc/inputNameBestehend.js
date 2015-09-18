@@ -13,6 +13,10 @@ export default React.createClass({
     onChangeNameBestehend: React.PropTypes.func
   },
 
+  onChangeCoSelect (fName, event) {
+    console.log('coSelect for ' + fName + ':', event.target.value)
+  },
+
   onChange (event) {
     const nameBestehend = event.target.value
     // pass variables to parent component
@@ -21,6 +25,13 @@ export default React.createClass({
 
   options () {
     const { email, pcs, groupsLoadedOrLoading } = this.props
+    const coSelectStyle = {
+      width: 45,
+      paddingLeft: 3,
+      paddingRight: 0,
+      borderTopLeftRadius: 3,
+      borderBottomLeftRadius: 3
+    }
 
     if (pcs && pcs.length > 0) {
       let options = pcs.map((pc, index) => {
