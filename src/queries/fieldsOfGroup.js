@@ -12,12 +12,12 @@
 import app from 'ampersand-app'
 import _ from 'lodash'
 
-export default () => {
+export default (group) => {
   return new Promise((resolve, reject) => {
     const ddoc = {
-      _id: '_design/fields',
+      _id: '_design/fieldsOfGroup',
       views: {
-        'fields': {
+        'fieldsOfGroup': {
           map: function (doc) {
             if (doc.Gruppe && doc.Typ && doc.Typ === 'Objekt') {
 
@@ -71,15 +71,17 @@ export default () => {
         if (error.status !== 409) reject(error)
       })
       .then((response) => {
-        // console.log('fields: response from putting ddoc')
+        // console.log('fieldsOfGroup: response from putting ddoc')
         const options = {
           group_level: 5,
+          start_key: [group],
+          end_key: [group, {}, {}, {}, {}],
           reduce: '_count'
         }
-        return app.localDb.query('fields', options)
+        return app.localDb.query('fieldsOfGroup', options)
       })
       .then((result) => {
-        // console.log('fields.js, result', result)
+        // console.log('fieldsOfGroup.js, result', result)
         const rows = result.rows
         let fields = rows.map((row) => ({
           group: row.key[0],
@@ -91,7 +93,7 @@ export default () => {
         }))
         // sort by pcName
         fields = _.sortBy(fields, (field) => [field.cName, field.fName])
-        console.log('fields.js, allFields', fields)
+        console.log('fieldsOfGroup.js, allFields', fields)
         resolve(fields)
       })
       .catch((error) => reject(error))

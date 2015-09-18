@@ -99,7 +99,7 @@ export default React.createClass({
     if (checked) groupsToExport.push(group)
     if (!checked) groupsToExport = _.without(groupsToExport, group)
     this.setState({ groupsToExport })
-    app.Actions.queryFields(groupsToExport)
+    app.Actions.queryFields(groupsToExport, group)
   },
 
   onChangeTaxonomienZusammenfassen (taxonomienZusammenfassen) {

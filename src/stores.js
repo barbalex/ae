@@ -17,14 +17,13 @@ import loadGroupFromRemote from './modules/loadGroupFromRemote.js'
 import queryPcs from './queries/pcs.js'
 import queryRcs from './queries/rcs.js'
 import queryFields from './queries/fields.js'
+import queryFieldsOfGroup from './queries/fieldsOfGroup.js'
 import objectsIdsByPcsName from './queries/objectsIdsByPcsName.js'
 import objectsIdsByRcsName from './queries/objectsIdsByRcsName.js'
 import convertValue from './modules/convertValue.js'
 import sortObjectArrayByName from './modules/sortObjectArrayByName.js'
 import buildRcFirstLevel from './modules/buildRcFirstLevel.js'
-import getTaxonomieFieldsForGroupsToExport from './modules/getTaxonomieFieldsForGroupsToExport.js'
-import getPcFieldsForGroupsToExport from './modules/getPcFieldsForGroupsToExport.js'
-import getRelationFieldsForGroupsToExport from './modules/getRelationFieldsForGroupsToExport.js'
+import getFieldsForGroupsToExportByCollectionType from './modules/getFieldsForGroupsToExportByCollectionType.js'
 
 export default (Actions) => {
   app.replicateFromAeStore = Reflux.createStore({
@@ -427,6 +426,21 @@ export default (Actions) => {
         )
     },
 
+    saveFieldsOfGroup (fields, group) {
+      return new Promise((resolve, reject) => {
+        let allFields = []
+        app.localDb.get('_local/fields', { include_docs: true })
+          .then((doc) => {
+            doc.fields = _.reject(doc.fields, (field) => field.group === group)
+            doc.fields = doc.fields.concat(fields)
+            allFields = doc.fields
+            return app.localDb.put(doc)
+          })
+          .then(() => resolve(allFields))
+          .catch((error) => reject(error))
+      })
+    },
+
     getFieldsOfGroups (groups) {
       return new Promise((resolve, reject) => {
         this.getFields()
@@ -438,9 +452,8 @@ export default (Actions) => {
       })
     },
 
-    onQueryFields (groupsToExport) {
+    onQueryFields (groupsToExport, group) {
       // if fields exist, send them immediately
-      console.log('fieldsStore, onQueryFields, groupsToExport', groupsToExport)
       let taxonomyFields = {}
       let pcFields = {}
       let relationFields = {}
@@ -448,29 +461,37 @@ export default (Actions) => {
       let fieldsQueryingError = null
       this.getFields()
         .then((allFields) => {
-          taxonomyFields = getTaxonomieFieldsForGroupsToExport(allFields, groupsToExport)
-          pcFields = getPcFieldsForGroupsToExport(allFields, groupsToExport)
-          relationFields = getRelationFieldsForGroupsToExport(allFields, groupsToExport)
+          console.log('fieldsStore, onQueryFields, fields from local, allFields', allFields)
+          taxonomyFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'taxonomy')
+          pcFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'propertyCollection')
+          relationFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'relation')
           console.log('fieldsStore, onQueryFields, fields from local, taxonomyFields', taxonomyFields)
-          // console.log('fieldsStore, onQueryFields, fields from local, pcFields', pcFields)
-          // console.log('fieldsStore, onQueryFields, fields from local, relationFields', relationFields)
+          console.log('fieldsStore, onQueryFields, fields from local, pcFields', pcFields)
+          console.log('fieldsStore, onQueryFields, fields from local, relationFields', relationFields)
           return this.trigger({ taxonomyFields, pcFields, relationFields, fieldsQuerying, fieldsQueryingError })
+          // TODO: check if group is not in allFields
+          // if so: queryFieldsOfGroup
+          // 
+          // 
+          // 
         })
         .catch((error) =>
           app.Actions.showError({title: 'fieldsStore, error getting existing fields:', msg: error})
         )
-      // now fetch up to date fields
-      queryFields()
+      // now fetch up to date fields for the requested group
+      queryFieldsOfGroup(group)
+        .then((fieldsOfGroup) => this.saveFieldsOfGroup(fieldsOfGroup, group))
+        // .then(() => this.getFields())
         .then((allFields) => {
-          taxonomyFields = getTaxonomieFieldsForGroupsToExport(allFields, groupsToExport)
-          pcFields = getPcFieldsForGroupsToExport(allFields, groupsToExport)
-          relationFields = getRelationFieldsForGroupsToExport(allFields, groupsToExport)
-          console.log('fieldsStore, onQueryFields, fields from local, taxonomyFields', taxonomyFields)
-          // console.log('fieldsStore, onQueryFields, fields from local, pcFields', pcFields)
-          // console.log('fieldsStore, onQueryFields, fields from local, relationFields', relationFields)
+          console.log('fieldsStore, onQueryFields, fields from query, allFields', allFields)
+          taxonomyFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'taxonomy')
+          pcFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'propertyCollection')
+          relationFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'relation')
+          console.log('fieldsStore, onQueryFields, fields from query, taxonomyFields', taxonomyFields)
+          console.log('fieldsStore, onQueryFields, fields from query, pcFields', pcFields)
+          console.log('fieldsStore, onQueryFields, fields from query, relationFields', relationFields)
           fieldsQuerying = false
-          this.trigger({ taxonomyFields, pcFields, relationFields, fieldsQuerying, fieldsQueryingError })
-          return this.saveFields(allFields)
+          return this.trigger({ taxonomyFields, pcFields, relationFields, fieldsQuerying, fieldsQueryingError })
         })
         .catch((error) => {
           taxonomyFields = {}
