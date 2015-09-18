@@ -1,18 +1,13 @@
 'use strict'
 
-import app from 'ampersand-app'
 import React from 'react'
-import { Accordion, Panel, Input } from 'react-bootstrap'
-import _ from 'lodash'
+import { Input } from 'react-bootstrap'
 
 export default React.createClass({
   displayName: 'FilterFieldsTaxonomy',
 
   propTypes: {
     taxonomyFields: React.PropTypes.object,
-    pcFields: React.PropTypes.object,
-    relationFields: React.PropTypes.object,
-    exportFilters: React.PropTypes.object,
     onChangeFilterField: React.PropTypes.func
   },
 
@@ -22,12 +17,13 @@ export default React.createClass({
   },
 
   render () {
-    const { taxonomyFields, pcFields, relationFields, exportFilters } = this.props
+    const { taxonomyFields } = this.props
 
     const collections = Object.keys(taxonomyFields).map((cNameKey, cIndex) => {
+      const showLine = cIndex < Object.keys(taxonomyFields).length
       const cNameObject = taxonomyFields[cNameKey]
       let collection = []
-      const title = <h5>cNameKey</h5>
+      const title = <h5>{cNameKey}</h5>
       collection.push(title)
       const fields = Object.keys(cNameObject).map((fNameKey, fIndex) => {
         const fNameKeyObject = cNameObject[fNameKey]
@@ -41,10 +37,15 @@ export default React.createClass({
             onChange={this.onChange.bind(this, fNameKey)} />
         )
       })
-      collection.push(fields)
+      collection.push(
+        <div className='felderspalte'>
+          {fields}
+        </div>
+      )
       return (
         <div key={cIndex}>
           {collection}
+          {showLine ? <hr /> : null}
         </div>
       )
     })

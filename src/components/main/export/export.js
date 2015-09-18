@@ -12,6 +12,8 @@ import AlertLoadGroups from './alertLoadGroups.js'
 import WellSoGehtsFiltern from './wellSoGehtsFiltern.js'
 import WellTippsTricksFiltern from './wellTippsTricksFiltern.js'
 import FilterFieldsTaxonomy from './filterFieldsTaxonomy.js'
+import FilterFieldsPCs from './filterFieldsPCs.js'
+import FilterFieldsRCs from './filterFieldsRCs.js'
 
 export default React.createClass({
   displayName: 'Main',
@@ -173,9 +175,12 @@ export default React.createClass({
             <hr />
             <FilterFieldsTaxonomy
               taxonomyFields={taxonomyFields}
+              onChangeFilterField={this.onChangeFilterField} />
+            <FilterFieldsPCs
               pcFields={pcFields}
+              onChangeFilterField={this.onChangeFilterField} />
+            <FilterFieldsRCs
               relationFields={relationFields}
-              exportFilters={exportFilters}
               onChangeFilterField={this.onChangeFilterField} />
 
           </Panel>
