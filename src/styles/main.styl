@@ -437,10 +437,17 @@ h5 a
   margin: 0 0 7px 0
 
 .form-horizontal .controls
+// .form-horizontal .input-group
   // Breite fix setzen für Browser, die calc nicht unterstützen
   width: 1000px
   // Breite setzen für Browser, die calc unterstützen
   width: calc(100% - 230px) !important
+
+.input-group-sm > .input-group-btn
+  width: 44px
+
+.input-group .controls
+  width: auto !important
 
 .controls
   font-size: 14px !important
