@@ -16,7 +16,6 @@ import getGruppen from './modules/gruppen.js'
 import loadGroupFromRemote from './modules/loadGroupFromRemote.js'
 import queryPcs from './queries/pcs.js'
 import queryRcs from './queries/rcs.js'
-import queryFields from './queries/fields.js'
 import queryFieldsOfGroup from './queries/fieldsOfGroup.js'
 import objectsIdsByPcsName from './queries/objectsIdsByPcsName.js'
 import objectsIdsByRcsName from './queries/objectsIdsByRcsName.js'
@@ -415,17 +414,6 @@ export default (Actions) => {
       })
     },
 
-    saveFields (fields) {
-      app.localDb.get('_local/fields', { include_docs: true })
-        .then((doc) => {
-          doc.fields = fields
-          return app.localDb.put(doc)
-        })
-        .catch((error) =>
-          app.Actions.showError({title: 'Fehler in fieldsStore, saveFields:', msg: error})
-        )
-    },
-
     saveFieldsOfGroup (fields, group) {
       return new Promise((resolve, reject) => {
         let allFields = []
@@ -448,6 +436,18 @@ export default (Actions) => {
             const groupsFields = _.filter(fields, (field) => _.includes(groups, field.group))
             resolve(groupsFields)
           })
+          .catch((error) => reject(error))
+      })
+    },
+
+    emptyFields () {
+      return new Promise((resolve, reject) => {
+        app.localDb.get('_local/fields', { include_docs: true })
+          .then((doc) => {
+            doc.fields = []
+            return app.localDb.put(doc)
+          })
+          .then(() => resolve([]))
           .catch((error) => reject(error))
       })
     },
