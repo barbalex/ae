@@ -15,11 +15,12 @@
 
 import _ from 'lodash'
 
-export default (allFields, groupsToExport, collectionType) => {
+export default (allFields, groupsToExport, collectionType, taxonomienZusammenfassen) => {
   let fields = _.filter(allFields, (field) => _.includes(groupsToExport, field.group) && field.cType === collectionType)
   // same fields can be in multiple groups > remove group, then group and sum count
   fields = fields.map((field) => {
     delete field.cType
+    if (taxonomienZusammenfassen && collectionType === 'taxonomy') field.cName = 'Taxonomie(n)'
     return field
   })
   /**

@@ -173,12 +173,12 @@ export default React.createClass({
     return (
       <div id='object' className='formContent'>
         <h4>Taxonomie:</h4>
-        {taxComponent ? taxComponent : ''}
-        {taxRcsComponent ? taxRcsComponent : ''}
-        {pcsComponent ? pcsComponent : ''}
-        {rcsComponent ? rcsComponent : ''}
-        {pcsOfSynonymsComponent ? pcsOfSynonymsComponent : ''}
-        {rcsOfSynonymsComponent ? rcsOfSynonymsComponent : ''}
+        {taxComponent ? taxComponent : null}
+        {taxRcsComponent ? taxRcsComponent : null}
+        {pcsComponent ? pcsComponent : null}
+        {rcsComponent ? rcsComponent : null}
+        {pcsOfSynonymsComponent ? pcsOfSynonymsComponent : null}
+        {rcsOfSynonymsComponent ? rcsOfSynonymsComponent : null}
         {/*<Inspector data={object}/>*/}
       </div>
     )

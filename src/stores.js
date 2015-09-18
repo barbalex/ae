@@ -490,7 +490,6 @@ export default (Actions) => {
               // fetch up to date fields for the requested group
               queryFieldsOfGroup(group)
                 .then((fieldsOfGroup) => this.saveFieldsOfGroup(fieldsOfGroup, group))
-                // .then(() => this.getFields())
                 .then((allFields) => {
                   taxonomyFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'taxonomy', taxonomienZusammenfassen)
                   pcFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'propertyCollection')

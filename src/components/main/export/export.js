@@ -2,7 +2,7 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import { Accordion, Panel } from 'react-bootstrap'
+import { Accordion, Panel, Input } from 'react-bootstrap'
 import _ from 'lodash'
 import WellSoGehtsGruppeWaehlen from './wellSoGehtsGruppeWaehlen.js'
 import GroupsToExport from './groupsToExport.js'
@@ -11,6 +11,7 @@ import AlertGroups from './alertGroups.js'
 import AlertLoadGroups from './alertLoadGroups.js'
 import WellSoGehtsFiltern from './wellSoGehtsFiltern.js'
 import WellTippsTricksFiltern from './wellTippsTricksFiltern.js'
+import FilterFieldsTaxonomy from './filterFieldsTaxonomy.js'
 
 export default React.createClass({
   displayName: 'Main',
@@ -25,7 +26,8 @@ export default React.createClass({
     relationFields: React.PropTypes.object,
     groupsLoadedOrLoading: React.PropTypes.array,
     taxonomienZusammenfassen: React.PropTypes.bool,
-    activePanel: React.PropTypes.number
+    activePanel: React.PropTypes.number,
+    exportFilters: React.PropTypes.object
   },
 
   getInitialState () {
@@ -33,7 +35,8 @@ export default React.createClass({
       groupsToExport: [],
       errorBuildingFields: null,
       taxonomienZusammenfassen: false,
-      activePanel: 1
+      activePanel: 1,
+      exportFilters: {}
     }
   },
 
@@ -111,11 +114,27 @@ export default React.createClass({
     app.Actions.queryFields(groupsToExport, group, taxonomienZusammenfassen)
   },
 
+  onChangeFilterField (fName, event) {
+    const value = event.target.value
+    let { exportFilters } = this.state
+
+    if (value || value === 0) {
+      exportFilters[fName] = value
+    } else if (exportFilters[fName]) {
+      delete exportFilters[fName]
+    }
+    this.setState({ exportFilters })
+
+    console.log('field ' + fName + ' changed to:', value)
+  },
+
   render () {
-    const { groupsLoadedOrLoading, fieldsQuerying, fieldsQueryingError, taxonomyFields } = this.props
-    const { groupsToExport, taxonomienZusammenfassen, errorBuildingFields, activePanel } = this.state
+    const { groupsLoadedOrLoading, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields } = this.props
+    const { groupsToExport, taxonomienZusammenfassen, errorBuildingFields, activePanel, exportFilters } = this.state
     const showAlertLoadGroups = groupsLoadedOrLoading.length === 0
     const showAlertGroups = groupsToExport.length > 0 && !showAlertLoadGroups
+
+    // TODO: build fields from fields state
     return (
       <div id='export' className='formContent'>
         <h4>Eigenschaften exportieren</h4>
@@ -146,12 +165,22 @@ export default React.createClass({
             }
           </Panel>
 
-          <Panel collapsible header='2. filtern' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
+          <Panel className='exportFields' collapsible header='2. filtern' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
             <WellSoGehtsFiltern />
             <WellTippsTricksFiltern />
+            <h3>Art / Lebensraum</h3>
+            <Input type='text' label='GUID' bsSize='small' className={'controls'} onChange={this.onChangeFilterField.bind(this, '_id')} />
+            <hr />
+            <FilterFieldsTaxonomy
+              taxonomyFields={taxonomyFields}
+              pcFields={pcFields}
+              relationFields={relationFields}
+              exportFilters={exportFilters}
+              onChangeFilterField={this.onChangeFilterField} />
+
           </Panel>
 
-          <Panel collapsible header="3. Eigenschaften wählen" eventKey={3} onClick={this.onClickPanel.bind(this, 3)}>
+          <Panel collapsible header='3. Eigenschaften wählen' eventKey={3} onClick={this.onClickPanel.bind(this, 3)}>
             
           </Panel>
 
@@ -163,5 +192,4 @@ export default React.createClass({
       </div>
     )
   }
-
 })
