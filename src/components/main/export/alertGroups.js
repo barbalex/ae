@@ -10,19 +10,19 @@ export default React.createClass({
     taxonomienZusammenfassen: React.PropTypes.bool,
     fieldsQuerying: React.PropTypes.bool,
     fieldsQueryingError: React.PropTypes.string,
-    fields: React.PropTypes.array
+    taxonomyFields: React.PropTypes.array
   },
 
   render () {
-    const { taxonomienZusammenfassen, fieldsQuerying, fieldsQueryingError, fields } = this.props
-    // fieldsQuerying === true && fields.length === 0
+    const { taxonomienZusammenfassen, fieldsQuerying, fieldsQueryingError, taxonomyFields } = this.props
+    // fieldsQuerying === true && taxonomyFields.length === 0
     let resultText = 'Die Eigenschaften werden aufgebaut...'
     let taxonomienZusammenfassenText = null
     let bsStyle = 'info'
-    if (fieldsQuerying && fields.length > 0) {
+    if (fieldsQuerying && taxonomyFields.length > 0) {
       resultText = 'Die Eigenschaften werden ergänzt...'
     }
-    if (!fieldsQuerying && fields.length > 0) {
+    if (!fieldsQuerying && taxonomyFields.length > 0) {
       bsStyle = 'success'
       resultText = 'Die Eigenschaften wurden aufgebaut.'
       taxonomienZusammenfassenText = taxonomienZusammenfassen ? 'Taxonomien werden zusammengefasst.' : 'Taxonomien werden einzeln dargestellt.'
@@ -36,7 +36,7 @@ export default React.createClass({
       marginTop: 8,
       marginBottom: 0
     }
-    const showFirstTime = fieldsQuerying && fields.length === 0
+    const showFirstTime = fieldsQuerying && taxonomyFields.length === 0
     return (
       <Alert bsStyle={bsStyle} style={style}>
         <p>{resultText}</p>

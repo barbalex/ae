@@ -52,7 +52,9 @@ export default React.createClass({
     rcsQuerying: React.PropTypes.bool,
     fieldsQuerying: React.PropTypes.bool,
     fieldsQueryingError: React.PropTypes.bool,
-    fields: React.PropTypes.array
+    taxonomyFields: React.PropTypes.array,
+    pcFields: React.PropTypes.array,
+    relationFields: React.PropTypes.array
   },
 
   getInitialState () {
@@ -91,7 +93,10 @@ export default React.createClass({
       rcsQuerying: false,
       fieldsQuerying: false,
       fieldsQueryingError: null,
-      fields: []
+      fields: [],
+      taxonomyFields: [],
+      pcFields: [],
+      relationFields: []
     }
   },
 
@@ -212,7 +217,7 @@ export default React.createClass({
   },
 
   render () {
-    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, showImportPc, showImportRc, showExportieren, showOrganizations, logIn, email, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, pcsQuerying, rcsQuerying, fieldsQuerying, fieldsQueryingError, fields } = this.state
+    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, showImportPc, showImportRc, showExportieren, showOrganizations, logIn, email, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, pcsQuerying, rcsQuerying, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields } = this.state
     const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
     const showGruppen = groupsNotLoaded.length > 0
     const showFilter = filterOptions.length > 0 || loadingFilterOptions
@@ -275,7 +280,9 @@ export default React.createClass({
             showExportieren={showExportieren}
             fieldsQuerying={fieldsQuerying}
             fieldsQueryingError={fieldsQueryingError}
-            fields={fields}
+            taxonomyFields={taxonomyFields}
+            pcFields={pcFields}
+            relationFields={relationFields}
             showOrganizations={showOrganizations}
             email={email}
             replicatingToAe={replicatingToAe}

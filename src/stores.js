@@ -22,6 +22,9 @@ import objectsIdsByRcsName from './queries/objectsIdsByRcsName.js'
 import convertValue from './modules/convertValue.js'
 import sortObjectArrayByName from './modules/sortObjectArrayByName.js'
 import buildRcFirstLevel from './modules/buildRcFirstLevel.js'
+import getTaxonomieFieldsForGroupsToExport from './modules/getTaxonomieFieldsForGroupsToExport.js'
+import getPcFieldsForGroupsToExport from './modules/getPcFieldsForGroupsToExport.js'
+import getRelationFieldsForGroupsToExport from './modules/getRelationFieldsForGroupsToExport.js'
 
 export default (Actions) => {
   app.replicateFromAeStore = Reflux.createStore({

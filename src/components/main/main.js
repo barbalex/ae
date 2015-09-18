@@ -29,7 +29,9 @@ export default React.createClass({
     showExportieren: React.PropTypes.bool,
     fieldsQuerying: React.PropTypes.bool,
     fieldsQueryingError: React.PropTypes.string,
-    fields: React.PropTypes.array,
+    taxonomyFields: React.PropTypes.array,
+    pcFields: React.PropTypes.array,
+    relationFields: React.PropTypes.array,
     showOrganizations: React.PropTypes.bool,
     email: React.PropTypes.string,
     allGroupsLoaded: React.PropTypes.bool,
@@ -68,7 +70,7 @@ export default React.createClass({
   },
 
   render () {
-    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, synonymObjects, showImportPc, showImportRc, showExportieren, fieldsQuerying, fieldsQueryingError, fields, showOrganizations, email, replicatingToAe, replicatingToAeTime } = this.props
+    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, synonymObjects, showImportPc, showImportRc, showExportieren, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, showOrganizations, email, replicatingToAe, replicatingToAeTime } = this.props
     const { formClassNames, errors } = this.state
     const showObject = object !== undefined
 
@@ -107,7 +109,9 @@ export default React.createClass({
               groupsLoadedOrLoading={groupsLoadedOrLoading}
               fieldsQuerying={fieldsQuerying}
               fieldsQueryingError={fieldsQueryingError}
-              fields={fields} />
+              taxonomyFields={taxonomyFields}
+              pcFields={pcFields}
+              relationFields={relationFields} />
             : null
           }
           {showOrganizations ?
