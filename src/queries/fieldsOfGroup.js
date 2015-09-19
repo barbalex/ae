@@ -93,7 +93,6 @@ export default (group) => {
         }))
         // sort by pcName
         fields = _.sortBy(fields, (field) => [field.cName, field.fName])
-        console.log('fieldsOfGroup.js, allFields', fields)
         resolve(fields)
       })
       .catch((error) => reject(error))

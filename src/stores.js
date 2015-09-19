@@ -493,7 +493,6 @@ export default (Actions) => {
                   taxonomyFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'taxonomy', taxonomienZusammenfassen)
                   pcFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'propertyCollection')
                   relationFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'relation')
-                  console.log('fieldsStore, onQueryFields, fields from query, taxonomyFields', taxonomyFields)
                   fieldsQuerying = false
                   return this.trigger({ taxonomyFields, pcFields, relationFields, fieldsQuerying, fieldsQueryingError })
                 })
