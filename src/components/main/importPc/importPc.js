@@ -6,6 +6,7 @@ import { Accordion, Panel, Well, ProgressBar, Button, Glyphicon } from 'react-bo
 import _ from 'lodash'
 import { ListenerMixin } from 'reflux'
 import WellAutorenrechte from './wellAutorenrechte.js'
+import WellTippsUndTricks from './wellTippsUndTricks.js'
 import WellTechnAnforderungenAnDatei from './wellTechnAnforderungenAnDatei.js'
 import WellAnforderungenAnCsv from './wellAnforderungenAnCsv.js'
 import WellAnforderungenInhaltlich from './wellAnforderungenInhaltlich.js'
@@ -542,7 +543,7 @@ export default React.createClass({
         <Accordion activeKey={activePanel}>
           <Panel collapsible header='1. Eigenschaftensammlung beschreiben' eventKey={1} onClick={this.onClickPanel.bind(this, 1)}>
             {showLoadAllGroups ? <AlertLoadAllGroups open='true' groupsLoadingObjects={groupsLoadingObjects} alertAllGroupsBsStyle={alertAllGroupsBsStyle} /> : null}
-            <Well className='well-sm'><a href='//youtu.be/nqd-v6YxkOY' target='_blank'><b>Auf Youtube sehen, wie es geht</b></a></Well>
+            <WellTippsUndTricks />
             <WellAutorenrechte />
 
             <InputNameBestehend nameBestehend={nameBestehend} beschreibung={beschreibung} datenstand={datenstand} nutzungsbedingungen={nutzungsbedingungen} link={link} zusammenfassend={zusammenfassend} email={email} pcs={pcs} groupsLoadedOrLoading={groupsLoadedOrLoading} onChangeNameBestehend={this.onChangeNameBestehend} />

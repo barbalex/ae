@@ -4,7 +4,7 @@ import React from 'react'
 import { Well } from 'react-bootstrap'
 
 export default React.createClass({
-  displayName: 'WellAutorenrechte',
+  displayName: 'WellTippsTricks',
 
   propTypes: {
     visible: React.PropTypes.bool
@@ -25,10 +25,10 @@ export default React.createClass({
     const { visible } = this.state
 
     return (
-      <Well className='well-sm'><b>Autorenrechte beachten </b> <a href='#' onClick={this.onClickToggle} className='showNextHidden'>{visible ? '...weniger' : '...mehr'}</a>
+      <Well className='well-sm'><strong>Tipps und Tricks</strong> <a href='#' onClick={this.onClickToggle} className='showNextHidden'>{visible ? '...weniger' : '...mehr'}</a>
         <ul className='adb-hidden' style={{'display': visible ? 'block' : 'none'}}>
-          <li>Die Autoren müssen mit der Veröffentlichung einverstanden sein</li>
-          <li>Dafür verantwortlich ist, wer Daten importiert</li>
+          <li>Klicken Sie auf den Feldnamen, um zu erfahren, wie das jeweilige Feld beschrieben werden sollte.</li>
+          <li><a href='//youtu.be/nqd-v6YxkOY' target='_blank'><b>Auf Youtube sehen, wie es geht</b></a></li>
         </ul>
       </Well>
     )

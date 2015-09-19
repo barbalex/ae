@@ -31,10 +31,8 @@ export default React.createClass({
 
     return (
       <div className={validDatenstand ? 'form-group' : 'form-group has-error'}>
-        <OverlayTrigger trigger='click' rootClose placement='right' overlay={this.popover()}>
-          <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.popover()}>
-            <label className='control-label withPopover'>Datenstand</label>
-          </OverlayTrigger>
+        <OverlayTrigger trigger={['click', 'focus']} rootClose placement='right' overlay={this.popover()}>
+          <label className='control-label withPopover'>Datenstand</label>
         </OverlayTrigger>
         <input type='textarea' className='form-control controls' rows={1} value={datenstand} onChange={this.onChange} />
         {validDatenstand ? null : <div className='validateDiv feld'>Ein Datenstand ist erforderlich</div>}
