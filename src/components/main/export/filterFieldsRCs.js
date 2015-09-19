@@ -13,7 +13,7 @@ export default React.createClass({
     onChangeCoSelect: React.PropTypes.func
   },
 
-  onChange (cName, fName, event) {
+  onBlur (cName, fName, event) {
     const { onChangeFilterField } = this.props
     onChangeFilterField(cName, fName, event)
   },
@@ -37,7 +37,7 @@ export default React.createClass({
             label={fNameKey}
             bsSize='small'
             className={'controls'}
-            onChange={this.onChange.bind(this, cNameKey, fNameKey)}
+            onBlur={this.onBlur.bind(this, cNameKey, fNameKey)}
             buttonBefore={selectComparisonOperator} />
         )
       })
