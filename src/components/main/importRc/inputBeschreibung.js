@@ -35,10 +35,8 @@ export default React.createClass({
 
     return (
       <div className={validBeschreibung ? 'form-group' : 'form-group has-error'}>
-        <OverlayTrigger trigger='click' rootClose placement='right' overlay={this.popover()}>
-          <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.popover()}>
-            <label className='control-label withPopover'>Beschreibung</label>
-          </OverlayTrigger>
+        <OverlayTrigger trigger={['click', 'focus']} rootClose placement='right' overlay={this.popover()}>
+          <label className='control-label withPopover'>Beschreibung</label>
         </OverlayTrigger>
         <input type='textarea' className='form-control controls' value={beschreibung} onChange={this.onChange} rows={1} />
         {validBeschreibung ? null : <div className='validateDiv feld'>Eine Beschreibung ist erforderlich</div>}

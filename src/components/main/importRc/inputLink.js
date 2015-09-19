@@ -36,10 +36,8 @@ export default React.createClass({
 
     return (
       <div className={validLink ? 'form-group' : 'form-group has-error'}>
-        <OverlayTrigger trigger='click' rootClose placement='right' overlay={this.popover()}>
-          <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.popover()}>
-            <label className='control-label withPopover'>Link</label>
-          </OverlayTrigger>
+        <OverlayTrigger trigger={['click', 'focus']} rootClose placement='right' overlay={this.popover()}>
+          <label className='control-label withPopover'>Link</label>
         </OverlayTrigger>
         <input type='textarea' className='form-control controls' value={link} onBlur={this.onBlur} onChange={this.onChange} rows={1} />
         {validLink ? null : <div className='validateDiv feld'>Bitte prüfen Sie den Link. Es muss einge gültige URL sein</div>}

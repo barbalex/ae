@@ -5,6 +5,7 @@ import React from 'react'
 import { Accordion, Panel, ProgressBar, Button, Glyphicon } from 'react-bootstrap'
 import _ from 'lodash'
 import { ListenerMixin } from 'reflux'
+import WellTippsUndTricks from './wellTippsUndTricks.js'
 import WellAutorenrechte from './wellAutorenrechte.js'
 import WellTechnAnforderungenAnDatei from './wellTechnAnforderungenAnDatei.js'
 import WellAnforderungenAnCsv from './wellAnforderungenAnCsv.js'
@@ -603,6 +604,7 @@ export default React.createClass({
         <Accordion activeKey={activePanel}>
           <Panel collapsible header='1. Beziehungssammlung beschreiben' eventKey={1} onClick={this.onClickPanel.bind(this, 1)}>
             {showLoadAllGroups ? <AlertLoadAllGroups open='true' groupsLoadingObjects={groupsLoadingObjects} alertAllGroupsBsStyle={alertAllGroupsBsStyle} /> : null}
+            <WellTippsUndTricks />
             <WellAutorenrechte />
 
             <InputNameBestehend nameBestehend={nameBestehend} beschreibung={beschreibung} datenstand={datenstand} nutzungsbedingungen={nutzungsbedingungen} link={link} zusammenfassend={zusammenfassend} email={email} rcs={rcs} groupsLoadedOrLoading={groupsLoadedOrLoading} onChangeNameBestehend={this.onChangeNameBestehend} />

@@ -33,7 +33,7 @@ export default React.createClass({
 
   popover () {
     return (
-      <Popover id='InputUrsprungsBsPopover' title='Was heisst "eigenständig"?'>
+      <Popover id='InputUrsprungsBsPopover' trigger={['click', 'focus']} title='Was heisst "eigenständig"?'>
         <p>Eine zusammenfassende Beziehungssammlung wird zwei mal importiert:</p>
         <ol>
           <li>Als <strong>eigenständige</strong> Beziehungssammlung.</li>
@@ -50,12 +50,10 @@ export default React.createClass({
 
     return (
       <div className={validUrsprungsBs ? 'form-group' : 'form-group has-error'}>
-        <OverlayTrigger trigger='click' placement='right' overlay={this.popover()}>
-          <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.popover()}>
-            <label className='control-label withPopover' htmlFor='dsUrsprungsDs' id='dsUrsprungsDsLabel'>eigenständige Beziehungssammlung</label>
-          </OverlayTrigger>
+        <OverlayTrigger trigger={['click', 'focus']} rootClose placement='right' overlay={this.popover()}>
+          <label className='control-label withPopover' id='dsUrsprungsDsLabel'>eigenständige Beziehungssammlung</label>
         </OverlayTrigger>
-        <select className='form-control controls input-sm' id='dsUrsprungsDs' selected={nameUrsprungsBs} onChange={this.onChange}>{this.options()}</select>
+        <select className='form-control controls input-sm' selected={nameUrsprungsBs} onChange={this.onChange}>{this.options()}</select>
         {validUrsprungsBs ? null : <div className='validateDiv feld'>Bitte wählen Sie die eigenständige Beziehungssammlung</div>}
       </div>
     )

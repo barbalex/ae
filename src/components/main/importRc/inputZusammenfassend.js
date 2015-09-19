@@ -23,7 +23,6 @@ export default React.createClass({
         <p>Zweck: Jede Art bzw. jeder Lebensraum enthält die jeweils aktuellste Information zum Thema.</p>
         <p>Beispiel: Rote Liste.</p>
         <p>Mehr Infos <a href='https://github.com/FNSKtZH/artendb/blob/master/README.md#zusammenfassende-eigenschaftensammlungen' target='_blank'>im Projektbeschrieb</a>.</p>
-        <p><em>Tipp: Klicken Sie auf "zusammenfassend", damit diese Meldung offen bleibt.</em></p>
       </Popover>
     )
   },
@@ -33,10 +32,8 @@ export default React.createClass({
 
     return (
       <div className={'form-group'}>
-        <OverlayTrigger trigger='click' rootClose placement='right' overlay={this.popover()}>
-          <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.popover()}>
-            <label className='control-label withPopover' htmlFor={'dsZusammenfassend'}>zusammenfassend</label>
-          </OverlayTrigger>
+        <OverlayTrigger trigger={['click', 'focus']} rootClose placement='right' overlay={this.popover()}>
+          <label className='control-label withPopover' htmlFor={'dsZusammenfassend'}>zusammenfassend</label>
         </OverlayTrigger>
         <input type='checkbox' label={'zusammenfassend'} checked={zusammenfassend} onChange={this.onChange} />
       </div>

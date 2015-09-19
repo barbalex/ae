@@ -37,10 +37,8 @@ export default React.createClass({
 
     return (
       <div className={validName ? 'form-group' : 'form-group has-error'}>
-        <OverlayTrigger trigger='click' rootClose placement='right' overlay={this.popover()}>
-          <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.popover()}>
-            <label className='control-label withPopover'>Name</label>
-          </OverlayTrigger>
+        <OverlayTrigger trigger={['click', 'focus']} rootClose placement='right' overlay={this.popover()}>
+          <label className='control-label withPopover'>Name</label>
         </OverlayTrigger>
         <input type='text' className='controls input-sm form-control' value={name} onChange={this.onChange} onBlur={this.onBlur} />
         {validName ? null : <div className='validateDiv feld'>Ein Name ist erforderlich</div>}

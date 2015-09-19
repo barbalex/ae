@@ -25,7 +25,7 @@ export default React.createClass({
     const { visible } = this.state
 
     return (
-      <Well className='well-sm last-well'><b>Autorenrechte beachten </b> <a href='#' onClick={this.onClickToggle} className='showNextHidden'>{visible ? '...weniger' : '...mehr'}</a>
+      <Well className='well-sm'><b>Autorenrechte beachten </b> <a href='#' onClick={this.onClickToggle} className='showNextHidden'>{visible ? '...weniger' : '...mehr'}</a>
         <ul className='adb-hidden' style={{'display': visible ? 'block' : 'none'}}>
           <li>Die Autoren müssen mit der Veröffentlichung einverstanden sein</li>
           <li>Dafür verantwortlich ist, wer Daten importiert</li>
