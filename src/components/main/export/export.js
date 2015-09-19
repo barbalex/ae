@@ -11,6 +11,7 @@ import AlertGroups from './alertGroups.js'
 import AlertLoadGroups from './alertLoadGroups.js'
 import WellSoGehtsFiltern from './wellSoGehtsFiltern.js'
 import WellTippsTricksFiltern from './wellTippsTricksFiltern.js'
+import InputFilterGuid from './inputFilterGuid.js'
 import FilterFieldsTaxonomy from './filterFieldsTaxonomy.js'
 import FilterFieldsPCs from './filterFieldsPCs.js'
 import FilterFieldsRCs from './filterFieldsRCs.js'
@@ -30,12 +31,14 @@ export default React.createClass({
     groupsLoadedOrLoading: React.PropTypes.array,
     taxonomienZusammenfassen: React.PropTypes.bool,
     activePanel: React.PropTypes.number,
-    exportFilters: React.PropTypes.object
+    exportFilters: React.PropTypes.object,
+    exportFields: React.PropTypes.object
   },
 
   /**
    * exportFilters
    * {
+   *   _id: [],
    *   cName: {
    *     fName: {
    *       value: '',
@@ -52,7 +55,8 @@ export default React.createClass({
       errorBuildingFields: null,
       taxonomienZusammenfassen: false,
       activePanel: 1,
-      exportFilters: {}
+      exportFilters: {},
+      exportFields: {}
     }
   },
 
@@ -97,7 +101,7 @@ export default React.createClass({
 
   isPanel2Done () {
     const panel1Done = this.isPanel1Done()
-    const panel2Done = panel1Done && false
+    const panel2Done = panel1Done
     let state = { panel2Done }
     if (panel1Done && !panel2Done) state = Object.assign(state, { activePanel: 2 })
     this.setState(state)
@@ -142,8 +146,21 @@ export default React.createClass({
   onChangeFilterField (cName, fName, event) {
     console.log('field ' + fName + ' from collection ' + cName + ' changed to:', event.target.value)
     let { exportFilters } = this.state
-    const value = event.target.value
-    const valuePath = `${cName}.${fName}.value`
+    let value = event.target.value
+    let valuePath = `${cName}.${fName}.value`
+    if (cName === 'object' && fName === '_id') {
+      // one or more guids were entered
+      valuePath = `_id`
+      if (value) {
+        // remove empty strings from value
+        value = value.replace(/\s+/g, '')
+        // convert value into array
+        // this way user can enter a single guid or many comma separated
+        value = value.split(',')
+      } else {
+        value = null
+      }
+    }
     _.set(exportFilters, valuePath, value)
     this.setState({ exportFilters })
     console.log('exportFilters', exportFilters)
@@ -191,7 +208,8 @@ export default React.createClass({
             <WellSoGehtsFiltern />
             <WellTippsTricksFiltern />
             <h3>Art / Lebensraum</h3>
-            <Input type='text' label='GUID' bsSize='small' className={'controls'} onChange={this.onChangeFilterField.bind(this, '_id')} />
+            <InputFilterGuid
+              onChangeFilterField={this.onChangeFilterField} />
             <hr />
             <FilterFieldsTaxonomy
               taxonomyFields={taxonomyFields}
