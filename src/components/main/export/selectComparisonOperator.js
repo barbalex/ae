@@ -7,17 +7,18 @@ export default React.createClass({
   displayName: 'SelectComparisonOperator',
 
   propTypes: {
+    cNameKey: React.PropTypes.string,
     fNameKey: React.PropTypes.string,
     onChangeCoSelect: React.PropTypes.func
   },
 
-  onChange (fName, event) {
+  onChange (cName, fName, event) {
     const { onChangeCoSelect } = this.props
-    onChangeCoSelect(fName, event)
+    onChangeCoSelect(cName, fName, event)
   },
 
   render () {
-    const { fNameKey } = this.props
+    const { cNameKey, fNameKey } = this.props
     const coSelectStyle = {
       width: 45,
       paddingLeft: 3,
@@ -27,7 +28,7 @@ export default React.createClass({
     }
 
     return (
-      <Input bsSize='small' type='select' style={coSelectStyle} onChange={this.onChange.bind(this, fNameKey)}>
+      <Input bsSize='small' type='select' style={coSelectStyle} onChange={this.onChange.bind(this, cNameKey, fNameKey)}>
         <option value=''></option>
         <option value='='>&#61;</option>
         <option value='>'>&#62;</option>

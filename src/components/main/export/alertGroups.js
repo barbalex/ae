@@ -40,7 +40,7 @@ export default React.createClass({
     return (
       <Alert bsStyle={bsStyle} style={style}>
         <p>{resultText}</p>
-        {showFirstTime ? <p>Beim ersten Mal dauert das besonders lang, falls der Index aufgebaut werden muss.</p> : null}
+        {showFirstTime ? <p>Beim ersten Mal dauert das einige Minuten, falls der Index aufgebaut werden muss.</p> : null}
         <p>{taxonomienZusammenfassenText}</p>
       </Alert>
     )

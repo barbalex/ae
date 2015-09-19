@@ -33,6 +33,19 @@ export default React.createClass({
     exportFilters: React.PropTypes.object
   },
 
+  /**
+   * exportFilters
+   * {
+   *   cName: {
+   *     fName: {
+   *       value: '',
+   *       comparisonOperator: ''
+   *     },
+   *     ...
+   *   },
+   *   ...
+   * }
+   */
   getInitialState () {
     return {
       groupsToExport: [],
@@ -117,7 +130,12 @@ export default React.createClass({
     app.Actions.queryFields(groupsToExport, group, taxonomienZusammenfassen)
   },
 
-  onChangeFilterField (fName, event) {
+  onChangeCoSelect (cName, fName, event) {
+    console.log('coSelect for ' + fName + 'from collection ' + cName + ':', event.target.value)
+    const { exportFilters } = this.state
+  },
+
+  onChangeFilterField (cName, fName, event) {
     const value = event.target.value
     let { exportFilters } = this.state
 
@@ -128,7 +146,7 @@ export default React.createClass({
     }
     this.setState({ exportFilters })
 
-    console.log('field ' + fName + ' changed to:', value)
+    console.log('field ' + fName + ' from collection ' + cName + ' changed to:', value)
   },
 
   render () {
@@ -139,7 +157,6 @@ export default React.createClass({
     const groupsLoading = _.pluck(groupsLoadingObjects, 'group')
     const groupsLoaded = _.difference(groupsLoadedOrLoading, groupsLoading)
 
-    // TODO: build fields from fields state
     return (
       <div id='export' className='formContent'>
         <h4>Eigenschaften exportieren</h4>
@@ -178,13 +195,16 @@ export default React.createClass({
             <hr />
             <FilterFieldsTaxonomy
               taxonomyFields={taxonomyFields}
-              onChangeFilterField={this.onChangeFilterField} />
+              onChangeFilterField={this.onChangeFilterField}
+              onChangeCoSelect={this.onChangeCoSelect} />
             <FilterFieldsPCs
               pcFields={pcFields}
-              onChangeFilterField={this.onChangeFilterField} />
+              onChangeFilterField={this.onChangeFilterField}
+              onChangeCoSelect={this.onChangeCoSelect} />
             <FilterFieldsRCs
               relationFields={relationFields}
-              onChangeFilterField={this.onChangeFilterField} />
+              onChangeFilterField={this.onChangeFilterField}
+              onChangeCoSelect={this.onChangeCoSelect} />
 
           </Panel>
 

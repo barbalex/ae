@@ -9,20 +9,17 @@ export default React.createClass({
 
   propTypes: {
     taxonomyFields: React.PropTypes.object,
-    onChangeFilterField: React.PropTypes.func
+    onChangeFilterField: React.PropTypes.func,
+    onChangeCoSelect: React.PropTypes.func
   },
 
-  onChangeCoSelect (fName, event) {
-    console.log('coSelect for ' + fName + ':', event.target.value)
-  },
-
-  onChange (fName, event) {
+  onChange (cName, fName, event) {
     const { onChangeFilterField } = this.props
-    onChangeFilterField(fName, event)
+    onChangeFilterField(cName, fName, event)
   },
 
   render () {
-    const { taxonomyFields } = this.props
+    const { taxonomyFields, onChangeCoSelect } = this.props
 
     const collections = Object.keys(taxonomyFields).map((cNameKey, cIndex) => {
       const showLine = cIndex < Object.keys(taxonomyFields).length
@@ -32,7 +29,7 @@ export default React.createClass({
       collection.push(title)
       const fields = Object.keys(cNameObject).map((fNameKey, fIndex) => {
         const fNameKeyObject = cNameObject[fNameKey]
-        const selectComparisonOperator = <SelectComparisonOperator fNameKey={fNameKey} onChangeCoSelect={this.onChangeCoSelect} />
+        const selectComparisonOperator = <SelectComparisonOperator cNameKey={cNameKey} fNameKey={fNameKey} onChangeCoSelect={onChangeCoSelect} />
         return (
           <Input
             key={fIndex}
@@ -40,7 +37,7 @@ export default React.createClass({
             label={fNameKey}
             bsSize='small'
             className={'controls'}
-            onChange={this.onChange.bind(this, fNameKey)}
+            onChange={this.onChange.bind(this, cNameKey, fNameKey)}
             buttonBefore={selectComparisonOperator} />
         )
       })
