@@ -133,20 +133,20 @@ export default React.createClass({
   onChangeCoSelect (cName, fName, event) {
     console.log('coSelect for ' + fName + 'from collection ' + cName + ':', event.target.value)
     const { exportFilters } = this.state
+    const co = event.target.value
+    const coPath = `${cName}.${fName}.co`
+    _.set(exportFilters, coPath, co)
+    console.log('exportFilters', exportFilters)
   },
 
   onChangeFilterField (cName, fName, event) {
-    const value = event.target.value
+    console.log('field ' + fName + ' from collection ' + cName + ' changed to:', event.target.value)
     let { exportFilters } = this.state
-
-    if (value || value === 0) {
-      exportFilters[fName] = value
-    } else if (exportFilters[fName]) {
-      delete exportFilters[fName]
-    }
+    const value = event.target.value
+    const valuePath = `${cName}.${fName}.value`
+    _.set(exportFilters, valuePath, value)
     this.setState({ exportFilters })
-
-    console.log('field ' + fName + ' from collection ' + cName + ' changed to:', value)
+    console.log('exportFilters', exportFilters)
   },
 
   render () {
