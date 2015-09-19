@@ -135,16 +135,14 @@ export default React.createClass({
   },
 
   onChangeCoSelect (cName, fName, event) {
-    console.log('coSelect for ' + fName + 'from collection ' + cName + ':', event.target.value)
     const { exportFilters } = this.state
     const co = event.target.value
     const coPath = `${cName}.${fName}.co`
     _.set(exportFilters, coPath, co)
-    console.log('exportFilters', exportFilters)
+    // console.log('exportFilters', exportFilters)
   },
 
   onChangeFilterField (cName, fName, event) {
-    console.log('field ' + fName + ' from collection ' + cName + ' changed to:', event.target.value)
     let { exportFilters } = this.state
     let value = event.target.value
     let valuePath = `${cName}.${fName}.value`
@@ -163,7 +161,7 @@ export default React.createClass({
     }
     _.set(exportFilters, valuePath, value)
     this.setState({ exportFilters })
-    console.log('exportFilters', exportFilters)
+    // console.log('exportFilters', exportFilters)
   },
 
   render () {

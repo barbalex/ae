@@ -34,9 +34,10 @@ export default React.createClass({
             Beispiel: Schreiben Sie "eisvogel", wird auch "Eisvogel" gefunden</li>
           <li>Sie können nach einem Teil des Feldinhalts filtern (wenn Sie keine Vergleichsoperatoren verwenden) <br/>
             Beispiel: Schreiben Sie "Vogel", wird auch "Eisvogel" gefunden</li>
-          <li>Sie können die folgenden <strong>Vergleichsoperatoren</strong> verwenden: <strong>"&#61;", "&#62;", "&#62;&#61;", "&#60;", "&#60;&#61;"</strong><br/>
+          <li>Sie können die folgenden <strong>Vergleichsoperatoren</strong> im jeweils linken Feld verwenden:<br/>
             Beispiel 1: Schreiben Sie im Feld "Artwert" "&#62;5", werden Arten mit Artwert ab 6 gefunden<br/>
             Beispiel 2: Schreiben Sie "&#61;Vogel", wird "Vogel" gefunden, nicht aber "Eisvogel"</li>
+          <li>Klicken Sie auf unterstrichene Namen um zu sehen, in welchen Gruppen und in wievielen Objekten die Eigenschaft vorkommt</li>
           <li>Was (noch) NICHT funktioniert: Wenn Sie nach zwei oder mehr Eigenschaften derselben Beziehungssammlung filtern und eines davon ist "Beziehungspartner", erhalten Sie zuviele Resultate.<br/>
             Filtern Sie hier also bloss nach einer Eigenschaft und im exportierten Resultat nach der zweiten</li>
         </ul>

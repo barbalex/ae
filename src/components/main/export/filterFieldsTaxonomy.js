@@ -3,6 +3,7 @@
 import React from 'react'
 import { Input } from 'react-bootstrap'
 import SelectComparisonOperator from './selectComparisonOperator.js'
+import InfoButtonAfter from './infoButtonAfter.js'
 
 export default React.createClass({
   displayName: 'FilterFieldsTaxonomy',
@@ -28,17 +29,19 @@ export default React.createClass({
       const title = <h5>{cNameKey}</h5>
       collection.push(title)
       const fields = Object.keys(cNameObject).map((fNameKey, fIndex) => {
-        const fNameKeyObject = cNameObject[fNameKey]
+        const fNameObject = cNameObject[fNameKey]
         const selectComparisonOperator = <SelectComparisonOperator cNameKey={cNameKey} fNameKey={fNameKey} onChangeCoSelect={onChangeCoSelect} />
+        const buttonAfter = <InfoButtonAfter fNameObject={fNameObject} />
         return (
           <Input
             key={fIndex}
-            type={fNameKeyObject.fType}
+            type={fNameObject.fType}
             label={fNameKey}
             bsSize='small'
             className={'controls'}
             onBlur={this.onBlur.bind(this, cNameKey, fNameKey)}
-            buttonBefore={selectComparisonOperator} />
+            buttonBefore={selectComparisonOperator}
+            buttonAfter={buttonAfter} />
         )
       })
       collection.push(

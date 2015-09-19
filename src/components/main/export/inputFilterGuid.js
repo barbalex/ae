@@ -41,10 +41,8 @@ export default React.createClass({
     }
     return (
       <div className='form-group' style={divStyle}>
-        <OverlayTrigger trigger='click' rootClose placement='right' overlay={this.popover()}>
-          <OverlayTrigger trigger={['hover', 'focus']} placement='right' overlay={this.popover()}>
-            <label className='control-label withPopover'>GUID</label>
-          </OverlayTrigger>
+        <OverlayTrigger trigger={['click', 'focus']} rootClose placement='right' overlay={this.popover()}>
+          <label className='control-label withPopover'>GUID</label>
         </OverlayTrigger>
         <input type='textarea' className='controls input-sm form-control' onBlur={this.onBlur.bind(this, 'object', '_id')} />
       </div>

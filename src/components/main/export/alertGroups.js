@@ -36,7 +36,7 @@ export default React.createClass({
       marginTop: 8,
       marginBottom: 0
     }
-    const showFirstTime = fieldsQuerying && Object.keys(taxonomyFields).length === 0
+    const showFirstTime = fieldsQuerying && bsStyle === 'info'
     return (
       <Alert bsStyle={bsStyle} style={style}>
         <p>{resultText}</p>

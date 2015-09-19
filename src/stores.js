@@ -471,7 +471,6 @@ export default (Actions) => {
       this.getFields()
         .then((allFields) => {
           taxonomyFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'taxonomy', taxonomienZusammenfassen)
-          console.log('fieldsStore, onQueryFields, fields from local, taxonomyFields', taxonomyFields)
           pcFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'propertyCollection')
           relationFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'relation')
           if (!group) {
