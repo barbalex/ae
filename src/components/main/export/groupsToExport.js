@@ -8,7 +8,7 @@ export default React.createClass({
   displayName: 'GroupsToExport',
 
   propTypes: {
-    groupsLoadedOrLoading: React.PropTypes.array,
+    groupsLoaded: React.PropTypes.array,
     groupsToExport: React.PropTypes.array,
     onChangeGroupsToExport: React.PropTypes.func
   },
@@ -20,9 +20,9 @@ export default React.createClass({
   },
 
   render () {
-    const { groupsToExport, groupsLoadedOrLoading } = this.props
+    const { groupsToExport, groupsLoaded } = this.props
 
-    const groupCheckboxes = groupsLoadedOrLoading.map((group, index) => {
+    const groupCheckboxes = groupsLoaded.map((group, index) => {
       const checked = _.includes(groupsToExport, group)
       return <Input key={index} type='checkbox' label={group} checked={checked} onChange={this.onChangeGroup.bind(this, group)} />
     })

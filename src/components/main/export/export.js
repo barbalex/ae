@@ -20,6 +20,7 @@ export default React.createClass({
 
   propTypes: {
     groupsToExport: React.PropTypes.array,
+    groupsLoadingObjects: React.PropTypes.array,
     fieldsQuerying: React.PropTypes.bool,
     fieldsQueryingError: React.PropTypes.string,
     errorBuildingFields: React.PropTypes.string,
@@ -131,10 +132,12 @@ export default React.createClass({
   },
 
   render () {
-    const { groupsLoadedOrLoading, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields } = this.props
+    const { groupsLoadedOrLoading, groupsLoadingObjects, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields } = this.props
     const { groupsToExport, taxonomienZusammenfassen, errorBuildingFields, activePanel, exportFilters } = this.state
     const showAlertLoadGroups = groupsLoadedOrLoading.length === 0
     const showAlertGroups = groupsToExport.length > 0 && !showAlertLoadGroups
+    const groupsLoading = _.pluck(groupsLoadingObjects, 'group')
+    const groupsLoaded = _.difference(groupsLoadedOrLoading, groupsLoading)
 
     // TODO: build fields from fields state
     return (
@@ -146,7 +149,7 @@ export default React.createClass({
             {!showAlertLoadGroups ? <WellSoGehtsGruppeWaehlen /> : null}
             {!showAlertLoadGroups ?
               <GroupsToExport
-                groupsLoadedOrLoading={groupsLoadedOrLoading}
+                groupsLoaded={groupsLoaded}
                 groupsToExport={groupsToExport}
                 onChangeGroupsToExport={this.onChangeGroupsToExport} />
               : null

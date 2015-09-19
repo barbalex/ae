@@ -107,6 +107,7 @@ export default React.createClass({
           {showExportieren ?
             <Export
               groupsLoadedOrLoading={groupsLoadedOrLoading}
+              groupsLoadingObjects={groupsLoadingObjects}
               fieldsQuerying={fieldsQuerying}
               fieldsQueryingError={fieldsQueryingError}
               taxonomyFields={taxonomyFields}
