@@ -2,7 +2,7 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import { Accordion, Panel, Input } from 'react-bootstrap'
+import { Accordion, Panel } from 'react-bootstrap'
 import _ from 'lodash'
 import WellSoGehtsGruppeWaehlen from './wellSoGehtsGruppeWaehlen.js'
 import GroupsToExport from './groupsToExport.js'
@@ -205,6 +205,7 @@ export default React.createClass({
           </Panel>
 
           <Panel className='exportFields' collapsible header='2. filtern' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
+
             <WellSoGehtsFiltern />
             <WellTippsTricksFiltern />
             <h3>Art / Lebensraum</h3>
