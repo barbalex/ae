@@ -53,7 +53,7 @@ export default React.createClass({
     rcs: React.PropTypes.array,
     rcsQuerying: React.PropTypes.bool,
     fieldsQuerying: React.PropTypes.bool,
-    fieldsQueryingError: React.PropTypes.bool,
+    fieldsQueryingError: React.PropTypes.object,
     taxonomyFields: React.PropTypes.object,
     pcFields: React.PropTypes.object,
     relationFields: React.PropTypes.object

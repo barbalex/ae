@@ -23,7 +23,7 @@ export default React.createClass({
     groupsToExport: React.PropTypes.array,
     groupsLoadingObjects: React.PropTypes.array,
     fieldsQuerying: React.PropTypes.bool,
-    fieldsQueryingError: React.PropTypes.string,
+    fieldsQueryingError: React.PropTypes.object,
     errorBuildingFields: React.PropTypes.string,
     taxonomyFields: React.PropTypes.object,
     pcFields: React.PropTypes.object,

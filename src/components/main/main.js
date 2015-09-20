@@ -30,7 +30,7 @@ export default React.createClass({
     showImportRc: React.PropTypes.bool,
     showExportieren: React.PropTypes.bool,
     fieldsQuerying: React.PropTypes.bool,
-    fieldsQueryingError: React.PropTypes.string,
+    fieldsQueryingError: React.PropTypes.object,
     taxonomyFields: React.PropTypes.object,
     pcFields: React.PropTypes.object,
     relationFields: React.PropTypes.object,

@@ -9,7 +9,7 @@ export default React.createClass({
   propTypes: {
     taxonomienZusammenfassen: React.PropTypes.bool,
     fieldsQuerying: React.PropTypes.bool,
-    fieldsQueryingError: React.PropTypes.string,
+    fieldsQueryingError: React.PropTypes.object,
     taxonomyFields: React.PropTypes.object
   },
 
@@ -29,7 +29,7 @@ export default React.createClass({
     }
     if (fieldsQueryingError) {
       bsStyle = 'danger'
-      resultText = 'Fehler: ' + fieldsQueryingError
+      resultText = 'Fehler: ' + JSON.stringify(fieldsQueryingError)
       taxonomienZusammenfassenText = null
     }
     const style = {
