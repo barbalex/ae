@@ -32,7 +32,9 @@ export default React.createClass({
     taxonomienZusammenfassen: React.PropTypes.bool,
     activePanel: React.PropTypes.number,
     exportFilters: React.PropTypes.object,
-    exportFields: React.PropTypes.object
+    exportFields: React.PropTypes.object,
+    pcs: React.PropTypes.array,
+    rcs: React.PropTypes.array
   },
 
   /**
@@ -165,7 +167,7 @@ export default React.createClass({
   },
 
   render () {
-    const { groupsLoadedOrLoading, groupsLoadingObjects, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields } = this.props
+    const { groupsLoadedOrLoading, groupsLoadingObjects, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, pcs, rcs } = this.props
     const { groupsToExport, taxonomienZusammenfassen, errorBuildingFields, activePanel, exportFilters } = this.state
     const showAlertLoadGroups = groupsLoadedOrLoading.length === 0
     const showAlertGroups = groupsToExport.length > 0 && !showAlertLoadGroups
@@ -216,10 +218,12 @@ export default React.createClass({
               onChangeCoSelect={this.onChangeCoSelect} />
             <FilterFieldsPCs
               pcFields={pcFields}
+              pcs={pcs}
               onChangeFilterField={this.onChangeFilterField}
               onChangeCoSelect={this.onChangeCoSelect} />
             <FilterFieldsRCs
               relationFields={relationFields}
+              rcs={rcs}
               onChangeFilterField={this.onChangeFilterField}
               onChangeCoSelect={this.onChangeCoSelect} />
 

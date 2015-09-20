@@ -1,9 +1,12 @@
 'use strict'
 
+import app from 'ampersand-app'
 import React from 'react'
 import { Input } from 'react-bootstrap'
+import _ from 'lodash'
 import SelectComparisonOperator from './selectComparisonOperator.js'
 import InfoButtonAfter from './infoButtonAfter.js'
+import PcDescription from '../pcDescription.js'
 
 export default React.createClass({
   displayName: 'FilterFieldsPcs',
@@ -11,7 +14,13 @@ export default React.createClass({
   propTypes: {
     pcFields: React.PropTypes.object,
     onChangeFilterField: React.PropTypes.func,
-    onChangeCoSelect: React.PropTypes.func
+    onChangeCoSelect: React.PropTypes.func,
+    pcs: React.PropTypes.array
+  },
+
+  componentDidMount () {
+    // make sure, pcs are queried
+    app.Actions.queryPropertyCollections()
   },
 
   onBlur (cName, fName, event) {
@@ -20,11 +29,12 @@ export default React.createClass({
   },
 
   render () {
-    const { pcFields, onChangeCoSelect } = this.props
+    const { pcFields, onChangeCoSelect, pcs } = this.props
 
     const collections = Object.keys(pcFields).map((cNameKey, cIndex) => {
       const showLine = cIndex < Object.keys(pcFields).length
       const cNameObject = pcFields[cNameKey]
+      const pc = _.find(pcs, (pc) => pc.name === cNameKey)
       const fields = Object.keys(cNameObject).map((fNameKey, fIndex) => {
         const fNameObject = cNameObject[fNameKey]
         const selectComparisonOperator = <SelectComparisonOperator cNameKey={cNameKey} fNameKey={fNameKey} onChangeCoSelect={onChangeCoSelect} />
@@ -44,6 +54,7 @@ export default React.createClass({
       const collection = (
         <div className='felderspalte'>
           <h5>{cNameKey}</h5>
+          <PcDescription pc={pc} />
           {fields}
         </div>
       )

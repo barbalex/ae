@@ -106,7 +106,6 @@ export default React.createClass({
       zusammenfassend: null,
       nameUrsprungsBs: null,
       bsBearbeitenErlaubt: true,
-      rcs: [],
       rcsToImport: [],
       rcsRemoved: false,
       idsOfAeObjects: [],
@@ -139,7 +138,6 @@ export default React.createClass({
   },
 
   componentDidMount () {
-    this.listenTo(app.relationCollectionsStore, this.onChangeRelationCollectionsStore)
     this.listenTo(app.objectsRcsStore, this.onChangeObjectsRcsStore)
     // show login of not logged in
     const { email } = this.props
@@ -152,10 +150,6 @@ export default React.createClass({
     }
     // get relation collections
     app.Actions.queryRelationCollections()
-  },
-
-  onChangeRelationCollectionsStore (rcs) {
-    this.setState({ rcs })
   },
 
   onChangeObjectsRcsStore (state) {
@@ -517,8 +511,7 @@ export default React.createClass({
   },
 
   isEditingRcAllowed (name) {
-    const { rcs } = this.state
-    const { email } = this.props
+    const { email, rcs } = this.props
     // set editing allowed to true
     // reason: close alert if it is still shown from last select
     this.setState({ bsBearbeitenErlaubt: true })
@@ -588,8 +581,8 @@ export default React.createClass({
   },
 
   render () {
-    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsBs, bsBearbeitenErlaubt, rcsToImport, rcsRemoved, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsBs, validRcsToImport, activePanel, idsAeIdField, idsImportIdField, rcs, idsNumberOfRecordsWithIdValue, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, panel3Done, importingProgress, deletingRcInstancesProgress, deletingRcProgress, idsWithoutPartner, rPartnerIdsToImport, rPartnerIdsImportable } = this.state
-    const { groupsLoadedOrLoading, email, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime } = this.props
+    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsBs, bsBearbeitenErlaubt, rcsToImport, rcsRemoved, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsBs, validRcsToImport, activePanel, idsAeIdField, idsImportIdField, idsNumberOfRecordsWithIdValue, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, panel3Done, importingProgress, deletingRcInstancesProgress, deletingRcProgress, idsWithoutPartner, rPartnerIdsToImport, rPartnerIdsImportable } = this.state
+    const { groupsLoadedOrLoading, email, rcs, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime } = this.props
     const showLoadAllGroups = email && !allGroupsLoaded
     const showAlertDeleteRcBuildingIndex = deletingRcProgress && deletingRcProgress < 100
     const alertAllGroupsBsStyle = ultimatelyAlertLoadAllGroups ? 'danger' : 'info'

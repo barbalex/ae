@@ -104,7 +104,6 @@ export default React.createClass({
       zusammenfassend: null,
       nameUrsprungsEs: null,
       esBearbeitenErlaubt: true,
-      pcs: [],
       pcsToImport: [],
       pcsRemoved: false,
       idsOfAeObjects: [],
@@ -135,7 +134,6 @@ export default React.createClass({
   },
 
   componentDidMount () {
-    this.listenTo(app.propertyCollectionsStore, this.onChangePropertyCollectionsStore)
     this.listenTo(app.objectsPcsStore, this.onChangeObjectsPcsStore)
     // show login of not logged in
     const { email } = this.props
@@ -148,10 +146,6 @@ export default React.createClass({
     }
     // get property collections
     app.Actions.queryPropertyCollections()
-  },
-
-  onChangePropertyCollectionsStore (pcs) {
-    this.setState({ pcs })
   },
 
   onChangeObjectsPcsStore (state) {
@@ -456,8 +450,7 @@ export default React.createClass({
   },
 
   isEditingPcAllowed (name) {
-    const { pcs } = this.state
-    const { email } = this.props
+    const { email, pcs } = this.props
     // set editing allowed to true
     // reason: close alert if it is still shown from last select
     this.setState({ esBearbeitenErlaubt: true })
@@ -527,8 +520,8 @@ export default React.createClass({
   },
 
   render () {
-    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, pcsToImport, pcsRemoved, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs, validPcsToImport, activePanel, idsAeIdField, idsImportIdField, pcs, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, panel3Done, importingProgress, deletingPcInstancesProgress, deletingPcProgress } = this.state
-    const { groupsLoadedOrLoading, email, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime } = this.props
+    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, pcsToImport, pcsRemoved, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs, validPcsToImport, activePanel, idsAeIdField, idsImportIdField, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, panel3Done, importingProgress, deletingPcInstancesProgress, deletingPcProgress } = this.state
+    const { groupsLoadedOrLoading, email, pcs, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime } = this.props
     const showLoadAllGroups = email && !allGroupsLoaded
     const showAlertDeletePcBuildingIndex = deletingPcProgress && deletingPcProgress < 100
     const alertAllGroupsBsStyle = ultimatelyAlertLoadAllGroups ? 'danger' : 'info'

@@ -24,6 +24,8 @@ export default React.createClass({
   propTypes: {
     object: React.PropTypes.object,
     synonymObjects: React.PropTypes.array,
+    pcs: React.PropTypes.array,
+    rcs: React.PropTypes.array,
     showImportPc: React.PropTypes.bool,
     showImportRc: React.PropTypes.bool,
     showExportieren: React.PropTypes.bool,
@@ -70,7 +72,7 @@ export default React.createClass({
   },
 
   render () {
-    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, synonymObjects, showImportPc, showImportRc, showExportieren, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, showOrganizations, email, replicatingToAe, replicatingToAeTime } = this.props
+    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, synonymObjects, pcs, rcs, showImportPc, showImportRc, showExportieren, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, showOrganizations, email, replicatingToAe, replicatingToAeTime } = this.props
     const { formClassNames, errors } = this.state
     const showObject = object !== undefined
 
@@ -87,6 +89,7 @@ export default React.createClass({
           {showImportPc ?
             <ImportPc
               email={email}
+              pcs={pcs}
               groupsLoadedOrLoading={groupsLoadedOrLoading}
               groupsLoadingObjects={groupsLoadingObjects}
               allGroupsLoaded={allGroupsLoaded}
@@ -97,12 +100,13 @@ export default React.createClass({
           {showImportRc ?
             <ImportRc
               email={email}
+              rcs={rcs}
               groupsLoadedOrLoading={groupsLoadedOrLoading}
               groupsLoadingObjects={groupsLoadingObjects}
               allGroupsLoaded={allGroupsLoaded}
               replicatingToAe={replicatingToAe}
               replicatingToAeTime={replicatingToAeTime} />
-            : ''
+            : null
           }
           {showExportieren ?
             <Export
@@ -112,7 +116,9 @@ export default React.createClass({
               fieldsQueryingError={fieldsQueryingError}
               taxonomyFields={taxonomyFields}
               pcFields={pcFields}
-              relationFields={relationFields} />
+              relationFields={relationFields}
+              pcs={pcs}
+              rcs={rcs} />
             : null
           }
           {showOrganizations ?

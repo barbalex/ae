@@ -48,7 +48,9 @@ export default React.createClass({
     replicatingToAeTime: React.PropTypes.string,
     replicatingFromAe: React.PropTypes.string,
     replicatingFromAeTime: React.PropTypes.string,
+    pcs: React.PropTypes.array,
     pcsQuerying: React.PropTypes.bool,
+    rcs: React.PropTypes.array,
     rcsQuerying: React.PropTypes.bool,
     fieldsQuerying: React.PropTypes.bool,
     fieldsQueryingError: React.PropTypes.bool,
@@ -89,7 +91,9 @@ export default React.createClass({
       replicatingToAeTime: null,
       replicatingFromAe: null,
       replicatingFromAeTime: null,
+      pcs: [],
       pcsQuerying: false,
+      rcs: [],
       rcsQuerying: false,
       fieldsQuerying: false,
       fieldsQueryingError: null,
@@ -114,6 +118,16 @@ export default React.createClass({
     this.listenTo(app.propertyCollectionsStore, this.onChangePropertyCollectionsStore)
     this.listenTo(app.relationCollectionsStore, this.onChangeRelationCollectionsStore)
     this.listenTo(app.fieldsStore, this.onChangeFieldsStore)
+    this.listenTo(app.propertyCollectionsStore, this.onChangePropertyCollectionsStore)
+    this.listenTo(app.relationCollectionsStore, this.onChangeRelationCollectionsStore)
+  },
+
+  onChangeRelationCollectionsStore (rcs) {
+    this.setState({ rcs })
+  },
+
+  onChangePropertyCollectionsStore (pcs) {
+    this.setState({ pcs })
   },
 
   onChangePropertyCollectionsStore (pcs, pcsQuerying) {
@@ -217,7 +231,7 @@ export default React.createClass({
   },
 
   render () {
-    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, showImportPc, showImportRc, showExportieren, showOrganizations, logIn, email, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, pcsQuerying, rcsQuerying, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields } = this.state
+    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, showImportPc, showImportRc, showExportieren, showOrganizations, logIn, email, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, pcs, rcs, pcsQuerying, rcsQuerying, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields } = this.state
     const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
     const showGruppen = groupsNotLoaded.length > 0
     const showFilter = filterOptions.length > 0 || loadingFilterOptions
@@ -275,6 +289,8 @@ export default React.createClass({
             groupsLoadedOrLoading={groupsLoadedOrLoading}
             groupsLoadingObjects={groupsLoadingObjects}
             synonymObjects={synonymObjects}
+            pcs={pcs}
+            rcs={rcs}
             showImportPc={showImportPc}
             showImportRc={showImportRc}
             showExportieren={showExportieren}
