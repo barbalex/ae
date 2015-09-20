@@ -9,7 +9,7 @@ import React from 'react'
 import { Accordion, Panel } from 'react-bootstrap'
 import _ from 'lodash'
 import replaceInvalidCharactersInIdNames from '../../../modules/replaceInvalidCharactersInIdNames.js'
-import PropertyCollectionDescription from './propertyCollectionDescription.js'
+import PcDescription from '../pcDescription.js'
 import LinkToSameGroup from './linkToSameGroup.js'
 import LinksToSameGroup from './linksToSameGroup.js'
 import FieldInput from './fieldInput.js'
@@ -98,7 +98,7 @@ export default React.createClass({
       <Accordion>
         <Panel header={propertyCollection.Name} eventKey='1'>
           {showEditToobar ? editToolbar : ''}
-          {showPcDescription ? <PropertyCollectionDescription pc={propertyCollection} /> : ''}
+          {showPcDescription ? <PcDescription pc={propertyCollection} /> : ''}
           <div>
             {pcType === 'Taxonomie' ? <Field fieldName={'GUID'} fieldValue={object._id} pcType={pcType} pcName={pcName} /> : ''}
             {properties}

@@ -10,7 +10,7 @@
 import React from 'react'
 
 export default React.createClass({
-  displayName: 'PropertyCollectionDescription',
+  displayName: 'PcDescription',
 
   propTypes: {
     pc: React.PropTypes.object,
@@ -88,7 +88,7 @@ export default React.createClass({
     if (pc.Datenstand || pc.Nutzungsbedingungen || pc.Link || (pc.zusammenfassend && pc.Ursprungsdatensammlung)) {
       mehr = (
         <span>
-          {<a href='#' onClick={this.onClick} className='showNextHidden'>{pc.Beschreibung ? (isVisible ? '..weniger' : '...mehr') : 'Beschreibung der Datensammlung anzeigen'}</a>}
+          {<a href='#' onClick={this.onClick} className='showNextHidden'>{pc.Beschreibung ? (isVisible ? '...weniger' : '...mehr') : 'Beschreibung der Datensammlung anzeigen'}</a>}
           <div style={{display: isVisible ? 'block' : 'none'}}>
             {pc.Datenstand ? datenstand : ''}
             {pc.Nutzungsbedingungen ? nutzunbsbedingungen : ''}
@@ -103,7 +103,7 @@ export default React.createClass({
     return (
       <div>
         <div className='Datensammlung beschreibungDatensammlung'>
-          <span style={{marginRight: 3 + 'px'}}>{pc.Beschreibung}</span>
+          <span style={{marginRight: 3}}>{pc.Beschreibung}</span>
           {mehr}
         </div>
       </div>
