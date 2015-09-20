@@ -2,7 +2,7 @@
  * when the property or relation collection's properties are shown in the form
  * the user sees a short description of the property collection at the top
  * the user can expand this description
- * this component creates this description
+ * this component creates it
  */
 
 'use strict'

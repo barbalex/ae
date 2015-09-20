@@ -25,9 +25,6 @@ export default React.createClass({
     const collections = Object.keys(pcFields).map((cNameKey, cIndex) => {
       const showLine = cIndex < Object.keys(pcFields).length
       const cNameObject = pcFields[cNameKey]
-      let collection = []
-      const title = <h5>{cNameKey}</h5>
-      collection.push(title)
       const fields = Object.keys(cNameObject).map((fNameKey, fIndex) => {
         const fNameObject = cNameObject[fNameKey]
         const selectComparisonOperator = <SelectComparisonOperator cNameKey={cNameKey} fNameKey={fNameKey} onChangeCoSelect={onChangeCoSelect} />
@@ -44,8 +41,9 @@ export default React.createClass({
             buttonAfter={buttonAfter} />
         )
       })
-      collection.push(
+      const collection = (
         <div className='felderspalte'>
+          <h5>{cNameKey}</h5>
           {fields}
         </div>
       )
