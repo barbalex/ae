@@ -104,7 +104,7 @@ export default React.createClass({
       relationFields: {},
       // if true: get index calls from remoteDb
       // if false: query localDb
-      offlineIndexes: true
+      offlineIndexes: false
     }
   },
 
