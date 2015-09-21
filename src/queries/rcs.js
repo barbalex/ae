@@ -2,6 +2,9 @@
  * creates a design doc and puts it into the localDb
  * then queries it with the provided options
  * then returns an object for every relation collection
+ *
+ * if offlineIndexes is true: queries from remote and does not create design doc
+ * 
  * no es6 in ddocs!
  */
 
@@ -40,6 +43,11 @@ const queryOptions = {
   group_level: 4,
   reduce: '_count'
 }
+// don't understand why but passing reduce
+// produces an error in couch
+const queryOptionsCouch = {
+  group_level: 4
+}
 
 const query = {
   local () {
@@ -56,7 +64,7 @@ const query = {
   },
   remote () {
     return new Promise((resolve, reject) => {
-      app.remoteDb.query('rcs', queryOptions)
+      app.remoteDb.query('rcs', queryOptionsCouch)
         .then((result) => resolve(result))
         .catch((error) => reject(error))
     })

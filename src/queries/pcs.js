@@ -2,6 +2,9 @@
  * creates a design doc and puts it into the localDb
  * then queries it with the provided options
  * then returns an object for every property collection
+ *
+ * if offlineIndexes is true: queries from remote and does not create design doc
+ * 
  * no es6 in ddocs!
  */
 
@@ -36,9 +39,14 @@ const ddoc = {
   }
 }
 
-const queryOptions = {
+const queryOptionsPouch = {
   group_level: 4,
   reduce: '_count'
+}
+// don't understand why but passing reduce
+// produces an error in couch
+const queryOptionsCouch = {
+  group_level: 4
 }
 
 const query = {
@@ -49,14 +57,14 @@ const query = {
           // ignore if doc already exists
           if (error.status !== 409) reject(error)
         })
-        .then((response) => app.localDb.query('pcs', queryOptions))
+        .then((response) => app.localDb.query('pcs', queryOptionsPouch))
         .then((result) => resolve(result))
         .catch((error) => reject(error))
     })
   },
   remote () {
     return new Promise((resolve, reject) => {
-      app.remoteDb.query('pcs', queryOptions)
+      app.remoteDb.query('pcs', queryOptionsCouch)
         .then((result) => resolve(result))
         .catch((error) => reject(error))
     })
@@ -68,7 +76,6 @@ export default (offlineIndexes) => {
   return new Promise((resolve, reject) => {
     query[db]()
       .then((result) => {
-        console.log('pcs.js, result', result)
         const rows = result.rows
         const uniqueRows = _.uniq(rows, (row) => row.key[0])
         let pcs = uniqueRows.map((row) => ({
