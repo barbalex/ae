@@ -185,7 +185,7 @@ export default (Actions) => {
       app.fieldsStore.emptyFields()
     },
 
-    onDeletePcByName (name) {
+    onDeletePcByName (name, offlineIndexes) {
       /**
        * gets name of pc
        * removes pc's with this name from all objects
@@ -197,7 +197,7 @@ export default (Actions) => {
       let deletingPcProgress = null
       let nameBestehend = name
       this.trigger({ idsOfAeObjects, deletingPcProgress, nameBestehend })
-      objectsIdsByPcsName(name)
+      objectsIdsByPcsName(name, offlineIndexes)
         .then((ids) => {
           idsOfAeObjects = ids
           ids.forEach((id, index) => {
@@ -345,7 +345,7 @@ export default (Actions) => {
       app.fieldsStore.emptyFields()
     },
 
-    onDeleteRcByName (name) {
+    onDeleteRcByName (name, offlineIndexes) {
       /**
        * gets name of rc
        * removes rc's with this name from all objects
@@ -357,7 +357,7 @@ export default (Actions) => {
       let deletingRcProgress = null
       let nameBestehend = name
       this.trigger({ idsOfAeObjects, deletingRcProgress, nameBestehend })
-      objectsIdsByRcsName(name)
+      objectsIdsByRcsName(name, offlineIndexes)
         .then((ids) => {
           idsOfAeObjects = ids
           ids.forEach((id, index) => {

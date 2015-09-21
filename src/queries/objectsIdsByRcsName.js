@@ -3,6 +3,9 @@
  * then queries it with the provided options
  * then returns a list of guids of relation collections
  * that contain the pc with the name
+ *
+ * if offlineIndexes is true: queries from remote and does not create design doc
+ * 
  * no es6 in ddocs!
  */
 
@@ -11,36 +14,54 @@
 import app from 'ampersand-app'
 import _ from 'lodash'
 
-export default (name) => {
-  return new Promise((resolve, reject) => {
-    const ddoc = {
-      _id: '_design/objectsIdsByRcsName',
-      views: {
-        'objectsIdsByRcsName': {
-          map: function (doc) {
-            if (doc.Typ && doc.Typ === 'Objekt') {
-              if (doc.Beziehungssammlungen) {
-                doc.Beziehungssammlungen.forEach(function (rc) {
-                  emit(rc.Name, doc._id)
-                })
-              }
-            }
-          }.toString()
+const ddoc = {
+  _id: '_design/objectsIdsByRcsName',
+  views: {
+    'objectsIdsByRcsName': {
+      map: function (doc) {
+        if (doc.Typ && doc.Typ === 'Objekt') {
+          if (doc.Beziehungssammlungen) {
+            doc.Beziehungssammlungen.forEach(function (rc) {
+              emit(rc.Name, doc._id)
+            })
+          }
         }
-      }
+      }.toString()
     }
+  }
+}
 
-    app.localDb.put(ddoc)
-      .catch((error) => {
-        // ignore if doc already exists
-        if (error.status !== 409) reject(error)
+// TODO: offlineIndexes
+export default (name, offlineIndexes) => {
+  const queryOptions = {
+    key: name
+  }
+
+  const query = {
+    local () {
+      return new Promise((resolve, reject) => {
+        app.localDb.put(ddoc)
+          .catch((error) => {
+            // ignore if doc already exists
+            if (error.status !== 409) reject(error)
+          })
+          .then((response) => app.localDb.query('objectsIdsByRcsName', queryOptions))
+          .then((result) => resolve(result))
+          .catch((error) => reject(error))
       })
-      .then((response) => {
-        const options = {
-          key: name
-        }
-        return app.localDb.query('objectsIdsByRcsName', options)
+    },
+    remote () {
+      return new Promise((resolve, reject) => {
+        app.remoteDb.query('artendb/aeObjectsIdsByRcsName', queryOptions)
+          .then((result) => resolve(result))
+          .catch((error) => reject(error))
       })
+    }
+  }
+
+  const db = offlineIndexes ? 'local' : 'remote'
+  return new Promise((resolve, reject) => {
+    query[db]
       .then((result) => {
         const ids = _.pluck(result.rows, 'id')
         resolve(ids)

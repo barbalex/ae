@@ -12,74 +12,89 @@
 import app from 'ampersand-app'
 import _ from 'lodash'
 
-export default (group) => {
-  return new Promise((resolve, reject) => {
-    const ddoc = {
-      _id: '_design/fieldsOfGroup',
-      views: {
-        'fieldsOfGroup': {
-          map: function (doc) {
-            if (doc.Gruppe && doc.Typ && doc.Typ === 'Objekt') {
+const ddoc = {
+  _id: '_design/fieldsOfGroup',
+  views: {
+    'fieldsOfGroup': {
+      map: function (doc) {
+        if (doc.Gruppe && doc.Typ && doc.Typ === 'Objekt') {
 
-              if (doc.Taxonomien && doc.Taxonomien[0] && doc.Taxonomien[0].Eigenschaften) {
-                var eigenschaften = doc.Taxonomien[0].Eigenschaften
+          if (doc.Taxonomien && doc.Taxonomien[0] && doc.Taxonomien[0].Eigenschaften) {
+            var eigenschaften = doc.Taxonomien[0].Eigenschaften
+            Object.keys(eigenschaften).forEach(function (feldname) {
+              var feldwert = eigenschaften[feldname]
+              emit([doc.Gruppe, 'taxonomy', doc.Taxonomie.Name, feldname, typeof feldwert], doc._id)
+            })
+          }
+
+          if (doc.Eigenschaftensammlungen) {
+            doc.Eigenschaftensammlungen.forEach(function (pc) {
+              if (pc.Eigenschaften) {
+                var eigenschaften = pc.Eigenschaften
                 Object.keys(eigenschaften).forEach(function (feldname) {
                   var feldwert = eigenschaften[feldname]
-                  emit([doc.Gruppe, 'taxonomy', doc.Taxonomie.Name, feldname, typeof feldwert], doc._id)
+                  emit([doc.Gruppe, 'propertyCollection', pc.Name, feldname, typeof feldwert], doc._id)
                 })
               }
+            })
+          }
 
-              if (doc.Eigenschaftensammlungen) {
-                doc.Eigenschaftensammlungen.forEach(function (pc) {
-                  if (pc.Eigenschaften) {
-                    var eigenschaften = pc.Eigenschaften
-                    Object.keys(eigenschaften).forEach(function (feldname) {
-                      var feldwert = eigenschaften[feldname]
-                      emit([doc.Gruppe, 'propertyCollection', pc.Name, feldname, typeof feldwert], doc._id)
-                    })
-                  }
+          if (doc.Beziehungssammlungen && doc.Beziehungssammlungen.length > 0) {
+            doc.Beziehungssammlungen.forEach(function (beziehungssammlung) {
+              if (beziehungssammlung.Beziehungen && beziehungssammlung.Beziehungen.length > 0) {
+                beziehungssammlung.Beziehungen.forEach(function (beziehung) {
+                  Object.keys(beziehung).forEach(function (feldname) {
+                    var feldwert = beziehung[feldname]
+                    // irgendwie liefert dieser Loop auch Zahlen, die aussehen als wären sie die keys eines Arrays. Ausschliessen
+                    if (isNaN(parseInt(feldname, 10))) {
+                      // jetzt loopen wir durch die Daten der Beziehung
+                      emit([doc.Gruppe, 'relation', beziehungssammlung.Name, feldname, typeof feldwert], doc._id)
+                    }
+                  })
                 })
               }
+            })
+          }
 
-              if (doc.Beziehungssammlungen && doc.Beziehungssammlungen.length > 0) {
-                doc.Beziehungssammlungen.forEach(function (beziehungssammlung) {
-                  if (beziehungssammlung.Beziehungen && beziehungssammlung.Beziehungen.length > 0) {
-                    beziehungssammlung.Beziehungen.forEach(function (beziehung) {
-                      Object.keys(beziehung).forEach(function (feldname) {
-                        var feldwert = beziehung[feldname]
-                        // irgendwie liefert dieser Loop auch Zahlen, die aussehen als wären sie die keys eines Arrays. Ausschliessen
-                        if (isNaN(parseInt(feldname, 10))) {
-                          // jetzt loopen wir durch die Daten der Beziehung
-                          emit([doc.Gruppe, 'relation', beziehungssammlung.Name, feldname, typeof feldwert], doc._id)
-                        }
-                      })
-                    })
-                  }
-                })
-              }
-
-            }
-          }.toString(),
-          reduce: '_count'
         }
+      }.toString(),
+      reduce: '_count'
+    }
+  }
+}
+
+export default (group, offlineIndexes) => {
+  return new Promise((resolve, reject) => {
+    const queryOptions = {
+      group_level: 5,
+      start_key: [group],
+      end_key: [group, {}, {}, {}, {}],
+      reduce: '_count'
+    }
+    const query = {
+      local () {
+        return new Promise((resolve, reject) => {
+          app.localDb.put(ddoc)
+            .catch((error) => {
+              // ignore if doc already exists
+              if (error.status !== 409) reject(error)
+            })
+            .then((response) => app.localDb.query('fieldsOfGroup', queryOptions))
+            .then((result) => resolve(result))
+            .catch((error) => reject(error))
+        })
+      },
+      remote () {
+        return new Promise((resolve, reject) => {
+          app.remoteDb.query('artendb/aeFieldsOfGroup', queryOptions)
+            .then((result) => resolve(result))
+            .catch((error) => reject(error))
+        })
       }
     }
+    const db = offlineIndexes ? 'local' : 'remote'
 
-    app.localDb.put(ddoc)
-      .catch((error) => {
-        // ignore if doc already exists
-        if (error.status !== 409) reject(error)
-      })
-      .then((response) => {
-        // console.log('fieldsOfGroup: response from putting ddoc')
-        const options = {
-          group_level: 5,
-          start_key: [group],
-          end_key: [group, {}, {}, {}, {}],
-          reduce: '_count'
-        }
-        return app.localDb.query('fieldsOfGroup', options)
-      })
+    query[db]
       .then((result) => {
         // console.log('fieldsOfGroup.js, result', result)
         const rows = result.rows

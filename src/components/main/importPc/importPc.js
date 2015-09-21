@@ -362,12 +362,13 @@ export default React.createClass({
   },
 
   onClickDeletePc () {
-    const { name, idsOfAeObjects } = this.state
+    const { name } = this.state
+    const { offlineIndexes } = this.props
     // first remove progressbar and alert from last import
     const importingProgress = null
     const pcsRemoved = false
     const deletingPcProgress = 0
-    this.setState({ importingProgress, pcsRemoved, deletingPcProgress }, () => app.Actions.deletePcByName(name, idsOfAeObjects))
+    this.setState({ importingProgress, pcsRemoved, deletingPcProgress }, () => app.Actions.deletePcByName(name, offlineIndexes))
   },
 
   onClickRemovePcInstances () {
