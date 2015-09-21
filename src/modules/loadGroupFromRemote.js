@@ -73,7 +73,6 @@ export default (gruppe, callback) => {
                 app.Actions.loadPathStore(itemsOfGroup)
                 // build hierarchy and save to pouch
                 const hierarchy = buildHierarchy(itemsOfGroup)
-                console.log('loadGroupFromRemote.js, hierarchy', hierarchy)
                 return app.localHierarchyDb.bulkDocs(hierarchy)
               })
               .then((hierarchy) => {
