@@ -52,7 +52,7 @@ export default (name, offlineIndexes) => {
     },
     remote () {
       return new Promise((resolve, reject) => {
-        app.remoteDb.query('artendb/aeObjectsIdsByRcsName', queryOptions)
+        app.remoteDb.query('objectsIdsByRcsName', queryOptions)
           .then((result) => resolve(result))
           .catch((error) => reject(error))
       })

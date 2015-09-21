@@ -86,7 +86,7 @@ export default (group, offlineIndexes) => {
       },
       remote () {
         return new Promise((resolve, reject) => {
-          app.remoteDb.query('artendb/aeFieldsOfGroup', queryOptions)
+          app.remoteDb.query('fieldsOfGroup', queryOptions)
             .then((result) => resolve(result))
             .catch((error) => reject(error))
         })

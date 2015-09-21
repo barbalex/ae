@@ -56,7 +56,7 @@ const query = {
   },
   remote () {
     return new Promise((resolve, reject) => {
-      app.remoteDb.query('artendb/aeRcs', queryOptions)
+      app.remoteDb.query('rcs', queryOptions)
         .then((result) => resolve(result))
         .catch((error) => reject(error))
     })

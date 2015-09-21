@@ -25,7 +25,7 @@ const ddoc = {
   }
 }
 
-export default (ids) => {
+export default (ids, offlineIndexes) => {
   const queryOptions = {
     keys: ids
   }
@@ -44,7 +44,7 @@ export default (ids) => {
     },
     remote () {
       return new Promise((resolve, reject) => {
-        app.remoteDb.query('artendb/aeFaunaById', queryOptions)
+        app.remoteDb.query('faunaById', queryOptions)
           .then((result) => resolve(result))
           .catch((error) => reject(error))
       })
