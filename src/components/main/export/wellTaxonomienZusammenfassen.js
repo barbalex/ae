@@ -31,9 +31,12 @@ export default React.createClass({
       marginLeft: 23,
       marginBottom: 0
     }
+    const wellStyle = {
+      marginTop: 5
+    }
 
     return (
-      <Well id='wellTaxonomienZusammenfassen' className='well-sm last-well'>
+      <Well id='wellTaxonomienZusammenfassen' className='well-sm last-well' style={wellStyle}>
         <b>Felder der gewählten Taxonomien zusammenfassen?</b> <a href='#' onClick={this.onClickToggle} className='showNextHidden'>{visible ? '...weniger' : '...mehr'}</a>
         <div className='adb-hidden' style={{'display': visible ? 'block' : 'none'}}>
           <ul>

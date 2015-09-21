@@ -4,7 +4,7 @@
  * emits the Taxonomie ID as key and guid as value
  *
  * if offlineIndexes is true: queries from remote and does not create design doc
- 
+ *
  * no es6 in ddocs!
  */
 
