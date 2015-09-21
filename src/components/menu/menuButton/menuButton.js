@@ -4,8 +4,9 @@ import app from 'ampersand-app'
 import React from 'react'
 import _ from 'lodash'
 import { Button, ButtonGroup, DropdownButton, MenuItem, Input } from 'react-bootstrap'
-import buildGoogleImageLink from '../../modules/buildGoogleImageLink.js'
-import buildWikipediaLink from '../../modules/buildWikipediaLink.js'
+import InputIndexes from './inputIndexes.js'
+import buildGoogleImageLink from '../../../modules/buildGoogleImageLink.js'
+import buildWikipediaLink from '../../../modules/buildWikipediaLink.js'
 
 export default React.createClass({
   displayName: 'MenuButton',
@@ -44,11 +45,6 @@ export default React.createClass({
     app.Actions.loadPouchFromRemote()
   },
 
-  onChangeIndexes () {
-    const { onClickToggleOfflineIndexes } = this.props
-    onClickToggleOfflineIndexes()
-  },
-
   openAdminPage () {
     console.log('openAdminPage was clicked')
     // TODO
@@ -58,14 +54,10 @@ export default React.createClass({
   },
 
   render () {
-    const { object, offlineIndexes } = this.props
+    const { object, offlineIndexes, onClickToggleOfflineIndexes } = this.props
     const isObject = object && _.keys(object).length > 0
     const googleLink = isObject ? buildGoogleImageLink(object) : '#'
     const wikipediaLink = isObject ? buildWikipediaLink(object) : '#'
-    const liStyle = {
-      paddingLeft: 20,
-      paddingRight: 20
-    }
 
     return (
       <div id='menuBtn' className='btn-group menu'>
@@ -86,9 +78,7 @@ export default React.createClass({
             <MenuItem onSelect={this.replicateFromAe}><strong>Von</strong> arteigenschaften.ch replizieren</MenuItem>
             <MenuItem onSelect={this.replicateToAe}><strong>Nach</strong> arteigenschaften.ch replizieren</MenuItem>
             <MenuItem divider/>
-            <li style={liStyle}>
-              <Input type='checkbox' label='Indizes von arteigenschaften.ch verwenden (empfohlen)' checked={!offlineIndexes} onChange={this.onChangeIndexes} />
-            </li>
+            <InputIndexes offlineIndexes={offlineIndexes} onClickToggleOfflineIndexes={onClickToggleOfflineIndexes} />
             <MenuItem divider/>
             <MenuItem onSelect={this.openAdminPage} disabled={true}>Administration</MenuItem>
             <MenuItem divider/>
