@@ -1,6 +1,7 @@
 /*
  * gets an array of guids
  * returns their docs
+ * allways gets docs from local because allDocs is fast
  */
 
 'use strict'
