@@ -603,12 +603,9 @@ export default (Actions) => {
       // now fetch up to date pc's
       queryPcs(offlineIndexes)
         .then((pcs) => {
-          console.log('propertyCollectionsStore.js, queryPcs, pcs', pcs)
           this.pcsQuerying = false
           // email has empty values. Set default
-          pcs.forEach((pc) => {
-            pc.importedBy = pc.importedBy || 'alex@gabriel-software.ch'
-          })
+          pcs.forEach((pc) => pc.importedBy = pc.importedBy || 'alex@gabriel-software.ch')
           this.trigger(pcs, this.pcsQuerying)
           return this.savePcs(pcs)
         })
