@@ -87,7 +87,8 @@ export default React.createClass({
     validUrsprungsBs: React.PropTypes.bool,
     validRcsToImport: React.PropTypes.bool,
     replicatingToAe: React.PropTypes.string,
-    replicatingToAeTime: React.PropTypes.string
+    replicatingToAeTime: React.PropTypes.string,
+    offlineIndexes: React.PropTypes.bool
   },
 
   // nameBestehend ... nameUrsprungsBs: input fields
@@ -140,7 +141,7 @@ export default React.createClass({
   componentDidMount () {
     this.listenTo(app.objectsRcsStore, this.onChangeObjectsRcsStore)
     // show login of not logged in
-    const { email } = this.props
+    const { email, offlineIndexes } = this.props
     if (!email) {
       const loginVariables = {
         logIn: true,
@@ -149,7 +150,7 @@ export default React.createClass({
       app.Actions.login(loginVariables)
     }
     // get relation collections
-    app.Actions.queryRelationCollections()
+    app.Actions.queryRelationCollections(offlineIndexes)
   },
 
   onChangeObjectsRcsStore (state) {
@@ -310,6 +311,7 @@ export default React.createClass({
 
   onChangeId () {
     const { idsAeIdField, idsImportIdField, rcsToImport } = this.state
+    const { offlineIndexes } = this.props
 
     if (idsAeIdField && idsImportIdField) {
       // start analysis
@@ -374,7 +376,7 @@ export default React.createClass({
         const state = Object.assign(rcPartnerState, { idsAnalysisComplete, idsNotANumber })
         return this.setState(state)
       }
-      getGuidsById(idsAeIdField, ids)
+      getGuidsById(idsAeIdField, ids, offlineIndexes)
         .then((idGuidObject) => {
           // now add guids to rcsToImport
           rcsToImport.forEach((rc) => {
@@ -422,12 +424,13 @@ export default React.createClass({
   },
 
   onClickDeleteRc () {
-    const { name, idsOfAeObjects } = this.state
+    const { name } = this.state
+    const { offlineIndexes } = this.props
     // first remove progressbar and alert from last import
     const importingProgress = null
     const rcsRemoved = false
     const deletingRcProgress = 0
-    this.setState({ importingProgress, rcsRemoved, deletingRcProgress }, () => app.Actions.deleteRcByName(name, idsOfAeObjects))
+    this.setState({ importingProgress, rcsRemoved, deletingRcProgress }, () => app.Actions.deleteRcByName(name, offlineIndexes))
   },
 
   onClickRemoveRcInstances () {

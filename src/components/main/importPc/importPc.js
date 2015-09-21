@@ -290,6 +290,7 @@ export default React.createClass({
 
   onChangeId () {
     const { idsAeIdField, idsImportIdField, pcsToImport } = this.state
+    const { offlineIndexes } = this.props
 
     if (idsAeIdField && idsImportIdField) {
       // start analysis
@@ -313,7 +314,7 @@ export default React.createClass({
       // if ids should be numbers but some are not, an error can occur when fetching from the database
       // so dont fetch
       if (idsNotANumber.length > 0) return this.setState({ idsAnalysisComplete: true, idsNotANumber: idsNotANumber })
-      getGuidsById(idsAeIdField, ids)
+      getGuidsById(idsAeIdField, ids, offlineIndexes)
         .then((idGuidObject) => {
           // now add guids to pcsToImport
           pcsToImport.forEach((pc) => {

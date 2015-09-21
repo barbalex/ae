@@ -461,7 +461,7 @@ export default (Actions) => {
       })
     },
 
-    onQueryFields (groupsToExport, group, taxonomienZusammenfassen) {
+    onQueryFields (groupsToExport, group, taxonomienZusammenfassen, offlineIndexes) {
       // if fields exist, send them immediately
       let taxonomyFields = {}
       let pcFields = {}
@@ -487,7 +487,7 @@ export default (Actions) => {
             this.trigger({ taxonomyFields, pcFields, relationFields, fieldsQuerying, fieldsQueryingError })
             if (!fieldsExistForRequestedGroup) {
               // fetch up to date fields for the requested group
-              queryFieldsOfGroup(group)
+              queryFieldsOfGroup(group, offlineIndexes)
                 .then((fieldsOfGroup) => this.saveFieldsOfGroup(fieldsOfGroup, group))
                 .then((allFields) => {
                   taxonomyFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'taxonomy', taxonomienZusammenfassen)
