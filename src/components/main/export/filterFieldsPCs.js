@@ -6,7 +6,7 @@ import { Input } from 'react-bootstrap'
 import _ from 'lodash'
 import SelectComparisonOperator from './selectComparisonOperator.js'
 import InfoButtonAfter from './infoButtonAfter.js'
-import PcDescription from '../pcDescription.js'
+import PcDescription from './pcDescription.js'
 
 export default React.createClass({
   displayName: 'FilterFieldsPcs',
@@ -32,7 +32,6 @@ export default React.createClass({
 
   render () {
     const { pcFields, onChangeCoSelect, pcs } = this.props
-
     const collections = Object.keys(pcFields).map((cNameKey, cIndex) => {
       const showLine = cIndex < Object.keys(pcFields).length
       const cNameObject = pcFields[cNameKey]
@@ -54,10 +53,11 @@ export default React.createClass({
         )
       })
       const collection = (
-        <div className='felderspalte'>
-          <h5>{cNameKey}</h5>
+        <div>
           <PcDescription pc={pc} />
-          {fields}
+          <div className='felderspalte'>
+            {fields}
+          </div>
         </div>
       )
       return (

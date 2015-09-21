@@ -6,7 +6,7 @@ import { Input } from 'react-bootstrap'
 import _ from 'lodash'
 import SelectComparisonOperator from './selectComparisonOperator.js'
 import InfoButtonAfter from './infoButtonAfter.js'
-import PcDescription from '../pcDescription.js'
+import PcDescription from './pcDescription.js'
 
 export default React.createClass({
   displayName: 'FilterFieldsRCs',
@@ -54,10 +54,11 @@ export default React.createClass({
         )
       })
       const collection = (
-        <div className='felderspalte'>
-        <h5>{cNameKey}</h5>
+        <div>
           <PcDescription pc={rc} />
-          {fields}
+          <div className='felderspalte'>
+            {fields}
+          </div>
         </div>
       )
       return (

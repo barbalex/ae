@@ -6,7 +6,7 @@
 
 import React from 'react'
 import { Accordion, Panel } from 'react-bootstrap'
-import PcDescription from '../pcDescription.js'
+import PcDescription from './pcDescription.js'
 import RelationPartners from './relationPartners.js'
 import RelationFields from './relationFields.js'
 import sortRelationsByName from '../../../modules/sortRelationsByName.js'
