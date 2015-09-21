@@ -10,48 +10,63 @@
 import app from 'ampersand-app'
 import _ from 'lodash'
 
-export default () => {
-  return new Promise((resolve, reject) => {
-    const ddoc = {
-      _id: '_design/rcs',
-      views: {
-        'rcs': {
-          map: function (doc) {
-            if (doc.Typ && doc.Typ === 'Objekt') {
-              if (doc.Beziehungssammlungen) {
-                doc.Beziehungssammlungen.forEach(function (rc) {
-                  // bsZusammenfassend ergänzen
-                  const bsZusammenfassend = !!rc.zusammenfassend
-                  let felder = {}
-                  let x
-                  for (x in rc) {
-                    if (x !== 'Typ' && x !== 'Name' && x !== 'Eigenschaften') {
-                      felder[x] = rc[x]
-                    }
-                  }
-                  emit([rc.Name, bsZusammenfassend, rc['importiert von'], felder], null)
-                })
-              }
-            }
-          }.toString(),
-          reduce: '_count'
+const ddoc = {
+  _id: '_design/rcs',
+  views: {
+    'rcs': {
+      map: function (doc) {
+        if (doc.Typ && doc.Typ === 'Objekt') {
+          if (doc.Beziehungssammlungen) {
+            doc.Beziehungssammlungen.forEach(function (rc) {
+              // add bsZusammenfassend
+              const bsZusammenfassend = !!rc.zusammenfassend
+              var felder = {}
+              Object.keys(rc).forEach(function (key) {
+                if (key !== 'Typ' && key !== 'Name' && key !== 'Eigenschaften') {
+                  felder[key] = rc[key]
+                }
+              })
+              emit([rc.Name, bsZusammenfassend, rc['importiert von'], felder], null)
+            })
+          }
         }
-      }
+      }.toString(),
+      reduce: '_count'
     }
+  }
+}
 
-    app.localDb.put(ddoc)
-      .catch((error) => {
-        // ignore if doc already exists
-        if (error.status !== 409) reject(error)
-      })
-      .then((response) => {
-        // console.log('rcs: response from putting ddoc')
-        const options = {
-          group_level: 4,
-          reduce: '_count'
-        }
-        return app.localDb.query('rcs', options)
-      })
+const queryOptions = {
+  group_level: 4,
+  reduce: '_count'
+}
+
+const query = {
+  local () {
+    return new Promise((resolve, reject) => {
+      app.localDb.put(ddoc)
+        .catch((error) => {
+          // ignore if doc already exists
+          if (error.status !== 409) reject(error)
+        })
+        .then((response) => app.localDb.query('rcs', queryOptions))
+        .then((result) => resolve(result))
+        .catch((error) => reject(error))
+    })
+  },
+  remote () {
+    return new Promise((resolve, reject) => {
+      app.remoteDb.query('artendb/aeRcs', queryOptions)
+        .then((result) => resolve(result))
+        .catch((error) => reject(error))
+    })
+  }
+}
+
+export default (offlineIndexes) => {
+  const db = offlineIndexes ? 'local' : 'remote'
+  return new Promise((resolve, reject) => {
+    query[db]
       .then((result) => {
         const rows = result.rows
         const uniqueRows = _.uniq(rows, (row) => row.key[0])

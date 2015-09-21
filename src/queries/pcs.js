@@ -10,48 +10,63 @@
 import app from 'ampersand-app'
 import _ from 'lodash'
 
-export default () => {
-  return new Promise((resolve, reject) => {
-    const ddoc = {
-      _id: '_design/pcs',
-      views: {
-        'pcs': {
-          map: function (doc) {
-            if (doc.Typ && doc.Typ === 'Objekt') {
-              if (doc.Eigenschaftensammlungen) {
-                doc.Eigenschaftensammlungen.forEach(function (es) {
-                  // esZusammenfassend ergänzen
-                  const esZusammenfassend = !!es.zusammenfassend
-                  let felder = {}
-                  let x
-                  for (x in es) {
-                    if (x !== 'Typ' && x !== 'Name' && x !== 'Eigenschaften') {
-                      felder[x] = es[x]
-                    }
-                  }
-                  emit([es.Name, esZusammenfassend, es['importiert von'], felder], null)
-                })
+const ddoc = {
+  _id: '_design/pcs',
+  views: {
+    'pcs': {
+      map: function (doc) {
+        if (doc.Typ && doc.Typ === 'Objekt') {
+          if (doc.Eigenschaftensammlungen) {
+            doc.Eigenschaftensammlungen.forEach(function (pc) {
+            // add pcZusammenfassend
+            const pcZusammenfassend = !!pc.zusammenfassend
+            var felder = {}
+            Object.keys(pc).forEach(function (key) {
+              if (key !== 'Typ' && key !== 'Name' && key !== 'Eigenschaften') {
+                felder[key] = pc[key]
               }
-            }
-          }.toString(),
-          reduce: '_count'
+            })
+            emit([pc.Name, pcZusammenfassend, pc['importiert von'], felder], null)
+          })
+          }
         }
-      }
+      }.toString(),
+      reduce: '_count'
     }
+  }
+}
 
-    app.localDb.put(ddoc)
-      .catch((error) => {
-        // ignore if doc already exists
-        if (error.status !== 409) reject(error)
-      })
-      .then((response) => {
-        // console.log('pcs: response from putting ddoc')
-        const options = {
-          group_level: 4,
-          reduce: '_count'
-        }
-        return app.localDb.query('pcs', options)
-      })
+const queryOptions = {
+  group_level: 4,
+  reduce: '_count'
+}
+
+const query = {
+  local () {
+    return new Promise((resolve, reject) => {
+      app.localDb.put(ddoc)
+        .catch((error) => {
+          // ignore if doc already exists
+          if (error.status !== 409) reject(error)
+        })
+        .then((response) => app.localDb.query('pcs', queryOptions))
+        .then((result) => resolve(result))
+        .catch((error) => reject(error))
+    })
+  },
+  remote () {
+    return new Promise((resolve, reject) => {
+      app.remoteDb.query('artendb/aePcs', queryOptions)
+        .then((result) => resolve(result))
+        .catch((error) => reject(error))
+    })
+  }
+}
+
+export default (offlineIndexes) => {
+  const db = offlineIndexes ? 'local' : 'remote'
+  return new Promise((resolve, reject) => {
+    query[db]
       .then((result) => {
         const rows = result.rows
         const uniqueRows = _.uniq(rows, (row) => row.key[0])

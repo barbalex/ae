@@ -15,12 +15,14 @@ export default React.createClass({
     relationFields: React.PropTypes.object,
     onChangeFilterField: React.PropTypes.func,
     onChangeCoSelect: React.PropTypes.func,
-    rcs: React.PropTypes.array
+    rcs: React.PropTypes.array,
+    offlineIndexes: React.PropTypes.bool
   },
 
   componentDidMount () {
+    const { offlineIndexes } = this.props
     // make sure, rcs are queried
-    app.Actions.queryRelationCollections()
+    app.Actions.queryRelationCollections(offlineIndexes)
   },
 
   onBlur (cName, fName, event) {

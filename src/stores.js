@@ -590,7 +590,7 @@ export default (Actions) => {
       })
     },
 
-    onQueryPropertyCollections () {
+    onQueryPropertyCollections (offlineIndexes) {
       // if pc's exist, send them immediately
       this.pcsQuerying = true
       this.getPcs()
@@ -599,8 +599,9 @@ export default (Actions) => {
           app.Actions.showError({title: 'propertyCollectionsStore, error getting existing pcs:', msg: error})
         )
       // now fetch up to date pc's
-      queryPcs()
+      queryPcs(offlineIndexes)
         .then((pcs) => {
+          console.log('propertyCollectionsStore.js, pcs', pcs)
           this.pcsQuerying = false
           // email has empty values. Set default
           pcs.forEach((pc) => {
@@ -692,7 +693,7 @@ export default (Actions) => {
       })
     },
 
-    onQueryRelationCollections () {
+    onQueryRelationCollections (offlineIndexes) {
       // if rc's exist, send them immediately
       this.rcsQuerying = true
       this.getRcs()
@@ -701,7 +702,7 @@ export default (Actions) => {
           app.Actions.showError({title: 'relationCollectionsStore, error getting existing rcs:', msg: error})
         )
       // now fetch up to date rc's
-      queryRcs()
+      queryRcs(offlineIndexes)
         .then((rcs) => {
           this.rcsQuerying = false
           // email has empty values. Set default

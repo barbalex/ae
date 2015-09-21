@@ -44,17 +44,17 @@ export default React.createClass({
     app.Actions.loadPouchFromRemote()
   },
 
-  onChangeIndexes (event) {
+  onChangeIndexes () {
     const { onClickToggleOfflineIndexes } = this.props
     onClickToggleOfflineIndexes()
   },
 
   openAdminPage () {
     console.log('openAdminPage was clicked')
-  // TODO
-  /* previously:
-  require('./zeigeFormular')('admin')
-  */
+    // TODO
+    /* previously:
+    require('./zeigeFormular')('admin')
+    */
   },
 
   render () {

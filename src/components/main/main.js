@@ -41,7 +41,8 @@ export default React.createClass({
     groupsLoadingObjects: React.PropTypes.array,
     errors: React.PropTypes.array,
     replicatingToAe: React.PropTypes.string,
-    replicatingToAeTime: React.PropTypes.string
+    replicatingToAeTime: React.PropTypes.string,
+    offlineIndexes: React.PropTypes.bool
   },
 
   getInitialState () {
@@ -72,7 +73,7 @@ export default React.createClass({
   },
 
   render () {
-    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, synonymObjects, pcs, rcs, showImportPc, showImportRc, showExportieren, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, showOrganizations, email, replicatingToAe, replicatingToAeTime } = this.props
+    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, synonymObjects, pcs, rcs, showImportPc, showImportRc, showExportieren, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, showOrganizations, email, replicatingToAe, replicatingToAeTime, offlineIndexes } = this.props
     const { formClassNames, errors } = this.state
     const showObject = object !== undefined
 
@@ -90,6 +91,7 @@ export default React.createClass({
             <ImportPc
               email={email}
               pcs={pcs}
+              offlineIndexes={offlineIndexes}
               groupsLoadedOrLoading={groupsLoadedOrLoading}
               groupsLoadingObjects={groupsLoadingObjects}
               allGroupsLoaded={allGroupsLoaded}
@@ -101,6 +103,7 @@ export default React.createClass({
             <ImportRc
               email={email}
               rcs={rcs}
+              offlineIndexes={offlineIndexes}
               groupsLoadedOrLoading={groupsLoadedOrLoading}
               groupsLoadingObjects={groupsLoadingObjects}
               allGroupsLoaded={allGroupsLoaded}
@@ -118,7 +121,8 @@ export default React.createClass({
               pcFields={pcFields}
               relationFields={relationFields}
               pcs={pcs}
-              rcs={rcs} />
+              rcs={rcs}
+              offlineIndexes={offlineIndexes} />
             : null
           }
           {showOrganizations ?

@@ -15,12 +15,14 @@ export default React.createClass({
     pcFields: React.PropTypes.object,
     onChangeFilterField: React.PropTypes.func,
     onChangeCoSelect: React.PropTypes.func,
-    pcs: React.PropTypes.array
+    pcs: React.PropTypes.array,
+    offlineIndexes: React.PropTypes.bool
   },
 
   componentDidMount () {
+    const { offlineIndexes } = this.props
     // make sure, pcs are queried
-    app.Actions.queryPropertyCollections()
+    app.Actions.queryPropertyCollections(offlineIndexes)
   },
 
   onBlur (cName, fName, event) {

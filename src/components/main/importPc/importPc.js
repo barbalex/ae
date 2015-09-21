@@ -85,7 +85,8 @@ export default React.createClass({
     validUrsprungsEs: React.PropTypes.bool,
     validPcsToImport: React.PropTypes.bool,
     replicatingToAe: React.PropTypes.string,
-    replicatingToAeTime: React.PropTypes.string
+    replicatingToAeTime: React.PropTypes.string,
+    offlineIndexes: React.PropTypes.bool
   },
 
   // nameBestehend ... nameUrsprungsEs: input fields
@@ -136,7 +137,7 @@ export default React.createClass({
   componentDidMount () {
     this.listenTo(app.objectsPcsStore, this.onChangeObjectsPcsStore)
     // show login of not logged in
-    const { email } = this.props
+    const { email, offlineIndexes } = this.props
     if (!email) {
       const loginVariables = {
         logIn: true,
@@ -145,7 +146,7 @@ export default React.createClass({
       app.Actions.login(loginVariables)
     }
     // get property collections
-    app.Actions.queryPropertyCollections()
+    app.Actions.queryPropertyCollections(offlineIndexes)
   },
 
   onChangeObjectsPcsStore (state) {

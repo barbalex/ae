@@ -305,7 +305,8 @@ export default React.createClass({
             showOrganizations={showOrganizations}
             email={email}
             replicatingToAe={replicatingToAe}
-            replicatingToAeTime={replicatingToAeTime} />
+            replicatingToAeTime={replicatingToAeTime}
+            offlineIndexes={offlineIndexes} />
           : null
         }
         {showLogin ? <Login /> : null}
