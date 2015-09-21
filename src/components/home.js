@@ -126,11 +126,11 @@ export default React.createClass({
   },
 
   onChangePropertyCollectionsStore (pcs, pcsQuerying) {
-    this.setState({ pcsQuerying })
+    this.setState({ pcs, pcsQuerying })
   },
 
   onChangeRelationCollectionsStore (rcs, rcsQuerying) {
-    this.setState({ rcsQuerying })
+    this.setState({ rcs, rcsQuerying })
   },
 
   onChangeFieldsStore (state) {
