@@ -594,14 +594,16 @@ export default (Actions) => {
       // if pc's exist, send them immediately
       this.pcsQuerying = true
       this.getPcs()
-        .then((pcs) => this.trigger(pcs, this.pcsQuerying))
+        .then((pcs) => {
+          return this.trigger(pcs, this.pcsQuerying)
+        })
         .catch((error) =>
           app.Actions.showError({title: 'propertyCollectionsStore, error getting existing pcs:', msg: error})
         )
       // now fetch up to date pc's
       queryPcs(offlineIndexes)
         .then((pcs) => {
-          console.log('propertyCollectionsStore.js, pcs', pcs)
+          console.log('propertyCollectionsStore.js, queryPcs, pcs', pcs)
           this.pcsQuerying = false
           // email has empty values. Set default
           pcs.forEach((pc) => {

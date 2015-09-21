@@ -94,7 +94,7 @@ export default (group, offlineIndexes) => {
     }
     const db = offlineIndexes ? 'local' : 'remote'
 
-    query[db]
+    query[db]()
       .then((result) => {
         // console.log('fieldsOfGroup.js, result', result)
         const rows = result.rows

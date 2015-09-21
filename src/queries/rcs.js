@@ -66,7 +66,7 @@ const query = {
 export default (offlineIndexes) => {
   const db = offlineIndexes ? 'local' : 'remote'
   return new Promise((resolve, reject) => {
-    query[db]
+    query[db]()
       .then((result) => {
         const rows = result.rows
         const uniqueRows = _.uniq(rows, (row) => row.key[0])

@@ -53,7 +53,7 @@ export default (ids) => {
   const db = offlineIndexes ? 'local' : 'remote'
 
   return new Promise((resolve, reject) => {
-    query[db]
+    query[db]()
       .then((result) => {
         let returnObject = {}
         result.rows.forEach((row) => {

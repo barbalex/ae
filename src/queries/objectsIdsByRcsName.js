@@ -61,7 +61,7 @@ export default (name, offlineIndexes) => {
 
   const db = offlineIndexes ? 'local' : 'remote'
   return new Promise((resolve, reject) => {
-    query[db]
+    query[db]()
       .then((result) => {
         const ids = _.pluck(result.rows, 'id')
         resolve(ids)
