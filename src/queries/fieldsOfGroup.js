@@ -71,6 +71,13 @@ export default (group, offlineIndexes) => {
       end_key: [group, {}, {}, {}, {}],
       reduce: '_count'
     }
+    // don't understand why but passing reduce
+    // produces an error in couch
+    const queryOptionsCouch = {
+      group_level: 5,
+      start_key: [group],
+      end_key: [group, {}, {}, {}, {}]
+    }
     const query = {
       local () {
         return new Promise((resolve, reject) => {
@@ -86,7 +93,7 @@ export default (group, offlineIndexes) => {
       },
       remote () {
         return new Promise((resolve, reject) => {
-          app.remoteDb.query('fieldsOfGroup', queryOptions)
+          app.remoteDb.query('fieldsOfGroup', queryOptionsCouch)
             .then((result) => resolve(result))
             .catch((error) => reject(error))
         })
