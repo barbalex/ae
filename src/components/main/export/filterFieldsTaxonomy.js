@@ -42,9 +42,11 @@ export default React.createClass({
         )
       })
       const collection = (
-        <div className='felderspalte'>
+        <div>
           <h5>{cNameKey}</h5>
-          {fields}
+          <div className='felderspalte'>
+            {fields}
+          </div>
         </div>
       )
       return (
