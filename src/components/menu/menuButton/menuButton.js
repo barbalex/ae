@@ -78,6 +78,7 @@ export default React.createClass({
             <MenuItem onSelect={this.replicateFromAe}><strong>Von</strong> arteigenschaften.ch replizieren</MenuItem>
             <MenuItem onSelect={this.replicateToAe}><strong>Nach</strong> arteigenschaften.ch replizieren</MenuItem>
             <MenuItem divider/>
+            <MenuItem header={true}>Indizes:</MenuItem>
             <InputIndexes offlineIndexes={offlineIndexes} onClickToggleOfflineIndexes={onClickToggleOfflineIndexes} />
             <MenuItem divider/>
             <MenuItem onSelect={this.openAdminPage} disabled={true}>Administration</MenuItem>
