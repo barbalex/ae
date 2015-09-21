@@ -3,7 +3,7 @@
 import app from 'ampersand-app'
 import React from 'react'
 import _ from 'lodash'
-import { Button, ButtonGroup, DropdownButton, MenuItem } from 'react-bootstrap'
+import { Button, ButtonGroup, DropdownButton, MenuItem, Input } from 'react-bootstrap'
 import buildGoogleImageLink from '../../modules/buildGoogleImageLink.js'
 import buildWikipediaLink from '../../modules/buildWikipediaLink.js'
 
@@ -11,7 +11,9 @@ export default React.createClass({
   displayName: 'MenuButton',
 
   propTypes: {
-    object: React.PropTypes.object
+    object: React.PropTypes.object,
+    offlineIndexes: React.PropTypes.bool,
+    onClickToggleOfflineIndexes: React.PropTypes.func
   },
 
   exportProperties () {
@@ -42,6 +44,11 @@ export default React.createClass({
     app.Actions.loadPouchFromRemote()
   },
 
+  onChangeIndexes (event) {
+    const { onClickToggleOfflineIndexes } = this.props
+    onClickToggleOfflineIndexes()
+  },
+
   openAdminPage () {
     console.log('openAdminPage was clicked')
   // TODO
@@ -51,10 +58,14 @@ export default React.createClass({
   },
 
   render () {
-    const { object } = this.props
+    const { object, offlineIndexes } = this.props
     const isObject = object && _.keys(object).length > 0
     const googleLink = isObject ? buildGoogleImageLink(object) : '#'
     const wikipediaLink = isObject ? buildWikipediaLink(object) : '#'
+    const liStyle = {
+      paddingLeft: 20,
+      paddingRight: 20
+    }
 
     return (
       <div id='menuBtn' className='btn-group menu'>
@@ -74,6 +85,10 @@ export default React.createClass({
             <MenuItem onSelect={this.loadPouchFromRemote}>Fehlende Gruppen laden</MenuItem>
             <MenuItem onSelect={this.replicateFromAe}><strong>Von</strong> arteigenschaften.ch replizieren</MenuItem>
             <MenuItem onSelect={this.replicateToAe}><strong>Nach</strong> arteigenschaften.ch replizieren</MenuItem>
+            <MenuItem divider/>
+            <li style={liStyle}>
+              <Input type='checkbox' label='Indizes von arteigenschaften.ch verwenden (empfohlen)' checked={!offlineIndexes} onChange={this.onChangeIndexes} />
+            </li>
             <MenuItem divider/>
             <MenuItem onSelect={this.openAdminPage} disabled={true}>Administration</MenuItem>
             <MenuItem divider/>

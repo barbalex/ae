@@ -56,7 +56,8 @@ export default React.createClass({
     fieldsQueryingError: React.PropTypes.object,
     taxonomyFields: React.PropTypes.object,
     pcFields: React.PropTypes.object,
-    relationFields: React.PropTypes.object
+    relationFields: React.PropTypes.object,
+    offlineIndexes: React.PropTypes.bool
   },
 
   getInitialState () {
@@ -100,7 +101,10 @@ export default React.createClass({
       fields: [],
       taxonomyFields: {},
       pcFields: {},
-      relationFields: {}
+      relationFields: {},
+      // if true: get index calls from remoteDb
+      // if false: query localDb
+      offlineIndexes: true
     }
   },
 
@@ -118,16 +122,6 @@ export default React.createClass({
     this.listenTo(app.propertyCollectionsStore, this.onChangePropertyCollectionsStore)
     this.listenTo(app.relationCollectionsStore, this.onChangeRelationCollectionsStore)
     this.listenTo(app.fieldsStore, this.onChangeFieldsStore)
-    this.listenTo(app.propertyCollectionsStore, this.onChangePropertyCollectionsStore)
-    this.listenTo(app.relationCollectionsStore, this.onChangeRelationCollectionsStore)
-  },
-
-  onChangeRelationCollectionsStore (rcs) {
-    this.setState({ rcs })
-  },
-
-  onChangePropertyCollectionsStore (pcs) {
-    this.setState({ pcs })
   },
 
   onChangePropertyCollectionsStore (pcs, pcsQuerying) {
@@ -230,8 +224,14 @@ export default React.createClass({
     this.setState(state)
   },
 
+  onClickToggleOfflineIndexes () {
+    let { offlineIndexes } = this.state
+    offlineIndexes = !offlineIndexes
+    this.setState({ offlineIndexes })
+  },
+
   render () {
-    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, showImportPc, showImportRc, showExportieren, showOrganizations, logIn, email, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, pcs, rcs, pcsQuerying, rcsQuerying, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields } = this.state
+    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, showImportPc, showImportRc, showExportieren, showOrganizations, logIn, email, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, pcs, rcs, pcsQuerying, rcsQuerying, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, offlineIndexes } = this.state
     const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
     const showGruppen = groupsNotLoaded.length > 0
     const showFilter = filterOptions.length > 0 || loadingFilterOptions
@@ -246,7 +246,10 @@ export default React.createClass({
     return (
       <NavHelper style={homeStyle}>
         <Favicon url={[FaviconImage]}/>
-        <MenuButton object={object} />
+        <MenuButton
+          object={object}
+          offlineIndexes={offlineIndexes}
+          onClickToggleOfflineIndexes={this.onClickToggleOfflineIndexes} />
         <div id='menu' className='menu'>
           <div id='menuLine'>
             <ResizeButton />
