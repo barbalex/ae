@@ -77,7 +77,7 @@ export default React.createClass({
         )
       })
       return (
-        <Panel collapsible header={pc.name} eventKey={cIndex} onClick={this.onClickPanel.bind(this, cIndex)}>
+        <Panel key={cIndex} collapsible header={pc.name} eventKey={cIndex} onClick={this.onClickPanel.bind(this, cIndex)}>
           <PcDescription pc={pc} />
           <div className='felderspalte'>
             {fields}
