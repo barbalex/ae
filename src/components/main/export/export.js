@@ -13,6 +13,7 @@ import WellSoGehtsFiltern from './wellSoGehtsFiltern.js'
 import WellTippsTricksFiltern from './wellTippsTricksFiltern.js'
 import FilterFields from './filterFields.js'
 import WellSoGehtsWaehlen from './wellSoGehtsWaehlen.js'
+import CheckboxOnlyObjectsWithCollectionData from './checkboxOnlyObjectsWithCollectionData.js'
 
 export default React.createClass({
   displayName: 'Main',
@@ -178,9 +179,14 @@ export default React.createClass({
     // console.log('exportFilters', exportFilters)
   },
 
+  onChangeOnlyObjectsWithCollectionData (event) {
+    const onlyObjectsWithCollectionData = event.target.checked
+    this.setState({ onlyObjectsWithCollectionData })
+  },
+
   render () {
     const { groupsLoadedOrLoading, groupsLoadingObjects, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, pcs, rcs, offlineIndexes } = this.props
-    const { groupsToExport, taxonomienZusammenfassen, errorBuildingFields, activePanel, exportFilters } = this.state
+    const { groupsToExport, taxonomienZusammenfassen, errorBuildingFields, activePanel, exportFilters, onlyObjectsWithCollectionData, includeDataFromSynonyms } = this.state
     const showAlertLoadGroups = groupsLoadedOrLoading.length === 0
     const showAlertGroups = groupsToExport.length > 0 && !showAlertLoadGroups
     const groupsLoading = _.pluck(groupsLoadingObjects, 'group')
@@ -236,6 +242,8 @@ export default React.createClass({
           <Panel collapsible header='3. Eigenschaften wählen' eventKey={3} onClick={this.onClickPanel.bind(this, 3)}>
 
             <WellSoGehtsWaehlen />
+            <CheckboxOnlyObjectsWithCollectionData
+              onChangeOnlyObjectsWithCollectionData={this.onChangeOnlyObjectsWithCollectionData} />
             
           </Panel>
 
