@@ -63,9 +63,16 @@ export default React.createClass({
     }
   },
 
+  handleOnSelectPanel (activeKey) {
+    // this is the clean way to handle choosing a panel heading
+    // but it only works when the user clicks the link in the panel heading
+    // console.log('handleOnSelectPanel, activeKey', activeKey)
+  },
+
   onClickPanel (number, event) {
     let { activePanel } = this.state
 
+    console.log('onClickPanel')
     // make sure the heading was clicked
     const parent = event.target.parentElement
     const headingWasClicked = _.includes(parent.className, 'panel-title') || _.includes(parent.className, 'panel-heading')
@@ -180,7 +187,7 @@ export default React.createClass({
     return (
       <div id='export' className='formContent'>
         <h4>Eigenschaften exportieren</h4>
-        <Accordion activeKey={activePanel}>
+        <Accordion activeKey={activePanel} onSelect={this.handleOnSelectPanel}>
           <Panel collapsible header='1. Gruppe(n) wählen' eventKey={1} onClick={this.onClickPanel.bind(this, 1)}>
             {showAlertLoadGroups ? <AlertLoadGroups /> : null}
             {!showAlertLoadGroups ? <WellSoGehtsGruppeWaehlen /> : null}
