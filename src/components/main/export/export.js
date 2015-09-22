@@ -12,6 +12,7 @@ import AlertLoadGroups from './alertLoadGroups.js'
 import WellSoGehtsFiltern from './wellSoGehtsFiltern.js'
 import WellTippsTricksFiltern from './wellTippsTricksFiltern.js'
 import FilterFields from './filterFields.js'
+import WellSoGehtsWaehlen from './wellSoGehtsWaehlen.js'
 
 export default React.createClass({
   displayName: 'Main',
@@ -32,7 +33,9 @@ export default React.createClass({
     exportFields: React.PropTypes.object,
     pcs: React.PropTypes.array,
     rcs: React.PropTypes.array,
-    offlineIndexes: React.PropTypes.bool
+    offlineIndexes: React.PropTypes.bool,
+    onlyObjectsWithCollectionData: React.PropTypes.bool,
+    includeDataFromSynonyms: React.PropTypes.bool
   },
 
   /**
@@ -56,7 +59,9 @@ export default React.createClass({
       taxonomienZusammenfassen: false,
       activePanel: 1,
       exportFilters: {},
-      exportFields: {}
+      exportFields: {},
+      onlyObjectsWithCollectionData: true,
+      includeDataFromSynonyms: true
     }
   },
 
@@ -72,8 +77,6 @@ export default React.createClass({
     const parent = event.target.parentElement
     const headingWasClicked = _.includes(parent.className, 'panel-title') || _.includes(parent.className, 'panel-heading')
     if (!headingWasClicked) return event.stopPropagation()
-
-    console.log('Export, panel heading clicked')
 
     // always close panel if it is open
     if (activePanel === number) return this.setState({ activePanel: '' })
@@ -168,6 +171,8 @@ export default React.createClass({
         value = null
       }
     }
+    if (value === 'false') value = false
+    if (value === 'true') value = true
     _.set(exportFilters, valuePath, value)
     this.setState({ exportFilters })
     // console.log('exportFilters', exportFilters)
@@ -229,6 +234,8 @@ export default React.createClass({
           </Panel>
 
           <Panel collapsible header='3. Eigenschaften wählen' eventKey={3} onClick={this.onClickPanel.bind(this, 3)}>
+
+            <WellSoGehtsWaehlen />
             
           </Panel>
 
