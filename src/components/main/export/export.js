@@ -69,7 +69,6 @@ export default React.createClass({
 
   onClickPanel (number, event) {
     let { activePanel } = this.state
-    console.log('Export, panel clicked, number', number)
     // make sure the heading was clicked
     const parent = event.target.parentElement
     const headingWasClicked = _.includes(parent.className, 'panel-title') || _.includes(parent.className, 'panel-heading')
