@@ -45,12 +45,12 @@ export default React.createClass({
     // make sure the heading was clicked
     const parent = event.target.parentElement
     const headingWasClicked = _.includes(parent.className, 'panel-title') || _.includes(parent.className, 'panel-heading')
-    if (!headingWasClicked) return true
-
-    // always close panel if it is open
-    if (activePanel === number) return this.setState({ activePanel: '' })
-      // open the panel clicked
-    this.setState({ activePanel: number })
+    if (headingWasClicked) {
+      // always close panel if it is open
+      if (activePanel === number) return this.setState({ activePanel: '' })
+        // open the panel clicked
+      this.setState({ activePanel: number })
+    }
   },
 
   render () {
@@ -58,7 +58,6 @@ export default React.createClass({
     const { activePanel } = this.state
 
     const collections = Object.keys(relationFields).map((cNameKey, cIndex) => {
-      const showLine = cIndex + 1 < Object.keys(relationFields).length
       const cNameObject = relationFields[cNameKey]
       const rc = _.find(rcs, (rc) => rc.name === cNameKey)
       const fields = Object.keys(cNameObject).map((fNameKey, fIndex) => {

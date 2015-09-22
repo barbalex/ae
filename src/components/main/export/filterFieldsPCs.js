@@ -45,12 +45,12 @@ export default React.createClass({
     // make sure the heading was clicked
     const parent = event.target.parentElement
     const headingWasClicked = _.includes(parent.className, 'panel-title') || _.includes(parent.className, 'panel-heading')
-    if (!headingWasClicked) return true
-
-    // always close panel if it is open
-    if (activePanel === number) return this.setState({ activePanel: '' })
-      // open the panel clicked
-    this.setState({ activePanel: number })
+    if (headingWasClicked) {
+      // always close panel if it is open
+      if (activePanel === number) return this.setState({ activePanel: '' })
+        // open the panel clicked
+      this.setState({ activePanel: number })
+    }
   },
 
   render () {
