@@ -2,7 +2,7 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import { Input } from 'react-bootstrap'
+import { Input, Panel } from 'react-bootstrap'
 import _ from 'lodash'
 import SelectComparisonOperator from './selectComparisonOperator.js'
 import InfoButtonAfter from './infoButtonAfter.js'
@@ -71,7 +71,6 @@ export default React.createClass({
 
     return (
       <div>
-        <h3>Beziehungssammlungen</h3>
         {collections}
       </div>
     )

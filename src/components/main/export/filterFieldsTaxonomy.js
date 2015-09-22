@@ -1,7 +1,7 @@
 'use strict'
 
 import React from 'react'
-import { Input } from 'react-bootstrap'
+import { Input, Panel } from 'react-bootstrap'
 import SelectComparisonOperator from './selectComparisonOperator.js'
 import InfoButtonAfter from './infoButtonAfter.js'
 
@@ -59,7 +59,6 @@ export default React.createClass({
 
     return (
       <div>
-        <h3>Taxonomie</h3>
         {collections}
       </div>
     )

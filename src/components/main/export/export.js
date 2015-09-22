@@ -12,9 +12,7 @@ import AlertLoadGroups from './alertLoadGroups.js'
 import WellSoGehtsFiltern from './wellSoGehtsFiltern.js'
 import WellTippsTricksFiltern from './wellTippsTricksFiltern.js'
 import InputFilterGuid from './inputFilterGuid.js'
-import FilterFieldsTaxonomy from './filterFieldsTaxonomy.js'
-import FilterFieldsPCs from './filterFieldsPCs.js'
-import FilterFieldsRCs from './filterFieldsRCs.js'
+import FilterFields from './filterFields.js'
 
 export default React.createClass({
   displayName: 'Main',
@@ -71,12 +69,13 @@ export default React.createClass({
 
   onClickPanel (number, event) {
     let { activePanel } = this.state
-
-    console.log('onClickPanel')
+    console.log('Export, panel clicked, number', number)
     // make sure the heading was clicked
     const parent = event.target.parentElement
     const headingWasClicked = _.includes(parent.className, 'panel-title') || _.includes(parent.className, 'panel-heading')
     if (!headingWasClicked) return event.stopPropagation()
+
+    console.log('Export, panel heading clicked')
 
     // always close panel if it is open
     if (activePanel === number) return this.setState({ activePanel: '' })
@@ -222,22 +221,16 @@ export default React.createClass({
             <InputFilterGuid
               onChangeFilterField={this.onChangeFilterField} />
             <hr />
-            <FilterFieldsTaxonomy
+            <FilterFields
               taxonomyFields={taxonomyFields}
-              onChangeFilterField={this.onChangeFilterField}
-              onChangeCoSelect={this.onChangeCoSelect} />
-            <FilterFieldsPCs
               pcFields={pcFields}
               pcs={pcs}
-              offlineIndexes={offlineIndexes}
-              onChangeFilterField={this.onChangeFilterField}
-              onChangeCoSelect={this.onChangeCoSelect} />
-            <FilterFieldsRCs
               relationFields={relationFields}
               rcs={rcs}
               offlineIndexes={offlineIndexes}
               onChangeFilterField={this.onChangeFilterField}
-              onChangeCoSelect={this.onChangeCoSelect} />
+              onChangeCoSelect={this.onChangeCoSelect}
+              onClickPanel={this.onClickPanel} />
 
           </Panel>
 
