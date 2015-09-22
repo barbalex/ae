@@ -2,7 +2,7 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import { Input, Panel } from 'react-bootstrap'
+import { Input, Accordion, Panel } from 'react-bootstrap'
 import _ from 'lodash'
 import SelectComparisonOperator from './selectComparisonOperator.js'
 import InfoButtonAfter from './infoButtonAfter.js'
@@ -16,7 +16,14 @@ export default React.createClass({
     onChangeFilterField: React.PropTypes.func,
     onChangeCoSelect: React.PropTypes.func,
     rcs: React.PropTypes.array,
-    offlineIndexes: React.PropTypes.bool
+    offlineIndexes: React.PropTypes.bool,
+    activePanel: React.PropTypes.number
+  },
+
+  getInitialState () {
+    return {
+      activePanel: null
+    }
   },
 
   componentDidMount () {
@@ -30,8 +37,25 @@ export default React.createClass({
     onChangeFilterField(cName, fName, event)
   },
 
+  onClickPanel (number, event) {
+    let { activePanel } = this.state
+    // prevent higher level panels from reacting
+    event.stopPropagation()
+
+    // make sure the heading was clicked
+    const parent = event.target.parentElement
+    const headingWasClicked = _.includes(parent.className, 'panel-title') || _.includes(parent.className, 'panel-heading')
+    if (!headingWasClicked) return true
+
+    // always close panel if it is open
+    if (activePanel === number) return this.setState({ activePanel: '' })
+      // open the panel clicked
+    this.setState({ activePanel: number })
+  },
+
   render () {
     const { relationFields, onChangeCoSelect, rcs } = this.props
+    const { activePanel } = this.state
 
     const collections = Object.keys(relationFields).map((cNameKey, cIndex) => {
       const showLine = cIndex + 1 < Object.keys(relationFields).length
@@ -53,26 +77,20 @@ export default React.createClass({
             buttonAfter={buttonAfter} />
         )
       })
-      const collection = (
-        <div>
+      return (
+        <Panel collapsible header={rc.name} eventKey={cIndex} onClick={this.onClickPanel.bind(this, cIndex)}>
           <PcDescription pc={rc} />
           <div className='felderspalte'>
             {fields}
           </div>
-        </div>
-      )
-      return (
-        <div key={cIndex}>
-          {collection}
-          {showLine ? <hr /> : null}
-        </div>
+        </Panel>
       )
     })
 
     return (
-      <div>
+      <Accordion activeKey={activePanel}>
         {collections}
-      </div>
+      </Accordion>
     )
   }
 })
