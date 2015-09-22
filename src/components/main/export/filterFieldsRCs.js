@@ -32,6 +32,14 @@ export default React.createClass({
     app.Actions.queryRelationCollections(offlineIndexes)
   },
 
+  componentWillUpdate () {
+    const { relationFields } = this.props
+    const { activePanel } = this.state
+    // open collection panel if there is only one
+    const numberOfCollections = Object.keys(relationFields).length
+    if (numberOfCollections === 1 && activePanel !== 0) this.setState({ activePanel: 0 })
+  },
+
   onBlur (cName, fName, event) {
     const { onChangeFilterField } = this.props
     onChangeFilterField(cName, fName, event)
