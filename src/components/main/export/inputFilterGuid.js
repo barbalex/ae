@@ -44,7 +44,7 @@ export default React.createClass({
         <OverlayTrigger trigger={['click', 'focus']} rootClose placement='right' overlay={this.popover()}>
           <label className='control-label withPopover'>GUID</label>
         </OverlayTrigger>
-        <input type='textarea' className='controls input-sm form-control' onBlur={this.onBlur.bind(this, 'object', '_id')} />
+        <textarea className='controls input-sm form-control' onBlur={this.onBlur.bind(this, 'object', '_id')} />
       </div>
     )
   }

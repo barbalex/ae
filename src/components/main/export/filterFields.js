@@ -4,6 +4,7 @@ import app from 'ampersand-app'
 import React from 'react'
 import { Input, Accordion, Panel } from 'react-bootstrap'
 import _ from 'lodash'
+import InputFilterGuid from './inputFilterGuid.js'
 import FilterFieldsTaxonomy from './filterFieldsTaxonomy.js'
 import FilterFieldsPCs from './filterFieldsPCs.js'
 import FilterFieldsRCs from './filterFieldsRCs.js'
@@ -56,13 +57,17 @@ export default React.createClass({
 
     return (
       <Accordion activeKey={activePanel}>
-        <Panel collapsible header='Taxonomie' eventKey={1} onClick={this.onClickPanel.bind(this, 1)}>
+        <Panel collapsible header='Art / Lebensraum' eventKey={1} onClick={this.onClickPanel.bind(this, 1)}>
+          <InputFilterGuid
+              onChangeFilterField={this.onChangeFilterField} />
+        </Panel>
+        <Panel className='collectionPanel' collapsible header='Taxonomie' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
           <FilterFieldsTaxonomy
             taxonomyFields={taxonomyFields}
             onChangeFilterField={onChangeFilterField}
             onChangeCoSelect={onChangeCoSelect} />
         </Panel>
-        <Panel collapsible header='Eigenschaftensammlungen' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
+        <Panel className='collectionPanel' collapsible header='Eigenschaftensammlungen' eventKey={3} onClick={this.onClickPanel.bind(this, 3)}>
           <FilterFieldsPCs
             pcFields={pcFields}
             pcs={pcs}
@@ -70,7 +75,7 @@ export default React.createClass({
             onChangeFilterField={onChangeFilterField}
             onChangeCoSelect={onChangeCoSelect} />
         </Panel>
-        <Panel collapsible header='Beziehungssammlungen' eventKey={3} onClick={this.onClickPanel.bind(this, 3)}>
+        <Panel className='collectionPanel' collapsible header='Beziehungssammlungen' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>
           <FilterFieldsRCs
             relationFields={relationFields}
             rcs={rcs}

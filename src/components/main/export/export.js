@@ -11,7 +11,6 @@ import AlertGroups from './alertGroups.js'
 import AlertLoadGroups from './alertLoadGroups.js'
 import WellSoGehtsFiltern from './wellSoGehtsFiltern.js'
 import WellTippsTricksFiltern from './wellTippsTricksFiltern.js'
-import InputFilterGuid from './inputFilterGuid.js'
 import FilterFields from './filterFields.js'
 
 export default React.createClass({
@@ -216,10 +215,6 @@ export default React.createClass({
 
             <WellSoGehtsFiltern />
             <WellTippsTricksFiltern />
-            <h3>Art / Lebensraum</h3>
-            <InputFilterGuid
-              onChangeFilterField={this.onChangeFilterField} />
-            <hr />
             <FilterFields
               taxonomyFields={taxonomyFields}
               pcFields={pcFields}

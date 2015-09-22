@@ -23,9 +23,13 @@ export default React.createClass({
 
   render () {
     const { visible } = this.state
+    const wellStyle = {
+      marginBottom: 5 + 'px !important'
+    }
 
     return (
-      <Well className='well-sm'><b>So geht`s</b> <a href='#' onClick={this.onClickToggle} className='showNextHidden'>{visible ? '...weniger' : '...mehr'}</a>
+      <Well className='well-sm' style={wellStyle}>
+        <b>So geht`s</b> <a href='#' onClick={this.onClickToggle} className='showNextHidden'>{visible ? '...weniger' : '...mehr'}</a>
         <ul className='adb-hidden' style={{'display': visible ? 'block' : 'none'}}>
           <li>Nachfolgend sind alle Eigenschaften aufgelistet, die in den gewählten Gruppen vorkommen</li>
           <li>Erfassen Sie in den Eigenschaften Ihrer Wahl die gewünschten Filter-Kriterien...</li>

@@ -1,7 +1,7 @@
 'use strict'
 
 import React from 'react'
-import { Input, Panel } from 'react-bootstrap'
+import { Input, Accordion, Panel } from 'react-bootstrap'
 import SelectComparisonOperator from './selectComparisonOperator.js'
 import InfoButtonAfter from './infoButtonAfter.js'
 
@@ -11,7 +11,14 @@ export default React.createClass({
   propTypes: {
     taxonomyFields: React.PropTypes.object,
     onChangeFilterField: React.PropTypes.func,
-    onChangeCoSelect: React.PropTypes.func
+    onChangeCoSelect: React.PropTypes.func,
+    activePanel: React.PropTypes.number
+  },
+
+  getInitialState () {
+    return {
+      activePanel: ''
+    }
   },
 
   onBlur (cName, fName, event) {
@@ -19,11 +26,27 @@ export default React.createClass({
     onChangeFilterField(cName, fName, event)
   },
 
+  onClickPanel (number, event) {
+    let { activePanel } = this.state
+    // prevent higher level panels from reacting
+    event.stopPropagation()
+
+    // make sure the heading was clicked
+    const parent = event.target.parentElement
+    const headingWasClicked = _.includes(parent.className, 'panel-title') || _.includes(parent.className, 'panel-heading')
+    if (headingWasClicked) {
+      // always close panel if it is open
+      if (activePanel === number) return this.setState({ activePanel: '' })
+        // open the panel clicked
+      this.setState({ activePanel: number })
+    }
+  },
+
   render () {
     const { taxonomyFields, onChangeCoSelect } = this.props
+    const { activePanel } = this.state
 
     const collections = Object.keys(taxonomyFields).map((cNameKey, cIndex) => {
-      const showLine = cIndex < Object.keys(taxonomyFields).length
       const cNameObject = taxonomyFields[cNameKey]
       const fields = Object.keys(cNameObject).map((fNameKey, fIndex) => {
         const fNameObject = cNameObject[fNameKey]
@@ -41,26 +64,19 @@ export default React.createClass({
             buttonAfter={buttonAfter} />
         )
       })
-      const collection = (
-        <div>
-          <h5>{cNameKey}</h5>
+      return (
+        <Panel key={cIndex} collapsible header={cNameKey} eventKey={cIndex} onClick={this.onClickPanel.bind(this, cIndex)}>
           <div className='felderspalte'>
             {fields}
           </div>
-        </div>
-      )
-      return (
-        <div key={cIndex}>
-          {collection}
-          {showLine ? <hr /> : null}
-        </div>
+        </Panel>
       )
     })
 
     return (
-      <div>
+      <Accordion activeKey={activePanel}>
         {collections}
-      </div>
+      </Accordion>
     )
   }
 })

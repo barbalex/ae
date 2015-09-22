@@ -335,7 +335,7 @@ span.withPopover
 /* Gradient, um die panels zu stylen */
 .panel-heading
   // background-color: #FFFFD8 !important
-  background: linear-gradient(180deg, #FFFFE0, #FFFFD8)
+  background: linear-gradient(180deg, #FFFFD8, #FFFFE6)
 
 .panel-body
   background-color: #FFFFF0
@@ -748,31 +748,35 @@ option
        #exportieren
 \*--------------------------------*/
 
-.panel-body .panel-body
+.collectionPanel .panel-body
   padding: 0
 
-.panel-body .panel-body [role='tablist']
+.collectionPanel [role='tablist']
   margin-top: 0
   
-.panel-body .panel-body .panel
+.collectionPanel .panel
   border-radius: 0
-  // border: 1px solid transparent
+  border: none
+  border-bottom: 1px solid #ddd
 
-.panel-body .panel-body .panel + .panel
+.collectionPanel .panel:last-of-type
+  border: none
+
+.collectionPanel .panel + .panel
   margin-top: 0
 
-.panel-body .panel-body .panel-heading
+.collectionPanel .panel-body .panel-heading
   padding: 5px 15px
+  background: linear-gradient(180deg, #FEEFCC, #FFF4DB)
 
-.panel-body .panel-body .panel-heading h4 a
+.collectionPanel .panel-body .panel-heading h4 a
   font-size: 15px
 
-.panel-body .panel-body .panel-body .form-group
+.collectionPanel .form-group
   margin-bottom: 0
 
-.panel-body .panel-body .panel-body
+.collectionPanel .panel-body .panel-body
   padding: 15px
-  border: none
 
 #export .panel-body hr,
 #exportAlt .panel-body hr
