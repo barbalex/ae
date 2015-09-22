@@ -16,7 +16,8 @@ export default React.createClass({
     onChangeFilterField: React.PropTypes.func,
     onChangeCoSelect: React.PropTypes.func,
     pcs: React.PropTypes.array,
-    offlineIndexes: React.PropTypes.bool
+    offlineIndexes: React.PropTypes.bool,
+    activePanel: React.PropTypes.number
   },
 
   getInitialState () {
@@ -36,10 +37,27 @@ export default React.createClass({
     onChangeFilterField(cName, fName, event)
   },
 
+  onClickPanel (number, event) {
+    let { activePanel } = this.state
+    // prevent higher level panels from reacting
+    event.stopPropagation()
+
+    // make sure the heading was clicked
+    const parent = event.target.parentElement
+    const headingWasClicked = _.includes(parent.className, 'panel-title') || _.includes(parent.className, 'panel-heading')
+    if (!headingWasClicked) return true
+
+    // always close panel if it is open
+    if (activePanel === number) return this.setState({ activePanel: '' })
+      // open the panel clicked
+    this.setState({ activePanel: number })
+  },
+
   render () {
     const { pcFields, onChangeCoSelect, pcs } = this.props
+    const { activePanel } = this.state
+
     const collections = Object.keys(pcFields).map((cNameKey, cIndex) => {
-      const showLine = cIndex < Object.keys(pcFields).length
       const cNameObject = pcFields[cNameKey]
       const pc = _.find(pcs, (pc) => pc.name === cNameKey)
       const fields = Object.keys(cNameObject).map((fNameKey, fIndex) => {
@@ -58,26 +76,20 @@ export default React.createClass({
             buttonAfter={buttonAfter} />
         )
       })
-      const collection = (
-        <div>
+      return (
+        <Panel collapsible header={pc.name} eventKey={cIndex} onClick={this.onClickPanel.bind(this, cIndex)}>
           <PcDescription pc={pc} />
           <div className='felderspalte'>
             {fields}
           </div>
-        </div>
-      )
-      return (
-        <div key={cIndex}>
-          {collection}
-          {showLine ? <hr /> : null}
-        </div>
+        </Panel>
       )
     })
 
     return (
-      <div>
+      <Accordion activeKey={activePanel}>
         {collections}
-      </div>
+      </Accordion>
     )
   }
 })

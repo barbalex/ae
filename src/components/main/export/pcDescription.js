@@ -33,17 +33,6 @@ export default React.createClass({
     const { pc } = this.props
     const { isVisible } = this.state
     let mehr = ''
-    const titleStyle = {
-      display: 'inline-block',
-      marginRight: 5
-    }
-
-    const bescheibung = (
-      <div className='dsBeschreibungZeile'>
-        <div>Beschreibung:</div>
-        <div>{pc.fields.Beschreibung}</div>
-      </div>
-    )
 
     const datenstand = (
       <div className='dsBeschreibungZeile'>
@@ -96,11 +85,11 @@ export default React.createClass({
       )
     }
 
-    if (pc.fields.Beschreibung || pc.fields.Datenstand || pc.fields.Nutzungsbedingungen || pc.fields.Link || (pc.combining && pc.fields.Ursprungsdatensammlung)) {
+    if (pc.fields.Datenstand || pc.fields.Nutzungsbedingungen || pc.fields.Link || (pc.combining && pc.fields.Ursprungsdatensammlung)) {
       mehr = (
         <span>
+          <a href='#' onClick={this.onClick} className='showNextHidden'>{isVisible ? '...weniger' : '...mehr'}</a>
           <div style={{display: isVisible ? 'block' : 'none'}}>
-            {pc.fields.Beschreibung ? bescheibung : null}
             {pc.fields.Datenstand ? datenstand : null}
             {pc.fields.Nutzungsbedingungen ? nutzunbsbedingungen : null}
             {pc.fields.Link ? link : null}
@@ -113,8 +102,8 @@ export default React.createClass({
 
     return (
       <div>
-        <h5 style={titleStyle}>{pc.name}</h5><span>{<a href='#' onClick={this.onClick} className='showNextHidden'>{isVisible ? '...weniger' : '...mehr'}</a>}</span>
         <div className='Datensammlung beschreibungDatensammlung'>
+          <span style={{marginRight: 3}}>{pc.fields.Beschreibung}</span>
           {mehr}
         </div>
       </div>

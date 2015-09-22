@@ -36,19 +36,17 @@ export default React.createClass({
 
   onClickPanel (number, event) {
     let { activePanel } = this.state
+    // prevent higher level panels from reacting
     event.stopPropagation()
-
-    console.log('FilterFields, panel clicked, number', number)
 
     // make sure the heading was clicked
     const parent = event.target.parentElement
     const headingWasClicked = _.includes(parent.className, 'panel-title') || _.includes(parent.className, 'panel-heading')
     if (!headingWasClicked) return true
 
-    console.log('FilterFields, panel heading clicked')
-
     // always close panel if it is open
     if (activePanel === number) return this.setState({ activePanel: '' })
+      // open the panel clicked
     this.setState({ activePanel: number })
   },
 
