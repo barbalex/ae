@@ -14,6 +14,7 @@ import WellTippsTricksFiltern from './wellTippsTricksFiltern.js'
 import FilterFields from './filterFields.js'
 import WellSoGehtsWaehlen from './wellSoGehtsWaehlen.js'
 import CheckboxOnlyObjectsWithCollectionData from './checkboxOnlyObjectsWithCollectionData.js'
+import CheckboxIncludeDataFromSynonyms from './checkboxIncludeDataFromSynonyms.js'
 
 export default React.createClass({
   displayName: 'Main',
@@ -184,6 +185,11 @@ export default React.createClass({
     this.setState({ onlyObjectsWithCollectionData })
   },
 
+  onChangeIncludeDataFromSynonyms (event) {
+    const includeDataFromSynonyms = event.target.checked
+    this.setState({ includeDataFromSynonyms })
+  },
+
   render () {
     const { groupsLoadedOrLoading, groupsLoadingObjects, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, pcs, rcs, offlineIndexes } = this.props
     const { groupsToExport, taxonomienZusammenfassen, errorBuildingFields, activePanel, exportFilters, onlyObjectsWithCollectionData, includeDataFromSynonyms } = this.state
@@ -243,7 +249,11 @@ export default React.createClass({
 
             <WellSoGehtsWaehlen />
             <CheckboxOnlyObjectsWithCollectionData
+              onlyObjectsWithCollectionData={onlyObjectsWithCollectionData}
               onChangeOnlyObjectsWithCollectionData={this.onChangeOnlyObjectsWithCollectionData} />
+            <CheckboxIncludeDataFromSynonyms
+              includeDataFromSynonyms={includeDataFromSynonyms}
+              onChangeIncludeDataFromSynonyms={this.onChangeIncludeDataFromSynonyms} />
             
           </Panel>
 

@@ -1,24 +1,27 @@
 'use strict'
 
 import React from 'react'
-import { Input } from 'react-bootstrap'
 
 export default React.createClass({
   displayName: 'CheckboxOnlyObjectsWithCollectionData',
 
   propTypes: {
-    onChangeOnlyObjectsWithCollectionData: React.PropTypes.func
+    onChangeOnlyObjectsWithCollectionData: React.PropTypes.func,
+    onlyObjectsWithCollectionData: React.PropTypes.bool
   },
 
   render () {
-    const { onChangeOnlyObjectsWithCollectionData } = this.props
+    const { onChangeOnlyObjectsWithCollectionData, onlyObjectsWithCollectionData } = this.props
     const inputStyle = {
       top: 5
     }
+    const labelStyle = {
+      float: 'none !important'
+    }
     return (
       <div className='checkbox'>
-        <label>
-          <input type='checkbox' onChange={onChangeOnlyObjectsWithCollectionData} style={inputStyle} />
+        <label style={labelStyle}>
+          <input type='checkbox' onChange={onChangeOnlyObjectsWithCollectionData} checked={onlyObjectsWithCollectionData} style={inputStyle} />
             <strong>Nur Datensätze exportieren, die in den gewählten Eigenschaften- und Beziehungssammlungen Informationen enthalten</strong><br/>
             Entfernen Sie diese Option, um auch Datensätze zu exportieren, die nur Informationen zur Taxonomie enthalten
         </label>
