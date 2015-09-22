@@ -21,6 +21,13 @@ export default React.createClass({
     }
   },
 
+  componentWillUpdate () {
+    const { taxonomyFields } = this.props
+    const { activePanel } = this.state
+    const numberOfTaxonomies = Object.keys(taxonomyFields).length
+    if (numberOfTaxonomies === 1 && activePanel !== 0) this.setState({ activePanel: 0 })
+  },
+
   onBlur (cName, fName, event) {
     const { onChangeFilterField } = this.props
     onChangeFilterField(cName, fName, event)
@@ -52,16 +59,32 @@ export default React.createClass({
         const fNameObject = cNameObject[fNameKey]
         const selectComparisonOperator = <SelectComparisonOperator cNameKey={cNameKey} fNameKey={fNameKey} onChangeCoSelect={onChangeCoSelect} />
         const buttonAfter = <InfoButtonAfter fNameObject={fNameObject} />
+        if (fNameObject.fType !== 'boolean') {
+          return (
+            <Input
+              key={fIndex}
+              type={fNameObject.fType}
+              label={fNameKey}
+              bsSize='small'
+              className={'controls'}
+              onBlur={this.onBlur.bind(this, cNameKey, fNameKey)}
+              buttonBefore={selectComparisonOperator}
+              buttonAfter={buttonAfter} />
+          )
+        }
         return (
           <Input
             key={fIndex}
-            type={fNameObject.fType}
+            type='select'
             label={fNameKey}
             bsSize='small'
             className={'controls'}
             onBlur={this.onBlur.bind(this, cNameKey, fNameKey)}
-            buttonBefore={selectComparisonOperator}
-            buttonAfter={buttonAfter} />
+            buttonAfter={buttonAfter} >
+            <option value=''></option>
+            <option value='true'>ja</option>
+            <option value='false'>nein</option>
+          </Input>
         )
       })
       return (

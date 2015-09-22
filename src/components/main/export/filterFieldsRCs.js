@@ -64,16 +64,32 @@ export default React.createClass({
         const fNameObject = cNameObject[fNameKey]
         const selectComparisonOperator = <SelectComparisonOperator cNameKey={cNameKey} fNameKey={fNameKey} onChangeCoSelect={onChangeCoSelect} />
         const buttonAfter = <InfoButtonAfter fNameObject={fNameObject} />
+        if (fNameObject.fType !== 'boolean') {
+          return (
+            <Input
+              key={fIndex}
+              type={fNameObject.fType}
+              label={fNameKey}
+              bsSize='small'
+              className={'controls'}
+              onBlur={this.onBlur.bind(this, cNameKey, fNameKey)}
+              buttonBefore={selectComparisonOperator}
+              buttonAfter={buttonAfter} />
+          )
+        }
         return (
           <Input
             key={fIndex}
-            type={fNameObject.fType}
+            type='select'
             label={fNameKey}
             bsSize='small'
             className={'controls'}
             onBlur={this.onBlur.bind(this, cNameKey, fNameKey)}
-            buttonBefore={selectComparisonOperator}
-            buttonAfter={buttonAfter} />
+            buttonAfter={buttonAfter} >
+            <option value=''></option>
+            <option value='true'>ja</option>
+            <option value='false'>nein</option>
+          </Input>
         )
       })
       return (
