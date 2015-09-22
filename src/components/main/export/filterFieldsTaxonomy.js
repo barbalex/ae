@@ -24,8 +24,9 @@ export default React.createClass({
   componentWillUpdate () {
     const { taxonomyFields } = this.props
     const { activePanel } = this.state
-    const numberOfTaxonomies = Object.keys(taxonomyFields).length
-    if (numberOfTaxonomies === 1 && activePanel !== 0) this.setState({ activePanel: 0 })
+    // open collection panel if there is only one
+    const numberOfCollections = Object.keys(taxonomyFields).length
+    if (numberOfCollections === 1 && activePanel !== 0) this.setState({ activePanel: 0 })
   },
 
   onBlur (cName, fName, event) {
@@ -55,6 +56,8 @@ export default React.createClass({
 
     const collections = Object.keys(taxonomyFields).map((cNameKey, cIndex) => {
       const cNameObject = taxonomyFields[cNameKey]
+      // we do not want the taxonomy field 'Hierarchie'
+      delete cNameObject.Hierarchie
       const fields = Object.keys(cNameObject).map((fNameKey, fIndex) => {
         const fNameObject = cNameObject[fNameKey]
         const selectComparisonOperator = <SelectComparisonOperator cNameKey={cNameKey} fNameKey={fNameKey} onChangeCoSelect={onChangeCoSelect} />
