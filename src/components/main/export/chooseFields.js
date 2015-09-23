@@ -42,6 +42,11 @@ export default React.createClass({
     }
   },
 
+  onChangeMyExportData (cName, fName, event) {
+    const { onChangeExportData } = this.props
+    onChangeExportData(cName, fName, event)
+  },
+
   render () {
     const { taxonomyFields, pcFields, relationFields, onChangeExportData, pcs, rcs } = this.props
     const { activePanel } = this.state
@@ -50,8 +55,8 @@ export default React.createClass({
       <Accordion activeKey={activePanel}>
         <Panel collapsible header='Art / Lebensraum' eventKey={1} onClick={this.onClickPanel.bind(this, 1)}>
           <div className='felderspalte'>
-            <Input type='checkbox' label='GUID' onChangeExportData={onChangeExportData.bind(this, 'object', '_id')} />
-            <Input type='checkbox' label='Gruppe' onChangeExportData={onChangeExportData.bind(this, 'object', 'Gruppe')} />
+            <Input type='checkbox' label='GUID' onChange={this.onChangeMyExportData.bind(this, 'object', '_id')} />
+            <Input type='checkbox' label='Gruppe' onChange={this.onChangeMyExportData.bind(this, 'object', 'Gruppe')} />
           </div>
         </Panel>
         <Panel className='collectionPanel' collapsible header='Taxonomie' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>

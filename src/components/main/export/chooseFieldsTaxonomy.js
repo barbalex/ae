@@ -3,8 +3,6 @@
 import React from 'react'
 import { Input, Accordion, Panel } from 'react-bootstrap'
 import _ from 'lodash'
-import SelectComparisonOperator from './selectComparisonOperator.js'
-import InfoButtonAfter from './infoButtonAfter.js'
 
 export default React.createClass({
   displayName: 'ChooseFieldsTaxonomy',
@@ -12,7 +10,6 @@ export default React.createClass({
   propTypes: {
     taxonomyFields: React.PropTypes.object,
     onChangeFilterField: React.PropTypes.func,
-    onChangeCoSelect: React.PropTypes.func,
     activePanel: React.PropTypes.number
   },
 
@@ -30,9 +27,13 @@ export default React.createClass({
     if (numberOfCollections === 1 && activePanel !== 0) this.setState({ activePanel: 0 })
   },
 
-  onBlur (cName, fName, event) {
+  onChange (cName, fName, event) {
     const { onChangeFilterField } = this.props
     onChangeFilterField(cName, fName, event)
+  },
+
+  onChangeAlle (cName, event) {
+    console.log('all chosen from cName', cName)
   },
 
   onClickPanel (number, event) {
@@ -52,7 +53,7 @@ export default React.createClass({
   },
 
   render () {
-    const { taxonomyFields, onChangeCoSelect } = this.props
+    const { taxonomyFields } = this.props
     const { activePanel } = this.state
 
     const collections = Object.keys(taxonomyFields).map((cNameKey, cIndex) => {
@@ -60,39 +61,25 @@ export default React.createClass({
       // we do not want the taxonomy field 'Hierarchie'
       delete cNameObject.Hierarchie
       const fields = Object.keys(cNameObject).map((fNameKey, fIndex) => {
-        const fNameObject = cNameObject[fNameKey]
-        const selectComparisonOperator = <SelectComparisonOperator cNameKey={cNameKey} fNameKey={fNameKey} onChangeCoSelect={onChangeCoSelect} />
-        const buttonAfter = <InfoButtonAfter fNameObject={fNameObject} />
-        if (fNameObject.fType !== 'boolean') {
-          return (
-            <Input
-              key={fIndex}
-              type={fNameObject.fType}
-              label={fNameKey}
-              bsSize='small'
-              className={'controls'}
-              onBlur={this.onBlur.bind(this, cNameKey, fNameKey)}
-              buttonBefore={selectComparisonOperator}
-              buttonAfter={buttonAfter} />
-          )
-        }
         return (
           <Input
             key={fIndex}
-            type='select'
+            type='checkbox'
             label={fNameKey}
-            bsSize='small'
-            className={'controls'}
-            onBlur={this.onBlur.bind(this, cNameKey, fNameKey)}
-            buttonAfter={buttonAfter} >
-            <option value=''></option>
-            <option value='true'>ja</option>
-            <option value='false'>nein</option>
-          </Input>
+            onBlur={this.onChange.bind(this, cNameKey, fNameKey)} />
         )
       })
+      const alleField = (fields.length <= 1 ? null :
+        <div className='felderspalte alleWaehlenCheckbox'>
+          <Input
+            type='checkbox'
+            label='alle'
+            onBlur={this.onChangeAlle.bind(this, cNameKey)} />
+        </div>
+      )
       return (
         <Panel key={cIndex} collapsible header={cNameKey} eventKey={cIndex} onClick={this.onClickPanel.bind(this, cIndex)}>
+          {alleField}
           <div className='felderspalte'>
             {fields}
           </div>
