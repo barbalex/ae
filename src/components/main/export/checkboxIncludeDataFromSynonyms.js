@@ -15,11 +15,15 @@ export default React.createClass({
     const inputStyle = {
       top: 5
     }
+    const divStyle = {
+      marginTop: 8,
+      marginBottom: 8
+    }
     const labelStyle = {
       float: 'none !important'
     }
     return (
-      <div className='checkbox'>
+      <div className='checkbox' style={divStyle}>
         <label style={labelStyle}>
           <input type='checkbox' onChange={onChangeIncludeDataFromSynonyms} checked={includeDataFromSynonyms} style={inputStyle} />
             <strong>inklusive Informationen von Synonymen</strong><br/>
