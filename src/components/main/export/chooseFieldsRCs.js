@@ -9,14 +9,15 @@ import InfoButtonAfter from './infoButtonAfter.js'
 import PcDescription from './pcDescription.js'
 
 export default React.createClass({
-  displayName: 'ChosseFieldsRCs',
+  displayName: 'ChooseFieldsRCs',
 
   propTypes: {
     relationFields: React.PropTypes.object,
-    onChangeFilterField: React.PropTypes.func,
+    onChangeExportData: React.PropTypes.func,
     onChangeCoSelect: React.PropTypes.func,
     rcs: React.PropTypes.array,
-    activePanel: React.PropTypes.number
+    activePanel: React.PropTypes.number,
+    exportData: React.PropTypes.object
   },
 
   getInitialState () {
@@ -34,8 +35,8 @@ export default React.createClass({
   },
 
   onBlur (cName, fName, event) {
-    const { onChangeFilterField } = this.props
-    onChangeFilterField(cName, fName, event)
+    const { onChangeExportData } = this.props
+    onChangeExportData(cName, fName, event)
   },
 
   onClickPanel (number, event) {
@@ -55,7 +56,7 @@ export default React.createClass({
   },
 
   render () {
-    const { relationFields, onChangeCoSelect, rcs } = this.props
+    const { relationFields, onChangeCoSelect, rcs, exportData } = this.props
     const { activePanel } = this.state
 
     const collections = Object.keys(relationFields).map((cNameKey, cIndex) => {

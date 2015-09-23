@@ -9,8 +9,9 @@ export default React.createClass({
 
   propTypes: {
     taxonomyFields: React.PropTypes.object,
-    onChangeFilterField: React.PropTypes.func,
-    activePanel: React.PropTypes.number
+    onChangeExportData: React.PropTypes.func,
+    activePanel: React.PropTypes.number,
+    exportData: React.PropTypes.object
   },
 
   getInitialState () {
@@ -28,12 +29,23 @@ export default React.createClass({
   },
 
   onChange (cName, fName, event) {
-    const { onChangeFilterField } = this.props
-    onChangeFilterField(cName, fName, event)
+    const { onChangeExportData } = this.props
+    onChangeExportData(cName, fName, event)
   },
 
   onChangeAlle (cName, event) {
+    const { taxonomyFields } = this.props
     console.log('all chosen from cName', cName)
+    const checked = event.target.checked
+    const cNameObject = taxonomyFields[cName]
+    // we do not want the taxonomy field 'Hierarchie'
+    delete cNameObject.Hierarchie
+    const returnEvent = {
+      target: {
+        checked: checked
+      }
+    }
+    Object.keys(cNameObject).forEach((fName) => this.onChange(cName, fName, returnEvent))
   },
 
   onClickPanel (number, event) {
@@ -53,7 +65,7 @@ export default React.createClass({
   },
 
   render () {
-    const { taxonomyFields } = this.props
+    const { taxonomyFields, exportData } = this.props
     const { activePanel } = this.state
 
     const collections = Object.keys(taxonomyFields).map((cNameKey, cIndex) => {
@@ -61,22 +73,29 @@ export default React.createClass({
       // we do not want the taxonomy field 'Hierarchie'
       delete cNameObject.Hierarchie
       const fields = Object.keys(cNameObject).map((fNameKey, fIndex) => {
+        let checked = false
+        const path = `${cNameKey}.${fNameKey}.export`
+        if (_.has(exportData, path)) checked = _.get(exportData, path)
         return (
           <Input
             key={fIndex}
             type='checkbox'
             label={fNameKey}
-            onBlur={this.onChange.bind(this, cNameKey, fNameKey)} />
+            checked={checked}
+            onChange={this.onChange.bind(this, cNameKey, fNameKey)} />
         )
       })
-      const alleField = (fields.length <= 1 ? null :
-        <div className='felderspalte alleWaehlenCheckbox'>
-          <Input
-            type='checkbox'
-            label='alle'
-            onBlur={this.onChangeAlle.bind(this, cNameKey)} />
-        </div>
-      )
+      let alleField = null
+      if (fields.length > 1) {
+        alleField = (
+          <div className='felderspalte alleWaehlenCheckbox'>
+            <Input
+              type='checkbox'
+              label='alle'
+              onChange={this.onChangeAlle.bind(this, cNameKey)} />
+          </div>
+        )
+      }
       return (
         <Panel key={cIndex} collapsible header={cNameKey} eventKey={cIndex} onClick={this.onClickPanel.bind(this, cIndex)}>
           {alleField}

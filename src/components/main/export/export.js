@@ -280,6 +280,7 @@ export default React.createClass({
               includeDataFromSynonyms={includeDataFromSynonyms}
               onChangeIncludeDataFromSynonyms={this.onChangeIncludeDataFromSynonyms} />
             <ChooseFields
+              exportData={exportData}
               taxonomyFields={taxonomyFields}
               pcFields={pcFields}
               pcs={pcs}
@@ -287,7 +288,7 @@ export default React.createClass({
               rcs={rcs}
               onChangeExportData={this.onChangeExportData}
               onClickPanel={this.onClickPanel} />
-            
+
           </Panel>
 
           <Panel collapsible header='4. exportieren' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>
