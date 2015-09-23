@@ -79,7 +79,7 @@ export default React.createClass({
       let alleField = null
       if (fields.length > 1) {
         alleField = (
-          <div className='felderspalte alleWaehlenCheckbox'>
+          <div className='felderspalte alleWaehlenCheckbox' style={{marginBottom: 5}}>
             <Input
               type='checkbox'
               label='alle'
@@ -90,7 +90,7 @@ export default React.createClass({
       return (
         <Panel key={cIndex} collapsible header={cNameKey} eventKey={cIndex} onClick={this.onClickPanel.bind(this, cIndex)}>
           {alleField}
-          <div className='felderspalte'>
+          <div className='felderspalte' style={{marginBottom: -8}}>
             {fields}
           </div>
         </Panel>
