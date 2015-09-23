@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { Input, Accordion, Panel } from 'react-bootstrap'
+import _ from 'lodash'
 import SelectComparisonOperator from './selectComparisonOperator.js'
 import InfoButtonAfter from './infoButtonAfter.js'
 
