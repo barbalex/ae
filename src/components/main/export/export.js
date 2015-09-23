@@ -196,13 +196,16 @@ export default React.createClass({
     console.log('exportData', exportData)
   },
 
-  onChooseAllOfCollection (cName, event) {
+  onChooseAllOfCollection (pcType, cName, event) {
     let { exportData } = this.state
-    const { taxonomyFields } = this.props
+    const { taxonomyFields, pcFields, relationFields } = this.props
     const checked = event.target.checked
-    const cNameObject = taxonomyFields[cName]
+    let fields = taxonomyFields
+    if (pcType === 'pc') fields = pcFields
+    if (pcType === 'rc') fields = relationFields
+    const cNameObject = fields[cName]
     // we do not want the taxonomy field 'Hierarchie'
-    delete cNameObject.Hierarchie
+    if (pcType === 'taxonomy' && cNameObject.Hierarchie) delete cNameObject.Hierarchie
     Object.keys(cNameObject).forEach((fName) => {
       const valuePath = `${cName}.${fName}.export`
       _.set(exportData, valuePath, checked)

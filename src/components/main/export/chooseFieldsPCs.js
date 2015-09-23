@@ -1,12 +1,8 @@
 'use strict'
 
-import app from 'ampersand-app'
 import React from 'react'
 import { Input, Accordion, Panel } from 'react-bootstrap'
 import _ from 'lodash'
-import SelectComparisonOperator from './selectComparisonOperator.js'
-import InfoButtonAfter from './infoButtonAfter.js'
-import PcDescription from './pcDescription.js'
 
 export default React.createClass({
   displayName: 'ChooseFieldsPcs',
@@ -14,7 +10,7 @@ export default React.createClass({
   propTypes: {
     pcFields: React.PropTypes.object,
     onChangeExportData: React.PropTypes.func,
-    onChangeCoSelect: React.PropTypes.func,
+    onChooseAllOfCollection: React.PropTypes.func,
     pcs: React.PropTypes.array,
     activePanel: React.PropTypes.number,
     exportData: React.PropTypes.object
@@ -34,9 +30,14 @@ export default React.createClass({
     if (numberOfCollections === 1 && activePanel !== 0) this.setState({ activePanel: 0 })
   },
 
-  onBlur (cName, fName, event) {
+  onChange (cName, fName, event) {
     const { onChangeExportData } = this.props
     onChangeExportData(cName, fName, event)
+  },
+
+  onChangeAlle (cName, event) {
+    const { onChooseAllOfCollection } = this.props
+    onChooseAllOfCollection('pc', cName, event)
   },
 
   onClickPanel (number, event) {
@@ -56,48 +57,40 @@ export default React.createClass({
   },
 
   render () {
-    const { pcFields, onChangeCoSelect, pcs, exportData } = this.props
+    const { pcFields, pcs, exportData } = this.props
     const { activePanel } = this.state
 
     const collections = Object.keys(pcFields).map((cNameKey, cIndex) => {
       const cNameObject = pcFields[cNameKey]
       const pc = _.find(pcs, (pc) => pc.name === cNameKey)
       const fields = Object.keys(cNameObject).map((fNameKey, fIndex) => {
-        const fNameObject = cNameObject[fNameKey]
-        const selectComparisonOperator = <SelectComparisonOperator cNameKey={cNameKey} fNameKey={fNameKey} onChangeCoSelect={onChangeCoSelect} />
-        const buttonAfter = <InfoButtonAfter fNameObject={fNameObject} />
-        if (fNameObject.fType !== 'boolean') {
-          return (
-            <Input
-              key={fIndex}
-              type={fNameObject.fType}
-              label={fNameKey}
-              bsSize='small'
-              className={'controls'}
-              onBlur={this.onBlur.bind(this, cNameKey, fNameKey)}
-              buttonBefore={selectComparisonOperator}
-              buttonAfter={buttonAfter} />
-          )
-        }
+        let checked = false
+        const path = `${cNameKey}.${fNameKey}.export`
+        if (_.has(exportData, path)) checked = _.get(exportData, path)
         return (
           <Input
             key={fIndex}
-            type='select'
+            type='checkbox'
             label={fNameKey}
-            bsSize='small'
-            className={'controls'}
-            onBlur={this.onBlur.bind(this, cNameKey, fNameKey)}
-            buttonAfter={buttonAfter} >
-            <option value=''></option>
-            <option value='true'>ja</option>
-            <option value='false'>nein</option>
-          </Input>
+            checked={checked}
+            onChange={this.onChange.bind(this, cNameKey, fNameKey)} />
         )
       })
+      let alleField = null
+      if (fields.length > 1) {
+        alleField = (
+          <div className='felderspalte alleWaehlenCheckbox' style={{marginBottom: 5}}>
+            <Input
+              type='checkbox'
+              label='alle'
+              onChange={this.onChangeAlle.bind(this, cNameKey)} />
+          </div>
+        )
+      }
       return (
         <Panel key={cIndex} collapsible header={pc.name} eventKey={cIndex} onClick={this.onClickPanel.bind(this, cIndex)}>
-          <PcDescription pc={pc} />
-          <div className='felderspalte'>
+          {alleField}
+          <div className='felderspalte' style={{marginBottom: -8}}>
             {fields}
           </div>
         </Panel>

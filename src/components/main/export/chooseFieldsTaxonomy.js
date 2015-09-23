@@ -36,7 +36,7 @@ export default React.createClass({
 
   onChangeAlle (cName, event) {
     const { onChooseAllOfCollection } = this.props
-    onChooseAllOfCollection(cName, event)
+    onChooseAllOfCollection('taxonomy', cName, event)
   },
 
   onClickPanel (number, event) {
