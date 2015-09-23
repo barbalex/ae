@@ -13,12 +13,18 @@ export default React.createClass({
     onChooseAllOfCollection: React.PropTypes.func,
     pcs: React.PropTypes.array,
     activePanel: React.PropTypes.number,
-    exportData: React.PropTypes.object
+    exportData: React.PropTypes.object,
+    collectionsWithAllChoosen: React.PropTypes.array
   },
 
   getInitialState () {
     return {
-      activePanel: ''
+      activePanel: '',
+      /**
+       * need to be state because field allChoosen needs to be unchecked
+       * when a single field in the collection is unchecked
+       */
+      collectionsWithAllChoosen: []
     }
   },
 
@@ -32,12 +38,25 @@ export default React.createClass({
 
   onChange (cName, fName, event) {
     const { onChangeExportData } = this.props
+    let { collectionsWithAllChoosen } = this.state
     onChangeExportData(cName, fName, event)
+    if (event.target.checked === false && _.includes(collectionsWithAllChoosen, cName)) {
+      collectionsWithAllChoosen = _.without(collectionsWithAllChoosen, cName)
+      this.setState({ collectionsWithAllChoosen })
+    }
   },
 
   onChangeAlle (cName, event) {
     const { onChooseAllOfCollection } = this.props
+    let { collectionsWithAllChoosen } = this.state
     onChooseAllOfCollection('pc', cName, event)
+    if (event.target.checked === false) {
+      collectionsWithAllChoosen = _.without(collectionsWithAllChoosen, cName)
+      this.setState({ collectionsWithAllChoosen })
+    } else {
+      collectionsWithAllChoosen = _.union(collectionsWithAllChoosen, [cName])
+      this.setState({ collectionsWithAllChoosen })
+    }
   },
 
   onClickPanel (number, event) {
@@ -58,7 +77,7 @@ export default React.createClass({
 
   render () {
     const { pcFields, pcs, exportData } = this.props
-    const { activePanel } = this.state
+    const { activePanel, collectionsWithAllChoosen } = this.state
 
     const collections = Object.keys(pcFields).map((cNameKey, cIndex) => {
       const cNameObject = pcFields[cNameKey]
@@ -78,11 +97,13 @@ export default React.createClass({
       })
       let alleField = null
       if (fields.length > 1) {
+        const checked = _.includes(collectionsWithAllChoosen, cNameKey)
         alleField = (
           <div className='felderspalte alleWaehlenCheckbox' style={{marginBottom: 5}}>
             <Input
               type='checkbox'
               label='alle'
+              checked={checked}
               onChange={this.onChangeAlle.bind(this, cNameKey)} />
           </div>
         )
