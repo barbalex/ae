@@ -15,6 +15,7 @@ import FilterFields from './filterFields.js'
 import WellSoGehtsWaehlen from './wellSoGehtsWaehlen.js'
 import CheckboxOnlyObjectsWithCollectionData from './checkboxOnlyObjectsWithCollectionData.js'
 import CheckboxIncludeDataFromSynonyms from './checkboxIncludeDataFromSynonyms.js'
+import ChooseFields from './chooseFields.js'
 
 export default React.createClass({
   displayName: 'Export',
@@ -42,11 +43,11 @@ export default React.createClass({
    * exportData
    * {
    *   object: {
-   *     ids: {
+   *     _id: {
    *       value: [],
    *       export: ''
    *     },
-   *     groups: {
+   *     Gruppen: {
    *       value: [],
    *       export: ''
    *     }
@@ -66,7 +67,7 @@ export default React.createClass({
   getInitialState () {
     const exportData = {
       object: {
-        groups: {
+        Gruppen: {
           value: []
         }
       }
@@ -149,7 +150,7 @@ export default React.createClass({
     let { exportData } = this.state
     const { taxonomienZusammenfassen } = this.state
     const { offlineIndexes } = this.props
-    let groupsToExport = exportData.object.groups.value
+    let groupsToExport = exportData.object.Gruppen.value
     if (checked) groupsToExport.push(group)
     if (!checked) groupsToExport = _.without(groupsToExport, group)
     this.setState({ exportData })
@@ -163,7 +164,7 @@ export default React.createClass({
     const group = null
     this.setState({ taxonomienZusammenfassen })
     // recalculate taxonomyFields
-    const groupsToExport = exportData.object.groups.value
+    const groupsToExport = exportData.object.Gruppen.value
     app.Actions.queryFields(groupsToExport, group, taxonomienZusammenfassen, offlineIndexes)
   },
 
@@ -179,13 +180,22 @@ export default React.createClass({
     let { exportData } = this.state
     let value = event.target.value
     let valuePath = `${cName}.${fName}.value`
+    // correct a few misleading values
     if (value === 'false') value = false
     if (value === 'true') value = true
     if (value === '') value = null
     _.set(exportData, valuePath, value)
     this.setState({ exportData })
     console.log('exportData', exportData)
-    console.log('export.js, event.target.value', event.target.value)
+  },
+
+  onChangeExportData (cName, fName, event) {
+    let { exportData } = this.state
+    let value = event.target.checked
+    let valuePath = `${cName}.${fName}.export`
+    _.set(exportData, valuePath, value)
+    this.setState({ exportData })
+    console.log('exportData', exportData)
   },
 
   onChangeOnlyObjectsWithCollectionData (event) {
@@ -202,7 +212,7 @@ export default React.createClass({
     const { groupsLoadedOrLoading, groupsLoadingObjects, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, pcs, rcs, offlineIndexes } = this.props
     const { taxonomienZusammenfassen, errorBuildingFields, activePanel, exportData, onlyObjectsWithCollectionData, includeDataFromSynonyms } = this.state
     const showAlertLoadGroups = groupsLoadedOrLoading.length === 0
-    const groupsToExport = exportData.object.groups.value
+    const groupsToExport = exportData.object.Gruppen.value
     const showAlertGroups = groupsToExport.length > 0 && !showAlertLoadGroups
     const groupsLoading = _.pluck(groupsLoadingObjects, 'group')
     const groupsLoaded = _.difference(groupsLoadedOrLoading, groupsLoading)
@@ -263,6 +273,15 @@ export default React.createClass({
             <CheckboxIncludeDataFromSynonyms
               includeDataFromSynonyms={includeDataFromSynonyms}
               onChangeIncludeDataFromSynonyms={this.onChangeIncludeDataFromSynonyms} />
+            <ChooseFields
+              taxonomyFields={taxonomyFields}
+              pcFields={pcFields}
+              pcs={pcs}
+              relationFields={relationFields}
+              rcs={rcs}
+              offlineIndexes={offlineIndexes}
+              onChangeExportData={this.onChangeExportData}
+              onClickPanel={this.onClickPanel} />
             
           </Panel>
 

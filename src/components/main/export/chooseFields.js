@@ -1,22 +1,20 @@
 'use strict'
 
 import React from 'react'
-import { Accordion, Panel } from 'react-bootstrap'
+import { Accordion, Panel, Input } from 'react-bootstrap'
 import _ from 'lodash'
-import InputFilterGuid from './inputFilterGuid.js'
-import ChosseFieldsTaxonomy from './chooseFieldsTaxonomy.js'
+import ChooseFieldsTaxonomy from './chooseFieldsTaxonomy.js'
 import ChooseFieldsPCs from './chooseFieldsPCs.js'
 import ChooseFieldsRCs from './chooseFieldsRCs.js'
 
 export default React.createClass({
-  displayName: 'FilterFieldsPcs',
+  displayName: 'ChooseFields',
 
   propTypes: {
     taxonomyFields: React.PropTypes.object,
     pcFields: React.PropTypes.object,
     relationFields: React.PropTypes.object,
-    onChangeFilterField: React.PropTypes.func,
-    onChangeCoSelect: React.PropTypes.func,
+    onChangeExportData: React.PropTypes.func,
     pcs: React.PropTypes.array,
     rcs: React.PropTypes.array,
     offlineIndexes: React.PropTypes.bool,
@@ -27,11 +25,6 @@ export default React.createClass({
     return {
       activePanel: null
     }
-  },
-
-  onBlur (cName, fName, event) {
-    const { onChangeFilterField } = this.props
-    onChangeFilterField(cName, fName, event)
   },
 
   onClickPanel (number, event) {
@@ -51,36 +44,33 @@ export default React.createClass({
   },
 
   render () {
-    const { taxonomyFields, pcFields, relationFields, onChangeFilterField, onChangeCoSelect, pcs, rcs, offlineIndexes } = this.props
+    const { taxonomyFields, pcFields, relationFields, onChangeExportData, pcs, rcs, offlineIndexes } = this.props
     const { activePanel } = this.state
 
     return (
       <Accordion activeKey={activePanel}>
         <Panel collapsible header='Art / Lebensraum' eventKey={1} onClick={this.onClickPanel.bind(this, 1)}>
-          <InputFilterGuid
-              onChangeFilterField={this.onChangeFilterField} />
+          <Input type='checkbox' label='GUID' onChangeExportData={onChangeExportData.bind(this, 'object', '_id')} />
+          <Input type='checkbox' label='Gruppe' onChangeExportData={onChangeExportData.bind(this, 'object', 'Gruppe')} />
         </Panel>
         <Panel className='collectionPanel' collapsible header='Taxonomie' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
-          <ChosseFieldsTaxonomy
+          <ChooseFieldsTaxonomy
             taxonomyFields={taxonomyFields}
-            onChangeFilterField={onChangeFilterField}
-            onChangeCoSelect={onChangeCoSelect} />
+            onChangeExportData={onChangeExportData} />
         </Panel>
         <Panel className='collectionPanel' collapsible header='Eigenschaftensammlungen' eventKey={3} onClick={this.onClickPanel.bind(this, 3)}>
           <ChooseFieldsPCs
             pcFields={pcFields}
             pcs={pcs}
             offlineIndexes={offlineIndexes}
-            onChangeFilterField={onChangeFilterField}
-            onChangeCoSelect={onChangeCoSelect} />
+            onChangeExportData={onChangeExportData} />
         </Panel>
         <Panel className='collectionPanel' collapsible header='Beziehungssammlungen' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>
           <ChooseFieldsRCs
             relationFields={relationFields}
             rcs={rcs}
             offlineIndexes={offlineIndexes}
-            onChangeFilterField={onChangeFilterField}
-            onChangeCoSelect={onChangeCoSelect} />
+            onChangeExportData={onChangeExportData} />
         </Panel>
       </Accordion>
     )

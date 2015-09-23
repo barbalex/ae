@@ -9,7 +9,7 @@ import FilterFieldsPCs from './filterFieldsPCs.js'
 import FilterFieldsRCs from './filterFieldsRCs.js'
 
 export default React.createClass({
-  displayName: 'FilterFieldsPcs',
+  displayName: 'FilterFields',
 
   propTypes: {
     taxonomyFields: React.PropTypes.object,
@@ -27,11 +27,6 @@ export default React.createClass({
     return {
       activePanel: null
     }
-  },
-
-  onBlur (cName, fName, event) {
-    const { onChangeFilterField } = this.props
-    onChangeFilterField(cName, fName, event)
   },
 
   onClickPanel (number, event) {
