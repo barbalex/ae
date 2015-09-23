@@ -10,6 +10,7 @@ export default React.createClass({
   propTypes: {
     taxonomyFields: React.PropTypes.object,
     onChangeExportData: React.PropTypes.func,
+    onChooseAllOfCollection: React.PropTypes.func,
     activePanel: React.PropTypes.number,
     exportData: React.PropTypes.object
   },
@@ -34,18 +35,8 @@ export default React.createClass({
   },
 
   onChangeAlle (cName, event) {
-    const { taxonomyFields } = this.props
-    console.log('all chosen from cName', cName)
-    const checked = event.target.checked
-    const cNameObject = taxonomyFields[cName]
-    // we do not want the taxonomy field 'Hierarchie'
-    delete cNameObject.Hierarchie
-    const returnEvent = {
-      target: {
-        checked: checked
-      }
-    }
-    Object.keys(cNameObject).forEach((fName) => this.onChange(cName, fName, returnEvent))
+    const { onChooseAllOfCollection } = this.props
+    onChooseAllOfCollection(cName, event)
   },
 
   onClickPanel (number, event) {

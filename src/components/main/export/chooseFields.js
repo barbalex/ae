@@ -15,6 +15,7 @@ export default React.createClass({
     pcFields: React.PropTypes.object,
     relationFields: React.PropTypes.object,
     onChangeExportData: React.PropTypes.func,
+    onChooseAllOfCollection: React.PropTypes.func,
     pcs: React.PropTypes.array,
     rcs: React.PropTypes.array,
     activePanel: React.PropTypes.number,
@@ -49,7 +50,7 @@ export default React.createClass({
   },
 
   render () {
-    const { taxonomyFields, pcFields, relationFields, onChangeExportData, pcs, rcs, exportData } = this.props
+    const { taxonomyFields, pcFields, relationFields, onChangeExportData, onChooseAllOfCollection, pcs, rcs, exportData } = this.props
     const { activePanel } = this.state
 
     return (
@@ -64,21 +65,24 @@ export default React.createClass({
           <ChooseFieldsTaxonomy
             exportData={exportData}
             taxonomyFields={taxonomyFields}
-            onChangeExportData={onChangeExportData} />
+            onChangeExportData={onChangeExportData}
+            onChooseAllOfCollection={onChooseAllOfCollection} />
         </Panel>
         <Panel className='collectionPanel' collapsible header='Eigenschaftensammlungen' eventKey={3} onClick={this.onClickPanel.bind(this, 3)}>
           <ChooseFieldsPCs
             exportData={exportData}
             pcFields={pcFields}
             pcs={pcs}
-            onChangeExportData={onChangeExportData} />
+            onChangeExportData={onChangeExportData}
+            onChooseAllOfCollection={onChooseAllOfCollection} />
         </Panel>
         <Panel className='collectionPanel' collapsible header='Beziehungssammlungen' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>
           <ChooseFieldsRCs
             exportData={exportData}
             relationFields={relationFields}
             rcs={rcs}
-            onChangeExportData={onChangeExportData} />
+            onChangeExportData={onChangeExportData}
+            onChooseAllOfCollection={onChooseAllOfCollection} />
         </Panel>
       </Accordion>
     )

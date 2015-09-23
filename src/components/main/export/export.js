@@ -186,7 +186,7 @@ export default React.createClass({
   onChangeFilterField (cName, fName, event) {
     let { exportData } = this.state
     let value = event.target.value
-    let valuePath = `${cName}.${fName}.value`
+    const valuePath = `${cName}.${fName}.value`
     // correct a few misleading values
     if (value === 'false') value = false
     if (value === 'true') value = true
@@ -196,10 +196,25 @@ export default React.createClass({
     console.log('exportData', exportData)
   },
 
+  onChooseAllOfCollection (cName, event) {
+    let { exportData } = this.state
+    const { taxonomyFields } = this.props
+    const checked = event.target.checked
+    const cNameObject = taxonomyFields[cName]
+    // we do not want the taxonomy field 'Hierarchie'
+    delete cNameObject.Hierarchie
+    Object.keys(cNameObject).forEach((fName) => {
+      const valuePath = `${cName}.${fName}.export`
+      _.set(exportData, valuePath, checked)
+    })
+    this.setState({ exportData })
+    console.log('exportData', exportData)
+  },
+
   onChangeExportData (cName, fName, event) {
     let { exportData } = this.state
     let value = event.target.checked
-    let valuePath = `${cName}.${fName}.export`
+    const valuePath = `${cName}.${fName}.export`
     _.set(exportData, valuePath, value)
     this.setState({ exportData })
     console.log('exportData', exportData)
@@ -287,6 +302,7 @@ export default React.createClass({
               relationFields={relationFields}
               rcs={rcs}
               onChangeExportData={this.onChangeExportData}
+              onChooseAllOfCollection={this.onChooseAllOfCollection}
               onClickPanel={this.onClickPanel} />
 
           </Panel>
