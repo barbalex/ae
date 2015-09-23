@@ -387,28 +387,28 @@ export default React.createClass({
     // make sure the heading was clicked
     const parent = event.target.parentElement
     const headingWasClicked = _.includes(parent.className, 'panel-title') || _.includes(parent.className, 'panel-heading')
-    if (!headingWasClicked) return event.stopPropagation()
+    if (headingWasClicked) {
+      // always close panel if it is open
+      if (activePanel === number) return this.setState({ activePanel: '' })
 
-    // always close panel if it is open
-    if (activePanel === number) return this.setState({ activePanel: '' })
-
-    switch (number) {
-    case 1:
-      this.setState({ activePanel: 1 })
-      break
-    case 2:
-      if (!allGroupsLoaded) this.setState({ ultimatelyAlertLoadAllGroups: true })
-      const isPanel1Done = this.isPanel1Done()
-      if (isPanel1Done && allGroupsLoaded) this.setState({ activePanel: 2 })
-      break
-    case 3:
-      const isPanel2Done = this.isPanel2Done()
-      if (isPanel2Done) this.setState({ activePanel: 3 })
-      break
-    case 4:
-      const isPanel3Done = this.isPanel3Done()
-      if (isPanel3Done) this.setState({ activePanel: 4 })
-      break
+      switch (number) {
+      case 1:
+        this.setState({ activePanel: 1 })
+        break
+      case 2:
+        if (!allGroupsLoaded) this.setState({ ultimatelyAlertLoadAllGroups: true })
+        const isPanel1Done = this.isPanel1Done()
+        if (isPanel1Done && allGroupsLoaded) this.setState({ activePanel: 2 })
+        break
+      case 3:
+        const isPanel2Done = this.isPanel2Done()
+        if (isPanel2Done) this.setState({ activePanel: 3 })
+        break
+      case 4:
+        const isPanel3Done = this.isPanel3Done()
+        if (isPanel3Done) this.setState({ activePanel: 4 })
+        break
+      }
     }
   },
 
