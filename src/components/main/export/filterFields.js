@@ -1,8 +1,7 @@
 'use strict'
 
-import app from 'ampersand-app'
 import React from 'react'
-import { Input, Accordion, Panel } from 'react-bootstrap'
+import { Accordion, Panel } from 'react-bootstrap'
 import _ from 'lodash'
 import InputFilterGuid from './inputFilterGuid.js'
 import FilterFieldsTaxonomy from './filterFieldsTaxonomy.js'
@@ -43,12 +42,12 @@ export default React.createClass({
     // make sure the heading was clicked
     const parent = event.target.parentElement
     const headingWasClicked = _.includes(parent.className, 'panel-title') || _.includes(parent.className, 'panel-heading')
-    if (!headingWasClicked) return true
-
-    // always close panel if it is open
-    if (activePanel === number) return this.setState({ activePanel: '' })
-      // open the panel clicked
-    this.setState({ activePanel: number })
+    if (headingWasClicked) {
+      // always close panel if it is open
+      if (activePanel === number) return this.setState({ activePanel: '' })
+        // open the panel clicked
+      this.setState({ activePanel: number })
+    }
   },
 
   render () {
@@ -59,7 +58,7 @@ export default React.createClass({
       <Accordion activeKey={activePanel}>
         <Panel collapsible header='Art / Lebensraum' eventKey={1} onClick={this.onClickPanel.bind(this, 1)}>
           <InputFilterGuid
-              onChangeFilterField={this.onChangeFilterField} />
+            onChangeFilterField={onChangeFilterField} />
         </Panel>
         <Panel className='collectionPanel' collapsible header='Taxonomie' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
           <FilterFieldsTaxonomy

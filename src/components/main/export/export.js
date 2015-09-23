@@ -17,10 +17,9 @@ import CheckboxOnlyObjectsWithCollectionData from './checkboxOnlyObjectsWithColl
 import CheckboxIncludeDataFromSynonyms from './checkboxIncludeDataFromSynonyms.js'
 
 export default React.createClass({
-  displayName: 'Main',
+  displayName: 'Export',
 
   propTypes: {
-    groupsToExport: React.PropTypes.array,
     groupsLoadingObjects: React.PropTypes.array,
     fieldsQuerying: React.PropTypes.bool,
     fieldsQueryingError: React.PropTypes.object,
@@ -31,8 +30,7 @@ export default React.createClass({
     groupsLoadedOrLoading: React.PropTypes.array,
     taxonomienZusammenfassen: React.PropTypes.bool,
     activePanel: React.PropTypes.number,
-    exportFilters: React.PropTypes.object,
-    exportFields: React.PropTypes.object,
+    exportData: React.PropTypes.object,
     pcs: React.PropTypes.array,
     rcs: React.PropTypes.array,
     offlineIndexes: React.PropTypes.bool,
@@ -41,13 +39,24 @@ export default React.createClass({
   },
 
   /**
-   * exportFilters
+   * exportData
    * {
+   *   object: {
+   *     ids: {
+   *       value: [],
+   *       export: ''
+   *     },
+   *     groups: {
+   *       value: [],
+   *       export: ''
+   *     }
+   *   }
    *   _id: [],
    *   cName: {
    *     fName: {
    *       value: '',
-   *       comparisonOperator: ''
+   *       comparisonOperator: '',
+   *       export: ''
    *     },
    *     ...
    *   },
@@ -55,13 +64,18 @@ export default React.createClass({
    * }
    */
   getInitialState () {
+    const exportData = {
+      object: {
+        groups: {
+          value: []
+        }
+      }
+    }
     return {
-      groupsToExport: [],
       errorBuildingFields: null,
       taxonomienZusammenfassen: false,
       activePanel: 1,
-      exportFilters: {},
-      exportFields: {},
+      exportData: exportData,
       onlyObjectsWithCollectionData: true,
       includeDataFromSynonyms: true
     }
@@ -78,27 +92,29 @@ export default React.createClass({
     // make sure the heading was clicked
     const parent = event.target.parentElement
     const headingWasClicked = _.includes(parent.className, 'panel-title') || _.includes(parent.className, 'panel-heading')
-    if (!headingWasClicked) return event.stopPropagation()
-
-    // always close panel if it is open
-    if (activePanel === number) return this.setState({ activePanel: '' })
-
-    switch (number) {
-    case 1:
-      this.setState({ activePanel: 1 })
-      break
-    case 2:
-      const isPanel1Done = this.isPanel1Done()
-      if (isPanel1Done) this.setState({ activePanel: 2 })
-      break
-    case 3:
-      const isPanel2Done = this.isPanel2Done()
-      if (isPanel2Done) this.setState({ activePanel: 3 })
-      break
-    case 4:
-      const isPanel3Done = this.isPanel3Done()
-      if (isPanel3Done) this.setState({ activePanel: 4 })
-      break
+    if (headingWasClicked) {
+      // always close panel if it is open
+      if (activePanel === number) return this.setState({ activePanel: '' })
+      // validate input before opening a panel
+      switch (number) {
+      case 1:
+        this.setState({ activePanel: 1 })
+        break
+      case 2:
+        const isPanel1Done = this.isPanel1Done()
+        if (isPanel1Done) this.setState({ activePanel: 2 })
+        break
+      case 3:
+        const isPanel2Done = this.isPanel2Done()
+        if (isPanel2Done) this.setState({ activePanel: 3 })
+        break
+      case 4:
+        const isPanel3Done = this.isPanel3Done()
+        if (isPanel3Done) this.setState({ activePanel: 4 })
+        break
+      }
+    } else {
+      event.stopPropagation()
     }
   },
 
@@ -130,54 +146,46 @@ export default React.createClass({
   },
 
   onChangeGroupsToExport (group, checked) {
-    let { groupsToExport } = this.state
+    let { exportData } = this.state
     const { taxonomienZusammenfassen } = this.state
     const { offlineIndexes } = this.props
+    let groupsToExport = exportData.object.groups.value
     if (checked) groupsToExport.push(group)
     if (!checked) groupsToExport = _.without(groupsToExport, group)
-    this.setState({ groupsToExport })
+    this.setState({ exportData })
     app.Actions.queryFields(groupsToExport, group, taxonomienZusammenfassen, offlineIndexes)
+    console.log('exportData', exportData)
   },
 
   onChangeTaxonomienZusammenfassen (taxonomienZusammenfassen) {
-    const { groupsToExport } = this.state
+    const { exportData } = this.state
     const { offlineIndexes } = this.props
     const group = null
     this.setState({ taxonomienZusammenfassen })
     // recalculate taxonomyFields
+    const groupsToExport = exportData.object.groups.value
     app.Actions.queryFields(groupsToExport, group, taxonomienZusammenfassen, offlineIndexes)
   },
 
   onChangeCoSelect (cName, fName, event) {
-    const { exportFilters } = this.state
+    const { exportData } = this.state
     const co = event.target.value
     const coPath = `${cName}.${fName}.co`
-    _.set(exportFilters, coPath, co)
-    // console.log('exportFilters', exportFilters)
+    _.set(exportData, coPath, co)
+    // console.log('exportData', exportData)
   },
 
   onChangeFilterField (cName, fName, event) {
-    let { exportFilters } = this.state
+    let { exportData } = this.state
     let value = event.target.value
     let valuePath = `${cName}.${fName}.value`
-    if (cName === 'object' && fName === '_id') {
-      // one or more guids were entered
-      valuePath = `_id`
-      if (value) {
-        // remove empty strings from value
-        value = value.replace(/\s+/g, '')
-        // convert value into array
-        // this way user can enter a single guid or many comma separated
-        value = value.split(',')
-      } else {
-        value = null
-      }
-    }
     if (value === 'false') value = false
     if (value === 'true') value = true
-    _.set(exportFilters, valuePath, value)
-    this.setState({ exportFilters })
-    // console.log('exportFilters', exportFilters)
+    if (value === '') value = null
+    _.set(exportData, valuePath, value)
+    this.setState({ exportData })
+    console.log('exportData', exportData)
+    console.log('export.js, event.target.value', event.target.value)
   },
 
   onChangeOnlyObjectsWithCollectionData (event) {
@@ -192,8 +200,9 @@ export default React.createClass({
 
   render () {
     const { groupsLoadedOrLoading, groupsLoadingObjects, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, pcs, rcs, offlineIndexes } = this.props
-    const { groupsToExport, taxonomienZusammenfassen, errorBuildingFields, activePanel, exportFilters, onlyObjectsWithCollectionData, includeDataFromSynonyms } = this.state
+    const { taxonomienZusammenfassen, errorBuildingFields, activePanel, exportData, onlyObjectsWithCollectionData, includeDataFromSynonyms } = this.state
     const showAlertLoadGroups = groupsLoadedOrLoading.length === 0
+    const groupsToExport = exportData.object.groups.value
     const showAlertGroups = groupsToExport.length > 0 && !showAlertLoadGroups
     const groupsLoading = _.pluck(groupsLoadingObjects, 'group')
     const groupsLoaded = _.difference(groupsLoadedOrLoading, groupsLoading)
