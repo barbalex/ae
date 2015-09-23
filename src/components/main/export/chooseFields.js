@@ -17,7 +17,6 @@ export default React.createClass({
     onChangeExportData: React.PropTypes.func,
     pcs: React.PropTypes.array,
     rcs: React.PropTypes.array,
-    offlineIndexes: React.PropTypes.bool,
     activePanel: React.PropTypes.number
   },
 
@@ -44,14 +43,16 @@ export default React.createClass({
   },
 
   render () {
-    const { taxonomyFields, pcFields, relationFields, onChangeExportData, pcs, rcs, offlineIndexes } = this.props
+    const { taxonomyFields, pcFields, relationFields, onChangeExportData, pcs, rcs } = this.props
     const { activePanel } = this.state
 
     return (
       <Accordion activeKey={activePanel}>
         <Panel collapsible header='Art / Lebensraum' eventKey={1} onClick={this.onClickPanel.bind(this, 1)}>
-          <Input type='checkbox' label='GUID' onChangeExportData={onChangeExportData.bind(this, 'object', '_id')} />
-          <Input type='checkbox' label='Gruppe' onChangeExportData={onChangeExportData.bind(this, 'object', 'Gruppe')} />
+          <div className='felderspalte'>
+            <Input type='checkbox' label='GUID' onChangeExportData={onChangeExportData.bind(this, 'object', '_id')} />
+            <Input type='checkbox' label='Gruppe' onChangeExportData={onChangeExportData.bind(this, 'object', 'Gruppe')} />
+          </div>
         </Panel>
         <Panel className='collectionPanel' collapsible header='Taxonomie' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
           <ChooseFieldsTaxonomy
@@ -62,14 +63,12 @@ export default React.createClass({
           <ChooseFieldsPCs
             pcFields={pcFields}
             pcs={pcs}
-            offlineIndexes={offlineIndexes}
             onChangeExportData={onChangeExportData} />
         </Panel>
         <Panel className='collectionPanel' collapsible header='Beziehungssammlungen' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>
           <ChooseFieldsRCs
             relationFields={relationFields}
             rcs={rcs}
-            offlineIndexes={offlineIndexes}
             onChangeExportData={onChangeExportData} />
         </Panel>
       </Accordion>

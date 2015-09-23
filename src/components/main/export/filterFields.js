@@ -19,7 +19,6 @@ export default React.createClass({
     onChangeCoSelect: React.PropTypes.func,
     pcs: React.PropTypes.array,
     rcs: React.PropTypes.array,
-    offlineIndexes: React.PropTypes.bool,
     activePanel: React.PropTypes.number
   },
 
@@ -46,7 +45,7 @@ export default React.createClass({
   },
 
   render () {
-    const { taxonomyFields, pcFields, relationFields, onChangeFilterField, onChangeCoSelect, pcs, rcs, offlineIndexes } = this.props
+    const { taxonomyFields, pcFields, relationFields, onChangeFilterField, onChangeCoSelect, pcs, rcs } = this.props
     const { activePanel } = this.state
 
     return (
@@ -65,7 +64,6 @@ export default React.createClass({
           <FilterFieldsPCs
             pcFields={pcFields}
             pcs={pcs}
-            offlineIndexes={offlineIndexes}
             onChangeFilterField={onChangeFilterField}
             onChangeCoSelect={onChangeCoSelect} />
         </Panel>
@@ -73,7 +71,6 @@ export default React.createClass({
           <FilterFieldsRCs
             relationFields={relationFields}
             rcs={rcs}
-            offlineIndexes={offlineIndexes}
             onChangeFilterField={onChangeFilterField}
             onChangeCoSelect={onChangeCoSelect} />
         </Panel>

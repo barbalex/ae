@@ -16,7 +16,6 @@ export default React.createClass({
     onChangeFilterField: React.PropTypes.func,
     onChangeCoSelect: React.PropTypes.func,
     rcs: React.PropTypes.array,
-    offlineIndexes: React.PropTypes.bool,
     activePanel: React.PropTypes.number
   },
 
@@ -24,12 +23,6 @@ export default React.createClass({
     return {
       activePanel: null
     }
-  },
-
-  componentDidMount () {
-    const { offlineIndexes } = this.props
-    // make sure, rcs are queried
-    app.Actions.queryRelationCollections(offlineIndexes)
   },
 
   componentWillUpdate () {

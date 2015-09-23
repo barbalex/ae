@@ -82,6 +82,13 @@ export default React.createClass({
     }
   },
 
+  componentDidMount () {
+    const { offlineIndexes } = this.props
+    // make sure, pcs are queried
+    app.Actions.queryPropertyCollections(offlineIndexes)
+    app.Actions.queryRelationCollections(offlineIndexes)
+  },
+
   handleOnSelectPanel (activeKey) {
     // this is the clean way to handle choosing a panel heading
     // but it only works when the user clicks the link in the panel heading
@@ -209,7 +216,7 @@ export default React.createClass({
   },
 
   render () {
-    const { groupsLoadedOrLoading, groupsLoadingObjects, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, pcs, rcs, offlineIndexes } = this.props
+    const { groupsLoadedOrLoading, groupsLoadingObjects, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, pcs, rcs } = this.props
     const { taxonomienZusammenfassen, errorBuildingFields, activePanel, exportData, onlyObjectsWithCollectionData, includeDataFromSynonyms } = this.state
     const showAlertLoadGroups = groupsLoadedOrLoading.length === 0
     const groupsToExport = exportData.object.Gruppen.value
@@ -257,7 +264,6 @@ export default React.createClass({
               pcs={pcs}
               relationFields={relationFields}
               rcs={rcs}
-              offlineIndexes={offlineIndexes}
               onChangeFilterField={this.onChangeFilterField}
               onChangeCoSelect={this.onChangeCoSelect}
               onClickPanel={this.onClickPanel} />
@@ -279,7 +285,6 @@ export default React.createClass({
               pcs={pcs}
               relationFields={relationFields}
               rcs={rcs}
-              offlineIndexes={offlineIndexes}
               onChangeExportData={this.onChangeExportData}
               onClickPanel={this.onClickPanel} />
             
