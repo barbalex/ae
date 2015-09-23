@@ -16,8 +16,8 @@ export default React.createClass({
       top: 5
     }
     const divStyle = {
-      marginTop: 8,
-      marginBottom: 8
+      marginTop: 7,
+      marginBottom: 10
     }
     const labelStyle = {
       float: 'none !important'
