@@ -3,12 +3,12 @@
 import React from 'react'
 import { Accordion, Panel, Input } from 'react-bootstrap'
 import _ from 'lodash'
-import ChooseFieldsTaxonomy from './chooseFieldsTaxonomy.js'
-import ChooseFieldsPCs from './chooseFieldsPCs.js'
-import ChooseFieldsRCs from './chooseFieldsRCs.js'
+import FieldsTaxonomy from './fieldsTaxonomy.js'
+import FieldsPCs from './fieldsPCs.js'
+import FieldsRCs from './fieldsRCs.js'
 
 export default React.createClass({
-  displayName: 'ChooseFields',
+  displayName: 'Fields',
 
   propTypes: {
     taxonomyFields: React.PropTypes.object,
@@ -66,7 +66,7 @@ export default React.createClass({
         </Panel>
         <Panel className='collectionPanel' collapsible header='Taxonomie' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
           {activePanel === 2 ?
-            <ChooseFieldsTaxonomy
+            <FieldsTaxonomy
               exportData={exportData}
               taxonomyFields={taxonomyFields}
               onChangeExportData={onChangeExportData}
@@ -76,7 +76,7 @@ export default React.createClass({
         </Panel>
         <Panel className='collectionPanel' collapsible header='Eigenschaftensammlungen' eventKey={3} onClick={this.onClickPanel.bind(this, 3)}>
           {activePanel === 3 ?
-            <ChooseFieldsPCs
+            <FieldsPCs
               exportData={exportData}
               pcFields={pcFields}
               pcs={pcs}
@@ -87,7 +87,7 @@ export default React.createClass({
         </Panel>
         <Panel className='collectionPanel' collapsible header='Beziehungssammlungen' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>
           {activePanel === 4 ?
-            <ChooseFieldsRCs
+            <FieldsRCs
               exportData={exportData}
               relationFields={relationFields}
               rcs={rcs}

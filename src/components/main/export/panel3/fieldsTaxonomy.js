@@ -5,13 +5,12 @@ import { Input, Accordion, Panel } from 'react-bootstrap'
 import _ from 'lodash'
 
 export default React.createClass({
-  displayName: 'ChooseFieldsPcs',
+  displayName: 'FieldsTaxonomy',
 
   propTypes: {
-    pcFields: React.PropTypes.object,
+    taxonomyFields: React.PropTypes.object,
     onChangeExportData: React.PropTypes.func,
     onChooseAllOfCollection: React.PropTypes.func,
-    pcs: React.PropTypes.array,
     activePanel: React.PropTypes.number,
     exportData: React.PropTypes.object,
     collectionsWithAllChoosen: React.PropTypes.array
@@ -29,10 +28,10 @@ export default React.createClass({
   },
 
   componentWillUpdate () {
-    const { pcFields } = this.props
+    const { taxonomyFields } = this.props
     const { activePanel } = this.state
     // open collection panel if there is only one
-    const numberOfCollections = Object.keys(pcFields).length
+    const numberOfCollections = Object.keys(taxonomyFields).length
     if (numberOfCollections === 1 && activePanel !== 0) this.setState({ activePanel: 0 })
   },
 
@@ -49,7 +48,7 @@ export default React.createClass({
   onChangeAlle (cName, event) {
     const { onChooseAllOfCollection } = this.props
     let { collectionsWithAllChoosen } = this.state
-    onChooseAllOfCollection('pc', cName, event)
+    onChooseAllOfCollection('taxonomy', cName, event)
     if (event.target.checked === false) {
       collectionsWithAllChoosen = _.without(collectionsWithAllChoosen, cName)
       this.setState({ collectionsWithAllChoosen })
@@ -76,14 +75,17 @@ export default React.createClass({
   },
 
   render () {
-    const { pcFields, pcs, exportData } = this.props
+    const { taxonomyFields, exportData } = this.props
     const { activePanel, collectionsWithAllChoosen } = this.state
 
-    const collectionKeysSorted = _.sortBy(Object.keys(pcFields), (cNameKey) => cNameKey.toLowerCase())
+    // const taxonomyFieldsSorted = _.sortBy(Object.keys(taxonomyFields), (cNameKey) => cNameKey.toLowerCase())
+    // console.log('taxonomyFields', taxonomyFields)
+    const collectionKeysSorted = _.sortBy(Object.keys(taxonomyFields), (cNameKey) => cNameKey.toLowerCase())
     const collections = collectionKeysSorted.map((cNameKey, cIndex) => {
       const collectionKey = cNameKey.toLowerCase()
-      const cNameObject = pcFields[cNameKey]
-      const pc = _.find(pcs, (pc) => pc.name === cNameKey)
+      const cNameObject = taxonomyFields[cNameKey]
+      // we do not want the taxonomy field 'Hierarchie'
+      delete cNameObject.Hierarchie
       const fieldsSorted = _.sortBy(Object.keys(cNameObject), (fNameKey) => fNameKey.toLowerCase())
       const fields = fieldsSorted.map((fNameKey) => {
         const fieldKey = fNameKey.toLowerCase()
@@ -113,7 +115,7 @@ export default React.createClass({
         )
       }
       return (
-        <Panel key={collectionKey} collapsible header={pc.name} eventKey={cIndex} onClick={this.onClickPanel.bind(this, cIndex)}>
+        <Panel key={collectionKey} collapsible header={cNameKey} eventKey={cIndex} onClick={this.onClickPanel.bind(this, cIndex)}>
           {alleField}
           <div className='felderspalte' style={{marginBottom: -8}}>
             {fields}

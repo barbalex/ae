@@ -1,10 +1,10 @@
 'use strict'
 
 import React from 'react'
-import WellSoGehtsWaehlen from './wellSoGehtsWaehlen.js'
+import WellSoGehts from './wellSoGehts.js'
 import CheckboxOnlyObjectsWithCollectionData from './checkboxOnlyObjectsWithCollectionData.js'
 import CheckboxIncludeDataFromSynonyms from './checkboxIncludeDataFromSynonyms.js'
-import ChooseFields from './chooseFields.js'
+import Fields from './fields.js'
 
 export default React.createClass({
   displayName: 'Panel3',
@@ -30,7 +30,7 @@ export default React.createClass({
 
     return (
       <div>
-        <WellSoGehtsWaehlen />
+        <WellSoGehts />
         <CheckboxOnlyObjectsWithCollectionData
           onlyObjectsWithCollectionData={onlyObjectsWithCollectionData}
           onChangeOnlyObjectsWithCollectionData={onChangeOnlyObjectsWithCollectionData} />
@@ -38,7 +38,7 @@ export default React.createClass({
           includeDataFromSynonyms={includeDataFromSynonyms}
           onChangeIncludeDataFromSynonyms={onChangeIncludeDataFromSynonyms} />
         {showFields ?
-          <ChooseFields
+          <Fields
             exportData={exportData}
             taxonomyFields={taxonomyFields}
             pcFields={pcFields}
