@@ -243,7 +243,6 @@ export default React.createClass({
     const showAlertGroups = groupsToExport.length > 0 && !showAlertLoadGroups
     const groupsLoading = _.pluck(groupsLoadingObjects, 'group')
     const groupsLoaded = _.difference(groupsLoadedOrLoading, groupsLoading)
-    const filterFieldsKey = groupsToExport.join('-')
 
     return (
       <div id='export' className='formContent'>
@@ -279,10 +278,9 @@ export default React.createClass({
 
           <Panel className='exportFields' collapsible header='2. filtern' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
 
-            <WellSoGehtsFiltern key='wellSoGehtsFiltern' />
-            <WellTippsTricksFiltern key='wellTippsTricksFiltern' />
+            <WellSoGehtsFiltern />
+            <WellTippsTricksFiltern />
             <FilterFields
-              key={filterFieldsKey}
               taxonomyFields={taxonomyFields}
               pcFields={pcFields}
               pcs={pcs}
