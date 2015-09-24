@@ -86,13 +86,16 @@ export default React.createClass({
       const pc = _.find(pcs, (pc) => pc.name === cNameKey)
       return (
         <Panel key={collectionKey} collapsible header={pc.name} eventKey={cIndex} onClick={this.onClickPanel.bind(this, cIndex)}>
-          <FieldsPCsPanel
-            cNameKey={cNameKey}
-            pcFields={pcFields}
-            exportData={exportData}
-            collectionsWithAllChoosen={collectionsWithAllChoosen}
-            onChangeField={this.onChangeField}
-            onChangeAllFields={this.onChangeAllFields} />
+          {activePanel === cIndex ?
+            <FieldsPCsPanel
+              cNameKey={cNameKey}
+              pcFields={pcFields}
+              exportData={exportData}
+              collectionsWithAllChoosen={collectionsWithAllChoosen}
+              onChangeField={this.onChangeField}
+              onChangeAllFields={this.onChangeAllFields} />
+            : null
+          }
         </Panel>
       )
     })
