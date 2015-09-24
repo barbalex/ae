@@ -4,12 +4,7 @@ import app from 'ampersand-app'
 import React from 'react'
 import { Accordion, Panel } from 'react-bootstrap'
 import _ from 'lodash'
-import WellSoGehtsGruppeWaehlen from './wellSoGehtsGruppeWaehlen.js'
-import GroupsToExport from './groupsToExport.js'
-import WellTaxonomienZusammenfassen from './wellTaxonomienZusammenfassen.js'
-import AlertGroups from './alertGroups.js'
-import AlertLoadGroups from './alertLoadGroups.js'
-import AlertChooseGroup from './alertChooseGroup.js'
+import Panel1 from './panel1/panel1.js'
 import WellSoGehtsFiltern from './wellSoGehtsFiltern.js'
 import WellTippsTricksFiltern from './wellTippsTricksFiltern.js'
 import FilterFields from './filterFields.js'
@@ -248,12 +243,6 @@ export default React.createClass({
   render () {
     const { groupsLoadedOrLoading, groupsLoadingObjects, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, pcs, pcsQuerying, rcs, rcsQuerying } = this.props
     const { taxonomienZusammenfassen, errorBuildingFields, activePanel, panel1Done, exportData, onlyObjectsWithCollectionData, includeDataFromSynonyms } = this.state
-    const showAlertLoadGroups = groupsLoadedOrLoading.length === 0
-    const groupsToExport = exportData.object.Gruppen.value
-    const showAlertGroups = groupsToExport.length > 0 && !showAlertLoadGroups
-    const showAlertChooseGroup = panel1Done === false
-    const groupsLoading = _.pluck(groupsLoadingObjects, 'group')
-    const groupsLoaded = _.difference(groupsLoadedOrLoading, groupsLoading)
     const showFields = Object.keys(taxonomyFields).length > 0 || Object.keys(pcFields).length > 0 || Object.keys(relationFields).length > 0
 
     return (
@@ -261,33 +250,21 @@ export default React.createClass({
         <h4>Eigenschaften exportieren</h4>
         <Accordion activeKey={activePanel} onSelect={this.handleOnSelectPanel}>
           <Panel collapsible header='1. Gruppe(n) wählen' eventKey={1} onClick={this.onClickPanel.bind(this, 1)}>
-            {showAlertLoadGroups ? <AlertLoadGroups /> : null}
-            {!showAlertLoadGroups ? <WellSoGehtsGruppeWaehlen /> : null}
-            {!showAlertLoadGroups ?
-              <GroupsToExport
-                groupsLoaded={groupsLoaded}
-                groupsToExport={groupsToExport}
-                onChangeGroupsToExport={this.onChangeGroupsToExport} />
-              : null
-            }
-            {!showAlertLoadGroups ?
-              <WellTaxonomienZusammenfassen
-                taxonomienZusammenfassen={taxonomienZusammenfassen}
-                onChangeTaxonomienZusammenfassen={this.onChangeTaxonomienZusammenfassen} />
-              : null
-            }
-            {showAlertChooseGroup ?
-              <AlertChooseGroup />
-              : null
-            }
-            {showAlertGroups ?
-              <AlertGroups
-                pcsQuerying={pcsQuerying}
-                rcsQuerying={rcsQuerying}
+            {activePanel === 1 ?
+              <Panel1
+                groupsLoadingObjects={groupsLoadingObjects}
                 fieldsQuerying={fieldsQuerying}
                 fieldsQueryingError={fieldsQueryingError}
+                errorBuildingFields={errorBuildingFields}
                 taxonomyFields={taxonomyFields}
-                errorBuildingFields={errorBuildingFields} />
+                groupsLoadedOrLoading={groupsLoadedOrLoading}
+                taxonomienZusammenfassen={taxonomienZusammenfassen}
+                panel1Done={panel1Done}
+                exportData={exportData}
+                pcsQuerying={pcsQuerying}
+                rcsQuerying={rcsQuerying}
+                onChangeTaxonomienZusammenfassen={this.onChangeTaxonomienZusammenfassen}
+                onChangeGroupsToExport={this.onChangeGroupsToExport} />
               : null
             }
           </Panel>
@@ -296,7 +273,7 @@ export default React.createClass({
 
             <WellSoGehtsFiltern />
             <WellTippsTricksFiltern />
-            {showFields ?
+            {showFields && activePanel === 2 ?
               <FilterFields
                 taxonomyFields={taxonomyFields}
                 pcFields={pcFields}
@@ -322,7 +299,7 @@ export default React.createClass({
             <CheckboxIncludeDataFromSynonyms
               includeDataFromSynonyms={includeDataFromSynonyms}
               onChangeIncludeDataFromSynonyms={this.onChangeIncludeDataFromSynonyms} />
-            {showFields ?
+            {showFields && activePanel === 3 ?
               <ChooseFields
                 exportData={exportData}
                 taxonomyFields={taxonomyFields}

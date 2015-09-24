@@ -76,6 +76,7 @@ export default React.createClass({
   },
 
   render () {
+    console.log('rendering ChooseFieldsRCs')
     const { relationFields, rcs, exportData } = this.props
     const { activePanel, collectionsWithAllChoosen } = this.state
 
