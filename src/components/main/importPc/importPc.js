@@ -6,12 +6,9 @@ import { Accordion, Panel, ProgressBar, Button, Glyphicon } from 'react-bootstra
 import _ from 'lodash'
 import { ListenerMixin } from 'reflux'
 import Panel1 from './panel1/panel1.js'
-import WellTechnAnforderungenAnDatei from './wellTechnAnforderungenAnDatei.js'
-import WellAnforderungenAnCsv from './wellAnforderungenAnCsv.js'
-import WellAnforderungenInhaltlich from './wellAnforderungenInhaltlich.js'
+import Panel2 from './panel2/panel2.js'
 import ButtonDeletePcInstances from './buttonDeletePcInstances/buttonDeletePcInstances.js'
 import AlertIdsAnalysisResult from './alertIdsAnalysisResult.js'
-import TablePreview from './tablePreview.js'
 import InputImportFields from './inputImportFields.js'
 import InputAeId from './inputAeId.js'
 import ProgressbarImport from './progressbarImport.js'
@@ -563,14 +560,13 @@ export default React.createClass({
           </Panel>
 
           <Panel collapsible header='2. Eigenschaften laden' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
-            <WellTechnAnforderungenAnDatei />
-            <WellAnforderungenAnCsv />
-            <WellAnforderungenInhaltlich />
-
-            <input type='file' className='form-control' onChange={this.onChangeFile} />
-            {validPcsToImport ? null : <div className='validateDiv'>Bitte wählen Sie eine Datei</div>}
-
-            {pcsToImport.length > 0 ? <TablePreview pcsToImport={pcsToImport} /> : null}
+            {activePanel === 2 ?
+              <Panel2
+                pcsToImport={pcsToImport}
+                validPcsToImport={validPcsToImport}
+                onChangeFile={this.onChangeFile} />
+              : null
+            }
           </Panel>
 
           <Panel collapsible header="3. ID's identifizieren" eventKey={3} onClick={this.onClickPanel.bind(this, 3)}>
