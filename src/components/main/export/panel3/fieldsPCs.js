@@ -1,11 +1,12 @@
 'use strict'
 
 import React from 'react'
-import { Input, Accordion, Panel } from 'react-bootstrap'
+import { Accordion, Panel } from 'react-bootstrap'
 import _ from 'lodash'
+import FieldsPCsPanel from './fieldsPCsPanel.js'
 
 export default React.createClass({
-  displayName: 'FieldsPcs',
+  displayName: 'FieldsPCs',
 
   propTypes: {
     pcFields: React.PropTypes.object,
@@ -36,7 +37,7 @@ export default React.createClass({
     if (numberOfCollections === 1 && activePanel !== 0) this.setState({ activePanel: 0 })
   },
 
-  onChange (cName, fName, event) {
+  onChangeField (cName, fName, event) {
     const { onChangeExportData } = this.props
     let { collectionsWithAllChoosen } = this.state
     onChangeExportData(cName, fName, event)
@@ -46,7 +47,7 @@ export default React.createClass({
     }
   },
 
-  onChangeAlle (cName, event) {
+  onChangeAllFields (cName, event) {
     const { onChooseAllOfCollection } = this.props
     let { collectionsWithAllChoosen } = this.state
     onChooseAllOfCollection('pc', cName, event)
@@ -82,42 +83,16 @@ export default React.createClass({
     const collectionKeysSorted = _.sortBy(Object.keys(pcFields), (cNameKey) => cNameKey.toLowerCase())
     const collections = collectionKeysSorted.map((cNameKey, cIndex) => {
       const collectionKey = cNameKey.toLowerCase()
-      const cNameObject = pcFields[cNameKey]
       const pc = _.find(pcs, (pc) => pc.name === cNameKey)
-      const fieldsSorted = _.sortBy(Object.keys(cNameObject), (fNameKey) => fNameKey.toLowerCase())
-      const fields = fieldsSorted.map((fNameKey) => {
-        const fieldKey = fNameKey.toLowerCase()
-        let checked = false
-        const path = `${cNameKey}.${fNameKey}.export`
-        if (_.has(exportData, path)) checked = _.get(exportData, path)
-        return (
-          <Input
-            key={fieldKey}
-            type='checkbox'
-            label={fNameKey}
-            checked={checked}
-            onChange={this.onChange.bind(this, cNameKey, fNameKey)} />
-        )
-      })
-      let alleField = null
-      if (fields.length > 1) {
-        const checked = _.includes(collectionsWithAllChoosen, cNameKey)
-        alleField = (
-          <div className='felderspalte alleWaehlenCheckbox' style={{marginBottom: 5}}>
-            <Input
-              type='checkbox'
-              label='alle'
-              checked={checked}
-              onChange={this.onChangeAlle.bind(this, cNameKey)} />
-          </div>
-        )
-      }
       return (
         <Panel key={collectionKey} collapsible header={pc.name} eventKey={cIndex} onClick={this.onClickPanel.bind(this, cIndex)}>
-          {alleField}
-          <div className='felderspalte' style={{marginBottom: -8}}>
-            {fields}
-          </div>
+          <FieldsPCsPanel
+            cNameKey={cNameKey}
+            pcFields={pcFields}
+            exportData={exportData}
+            collectionsWithAllChoosen={collectionsWithAllChoosen}
+            onChangeField={this.onChangeField}
+            onChangeAllFields={this.onChangeAllFields} />
         </Panel>
       )
     })
