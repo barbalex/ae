@@ -5,9 +5,7 @@ import React from 'react'
 import { Accordion, Panel } from 'react-bootstrap'
 import _ from 'lodash'
 import Panel1 from './panel1/panel1.js'
-import WellSoGehtsFiltern from './wellSoGehtsFiltern.js'
-import WellTippsTricksFiltern from './wellTippsTricksFiltern.js'
-import FilterFields from './filterFields.js'
+import Panel2 from './panel2/panel2.js'
 import WellSoGehtsWaehlen from './wellSoGehtsWaehlen.js'
 import CheckboxOnlyObjectsWithCollectionData from './checkboxOnlyObjectsWithCollectionData.js'
 import CheckboxIncludeDataFromSynonyms from './checkboxIncludeDataFromSynonyms.js'
@@ -270,24 +268,19 @@ export default React.createClass({
           </Panel>
 
           <Panel className='exportFields' collapsible header='2. filtern' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
-
-            <WellSoGehtsFiltern />
-            <WellTippsTricksFiltern />
-            {showFields && activePanel === 2 ?
-              <FilterFields
+            {activePanel === 2 ?
+              <Panel2
+                groupsLoadingObjects={groupsLoadingObjects}
                 taxonomyFields={taxonomyFields}
                 pcFields={pcFields}
-                pcs={pcs}
                 relationFields={relationFields}
-                rcs={rcs}
                 groupsLoadedOrLoading={groupsLoadedOrLoading}
-                groupsLoadingObjects={groupsLoadingObjects}
+                pcs={pcs}
+                rcs={rcs}
                 onChangeFilterField={this.onChangeFilterField}
-                onChangeCoSelect={this.onChangeCoSelect}
-                onClickPanel={this.onClickPanel} />
+                onChangeCoSelect={this.onChangeCoSelect} />
               : null
             }
-
           </Panel>
 
           <Panel collapsible header='3. Eigenschaften wählen' eventKey={3} onClick={this.onClickPanel.bind(this, 3)}>

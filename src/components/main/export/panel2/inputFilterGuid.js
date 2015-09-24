@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { OverlayTrigger, Popover, Alert } from 'react-bootstrap'
-import isGuid from '../../../modules/isGuid.js'
+import isGuid from '../../../../modules/isGuid.js'
 
 export default React.createClass({
   displayName: 'InputFilterGuid',
