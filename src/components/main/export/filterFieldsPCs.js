@@ -57,17 +57,21 @@ export default React.createClass({
     const { pcFields, onChangeCoSelect, pcs } = this.props
     const { activePanel } = this.state
 
-    const collections = Object.keys(pcFields).map((cNameKey, cIndex) => {
+    const collectionKeysSorted = _.sortBy(Object.keys(pcFields), (cNameKey) => cNameKey.toLowerCase())
+    const collections = collectionKeysSorted.map((cNameKey, cIndex) => {
+      const collectionKey = cNameKey.toLowerCase()
       const cNameObject = pcFields[cNameKey]
       const pc = _.find(pcs, (pc) => pc.name === cNameKey)
-      const fields = Object.keys(cNameObject).map((fNameKey, fIndex) => {
+      const fieldsSorted = _.sortBy(Object.keys(cNameObject), (fNameKey) => fNameKey.toLowerCase())
+      const fields = fieldsSorted.map((fNameKey, fIndex) => {
+        const fieldKey = fNameKey.toLowerCase()
         const fNameObject = cNameObject[fNameKey]
         const selectComparisonOperator = <SelectComparisonOperator cNameKey={cNameKey} fNameKey={fNameKey} onChangeCoSelect={onChangeCoSelect} />
         const buttonAfter = <InfoButtonAfter fNameObject={fNameObject} />
         if (fNameObject.fType !== 'boolean') {
           return (
             <Input
-              key={fIndex}
+              key={fieldKey}
               type={fNameObject.fType}
               label={fNameKey}
               bsSize='small'
@@ -79,7 +83,7 @@ export default React.createClass({
         }
         return (
           <Input
-            key={fIndex}
+            key={fieldKey}
             type='select'
             label={fNameKey}
             bsSize='small'
@@ -93,7 +97,7 @@ export default React.createClass({
         )
       })
       return (
-        <Panel key={cIndex} collapsible header={pc.name} eventKey={cIndex} onClick={this.onClickPanel.bind(this, cIndex)}>
+        <Panel key={collectionKey} collapsible header={pc.name} eventKey={cIndex} onClick={this.onClickPanel.bind(this, cIndex)}>
           <PcDescription pc={pc} />
           <div className='felderspalte'>
             {fields}

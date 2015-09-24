@@ -79,10 +79,12 @@ export default React.createClass({
     const { relationFields, rcs, exportData } = this.props
     const { activePanel, collectionsWithAllChoosen } = this.state
 
-    const collections = Object.keys(relationFields).map((cNameKey, cIndex) => {
+    const collectionKeysSorted = _.sortBy(Object.keys(relationFields), (key) => key.toLowerCase())
+    const collections = collectionKeysSorted.map((cNameKey, cIndex) => {
       const cNameObject = relationFields[cNameKey]
       const rc = _.find(rcs, (rc) => rc.name === cNameKey)
-      const fields = Object.keys(cNameObject).map((fNameKey, fIndex) => {
+      const fieldsSorted = _.sortBy(Object.keys(cNameObject), (key) => key.toLowerCase())
+      const fields = fieldsSorted.map((fNameKey, fIndex) => {
         let checked = false
         const path = `${cNameKey}.${fNameKey}.export`
         if (_.has(exportData, path)) checked = _.get(exportData, path)

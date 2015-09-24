@@ -295,6 +295,8 @@ export default React.createClass({
             synonymObjects={synonymObjects}
             pcs={pcs}
             rcs={rcs}
+            pcsQuerying={pcsQuerying}
+            rcsQuerying={rcsQuerying}
             showImportPc={showImportPc}
             showImportRc={showImportRc}
             showExportieren={showExportieren}

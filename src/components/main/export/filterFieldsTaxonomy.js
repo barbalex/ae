@@ -55,18 +55,22 @@ export default React.createClass({
     const { taxonomyFields, onChangeCoSelect } = this.props
     const { activePanel } = this.state
 
-    const collections = Object.keys(taxonomyFields).map((cNameKey, cIndex) => {
+    const collectionKeysSorted = _.sortBy(Object.keys(taxonomyFields), (cNameKey) => cNameKey.toLowerCase())
+    const collections = collectionKeysSorted.map((cNameKey, cIndex) => {
+      const collectionKey = cNameKey.toLowerCase()
       const cNameObject = taxonomyFields[cNameKey]
       // we do not want the taxonomy field 'Hierarchie'
       delete cNameObject.Hierarchie
-      const fields = Object.keys(cNameObject).map((fNameKey, fIndex) => {
+      const fieldsSorted = _.sortBy(Object.keys(cNameObject), (fNameKey) => fNameKey.toLowerCase())
+      const fields = fieldsSorted.map((fNameKey, fIndex) => {
+        const fieldKey = fNameKey.toLowerCase()
         const fNameObject = cNameObject[fNameKey]
         const selectComparisonOperator = <SelectComparisonOperator cNameKey={cNameKey} fNameKey={fNameKey} onChangeCoSelect={onChangeCoSelect} />
         const buttonAfter = <InfoButtonAfter fNameObject={fNameObject} />
         if (fNameObject.fType !== 'boolean') {
           return (
             <Input
-              key={fIndex}
+              key={fieldKey}
               type={fNameObject.fType}
               label={fNameKey}
               bsSize='small'
@@ -78,7 +82,7 @@ export default React.createClass({
         }
         return (
           <Input
-            key={fIndex}
+            key={fieldKey}
             type='select'
             label={fNameKey}
             bsSize='small'
@@ -92,7 +96,7 @@ export default React.createClass({
         )
       })
       return (
-        <Panel key={cIndex} collapsible header={cNameKey} eventKey={cIndex} onClick={this.onClickPanel.bind(this, cIndex)}>
+        <Panel key={collectionKey} collapsible header={cNameKey} eventKey={cIndex} onClick={this.onClickPanel.bind(this, cIndex)}>
           <div className='felderspalte'>
             {fields}
           </div>

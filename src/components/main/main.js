@@ -25,7 +25,9 @@ export default React.createClass({
     object: React.PropTypes.object,
     synonymObjects: React.PropTypes.array,
     pcs: React.PropTypes.array,
+    pcsQuerying: React.PropTypes.bool,
     rcs: React.PropTypes.array,
+    rcsQuerying: React.PropTypes.bool,
     showImportPc: React.PropTypes.bool,
     showImportRc: React.PropTypes.bool,
     showExportieren: React.PropTypes.bool,
@@ -73,7 +75,7 @@ export default React.createClass({
   },
 
   render () {
-    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, synonymObjects, pcs, rcs, showImportPc, showImportRc, showExportieren, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, showOrganizations, email, replicatingToAe, replicatingToAeTime, offlineIndexes } = this.props
+    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, synonymObjects, pcs, pcsQuerying, rcs, rcsQuerying, showImportPc, showImportRc, showExportieren, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, showOrganizations, email, replicatingToAe, replicatingToAeTime, offlineIndexes } = this.props
     const { formClassNames, errors } = this.state
     const showObject = object !== undefined
 
@@ -122,6 +124,8 @@ export default React.createClass({
               relationFields={relationFields}
               pcs={pcs}
               rcs={rcs}
+              pcsQuerying={pcsQuerying}
+              rcsQuerying={rcsQuerying}
               offlineIndexes={offlineIndexes} />
             : null
           }

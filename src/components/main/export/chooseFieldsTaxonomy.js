@@ -43,7 +43,7 @@ export default React.createClass({
       collectionsWithAllChoosen = _.without(collectionsWithAllChoosen, cName)
       this.setState({ collectionsWithAllChoosen })
     }
-    console.log('collectionsWithAllChoosen', collectionsWithAllChoosen)
+    // console.log('collectionsWithAllChoosen', collectionsWithAllChoosen)
   },
 
   onChangeAlle (cName, event) {
@@ -57,7 +57,7 @@ export default React.createClass({
       collectionsWithAllChoosen = _.union(collectionsWithAllChoosen, [cName])
       this.setState({ collectionsWithAllChoosen })
     }
-    console.log('collectionsWithAllChoosen', collectionsWithAllChoosen)
+    // console.log('collectionsWithAllChoosen', collectionsWithAllChoosen)
   },
 
   onClickPanel (number, event) {
@@ -80,11 +80,15 @@ export default React.createClass({
     const { taxonomyFields, exportData } = this.props
     const { activePanel, collectionsWithAllChoosen } = this.state
 
+    // const taxonomyFieldsSorted = _.sortBy(Object.keys(taxonomyFields), (cNameKey) => cNameKey.toLowerCase())
+    // console.log('taxonomyFields', taxonomyFields)
     const collections = Object.keys(taxonomyFields).map((cNameKey, cIndex) => {
+      const collectionKey = cNameKey.toLowerCase()
       const cNameObject = taxonomyFields[cNameKey]
       // we do not want the taxonomy field 'Hierarchie'
       delete cNameObject.Hierarchie
-      const fields = Object.keys(cNameObject).map((fNameKey, fIndex) => {
+      const fieldsSorted = _.sortBy(Object.keys(cNameObject), (key) => key.toLowerCase())
+      const fields = fieldsSorted.map((fNameKey, fIndex) => {
         let checked = false
         const path = `${cNameKey}.${fNameKey}.export`
         if (_.has(exportData, path)) checked = _.get(exportData, path)
@@ -111,7 +115,7 @@ export default React.createClass({
         )
       }
       return (
-        <Panel key={cIndex} collapsible header={cNameKey} eventKey={cIndex} onClick={this.onClickPanel.bind(this, cIndex)}>
+        <Panel key={collectionKey} collapsible header={cNameKey} eventKey={cIndex} onClick={this.onClickPanel.bind(this, cIndex)}>
           {alleField}
           <div className='felderspalte' style={{marginBottom: -8}}>
             {fields}

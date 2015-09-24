@@ -33,7 +33,9 @@ export default React.createClass({
     activePanel: React.PropTypes.number,
     exportData: React.PropTypes.object,
     pcs: React.PropTypes.array,
+    pcsQuerying: React.PropTypes.bool,
     rcs: React.PropTypes.array,
+    rcsQuerying: React.PropTypes.bool,
     offlineIndexes: React.PropTypes.bool,
     onlyObjectsWithCollectionData: React.PropTypes.bool,
     includeDataFromSynonyms: React.PropTypes.bool
@@ -162,7 +164,7 @@ export default React.createClass({
     if (!checked) groupsToExport = _.without(groupsToExport, group)
     this.setState({ exportData })
     app.Actions.queryFields(groupsToExport, group, taxonomienZusammenfassen, offlineIndexes)
-    console.log('exportData', exportData)
+    // console.log('exportData', exportData)
   },
 
   onChangeTaxonomienZusammenfassen (taxonomienZusammenfassen) {
@@ -193,7 +195,7 @@ export default React.createClass({
     if (value === '') value = null
     _.set(exportData, valuePath, value)
     this.setState({ exportData })
-    console.log('exportData', exportData)
+    // console.log('exportData', exportData)
   },
 
   onChooseAllOfCollection (pcType, cName, event) {
@@ -211,7 +213,7 @@ export default React.createClass({
       _.set(exportData, valuePath, checked)
     })
     this.setState({ exportData })
-    console.log('exportData', exportData)
+    // console.log('exportData', exportData)
   },
 
   onChangeExportData (cName, fName, event) {
@@ -220,7 +222,7 @@ export default React.createClass({
     const valuePath = `${cName}.${fName}.export`
     _.set(exportData, valuePath, value)
     this.setState({ exportData })
-    console.log('exportData', exportData)
+    // console.log('exportData', exportData)
   },
 
   onChangeOnlyObjectsWithCollectionData (event) {
@@ -234,13 +236,14 @@ export default React.createClass({
   },
 
   render () {
-    const { groupsLoadedOrLoading, groupsLoadingObjects, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, pcs, rcs } = this.props
+    const { groupsLoadedOrLoading, groupsLoadingObjects, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, pcs, pcsQuerying, rcs, rcsQuerying } = this.props
     const { taxonomienZusammenfassen, errorBuildingFields, activePanel, exportData, onlyObjectsWithCollectionData, includeDataFromSynonyms } = this.state
     const showAlertLoadGroups = groupsLoadedOrLoading.length === 0
     const groupsToExport = exportData.object.Gruppen.value
     const showAlertGroups = groupsToExport.length > 0 && !showAlertLoadGroups
     const groupsLoading = _.pluck(groupsLoadingObjects, 'group')
     const groupsLoaded = _.difference(groupsLoadedOrLoading, groupsLoading)
+    const filterFieldsKey = groupsToExport.join('-')
 
     return (
       <div id='export' className='formContent'>
@@ -264,6 +267,8 @@ export default React.createClass({
             }
             {showAlertGroups ?
               <AlertGroups
+                pcsQuerying={pcsQuerying}
+                rcsQuerying={rcsQuerying}
                 fieldsQuerying={fieldsQuerying}
                 fieldsQueryingError={fieldsQueryingError}
                 taxonomyFields={taxonomyFields}
@@ -274,14 +279,17 @@ export default React.createClass({
 
           <Panel className='exportFields' collapsible header='2. filtern' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
 
-            <WellSoGehtsFiltern />
-            <WellTippsTricksFiltern />
+            <WellSoGehtsFiltern key='wellSoGehtsFiltern' />
+            <WellTippsTricksFiltern key='wellTippsTricksFiltern' />
             <FilterFields
+              key={filterFieldsKey}
               taxonomyFields={taxonomyFields}
               pcFields={pcFields}
               pcs={pcs}
               relationFields={relationFields}
               rcs={rcs}
+              groupsLoadedOrLoading={groupsLoadedOrLoading}
+              groupsLoadingObjects={groupsLoadingObjects}
               onChangeFilterField={this.onChangeFilterField}
               onChangeCoSelect={this.onChangeCoSelect}
               onClickPanel={this.onClickPanel} />

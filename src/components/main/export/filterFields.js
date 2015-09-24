@@ -19,7 +19,9 @@ export default React.createClass({
     onChangeCoSelect: React.PropTypes.func,
     pcs: React.PropTypes.array,
     rcs: React.PropTypes.array,
-    activePanel: React.PropTypes.number
+    activePanel: React.PropTypes.number,
+    groupsLoadedOrLoading: React.PropTypes.array,
+    groupsLoadingObjects: React.PropTypes.array
   },
 
   getInitialState () {
