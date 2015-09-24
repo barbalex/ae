@@ -20,7 +20,7 @@ export default React.createClass({
 
   getInitialState () {
     return {
-      activePanel: null
+      activePanel: ''
     }
   },
 
@@ -63,7 +63,7 @@ export default React.createClass({
       const cNameObject = relationFields[cNameKey]
       const rc = _.find(rcs, (rc) => rc.name === cNameKey)
       const fieldsSorted = _.sortBy(Object.keys(cNameObject), (fNameKey) => fNameKey.toLowerCase())
-      const fields = fieldsSorted.map((fNameKey, fIndex) => {
+      const fields = fieldsSorted.map((fNameKey) => {
         const fieldKey = fNameKey.toLowerCase()
         const fNameObject = cNameObject[fNameKey]
         const selectComparisonOperator = <SelectComparisonOperator cNameKey={cNameKey} fNameKey={fNameKey} onChangeCoSelect={onChangeCoSelect} />

@@ -24,7 +24,7 @@ export default React.createClass({
 
   getInitialState () {
     return {
-      activePanel: null
+      activePanel: ''
     }
   },
 

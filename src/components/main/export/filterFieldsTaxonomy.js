@@ -63,7 +63,7 @@ export default React.createClass({
       // we do not want the taxonomy field 'Hierarchie'
       delete cNameObject.Hierarchie
       const fieldsSorted = _.sortBy(Object.keys(cNameObject), (fNameKey) => fNameKey.toLowerCase())
-      const fields = fieldsSorted.map((fNameKey, fIndex) => {
+      const fields = fieldsSorted.map((fNameKey) => {
         const fieldKey = fNameKey.toLowerCase()
         const fNameObject = cNameObject[fNameKey]
         const selectComparisonOperator = <SelectComparisonOperator cNameKey={cNameKey} fNameKey={fNameKey} onChangeCoSelect={onChangeCoSelect} />

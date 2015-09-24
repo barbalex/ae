@@ -43,7 +43,6 @@ export default React.createClass({
       collectionsWithAllChoosen = _.without(collectionsWithAllChoosen, cName)
       this.setState({ collectionsWithAllChoosen })
     }
-    // console.log('collectionsWithAllChoosen', collectionsWithAllChoosen)
   },
 
   onChangeAlle (cName, event) {
@@ -57,7 +56,6 @@ export default React.createClass({
       collectionsWithAllChoosen = _.union(collectionsWithAllChoosen, [cName])
       this.setState({ collectionsWithAllChoosen })
     }
-    // console.log('collectionsWithAllChoosen', collectionsWithAllChoosen)
   },
 
   onClickPanel (number, event) {
@@ -82,19 +80,21 @@ export default React.createClass({
 
     // const taxonomyFieldsSorted = _.sortBy(Object.keys(taxonomyFields), (cNameKey) => cNameKey.toLowerCase())
     // console.log('taxonomyFields', taxonomyFields)
-    const collections = Object.keys(taxonomyFields).map((cNameKey, cIndex) => {
+    const collectionKeysSorted = _.sortBy(Object.keys(taxonomyFields), (cNameKey) => cNameKey.toLowerCase())
+    const collections = collectionKeysSorted.map((cNameKey, cIndex) => {
       const collectionKey = cNameKey.toLowerCase()
       const cNameObject = taxonomyFields[cNameKey]
       // we do not want the taxonomy field 'Hierarchie'
       delete cNameObject.Hierarchie
-      const fieldsSorted = _.sortBy(Object.keys(cNameObject), (key) => key.toLowerCase())
-      const fields = fieldsSorted.map((fNameKey, fIndex) => {
+      const fieldsSorted = _.sortBy(Object.keys(cNameObject), (fNameKey) => fNameKey.toLowerCase())
+      const fields = fieldsSorted.map((fNameKey) => {
+        const fieldKey = fNameKey.toLowerCase()
         let checked = false
         const path = `${cNameKey}.${fNameKey}.export`
         if (_.has(exportData, path)) checked = _.get(exportData, path)
         return (
           <Input
-            key={fIndex}
+            key={fieldKey}
             type='checkbox'
             label={fNameKey}
             checked={checked}

@@ -79,16 +79,20 @@ export default React.createClass({
     const { pcFields, pcs, exportData } = this.props
     const { activePanel, collectionsWithAllChoosen } = this.state
 
-    const collections = Object.keys(pcFields).map((cNameKey, cIndex) => {
+    const collectionKeysSorted = _.sortBy(Object.keys(pcFields), (cNameKey) => cNameKey.toLowerCase())
+    const collections = collectionKeysSorted.map((cNameKey, cIndex) => {
+      const collectionKey = cNameKey.toLowerCase()
       const cNameObject = pcFields[cNameKey]
       const pc = _.find(pcs, (pc) => pc.name === cNameKey)
-      const fields = Object.keys(cNameObject).map((fNameKey, fIndex) => {
+      const fieldsSorted = _.sortBy(Object.keys(cNameObject), (fNameKey) => fNameKey.toLowerCase())
+      const fields = fieldsSorted.map((fNameKey) => {
+        const fieldKey = fNameKey.toLowerCase()
         let checked = false
         const path = `${cNameKey}.${fNameKey}.export`
         if (_.has(exportData, path)) checked = _.get(exportData, path)
         return (
           <Input
-            key={fIndex}
+            key={fieldKey}
             type='checkbox'
             label={fNameKey}
             checked={checked}
@@ -109,7 +113,7 @@ export default React.createClass({
         )
       }
       return (
-        <Panel key={cIndex} collapsible header={pc.name} eventKey={cIndex} onClick={this.onClickPanel.bind(this, cIndex)}>
+        <Panel key={collectionKey} collapsible header={pc.name} eventKey={cIndex} onClick={this.onClickPanel.bind(this, cIndex)}>
           {alleField}
           <div className='felderspalte' style={{marginBottom: -8}}>
             {fields}

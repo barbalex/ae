@@ -19,7 +19,7 @@ export default React.createClass({
 
   getInitialState () {
     return {
-      activePanel: null,
+      activePanel: '',
       /**
        * need to be state because field allChoosen needs to be unchecked
        * when a single field in the collection is unchecked
@@ -79,18 +79,20 @@ export default React.createClass({
     const { relationFields, rcs, exportData } = this.props
     const { activePanel, collectionsWithAllChoosen } = this.state
 
-    const collectionKeysSorted = _.sortBy(Object.keys(relationFields), (key) => key.toLowerCase())
+    const collectionKeysSorted = _.sortBy(Object.keys(relationFields), (cNameKey) => cNameKey.toLowerCase())
     const collections = collectionKeysSorted.map((cNameKey, cIndex) => {
+      const collectionKey = cNameKey.toLowerCase()
       const cNameObject = relationFields[cNameKey]
       const rc = _.find(rcs, (rc) => rc.name === cNameKey)
-      const fieldsSorted = _.sortBy(Object.keys(cNameObject), (key) => key.toLowerCase())
-      const fields = fieldsSorted.map((fNameKey, fIndex) => {
+      const fieldsSorted = _.sortBy(Object.keys(cNameObject), (fNameKey) => fNameKey.toLowerCase())
+      const fields = fieldsSorted.map((fNameKey) => {
+        const fieldKey = fNameKey.toLowerCase()
         let checked = false
         const path = `${cNameKey}.${fNameKey}.export`
         if (_.has(exportData, path)) checked = _.get(exportData, path)
         return (
           <Input
-            key={fIndex}
+            key={fieldKey}
             type='checkbox'
             label={fNameKey}
             checked={checked}
@@ -111,7 +113,7 @@ export default React.createClass({
         )
       }
       return (
-        <Panel key={cIndex} collapsible header={rc.name} eventKey={cIndex} onClick={this.onClickPanel.bind(this, cIndex)}>
+        <Panel key={collectionKey} collapsible header={rc.name} eventKey={cIndex} onClick={this.onClickPanel.bind(this, cIndex)}>
           {alleField}
           <div className='felderspalte' style={{marginBottom: -8}}>
             {fields}
