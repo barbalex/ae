@@ -1,14 +1,12 @@
 'use strict'
 
 import React from 'react'
-import { Input, Accordion, Panel } from 'react-bootstrap'
+import { Accordion, Panel } from 'react-bootstrap'
 import _ from 'lodash'
-import SelectComparisonOperator from './selectComparisonOperator.js'
-import InfoButtonAfter from './infoButtonAfter.js'
-import PcDescription from './pcDescription.js'
+import FieldsPCsPanel from './fieldsPCsPanel.js'
 
 export default React.createClass({
-  displayName: 'FieldsPcs',
+  displayName: 'FieldsPCs',
 
   propTypes: {
     pcFields: React.PropTypes.object,
@@ -32,11 +30,6 @@ export default React.createClass({
     if (numberOfCollections === 1 && activePanel !== 0) this.setState({ activePanel: 0 })
   },
 
-  onBlur (cName, fName, event) {
-    const { onChangeFilterField } = this.props
-    onChangeFilterField(cName, fName, event)
-  },
-
   onClickPanel (number, event) {
     let { activePanel } = this.state
     // prevent higher level panels from reacting
@@ -54,54 +47,24 @@ export default React.createClass({
   },
 
   render () {
-    const { pcFields, onChangeCoSelect, pcs } = this.props
+    const { pcFields, onChangeCoSelect, pcs, onChangeFilterField } = this.props
     const { activePanel } = this.state
 
     const collectionKeysSorted = _.sortBy(Object.keys(pcFields), (cNameKey) => cNameKey.toLowerCase())
     const collections = collectionKeysSorted.map((cNameKey, cIndex) => {
       const collectionKey = cNameKey.toLowerCase()
-      const cNameObject = pcFields[cNameKey]
       const pc = _.find(pcs, (pc) => pc.name === cNameKey)
-      const fieldsSorted = _.sortBy(Object.keys(cNameObject), (fNameKey) => fNameKey.toLowerCase())
-      const fields = fieldsSorted.map((fNameKey) => {
-        const fieldKey = fNameKey.toLowerCase()
-        const fNameObject = cNameObject[fNameKey]
-        const selectComparisonOperator = <SelectComparisonOperator cNameKey={cNameKey} fNameKey={fNameKey} onChangeCoSelect={onChangeCoSelect} />
-        const buttonAfter = <InfoButtonAfter fNameObject={fNameObject} />
-        if (fNameObject.fType !== 'boolean') {
-          return (
-            <Input
-              key={fieldKey}
-              type={fNameObject.fType}
-              label={fNameKey}
-              bsSize='small'
-              className={'controls'}
-              onBlur={this.onBlur.bind(this, cNameKey, fNameKey)}
-              buttonBefore={selectComparisonOperator}
-              buttonAfter={buttonAfter} />
-          )
-        }
-        return (
-          <Input
-            key={fieldKey}
-            type='select'
-            label={fNameKey}
-            bsSize='small'
-            className={'controls'}
-            onBlur={this.onBlur.bind(this, cNameKey, fNameKey)}
-            buttonAfter={buttonAfter} >
-            <option value=''></option>
-            <option value='true'>ja</option>
-            <option value='false'>nein</option>
-          </Input>
-        )
-      })
       return (
         <Panel key={collectionKey} collapsible header={pc.name} eventKey={cIndex} onClick={this.onClickPanel.bind(this, cIndex)}>
-          <PcDescription pc={pc} />
-          <div className='felderspalte'>
-            {fields}
-          </div>
+          {activePanel === cIndex ?
+            <FieldsPCsPanel
+              cNameKey={cNameKey}
+              pcs={pcs}
+              pcFields={pcFields}
+              onChangeFilterField={onChangeFilterField}
+              onChangeCoSelect={onChangeCoSelect} />
+            : null
+          }
         </Panel>
       )
     })
