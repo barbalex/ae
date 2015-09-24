@@ -468,6 +468,8 @@ export default (Actions) => {
       let relationFields = {}
       let fieldsQuerying = true
       let fieldsQueryingError = null
+      // trigger empty fields to make react rebuild panels from scratch so they are correctly sorted
+      this.trigger({ taxonomyFields, pcFields, relationFields, fieldsQuerying, fieldsQueryingError })
       this.getFields()
         .then((allFields) => {
           taxonomyFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'taxonomy', taxonomienZusammenfassen)
