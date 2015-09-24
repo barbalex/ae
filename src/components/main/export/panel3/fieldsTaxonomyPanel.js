@@ -10,7 +10,7 @@ export default React.createClass({
   propTypes: {
     cNameKey: React.PropTypes.string,
     taxonomyFields: React.PropTypes.object,
-    exportData: React.PropTypes.object,
+    exportOptions: React.PropTypes.object,
     collectionsWithAllChoosen: React.PropTypes.array,
     onChangeAllFields: React.PropTypes.func,
     onChangeField: React.PropTypes.func
@@ -27,7 +27,7 @@ export default React.createClass({
   },
 
   render () {
-    const { taxonomyFields, exportData, cNameKey, collectionsWithAllChoosen } = this.props
+    const { taxonomyFields, exportOptions, cNameKey, collectionsWithAllChoosen } = this.props
 
     const cNameObject = taxonomyFields[cNameKey]
     // we do not want the taxonomy field 'Hierarchie'
@@ -37,7 +37,7 @@ export default React.createClass({
       const fieldKey = fNameKey.toLowerCase()
       let checked = false
       const path = `${cNameKey}.${fNameKey}.export`
-      if (_.has(exportData, path)) checked = _.get(exportData, path)
+      if (_.has(exportOptions, path)) checked = _.get(exportOptions, path)
       return (
         <Input
           key={fieldKey}

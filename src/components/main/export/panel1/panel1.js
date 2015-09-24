@@ -21,7 +21,7 @@ export default React.createClass({
     groupsLoadedOrLoading: React.PropTypes.array,
     taxonomienZusammenfassen: React.PropTypes.bool,
     panel1Done: React.PropTypes.bool,
-    exportData: React.PropTypes.object,
+    exportOptions: React.PropTypes.object,
     pcsQuerying: React.PropTypes.bool,
     rcsQuerying: React.PropTypes.bool,
     onChangeTaxonomienZusammenfassen: React.PropTypes.func,
@@ -29,9 +29,9 @@ export default React.createClass({
   },
 
   render () {
-    const { groupsLoadedOrLoading, groupsLoadingObjects, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcsQuerying, rcsQuerying, onChangeTaxonomienZusammenfassen, onChangeGroupsToExport, panel1Done, exportData, taxonomienZusammenfassen, errorBuildingFields } = this.props
+    const { groupsLoadedOrLoading, groupsLoadingObjects, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcsQuerying, rcsQuerying, onChangeTaxonomienZusammenfassen, onChangeGroupsToExport, panel1Done, exportOptions, taxonomienZusammenfassen, errorBuildingFields } = this.props
     const showAlertLoadGroups = groupsLoadedOrLoading.length === 0
-    const groupsToExport = exportData.object.Gruppen.value
+    const groupsToExport = exportOptions.object.Gruppen.value
     const showAlertGroups = groupsToExport.length > 0 && !showAlertLoadGroups
     const showAlertChooseGroup = panel1Done === false
     const groupsLoading = _.pluck(groupsLoadingObjects, 'group')

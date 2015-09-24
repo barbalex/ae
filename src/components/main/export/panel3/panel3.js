@@ -13,7 +13,7 @@ export default React.createClass({
     taxonomyFields: React.PropTypes.object,
     pcFields: React.PropTypes.object,
     relationFields: React.PropTypes.object,
-    exportData: React.PropTypes.object,
+    exportOptions: React.PropTypes.object,
     pcs: React.PropTypes.array,
     rcs: React.PropTypes.array,
     onlyObjectsWithCollectionData: React.PropTypes.bool,
@@ -25,7 +25,7 @@ export default React.createClass({
   },
 
   render () {
-    const { taxonomyFields, pcFields, relationFields, pcs, rcs, exportData, onlyObjectsWithCollectionData, includeDataFromSynonyms, onChangeIncludeDataFromSynonyms, onChangeOnlyObjectsWithCollectionData, onChangeExportData, onChooseAllOfCollection } = this.props
+    const { taxonomyFields, pcFields, relationFields, pcs, rcs, exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, onChangeIncludeDataFromSynonyms, onChangeOnlyObjectsWithCollectionData, onChangeExportData, onChooseAllOfCollection } = this.props
     const showFields = Object.keys(taxonomyFields).length > 0 || Object.keys(pcFields).length > 0 || Object.keys(relationFields).length > 0
 
     return (
@@ -39,7 +39,7 @@ export default React.createClass({
           onChangeIncludeDataFromSynonyms={onChangeIncludeDataFromSynonyms} />
         {showFields ?
           <Fields
-            exportData={exportData}
+            exportOptions={exportOptions}
             taxonomyFields={taxonomyFields}
             pcFields={pcFields}
             pcs={pcs}

@@ -25,7 +25,7 @@ export default React.createClass({
     panel1Done: React.PropTypes.bool,
     panel2Done: React.PropTypes.bool,
     panel3Done: React.PropTypes.bool,
-    exportData: React.PropTypes.object,
+    exportOptions: React.PropTypes.object,
     pcs: React.PropTypes.array,
     pcsQuerying: React.PropTypes.bool,
     rcs: React.PropTypes.array,
@@ -36,7 +36,7 @@ export default React.createClass({
   },
 
   /**
-   * exportData
+   * exportOptions
    * {
    *   object: {
    *     _id: {
@@ -61,7 +61,7 @@ export default React.createClass({
    * }
    */
   getInitialState () {
-    const exportData = {
+    const exportOptions = {
       object: {
         Gruppen: {
           value: []
@@ -75,7 +75,7 @@ export default React.createClass({
       panel1Done: null,
       panel2Done: null,
       panel3Done: null,
-      exportData: exportData,
+      exportOptions: exportOptions,
       onlyObjectsWithCollectionData: true,
       includeDataFromSynonyms: true
     }
@@ -126,8 +126,8 @@ export default React.createClass({
   },
 
   isPanel1Done () {
-    const { exportData } = this.state
-    const groupsToExport = exportData.object.Gruppen.value
+    const { exportOptions } = this.state
+    const groupsToExport = exportOptions.object.Gruppen.value
     const panel1Done = groupsToExport.length > 0
     let state = { panel1Done }
     if (!panel1Done) state = Object.assign(state, { activePanel: 1 })
@@ -154,52 +154,52 @@ export default React.createClass({
   },
 
   onChangeGroupsToExport (group, checked) {
-    let { exportData } = this.state
+    let { exportOptions } = this.state
     const { taxonomienZusammenfassen } = this.state
     const { offlineIndexes } = this.props
-    let groupsToExport = exportData.object.Gruppen.value
+    let groupsToExport = exportOptions.object.Gruppen.value
     if (checked) groupsToExport.push(group)
     if (!checked) groupsToExport = _.without(groupsToExport, group)
     const panel1Done = groupsToExport.length > 0
     const panel2Done = groupsToExport.length > 0
-    this.setState({ exportData, panel1Done, panel2Done })
+    this.setState({ exportOptions, panel1Done, panel2Done })
     app.Actions.queryFields(groupsToExport, group, taxonomienZusammenfassen, offlineIndexes)
-    // console.log('exportData', exportData)
+    // console.log('exportOptions', exportOptions)
   },
 
   onChangeTaxonomienZusammenfassen (taxonomienZusammenfassen) {
-    const { exportData } = this.state
+    const { exportOptions } = this.state
     const { offlineIndexes } = this.props
     const group = null
     this.setState({ taxonomienZusammenfassen })
     // recalculate taxonomyFields
-    const groupsToExport = exportData.object.Gruppen.value
+    const groupsToExport = exportOptions.object.Gruppen.value
     app.Actions.queryFields(groupsToExport, group, taxonomienZusammenfassen, offlineIndexes)
   },
 
   onChangeCoSelect (cName, fName, event) {
-    const { exportData } = this.state
+    const { exportOptions } = this.state
     const co = event.target.value
     const coPath = `${cName}.${fName}.co`
-    _.set(exportData, coPath, co)
-    // console.log('exportData', exportData)
+    _.set(exportOptions, coPath, co)
+    // console.log('exportOptions', exportOptions)
   },
 
   onChangeFilterField (cName, fName, event) {
-    let { exportData } = this.state
+    let { exportOptions } = this.state
     let value = event.target.value
     const valuePath = `${cName}.${fName}.value`
     // correct a few misleading values
     if (value === 'false') value = false
     if (value === 'true') value = true
     if (value === '') value = null
-    _.set(exportData, valuePath, value)
-    this.setState({ exportData })
-    // console.log('exportData', exportData)
+    _.set(exportOptions, valuePath, value)
+    this.setState({ exportOptions })
+    // console.log('exportOptions', exportOptions)
   },
 
   onChooseAllOfCollection (pcType, cName, event) {
-    let { exportData } = this.state
+    let { exportOptions } = this.state
     const { taxonomyFields, pcFields, relationFields } = this.props
     const checked = event.target.checked
     let fields = taxonomyFields
@@ -210,19 +210,19 @@ export default React.createClass({
     if (pcType === 'taxonomy' && cNameObject.Hierarchie) delete cNameObject.Hierarchie
     Object.keys(cNameObject).forEach((fName) => {
       const valuePath = `${cName}.${fName}.export`
-      _.set(exportData, valuePath, checked)
+      _.set(exportOptions, valuePath, checked)
     })
-    this.setState({ exportData })
-    // console.log('exportData', exportData)
+    this.setState({ exportOptions })
+    // console.log('exportOptions', exportOptions)
   },
 
   onChangeExportData (cName, fName, event) {
-    let { exportData } = this.state
+    let { exportOptions } = this.state
     let value = event.target.checked
     const valuePath = `${cName}.${fName}.export`
-    _.set(exportData, valuePath, value)
-    this.setState({ exportData })
-    // console.log('exportData', exportData)
+    _.set(exportOptions, valuePath, value)
+    this.setState({ exportOptions })
+    // console.log('exportOptions', exportOptions)
   },
 
   onChangeOnlyObjectsWithCollectionData (event) {
@@ -237,8 +237,7 @@ export default React.createClass({
 
   render () {
     const { groupsLoadedOrLoading, groupsLoadingObjects, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, pcs, pcsQuerying, rcs, rcsQuerying } = this.props
-    const { taxonomienZusammenfassen, errorBuildingFields, activePanel, panel1Done, exportData, onlyObjectsWithCollectionData, includeDataFromSynonyms } = this.state
-    const showFields = Object.keys(taxonomyFields).length > 0 || Object.keys(pcFields).length > 0 || Object.keys(relationFields).length > 0
+    const { taxonomienZusammenfassen, errorBuildingFields, activePanel, panel1Done, exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms } = this.state
 
     return (
       <div id='export' className='formContent'>
@@ -255,7 +254,7 @@ export default React.createClass({
                 groupsLoadedOrLoading={groupsLoadedOrLoading}
                 taxonomienZusammenfassen={taxonomienZusammenfassen}
                 panel1Done={panel1Done}
-                exportData={exportData}
+                exportOptions={exportOptions}
                 pcsQuerying={pcsQuerying}
                 rcsQuerying={rcsQuerying}
                 onChangeTaxonomienZusammenfassen={this.onChangeTaxonomienZusammenfassen}
@@ -286,7 +285,7 @@ export default React.createClass({
                 taxonomyFields={taxonomyFields}
                 pcFields={pcFields}
                 relationFields={relationFields}
-                exportData={exportData}
+                exportOptions={exportOptions}
                 pcs={pcs}
                 rcs={rcs}
                 onlyObjectsWithCollectionData={onlyObjectsWithCollectionData}

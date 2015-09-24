@@ -13,7 +13,7 @@ export default React.createClass({
     onChangeExportData: React.PropTypes.func,
     onChooseAllOfCollection: React.PropTypes.func,
     activePanel: React.PropTypes.number,
-    exportData: React.PropTypes.object,
+    exportOptions: React.PropTypes.object,
     collectionsWithAllChoosen: React.PropTypes.array
   },
 
@@ -76,7 +76,7 @@ export default React.createClass({
   },
 
   render () {
-    const { taxonomyFields, exportData } = this.props
+    const { taxonomyFields, exportOptions } = this.props
     const { activePanel, collectionsWithAllChoosen } = this.state
     const collectionKeysSorted = _.sortBy(Object.keys(taxonomyFields), (cNameKey) => cNameKey.toLowerCase())
     const collections = collectionKeysSorted.map((cNameKey, cIndex) => {
@@ -87,7 +87,7 @@ export default React.createClass({
             <FieldsTaxonomyPanel
               cNameKey={cNameKey}
               taxonomyFields={taxonomyFields}
-              exportData={exportData}
+              exportOptions={exportOptions}
               collectionsWithAllChoosen={collectionsWithAllChoosen}
               onChangeField={this.onChangeField}
               onChangeAllFields={this.onChangeAllFields} />

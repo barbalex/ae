@@ -14,7 +14,7 @@ export default React.createClass({
     onChooseAllOfCollection: React.PropTypes.func,
     pcs: React.PropTypes.array,
     activePanel: React.PropTypes.number,
-    exportData: React.PropTypes.object,
+    exportOptions: React.PropTypes.object,
     collectionsWithAllChoosen: React.PropTypes.array
   },
 
@@ -77,7 +77,7 @@ export default React.createClass({
   },
 
   render () {
-    const { pcFields, pcs, exportData } = this.props
+    const { pcFields, pcs, exportOptions } = this.props
     const { activePanel, collectionsWithAllChoosen } = this.state
 
     const collectionKeysSorted = _.sortBy(Object.keys(pcFields), (cNameKey) => cNameKey.toLowerCase())
@@ -90,7 +90,7 @@ export default React.createClass({
             <FieldsPCsPanel
               cNameKey={cNameKey}
               pcFields={pcFields}
-              exportData={exportData}
+              exportOptions={exportOptions}
               collectionsWithAllChoosen={collectionsWithAllChoosen}
               onChangeField={this.onChangeField}
               onChangeAllFields={this.onChangeAllFields} />

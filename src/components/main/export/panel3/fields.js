@@ -19,7 +19,7 @@ export default React.createClass({
     pcs: React.PropTypes.array,
     rcs: React.PropTypes.array,
     activePanel: React.PropTypes.number,
-    exportData: React.PropTypes.object
+    exportOptions: React.PropTypes.object
   },
 
   getInitialState () {
@@ -50,7 +50,7 @@ export default React.createClass({
   },
 
   render () {
-    const { taxonomyFields, pcFields, relationFields, onChangeExportData, onChooseAllOfCollection, pcs, rcs, exportData } = this.props
+    const { taxonomyFields, pcFields, relationFields, onChangeExportData, onChooseAllOfCollection, pcs, rcs, exportOptions } = this.props
     const { activePanel } = this.state
 
     return (
@@ -67,7 +67,7 @@ export default React.createClass({
         <Panel className='collectionPanel' collapsible header='Taxonomie' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
           {activePanel === 2 ?
             <FieldsTaxonomy
-              exportData={exportData}
+              exportOptions={exportOptions}
               taxonomyFields={taxonomyFields}
               onChangeExportData={onChangeExportData}
               onChooseAllOfCollection={onChooseAllOfCollection} />
@@ -77,7 +77,7 @@ export default React.createClass({
         <Panel className='collectionPanel' collapsible header='Eigenschaftensammlungen' eventKey={3} onClick={this.onClickPanel.bind(this, 3)}>
           {activePanel === 3 ?
             <FieldsPCs
-              exportData={exportData}
+              exportOptions={exportOptions}
               pcFields={pcFields}
               pcs={pcs}
               onChangeExportData={onChangeExportData}
@@ -88,7 +88,7 @@ export default React.createClass({
         <Panel className='collectionPanel' collapsible header='Beziehungssammlungen' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>
           {activePanel === 4 ?
             <FieldsRCs
-              exportData={exportData}
+              exportOptions={exportOptions}
               relationFields={relationFields}
               rcs={rcs}
               onChangeExportData={onChangeExportData}
