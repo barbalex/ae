@@ -2,16 +2,13 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import { Accordion, Panel, ProgressBar, Button, Glyphicon } from 'react-bootstrap'
+import { Accordion, Panel } from 'react-bootstrap'
 import _ from 'lodash'
 import { ListenerMixin } from 'reflux'
 import Panel1 from './panel1/panel1.js'
 import Panel2 from './panel2/panel2.js'
 import Panel3 from './panel3/panel3.js'
-import ButtonDeletePcInstances from './buttonDeletePcInstances/buttonDeletePcInstances.js'
-import ProgressbarImport from './progressbarImport.js'
-import AlertFirst5Imported from './alertFirst5Imported.js'
-import AlertFirst5Deleted from './alertFirst5Deleted.js'
+import Panel4 from './panel4/panel4.js'
 import getObjectsFromFile from './getObjectsFromFile.js'
 import isValidUrl from '../../../modules/isValidUrl.js'
 import getSuccessTypeFromAnalysis from './panel3/getSuccessTypeFromAnalysis.js'
@@ -503,11 +500,8 @@ export default React.createClass({
   },
 
   render () {
-    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, pcsToImport, pcsRemoved, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs, validPcsToImport, activePanel, idsAeIdField, idsImportIdField, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, panel3Done, importingProgress, deletingPcInstancesProgress, deletingPcProgress } = this.state
+    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, pcsToImport, pcsRemoved, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs, validPcsToImport, activePanel, idsAeIdField, idsImportIdField, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, importingProgress, deletingPcInstancesProgress, deletingPcProgress } = this.state
     const { groupsLoadedOrLoading, email, pcs, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime } = this.props
-    const showDeletePcInstancesButton = panel3Done
-    const showProgressbarImport = importingProgress !== null && !pcsRemoved
-    const showAlertFirst5Imported = importingProgress === 100 && !pcsRemoved
 
     return (
       <div id='importieren' className='formContent'>
@@ -586,12 +580,20 @@ export default React.createClass({
           </Panel>
 
           <Panel collapsible header='4. importieren' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>
-            {panel3Done ? <Button className='btn-primary' onClick={this.onClickImportieren}><Glyphicon glyph='download-alt'/> Eigenschaftensammlung "{name}" importieren</Button> : null }
-            {showDeletePcInstancesButton ? <ButtonDeletePcInstances name={name} pcsRemoved={pcsRemoved} deletingPcInstancesProgress={deletingPcInstancesProgress} onClickRemovePcInstances={this.onClickRemovePcInstances} /> : null}
-            {showProgressbarImport ? <ProgressbarImport importingProgress={importingProgress} /> : null}
-            {showAlertFirst5Imported ? <AlertFirst5Imported idsOfAeObjects={idsOfAeObjects} idsNotImportable={idsNotImportable} replicatingToAe={replicatingToAe} replicatingToAeTime={replicatingToAeTime} /> : null}
-            {deletingPcInstancesProgress !== null ? <ProgressBar bsStyle='success' now={deletingPcInstancesProgress} label={`${deletingPcInstancesProgress}% entfernt`} /> : null}
-            {deletingPcInstancesProgress === 100 ? <AlertFirst5Deleted idsOfAeObjects={idsOfAeObjects} nameBestehend={name} replicatingToAe={replicatingToAe} replicatingToAeTime={replicatingToAeTime} /> : null}
+            {activePanel === 4 ?
+              <Panel4
+                name={name}
+                pcsRemoved={pcsRemoved}
+                idsOfAeObjects={idsOfAeObjects}
+                idsNotImportable={idsNotImportable}
+                importingProgress={importingProgress}
+                deletingPcInstancesProgress={deletingPcInstancesProgress}
+                replicatingToAe={replicatingToAe}
+                replicatingToAeTime={replicatingToAeTime}
+                onClickRemovePcInstances={this.onClickRemovePcInstances}
+                onClickImportieren={this.onClickImportieren} />
+              : null
+            }
           </Panel>
 
         </Accordion>
