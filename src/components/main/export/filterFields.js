@@ -53,28 +53,40 @@ export default React.createClass({
     return (
       <Accordion activeKey={activePanel}>
         <Panel collapsible header='Art / Lebensraum' eventKey={1} onClick={this.onClickPanel.bind(this, 1)}>
-          <InputFilterGuid
-            onChangeFilterField={onChangeFilterField} />
+          {activePanel === 1 ?
+            <InputFilterGuid
+              onChangeFilterField={onChangeFilterField} />
+            : null
+          }
         </Panel>
         <Panel className='collectionPanel' collapsible header='Taxonomie' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
-          <FilterFieldsTaxonomy
-            taxonomyFields={taxonomyFields}
-            onChangeFilterField={onChangeFilterField}
-            onChangeCoSelect={onChangeCoSelect} />
+          {activePanel === 2 ?
+            <FilterFieldsTaxonomy
+              taxonomyFields={taxonomyFields}
+              onChangeFilterField={onChangeFilterField}
+              onChangeCoSelect={onChangeCoSelect} />
+            : null
+          }
         </Panel>
         <Panel className='collectionPanel' collapsible header='Eigenschaftensammlungen' eventKey={3} onClick={this.onClickPanel.bind(this, 3)}>
-          <FilterFieldsPCs
-            pcFields={pcFields}
-            pcs={pcs}
-            onChangeFilterField={onChangeFilterField}
-            onChangeCoSelect={onChangeCoSelect} />
+          {activePanel === 3 ?
+            <FilterFieldsPCs
+              pcFields={pcFields}
+              pcs={pcs}
+              onChangeFilterField={onChangeFilterField}
+              onChangeCoSelect={onChangeCoSelect} />
+            : null
+          }
         </Panel>
         <Panel className='collectionPanel' collapsible header='Beziehungssammlungen' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>
-          <FilterFieldsRCs
-            relationFields={relationFields}
-            rcs={rcs}
-            onChangeFilterField={onChangeFilterField}
-            onChangeCoSelect={onChangeCoSelect} />
+          {activePanel === 4 ?
+            <FilterFieldsRCs
+              relationFields={relationFields}
+              rcs={rcs}
+              onChangeFilterField={onChangeFilterField}
+              onChangeCoSelect={onChangeCoSelect} />
+            : null
+          }
         </Panel>
       </Accordion>
     )

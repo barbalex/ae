@@ -56,33 +56,45 @@ export default React.createClass({
     return (
       <Accordion activeKey={activePanel}>
         <Panel collapsible header='Art / Lebensraum' eventKey={1} onClick={this.onClickPanel.bind(this, 1)}>
-          <div className='felderspalte' style={{marginBottom: -8}}>
-            <Input type='checkbox' label='GUID' onChange={this.onChangeMyExportData.bind(this, 'object', '_id')} />
-            <Input type='checkbox' label='Gruppe' onChange={this.onChangeMyExportData.bind(this, 'object', 'Gruppe')} />
-          </div>
+          {activePanel === 1 ?
+            <div className='felderspalte' style={{marginBottom: -8}}>
+              <Input type='checkbox' label='GUID' onChange={this.onChangeMyExportData.bind(this, 'object', '_id')} />
+              <Input type='checkbox' label='Gruppe' onChange={this.onChangeMyExportData.bind(this, 'object', 'Gruppe')} />
+            </div>
+            : null
+          }
         </Panel>
         <Panel className='collectionPanel' collapsible header='Taxonomie' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
-          <ChooseFieldsTaxonomy
-            exportData={exportData}
-            taxonomyFields={taxonomyFields}
-            onChangeExportData={onChangeExportData}
-            onChooseAllOfCollection={onChooseAllOfCollection} />
+          {activePanel === 2 ?
+            <ChooseFieldsTaxonomy
+              exportData={exportData}
+              taxonomyFields={taxonomyFields}
+              onChangeExportData={onChangeExportData}
+              onChooseAllOfCollection={onChooseAllOfCollection} />
+            : null
+          }
         </Panel>
         <Panel className='collectionPanel' collapsible header='Eigenschaftensammlungen' eventKey={3} onClick={this.onClickPanel.bind(this, 3)}>
-          <ChooseFieldsPCs
-            exportData={exportData}
-            pcFields={pcFields}
-            pcs={pcs}
-            onChangeExportData={onChangeExportData}
-            onChooseAllOfCollection={onChooseAllOfCollection} />
+          {activePanel === 3 ?
+            <ChooseFieldsPCs
+              exportData={exportData}
+              pcFields={pcFields}
+              pcs={pcs}
+              onChangeExportData={onChangeExportData}
+              onChooseAllOfCollection={onChooseAllOfCollection} />
+            : null
+          }
         </Panel>
         <Panel className='collectionPanel' collapsible header='Beziehungssammlungen' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>
-          <ChooseFieldsRCs
-            exportData={exportData}
-            relationFields={relationFields}
-            rcs={rcs}
-            onChangeExportData={onChangeExportData}
-            onChooseAllOfCollection={onChooseAllOfCollection} />
+          {activePanel === 4 ?
+            <ChooseFieldsRCs
+              exportData={exportData}
+              relationFields={relationFields}
+              rcs={rcs}
+              onChangeExportData={onChangeExportData}
+              onChooseAllOfCollection={onChooseAllOfCollection} />
+            : null
+          }
         </Panel>
       </Accordion>
     )
