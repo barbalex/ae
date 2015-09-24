@@ -7,16 +7,14 @@ import _ from 'lodash'
 import { ListenerMixin } from 'reflux'
 import Panel1 from './panel1/panel1.js'
 import Panel2 from './panel2/panel2.js'
+import Panel3 from './panel3/panel3.js'
 import ButtonDeletePcInstances from './buttonDeletePcInstances/buttonDeletePcInstances.js'
-import AlertIdsAnalysisResult from './alertIdsAnalysisResult.js'
-import InputImportFields from './inputImportFields.js'
-import InputAeId from './inputAeId.js'
 import ProgressbarImport from './progressbarImport.js'
 import AlertFirst5Imported from './alertFirst5Imported.js'
 import AlertFirst5Deleted from './alertFirst5Deleted.js'
 import getObjectsFromFile from './getObjectsFromFile.js'
 import isValidUrl from '../../../modules/isValidUrl.js'
-import getSuccessTypeFromAnalysis from './getSuccessTypeFromAnalysis.js'
+import getSuccessTypeFromAnalysis from './panel3/getSuccessTypeFromAnalysis.js'
 import getGuidsById from '../../../modules/getGuidsById.js'
 
 export default React.createClass({
@@ -570,9 +568,21 @@ export default React.createClass({
           </Panel>
 
           <Panel collapsible header="3. ID's identifizieren" eventKey={3} onClick={this.onClickPanel.bind(this, 3)}>
-            {pcsToImport.length > 0 ? <InputImportFields idsImportIdField={idsImportIdField} pcsToImport={pcsToImport} onChangeImportId={this.onChangeImportId} /> : null}
-            <InputAeId idsAeIdField={idsAeIdField} onChangeAeId={this.onChangeAeId} />
-            {idsImportIdField && idsAeIdField ? <AlertIdsAnalysisResult idsImportIdField={idsImportIdField} idsAeIdField={idsAeIdField} pcsToImport={pcsToImport} idsNumberOfRecordsWithIdValue={idsNumberOfRecordsWithIdValue} idsDuplicate={idsDuplicate} idsNumberImportable={idsNumberImportable} idsNotImportable={idsNotImportable} idsAnalysisComplete={idsAnalysisComplete} idsNotANumber={idsNotANumber} /> : null}
+            {activePanel === 3 ?
+              <Panel3
+                pcsToImport={pcsToImport}
+                idsImportIdField={idsImportIdField}
+                idsAeIdField={idsAeIdField}
+                idsAnalysisComplete={idsAnalysisComplete}
+                idsNumberOfRecordsWithIdValue={idsNumberOfRecordsWithIdValue}
+                idsDuplicate={idsDuplicate}
+                idsNumberImportable={idsNumberImportable}
+                idsNotImportable={idsNotImportable}
+                idsNotANumber={idsNotANumber}
+                onChangeAeId={this.onChangeAeId}
+                onChangeImportId={this.onChangeImportId} />
+              : null
+            }
           </Panel>
 
           <Panel collapsible header='4. importieren' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>
