@@ -5,30 +5,29 @@ import { Input, Accordion, Panel } from 'react-bootstrap'
 import _ from 'lodash'
 import SelectComparisonOperator from './selectComparisonOperator.js'
 import InfoButtonAfter from './infoButtonAfter.js'
-import PcDescription from './pcDescription.js'
 
 export default React.createClass({
-  displayName: 'FilterFieldsPcs',
+  displayName: 'FieldsTaxonomy',
 
   propTypes: {
-    pcFields: React.PropTypes.object,
+    taxonomyFields: React.PropTypes.object,
     onChangeFilterField: React.PropTypes.func,
     onChangeCoSelect: React.PropTypes.func,
-    pcs: React.PropTypes.array,
     activePanel: React.PropTypes.number
   },
 
   getInitialState () {
     return {
+      // don't set this to null - chrome will crash!!??
       activePanel: ''
     }
   },
 
   componentWillUpdate () {
-    const { pcFields } = this.props
+    const { taxonomyFields } = this.props
     const { activePanel } = this.state
     // open collection panel if there is only one
-    const numberOfCollections = Object.keys(pcFields).length
+    const numberOfCollections = Object.keys(taxonomyFields).length
     if (numberOfCollections === 1 && activePanel !== 0) this.setState({ activePanel: 0 })
   },
 
@@ -54,14 +53,15 @@ export default React.createClass({
   },
 
   render () {
-    const { pcFields, onChangeCoSelect, pcs } = this.props
+    const { taxonomyFields, onChangeCoSelect } = this.props
     const { activePanel } = this.state
 
-    const collectionKeysSorted = _.sortBy(Object.keys(pcFields), (cNameKey) => cNameKey.toLowerCase())
+    const collectionKeysSorted = _.sortBy(Object.keys(taxonomyFields), (cNameKey) => cNameKey.toLowerCase())
     const collections = collectionKeysSorted.map((cNameKey, cIndex) => {
       const collectionKey = cNameKey.toLowerCase()
-      const cNameObject = pcFields[cNameKey]
-      const pc = _.find(pcs, (pc) => pc.name === cNameKey)
+      const cNameObject = taxonomyFields[cNameKey]
+      // we do not want the taxonomy field 'Hierarchie'
+      delete cNameObject.Hierarchie
       const fieldsSorted = _.sortBy(Object.keys(cNameObject), (fNameKey) => fNameKey.toLowerCase())
       const fields = fieldsSorted.map((fNameKey) => {
         const fieldKey = fNameKey.toLowerCase()
@@ -97,8 +97,7 @@ export default React.createClass({
         )
       })
       return (
-        <Panel key={collectionKey} collapsible header={pc.name} eventKey={cIndex} onClick={this.onClickPanel.bind(this, cIndex)}>
-          <PcDescription pc={pc} />
+        <Panel key={collectionKey} collapsible header={cNameKey} eventKey={cIndex} onClick={this.onClickPanel.bind(this, cIndex)}>
           <div className='felderspalte'>
             {fields}
           </div>

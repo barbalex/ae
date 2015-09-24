@@ -3,13 +3,13 @@
 import React from 'react'
 import { Accordion, Panel } from 'react-bootstrap'
 import _ from 'lodash'
-import InputFilterGuid from './inputFilterGuid.js'
-import FilterFieldsTaxonomy from './filterFieldsTaxonomy.js'
-import FilterFieldsPCs from './filterFieldsPCs.js'
-import FilterFieldsRCs from './filterFieldsRCs.js'
+import InputFilterGuid from './inputGuid.js'
+import FieldsTaxonomy from './fieldsTaxonomy.js'
+import FieldsPCs from './fieldsPCs.js'
+import FieldsRCs from './fieldsRCs.js'
 
 export default React.createClass({
-  displayName: 'FilterFields',
+  displayName: 'Fields',
 
   propTypes: {
     taxonomyFields: React.PropTypes.object,
@@ -61,7 +61,7 @@ export default React.createClass({
         </Panel>
         <Panel className='collectionPanel' collapsible header='Taxonomie' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
           {activePanel === 2 ?
-            <FilterFieldsTaxonomy
+            <FieldsTaxonomy
               taxonomyFields={taxonomyFields}
               onChangeFilterField={onChangeFilterField}
               onChangeCoSelect={onChangeCoSelect} />
@@ -70,7 +70,7 @@ export default React.createClass({
         </Panel>
         <Panel className='collectionPanel' collapsible header='Eigenschaftensammlungen' eventKey={3} onClick={this.onClickPanel.bind(this, 3)}>
           {activePanel === 3 ?
-            <FilterFieldsPCs
+            <FieldsPCs
               pcFields={pcFields}
               pcs={pcs}
               onChangeFilterField={onChangeFilterField}
@@ -80,7 +80,7 @@ export default React.createClass({
         </Panel>
         <Panel className='collectionPanel' collapsible header='Beziehungssammlungen' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>
           {activePanel === 4 ?
-            <FilterFieldsRCs
+            <FieldsRCs
               relationFields={relationFields}
               rcs={rcs}
               onChangeFilterField={onChangeFilterField}

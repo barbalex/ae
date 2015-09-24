@@ -5,7 +5,7 @@ import { OverlayTrigger, Popover, Alert } from 'react-bootstrap'
 import isGuid from '../../../../modules/isGuid.js'
 
 export default React.createClass({
-  displayName: 'InputFilterGuid',
+  displayName: 'InputGuid',
 
   propTypes: {
     onChangeFilterField: React.PropTypes.func,

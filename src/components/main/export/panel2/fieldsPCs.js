@@ -8,13 +8,13 @@ import InfoButtonAfter from './infoButtonAfter.js'
 import PcDescription from './pcDescription.js'
 
 export default React.createClass({
-  displayName: 'FilterFieldsRCs',
+  displayName: 'FieldsPcs',
 
   propTypes: {
-    relationFields: React.PropTypes.object,
+    pcFields: React.PropTypes.object,
     onChangeFilterField: React.PropTypes.func,
     onChangeCoSelect: React.PropTypes.func,
-    rcs: React.PropTypes.array,
+    pcs: React.PropTypes.array,
     activePanel: React.PropTypes.number
   },
 
@@ -25,10 +25,10 @@ export default React.createClass({
   },
 
   componentWillUpdate () {
-    const { relationFields } = this.props
+    const { pcFields } = this.props
     const { activePanel } = this.state
     // open collection panel if there is only one
-    const numberOfCollections = Object.keys(relationFields).length
+    const numberOfCollections = Object.keys(pcFields).length
     if (numberOfCollections === 1 && activePanel !== 0) this.setState({ activePanel: 0 })
   },
 
@@ -54,14 +54,14 @@ export default React.createClass({
   },
 
   render () {
-    const { relationFields, onChangeCoSelect, rcs } = this.props
+    const { pcFields, onChangeCoSelect, pcs } = this.props
     const { activePanel } = this.state
 
-    const collectionKeysSorted = _.sortBy(Object.keys(relationFields), (cNameKey) => cNameKey.toLowerCase())
+    const collectionKeysSorted = _.sortBy(Object.keys(pcFields), (cNameKey) => cNameKey.toLowerCase())
     const collections = collectionKeysSorted.map((cNameKey, cIndex) => {
       const collectionKey = cNameKey.toLowerCase()
-      const cNameObject = relationFields[cNameKey]
-      const rc = _.find(rcs, (rc) => rc.name === cNameKey)
+      const cNameObject = pcFields[cNameKey]
+      const pc = _.find(pcs, (pc) => pc.name === cNameKey)
       const fieldsSorted = _.sortBy(Object.keys(cNameObject), (fNameKey) => fNameKey.toLowerCase())
       const fields = fieldsSorted.map((fNameKey) => {
         const fieldKey = fNameKey.toLowerCase()
@@ -97,8 +97,8 @@ export default React.createClass({
         )
       })
       return (
-        <Panel key={collectionKey} collapsible header={rc.name} eventKey={cIndex} onClick={this.onClickPanel.bind(this, cIndex)}>
-          <PcDescription pc={rc} />
+        <Panel key={collectionKey} collapsible header={pc.name} eventKey={cIndex} onClick={this.onClickPanel.bind(this, cIndex)}>
+          <PcDescription pc={pc} />
           <div className='felderspalte'>
             {fields}
           </div>

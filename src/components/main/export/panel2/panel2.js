@@ -1,9 +1,9 @@
 'use strict'
 
 import React from 'react'
-import WellSoGehtsFiltern from './wellSoGehtsFiltern.js'
-import WellTippsTricksFiltern from './wellTippsTricksFiltern.js'
-import FilterFields from './filterFields.js'
+import WellSoGehts from './wellSoGehts.js'
+import WellTippsTricks from './wellTippsTricks.js'
+import Fields from './fields.js'
 
 export default React.createClass({
   displayName: 'Panel2',
@@ -26,10 +26,10 @@ export default React.createClass({
 
     return (
       <div>
-        <WellSoGehtsFiltern />
-        <WellTippsTricksFiltern />
+        <WellSoGehts />
+        <WellTippsTricks />
         {showFields ?
-          <FilterFields
+          <Fields
             taxonomyFields={taxonomyFields}
             pcFields={pcFields}
             pcs={pcs}

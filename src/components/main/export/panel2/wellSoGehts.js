@@ -4,7 +4,7 @@ import React from 'react'
 import { Well } from 'react-bootstrap'
 
 export default React.createClass({
-  displayName: 'WellSoGehtsFiltern',
+  displayName: 'WellSoGehts',
 
   propTypes: {
     visible: React.PropTypes.bool
