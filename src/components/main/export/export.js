@@ -6,10 +6,7 @@ import { Accordion, Panel } from 'react-bootstrap'
 import _ from 'lodash'
 import Panel1 from './panel1/panel1.js'
 import Panel2 from './panel2/panel2.js'
-import WellSoGehtsWaehlen from './wellSoGehtsWaehlen.js'
-import CheckboxOnlyObjectsWithCollectionData from './checkboxOnlyObjectsWithCollectionData.js'
-import CheckboxIncludeDataFromSynonyms from './checkboxIncludeDataFromSynonyms.js'
-import ChooseFields from './chooseFields.js'
+import Panel3 from './panel3/panel3.js'
 
 export default React.createClass({
   displayName: 'Export',
@@ -284,28 +281,22 @@ export default React.createClass({
           </Panel>
 
           <Panel collapsible header='3. Eigenschaften wählen' eventKey={3} onClick={this.onClickPanel.bind(this, 3)}>
-
-            <WellSoGehtsWaehlen />
-            <CheckboxOnlyObjectsWithCollectionData
-              onlyObjectsWithCollectionData={onlyObjectsWithCollectionData}
-              onChangeOnlyObjectsWithCollectionData={this.onChangeOnlyObjectsWithCollectionData} />
-            <CheckboxIncludeDataFromSynonyms
-              includeDataFromSynonyms={includeDataFromSynonyms}
-              onChangeIncludeDataFromSynonyms={this.onChangeIncludeDataFromSynonyms} />
-            {showFields && activePanel === 3 ?
-              <ChooseFields
-                exportData={exportData}
+            {activePanel === 3 ?
+              <Panel3
                 taxonomyFields={taxonomyFields}
                 pcFields={pcFields}
-                pcs={pcs}
                 relationFields={relationFields}
+                exportData={exportData}
+                pcs={pcs}
                 rcs={rcs}
+                onlyObjectsWithCollectionData={onlyObjectsWithCollectionData}
+                includeDataFromSynonyms={includeDataFromSynonyms}
+                onChangeIncludeDataFromSynonyms={this.onChangeIncludeDataFromSynonyms}
+                onChangeOnlyObjectsWithCollectionData={this.onChangeOnlyObjectsWithCollectionData}
                 onChangeExportData={this.onChangeExportData}
-                onChooseAllOfCollection={this.onChooseAllOfCollection}
-                onClickPanel={this.onClickPanel} />
+                onChooseAllOfCollection={this.onChooseAllOfCollection} />
               : null
             }
-
           </Panel>
 
           <Panel collapsible header='4. exportieren' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>
