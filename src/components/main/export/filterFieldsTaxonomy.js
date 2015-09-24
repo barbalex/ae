@@ -18,6 +18,7 @@ export default React.createClass({
 
   getInitialState () {
     return {
+      // don't set this to null - chrome will crash!!??
       activePanel: ''
     }
   },
