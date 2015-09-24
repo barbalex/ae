@@ -9,6 +9,7 @@ import GroupsToExport from './groupsToExport.js'
 import WellTaxonomienZusammenfassen from './wellTaxonomienZusammenfassen.js'
 import AlertGroups from './alertGroups.js'
 import AlertLoadGroups from './alertLoadGroups.js'
+import AlertChooseGroup from './alertChooseGroup.js'
 import WellSoGehtsFiltern from './wellSoGehtsFiltern.js'
 import WellTippsTricksFiltern from './wellTippsTricksFiltern.js'
 import FilterFields from './filterFields.js'
@@ -31,6 +32,9 @@ export default React.createClass({
     groupsLoadedOrLoading: React.PropTypes.array,
     taxonomienZusammenfassen: React.PropTypes.bool,
     activePanel: React.PropTypes.number,
+    panel1Done: React.PropTypes.bool,
+    panel2Done: React.PropTypes.bool,
+    panel3Done: React.PropTypes.bool,
     exportData: React.PropTypes.object,
     pcs: React.PropTypes.array,
     pcsQuerying: React.PropTypes.bool,
@@ -78,6 +82,9 @@ export default React.createClass({
       errorBuildingFields: null,
       taxonomienZusammenfassen: false,
       activePanel: 1,
+      panel1Done: null,
+      panel2Done: null,
+      panel3Done: null,
       exportData: exportData,
       onlyObjectsWithCollectionData: true,
       includeDataFromSynonyms: true
@@ -129,8 +136,9 @@ export default React.createClass({
   },
 
   isPanel1Done () {
-    const { taxonomyFields } = this.props
-    const panel1Done = Object.keys(taxonomyFields).length > 0
+    const { exportData } = this.state
+    const groupsToExport = exportData.object.Gruppen.value
+    const panel1Done = groupsToExport.length > 0
     let state = { panel1Done }
     if (!panel1Done) state = Object.assign(state, { activePanel: 1 })
     this.setState(state)
@@ -162,7 +170,9 @@ export default React.createClass({
     let groupsToExport = exportData.object.Gruppen.value
     if (checked) groupsToExport.push(group)
     if (!checked) groupsToExport = _.without(groupsToExport, group)
-    this.setState({ exportData })
+    const panel1Done = groupsToExport.length > 0
+    const panel2Done = groupsToExport.length > 0
+    this.setState({ exportData, panel1Done, panel2Done })
     app.Actions.queryFields(groupsToExport, group, taxonomienZusammenfassen, offlineIndexes)
     // console.log('exportData', exportData)
   },
@@ -237,12 +247,14 @@ export default React.createClass({
 
   render () {
     const { groupsLoadedOrLoading, groupsLoadingObjects, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, pcs, pcsQuerying, rcs, rcsQuerying } = this.props
-    const { taxonomienZusammenfassen, errorBuildingFields, activePanel, exportData, onlyObjectsWithCollectionData, includeDataFromSynonyms } = this.state
+    const { taxonomienZusammenfassen, errorBuildingFields, activePanel, panel1Done, exportData, onlyObjectsWithCollectionData, includeDataFromSynonyms } = this.state
     const showAlertLoadGroups = groupsLoadedOrLoading.length === 0
     const groupsToExport = exportData.object.Gruppen.value
     const showAlertGroups = groupsToExport.length > 0 && !showAlertLoadGroups
+    const showAlertChooseGroup = panel1Done === false
     const groupsLoading = _.pluck(groupsLoadingObjects, 'group')
     const groupsLoaded = _.difference(groupsLoadedOrLoading, groupsLoading)
+    const showFields = Object.keys(taxonomyFields).length > 0 || Object.keys(pcFields).length > 0 || Object.keys(relationFields).length > 0
 
     return (
       <div id='export' className='formContent'>
@@ -264,6 +276,10 @@ export default React.createClass({
                 onChangeTaxonomienZusammenfassen={this.onChangeTaxonomienZusammenfassen} />
               : null
             }
+            {showAlertChooseGroup ?
+              <AlertChooseGroup />
+              : null
+            }
             {showAlertGroups ?
               <AlertGroups
                 pcsQuerying={pcsQuerying}
@@ -280,17 +296,20 @@ export default React.createClass({
 
             <WellSoGehtsFiltern />
             <WellTippsTricksFiltern />
-            <FilterFields
-              taxonomyFields={taxonomyFields}
-              pcFields={pcFields}
-              pcs={pcs}
-              relationFields={relationFields}
-              rcs={rcs}
-              groupsLoadedOrLoading={groupsLoadedOrLoading}
-              groupsLoadingObjects={groupsLoadingObjects}
-              onChangeFilterField={this.onChangeFilterField}
-              onChangeCoSelect={this.onChangeCoSelect}
-              onClickPanel={this.onClickPanel} />
+            {showFields ?
+              <FilterFields
+                taxonomyFields={taxonomyFields}
+                pcFields={pcFields}
+                pcs={pcs}
+                relationFields={relationFields}
+                rcs={rcs}
+                groupsLoadedOrLoading={groupsLoadedOrLoading}
+                groupsLoadingObjects={groupsLoadingObjects}
+                onChangeFilterField={this.onChangeFilterField}
+                onChangeCoSelect={this.onChangeCoSelect}
+                onClickPanel={this.onClickPanel} />
+              : null
+            }
 
           </Panel>
 
@@ -303,16 +322,19 @@ export default React.createClass({
             <CheckboxIncludeDataFromSynonyms
               includeDataFromSynonyms={includeDataFromSynonyms}
               onChangeIncludeDataFromSynonyms={this.onChangeIncludeDataFromSynonyms} />
-            <ChooseFields
-              exportData={exportData}
-              taxonomyFields={taxonomyFields}
-              pcFields={pcFields}
-              pcs={pcs}
-              relationFields={relationFields}
-              rcs={rcs}
-              onChangeExportData={this.onChangeExportData}
-              onChooseAllOfCollection={this.onChooseAllOfCollection}
-              onClickPanel={this.onClickPanel} />
+            {showFields ?
+              <ChooseFields
+                exportData={exportData}
+                taxonomyFields={taxonomyFields}
+                pcFields={pcFields}
+                pcs={pcs}
+                relationFields={relationFields}
+                rcs={rcs}
+                onChangeExportData={this.onChangeExportData}
+                onChooseAllOfCollection={this.onChooseAllOfCollection}
+                onClickPanel={this.onClickPanel} />
+              : null
+            }
 
           </Panel>
 
