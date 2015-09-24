@@ -8,7 +8,7 @@ import InfoButtonAfter from './infoButtonAfter.js'
 import PcDescription from './pcDescription.js'
 
 export default React.createClass({
-  displayName: 'FieldsPCs',
+  displayName: 'FieldsPCsPanel',
 
   propTypes: {
     cNameKey: React.PropTypes.string,
