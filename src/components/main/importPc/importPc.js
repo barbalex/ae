@@ -2,40 +2,25 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import { Accordion, Panel, Well, ProgressBar, Button, Glyphicon } from 'react-bootstrap'
+import { Accordion, Panel, ProgressBar, Button, Glyphicon } from 'react-bootstrap'
 import _ from 'lodash'
 import { ListenerMixin } from 'reflux'
-import WellAutorenrechte from './wellAutorenrechte.js'
-import WellTippsUndTricks from './wellTippsUndTricks.js'
+import Panel1 from './panel1/panel1.js'
 import WellTechnAnforderungenAnDatei from './wellTechnAnforderungenAnDatei.js'
 import WellAnforderungenAnCsv from './wellAnforderungenAnCsv.js'
 import WellAnforderungenInhaltlich from './wellAnforderungenInhaltlich.js'
-import InputNameBestehend from './inputNameBestehend.js'
-import ButtonDeletePc from './buttonDeletePc/buttonDeletePc.js'
 import ButtonDeletePcInstances from './buttonDeletePcInstances/buttonDeletePcInstances.js'
-import InputName from './inputName.js'
-import AlertEditingPcDisallowed from './alertEditingPcDisallowed.js'
-import InputBeschreibung from './inputBeschreibung.js'
-import InputDatenstand from './inputDatenstand.js'
-import InputNutzungsbedingungen from './inputNutzungsbedingungen.js'
-import InputLink from './inputLink.js'
-import InputImportiertVon from './inputImportiertVon.js'
-import InputZusammenfassend from './inputZusammenfassend.js'
-import InputUrsprungsEs from './inputUrsprungsEs.js'
 import AlertIdsAnalysisResult from './alertIdsAnalysisResult.js'
 import TablePreview from './tablePreview.js'
 import InputImportFields from './inputImportFields.js'
 import InputAeId from './inputAeId.js'
 import ProgressbarImport from './progressbarImport.js'
-import ProgressbarDeletePc from './progressbarDeletePc.js'
-import AlertDeletePcBuildingIndex from './alertDeletePcBuildingIndex.js'
 import AlertFirst5Imported from './alertFirst5Imported.js'
 import AlertFirst5Deleted from './alertFirst5Deleted.js'
 import getObjectsFromFile from './getObjectsFromFile.js'
 import isValidUrl from '../../../modules/isValidUrl.js'
 import getSuccessTypeFromAnalysis from './getSuccessTypeFromAnalysis.js'
 import getGuidsById from '../../../modules/getGuidsById.js'
-import AlertLoadAllGroups from './alertLoadAllGroups.js'
 
 export default React.createClass({
   displayName: 'ImportPropertyCollections',
@@ -525,10 +510,6 @@ export default React.createClass({
   render () {
     const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, pcsToImport, pcsRemoved, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs, validPcsToImport, activePanel, idsAeIdField, idsImportIdField, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, panel3Done, importingProgress, deletingPcInstancesProgress, deletingPcProgress } = this.state
     const { groupsLoadedOrLoading, email, pcs, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime } = this.props
-    const showLoadAllGroups = email && !allGroupsLoaded
-    const showAlertDeletePcBuildingIndex = deletingPcProgress && deletingPcProgress < 100
-    const alertAllGroupsBsStyle = ultimatelyAlertLoadAllGroups ? 'danger' : 'info'
-    const enableDeletePcButton = !!nameBestehend
     const showDeletePcInstancesButton = panel3Done
     const showProgressbarImport = importingProgress !== null && !pcsRemoved
     const showAlertFirst5Imported = importingProgress === 100 && !pcsRemoved
@@ -538,27 +519,47 @@ export default React.createClass({
         <h4>Eigenschaften importieren</h4>
         <Accordion activeKey={activePanel}>
           <Panel collapsible header='1. Eigenschaftensammlung beschreiben' eventKey={1} onClick={this.onClickPanel.bind(this, 1)}>
-            {showLoadAllGroups ? <AlertLoadAllGroups open='true' groupsLoadingObjects={groupsLoadingObjects} alertAllGroupsBsStyle={alertAllGroupsBsStyle} /> : null}
-            <WellTippsUndTricks />
-            <WellAutorenrechte />
-
-            <InputNameBestehend nameBestehend={nameBestehend} beschreibung={beschreibung} datenstand={datenstand} nutzungsbedingungen={nutzungsbedingungen} link={link} zusammenfassend={zusammenfassend} email={email} pcs={pcs} groupsLoadedOrLoading={groupsLoadedOrLoading} onChangeNameBestehend={this.onChangeNameBestehend} />
-            <ButtonDeletePc nameBestehend={nameBestehend} enableDeletePcButton={enableDeletePcButton} deletingPcProgress={deletingPcProgress} onClickDeletePc={this.onClickDeletePc} />
-            {showAlertDeletePcBuildingIndex ? <AlertDeletePcBuildingIndex /> : null}
-            {deletingPcProgress !== null ? <ProgressbarDeletePc progress={deletingPcProgress} /> : null}
-            {deletingPcProgress === 100 ? <div className='feld'><AlertFirst5Deleted idsOfAeObjects={idsOfAeObjects} nameBestehend={nameBestehend} replicatingToAe={replicatingToAe} replicatingToAeTime={replicatingToAeTime} /></div> : null}
-
-            <hr />
-
-            <InputName name={name} validName={validName} onChangeName={this.onChangeName} onBlurName={this.onBlurName} />
-            {esBearbeitenErlaubt ? null : <AlertEditingPcDisallowed />}
-            <InputBeschreibung beschreibung={beschreibung} validBeschreibung={validBeschreibung} onChangeBeschreibung={this.onChangeBeschreibung} />
-            <InputDatenstand datenstand={datenstand} validDatenstand={validDatenstand} onChangeDatenstand={this.onChangeDatenstand} />
-            <InputNutzungsbedingungen nutzungsbedingungen={nutzungsbedingungen} validNutzungsbedingungen={validNutzungsbedingungen} onChangeNutzungsbedingungen={this.onChangeNutzungsbedingungen} />
-            <InputLink link={link} validLink={validLink} onChangeLink={this.onChangeLink} onBlurLink={this.onBlurLink} />
-            <InputImportiertVon importiertVon={importiertVon} />
-            <InputZusammenfassend zusammenfassend={zusammenfassend} onChangeZusammenfassend={this.onChangeZusammenfassend} />
-            {zusammenfassend ? <InputUrsprungsEs nameUrsprungsEs={nameUrsprungsEs} pcs={pcs} validUrsprungsEs={validUrsprungsEs} onChangeNameUrsprungsEs={this.onChangeNameUrsprungsEs} /> : null}
+            {activePanel === 1 ?
+              <Panel1
+                groupsLoadingObjects={groupsLoadingObjects}
+                allGroupsLoaded={allGroupsLoaded}
+                groupsLoadedOrLoading={groupsLoadedOrLoading}
+                nameBestehend={nameBestehend}
+                name={name}
+                beschreibung={beschreibung}
+                datenstand={datenstand}
+                nutzungsbedingungen={nutzungsbedingungen}
+                link={link}
+                importiertVon={importiertVon}
+                zusammenfassend={zusammenfassend}
+                nameUrsprungsEs={nameUrsprungsEs}
+                email={email}
+                pcs={pcs}
+                idsOfAeObjects={idsOfAeObjects}
+                deletingPcProgress={deletingPcProgress}
+                esBearbeitenErlaubt={esBearbeitenErlaubt}
+                ultimatelyAlertLoadAllGroups={ultimatelyAlertLoadAllGroups}
+                validName={validName}
+                validBeschreibung={validBeschreibung}
+                validDatenstand={validDatenstand}
+                validNutzungsbedingungen={validNutzungsbedingungen}
+                validLink={validLink}
+                validUrsprungsEs={validUrsprungsEs}
+                replicatingToAe={replicatingToAe}
+                replicatingToAeTime={replicatingToAeTime}
+                onClickDeletePc={this.onClickDeletePc}
+                onChangeNameUrsprungsEs={this.onChangeNameUrsprungsEs}
+                onChangeZusammenfassend={this.onChangeZusammenfassend}
+                onBlurLink={this.onBlurLink}
+                onChangeLink={this.onChangeLink}
+                onChangeNutzungsbedingungen={this.onChangeNutzungsbedingungen}
+                onChangeDatenstand={this.onChangeDatenstand}
+                onChangeBeschreibung={this.onChangeBeschreibung}
+                onBlurName={this.onBlurName}
+                onChangeName={this.onChangeName}
+                onChangeNameBestehend={this.onChangeNameBestehend} />
+              : null
+            }
           </Panel>
 
           <Panel collapsible header='2. Eigenschaften laden' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
