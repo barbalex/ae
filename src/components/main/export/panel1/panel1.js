@@ -2,7 +2,7 @@
 
 import React from 'react'
 import _ from 'lodash'
-import WellSoGehtsGruppeWaehlen from './wellSoGehtsGruppeWaehlen.js'
+import WellSoGehts from './wellSoGehts.js'
 import GroupsToExport from './groupsToExport.js'
 import WellTaxonomienZusammenfassen from './wellTaxonomienZusammenfassen.js'
 import AlertGroups from './alertGroups.js'
@@ -40,7 +40,7 @@ export default React.createClass({
     return (
       <div>
         {showAlertLoadGroups ? <AlertLoadGroups /> : null}
-        {!showAlertLoadGroups ? <WellSoGehtsGruppeWaehlen /> : null}
+        {!showAlertLoadGroups ? <WellSoGehts /> : null}
         {!showAlertLoadGroups ?
           <GroupsToExport
             groupsLoaded={groupsLoaded}
