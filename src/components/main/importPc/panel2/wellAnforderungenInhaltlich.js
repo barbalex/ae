@@ -23,9 +23,12 @@ export default React.createClass({
 
   render () {
     const { visible } = this.state
+    const wellStyle = {
+      marginBottom: 15 + 'px !important'
+    }
 
     return (
-      <Well className='well-sm'><b>Inhaltliche Anforderungen </b> <a href='#' onClick={this.onClickToggle} className='showNextHidden'>{visible ? '...weniger' : '...mehr'}</a>
+      <Well className='well-sm' style={wellStyle}><b>Inhaltliche Anforderungen </b> <a href='#' onClick={this.onClickToggle} className='showNextHidden'>{visible ? '...weniger' : '...mehr'}</a>
         <ul className='adb-hidden' style={{'display': visible ? 'block' : 'none'}}>
           <li>Um die Art oder den Lebensraum zu identifizieren müssen Sie eine ID mitliefern.<br/>
             Entweder die GUID der ArtenDb.<br/>
