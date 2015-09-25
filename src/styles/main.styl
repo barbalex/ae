@@ -335,7 +335,7 @@ span.withPopover
 /* Gradient, um die panels zu stylen */
 .panel-heading
   // background-color: #FFFFD8 !important
-  background: linear-gradient(180deg, #FFFFD8, #FFFFE6)
+  background: linear-gradient(180deg, #FBFBD3, #FFFFE6)
 
 .panel-body
   background-color: #FFFFF0
@@ -756,8 +756,13 @@ option
   border: none
   border-bottom: 1px solid #ddd
 
-.collectionPanel .panel:first-of-type
+// top panel with top border if something is between body and panel
+.collectionPanel .panel-body [role='tablist'] .panel:first-of-type
   border-top: 1px solid #ddd
+
+// top panel without top border if it is directly under boda
+.collectionPanel .panel-body [role='tablist']:first-child .panel:first-of-type
+  border-top: none
 
 .collectionPanel .panel:last-of-type
   border: none
