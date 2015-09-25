@@ -18,7 +18,7 @@ export default React.createClass({
 
   onBlur (cName, fName, event) {
     const { onChangeFilterField } = this.props
-    onChangeFilterField(cName, fName, event)
+    onChangeFilterField(cName, fName, 'taxonomy', event)
   },
 
   render () {

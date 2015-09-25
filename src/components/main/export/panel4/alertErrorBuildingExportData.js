@@ -7,7 +7,7 @@ export default React.createClass({
   displayName: 'AlertErrorBuildingExportData',
 
   propTypes: {
-    errorBuildingExportData: React.PropTypes.string
+    errorBuildingExportData: React.PropTypes.object
   },
 
   render () {
@@ -18,7 +18,7 @@ export default React.createClass({
     }
     return (
       <Alert bsStyle='danger' style={style}>
-        <p>Fehler beim Aufbauen der Exportdaten: {errorBuildingExportData}</p>
+        <p>Fehler beim Aufbauen der Exportdaten: {JSON.stringify(errorBuildingExportData)}</p>
       </Alert>
     )
   }

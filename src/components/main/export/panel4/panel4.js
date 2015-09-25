@@ -21,7 +21,7 @@ export default React.createClass({
     format: React.PropTypes.string,
     onChangeFormat: React.PropTypes.func,
     exportData: React.PropTypes.array,
-    errorBuildingExportData: React.PropTypes.string
+    errorBuildingExportData: React.PropTypes.object
   },
 
   componentDidMount () {

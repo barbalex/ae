@@ -51,9 +51,7 @@ export default React.createClass({
         value: value
       }
     }
-    console.log('InputFilterGuid, value', value)
-    console.log('InputFilterGuid, event.target.value', event.target.value)
-    if (invalidGuids.length === 0) onChangeFilterField(cName, fName, eventToPass)
+    if (invalidGuids.length === 0) onChangeFilterField(cName, fName, 'object', eventToPass)
   },
 
   popover () {

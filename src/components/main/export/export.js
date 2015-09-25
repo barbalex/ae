@@ -44,11 +44,12 @@ export default React.createClass({
     oneRowPerRelation: React.PropTypes.bool,
     format: React.PropTypes.string,
     exportData: React.PropTypes.array,
-    errorBuildingExportData: React.PropTypes.string
+    errorBuildingExportData: React.PropTypes.object
   },
 
   /**
    * exportOptions object:
+   * co is: comparison operator
    * {
    *   object: {
    *     _id: {
@@ -61,9 +62,10 @@ export default React.createClass({
    *     }
    *   }
    *   cName: {
+   *     cType: '',
    *     fName: {
    *       value: '',
-   *       comparisonOperator: '',
+   *       co: '',
    *       export: ''
    *     },
    *     ...
@@ -234,7 +236,7 @@ export default React.createClass({
     // console.log('exportOptions', exportOptions)
   },
 
-  onChangeFilterField (cName, fName, event) {
+  onChangeFilterField (cName, fName, cType, event) {
     let { exportOptions } = this.state
     let value = event.target.value
     const valuePath = `${cName}.${fName}.value`
@@ -243,8 +245,10 @@ export default React.createClass({
     if (value === 'true') value = true
     if (value === '') value = null
     _.set(exportOptions, valuePath, value)
+    const typePath = `${cName}.cType`
+    _.set(exportOptions, typePath, cType)
     this.setState({ exportOptions })
-    // console.log('exportOptions', exportOptions)
+    console.log('exportOptions', exportOptions)
   },
 
   onChooseAllOfCollection (pcType, cName, event) {
