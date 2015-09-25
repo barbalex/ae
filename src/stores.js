@@ -88,6 +88,11 @@ export default (Actions) => {
             }
           })
           console.log('objects filtered', objects)
+
+          // TODO: build fields
+
+          // const errorBuildingExportData = null
+          // this.trigger({ exportData, errorBuildingExportData })
         })
         .catch((errorBuildingExportData) => {
           const exportData = []
