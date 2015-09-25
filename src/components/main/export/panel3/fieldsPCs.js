@@ -10,7 +10,7 @@ export default React.createClass({
 
   propTypes: {
     pcFields: React.PropTypes.object,
-    onChangeExportData: React.PropTypes.func,
+    onChooseField: React.PropTypes.func,
     onChooseAllOfCollection: React.PropTypes.func,
     pcs: React.PropTypes.array,
     activePanel: React.PropTypes.number,
@@ -38,9 +38,9 @@ export default React.createClass({
   },
 
   onChangeField (cName, fName, event) {
-    const { onChangeExportData } = this.props
+    const { onChooseField } = this.props
     let { collectionsWithAllChoosen } = this.state
-    onChangeExportData(cName, fName, event)
+    onChooseField(cName, fName, event)
     if (event.target.checked === false && _.includes(collectionsWithAllChoosen, cName)) {
       collectionsWithAllChoosen = _.without(collectionsWithAllChoosen, cName)
       this.setState({ collectionsWithAllChoosen })

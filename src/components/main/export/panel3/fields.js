@@ -14,7 +14,7 @@ export default React.createClass({
     taxonomyFields: React.PropTypes.object,
     pcFields: React.PropTypes.object,
     relationFields: React.PropTypes.object,
-    onChangeExportData: React.PropTypes.func,
+    onChooseField: React.PropTypes.func,
     onChooseAllOfCollection: React.PropTypes.func,
     pcs: React.PropTypes.array,
     rcs: React.PropTypes.array,
@@ -45,12 +45,12 @@ export default React.createClass({
   },
 
   onChangeMyExportData (cName, fName, event) {
-    const { onChangeExportData } = this.props
-    onChangeExportData(cName, fName, event)
+    const { onChooseField } = this.props
+    onChooseField(cName, fName, event)
   },
 
   render () {
-    const { taxonomyFields, pcFields, relationFields, onChangeExportData, onChooseAllOfCollection, pcs, rcs, exportOptions } = this.props
+    const { taxonomyFields, pcFields, relationFields, onChooseField, onChooseAllOfCollection, pcs, rcs, exportOptions } = this.props
     const { activePanel } = this.state
     const guidChecked = _.get(exportOptions, 'object._id.export')
 
@@ -70,7 +70,7 @@ export default React.createClass({
             <FieldsTaxonomy
               exportOptions={exportOptions}
               taxonomyFields={taxonomyFields}
-              onChangeExportData={onChangeExportData}
+              onChooseField={onChooseField}
               onChooseAllOfCollection={onChooseAllOfCollection} />
             : null
           }
@@ -81,7 +81,7 @@ export default React.createClass({
               exportOptions={exportOptions}
               pcFields={pcFields}
               pcs={pcs}
-              onChangeExportData={onChangeExportData}
+              onChooseField={onChooseField}
               onChooseAllOfCollection={onChooseAllOfCollection} />
             : null
           }
@@ -92,7 +92,7 @@ export default React.createClass({
               exportOptions={exportOptions}
               relationFields={relationFields}
               rcs={rcs}
-              onChangeExportData={onChangeExportData}
+              onChooseField={onChooseField}
               onChooseAllOfCollection={onChooseAllOfCollection} />
             : null
           }
