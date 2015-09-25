@@ -34,13 +34,13 @@ export default (Actions) => {
     onBuildExportData ({ exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, oneRowPerRelation, taxonomienZusammenfassen }) {
       app.objectStore.getItems()
         .then((objects) => {
-          console.log('objects.length', objects.length)
+          // console.log('objects.length', objects.length)
           const originalObjects = _.clone(objects)
 
           // 1. filter ids
           if (exportOptions.object._id.value) {
             objects = _.filter(objects, (object) => _.includes(exportOptions.object._id.value, object._id))
-            console.log('objects after filtering ids', objects)
+            // console.log('objects after filtering ids', objects)
           }
           // 2. filter groups
           const groups = exportOptions.object.Gruppen.value
@@ -48,49 +48,45 @@ export default (Actions) => {
           // console.log('objects.length after filtering for group', objects.length)
 
           // 3. add data of synonyms, if applicable
-          // loop all objects
-          // add missing pc and rc of synonyms
           if (includeDataFromSynonyms) {
             objects = addCollectionsOfSynonyms(originalObjects, objects)
           }
 
-          // do something to combine taxonomies
+          // TODO: combine taxonomies if applicable
 
           // filter for each other value
-          if (objects.length > 1) {
-            Object.keys(exportOptions).forEach((cName) => {
-              const cType = exportOptions[cName].cType
-              if (cType) {
-                Object.keys(exportOptions[cName]).forEach((fName) => {
-                  if (cName !== 'object') {
-                    const filterValue = exportOptions[cName][fName].value
-                    const co = exportOptions[cName][fName].co
-                    objects = _.filter(objects, (object) => {
-                      // find collection with this name
-                      let collections = object.Taxonomien
-                      if (cType === 'pc') collections = object.Eigenschaftensammlungen
-                      if (cType === 'rc') collections = object.Beziehungssammlungen
-                      const collection = _.find(collections, (co) => co.Name === cName)
-                      if (collection) {
-                        // if taxonomy or pc, check directly
-                        if (cType !== 'rc') return isFilterFulfilled(collection.Eigenschaften[fName], filterValue, co)
-                        // if rc, check if any relation fulfills
-                        const relations = collection.Beziehungen
-                        if (relations && relations.length > 0) {
-                          relations.forEach((relation) => {
-                            if (isFilterFulfilled(relation[fName], filterValue, co)) return true
-                          })
-                          return false
-                        }
+          Object.keys(exportOptions).forEach((cName) => {
+            const cType = exportOptions[cName].cType
+            if (cType) {
+              Object.keys(exportOptions[cName]).forEach((fName) => {
+                if (cName !== 'object') {
+                  const filterValue = exportOptions[cName][fName].value
+                  const co = exportOptions[cName][fName].co
+                  objects = _.filter(objects, (object) => {
+                    // find collection with this name
+                    let collections = object.Taxonomien
+                    if (cType === 'pc') collections = object.Eigenschaftensammlungen
+                    if (cType === 'rc') collections = object.Beziehungssammlungen
+                    const collection = _.find(collections, (co) => co.Name === cName)
+                    if (collection) {
+                      // if taxonomy or pc, check directly
+                      if (cType !== 'rc') return isFilterFulfilled(collection.Eigenschaften[fName], filterValue, co)
+                      // if rc, check if any relation fulfills
+                      const relations = collection.Beziehungen
+                      if (relations && relations.length > 0) {
+                        relations.forEach((relation) => {
+                          if (isFilterFulfilled(relation[fName], filterValue, co)) return true
+                        })
                         return false
                       }
                       return false
-                    })
-                  }
-                })
-              }
-            })
-          }
+                    }
+                    return false
+                  })
+                }
+              })
+            }
+          })
           console.log('objects filtered', objects)
         })
         .catch((errorBuildingExportData) => {
