@@ -27,7 +27,7 @@ export default React.createClass({
         <label style={labelStyle}>
           <input type='checkbox' onChange={onChangeOnlyObjectsWithCollectionData} checked={onlyObjectsWithCollectionData} style={inputStyle} />
             <strong>Nur Datensätze exportieren, die in den gewählten Eigenschaften- und Beziehungssammlungen Informationen enthalten</strong><br/>
-            Entfernen Sie diese Option, um auch Datensätze zu exportieren, die nur Informationen zur Taxonomie enthalten
+            Entfernen Sie diese Option, um alle Datensätze der gewählten Gruppe(n) zu exportieren
         </label>
       </div>
     )

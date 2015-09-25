@@ -7,6 +7,7 @@ import _ from 'lodash'
 import Panel1 from './panel1/panel1.js'
 import Panel2 from './panel2/panel2.js'
 import Panel3 from './panel3/panel3.js'
+import Panel4 from './panel4/panel4.js'
 import ModalTooManyFieldsChosen from './modalTooManyFieldsChosen.js'
 
 export default React.createClass({
@@ -37,7 +38,8 @@ export default React.createClass({
     tooManyFieldsChoosen: React.PropTypes.bool,
     maxNumberOfFieldsToChoose: React.PropTypes.number,
     collectionsWithAllChoosen: React.PropTypes.array,
-    oneRowPerRelation: React.PropTypes.bool
+    oneRowPerRelation: React.PropTypes.bool,
+    format: React.PropTypes.string
   },
 
   /**
@@ -109,7 +111,8 @@ export default React.createClass({
        *    and combine all relations in one field
        *    separated by commas
        */
-      oneRowPerRelation: true
+      oneRowPerRelation: true,
+      format: 'xlsx'
     }
   },
 
@@ -148,7 +151,7 @@ export default React.createClass({
         if (isPanel2Done) this.setState({ activePanel: 3 })
         break
       case 4:
-        const isPanel3Done = this.isPanel3Done()
+        const isPanel3Done = this.isPanel3Done() || this.isPanel2Done()
         if (isPanel3Done) this.setState({ activePanel: 4 })
         break
       }
@@ -177,10 +180,10 @@ export default React.createClass({
   },
 
   isPanel3Done () {
-    const isPanel2Done = this.isPanel2Done()
-    const panel3Done = false
+    const panel1Done = this.isPanel1Done()
+    const panel3Done = panel1Done
     let state = { panel3Done }
-    if (isPanel2Done && !panel3Done) state = Object.assign(state, { activePanel: 3 })
+    if (panel1Done && !panel3Done) state = Object.assign(state, { activePanel: 3 })
     this.setState(state)
     return panel3Done
   },
@@ -319,12 +322,15 @@ export default React.createClass({
 
   onChangeOneRowPerRelation (oneRowPerRelation) {
     this.setState({ oneRowPerRelation })
-    console.log('onChangeOneRowPerRelation, oneRowPerRelation', oneRowPerRelation)
+  },
+
+  onChangeFormat (format) {
+    this.setState({ format })
   },
 
   render () {
     const { groupsLoadedOrLoading, groupsLoadingObjects, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, pcs, pcsQuerying, rcs, rcsQuerying } = this.props
-    const { taxonomienZusammenfassen, errorBuildingFields, activePanel, panel1Done, exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, tooManyFieldsChoosen, collectionsWithAllChoosen, oneRowPerRelation } = this.state
+    const { taxonomienZusammenfassen, errorBuildingFields, activePanel, panel1Done, exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, tooManyFieldsChoosen, collectionsWithAllChoosen, oneRowPerRelation, format } = this.state
 
     return (
       <div id='export' className='formContent'>
@@ -394,7 +400,16 @@ export default React.createClass({
           </Panel>
 
           <Panel collapsible header='4. exportieren' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>
-            
+            {activePanel === 4 ?
+              <Panel4
+                exportOptions={exportOptions}
+                onlyObjectsWithCollectionData={onlyObjectsWithCollectionData}
+                includeDataFromSynonyms={includeDataFromSynonyms}
+                oneRowPerRelation={oneRowPerRelation}
+                format={format}
+                onChangeFormat={this.onChangeFormat} />
+              : null
+            }
           </Panel>
 
         </Accordion>
