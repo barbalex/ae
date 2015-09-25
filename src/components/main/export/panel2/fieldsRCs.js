@@ -49,14 +49,18 @@ export default React.createClass({
   render () {
     const { relationFields, onChangeCoSelect, rcs, onChangeFilterField } = this.props
     const { activePanel } = this.state
+    // open panel if there is only one
+    const numberOfCollections = Object.keys(relationFields).length
+    const activePanelOpeningWhenOnlyOneCollection = numberOfCollections === 1 ? 0 : activePanel
 
     const collectionKeysSorted = _.sortBy(Object.keys(relationFields), (cNameKey) => cNameKey.toLowerCase())
     const collections = collectionKeysSorted.map((cNameKey, cIndex) => {
       const collectionKey = cNameKey.toLowerCase()
+      const openPanel = activePanelOpeningWhenOnlyOneCollection === cIndex
       const rc = _.find(rcs, (rc) => rc.name === cNameKey)
       return (
         <Panel key={collectionKey} collapsible header={rc.name} eventKey={cIndex} onClick={this.onClickPanel.bind(this, cIndex)}>
-          {activePanel === cIndex ?
+          {openPanel ?
             <FieldsRCsPanel
               cNameKey={cNameKey}
               relationFields={relationFields}
@@ -70,7 +74,7 @@ export default React.createClass({
     })
 
     return (
-      <Accordion activeKey={activePanel}>
+      <Accordion activeKey={activePanelOpeningWhenOnlyOneCollection}>
         {collections}
       </Accordion>
     )

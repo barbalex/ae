@@ -49,14 +49,18 @@ export default React.createClass({
   render () {
     const { pcFields, onChangeCoSelect, pcs, onChangeFilterField } = this.props
     const { activePanel } = this.state
+    // open panel if there is only one
+    const numberOfCollections = Object.keys(pcFields).length
+    const activePanelOpeningWhenOnlyOneCollection = numberOfCollections === 1 ? 0 : activePanel
 
     const collectionKeysSorted = _.sortBy(Object.keys(pcFields), (cNameKey) => cNameKey.toLowerCase())
     const collections = collectionKeysSorted.map((cNameKey, cIndex) => {
       const collectionKey = cNameKey.toLowerCase()
+      const openPanel = activePanelOpeningWhenOnlyOneCollection === cIndex
       const pc = _.find(pcs, (pc) => pc.name === cNameKey)
       return (
         <Panel key={collectionKey} collapsible header={pc.name} eventKey={cIndex} onClick={this.onClickPanel.bind(this, cIndex)}>
-          {activePanel === cIndex ?
+          {openPanel ?
             <FieldsPCsPanel
               cNameKey={cNameKey}
               pcs={pcs}
@@ -70,7 +74,7 @@ export default React.createClass({
     })
 
     return (
-      <Accordion activeKey={activePanel}>
+      <Accordion activeKey={activePanelOpeningWhenOnlyOneCollection}>
         {collections}
       </Accordion>
     )

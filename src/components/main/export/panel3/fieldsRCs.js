@@ -59,6 +59,9 @@ export default React.createClass({
   render () {
     const { relationFields, rcs, exportOptions, onChooseField, onChooseAllOfCollection, collectionsWithAllChoosen, oneRowPerRelation } = this.props
     const { activePanel } = this.state
+    // open panel if there is only one
+    const numberOfCollections = Object.keys(relationFields).length
+    const activePanelOpeningWhenOnlyOneCollection = numberOfCollections === 1 ? 0 : activePanel
     const divStyle = {
       marginLeft: 24,
       marginTop: 3,
@@ -71,7 +74,7 @@ export default React.createClass({
       const rc = _.find(rcs, (rc) => rc.name === cNameKey)
       return (
         <Panel key={collectionKey} collapsible header={rc.name} eventKey={cIndex} onClick={this.onClickPanel.bind(this, cIndex)}>
-          {activePanel === cIndex ?
+          {activePanelOpeningWhenOnlyOneCollection === cIndex ?
             <FieldsRCsPanel
               cNameKey={cNameKey}
               relationFields={relationFields}
@@ -92,7 +95,7 @@ export default React.createClass({
           <Input type='checkbox' label='Pro Beziehung eine Zeile' checked={oneRowPerRelation} onChange={this.onChangeOneRowPerRelation.bind(this, true)} style={{marginBottom: 0}} />
           <Input type='checkbox' label='Pro Art/Lebensraum eine Zeile und alle Beziehungen kommagetrennt in einem Feld' checked={!oneRowPerRelation} onChange={this.onChangeOneRowPerRelation.bind(this, false)} />
         </div>
-        <Accordion activeKey={activePanel}>
+        <Accordion activeKey={activePanelOpeningWhenOnlyOneCollection}>
           {collections}
         </Accordion>
       </div>

@@ -50,12 +50,15 @@ export default React.createClass({
   render () {
     const { taxonomyFields, exportOptions, onChooseField, onChooseAllOfCollection, collectionsWithAllChoosen } = this.props
     const { activePanel } = this.state
+    // open panel if there is only one
+    const numberOfCollections = Object.keys(taxonomyFields).length
+    const activePanelOpeningWhenOnlyOneCollection = numberOfCollections === 1 ? 0 : activePanel
     const collectionKeysSorted = _.sortBy(Object.keys(taxonomyFields), (cNameKey) => cNameKey.toLowerCase())
     const collections = collectionKeysSorted.map((cNameKey, cIndex) => {
       const collectionKey = cNameKey.toLowerCase()
       return (
         <Panel key={collectionKey} collapsible header={cNameKey} eventKey={cIndex} onClick={this.onClickPanel.bind(this, cIndex)}>
-          {activePanel === cIndex ?
+          {activePanelOpeningWhenOnlyOneCollection === cIndex ?
             <FieldsTaxonomyPanel
               cNameKey={cNameKey}
               taxonomyFields={taxonomyFields}
@@ -70,7 +73,7 @@ export default React.createClass({
     })
 
     return (
-      <Accordion activeKey={activePanel}>
+      <Accordion activeKey={activePanelOpeningWhenOnlyOneCollection}>
         {collections}
       </Accordion>
     )
