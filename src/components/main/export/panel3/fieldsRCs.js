@@ -20,12 +20,7 @@ export default React.createClass({
 
   getInitialState () {
     return {
-      activePanel: '',
-      /**
-       * need to be state because field allChoosen needs to be unchecked
-       * when a single field in the collection is unchecked
-       */
-      collectionsWithAllChoosen: []
+      activePanel: ''
     }
   },
 
@@ -35,29 +30,6 @@ export default React.createClass({
     // open collection panel if there is only one
     const numberOfCollections = Object.keys(relationFields).length
     if (numberOfCollections === 1 && activePanel !== 0) this.setState({ activePanel: 0 })
-  },
-
-  onChangeField (cName, fName, event) {
-    const { onChooseField } = this.props
-    let { collectionsWithAllChoosen } = this.state
-    onChooseField(cName, fName, event)
-    if (event.target.checked === false && _.includes(collectionsWithAllChoosen, cName)) {
-      collectionsWithAllChoosen = _.without(collectionsWithAllChoosen, cName)
-      this.setState({ collectionsWithAllChoosen })
-    }
-  },
-
-  onChangeAllFields (cName, event) {
-    const { onChooseAllOfCollection } = this.props
-    let { collectionsWithAllChoosen } = this.state
-    onChooseAllOfCollection('rc', cName, event)
-    if (event.target.checked === false) {
-      collectionsWithAllChoosen = _.without(collectionsWithAllChoosen, cName)
-      this.setState({ collectionsWithAllChoosen })
-    } else {
-      collectionsWithAllChoosen = _.union(collectionsWithAllChoosen, [cName])
-      this.setState({ collectionsWithAllChoosen })
-    }
   },
 
   onClickPanel (number, event) {
@@ -78,8 +50,8 @@ export default React.createClass({
 
   render () {
     console.log('rendering ChooseFieldsRCs')
-    const { relationFields, rcs, exportOptions } = this.props
-    const { activePanel, collectionsWithAllChoosen } = this.state
+    const { relationFields, rcs, exportOptions, onChooseField, onChooseAllOfCollection, collectionsWithAllChoosen } = this.props
+    const { activePanel } = this.state
 
     const collectionKeysSorted = _.sortBy(Object.keys(relationFields), (cNameKey) => cNameKey.toLowerCase())
     const collections = collectionKeysSorted.map((cNameKey, cIndex) => {
@@ -93,8 +65,8 @@ export default React.createClass({
               relationFields={relationFields}
               exportOptions={exportOptions}
               collectionsWithAllChoosen={collectionsWithAllChoosen}
-              onChangeField={this.onChangeField}
-              onChangeAllFields={this.onChangeAllFields} />
+              onChooseField={onChooseField}
+              onChooseAllOfCollection={onChooseAllOfCollection} />
             : null
           }
         </Panel>

@@ -19,12 +19,7 @@ export default React.createClass({
 
   getInitialState () {
     return {
-      activePanel: '',
-      /**
-       * need to be state because field allChoosen needs to be unchecked
-       * when a single field in the collection is unchecked
-       */
-      collectionsWithAllChoosen: []
+      activePanel: ''
     }
   },
 
@@ -34,29 +29,6 @@ export default React.createClass({
     // open collection panel if there is only one
     const numberOfCollections = Object.keys(taxonomyFields).length
     if (numberOfCollections === 1 && activePanel !== 0) this.setState({ activePanel: 0 })
-  },
-
-  onChangeField (cName, fName, event) {
-    const { onChooseField } = this.props
-    let { collectionsWithAllChoosen } = this.state
-    onChooseField(cName, fName, event)
-    if (event.target.checked === false && _.includes(collectionsWithAllChoosen, cName)) {
-      collectionsWithAllChoosen = _.without(collectionsWithAllChoosen, cName)
-      this.setState({ collectionsWithAllChoosen })
-    }
-  },
-
-  onChangeAllFields (cName, event) {
-    const { onChooseAllOfCollection } = this.props
-    let { collectionsWithAllChoosen } = this.state
-    onChooseAllOfCollection('taxonomy', cName, event)
-    if (event.target.checked === false) {
-      collectionsWithAllChoosen = _.without(collectionsWithAllChoosen, cName)
-      this.setState({ collectionsWithAllChoosen })
-    } else {
-      collectionsWithAllChoosen = _.union(collectionsWithAllChoosen, [cName])
-      this.setState({ collectionsWithAllChoosen })
-    }
   },
 
   onClickPanel (number, event) {
@@ -76,8 +48,8 @@ export default React.createClass({
   },
 
   render () {
-    const { taxonomyFields, exportOptions } = this.props
-    const { activePanel, collectionsWithAllChoosen } = this.state
+    const { taxonomyFields, exportOptions, onChooseField, onChooseAllOfCollection, collectionsWithAllChoosen } = this.props
+    const { activePanel } = this.state
     const collectionKeysSorted = _.sortBy(Object.keys(taxonomyFields), (cNameKey) => cNameKey.toLowerCase())
     const collections = collectionKeysSorted.map((cNameKey, cIndex) => {
       const collectionKey = cNameKey.toLowerCase()
@@ -89,8 +61,8 @@ export default React.createClass({
               taxonomyFields={taxonomyFields}
               exportOptions={exportOptions}
               collectionsWithAllChoosen={collectionsWithAllChoosen}
-              onChangeField={this.onChangeField}
-              onChangeAllFields={this.onChangeAllFields} />
+              onChooseField={onChooseField}
+              onChooseAllOfCollection={onChooseAllOfCollection} />
             : null
           }
         </Panel>

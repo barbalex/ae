@@ -12,18 +12,18 @@ export default React.createClass({
     pcFields: React.PropTypes.object,
     exportOptions: React.PropTypes.object,
     collectionsWithAllChoosen: React.PropTypes.array,
-    onChangeField: React.PropTypes.func,
-    onChangeAllFields: React.PropTypes.func
+    onChooseField: React.PropTypes.func,
+    onChooseAllOfCollection: React.PropTypes.func
   },
 
-  onChangeField (cName, fName, event) {
-    const { onChangeField } = this.props
-    onChangeField(cName, fName, event)
+  onChooseField (cName, fName, event) {
+    const { onChooseField } = this.props
+    onChooseField(cName, fName, event)
   },
 
-  onChangeAllFields (cName, event) {
-    const { onChangeAllFields } = this.props
-    onChangeAllFields(cName, event)
+  onChooseAllOfCollection (cName, event) {
+    const { onChooseAllOfCollection } = this.props
+    onChooseAllOfCollection('pc', cName, event)
   },
 
   render () {
@@ -42,7 +42,7 @@ export default React.createClass({
           type='checkbox'
           label={fNameKey}
           checked={checked}
-          onChange={this.onChangeField.bind(this, cNameKey, fNameKey)} />
+          onChange={this.onChooseField.bind(this, cNameKey, fNameKey)} />
       )
     })
     let alleField = null
@@ -54,7 +54,7 @@ export default React.createClass({
             type='checkbox'
             label='alle'
             checked={checked}
-            onChange={this.onChangeAllFields.bind(this, cNameKey)} />
+            onChange={this.onChooseAllOfCollection.bind(this, cNameKey)} />
         </div>
       )
     }

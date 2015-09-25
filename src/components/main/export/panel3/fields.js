@@ -19,7 +19,8 @@ export default React.createClass({
     pcs: React.PropTypes.array,
     rcs: React.PropTypes.array,
     activePanel: React.PropTypes.number,
-    exportOptions: React.PropTypes.object
+    exportOptions: React.PropTypes.object,
+    collectionsWithAllChoosen: React.PropTypes.array
   },
 
   getInitialState () {
@@ -50,7 +51,7 @@ export default React.createClass({
   },
 
   render () {
-    const { taxonomyFields, pcFields, relationFields, onChooseField, onChooseAllOfCollection, pcs, rcs, exportOptions } = this.props
+    const { taxonomyFields, pcFields, relationFields, onChooseField, onChooseAllOfCollection, pcs, rcs, exportOptions, collectionsWithAllChoosen } = this.props
     const { activePanel } = this.state
     const guidChecked = _.get(exportOptions, 'object._id.export')
 
@@ -70,6 +71,7 @@ export default React.createClass({
             <FieldsTaxonomy
               exportOptions={exportOptions}
               taxonomyFields={taxonomyFields}
+              collectionsWithAllChoosen={collectionsWithAllChoosen}
               onChooseField={onChooseField}
               onChooseAllOfCollection={onChooseAllOfCollection} />
             : null
@@ -81,6 +83,7 @@ export default React.createClass({
               exportOptions={exportOptions}
               pcFields={pcFields}
               pcs={pcs}
+              collectionsWithAllChoosen={collectionsWithAllChoosen}
               onChooseField={onChooseField}
               onChooseAllOfCollection={onChooseAllOfCollection} />
             : null
@@ -92,6 +95,7 @@ export default React.createClass({
               exportOptions={exportOptions}
               relationFields={relationFields}
               rcs={rcs}
+              collectionsWithAllChoosen={collectionsWithAllChoosen}
               onChooseField={onChooseField}
               onChooseAllOfCollection={onChooseAllOfCollection} />
             : null

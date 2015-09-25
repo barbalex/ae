@@ -35,7 +35,8 @@ export default React.createClass({
     onlyObjectsWithCollectionData: React.PropTypes.bool,
     includeDataFromSynonyms: React.PropTypes.bool,
     tooManyFieldsChoosen: React.PropTypes.bool,
-    maxNumberOfFieldsToChoose: React.PropTypes.number
+    maxNumberOfFieldsToChoose: React.PropTypes.number,
+    collectionsWithAllChoosen: React.PropTypes.array
   },
 
   /**
@@ -84,7 +85,12 @@ export default React.createClass({
       onlyObjectsWithCollectionData: true,
       includeDataFromSynonyms: true,
       tooManyFieldsChoosen: false,
-      maxNumberOfFieldsToChoose: 35
+      maxNumberOfFieldsToChoose: 35,
+      /**
+       * need to be state because field allChoosen needs to be unchecked
+       * when a single field in the collection is unchecked
+       */
+      collectionsWithAllChoosen: []
     }
   },
 
@@ -205,10 +211,11 @@ export default React.createClass({
   },
 
   onChooseAllOfCollection (pcType, cName, event) {
-    let { exportOptions } = this.state
+    let { exportOptions, collectionsWithAllChoosen } = this.state
     const { maxNumberOfFieldsToChoose } = this.state
     const { taxonomyFields, pcFields, relationFields } = this.props
     const choosen = event.target.checked
+    let state = {}
     let fields = taxonomyFields
     if (pcType === 'pc') fields = pcFields
     if (pcType === 'rc') fields = relationFields
@@ -220,31 +227,45 @@ export default React.createClass({
     if (choosen && numberOfFieldsChoosen > maxNumberOfFieldsToChoose) {
       event.preventDefault()
       const tooManyFieldsChoosen = true
-      this.setState({ tooManyFieldsChoosen })
+      Object.assign(state, { tooManyFieldsChoosen })
     } else {
       Object.keys(cNameObject).forEach((fName) => {
         const valuePath = `${cName}.${fName}.export`
         _.set(exportOptions, valuePath, choosen)
       })
-      this.setState({ exportOptions })
+      Object.assign(state, { exportOptions })
+      if (choosen === false) {
+        collectionsWithAllChoosen = _.without(collectionsWithAllChoosen, cName)
+        Object.assign(state, { collectionsWithAllChoosen })
+      } else {
+        collectionsWithAllChoosen = _.union(collectionsWithAllChoosen, [cName])
+        Object.assign(state, { collectionsWithAllChoosen })
+      }
     }
+    this.setState(state)
     // console.log('exportOptions', exportOptions)
   },
 
   onChooseField (cName, fName, event) {
-    let { exportOptions } = this.state
+    let { exportOptions, collectionsWithAllChoosen } = this.state
     const { maxNumberOfFieldsToChoose } = this.state
     let choosen = event.target.checked
+    let state = {}
     const numberOfFieldsChoosen = this.fieldsChoosen().length + 1
     if (choosen && numberOfFieldsChoosen > maxNumberOfFieldsToChoose) {
       event.preventDefault()
       const tooManyFieldsChoosen = true
-      this.setState({ tooManyFieldsChoosen })
+      Object.assign(state, { tooManyFieldsChoosen })
     } else {
       const valuePath = `${cName}.${fName}.export`
       _.set(exportOptions, valuePath, choosen)
-      this.setState({ exportOptions })
+      Object.assign(state, { exportOptions })
+      if (choosen === false && _.includes(collectionsWithAllChoosen, cName)) {
+        collectionsWithAllChoosen = _.without(collectionsWithAllChoosen, cName)
+        Object.assign(state, { collectionsWithAllChoosen })
+      }
     }
+    this.setState(state)
     // console.log('exportOptions', exportOptions)
   },
 
@@ -280,7 +301,7 @@ export default React.createClass({
 
   render () {
     const { groupsLoadedOrLoading, groupsLoadingObjects, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, pcs, pcsQuerying, rcs, rcsQuerying } = this.props
-    const { taxonomienZusammenfassen, errorBuildingFields, activePanel, panel1Done, exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, tooManyFieldsChoosen } = this.state
+    const { taxonomienZusammenfassen, errorBuildingFields, activePanel, panel1Done, exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, tooManyFieldsChoosen, collectionsWithAllChoosen } = this.state
 
     return (
       <div id='export' className='formContent'>
@@ -338,6 +359,7 @@ export default React.createClass({
                 rcs={rcs}
                 onlyObjectsWithCollectionData={onlyObjectsWithCollectionData}
                 includeDataFromSynonyms={includeDataFromSynonyms}
+                collectionsWithAllChoosen={collectionsWithAllChoosen}
                 onChangeIncludeDataFromSynonyms={this.onChangeIncludeDataFromSynonyms}
                 onChangeOnlyObjectsWithCollectionData={this.onChangeOnlyObjectsWithCollectionData}
                 onChooseField={this.onChooseField}
