@@ -39,7 +39,9 @@ export default React.createClass({
     maxNumberOfFieldsToChoose: React.PropTypes.number,
     collectionsWithAllChoosen: React.PropTypes.array,
     oneRowPerRelation: React.PropTypes.bool,
-    format: React.PropTypes.string
+    format: React.PropTypes.string,
+    exportData: React.PropTypes.array,
+    errorBuildingExportData: React.PropTypes.string
   },
 
   /**
@@ -112,7 +114,9 @@ export default React.createClass({
        *    separated by commas
        */
       oneRowPerRelation: true,
-      format: 'xlsx'
+      format: 'xlsx',
+      exportData: [],
+      errorBuildingExportData: null
     }
   },
 
