@@ -32,7 +32,8 @@ export default React.createClass({
     rcsQuerying: React.PropTypes.bool,
     offlineIndexes: React.PropTypes.bool,
     onlyObjectsWithCollectionData: React.PropTypes.bool,
-    includeDataFromSynonyms: React.PropTypes.bool
+    includeDataFromSynonyms: React.PropTypes.bool,
+    tooManyFieldsChoosen: React.PropTypes.bool
   },
 
   /**
@@ -80,7 +81,8 @@ export default React.createClass({
       panel3Done: null,
       exportOptions: exportOptions,
       onlyObjectsWithCollectionData: true,
-      includeDataFromSynonyms: true
+      includeDataFromSynonyms: true,
+      tooManyFieldsChoosen: false
     }
   },
 
@@ -218,7 +220,7 @@ export default React.createClass({
     // console.log('exportOptions', exportOptions)
   },
 
-  onChangeExportData (cName, fName, event) {
+  onChooseField (cName, fName, event) {
     let { exportOptions } = this.state
     let value = event.target.checked
     const valuePath = `${cName}.${fName}.export`
@@ -294,7 +296,7 @@ export default React.createClass({
                 includeDataFromSynonyms={includeDataFromSynonyms}
                 onChangeIncludeDataFromSynonyms={this.onChangeIncludeDataFromSynonyms}
                 onChangeOnlyObjectsWithCollectionData={this.onChangeOnlyObjectsWithCollectionData}
-                onChangeExportData={this.onChangeExportData}
+                onChooseField={this.onChooseField}
                 onChooseAllOfCollection={this.onChooseAllOfCollection} />
               : null
             }

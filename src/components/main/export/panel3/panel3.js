@@ -20,12 +20,12 @@ export default React.createClass({
     includeDataFromSynonyms: React.PropTypes.bool,
     onChangeIncludeDataFromSynonyms: React.PropTypes.func,
     onChangeOnlyObjectsWithCollectionData: React.PropTypes.func,
-    onChangeExportData: React.PropTypes.func,
+    onChooseField: React.PropTypes.func,
     onChooseAllOfCollection: React.PropTypes.func
   },
 
   render () {
-    const { taxonomyFields, pcFields, relationFields, pcs, rcs, exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, onChangeIncludeDataFromSynonyms, onChangeOnlyObjectsWithCollectionData, onChangeExportData, onChooseAllOfCollection } = this.props
+    const { taxonomyFields, pcFields, relationFields, pcs, rcs, exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, onChangeIncludeDataFromSynonyms, onChangeOnlyObjectsWithCollectionData, onChooseField, onChooseAllOfCollection } = this.props
 
     return (
       <div>
@@ -43,7 +43,7 @@ export default React.createClass({
           pcs={pcs}
           relationFields={relationFields}
           rcs={rcs}
-          onChangeExportData={onChangeExportData}
+          onChooseField={onChooseField}
           onChooseAllOfCollection={onChooseAllOfCollection}
           onClickPanel={this.onClickPanel} />
       </div>
