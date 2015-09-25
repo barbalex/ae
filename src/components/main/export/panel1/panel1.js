@@ -65,7 +65,8 @@ export default React.createClass({
             fieldsQuerying={fieldsQuerying}
             fieldsQueryingError={fieldsQueryingError}
             taxonomyFields={taxonomyFields}
-            errorBuildingExportOptions={errorBuildingExportOptions} />
+            errorBuildingExportOptions={errorBuildingExportOptions}
+            taxonomienZusammenfassen={taxonomienZusammenfassen} />
           : null
         }
       </div>
