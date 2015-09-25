@@ -41,7 +41,7 @@ export default React.createClass({
   },
 
   /**
-   * exportOptions
+   * exportOptions object:
    * {
    *   object: {
    *     _id: {
@@ -82,9 +82,11 @@ export default React.createClass({
       panel1Done: null,
       panel2Done: null,
       panel3Done: null,
-      exportOptions: exportOptions,
-      onlyObjectsWithCollectionData: true,
-      includeDataFromSynonyms: true,
+      /**
+       * make sure the user does not choose too many fields
+       * this can be too much for exporting, but most of all
+       * it is too much for ALT
+       */
       tooManyFieldsChoosen: false,
       maxNumberOfFieldsToChoose: 35,
       /**
@@ -92,6 +94,12 @@ export default React.createClass({
        * when a single field in the collection is unchecked
        */
       collectionsWithAllChoosen: [],
+      /**
+       * now follow the options needed to build the export data
+       */
+      exportOptions: exportOptions,
+      onlyObjectsWithCollectionData: true,
+      includeDataFromSynonyms: true,
       /**
        * when relations are choosen there are two possibilities:
        * 1. export one row per relation
