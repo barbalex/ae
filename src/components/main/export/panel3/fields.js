@@ -20,7 +20,9 @@ export default React.createClass({
     rcs: React.PropTypes.array,
     activePanel: React.PropTypes.number,
     exportOptions: React.PropTypes.object,
-    collectionsWithAllChoosen: React.PropTypes.array
+    collectionsWithAllChoosen: React.PropTypes.array,
+    oneRowPerRelation: React.PropTypes.bool,
+    onChangeOneRowPerRelation: React.PropTypes.func
   },
 
   getInitialState () {
@@ -51,7 +53,7 @@ export default React.createClass({
   },
 
   render () {
-    const { taxonomyFields, pcFields, relationFields, onChooseField, onChooseAllOfCollection, pcs, rcs, exportOptions, collectionsWithAllChoosen } = this.props
+    const { taxonomyFields, pcFields, relationFields, onChooseField, onChooseAllOfCollection, pcs, rcs, exportOptions, collectionsWithAllChoosen, oneRowPerRelation, onChangeOneRowPerRelation } = this.props
     const { activePanel } = this.state
     const guidChecked = _.get(exportOptions, 'object._id.export')
 
@@ -96,8 +98,10 @@ export default React.createClass({
               relationFields={relationFields}
               rcs={rcs}
               collectionsWithAllChoosen={collectionsWithAllChoosen}
+              oneRowPerRelation={oneRowPerRelation}
               onChooseField={onChooseField}
-              onChooseAllOfCollection={onChooseAllOfCollection} />
+              onChooseAllOfCollection={onChooseAllOfCollection}
+              onChangeOneRowPerRelation={onChangeOneRowPerRelation} />
             : null
           }
         </Panel>

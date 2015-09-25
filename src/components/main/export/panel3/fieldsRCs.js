@@ -1,9 +1,10 @@
 'use strict'
 
 import React from 'react'
-import { Accordion, Panel } from 'react-bootstrap'
+import { Accordion, Panel, Input } from 'react-bootstrap'
 import _ from 'lodash'
 import FieldsRCsPanel from './fieldsRCsPanel.js'
+import WellRelationsOptions from './wellRelationsOptions.js'
 
 export default React.createClass({
   displayName: 'FieldsRCs',
@@ -15,7 +16,9 @@ export default React.createClass({
     rcs: React.PropTypes.array,
     activePanel: React.PropTypes.number,
     exportOptions: React.PropTypes.object,
-    collectionsWithAllChoosen: React.PropTypes.array
+    collectionsWithAllChoosen: React.PropTypes.array,
+    oneRowPerRelation: React.PropTypes.bool,
+    onChangeOneRowPerRelation: React.PropTypes.func
   },
 
   getInitialState () {
@@ -48,10 +51,19 @@ export default React.createClass({
     }
   },
 
+  onChangeOneRowPerRelation (oneRowPerRelation) {
+    const { onChangeOneRowPerRelation } = this.props
+    onChangeOneRowPerRelation(oneRowPerRelation)
+  },
+
   render () {
-    console.log('rendering ChooseFieldsRCs')
-    const { relationFields, rcs, exportOptions, onChooseField, onChooseAllOfCollection, collectionsWithAllChoosen } = this.props
+    const { relationFields, rcs, exportOptions, onChooseField, onChooseAllOfCollection, collectionsWithAllChoosen, oneRowPerRelation } = this.props
     const { activePanel } = this.state
+    const divStyle = {
+      marginLeft: 24,
+      marginTop: 3,
+      marginBottom: 3
+    }
 
     const collectionKeysSorted = _.sortBy(Object.keys(relationFields), (cNameKey) => cNameKey.toLowerCase())
     const collections = collectionKeysSorted.map((cNameKey, cIndex) => {
@@ -74,9 +86,16 @@ export default React.createClass({
     })
 
     return (
-      <Accordion activeKey={activePanel}>
-        {collections}
-      </Accordion>
+      <div>
+        <WellRelationsOptions />
+        <div id='rcOptions' style={divStyle}>
+          <Input type='checkbox' label='Pro Beziehung eine Zeile' checked={oneRowPerRelation} onChange={this.onChangeOneRowPerRelation.bind(this, true)} style={{marginBottom: 0}} />
+          <Input type='checkbox' label='Pro Art/Lebensraum eine Zeile und alle Beziehungen kommagetrennt in einem Feld' checked={!oneRowPerRelation} onChange={this.onChangeOneRowPerRelation.bind(this, false)} />
+        </div>
+        <Accordion activeKey={activePanel}>
+          {collections}
+        </Accordion>
+      </div>
     )
   }
 })

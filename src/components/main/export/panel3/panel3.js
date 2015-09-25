@@ -22,11 +22,13 @@ export default React.createClass({
     onChangeOnlyObjectsWithCollectionData: React.PropTypes.func,
     onChooseField: React.PropTypes.func,
     onChooseAllOfCollection: React.PropTypes.func,
-    collectionsWithAllChoosen: React.PropTypes.array
+    collectionsWithAllChoosen: React.PropTypes.array,
+    oneRowPerRelation: React.PropTypes.bool,
+    onChangeOneRowPerRelation: React.PropTypes.func
   },
 
   render () {
-    const { taxonomyFields, pcFields, relationFields, pcs, rcs, exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, onChangeIncludeDataFromSynonyms, onChangeOnlyObjectsWithCollectionData, onChooseField, onChooseAllOfCollection, collectionsWithAllChoosen } = this.props
+    const { taxonomyFields, pcFields, relationFields, pcs, rcs, exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, onChangeIncludeDataFromSynonyms, onChangeOnlyObjectsWithCollectionData, onChooseField, onChooseAllOfCollection, collectionsWithAllChoosen, oneRowPerRelation, onChangeOneRowPerRelation } = this.props
 
     return (
       <div>
@@ -45,9 +47,11 @@ export default React.createClass({
           relationFields={relationFields}
           rcs={rcs}
           collectionsWithAllChoosen={collectionsWithAllChoosen}
+          oneRowPerRelation={oneRowPerRelation}
           onChooseField={onChooseField}
           onChooseAllOfCollection={onChooseAllOfCollection}
-          onClickPanel={this.onClickPanel} />
+          onClickPanel={this.onClickPanel}
+          onChangeOneRowPerRelation={onChangeOneRowPerRelation} />
       </div>
     )
   }

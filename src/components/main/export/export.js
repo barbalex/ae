@@ -36,7 +36,8 @@ export default React.createClass({
     includeDataFromSynonyms: React.PropTypes.bool,
     tooManyFieldsChoosen: React.PropTypes.bool,
     maxNumberOfFieldsToChoose: React.PropTypes.number,
-    collectionsWithAllChoosen: React.PropTypes.array
+    collectionsWithAllChoosen: React.PropTypes.array,
+    oneRowPerRelation: React.PropTypes.bool
   },
 
   /**
@@ -90,7 +91,17 @@ export default React.createClass({
        * need to be state because field allChoosen needs to be unchecked
        * when a single field in the collection is unchecked
        */
-      collectionsWithAllChoosen: []
+      collectionsWithAllChoosen: [],
+      /**
+       * when relations are choosen there are two possibilities:
+       * 1. export one row per relation
+       *    in this case make sure only one relation is choosen
+       *    this is the standard mode
+       * 2. export on row per object
+       *    and combine all relations in one field
+       *    separated by commas
+       */
+      oneRowPerRelation: true
     }
   },
 
@@ -285,7 +296,6 @@ export default React.createClass({
         }
       })
     })
-    console.log('fieldsChoosen.length', fieldsChoosen.length)
     return fieldsChoosen
   },
 
@@ -299,9 +309,14 @@ export default React.createClass({
     this.setState({ includeDataFromSynonyms })
   },
 
+  onChangeOneRowPerRelation (oneRowPerRelation) {
+    this.setState({ oneRowPerRelation })
+    console.log('onChangeOneRowPerRelation, oneRowPerRelation', oneRowPerRelation)
+  },
+
   render () {
     const { groupsLoadedOrLoading, groupsLoadingObjects, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, pcs, pcsQuerying, rcs, rcsQuerying } = this.props
-    const { taxonomienZusammenfassen, errorBuildingFields, activePanel, panel1Done, exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, tooManyFieldsChoosen, collectionsWithAllChoosen } = this.state
+    const { taxonomienZusammenfassen, errorBuildingFields, activePanel, panel1Done, exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, tooManyFieldsChoosen, collectionsWithAllChoosen, oneRowPerRelation } = this.state
 
     return (
       <div id='export' className='formContent'>
@@ -360,10 +375,12 @@ export default React.createClass({
                 onlyObjectsWithCollectionData={onlyObjectsWithCollectionData}
                 includeDataFromSynonyms={includeDataFromSynonyms}
                 collectionsWithAllChoosen={collectionsWithAllChoosen}
+                oneRowPerRelation={oneRowPerRelation}
                 onChangeIncludeDataFromSynonyms={this.onChangeIncludeDataFromSynonyms}
                 onChangeOnlyObjectsWithCollectionData={this.onChangeOnlyObjectsWithCollectionData}
                 onChooseField={this.onChooseField}
-                onChooseAllOfCollection={this.onChooseAllOfCollection} />
+                onChooseAllOfCollection={this.onChooseAllOfCollection}
+                onChangeOneRowPerRelation={this.onChangeOneRowPerRelation} />
               : null
             }
           </Panel>
