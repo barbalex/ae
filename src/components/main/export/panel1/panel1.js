@@ -16,7 +16,7 @@ export default React.createClass({
     groupsLoadingObjects: React.PropTypes.array,
     fieldsQuerying: React.PropTypes.bool,
     fieldsQueryingError: React.PropTypes.object,
-    errorBuildingFields: React.PropTypes.string,
+    errorBuildingExportOptions: React.PropTypes.string,
     taxonomyFields: React.PropTypes.object,
     groupsLoadedOrLoading: React.PropTypes.array,
     taxonomienZusammenfassen: React.PropTypes.bool,
@@ -29,7 +29,7 @@ export default React.createClass({
   },
 
   render () {
-    const { groupsLoadedOrLoading, groupsLoadingObjects, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcsQuerying, rcsQuerying, onChangeTaxonomienZusammenfassen, onChangeGroupsToExport, panel1Done, exportOptions, taxonomienZusammenfassen, errorBuildingFields } = this.props
+    const { groupsLoadedOrLoading, groupsLoadingObjects, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcsQuerying, rcsQuerying, onChangeTaxonomienZusammenfassen, onChangeGroupsToExport, panel1Done, exportOptions, taxonomienZusammenfassen, errorBuildingExportOptions } = this.props
     const showAlertLoadGroups = groupsLoadedOrLoading.length === 0
     const groupsToExport = exportOptions.object.Gruppen.value
     const showAlertGroups = groupsToExport.length > 0 && !showAlertLoadGroups
@@ -65,7 +65,7 @@ export default React.createClass({
             fieldsQuerying={fieldsQuerying}
             fieldsQueryingError={fieldsQueryingError}
             taxonomyFields={taxonomyFields}
-            errorBuildingFields={errorBuildingFields} />
+            errorBuildingExportOptions={errorBuildingExportOptions} />
           : null
         }
       </div>

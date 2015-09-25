@@ -17,7 +17,7 @@ export default React.createClass({
     groupsLoadingObjects: React.PropTypes.array,
     fieldsQuerying: React.PropTypes.bool,
     fieldsQueryingError: React.PropTypes.object,
-    errorBuildingFields: React.PropTypes.string,
+    errorBuildingExportOptions: React.PropTypes.string,
     taxonomyFields: React.PropTypes.object,
     pcFields: React.PropTypes.object,
     relationFields: React.PropTypes.object,
@@ -78,7 +78,7 @@ export default React.createClass({
       }
     }
     return {
-      errorBuildingFields: null,
+      errorBuildingExportOptions: null,
       taxonomienZusammenfassen: false,
       activePanel: 1,
       panel1Done: null,
@@ -330,7 +330,7 @@ export default React.createClass({
 
   render () {
     const { groupsLoadedOrLoading, groupsLoadingObjects, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, pcs, pcsQuerying, rcs, rcsQuerying } = this.props
-    const { taxonomienZusammenfassen, errorBuildingFields, activePanel, panel1Done, exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, tooManyFieldsChoosen, collectionsWithAllChoosen, oneRowPerRelation, format } = this.state
+    const { taxonomienZusammenfassen, errorBuildingExportOptions, activePanel, panel1Done, exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, tooManyFieldsChoosen, collectionsWithAllChoosen, oneRowPerRelation, format } = this.state
 
     return (
       <div id='export' className='formContent'>
@@ -347,7 +347,7 @@ export default React.createClass({
                 groupsLoadingObjects={groupsLoadingObjects}
                 fieldsQuerying={fieldsQuerying}
                 fieldsQueryingError={fieldsQueryingError}
-                errorBuildingFields={errorBuildingFields}
+                errorBuildingExportOptions={errorBuildingExportOptions}
                 taxonomyFields={taxonomyFields}
                 groupsLoadedOrLoading={groupsLoadedOrLoading}
                 taxonomienZusammenfassen={taxonomienZusammenfassen}
