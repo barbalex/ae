@@ -52,13 +52,14 @@ export default React.createClass({
   render () {
     const { taxonomyFields, pcFields, relationFields, onChangeExportData, onChooseAllOfCollection, pcs, rcs, exportOptions } = this.props
     const { activePanel } = this.state
+    const guidChecked = _.get(exportOptions, 'object._id.export')
 
     return (
       <Accordion activeKey={activePanel}>
         <Panel collapsible header='Art / Lebensraum' eventKey={1} onClick={this.onClickPanel.bind(this, 1)}>
           {activePanel === 1 ?
             <div className='felderspalte' style={{marginBottom: -8}}>
-              <Input type='checkbox' label='GUID' onChange={this.onChangeMyExportData.bind(this, 'object', '_id')} />
+              <Input type='checkbox' label='GUID' onChange={this.onChangeMyExportData.bind(this, 'object', '_id')} checked={guidChecked} />
               <Input type='checkbox' label='Gruppe' onChange={this.onChangeMyExportData.bind(this, 'object', 'Gruppe')} />
             </div>
             : null

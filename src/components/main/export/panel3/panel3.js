@@ -26,7 +26,6 @@ export default React.createClass({
 
   render () {
     const { taxonomyFields, pcFields, relationFields, pcs, rcs, exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, onChangeIncludeDataFromSynonyms, onChangeOnlyObjectsWithCollectionData, onChangeExportData, onChooseAllOfCollection } = this.props
-    const showFields = Object.keys(taxonomyFields).length > 0 || Object.keys(pcFields).length > 0 || Object.keys(relationFields).length > 0
 
     return (
       <div>
@@ -37,19 +36,16 @@ export default React.createClass({
         <CheckboxIncludeDataFromSynonyms
           includeDataFromSynonyms={includeDataFromSynonyms}
           onChangeIncludeDataFromSynonyms={onChangeIncludeDataFromSynonyms} />
-        {showFields ?
-          <Fields
-            exportOptions={exportOptions}
-            taxonomyFields={taxonomyFields}
-            pcFields={pcFields}
-            pcs={pcs}
-            relationFields={relationFields}
-            rcs={rcs}
-            onChangeExportData={onChangeExportData}
-            onChooseAllOfCollection={onChooseAllOfCollection}
-            onClickPanel={this.onClickPanel} />
-          : null
-        }
+        <Fields
+          exportOptions={exportOptions}
+          taxonomyFields={taxonomyFields}
+          pcFields={pcFields}
+          pcs={pcs}
+          relationFields={relationFields}
+          rcs={rcs}
+          onChangeExportData={onChangeExportData}
+          onChooseAllOfCollection={onChooseAllOfCollection}
+          onClickPanel={this.onClickPanel} />
       </div>
     )
   }

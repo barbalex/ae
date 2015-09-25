@@ -63,6 +63,9 @@ export default React.createClass({
   getInitialState () {
     const exportOptions = {
       object: {
+        _id: {
+          export: true
+        },
         Gruppen: {
           value: []
         }
@@ -157,13 +160,12 @@ export default React.createClass({
     let { exportOptions } = this.state
     const { taxonomienZusammenfassen } = this.state
     const { offlineIndexes } = this.props
-    let groupsToExport = exportOptions.object.Gruppen.value
-    if (checked) groupsToExport.push(group)
-    if (!checked) groupsToExport = _.without(groupsToExport, group)
-    const panel1Done = groupsToExport.length > 0
-    const panel2Done = groupsToExport.length > 0
+    if (checked) exportOptions.object.Gruppen.value.push(group)
+    if (!checked) exportOptions.object.Gruppen.value = _.without(exportOptions.object.Gruppen.value, group)
+    const panel1Done = exportOptions.object.Gruppen.value.length > 0
+    const panel2Done = exportOptions.object.Gruppen.value.length > 0
     this.setState({ exportOptions, panel1Done, panel2Done })
-    app.Actions.queryFields(groupsToExport, group, taxonomienZusammenfassen, offlineIndexes)
+    app.Actions.queryFields(exportOptions.object.Gruppen.value, group, taxonomienZusammenfassen, offlineIndexes)
     // console.log('exportOptions', exportOptions)
   },
 
