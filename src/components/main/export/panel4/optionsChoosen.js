@@ -14,12 +14,18 @@ export default React.createClass({
     exportOptions: React.PropTypes.object,
     onlyObjectsWithCollectionData: React.PropTypes.bool,
     includeDataFromSynonyms: React.PropTypes.bool,
-    oneRowPerRelation: React.PropTypes.bool
+    oneRowPerRelation: React.PropTypes.bool,
+    taxonomienZusammenfassen: React.PropTypes.bool
   },
 
   groupsText () {
     const { exportOptions } = this.props
     return 'Gruppe(n): ' + exportOptions.object.Gruppen.value.join(', ')
+  },
+
+  taxonomienZusammenfassenText () {
+    const { taxonomienZusammenfassen } = this.props
+    return taxonomienZusammenfassen ? 'Die Felder der Taxonomien werden zusammengefasst' : 'Die Felder der Taxonomien werden einzeln dargestellt'
   },
 
   dataFromSynonymsText () {
@@ -100,6 +106,7 @@ export default React.createClass({
         <p style={pStyle}>Gewählte Optionen:</p>
         <ul style={ulStyle}>
           <li>{this.groupsText()}</li>
+          <li>{this.taxonomienZusammenfassenText()}</li>
           <li>{this.dataFromSynonymsText()}</li>
           <li>{this.onlyObjectsWithCollectionDataText()}</li>
           <li>{this.oneRowPerRelationText()}</li>

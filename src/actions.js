@@ -37,7 +37,8 @@ export default () => {
     deleteRcInstances: {},
     showError: {},
     replicateToAe: {},
-    replicateFromAe: {}
+    replicateFromAe: {},
+    buildExportData: {}
   })
 
   Actions.loadPouchFromRemote.listen(() => {

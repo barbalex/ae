@@ -25,6 +25,23 @@ import buildRcFirstLevel from './modules/buildRcFirstLevel.js'
 import getFieldsForGroupsToExportByCollectionType from './modules/getFieldsForGroupsToExportByCollectionType.js'
 
 export default (Actions) => {
+  app.exportDataStore = Reflux.createStore({
+
+    listenables: Actions,
+
+    onBuildExportData ({ exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, oneRowPerRelation, taxonomienZusammenfassen }) {
+      app.objectStore.getItems()
+        .then((objects) => {
+          console.log('exportDataStore, objects', objects)
+        })
+        .catch((errorBuildingExportData) => {
+          const exportData = []
+          this.trigger({ exportData, errorBuildingExportData })
+        })
+    }
+
+  })
+
   app.replicateFromAeStore = Reflux.createStore({
 
     listenables: Actions,

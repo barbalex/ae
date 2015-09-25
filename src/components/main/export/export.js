@@ -2,6 +2,7 @@
 
 import app from 'ampersand-app'
 import React from 'react'
+import { ListenerMixin } from 'reflux'
 import { Accordion, Panel } from 'react-bootstrap'
 import _ from 'lodash'
 import Panel1 from './panel1/panel1.js'
@@ -12,6 +13,8 @@ import ModalTooManyFieldsChosen from './modalTooManyFieldsChosen.js'
 
 export default React.createClass({
   displayName: 'Export',
+
+  mixins: [ListenerMixin],
 
   propTypes: {
     groupsLoadingObjects: React.PropTypes.array,
@@ -115,6 +118,9 @@ export default React.createClass({
        */
       oneRowPerRelation: true,
       format: 'xlsx',
+      /**
+       * this here is to build the export-data
+       */
       exportData: [],
       errorBuildingExportData: null
     }
@@ -125,6 +131,11 @@ export default React.createClass({
     // make sure, pcs are queried
     app.Actions.queryPropertyCollections(offlineIndexes)
     app.Actions.queryRelationCollections(offlineIndexes)
+    this.listenTo(app.exportDataStore, this.onChangeExportDataStore)
+  },
+
+  onChangeExportDataStore ({ exportData, errorBuildingExportData }) {
+    this.setState({ exportData, errorBuildingExportData })
   },
 
   handleOnSelectPanel (activeKey) {
@@ -334,7 +345,7 @@ export default React.createClass({
 
   render () {
     const { groupsLoadedOrLoading, groupsLoadingObjects, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, pcs, pcsQuerying, rcs, rcsQuerying } = this.props
-    const { taxonomienZusammenfassen, errorBuildingExportOptions, activePanel, panel1Done, exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, tooManyFieldsChoosen, collectionsWithAllChoosen, oneRowPerRelation, format } = this.state
+    const { taxonomienZusammenfassen, errorBuildingExportOptions, activePanel, panel1Done, exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, tooManyFieldsChoosen, collectionsWithAllChoosen, oneRowPerRelation, format, exportData, errorBuildingExportData } = this.state
 
     return (
       <div id='export' className='formContent'>
@@ -410,8 +421,11 @@ export default React.createClass({
                 onlyObjectsWithCollectionData={onlyObjectsWithCollectionData}
                 includeDataFromSynonyms={includeDataFromSynonyms}
                 oneRowPerRelation={oneRowPerRelation}
+                taxonomienZusammenfassen={taxonomienZusammenfassen}
                 format={format}
-                onChangeFormat={this.onChangeFormat} />
+                onChangeFormat={this.onChangeFormat}
+                exportData={exportData}
+                errorBuildingExportData={errorBuildingExportData} />
               : null
             }
           </Panel>
