@@ -23,7 +23,7 @@ import convertValue from './modules/convertValue.js'
 import sortObjectArrayByName from './modules/sortObjectArrayByName.js'
 import buildRcFirstLevel from './modules/buildRcFirstLevel.js'
 import getFieldsForGroupsToExportByCollectionType from './modules/getFieldsForGroupsToExportByCollectionType.js'
-import filterFields from './components/main/export/panel4/filterFields.js'
+import filterCollections from './components/main/export/panel4/filterCollections.js'
 import addCollectionsOfSynonyms from './components/main/export/panel4/addCollectionsOfSynonyms.js'
 
 export default (Actions) => {
@@ -55,7 +55,7 @@ export default (Actions) => {
           // TODO: combine taxonomies if applicable
 
           // filter for each other value
-          objects = filterFields(exportOptions, objects)
+          objects = filterCollections(exportOptions, objects)
           console.log('objects filtered', objects)
 
           // TODO: build fields

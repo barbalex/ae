@@ -28,7 +28,7 @@ export default React.createClass({
     }
 
     return (
-      <Well className='well-sm' style={wellStyle}>
+      <Well bsSize='small' style={wellStyle}>
         <b>So geht`s</b> <a href='#' onClick={this.onClickToggle} className='showNextHidden'>{visible ? '...weniger' : '...mehr'}</a>
         <ul className='adb-hidden' style={{'display': visible ? 'block' : 'none'}}>
           <li>Nachfolgend sind alle Eigenschaften aufgelistet, die in den gewählten Gruppen vorkommen</li>

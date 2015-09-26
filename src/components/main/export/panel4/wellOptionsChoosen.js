@@ -1,6 +1,7 @@
 'use strict'
 
 import React from 'react'
+import { Well } from 'react-bootstrap'
 import _ from 'lodash'
 
 const ulStyle = {
@@ -95,14 +96,12 @@ export default React.createClass({
   },
 
   render () {
-    const divStyle = {
-      color: '#5F5F5F'
-    }
     const pStyle = {
-      marginBottom: 0
+      marginBottom: 0,
+      fontWeight: 'bold'
     }
     return (
-      <div style={divStyle}>
+      <Well bsSize='small'>
         <p style={pStyle}>Gewählte Optionen:</p>
         <ul style={ulStyle}>
           <li>{this.groupsText()}</li>
@@ -121,7 +120,7 @@ export default React.createClass({
             </ul>
           </li>
         </ul>
-      </div>
+      </Well>
     )
   }
 })

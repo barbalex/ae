@@ -25,7 +25,7 @@ export default React.createClass({
     const { visible } = this.state
 
     return (
-      <Well className='well-sm'><strong>Tipps und Tricks</strong> <a href='#' onClick={this.onClickToggle} className='showNextHidden'>{visible ? '...weniger' : '...mehr'}</a>
+      <Well bsSize='small'><strong>Tipps und Tricks</strong> <a href='#' onClick={this.onClickToggle} className='showNextHidden'>{visible ? '...weniger' : '...mehr'}</a>
         <ul className='adb-hidden' style={{'display': visible ? 'block' : 'none'}}>
           <li>Klicken Sie auf unterstrichene Feldnamen, um zu erfahren, wie das jeweilige Feld beschrieben werden sollte.</li>
         </ul>

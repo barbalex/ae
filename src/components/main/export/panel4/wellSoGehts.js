@@ -25,7 +25,7 @@ export default React.createClass({
     const { visible } = this.state
 
     return (
-      <Well className='well-sm'><b>So geht`s</b> <a href='#' onClick={this.onClickToggle} className='showNextHidden'>{visible ? '...weniger' : '...mehr'}</a>
+      <Well bsSize='small'><b>So geht`s</b> <a href='#' onClick={this.onClickToggle} className='showNextHidden'>{visible ? '...weniger' : '...mehr'}</a>
         <ul className='adb-hidden' style={{'display': visible ? 'block' : 'none'}}>
           <li>Aus den Rohdaten werden die Exportdaten extrahiert...</li>
           <li><strong>...das dauert eine ganze Weile. Geduld bringt Daten!</strong></li>

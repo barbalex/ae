@@ -27,7 +27,7 @@ export default React.createClass({
      * TODO: Braucht es jetzt Hochzeichen um Feldinhalt?
      */
     return (
-      <Well className='well-sm'><b>Zusätzliche Anforderungen an csv-Dateien</b> <a href='#' onClick={this.onClickToggle} className='showNextHidden'>{visible ? '...weniger' : '...mehr'}</a>
+      <Well bsSize='small'><b>Zusätzliche Anforderungen an csv-Dateien</b> <a href='#' onClick={this.onClickToggle} className='showNextHidden'>{visible ? '...weniger' : '...mehr'}</a>
         <ul className='adb-hidden' style={{'display': visible ? 'block' : 'none'}}>
           <li>Zeilen werden mit einem Zeilenumbruch getrennt</li>
             <li>Der Inhalt eines Felds bzw. einer Spalte sollte in der Regel in Anführungs- und Schlusszeichen eingefasst sein, z.B.: "Artwert"</li>

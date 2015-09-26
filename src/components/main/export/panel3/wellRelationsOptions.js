@@ -28,7 +28,7 @@ export default React.createClass({
     }
 
     return (
-      <Well className='well-sm' style={wellStyle}>
+      <Well bsSize='small' style={wellStyle}>
         <b>Option wählen</b> <a href='#' onClick={this.onClickToggle} className='showNextHidden'>{visible ? '...weniger' : '...mehr'}</a>
         <ol className='adb-hidden' style={{'display': visible ? 'block' : 'none'}}>
           <li>Pro Beziehung eine Zeile (Standardeinstellung):

@@ -3,7 +3,7 @@
 import app from 'ampersand-app'
 import React from 'react'
 import WellSoGehts from './wellSoGehts.js'
-import OptionsChoosen from './optionsChoosen.js'
+import WellOptionsChoosen from './wellOptionsChoosen.js'
 import Format from './format.js'
 import TablePreview from './tablePreview.js'
 import AlertErrorBuildingExportData from './alertErrorBuildingExportData.js'
@@ -38,7 +38,7 @@ export default React.createClass({
     return (
       <div>
         <WellSoGehts />
-        <OptionsChoosen
+        <WellOptionsChoosen
           exportOptions={exportOptions}
           onlyObjectsWithCollectionData={onlyObjectsWithCollectionData}
           includeDataFromSynonyms={includeDataFromSynonyms}
