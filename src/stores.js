@@ -55,7 +55,7 @@ export default (Actions) => {
           // TODO: combine taxonomies if applicable
 
           // filter for each other value
-          objects = filterCollections(exportOptions, objects)
+          objects = filterCollections(exportOptions, objects, taxonomienZusammenfassen)
           console.log('objects filtered', objects)
 
           // TODO: build fields
