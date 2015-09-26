@@ -11,7 +11,6 @@ import _ from 'lodash'
 import isFilterFulfilled from './isFilterFulfilled.js'
 
 export default (exportOptions, objects, taxonomienZusammenfassen) => {
-  console.log('taxonomienZusammenfassen', taxonomienZusammenfassen)
   Object.keys(exportOptions).forEach((cName) => {
     const cType = exportOptions[cName].cType
     if (cType) {
