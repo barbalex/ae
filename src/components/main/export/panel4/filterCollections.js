@@ -3,7 +3,7 @@
 /**
  * gets exportOptions and objects
  * loops all fields in exportOptions
- * and filters objects
+ * and filters objects according to value and comparison operator
  * returns filtered objects
  */
 
