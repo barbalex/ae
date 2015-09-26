@@ -23,7 +23,7 @@ import convertValue from './modules/convertValue.js'
 import sortObjectArrayByName from './modules/sortObjectArrayByName.js'
 import buildRcFirstLevel from './modules/buildRcFirstLevel.js'
 import getFieldsForGroupsToExportByCollectionType from './modules/getFieldsForGroupsToExportByCollectionType.js'
-import isFilterFulfilled from './components/main/export/panel4/isFilterFulfilled.js'
+import filterFields from './components/main/export/panel4/filterFields.js'
 import addCollectionsOfSynonyms from './components/main/export/panel4/addCollectionsOfSynonyms.js'
 
 export default (Actions) => {
@@ -55,38 +55,7 @@ export default (Actions) => {
           // TODO: combine taxonomies if applicable
 
           // filter for each other value
-          Object.keys(exportOptions).forEach((cName) => {
-            const cType = exportOptions[cName].cType
-            if (cType) {
-              Object.keys(exportOptions[cName]).forEach((fName) => {
-                if (cName !== 'object') {
-                  const filterValue = exportOptions[cName][fName].value
-                  const co = exportOptions[cName][fName].co
-                  objects = _.filter(objects, (object) => {
-                    // find collection with this name
-                    let collections = object.Taxonomien
-                    if (cType === 'pc') collections = object.Eigenschaftensammlungen
-                    if (cType === 'rc') collections = object.Beziehungssammlungen
-                    const collection = _.find(collections, (co) => co.Name === cName)
-                    if (collection) {
-                      // if taxonomy or pc, check directly
-                      if (cType !== 'rc') return isFilterFulfilled(collection.Eigenschaften[fName], filterValue, co)
-                      // if rc, check if any relation fulfills
-                      const relations = collection.Beziehungen
-                      if (relations && relations.length > 0) {
-                        relations.forEach((relation) => {
-                          if (isFilterFulfilled(relation[fName], filterValue, co)) return true
-                        })
-                        return false
-                      }
-                      return false
-                    }
-                    return false
-                  })
-                }
-              })
-            }
-          })
+          objects = filterFields(exportOptions, objects)
           console.log('objects filtered', objects)
 
           // TODO: build fields
