@@ -4,7 +4,7 @@ import app from 'ampersand-app'
 import React from 'react'
 import WellSoGehts from './wellSoGehts.js'
 import WellOptionsChoosen from './wellOptionsChoosen.js'
-import Format from './format.js'
+import WellFormat from './wellFormat.js'
 import TablePreview from './tablePreview.js'
 import AlertErrorBuildingExportData from './alertErrorBuildingExportData.js'
 import AlertBuildingExportData from './alertBuildingExportData.js'
@@ -44,7 +44,7 @@ export default React.createClass({
           includeDataFromSynonyms={includeDataFromSynonyms}
           oneRowPerRelation={oneRowPerRelation}
           taxonomienZusammenfassen={taxonomienZusammenfassen} />
-        <Format
+        <WellFormat
           format={format}
           onChangeFormat={onChangeFormat} />
         {exportData.length > 0 ?

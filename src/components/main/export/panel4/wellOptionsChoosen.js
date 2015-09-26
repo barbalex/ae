@@ -5,7 +5,8 @@ import { Well } from 'react-bootstrap'
 import _ from 'lodash'
 
 const ulStyle = {
-  paddingLeft: 20
+  paddingLeft: 20,
+  marginBottom: 3
 }
 
 export default React.createClass({

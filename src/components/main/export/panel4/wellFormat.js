@@ -1,7 +1,7 @@
 'use strict'
 
 import React from 'react'
-import { Input } from 'react-bootstrap'
+import { Input, Well } from 'react-bootstrap'
 
 export default React.createClass({
   displayName: 'Format',
@@ -19,7 +19,7 @@ export default React.createClass({
   render () {
     const { format } = this.props
     return (
-      <div>
+      <Well bsSize='small'>
         <p style={{marginBottom: 3}}><strong>Format:</strong></p>
         <div style={{marginLeft: 12, marginBottom: -8 + 'px'}}>
           <Input
@@ -28,14 +28,14 @@ export default React.createClass({
             onChange={this.onChangeFormat.bind(this, 'xlsx')}
             checked={format === 'xlsx'} />
         </div>
-        <div style={{marginLeft: 12}}>
+        <div style={{marginLeft: 12, marginBottom: -7 + 'px'}}>
           <Input
             type='checkbox'
             label='csv (kommagetrennte Textdatei)'
             onChange={this.onChangeFormat.bind(this, 'csv')}
             checked={format === 'csv'} />
         </div>
-      </div>
+      </Well>
     )
   }
 })
