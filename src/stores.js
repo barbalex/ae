@@ -28,6 +28,14 @@ import addCollectionsOfSynonyms from './components/main/export/panel4/addCollect
 
 export default (Actions) => {
   app.exportDataStore = Reflux.createStore({
+    /**
+     * gets exportOptions and all relevant other options
+     * fetches all objects
+     * filters them according to filter options
+     * TODO: builds export objects
+     * and returns them
+     * or an error
+     */
 
     listenables: Actions,
 
@@ -40,21 +48,18 @@ export default (Actions) => {
           // 1. filter ids
           if (exportOptions.object._id.value) {
             objects = _.filter(objects, (object) => _.includes(exportOptions.object._id.value, object._id))
-            // console.log('objects after filtering ids', objects)
           }
           // 2. filter groups
           const groups = exportOptions.object.Gruppen.value
           objects = _.filter(objects, (object) => _.includes(groups, object.Gruppe))
           // console.log('objects.length after filtering for group', objects.length)
 
-          // 3. add data of synonyms, if applicable
+          // 3. add missing pc's and rc's of synonyms if applicable
           if (includeDataFromSynonyms) {
             objects = addCollectionsOfSynonyms(originalObjects, objects)
           }
 
-          // TODO: combine taxonomies if applicable
-
-          // filter for each other value
+          // 4. filter for each taxonomy, pc or rc value choosen
           // combines taxonomies if applicable
           objects = filterCollections(exportOptions, objects, combineTaxonomies)
           console.log('objects filtered', objects)
