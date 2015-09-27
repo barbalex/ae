@@ -25,7 +25,7 @@ export default React.createClass({
     pcFields: React.PropTypes.object,
     relationFields: React.PropTypes.object,
     groupsLoadedOrLoading: React.PropTypes.array,
-    taxonomienZusammenfassen: React.PropTypes.bool,
+    combineTaxonomies: React.PropTypes.bool,
     activePanel: React.PropTypes.number,
     panel1Done: React.PropTypes.bool,
     panel2Done: React.PropTypes.bool,
@@ -86,7 +86,7 @@ export default React.createClass({
     }
     return {
       errorBuildingExportOptions: null,
-      taxonomienZusammenfassen: false,
+      combineTaxonomies: false,
       activePanel: 1,
       panel1Done: null,
       panel2Done: null,
@@ -207,25 +207,25 @@ export default React.createClass({
 
   onChangeGroupsToExport (group, checked) {
     let { exportOptions } = this.state
-    const { taxonomienZusammenfassen } = this.state
+    const { combineTaxonomies } = this.state
     const { offlineIndexes } = this.props
     if (checked) exportOptions.object.Gruppen.value.push(group)
     if (!checked) exportOptions.object.Gruppen.value = _.without(exportOptions.object.Gruppen.value, group)
     const panel1Done = exportOptions.object.Gruppen.value.length > 0
     const panel2Done = exportOptions.object.Gruppen.value.length > 0
     this.setState({ exportOptions, panel1Done, panel2Done })
-    app.Actions.queryFields(exportOptions.object.Gruppen.value, group, taxonomienZusammenfassen, offlineIndexes)
+    app.Actions.queryFields(exportOptions.object.Gruppen.value, group, combineTaxonomies, offlineIndexes)
     // console.log('exportOptions', exportOptions)
   },
 
-  onChangeTaxonomienZusammenfassen (taxonomienZusammenfassen) {
+  onChangeTaxonomienZusammenfassen (combineTaxonomies) {
     const { exportOptions } = this.state
     const { offlineIndexes } = this.props
     const group = null
-    this.setState({ taxonomienZusammenfassen })
+    this.setState({ combineTaxonomies })
     // recalculate taxonomyFields
     const groupsToExport = exportOptions.object.Gruppen.value
-    app.Actions.queryFields(groupsToExport, group, taxonomienZusammenfassen, offlineIndexes)
+    app.Actions.queryFields(groupsToExport, group, combineTaxonomies, offlineIndexes)
   },
 
   onChangeCoSelect (cName, fName, event) {
@@ -349,7 +349,7 @@ export default React.createClass({
 
   render () {
     const { groupsLoadedOrLoading, groupsLoadingObjects, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, pcs, pcsQuerying, rcs, rcsQuerying } = this.props
-    const { taxonomienZusammenfassen, errorBuildingExportOptions, activePanel, panel1Done, exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, tooManyFieldsChoosen, collectionsWithAllChoosen, oneRowPerRelation, format, exportData, errorBuildingExportData } = this.state
+    const { combineTaxonomies, errorBuildingExportOptions, activePanel, panel1Done, exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, tooManyFieldsChoosen, collectionsWithAllChoosen, oneRowPerRelation, format, exportData, errorBuildingExportData } = this.state
 
     return (
       <div id='export' className='formContent'>
@@ -369,7 +369,7 @@ export default React.createClass({
                 errorBuildingExportOptions={errorBuildingExportOptions}
                 taxonomyFields={taxonomyFields}
                 groupsLoadedOrLoading={groupsLoadedOrLoading}
-                taxonomienZusammenfassen={taxonomienZusammenfassen}
+                combineTaxonomies={combineTaxonomies}
                 panel1Done={panel1Done}
                 exportOptions={exportOptions}
                 pcsQuerying={pcsQuerying}
@@ -425,7 +425,7 @@ export default React.createClass({
                 onlyObjectsWithCollectionData={onlyObjectsWithCollectionData}
                 includeDataFromSynonyms={includeDataFromSynonyms}
                 oneRowPerRelation={oneRowPerRelation}
-                taxonomienZusammenfassen={taxonomienZusammenfassen}
+                combineTaxonomies={combineTaxonomies}
                 format={format}
                 onChangeFormat={this.onChangeFormat}
                 exportData={exportData}

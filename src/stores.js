@@ -31,7 +31,7 @@ export default (Actions) => {
 
     listenables: Actions,
 
-    onBuildExportData ({ exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, oneRowPerRelation, taxonomienZusammenfassen }) {
+    onBuildExportData ({ exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, oneRowPerRelation, combineTaxonomies }) {
       app.objectStore.getItems()
         .then((objects) => {
           // console.log('objects.length', objects.length)
@@ -55,7 +55,8 @@ export default (Actions) => {
           // TODO: combine taxonomies if applicable
 
           // filter for each other value
-          objects = filterCollections(exportOptions, objects, taxonomienZusammenfassen)
+          // combines taxonomies if applicable
+          objects = filterCollections(exportOptions, objects, combineTaxonomies)
           console.log('objects filtered', objects)
 
           // TODO: build fields
@@ -507,7 +508,7 @@ export default (Actions) => {
       })
     },
 
-    onQueryFields (groupsToExport, group, taxonomienZusammenfassen, offlineIndexes) {
+    onQueryFields (groupsToExport, group, combineTaxonomies, offlineIndexes) {
       // if fields exist, send them immediately
       let taxonomyFields = {}
       let pcFields = {}
@@ -518,7 +519,7 @@ export default (Actions) => {
       this.trigger({ taxonomyFields, pcFields, relationFields, fieldsQuerying, fieldsQueryingError })
       this.getFields()
         .then((allFields) => {
-          taxonomyFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'taxonomy', taxonomienZusammenfassen)
+          taxonomyFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'taxonomy', combineTaxonomies)
           pcFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'propertyCollection')
           relationFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'relation')
           if (!group) {
@@ -538,7 +539,7 @@ export default (Actions) => {
               queryFieldsOfGroup(group, offlineIndexes)
                 .then((fieldsOfGroup) => this.saveFieldsOfGroup(fieldsOfGroup, group))
                 .then((allFields) => {
-                  taxonomyFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'taxonomy', taxonomienZusammenfassen)
+                  taxonomyFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'taxonomy', combineTaxonomies)
                   pcFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'propertyCollection')
                   relationFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'relation')
                   fieldsQuerying = false

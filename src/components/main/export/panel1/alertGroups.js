@@ -7,7 +7,7 @@ export default React.createClass({
   displayName: 'AlertGroups',
 
   propTypes: {
-    taxonomienZusammenfassen: React.PropTypes.bool,
+    combineTaxonomies: React.PropTypes.bool,
     fieldsQuerying: React.PropTypes.bool,
     fieldsQueryingError: React.PropTypes.object,
     taxonomyFields: React.PropTypes.object,
@@ -16,7 +16,7 @@ export default React.createClass({
   },
 
   render () {
-    const { taxonomienZusammenfassen, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcsQuerying, rcsQuerying } = this.props
+    const { combineTaxonomies, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcsQuerying, rcsQuerying } = this.props
     // fieldsQuerying && taxonomyFields.length === 0
     let resultText = 'Die Eigenschaften werden aufgebaut...'
     let taxonomienZusammenfassenText = null
@@ -28,7 +28,7 @@ export default React.createClass({
     if (!somethingQuerying && Object.keys(taxonomyFields).length > 0) {
       bsStyle = 'success'
       resultText = 'Die Eigenschaften wurden aufgebaut.'
-      taxonomienZusammenfassenText = taxonomienZusammenfassen ? 'Taxonomien werden zusammengefasst.' : 'Taxonomien werden einzeln dargestellt.'
+      taxonomienZusammenfassenText = combineTaxonomies ? 'Taxonomien werden zusammengefasst.' : 'Taxonomien werden einzeln dargestellt.'
     }
     if (fieldsQueryingError) {
       bsStyle = 'danger'

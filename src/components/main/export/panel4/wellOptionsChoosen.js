@@ -17,7 +17,7 @@ export default React.createClass({
     onlyObjectsWithCollectionData: React.PropTypes.bool,
     includeDataFromSynonyms: React.PropTypes.bool,
     oneRowPerRelation: React.PropTypes.bool,
-    taxonomienZusammenfassen: React.PropTypes.bool
+    combineTaxonomies: React.PropTypes.bool
   },
 
   groupsText () {
@@ -26,8 +26,8 @@ export default React.createClass({
   },
 
   taxonomienZusammenfassenText () {
-    const { taxonomienZusammenfassen } = this.props
-    return taxonomienZusammenfassen ? 'Die Felder der Taxonomien werden zusammengefasst' : 'Die Felder der Taxonomien werden einzeln dargestellt'
+    const { combineTaxonomies } = this.props
+    return combineTaxonomies ? 'Die Felder der Taxonomien werden zusammengefasst' : 'Die Felder der Taxonomien werden einzeln dargestellt'
   },
 
   dataFromSynonymsText () {

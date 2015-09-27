@@ -19,7 +19,7 @@ export default React.createClass({
     errorBuildingExportOptions: React.PropTypes.string,
     taxonomyFields: React.PropTypes.object,
     groupsLoadedOrLoading: React.PropTypes.array,
-    taxonomienZusammenfassen: React.PropTypes.bool,
+    combineTaxonomies: React.PropTypes.bool,
     panel1Done: React.PropTypes.bool,
     exportOptions: React.PropTypes.object,
     pcsQuerying: React.PropTypes.bool,
@@ -29,7 +29,7 @@ export default React.createClass({
   },
 
   render () {
-    const { groupsLoadedOrLoading, groupsLoadingObjects, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcsQuerying, rcsQuerying, onChangeTaxonomienZusammenfassen, onChangeGroupsToExport, panel1Done, exportOptions, taxonomienZusammenfassen, errorBuildingExportOptions } = this.props
+    const { groupsLoadedOrLoading, groupsLoadingObjects, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcsQuerying, rcsQuerying, onChangeTaxonomienZusammenfassen, onChangeGroupsToExport, panel1Done, exportOptions, combineTaxonomies, errorBuildingExportOptions } = this.props
     const showAlertLoadGroups = groupsLoadedOrLoading.length === 0
     const groupsToExport = exportOptions.object.Gruppen.value
     const showAlertGroups = groupsToExport.length > 0 && !showAlertLoadGroups
@@ -50,7 +50,7 @@ export default React.createClass({
         }
         {!showAlertLoadGroups ?
           <WellTaxonomienZusammenfassen
-            taxonomienZusammenfassen={taxonomienZusammenfassen}
+            combineTaxonomies={combineTaxonomies}
             onChangeTaxonomienZusammenfassen={onChangeTaxonomienZusammenfassen} />
           : null
         }
@@ -66,7 +66,7 @@ export default React.createClass({
             fieldsQueryingError={fieldsQueryingError}
             taxonomyFields={taxonomyFields}
             errorBuildingExportOptions={errorBuildingExportOptions}
-            taxonomienZusammenfassen={taxonomienZusammenfassen} />
+            combineTaxonomies={combineTaxonomies} />
           : null
         }
       </div>

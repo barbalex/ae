@@ -9,7 +9,7 @@ export default React.createClass({
 
   propTypes: {
     visible: React.PropTypes.bool,
-    taxonomienZusammenfassen: React.PropTypes.bool,
+    combineTaxonomies: React.PropTypes.bool,
     onChangeTaxonomienZusammenfassen: React.PropTypes.func
   },
 
@@ -26,7 +26,7 @@ export default React.createClass({
 
   render () {
     const { visible } = this.state
-    const { taxonomienZusammenfassen, onChangeTaxonomienZusammenfassen } = this.props
+    const { combineTaxonomies, onChangeTaxonomienZusammenfassen } = this.props
     const pStyle = {
       marginLeft: 23,
       marginBottom: 0
@@ -56,7 +56,7 @@ export default React.createClass({
             <li>...Arten aus Flora und Fauna gleichzeitig exportieren und dabei den vollständigen Artnamen ins selbe Feld ("Artname vollständig") schreiben</li>
           </ul>
           <ButtonTaxonomienZusammenfassen
-              taxonomienZusammenfassen={taxonomienZusammenfassen}
+              combineTaxonomies={combineTaxonomies}
               onChangeTaxonomienZusammenfassen={onChangeTaxonomienZusammenfassen} />
         </div>
       </Well>

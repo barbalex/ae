@@ -17,7 +17,7 @@ export default React.createClass({
     onlyObjectsWithCollectionData: React.PropTypes.bool,
     includeDataFromSynonyms: React.PropTypes.bool,
     oneRowPerRelation: React.PropTypes.bool,
-    taxonomienZusammenfassen: React.PropTypes.bool,
+    combineTaxonomies: React.PropTypes.bool,
     format: React.PropTypes.string,
     onChangeFormat: React.PropTypes.func,
     exportData: React.PropTypes.array,
@@ -25,14 +25,14 @@ export default React.createClass({
   },
 
   componentDidMount () {
-    const { exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, oneRowPerRelation, taxonomienZusammenfassen } = this.props
+    const { exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, oneRowPerRelation, combineTaxonomies } = this.props
     // make sure, pcs are queried
-    app.Actions.buildExportData({ exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, oneRowPerRelation, taxonomienZusammenfassen })
+    app.Actions.buildExportData({ exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, oneRowPerRelation, combineTaxonomies })
     console.log('building export data')
   },
 
   render () {
-    const { exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, oneRowPerRelation, taxonomienZusammenfassen, format, onChangeFormat, exportData, errorBuildingExportData } = this.props
+    const { exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, oneRowPerRelation, combineTaxonomies, format, onChangeFormat, exportData, errorBuildingExportData } = this.props
     const showAlertBuildingData = exportData.length === 0 && !errorBuildingExportData
 
     return (
@@ -43,7 +43,7 @@ export default React.createClass({
           onlyObjectsWithCollectionData={onlyObjectsWithCollectionData}
           includeDataFromSynonyms={includeDataFromSynonyms}
           oneRowPerRelation={oneRowPerRelation}
-          taxonomienZusammenfassen={taxonomienZusammenfassen} />
+          combineTaxonomies={combineTaxonomies} />
         <WellFormat
           format={format}
           onChangeFormat={onChangeFormat} />
