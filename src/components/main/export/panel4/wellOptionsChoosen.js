@@ -22,7 +22,9 @@ export default React.createClass({
 
   groupsText () {
     const { exportOptions } = this.props
-    return 'Gruppe(n): ' + exportOptions.object.Gruppen.value.join(', ')
+    const groups = exportOptions.object.Gruppen.value
+    const prefix = groups.length > 1 ? 'Gruppen: ' : 'Gruppe: '
+    return prefix + groups.join(', ')
   },
 
   taxonomienZusammenfassenText () {
@@ -32,17 +34,17 @@ export default React.createClass({
 
   dataFromSynonymsText () {
     const { includeDataFromSynonyms } = this.props
-    return includeDataFromSynonyms ? 'Inklusive Informationen von Synonymen' : 'Ohne Informationen von Synonymen'
+    return includeDataFromSynonyms ? 'Informationen von Synonymen werden mitgeliefert' : 'Ohne Informationen von Synonymen'
   },
 
   onlyObjectsWithCollectionDataText () {
     const { onlyObjectsWithCollectionData } = this.props
-    return onlyObjectsWithCollectionData ? 'Nur Datensätze exportieren, die in den gewählten Eigenschaften- und Beziehungssammlungen Informationen enthalten' : 'alle Datensätze der gewählten Gruppe(n) zu exportieren'
+    return onlyObjectsWithCollectionData ? 'Nur Datensätze exportieren, die in den gewählten Eigenschaften- und Beziehungssammlungen Informationen enthalten' : 'Alle Datensätze der gewählten Gruppe(n) exportieren'
   },
 
   oneRowPerRelationText () {
     const { oneRowPerRelation } = this.props
-    return oneRowPerRelation ? 'Pro Beziehung eine Zeile' : 'Pro Art/Lebensraum eine Zeile und alle Beziehungen kommagetrennt in einem Feld'
+    return oneRowPerRelation ? 'Pro Beziehung eine Zeile' : 'Pro Art/Lebensraum eine Zeile, alle Beziehungen kommagetrennt in einem Feld'
   },
 
   filtersAndFields () {
@@ -66,6 +68,7 @@ export default React.createClass({
     const spanStyle = {
       backgroundColor: '#DADADA',
       padding: '1px 8px',
+      marginLeft: 5,
       borderRadius: 3
     }
     let { filters } = this.filtersAndFields()
@@ -76,8 +79,8 @@ export default React.createClass({
         const fName = filter.fName
         const cName = filter.cName
         const filterValue = filter.filterValue
-        if (cName === 'object') return <li key={index}>{fName === '_id' ? 'GUID' : fName}: <span style={spanStyle}>{filterValue}</span></li>
-        return <li key={index}>{cName} > {fName}: <span style={spanStyle}>{filterValue}</span></li>
+        if (cName === 'object') return <li key={index}>{fName === '_id' ? 'GUID' : fName} <span style={spanStyle}>{filterValue}</span></li>
+        return <li key={index}>{cName}: {fName} <span style={spanStyle}>{filterValue}</span></li>
       })
     }
     return <li>Kein Filter gewählt</li>
@@ -90,7 +93,7 @@ export default React.createClass({
         const fName = field.fName
         const cName = field.cName
         if (cName === 'object') return <li key={index}>{fName === '_id' ? 'GUID' : fName}</li>
-        return <li key={index}>{cName} > {fName}</li>
+        return <li key={index}>{cName}: {fName}</li>
       })
     }
     return <li>Keine Eigenschaft gewählt</li>

@@ -9,7 +9,7 @@ export default React.createClass({
   render () {
     const style = {
       marginTop: 6,
-      marginBottom: 0
+      marginBottom: 10
     }
     return (
       <Alert bsStyle='info' style={style}>

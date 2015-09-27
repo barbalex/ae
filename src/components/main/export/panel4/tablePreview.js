@@ -1,7 +1,6 @@
 'use strict'
 
 import React from 'react'
-import _ from 'lodash'
 import { Table } from 'react-bootstrap'
 
 export default React.createClass({
@@ -28,7 +27,7 @@ export default React.createClass({
     }
 
     // get a list of all keys
-    const keys = Object.keys(exportObjects)
+    const keys = Object.keys(exportObjects[0])
 
     const thead = keys.map((key, index) => <th key={index}>{key}</th>)
     const tbody = exportObjects.map((pc, index) => {

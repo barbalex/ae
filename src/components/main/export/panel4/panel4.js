@@ -44,9 +44,6 @@ export default React.createClass({
           includeDataFromSynonyms={includeDataFromSynonyms}
           oneRowPerRelation={oneRowPerRelation}
           combineTaxonomies={combineTaxonomies} />
-        <WellFormat
-          format={format}
-          onChangeFormat={onChangeFormat} />
         {exportObjects.length > 0 ?
           <TablePreview
             exportObjects={exportObjects} />
@@ -61,6 +58,9 @@ export default React.createClass({
             errorBuildingExportData={errorBuildingExportData} />
           : null
         }
+        <WellFormat
+          format={format}
+          onChangeFormat={onChangeFormat} />
       </div>
     )
   }

@@ -66,7 +66,7 @@ export default (Actions) => {
           console.log('objects filtered', objects)
 
           // TODO: build fields
-          const exportObjects = buildExportObjects(exportOptions, objects)
+          const exportObjects = buildExportObjects(exportOptions, objects, combineTaxonomies)
 
           const errorBuildingExportData = null
           this.trigger({ exportObjects, errorBuildingExportData })
