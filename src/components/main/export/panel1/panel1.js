@@ -4,7 +4,7 @@ import React from 'react'
 import _ from 'lodash'
 import WellSoGehts from './wellSoGehts.js'
 import GroupsToExport from './groupsToExport.js'
-import WellTaxonomienZusammenfassen from './wellTaxonomienZusammenfassen.js'
+import WellCombineTaxonomies from './wellCombineTaxonomies.js'
 import AlertGroups from './alertGroups.js'
 import AlertLoadGroups from './alertLoadGroups.js'
 import AlertChooseGroup from './alertChooseGroup.js'
@@ -24,12 +24,12 @@ export default React.createClass({
     exportOptions: React.PropTypes.object,
     pcsQuerying: React.PropTypes.bool,
     rcsQuerying: React.PropTypes.bool,
-    onChangeTaxonomienZusammenfassen: React.PropTypes.func,
+    onChangeCombineTaxonomies: React.PropTypes.func,
     onChangeGroupsToExport: React.PropTypes.func
   },
 
   render () {
-    const { groupsLoadedOrLoading, groupsLoadingObjects, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcsQuerying, rcsQuerying, onChangeTaxonomienZusammenfassen, onChangeGroupsToExport, panel1Done, exportOptions, combineTaxonomies, errorBuildingExportOptions } = this.props
+    const { groupsLoadedOrLoading, groupsLoadingObjects, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcsQuerying, rcsQuerying, onChangeCombineTaxonomies, onChangeGroupsToExport, panel1Done, exportOptions, combineTaxonomies, errorBuildingExportOptions } = this.props
     const showAlertLoadGroups = groupsLoadedOrLoading.length === 0
     const groupsToExport = exportOptions.object.Gruppen.value
     const showAlertGroups = groupsToExport.length > 0 && !showAlertLoadGroups
@@ -49,9 +49,9 @@ export default React.createClass({
           : null
         }
         {!showAlertLoadGroups ?
-          <WellTaxonomienZusammenfassen
+          <WellCombineTaxonomies
             combineTaxonomies={combineTaxonomies}
-            onChangeTaxonomienZusammenfassen={onChangeTaxonomienZusammenfassen} />
+            onChangeCombineTaxonomies={onChangeCombineTaxonomies} />
           : null
         }
         {showAlertChooseGroup ?

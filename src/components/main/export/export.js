@@ -43,7 +43,7 @@ export default React.createClass({
     collectionsWithAllChoosen: React.PropTypes.array,
     oneRowPerRelation: React.PropTypes.bool,
     format: React.PropTypes.string,
-    exportData: React.PropTypes.array,
+    exportObjects: React.PropTypes.array,
     errorBuildingExportData: React.PropTypes.object
   },
 
@@ -123,7 +123,7 @@ export default React.createClass({
       /**
        * this here is to build the export-data
        */
-      exportData: [],
+      exportObjects: [],
       errorBuildingExportData: null
     }
   },
@@ -136,8 +136,8 @@ export default React.createClass({
     this.listenTo(app.exportDataStore, this.onChangeExportDataStore)
   },
 
-  onChangeExportDataStore ({ exportData, errorBuildingExportData }) {
-    this.setState({ exportData, errorBuildingExportData })
+  onChangeExportDataStore ({ exportObjects, errorBuildingExportData }) {
+    this.setState({ exportObjects, errorBuildingExportData })
   },
 
   handleOnSelectPanel (activeKey) {
@@ -218,7 +218,7 @@ export default React.createClass({
     // console.log('exportOptions', exportOptions)
   },
 
-  onChangeTaxonomienZusammenfassen (combineTaxonomies) {
+  onChangeCombineTaxonomies (combineTaxonomies) {
     const { exportOptions } = this.state
     const { offlineIndexes } = this.props
     const group = null
@@ -349,7 +349,7 @@ export default React.createClass({
 
   render () {
     const { groupsLoadedOrLoading, groupsLoadingObjects, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, pcs, pcsQuerying, rcs, rcsQuerying } = this.props
-    const { combineTaxonomies, errorBuildingExportOptions, activePanel, panel1Done, exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, tooManyFieldsChoosen, collectionsWithAllChoosen, oneRowPerRelation, format, exportData, errorBuildingExportData } = this.state
+    const { combineTaxonomies, errorBuildingExportOptions, activePanel, panel1Done, exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, tooManyFieldsChoosen, collectionsWithAllChoosen, oneRowPerRelation, format, exportObjects, errorBuildingExportData } = this.state
 
     return (
       <div id='export' className='formContent'>
@@ -374,7 +374,7 @@ export default React.createClass({
                 exportOptions={exportOptions}
                 pcsQuerying={pcsQuerying}
                 rcsQuerying={rcsQuerying}
-                onChangeTaxonomienZusammenfassen={this.onChangeTaxonomienZusammenfassen}
+                onChangeCombineTaxonomies={this.onChangeCombineTaxonomies}
                 onChangeGroupsToExport={this.onChangeGroupsToExport} />
               : null
             }
@@ -428,7 +428,7 @@ export default React.createClass({
                 combineTaxonomies={combineTaxonomies}
                 format={format}
                 onChangeFormat={this.onChangeFormat}
-                exportData={exportData}
+                exportObjects={exportObjects}
                 errorBuildingExportData={errorBuildingExportData} />
               : null
             }

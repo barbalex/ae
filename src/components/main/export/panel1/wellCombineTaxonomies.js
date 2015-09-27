@@ -2,15 +2,15 @@
 
 import React from 'react'
 import { Well } from 'react-bootstrap'
-import ButtonTaxonomienZusammenfassen from './buttonTaxonomienZusammenfassen.js'
+import ButtonCombineTaxonomies from './buttonCombineTaxonomies.js'
 
 export default React.createClass({
-  displayName: 'WellTaxonomienZusammenfassen',
+  displayName: 'WellCombineTaxonomies',
 
   propTypes: {
     visible: React.PropTypes.bool,
     combineTaxonomies: React.PropTypes.bool,
-    onChangeTaxonomienZusammenfassen: React.PropTypes.func
+    onChangeCombineTaxonomies: React.PropTypes.func
   },
 
   getInitialState () {
@@ -26,7 +26,7 @@ export default React.createClass({
 
   render () {
     const { visible } = this.state
-    const { combineTaxonomies, onChangeTaxonomienZusammenfassen } = this.props
+    const { combineTaxonomies, onChangeCombineTaxonomies } = this.props
     const pStyle = {
       marginLeft: 23,
       marginBottom: 0
@@ -36,7 +36,7 @@ export default React.createClass({
     }
 
     return (
-      <Well id='wellTaxonomienZusammenfassen' className='well-sm last-well' style={wellStyle}>
+      <Well id='wellCombineTaxonomies' className='well-sm last-well' style={wellStyle}>
         <b>Felder der gewählten Taxonomien zusammenfassen?</b> <a href='#' onClick={this.onClickToggle} className='showNextHidden'>{visible ? '...weniger' : '...mehr'}</a>
         <div className='adb-hidden' style={{'display': visible ? 'block' : 'none'}}>
           <ul>
@@ -55,9 +55,9 @@ export default React.createClass({
             <li>...bei Lebensräumen im Feld "Taxonomie" nach "Delarze" filtern um alle Taxonomien von Delarze gleichzeitig zu exportieren</li>
             <li>...Arten aus Flora und Fauna gleichzeitig exportieren und dabei den vollständigen Artnamen ins selbe Feld ("Artname vollständig") schreiben</li>
           </ul>
-          <ButtonTaxonomienZusammenfassen
+          <ButtonCombineTaxonomies
               combineTaxonomies={combineTaxonomies}
-              onChangeTaxonomienZusammenfassen={onChangeTaxonomienZusammenfassen} />
+              onChangeCombineTaxonomies={onChangeCombineTaxonomies} />
         </div>
       </Well>
     )

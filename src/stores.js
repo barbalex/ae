@@ -25,6 +25,7 @@ import buildRcFirstLevel from './modules/buildRcFirstLevel.js'
 import getFieldsForGroupsToExportByCollectionType from './modules/getFieldsForGroupsToExportByCollectionType.js'
 import filterCollections from './components/main/export/panel4/filterCollections.js'
 import addCollectionsOfSynonyms from './components/main/export/panel4/addCollectionsOfSynonyms.js'
+import buildExportObjects from './components/main/export/panel4/buildExportObjects.js'
 
 export default (Actions) => {
   app.exportDataStore = Reflux.createStore({
@@ -65,13 +66,14 @@ export default (Actions) => {
           console.log('objects filtered', objects)
 
           // TODO: build fields
+          const exportObjects = buildExportObjects(exportOptions, objects)
 
-          // const errorBuildingExportData = null
-          // this.trigger({ exportData, errorBuildingExportData })
+          const errorBuildingExportData = null
+          this.trigger({ exportObjects, errorBuildingExportData })
         })
         .catch((errorBuildingExportData) => {
-          const exportData = []
-          this.trigger({ exportData, errorBuildingExportData })
+          const exportObjects = []
+          this.trigger({ exportObjects, errorBuildingExportData })
         })
     }
 

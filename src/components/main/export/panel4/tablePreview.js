@@ -8,33 +8,30 @@ export default React.createClass({
   displayName: 'TablePreview',
 
   propTypes: {
-    exportData: React.PropTypes.array
+    exportObjects: React.PropTypes.array
   },
 
   render () {
-    const { exportData } = this.props
+    const { exportObjects } = this.props
     const legendStyle = { marginBottom: 2 + 'px', paddingLeft: 5 + 'px' }
     const tablePreviewStyle = { marginTop: 10 + 'px' }
     let legend = ''
 
-    if (exportData.length > 10) {
-      legend = 'Vorschau der ersten 10 von ' + exportData.length + ' Datensätzen:'
-    } else if (exportData.length > 1) {
-      legend = 'Vorschau der ' + exportData.length + ' Datensätze:'
-    } else if (exportData.length === 1) {
-      legend = 'Vorschau der ' + exportData.length + ' Datensätze:'
+    if (exportObjects.length > 10) {
+      legend = 'Vorschau der ersten 10 von ' + exportObjects.length + ' Datensätzen:'
+    } else if (exportObjects.length > 1) {
+      legend = 'Vorschau der ' + exportObjects.length + ' Datensätze:'
+    } else if (exportObjects.length === 1) {
+      legend = 'Vorschau der ' + exportObjects.length + ' Datensätze:'
     } else {
       legend = 'Vorschau:'
     }
 
     // get a list of all keys
-    let keys = []
-    exportData.forEach((pc) => {
-      keys = _.union(keys, _.keys(pc))
-    })
+    const keys = Object.keys(exportObjects)
 
     const thead = keys.map((key, index) => <th key={index}>{key}</th>)
-    const tbody = exportData.map((pc, index) => {
+    const tbody = exportObjects.map((pc, index) => {
       // need only the first 10
       if (index < 10) {
         const rows = keys.map((key) => {

@@ -8,12 +8,12 @@ export default React.createClass({
 
   propTypes: {
     combineTaxonomies: React.PropTypes.bool,
-    onChangeTaxonomienZusammenfassen: React.PropTypes.func
+    onChangeCombineTaxonomies: React.PropTypes.func
   },
 
   onClick () {
-    const { onChangeTaxonomienZusammenfassen, combineTaxonomies } = this.props
-    onChangeTaxonomienZusammenfassen(!combineTaxonomies)
+    const { onChangeCombineTaxonomies, combineTaxonomies } = this.props
+    onChangeCombineTaxonomies(!combineTaxonomies)
   },
 
   render () {

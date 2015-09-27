@@ -20,7 +20,7 @@ export default React.createClass({
     combineTaxonomies: React.PropTypes.bool,
     format: React.PropTypes.string,
     onChangeFormat: React.PropTypes.func,
-    exportData: React.PropTypes.array,
+    exportObjects: React.PropTypes.array,
     errorBuildingExportData: React.PropTypes.object
   },
 
@@ -32,8 +32,8 @@ export default React.createClass({
   },
 
   render () {
-    const { exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, oneRowPerRelation, combineTaxonomies, format, onChangeFormat, exportData, errorBuildingExportData } = this.props
-    const showAlertBuildingData = exportData.length === 0 && !errorBuildingExportData
+    const { exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, oneRowPerRelation, combineTaxonomies, format, onChangeFormat, exportObjects, errorBuildingExportData } = this.props
+    const showAlertBuildingData = exportObjects.length === 0 && !errorBuildingExportData
 
     return (
       <div>
@@ -47,9 +47,9 @@ export default React.createClass({
         <WellFormat
           format={format}
           onChangeFormat={onChangeFormat} />
-        {exportData.length > 0 ?
+        {exportObjects.length > 0 ?
           <TablePreview
-            exportData={exportData} />
+            exportObjects={exportObjects} />
           : null
         }
         {showAlertBuildingData ?
