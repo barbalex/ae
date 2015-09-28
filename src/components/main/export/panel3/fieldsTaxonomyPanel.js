@@ -18,7 +18,7 @@ export default React.createClass({
 
   onChooseField (cName, fName, event) {
     const { onChooseField } = this.props
-    onChooseField(cName, fName, event)
+    onChooseField(cName, fName, 'taxonomy', event)
   },
 
   onChooseAllOfCollection (cName, event) {
@@ -56,7 +56,7 @@ export default React.createClass({
             type='checkbox'
             label='alle'
             checked={checked}
-            onChange={this.onChooseAllOfCollection.bind(this, cNameKey)} />
+            onChange={this.onChooseAllOfCollection.bind(this, cNameKey, 'taxonomy')} />
         </div>
       )
     }

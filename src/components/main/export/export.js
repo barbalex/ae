@@ -248,10 +248,10 @@ export default React.createClass({
     const typePath = `${cName}.cType`
     _.set(exportOptions, typePath, cType)
     this.setState({ exportOptions })
-    console.log('exportOptions', exportOptions)
+    console.log('export.js, onChangeFilterField, exportOptions', exportOptions)
   },
 
-  onChooseAllOfCollection (pcType, cName, event) {
+  onChooseAllOfCollection (pcType, cName, cType, event) {
     let { exportOptions, collectionsWithAllChoosen } = this.state
     const { maxNumberOfFieldsToChoose } = this.state
     const { taxonomyFields, pcFields, relationFields } = this.props
@@ -273,6 +273,8 @@ export default React.createClass({
       Object.keys(cNameObject).forEach((fName) => {
         const valuePath = `${cName}.${fName}.export`
         _.set(exportOptions, valuePath, choosen)
+        const typePath = `${cName}.cType`
+        _.set(exportOptions, typePath, cType)
       })
       Object.assign(state, { exportOptions })
       if (choosen === false) {
@@ -287,7 +289,7 @@ export default React.createClass({
     // console.log('exportOptions', exportOptions)
   },
 
-  onChooseField (cName, fName, event) {
+  onChooseField (cName, fName, cType, event) {
     let { exportOptions, collectionsWithAllChoosen } = this.state
     const { maxNumberOfFieldsToChoose } = this.state
     let choosen = event.target.checked
@@ -300,6 +302,8 @@ export default React.createClass({
     } else {
       const valuePath = `${cName}.${fName}.export`
       _.set(exportOptions, valuePath, choosen)
+      const typePath = `${cName}.cType`
+      _.set(exportOptions, typePath, cType)
       Object.assign(state, { exportOptions })
       if (choosen === false && _.includes(collectionsWithAllChoosen, cName)) {
         collectionsWithAllChoosen = _.without(collectionsWithAllChoosen, cName)

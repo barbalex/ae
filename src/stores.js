@@ -44,6 +44,7 @@ export default (Actions) => {
       app.objectStore.getItems()
         .then((objects) => {
           // console.log('objects.length', objects.length)
+          console.log('exportDataStore, onBuildExportData: exportOptions', exportOptions)
           const originalObjects = _.clone(objects)
 
           // 1. filter ids

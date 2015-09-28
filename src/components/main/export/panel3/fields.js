@@ -49,7 +49,7 @@ export default React.createClass({
 
   onChangeMyExportData (cName, fName, event) {
     const { onChooseField } = this.props
-    onChooseField(cName, fName, event)
+    onChooseField(cName, fName, 'cType', event)
   },
 
   render () {

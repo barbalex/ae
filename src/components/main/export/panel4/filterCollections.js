@@ -59,7 +59,7 @@ export default (exportOptions, objects, combineTaxonomies) => {
       })
     }
   })
-  console.log('filterCollections.js: objects before combineTaxonomies', objects)
+  // console.log('filterCollections.js: objects before combineTaxonomies', objects)
   if (combineTaxonomies) {
     /**
      * exportOptions does not contain cNames of the taxonomies
@@ -86,6 +86,6 @@ export default (exportOptions, objects, combineTaxonomies) => {
       }
     })
   }
-  console.log('filterCollections.js: objects to return', objects)
+  // console.log('filterCollections.js: objects to return', objects)
   return objects
 }

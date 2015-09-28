@@ -9,6 +9,26 @@
 
 import _ from 'lodash'
 
+function getValueOfField (object, cType, cName, fName) {
+  let cTypeName
+  switch (cType) {
+  case 'taxonomy':
+    cTypeName = 'Taxonomien'
+    break
+  case 'pc':
+    cTypeName = 'Eigenschaftensammlungen'
+    break
+  case 'rc':
+    cTypeName = 'Beziehungssammlungen'
+    break
+  default:
+    return null
+  }
+  const collection = _.find(object[cTypeName], (c) => c.Name === cName)
+  if (collection) return collection.Eigenschaften[fName]
+  return null
+}
+
 export default (exportOptions, objects, combineTaxonomies) => {
   let exportObjects = []
   objects.forEach((object) => {
@@ -31,15 +51,19 @@ export default (exportOptions, objects, combineTaxonomies) => {
         // TODO: deal with combineTaxonomies
         Object.keys(exportOptions[cName]).forEach((fName) => {
           if (_.get(exportOptions, `${cName}.${fName}.export`)) {
-            const value = _.get(exportOptions, `${cName}.${fName}.value`, null)
+            /**
+             * get value of this field in object
+             */
+            const value = getValueOfField(object, cType, cName, fName)
             const key = `${cName}: ${fName}`
             exportObject[key] = value
           }
         })
       }
     })
-    console.log('exportObject', exportObject)
+    console.log('buildExportObjects.js: exportObject', exportObject)
     exportObjects.push(exportObject)
   })
+  console.log('buildExportObjects.js: exportObjects', exportObjects)
   return exportObjects
 }
