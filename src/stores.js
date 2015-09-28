@@ -44,7 +44,7 @@ export default (Actions) => {
       app.objectStore.getItems()
         .then((objects) => {
           // console.log('objects.length', objects.length)
-          console.log('exportDataStore, onBuildExportData: exportOptions', exportOptions)
+          // console.log('exportDataStore, onBuildExportData: exportOptions', exportOptions)
           const originalObjects = _.clone(objects)
 
           // 1. filter ids
@@ -67,7 +67,7 @@ export default (Actions) => {
 
           // TODO: build fields
           const exportObjects = buildExportObjects(exportOptions, objects, combineTaxonomies)
-          console.log('exportDataStore, onBuildExportData: exportObjects', exportObjects)
+          // console.log('exportDataStore, onBuildExportData: exportObjects', exportObjects)
 
           const errorBuildingExportData = null
           this.trigger({ exportObjects, errorBuildingExportData })
