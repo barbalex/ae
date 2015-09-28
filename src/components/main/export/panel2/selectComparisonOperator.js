@@ -9,7 +9,8 @@ export default React.createClass({
   propTypes: {
     cNameKey: React.PropTypes.string,
     fNameKey: React.PropTypes.string,
-    onChangeCoSelect: React.PropTypes.func
+    onChangeCoSelect: React.PropTypes.func,
+    value: React.PropTypes.string
   },
 
   onChange (cName, fName, event) {
@@ -18,7 +19,7 @@ export default React.createClass({
   },
 
   render () {
-    const { cNameKey, fNameKey } = this.props
+    const { cNameKey, fNameKey, value } = this.props
     const coSelectStyle = {
       width: 45,
       paddingLeft: 3,
@@ -28,11 +29,11 @@ export default React.createClass({
     }
 
     return (
-      <Input bsSize='small' type='select' style={coSelectStyle} onChange={this.onChange.bind(this, cNameKey, fNameKey)}>
-        <option value=''></option>
+      <Input bsSize='small' type='select' style={coSelectStyle} value={value} onChange={this.onChange.bind(this, cNameKey, fNameKey)}>
+        <option value={null}></option>
         <option value='='>&#61;</option>
         <option value='>'>&#62;</option>
-        <option value='>='>&#61;&#62;</option>
+        <option value='>='>&#62;&#61;</option>
         <option value='<'>&#60;</option>
         <option value='<='>&#60;&#61;</option>
       </Input>

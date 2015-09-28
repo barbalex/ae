@@ -13,6 +13,7 @@ export default React.createClass({
     onChangeFilterField: React.PropTypes.func,
     onChangeCoSelect: React.PropTypes.func,
     pcs: React.PropTypes.array,
+    exportOptions: React.PropTypes.object,
     activePanel: React.PropTypes.number
   },
 
@@ -47,7 +48,7 @@ export default React.createClass({
   },
 
   render () {
-    const { pcFields, onChangeCoSelect, pcs, onChangeFilterField } = this.props
+    const { pcFields, onChangeCoSelect, pcs, exportOptions, onChangeFilterField } = this.props
     const { activePanel } = this.state
     // open panel if there is only one
     const numberOfCollections = Object.keys(pcFields).length
@@ -64,6 +65,7 @@ export default React.createClass({
             <FieldsPCsPanel
               cNameKey={cNameKey}
               pcs={pcs}
+              exportOptions={exportOptions}
               pcFields={pcFields}
               onChangeFilterField={onChangeFilterField}
               onChangeCoSelect={onChangeCoSelect} />

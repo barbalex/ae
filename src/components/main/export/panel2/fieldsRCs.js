@@ -13,6 +13,7 @@ export default React.createClass({
     onChangeFilterField: React.PropTypes.func,
     onChangeCoSelect: React.PropTypes.func,
     rcs: React.PropTypes.array,
+    exportOptions: React.PropTypes.object,
     activePanel: React.PropTypes.number
   },
 
@@ -47,7 +48,7 @@ export default React.createClass({
   },
 
   render () {
-    const { relationFields, onChangeCoSelect, rcs, onChangeFilterField } = this.props
+    const { relationFields, onChangeCoSelect, rcs, exportOptions, onChangeFilterField } = this.props
     const { activePanel } = this.state
     // open panel if there is only one
     const numberOfCollections = Object.keys(relationFields).length
@@ -66,7 +67,8 @@ export default React.createClass({
               relationFields={relationFields}
               onChangeFilterField={onChangeFilterField}
               onChangeCoSelect={onChangeCoSelect}
-              rcs={rcs} />
+              rcs={rcs}
+              exportOptions={exportOptions} />
             : null
           }
         </Panel>

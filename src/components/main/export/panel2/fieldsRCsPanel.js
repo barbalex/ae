@@ -13,25 +13,28 @@ export default React.createClass({
   propTypes: {
     cNameKey: React.PropTypes.string,
     relationFields: React.PropTypes.object,
+    exportOptions: React.PropTypes.object,
     onChangeFilterField: React.PropTypes.func,
     onChangeCoSelect: React.PropTypes.func,
     rcs: React.PropTypes.array
   },
 
-  onBlur (cName, fName, event) {
+  onChange (cName, fName, event) {
     const { onChangeFilterField } = this.props
     onChangeFilterField(cName, fName, 'rc', event)
   },
 
   render () {
-    const { relationFields, onChangeCoSelect, rcs, cNameKey } = this.props
+    const { relationFields, onChangeCoSelect, rcs, exportOptions, cNameKey } = this.props
     const cNameObject = relationFields[cNameKey]
     const rc = _.find(rcs, (rc) => rc.name === cNameKey)
     const fieldsSorted = _.sortBy(Object.keys(cNameObject), (fNameKey) => fNameKey.toLowerCase())
     const fields = fieldsSorted.map((fNameKey) => {
       const fieldKey = fNameKey.toLowerCase()
       const fNameObject = cNameObject[fNameKey]
-      const selectComparisonOperator = <SelectComparisonOperator cNameKey={cNameKey} fNameKey={fNameKey} onChangeCoSelect={onChangeCoSelect} />
+      const value = _.get(exportOptions, `${cNameKey}.${fNameKey}.value`, null)
+      const co = _.get(exportOptions, `${cNameKey}.${fNameKey}.co`, null)
+      const selectComparisonOperator = <SelectComparisonOperator cNameKey={cNameKey} fNameKey={fNameKey} value={co} onChangeCoSelect={onChangeCoSelect} />
       const buttonAfter = <InfoButtonAfter fNameObject={fNameObject} />
       if (fNameObject.fType !== 'boolean') {
         return (
@@ -41,7 +44,8 @@ export default React.createClass({
             label={fNameKey}
             bsSize='small'
             className={'controls'}
-            onBlur={this.onBlur.bind(this, cNameKey, fNameKey)}
+            value={value}
+            onChange={this.onChange.bind(this, cNameKey, fNameKey)}
             buttonBefore={selectComparisonOperator}
             buttonAfter={buttonAfter} />
         )
@@ -53,7 +57,8 @@ export default React.createClass({
           label={fNameKey}
           bsSize='small'
           className={'controls'}
-          onBlur={this.onBlur.bind(this, cNameKey, fNameKey)}
+          value={value}
+          onChange={this.onChange.bind(this, cNameKey, fNameKey)}
           buttonAfter={buttonAfter} >
           <option value=''></option>
           <option value='true'>ja</option>

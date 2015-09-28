@@ -213,7 +213,8 @@ export default React.createClass({
     if (!checked) exportOptions.object.Gruppen.value = _.without(exportOptions.object.Gruppen.value, group)
     const panel1Done = exportOptions.object.Gruppen.value.length > 0
     const panel2Done = exportOptions.object.Gruppen.value.length > 0
-    this.setState({ exportOptions, panel1Done, panel2Done })
+    const exportObjects = []
+    this.setState({ exportObjects, exportOptions, panel1Done, panel2Done })
     app.Actions.queryFields(exportOptions.object.Gruppen.value, group, combineTaxonomies, offlineIndexes)
     // console.log('exportOptions', exportOptions)
   },
@@ -222,7 +223,8 @@ export default React.createClass({
     const { exportOptions } = this.state
     const { offlineIndexes } = this.props
     const group = null
-    this.setState({ combineTaxonomies })
+    const exportObjects = []
+    this.setState({ exportObjects, combineTaxonomies })
     // recalculate taxonomyFields
     const groupsToExport = exportOptions.object.Gruppen.value
     app.Actions.queryFields(groupsToExport, group, combineTaxonomies, offlineIndexes)
@@ -233,6 +235,8 @@ export default React.createClass({
     const co = event.target.value
     const coPath = `${cName}.${fName}.co`
     _.set(exportOptions, coPath, co)
+    const exportObjects = []
+    this.setState({ exportObjects, exportOptions })
     // console.log('exportOptions', exportOptions)
   },
 
@@ -247,7 +251,8 @@ export default React.createClass({
     _.set(exportOptions, valuePath, value)
     const typePath = `${cName}.cType`
     _.set(exportOptions, typePath, cType)
-    this.setState({ exportOptions })
+    const exportObjects = []
+    this.setState({ exportObjects, exportOptions })
     console.log('export.js, onChangeFilterField, exportOptions', exportOptions)
   },
 
@@ -256,7 +261,9 @@ export default React.createClass({
     const { maxNumberOfFieldsToChoose } = this.state
     const { taxonomyFields, pcFields, relationFields } = this.props
     const choosen = event.target.checked
-    let state = {}
+    // set exportObjects back
+    const exportObjects = []
+    let state = { exportObjects }
     let fields = taxonomyFields
     if (pcType === 'pc') fields = pcFields
     if (pcType === 'rc') fields = relationFields
@@ -293,7 +300,9 @@ export default React.createClass({
     let { exportOptions, collectionsWithAllChoosen } = this.state
     const { maxNumberOfFieldsToChoose } = this.state
     let choosen = event.target.checked
-    let state = {}
+    // set exportObjects back
+    const exportObjects = []
+    let state = { exportObjects }
     const numberOfFieldsChoosen = this.fieldsChoosen().length + 1
     if (choosen && numberOfFieldsChoosen > maxNumberOfFieldsToChoose) {
       event.preventDefault()
@@ -335,16 +344,19 @@ export default React.createClass({
 
   onChangeOnlyObjectsWithCollectionData (event) {
     const onlyObjectsWithCollectionData = event.target.checked
-    this.setState({ onlyObjectsWithCollectionData })
+    const exportObjects = []
+    this.setState({ exportObjects, onlyObjectsWithCollectionData })
   },
 
   onChangeIncludeDataFromSynonyms (event) {
     const includeDataFromSynonyms = event.target.checked
-    this.setState({ includeDataFromSynonyms })
+    const exportObjects = []
+    this.setState({ exportObjects, includeDataFromSynonyms })
   },
 
   onChangeOneRowPerRelation (oneRowPerRelation) {
-    this.setState({ oneRowPerRelation })
+    const exportObjects = []
+    this.setState({ exportObjects, oneRowPerRelation })
   },
 
   onChangeFormat (format) {
@@ -394,6 +406,7 @@ export default React.createClass({
                 groupsLoadedOrLoading={groupsLoadedOrLoading}
                 pcs={pcs}
                 rcs={rcs}
+                exportOptions={exportOptions}
                 onChangeFilterField={this.onChangeFilterField}
                 onChangeCoSelect={this.onChangeCoSelect} />
               : null

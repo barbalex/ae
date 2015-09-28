@@ -10,6 +10,7 @@ export default React.createClass({
 
   propTypes: {
     taxonomyFields: React.PropTypes.object,
+    exportOptions: React.PropTypes.object,
     onChangeFilterField: React.PropTypes.func,
     onChangeCoSelect: React.PropTypes.func,
     activePanel: React.PropTypes.number
@@ -48,7 +49,7 @@ export default React.createClass({
   },
 
   render () {
-    const { taxonomyFields, onChangeCoSelect, onChangeFilterField } = this.props
+    const { taxonomyFields, exportOptions, onChangeCoSelect, onChangeFilterField } = this.props
     const { activePanel } = this.state
     // open panel if there is only one
     const numberOfCollections = Object.keys(taxonomyFields).length
@@ -64,6 +65,7 @@ export default React.createClass({
             <FieldsTaxonomyPanel
               cNameKey={cNameKey}
               taxonomyFields={taxonomyFields}
+              exportOptions={exportOptions}
               onChangeCoSelect={onChangeCoSelect}
               onChangeFilterField={onChangeFilterField} />
             : null

@@ -16,12 +16,13 @@ export default React.createClass({
     groupsLoadedOrLoading: React.PropTypes.array,
     pcs: React.PropTypes.array,
     rcs: React.PropTypes.array,
+    exportOptions: React.PropTypes.object,
     onChangeFilterField: React.PropTypes.func,
     onChangeCoSelect: React.PropTypes.func
   },
 
   render () {
-    const { groupsLoadedOrLoading, groupsLoadingObjects, taxonomyFields, pcFields, relationFields, pcs, rcs, onChangeFilterField, onChangeCoSelect } = this.props
+    const { groupsLoadedOrLoading, groupsLoadingObjects, taxonomyFields, pcFields, relationFields, pcs, rcs, exportOptions, onChangeFilterField, onChangeCoSelect } = this.props
     const showFields = Object.keys(taxonomyFields).length > 0 || Object.keys(pcFields).length > 0 || Object.keys(relationFields).length > 0
 
     return (
@@ -35,6 +36,7 @@ export default React.createClass({
             pcs={pcs}
             relationFields={relationFields}
             rcs={rcs}
+            exportOptions={exportOptions}
             groupsLoadedOrLoading={groupsLoadedOrLoading}
             groupsLoadingObjects={groupsLoadingObjects}
             onChangeFilterField={onChangeFilterField}
