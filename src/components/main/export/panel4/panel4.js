@@ -8,6 +8,7 @@ import WellFormat from './wellFormat.js'
 import TablePreview from './tablePreview.js'
 import AlertErrorBuildingExportData from './alertErrorBuildingExportData.js'
 import AlertBuildingExportData from './alertBuildingExportData.js'
+import ButtonExport from './buttonExport.js'
 
 export default React.createClass({
   displayName: 'Panel4',
@@ -34,6 +35,7 @@ export default React.createClass({
   render () {
     const { exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, oneRowPerRelation, combineTaxonomies, format, onChangeFormat, exportObjects, errorBuildingExportData } = this.props
     const showAlertBuildingData = exportObjects.length === 0 && !errorBuildingExportData
+    const showExportComponents = exportObjects.length > 0
 
     return (
       <div>
@@ -58,9 +60,18 @@ export default React.createClass({
             errorBuildingExportData={errorBuildingExportData} />
           : null
         }
-        <WellFormat
-          format={format}
-          onChangeFormat={onChangeFormat} />
+        {showExportComponents ?
+          <WellFormat
+            format={format}
+            onChangeFormat={onChangeFormat} />
+          : null
+        }
+        {showExportComponents ?
+          <ButtonExport
+            exportObjects={exportObjects}
+            format={format} />
+          : null
+        }
       </div>
     )
   }
