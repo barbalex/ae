@@ -54,6 +54,7 @@
 - Daten laden
 - Daten anzeigen
 - Daten suchen
+- Daten exportieren
 - Öffnet man die Anwendung beim ersten Besuch direkt mit einem Art-Link [(Beispiel)](http://erfassen.ch/Moose/Musci%20Laubmoose/Buxbaumiaceae/Buxbaumia/Buxbaumia%20aphylla%20Hedw?id=6B7B1CC6-7505-4D79-8E24-F43E464EDB48), lädt sie die Art von der zentralen Datenbank, zeigt sie an und lädt anschliessend die entsprechende Gruppe nach.<br/>So sieht man die Art rasch. Sobald die Gruppe fertig geladen ist, wird der Strukturbaum aufgebaut.<br/>Beim nächsten Aufruf einer Art aus dieser Gruppe, wird die Art von der lokalen Datenbank geholt
 - Bilder auf Google suchen
 - Wikipedia Artikel suchen
@@ -63,8 +64,8 @@
   Es wäre einfach, nach jedem Import automatisch zu replizieren. Aber so wie es jetzt realisiert ist, kann jemand eigene Daten importieren, ohne sie mit [arteigenschaften.ch](http://arteigenschaften.ch) zu teilen. Das kann in Einzelfällen auch ein Vorteil sein
 - Aktuelle Daten von der zentralen Datenbank (jetzt [erfassen.ch](http://erfassen.ch)) replizieren.<br/>
   Es wäre einfach, bei jedem Start der Anwendung von der zentralen Datenbank zu replizieren, wenn der Benutzer bereits alle Gruppen geladen hat. Das wäre vermutlich sinnvoll
-- Vor allem bei Im- und Exporten werden Informationen und Rückmeldungen verbessert
-- Die Anwendung passt sich an den Handy-Bildschirm an - und läuft auf meinem zugegeben Nexus 6 recht schön (allerdings auf WLAN getestet)
+- Vor allem bei Importen und Exporten werden Informationen und Rückmeldungen verbessert
+- Die Anwendung passt sich an den Handy-Bildschirm an - und läuft auf meinem Nexus 6 recht schön (allerdings auf WLAN getestet)
 - Jede Hierarchiestufe hat ihre eigene verlinkbare URL
 - Links sind aussagekräftig, wenn auch nicht besonders lesbar, weil Leerzeichen in der URL von Browsern mit "%20" dargestellt werden
 - Wo möglich wird bei langsamen Vorgängen der Fortschritt angezeigt, z.B. beim Laden von Gruppen.<br/>Leider ist das nicht immer möglich, z.B. wenn Indizes gebaut werden
@@ -74,8 +75,8 @@ Test-Login: User "z@z.ch", Passwort "z".
 
 ####To Do
 
-- Exportieren
 - Organisationen und Benutzer
+- Testen
 - Auf dem Internet Explorer zum Laufen bringen
 
 Die Anwendung wird auf Google Chrome entwickelt. Auf Firefox und Edge ist sie erst rudimentär getestet. Auf dem Internet Explorer läuft sie noch nicht. Die verwendeten Technologien sollten ab IE9 funktionieren (mit ein paar Ausnahmen, die es aber heute schon gibt). Unsicher ist aber, ob der IE9 leistungsfähig genug ist.
