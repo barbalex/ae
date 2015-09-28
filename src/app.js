@@ -49,37 +49,32 @@ app.extend({
     // initiate localGroupsDb if necessary
     // putIfNotExists is a method added by pouchdbUpsert
     .then(() => this.localGroupsDb.putIfNotExists({
-        _id: 'groups',
-        groupsLoaded: []
-      })
-    )
+      _id: 'groups',
+      groupsLoaded: []
+    }))
     // initiate login data if necessary
     // by adding a local document to pouch
     // local documents are not replicated
     .then(() => this.localDb.putIfNotExists({
-        _id: '_local/login',
-        logIn: false,
-        email: null
-      })
-    )
+      _id: '_local/login',
+      logIn: false,
+      email: null
+    }))
     // initiate pcs data if necessary
     .then(() => this.localDb.putIfNotExists({
-        _id: '_local/pcs',
-        pcs: []
-      })
-    )
+      _id: '_local/pcs',
+      pcs: []
+    }))
     // initiate rcs data if necessary
     .then(() => this.localDb.putIfNotExists({
-        _id: '_local/rcs',
-        rcs: []
-      })
-    )
+      _id: '_local/rcs',
+      rcs: []
+    }))
     // initiate fields data if necessary
     .then(() => this.localDb.putIfNotExists({
-        _id: '_local/fields',
-        fields: []
-      })
-    )
+      _id: '_local/fields',
+      fields: []
+    }))
     .then(() => {
       // initiate actions, stores and router
       // extend app with them so they can be called in modules
