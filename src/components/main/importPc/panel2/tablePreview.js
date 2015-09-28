@@ -54,14 +54,22 @@ export default React.createClass({
     return (
       <div style={tablePreviewStyle}>
         <p style={legendStyle}>{legend}</p>
-        <Table responsive bordered striped condensed hover>
-          <thead>
-            {thead}
-          </thead>
-          <tbody>
-            {tbody}
-          </tbody>
-        </Table>
+        {
+        /**
+         * surround table with panel to get rounded corners
+         * source: http://stackoverflow.com/questions/18729638/rounded-tables-in-twitter-bootstrap-3
+         */
+        }
+        <div className='panel panel-default' style={{backgroundColor: '#fffff0'}}>
+          <Table responsive bordered striped condensed hover>
+            <thead>
+              {thead}
+            </thead>
+            <tbody>
+              {tbody}
+            </tbody>
+          </Table>
+        </div>
       </div>
     )
   }

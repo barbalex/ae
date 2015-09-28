@@ -12,8 +12,14 @@ export default React.createClass({
 
   render () {
     const { exportObjects } = this.props
-    const legendStyle = { marginBottom: 2 + 'px', paddingLeft: 5 + 'px' }
-    const tablePreviewStyle = { marginTop: 10 + 'px' }
+    const legendStyle = {
+      marginBottom: 2,
+      paddingLeft: 5
+    }
+    const tablePreviewStyle = {
+      marginTop: 10,
+      marginBottom: 10
+    }
     let legend = ''
 
     if (exportObjects.length > 10) {
@@ -50,14 +56,22 @@ export default React.createClass({
     return (
       <div style={tablePreviewStyle}>
         <p style={legendStyle}>{legend}</p>
-        <Table responsive bordered striped condensed hover>
-          <thead>
-            {thead}
-          </thead>
-          <tbody>
-            {tbody}
-          </tbody>
-        </Table>
+        {
+        /**
+         * surround table with panel to get rounded corners
+         * source: http://stackoverflow.com/questions/18729638/rounded-tables-in-twitter-bootstrap-3
+         */
+        }
+        <div className='panel panel-default' style={{backgroundColor: '#fffff0'}}>
+          <Table responsive bordered striped condensed hover style={{borderRadius: 3}}>
+            <thead>
+              {thead}
+            </thead>
+            <tbody>
+              {tbody}
+            </tbody>
+          </Table>
+        </div>
       </div>
     )
   }
