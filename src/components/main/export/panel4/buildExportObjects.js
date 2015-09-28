@@ -61,9 +61,8 @@ export default (exportOptions, objects, combineTaxonomies) => {
         })
       }
     })
-    console.log('buildExportObjects.js: exportObject', exportObject)
     exportObjects.push(exportObject)
   })
-  console.log('buildExportObjects.js: exportObjects', exportObjects)
+  // console.log('buildExportObjects.js: exportObjects', exportObjects)
   return exportObjects
 }

@@ -64,10 +64,10 @@ export default (Actions) => {
           // 4. filter for each taxonomy, pc or rc value choosen
           // combines taxonomies if applicable
           objects = filterCollections(exportOptions, objects, combineTaxonomies)
-          console.log('exportDataStore, onBuildExportData: objects filtered after filterCollections', objects)
 
           // TODO: build fields
           const exportObjects = buildExportObjects(exportOptions, objects, combineTaxonomies)
+          console.log('exportDataStore, onBuildExportData: exportObjects', exportObjects)
 
           const errorBuildingExportData = null
           this.trigger({ exportObjects, errorBuildingExportData })
