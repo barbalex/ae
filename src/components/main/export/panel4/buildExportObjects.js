@@ -159,9 +159,25 @@ export default (exportOptions, objects, combineTaxonomies, oneRowPerRelation) =>
   })
   // console.log('buildExportObjects.js: exportObjects', exportObjects)
   if (fieldsToAddToAllExportObjects.length > 0) {
-    // TODO: add all these fields to every export object if it does not already exist
+    // add all these fields to every export object if it does not already exist
     // BUT: how get right order?
     // like this: rebuild every export object new
+    let exportObjectFields = _.keys(exportObjects[0])
+    exportObjectFields = _.union(exportObjectFields, fieldsToAddToAllExportObjects)
+    exportObjectFields.sort()
+    // make sure guid is first field
+    exportObjectFields = _.without(exportObjectFields, 'GUID')
+    exportObjectFields.unshift('GUID')
+    // loop exportObjects, build new objects with all fields and add them to exportObjectsWithAllFields
+    let exportObjectsWithAllFields = []
+    exportObjects.forEach((exportObject) => {
+      let newObject = {}
+      exportObjectFields.forEach((field) => {
+        newObject[field] = _.get(exportObject, field, null)
+      })
+      exportObjectsWithAllFields.push(newObject)
+    })
+    exportObjects = exportObjectsWithAllFields
   }
   return exportObjects
 }
