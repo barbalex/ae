@@ -26,6 +26,7 @@ import getFieldsForGroupsToExportByCollectionType from './modules/getFieldsForGr
 import filterCollections from './components/main/export/panel4/filterCollections.js'
 import addCollectionsOfSynonyms from './components/main/export/panel4/addCollectionsOfSynonyms.js'
 import buildExportObjects from './components/main/export/panel4/buildExportObjects.js'
+import removeCollectionsNotFulfilling from './components/main/export/panel4/removeCollectionsNotFulfilling.js'
 
 export default (Actions) => {
   app.exportDataStore = Reflux.createStore({
@@ -63,7 +64,11 @@ export default (Actions) => {
 
           // 4. filter for each taxonomy, pc or rc value choosen
           // combines taxonomies if applicable
-          objects = filterCollections(exportOptions, objects, combineTaxonomies)
+          if (onlyObjectsWithCollectionData) {
+            objects = filterCollections(exportOptions, objects, combineTaxonomies)
+          } else {
+            objects = removeCollectionsNotFulfilling(exportOptions, objects)
+          }
 
           // TODO: build fields
           const exportObjects = buildExportObjects(exportOptions, objects, combineTaxonomies)
