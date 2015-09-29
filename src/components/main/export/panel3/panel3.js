@@ -2,7 +2,6 @@
 
 import React from 'react'
 import WellSoGehts from './wellSoGehts.js'
-import CheckboxOnlyObjectsWithCollectionData from './checkboxOnlyObjectsWithCollectionData.js'
 import CheckboxIncludeDataFromSynonyms from './checkboxIncludeDataFromSynonyms.js'
 import Fields from './fields.js'
 
@@ -16,10 +15,8 @@ export default React.createClass({
     exportOptions: React.PropTypes.object,
     pcs: React.PropTypes.array,
     rcs: React.PropTypes.array,
-    onlyObjectsWithCollectionData: React.PropTypes.bool,
     includeDataFromSynonyms: React.PropTypes.bool,
     onChangeIncludeDataFromSynonyms: React.PropTypes.func,
-    onChangeOnlyObjectsWithCollectionData: React.PropTypes.func,
     onChooseField: React.PropTypes.func,
     onChooseAllOfCollection: React.PropTypes.func,
     collectionsWithAllChoosen: React.PropTypes.array,
@@ -28,14 +25,11 @@ export default React.createClass({
   },
 
   render () {
-    const { taxonomyFields, pcFields, relationFields, pcs, rcs, exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, onChangeIncludeDataFromSynonyms, onChangeOnlyObjectsWithCollectionData, onChooseField, onChooseAllOfCollection, collectionsWithAllChoosen, oneRowPerRelation, onChangeOneRowPerRelation } = this.props
+    const { taxonomyFields, pcFields, relationFields, pcs, rcs, exportOptions, includeDataFromSynonyms, onChangeIncludeDataFromSynonyms, onChooseField, onChooseAllOfCollection, collectionsWithAllChoosen, oneRowPerRelation, onChangeOneRowPerRelation } = this.props
 
     return (
       <div>
         <WellSoGehts />
-        <CheckboxOnlyObjectsWithCollectionData
-          onlyObjectsWithCollectionData={onlyObjectsWithCollectionData}
-          onChangeOnlyObjectsWithCollectionData={onChangeOnlyObjectsWithCollectionData} />
         <CheckboxIncludeDataFromSynonyms
           includeDataFromSynonyms={includeDataFromSynonyms}
           onChangeIncludeDataFromSynonyms={onChangeIncludeDataFromSynonyms} />

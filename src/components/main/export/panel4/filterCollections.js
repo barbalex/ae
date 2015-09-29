@@ -14,7 +14,7 @@ export default (exportOptions, objects, combineTaxonomies) => {
   Object.keys(exportOptions).forEach((cName) => {
     const cType = exportOptions[cName].cType
     /**
-     * skip cName === 'object'. Skip. Was dealt with in stores.js
+     * skip cName === 'object'. Was dealt with in stores.js
      * if cType === 'taxonomy' and combineTaxonomies: skip. Will be dealt with below
      */
     if (cName !== 'object' && !(cType === 'taxonomy' && combineTaxonomies)) {

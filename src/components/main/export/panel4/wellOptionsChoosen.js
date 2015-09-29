@@ -34,12 +34,12 @@ export default React.createClass({
 
   dataFromSynonymsText () {
     const { includeDataFromSynonyms } = this.props
-    return includeDataFromSynonyms ? 'Informationen von Synonymen werden mitgeliefert' : 'Ohne Informationen von Synonymen'
+    return includeDataFromSynonyms ? 'Informationen von Synonymen werden berücksichtigt' : 'Informationen von Synonymen werden ignoriert'
   },
 
   onlyObjectsWithCollectionDataText () {
     const { onlyObjectsWithCollectionData } = this.props
-    return onlyObjectsWithCollectionData ? 'Nur Datensätze exportieren, die in den gewählten Eigenschaften- und Beziehungssammlungen Informationen enthalten' : 'Alle Datensätze der gewählten Gruppe(n) exportieren'
+    return onlyObjectsWithCollectionData ? 'Filterkriterien in Eigenschaften- und Beziehungssammlungen filtern Arten bzw. Lebensräume' : 'Filterkriterien in Eigenschaften- und Beziehungssammlungen filtern Eigenschaften- bzw. Beziehungssammlungen'
   },
 
   oneRowPerRelationText () {

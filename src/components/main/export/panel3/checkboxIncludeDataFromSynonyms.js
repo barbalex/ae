@@ -16,8 +16,8 @@ export default React.createClass({
       top: 5
     }
     const divStyle = {
-      marginTop: 7,
-      marginBottom: 10
+      marginTop: 13,
+      marginBottom: 13
     }
     const labelStyle = {
       float: 'none !important'
@@ -26,8 +26,8 @@ export default React.createClass({
       <div className='checkbox' style={divStyle}>
         <label style={labelStyle}>
           <input type='checkbox' onChange={onChangeIncludeDataFromSynonyms} checked={includeDataFromSynonyms} style={inputStyle} />
-            <strong>inklusive Informationen von Synonymen</strong><br/>
-            Es werden auch Informationen mitgeliefert, die nur bei einem Synonym beschrieben wurden
+            <strong>Informationen von Synonymen berücksichtigen</strong><br/>
+            Informationen von synonymen Arten bzw. Lebensräumen werden wie eigene Informationen behandelt
         </label>
       </div>
     )

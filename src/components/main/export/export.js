@@ -342,8 +342,7 @@ export default React.createClass({
     return fieldsChoosen
   },
 
-  onChangeOnlyObjectsWithCollectionData (event) {
-    const onlyObjectsWithCollectionData = event.target.checked
+  onChangeOnlyObjectsWithCollectionData (onlyObjectsWithCollectionData) {
     const exportObjects = []
     this.setState({ exportObjects, onlyObjectsWithCollectionData })
   },
@@ -407,8 +406,10 @@ export default React.createClass({
                 pcs={pcs}
                 rcs={rcs}
                 exportOptions={exportOptions}
+                onlyObjectsWithCollectionData={onlyObjectsWithCollectionData}
                 onChangeFilterField={this.onChangeFilterField}
-                onChangeCoSelect={this.onChangeCoSelect} />
+                onChangeCoSelect={this.onChangeCoSelect}
+                onChangeOnlyObjectsWithCollectionData={this.onChangeOnlyObjectsWithCollectionData} />
               : null
             }
           </Panel>
@@ -422,12 +423,10 @@ export default React.createClass({
                 exportOptions={exportOptions}
                 pcs={pcs}
                 rcs={rcs}
-                onlyObjectsWithCollectionData={onlyObjectsWithCollectionData}
                 includeDataFromSynonyms={includeDataFromSynonyms}
                 collectionsWithAllChoosen={collectionsWithAllChoosen}
                 oneRowPerRelation={oneRowPerRelation}
                 onChangeIncludeDataFromSynonyms={this.onChangeIncludeDataFromSynonyms}
-                onChangeOnlyObjectsWithCollectionData={this.onChangeOnlyObjectsWithCollectionData}
                 onChooseField={this.onChooseField}
                 onChooseAllOfCollection={this.onChooseAllOfCollection}
                 onChangeOneRowPerRelation={this.onChangeOneRowPerRelation} />
