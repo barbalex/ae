@@ -62,6 +62,7 @@ export default (exportOptions, objects) => {
                       }
                       if (!fulfilled) relations.splice(l, 1)
                     }
+                    // TODO: use while instead of forEach
                     if (relations.length === 0) rc.splice(rcIndex, 1)
                   }
                 })
