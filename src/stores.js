@@ -67,6 +67,7 @@ export default (Actions) => {
           if (onlyObjectsWithCollectionData) {
             objects = filterCollections(exportOptions, objects, combineTaxonomies)
           } else {
+            console.log('exportDataStore will call removeCollectionsNotFulfilling')
             objects = removeCollectionsNotFulfilling(exportOptions, objects)
           }
 
