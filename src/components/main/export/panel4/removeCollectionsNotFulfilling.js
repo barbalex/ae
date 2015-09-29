@@ -49,23 +49,24 @@ export default (exportOptions, objects) => {
               }
               if (cType === 'rc') {
                 console.log('removeCollectionsNotFulfilling.js, cType === rc', cType === 'rc')
-                object.Beziehungssammlungen.forEach((rc, rcIndex) => {
-                  if (rc.Name === cName) {
-                    const relations = rc.Beziehungen
-                    const l = relations.length
-                    while (l--) {
+                const rcs = object.Beziehungssammlungen
+                const rcsIndex = rcs.length
+                while (rcsIndex--) {
+                  if (rcs[rcsIndex].Name === cName) {
+                    const relations = rcs[rcsIndex].Beziehungen
+                    const relIndex = relations.length
+                    while (relIndex--) {
                       let fulfilled = true
-                      if (relations[l][fName] === undefined) {
+                      if (relations[relIndex][fName] === undefined) {
                         fulfilled = false
                       } else {
-                        fulfilled = isFilterFulfilled(relations[l][fName], filterValue, co)
+                        fulfilled = isFilterFulfilled(relations[relIndex][fName], filterValue, co)
                       }
-                      if (!fulfilled) relations.splice(l, 1)
+                      if (!fulfilled) relations.splice(relIndex, 1)
                     }
-                    // TODO: use while instead of forEach
-                    if (relations.length === 0) rc.splice(rcIndex, 1)
+                    if (relations.length === 0) rcs[rcsIndex].splice(rcsIndex, 1)
                   }
-                })
+                }
               }
             })
           }
