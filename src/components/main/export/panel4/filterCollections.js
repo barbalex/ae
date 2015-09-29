@@ -9,6 +9,7 @@
 
 import _ from 'lodash'
 import isFilterFulfilled from './isFilterFulfilled.js'
+import isFilterFulfilledForBeziehungspartner from './isFilterFulfilledForBeziehungspartner.js'
 
 export default (exportOptions, objects, combineTaxonomies) => {
   Object.keys(exportOptions).forEach((cName) => {
@@ -43,9 +44,20 @@ export default (exportOptions, objects, combineTaxonomies) => {
                 const relations = collection.Beziehungen
                 if (relations && relations.length > 0) {
                   let returnFromRelationsLoop = false
-                  relations.forEach((relation) => {
-                    if (isFilterFulfilled(relation[fName], filterValue, co)) {
-                      returnFromRelationsLoop = true
+                  relations.forEach((relation, rIndex) => {
+                    if (fName !== 'Beziehungspartner') {
+                      if (isFilterFulfilled(relation[fName], filterValue, co)) {
+                        returnFromRelationsLoop = true
+                      }
+                    } else {
+                      const rPartnersFulfilling = isFilterFulfilledForBeziehungspartner(relations[rIndex][fName], filterValue, co)
+                      if (rPartnersFulfilling.length > 0) {
+                        // console.log('filterCollections.js, cName', cName)
+                        // console.log('filterCollections.js, fName', fName)
+                        // console.log('filterCollections.js, rPartnersFulfilling', rPartnersFulfilling)
+                        relations[rIndex][fName] = rPartnersFulfilling
+                        returnFromRelationsLoop = true
+                      }
                     }
                   })
                   return returnFromRelationsLoop
@@ -54,6 +66,7 @@ export default (exportOptions, objects, combineTaxonomies) => {
               }
               return false
             })
+            // console.log('filterCollections.js, objects', objects)
           }
         }
       })

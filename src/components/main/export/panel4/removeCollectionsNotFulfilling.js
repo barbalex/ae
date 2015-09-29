@@ -1,7 +1,7 @@
 'use strict'
 
-import _ from 'lodash'
 import isFilterFulfilled from './isFilterFulfilled.js'
+import isFilterFulfilledForBeziehungspartner from './isFilterFulfilledForBeziehungspartner.js'
 
 export default (exportOptions, objects) => {
   // console.log('removeCollectionsNotFulfilling.js, objects.length passed', objects.length)
@@ -37,10 +37,8 @@ export default (exportOptions, objects) => {
               if (cType === 'pc') {
                 object.Eigenschaftensammlungen.forEach((pc, pcIndex) => {
                   if (pc.Name === cName) {
-                    let fulfilled = true
-                    if (pc.Eigenschaften[fName] === undefined) {
-                      fulfilled = false
-                    } else {
+                    let fulfilled = false
+                    if (pc.Eigenschaften[fName] !== undefined) {
                       fulfilled = isFilterFulfilled(pc.Eigenschaften[fName], filterValue, co)
                     }
                     if (!fulfilled) object.Eigenschaftensammlungen.splice(pcIndex, 1)
@@ -48,19 +46,24 @@ export default (exportOptions, objects) => {
                 })
               }
               if (cType === 'rc') {
-                console.log('removeCollectionsNotFulfilling.js, cType === rc', cType === 'rc')
                 const rcs = object.Beziehungssammlungen
-                const rcsIndex = rcs.length
+                let rcsIndex = rcs.length
                 while (rcsIndex--) {
                   if (rcs[rcsIndex].Name === cName) {
                     const relations = rcs[rcsIndex].Beziehungen
-                    const relIndex = relations.length
+                    let relIndex = relations.length
                     while (relIndex--) {
-                      let fulfilled = true
-                      if (relations[relIndex][fName] === undefined) {
-                        fulfilled = false
-                      } else {
-                        fulfilled = isFilterFulfilled(relations[relIndex][fName], filterValue, co)
+                      let fulfilled = false
+                      if (relations[relIndex][fName] !== undefined) {
+                        if (fName !== 'Beziehungspartner') {
+                          fulfilled = isFilterFulfilled(relations[relIndex][fName], filterValue, co)
+                        } else {
+                          const rPartnersFulfilling = isFilterFulfilledForBeziehungspartner(relations[relIndex][fName], filterValue, co)
+                          if (rPartnersFulfilling.length > 0) {
+                            relations[relIndex][fName] = rPartnersFulfilling
+                            fulfilled = true
+                          }
+                        }
                       }
                       if (!fulfilled) relations.splice(relIndex, 1)
                     }
