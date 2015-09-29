@@ -61,35 +61,85 @@ export default (exportOptions, objects, combineTaxonomies, oneRowPerRelation) =>
                 if (relations && relations.length > 0) {
                   /**
                    * next step depends on oneRowPerRelation
-                   * if true: clone exportObject for every relation and:
-                   *   - create field cName: Beziehungspartner
-                   *     contains JSON.stringify of Beziehungspartner
-                   *   - create field cName: Beziehungspartner GUID
-                   *     contains the GUID
-                   *   - create more fields if they exist
-                   *   - in the end: add thes field names to all exportObjects
-                   * if false:
-                   *   - create field cName: Beziehungspartner
-                   *     contains for every relation JSON.stringify(Beziehungspartner)
-                   *   - create field cName: Beziehungspartner GUID's
-                   *     contains an array of the rPartners GUID's
-                   *   - if more fields: create them
-                   *     contain an array of the values of the field
-                   *   - in the end: add thes field names to all exportObjects
                    */
-                  relations.forEach((relation, rIndex) => {
-                    if (fName !== 'Beziehungspartner') {
-                      const value = relation[fName]
-                      const key = `${cName}: ${fName}`
-                      exportObject[key] = value
-                    } else {
-                      // this is Beziehungspartner
-                      // we want to return an array of rPartner objects and an array of GUIDs
-                      const rPartners = relations[rIndex][fName]
-                      const rPartnerObjects = rPartners.map((rPartner) => JSON.stringify(rPartner))
-                      const rPartnerGuids = _.pluck(rPartners, 'GUID')
-                    }
-                  })
+                  if (oneRowPerRelation) {
+                    /**
+                     * if oneRowPerRelation true: clone exportObject for every relation and:
+                     *   - create field 'cName: Beziehungspartner'
+                     *     contains JSON.stringify of Beziehungspartner
+                     *   - create field 'cName: Beziehungspartner GUID'
+                     *     contains the GUID
+                     *   - create more fields if they exist
+                     *   - in the end: add these field names to all exportObjects (fieldsToAddToAllExportObjects)
+                     */
+                    let exportObjectsToAdd = []
+                    relations.forEach((relation) => {
+                      let newExportObject = _.clone(exportObject)
+                      Object.keys(relation).forEach((fName) => {
+                        if (fName !== 'Beziehungspartner') {
+                          const value = relation[fName]
+                          const key = `${cName}: ${fName}`
+                          newExportObject[key] = value
+                        } else {
+                          // this is Beziehungspartner
+                          // add this field later to all export objects
+                          fieldsToAddToAllExportObjects = _.union(fieldsToAddToAllExportObjects, [`${cName}: Beziehungspartner GUID`])
+                          // build Beziehungspartner
+                          const value = JSON.stringify(relation[fName])
+                          const key = `${cName}: ${fName}`
+                          newExportObject[key] = value
+                          // build Beziehungspartner GUID
+                          const value2 = relation[fName].GUID
+                          const key2 = `${cName}: ${fName} GUID`
+                          newExportObject[key2] = value2
+                        }
+                      })
+                      exportObjectsToAdd.push(newExportObject)
+                    })
+                    exportObject = exportObjectsToAdd
+                  } else {
+                    /**
+                     * if false:
+                     *   - create field 'cName: Beziehungspartner'
+                     *     contains for every relation JSON.stringify(Beziehungspartner)
+                     *   - create field 'cName: Beziehungspartner GUID's'
+                     *     contains an array of the rPartners GUID's
+                     *   - if more fields: create them
+                     *     contain an array of the values of the field
+                     *   - in the end: add these field names to all exportObjects (fieldsToAddToAllExportObjects)
+                     */
+                    relations.forEach((relation) => {
+                      if (fName !== 'Beziehungspartner') {
+                        const value = relation[fName]
+                        const key = `${cName}: ${fName}`
+                        if (_.has(exportObject, key)) {
+                          exportObject[key].push(value)
+                        } else {
+                          exportObject[key] = [value]
+                        }
+                      } else {
+                        // this is Beziehungspartner
+                        // we want to return an array of rPartner objects and an array of GUIDs
+                        const rPartners = relation[fName]
+                        // build Beziehungspartner
+                        const value = rPartners.map((rPartner) => JSON.stringify(rPartner))
+                        const key = `${cName}: ${fName}`
+                        if (_.has(exportObject, key)) {
+                          exportObject[key] = _.union(exportObject[key], value)
+                        } else {
+                          exportObject[key] = [value]
+                        }
+                        // build Beziehungspartner GUID
+                        const value2 = _.pluck(rPartners, 'GUID')
+                        const key2 = `${cName}: ${fName} GUIDs`
+                        if (_.has(exportObject, key2)) {
+                          exportObject[key2] = _.union(exportObject[key2], value2)
+                        } else {
+                          exportObject[key2] = [value2]
+                        }
+                      }
+                    })
+                  }
                 }
               }
             }
