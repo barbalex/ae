@@ -71,10 +71,11 @@ export default (Actions) => {
             objects = removeCollectionsNotFulfilling(exportOptions, objects)
           }
 
-          // TODO: build fields
-          const exportObjects = buildExportObjects(exportOptions, objects, combineTaxonomies)
+          // 5. build fields
+          const exportObjects = buildExportObjects(exportOptions, objects, combineTaxonomies, oneRowPerRelation)
           // console.log('exportDataStore, onBuildExportData: exportObjects', exportObjects)
 
+          // 6. tell the view
           const errorBuildingExportData = null
           this.trigger({ exportObjects, errorBuildingExportData })
         })
