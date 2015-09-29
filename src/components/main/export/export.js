@@ -253,7 +253,6 @@ export default React.createClass({
     _.set(exportOptions, typePath, cType)
     const exportObjects = []
     this.setState({ exportObjects, exportOptions })
-    console.log('export.js, onChangeFilterField, exportOptions', exportOptions)
   },
 
   onChooseAllOfCollection (pcType, cName, cType, event) {
