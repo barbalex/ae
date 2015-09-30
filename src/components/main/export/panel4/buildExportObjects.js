@@ -77,19 +77,20 @@ export default (exportOptions, objects, combineTaxonomies, oneRowPerRelation) =>
                       let newExportObject = _.clone(exportObject)
                       Object.keys(relation).forEach((fName) => {
                         if (fName !== 'Beziehungspartner') {
-                          const value = relation[fName]
+                          const value = _.get(relation, fName, null)
                           const key = `${cName}: ${fName}`
                           newExportObject[key] = value
                         } else {
                           // this is Beziehungspartner
                           // add this field later to all export objects
-                          fieldsToAddToAllExportObjects = _.union(fieldsToAddToAllExportObjects, [`${cName}: Beziehungspartner GUID`])
+                          fieldsToAddToAllExportObjects = _.union(fieldsToAddToAllExportObjects, [`${cName}: ${fName} GUID`])
                           // build Beziehungspartner
-                          const value = JSON.stringify(relation[fName])
+                          const rawValue = _.get(relation, fName, null)
+                          const value = rawValue ? JSON.stringify(rawValue) : null
                           const key = `${cName}: ${fName}`
                           newExportObject[key] = value
                           // build Beziehungspartner GUID
-                          const value2 = relation[fName].GUID
+                          const value2 = _.get(relation, `${fName}.GUID`, null)
                           const key2 = `${cName}: ${fName} GUID`
                           newExportObject[key2] = value2
                         }
@@ -110,32 +111,37 @@ export default (exportOptions, objects, combineTaxonomies, oneRowPerRelation) =>
                      */
                     relations.forEach((relation) => {
                       if (fName !== 'Beziehungspartner') {
-                        const value = relation[fName]
+                        const value = _.get(relation, fName, null)
                         const key = `${cName}: ${fName}`
                         if (_.has(exportObject, key)) {
                           exportObject[key].push(value)
                         } else {
+                          // maybe we should check if value is array?
                           exportObject[key] = [value]
                         }
                       } else {
                         // this is Beziehungspartner
+                        // add this field later to all export objects
+                        fieldsToAddToAllExportObjects = _.union(fieldsToAddToAllExportObjects, [`${cName}: ${fName} GUIDs`])
                         // we want to return an array of rPartner objects and an array of GUIDs
-                        const rPartners = relation[fName]
-                        // build Beziehungspartner
-                        const value = rPartners.map((rPartner) => JSON.stringify(rPartner))
-                        const key = `${cName}: ${fName}`
-                        if (_.has(exportObject, key)) {
-                          exportObject[key] = _.union(exportObject[key], value)
-                        } else {
-                          exportObject[key] = [value]
-                        }
-                        // build Beziehungspartner GUID
-                        const value2 = _.pluck(rPartners, 'GUID')
-                        const key2 = `${cName}: ${fName} GUIDs`
-                        if (_.has(exportObject, key2)) {
-                          exportObject[key2] = _.union(exportObject[key2], value2)
-                        } else {
-                          exportObject[key2] = [value2]
+                        const rPartners = _.get(relation, fName, null)
+                        if (rPartners) {
+                          // build Beziehungspartner
+                          const value = rPartners.map((rPartner) => JSON.stringify(rPartner))
+                          const key = `${cName}: ${fName}`
+                          if (_.has(exportObject, key)) {
+                            exportObject[key] = _.union(exportObject[key], value)
+                          } else {
+                            exportObject[key] = value
+                          }
+                          // build Beziehungspartner GUID
+                          const value2 = _.pluck(rPartners, 'GUID')
+                          const key2 = `${cName}: ${fName} GUIDs`
+                          if (_.has(exportObject, key2)) {
+                            exportObject[key2] = _.union(exportObject[key2], value2)
+                          } else {
+                            exportObject[key2] = value2
+                          }
                         }
                       }
                     })
@@ -151,12 +157,14 @@ export default (exportOptions, objects, combineTaxonomies, oneRowPerRelation) =>
      * exportObject can either be a single object
      * or an array of objects (relations, oneRowPerRelation = false)
      */
+    console.log('buildExportObjects.js, exportObject before adding to exportObjects', exportObject)
     if (_.isArray(exportObject)) {
       exportObjects = exportObjects.concat(exportObject)
     } else {
       exportObjects.push(exportObject)
     }
   })
+  console.log('buildExportObjects.js, exportObjects before rebuilding with all fields', exportObjects)
   // console.log('buildExportObjects.js: exportObjects', exportObjects)
   if (fieldsToAddToAllExportObjects.length > 0) {
     // add all these fields to every export object if it does not already exist
@@ -168,6 +176,7 @@ export default (exportOptions, objects, combineTaxonomies, oneRowPerRelation) =>
     // make sure guid is first field
     exportObjectFields = _.without(exportObjectFields, 'GUID')
     exportObjectFields.unshift('GUID')
+    console.log('buildExportObjects.js, exportObjectFields', exportObjectFields)
     // loop exportObjects, build new objects with all fields and add them to exportObjectsWithAllFields
     let exportObjectsWithAllFields = []
     exportObjects.forEach((exportObject) => {
@@ -178,6 +187,7 @@ export default (exportOptions, objects, combineTaxonomies, oneRowPerRelation) =>
       exportObjectsWithAllFields.push(newObject)
     })
     exportObjects = exportObjectsWithAllFields
+    console.log('buildExportObjects.js, exportObjects after rebuilding with all fields', exportObjects)
   }
   return exportObjects
 }
