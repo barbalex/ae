@@ -11,7 +11,7 @@ import _ from 'lodash'
 import isFilterFulfilled from './isFilterFulfilled.js'
 import isFilterFulfilledForBeziehungspartner from './isFilterFulfilledForBeziehungspartner.js'
 
-export default (exportOptions, objects, combineTaxonomies) => {
+export default (exportOptions, objects, combineTaxonomies, onlyObjectsWithCollectionData) => {
   Object.keys(exportOptions).forEach((cName) => {
     const cType = exportOptions[cName].cType
     /**
@@ -33,22 +33,31 @@ export default (exportOptions, objects, combineTaxonomies) => {
             objects = _.filter(objects, (object) => {
               // find collection with this name
               let collections = []
-              if (cType === 'taxonomy' && !combineTaxonomies) collections = object.Taxonomien
               if (cType === 'pc') collections = object.Eigenschaftensammlungen
               if (cType === 'rc') collections = object.Beziehungssammlungen
-              const collection = _.find(collections, (c) => c.Name === cName)
+              let collection = _.find(collections, (c) => c.Name === cName)
+              if (cType === 'taxonomy' && !combineTaxonomies) {
+                collections = object.Taxonomien
+                // TODO: later loop all taxonomies and return if any fulfills
+                collection = object.Taxonomien[0]
+              }
               if (collection) {
                 // if taxonomy or pc, check directly
-                if (cType !== 'rc') return isFilterFulfilled(collection.Eigenschaften[fName], filterValue, co)
+                if (cType !== 'rc') {
+                  const isFulfilled = isFilterFulfilled(collection.Eigenschaften[fName], filterValue, co)
+                  if (cType === 'pc' && !onlyObjectsWithCollectionData && !isFulfilled) {
+                    // this data should not be delivered > empty all fields
+                    Object.keys(collection).forEach((key) => collection[key] = null)
+                  }
+                  return isFulfilled
+                }
                 // if rc, check if any relation fulfills
                 const relations = collection.Beziehungen
                 if (relations && relations.length > 0) {
                   let returnFromRelationsLoop = false
                   relations.forEach((relation, rIndex) => {
                     if (fName !== 'Beziehungspartner') {
-                      if (isFilterFulfilled(relation[fName], filterValue, co)) {
-                        returnFromRelationsLoop = true
-                      }
+                      if (isFilterFulfilled(relation[fName], filterValue, co)) returnFromRelationsLoop = true
                     } else {
                       const rPartnersFulfilling = isFilterFulfilledForBeziehungspartner(relations[rIndex][fName], filterValue, co)
                       if (rPartnersFulfilling.length > 0) {
@@ -60,6 +69,10 @@ export default (exportOptions, objects, combineTaxonomies) => {
                       }
                     }
                   })
+                  if (!onlyObjectsWithCollectionData && !returnFromRelationsLoop) {
+                    // this data should not be delivered > remove all relations
+                    collection.Beziehungen = []
+                  }
                   return returnFromRelationsLoop
                 }
                 return false

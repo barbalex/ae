@@ -65,9 +65,8 @@ export default (Actions) => {
           // 4. filter for each taxonomy, pc or rc value choosen
           // combines taxonomies if applicable
           if (onlyObjectsWithCollectionData) {
-            objects = filterCollections(exportOptions, objects, combineTaxonomies)
+            objects = filterCollections(exportOptions, objects, combineTaxonomies, onlyObjectsWithCollectionData)
           } else {
-            console.log('exportDataStore will call removeCollectionsNotFulfilling')
             objects = removeCollectionsNotFulfilling(exportOptions, objects)
           }
 

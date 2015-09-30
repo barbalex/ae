@@ -10,7 +10,7 @@
 import _ from 'lodash'
 
 export default (exportOptions, objects, combineTaxonomies, oneRowPerRelation, onlyObjectsWithCollectionData) => {
-  // console.log('buildExportObjects.js, exportOptions', exportOptions)
+  console.log('buildExportObjects.js, exportOptions', exportOptions)
   let exportObjects = []
   let fieldsToAddToAllExportObjects = []
   objects.forEach((object) => {
@@ -50,7 +50,14 @@ export default (exportOptions, objects, combineTaxonomies, oneRowPerRelation, on
               rc: 'Beziehungssammlungen'
             }
             const cTypeName = cTypeNames[cType]
-            const collection = _.find(object[cTypeName], (c) => c.Name === cName)
+            let collection
+            if (cType === 'taxonomy' && combineTaxonomies) {
+              // TODO: do the following steps for ALL taxonomies
+              // i.e. create exportObject if any of the taxonomies contain desired fields
+              collection = object.Taxonomien[0]
+            } else {
+              collection = _.find(object[cTypeName], (c) => c.Name === cName)
+            }
             if (collection) {
               if (cType !== 'rc') {
                 const value = _.get(collection, `Eigenschaften[${fName}]`, null)
