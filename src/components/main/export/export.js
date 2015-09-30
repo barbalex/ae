@@ -292,7 +292,7 @@ export default React.createClass({
       }
     }
     this.setState(state)
-    console.log('exportOptions', exportOptions)
+    // console.log('exportOptions', exportOptions)
   },
 
   onChooseField (cName, fName, cType, event) {
@@ -319,7 +319,7 @@ export default React.createClass({
       }
     }
     this.setState(state)
-    console.log('exportOptions', exportOptions)
+    // console.log('exportOptions', exportOptions)
   },
 
   resetTooManyFieldsChoosen () {
