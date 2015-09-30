@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { Table } from 'react-bootstrap'
+import _ from 'lodash'
 
 export default React.createClass({
   displayName: 'TablePreview',
@@ -42,7 +43,8 @@ export default React.createClass({
         const rows = keys.map((key) => {
           // return values for not existing fieds!
           // if not, table gets torn apart
-          const value = pc[key] || ''
+          let value = pc[key] || ''
+          if (_.isArray(value)) value = value.join(', ')
           return <td key={key}>{value}</td>
         })
         return (
