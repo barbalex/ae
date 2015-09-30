@@ -366,9 +366,10 @@ export default React.createClass({
     this.setState({ tooManyRcsChoosen })
   },
 
-  tooManyRcsChoosen (cNameNew) {
-    const { exportOptions, oneRowPerRelation } = this.state
-    let rcsChoosen = [cNameNew]
+  tooManyRcsChoosen (cNameNew, oneRowPerRelationPassed) {
+    const { exportOptions } = this.state
+    const oneRowPerRelation = oneRowPerRelationPassed || this.state.oneRowPerRelation
+    let rcsChoosen = cNameNew ? [cNameNew] : []
     Object.keys(exportOptions).forEach((cName) => {
       const isRc = _.get(exportOptions, `${cName}.cType`) === 'rc'
       Object.keys(exportOptions[cName]).forEach((fName) => {
@@ -393,9 +394,17 @@ export default React.createClass({
   },
 
   onChangeOneRowPerRelation (oneRowPerRelation) {
+    const { exportOptions } = this.state
     const exportObjects = []
-    // TODO: if oneRowPerRelation check exportOptions if too many rc's were choosen
-    this.setState({ exportObjects, oneRowPerRelation })
+    // if oneRowPerRelation check exportOptions if too many rc's were choosen
+    // pass oneRowPerRelation because it's state is not yet refreshed
+    if (this.tooManyRcsChoosen(null, oneRowPerRelation)) {
+      // reset possible filters to do with taxonomy from exportOptions
+      Object.keys(exportOptions).forEach((cName) => {
+        if (_.get(exportOptions, `${cName}.cType`) === 'rc') delete exportOptions[cName]
+      })
+    }
+    this.setState({ exportObjects, oneRowPerRelation, exportOptions })
   },
 
   onChangeFormat (format) {
