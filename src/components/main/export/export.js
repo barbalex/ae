@@ -224,7 +224,15 @@ export default React.createClass({
     const { offlineIndexes } = this.props
     const group = null
     const exportObjects = []
-    this.setState({ exportObjects, combineTaxonomies })
+    // reset possible filters to do with taxonomy from exportOptions
+    if (combineTaxonomies) {
+      Object.keys(exportOptions).forEach((cName) => {
+        if (_.get(exportOptions, `${cName}.cType`) === 'taxonomy') delete exportOptions[cName]
+      })
+    } else {
+      if (_.has(exportOptions, 'Taxonomie(n)')) delete exportOptions['Taxonomie(n)']
+    }
+    this.setState({ exportObjects, exportOptions, combineTaxonomies })
     // recalculate taxonomyFields
     const groupsToExport = exportOptions.object.Gruppen.value
     app.Actions.queryFields(groupsToExport, group, combineTaxonomies, offlineIndexes)
