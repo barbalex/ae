@@ -396,10 +396,12 @@ export default React.createClass({
   onChangeOneRowPerRelation (oneRowPerRelation) {
     const { exportOptions } = this.state
     const exportObjects = []
-    // if oneRowPerRelation check exportOptions if too many rc's were choosen
-    // pass oneRowPerRelation because it's state is not yet refreshed
+    /**
+     * if oneRowPerRelation = true, check in exportOptions if too many rc's were choosen
+     * pass oneRowPerRelation because it's state is not yet refreshed
+     */
     if (this.tooManyRcsChoosen(null, oneRowPerRelation)) {
-      // reset possible filters to do with taxonomy from exportOptions
+      // reset rc settings from exportOptions
       Object.keys(exportOptions).forEach((cName) => {
         if (_.get(exportOptions, `${cName}.cType`) === 'rc') delete exportOptions[cName]
       })
