@@ -10,7 +10,7 @@
 import _ from 'lodash'
 
 export default (exportOptions, objects, combineTaxonomies, oneRowPerRelation, onlyObjectsWithCollectionData) => {
-  console.log('buildExportObjects.js, exportOptions', exportOptions)
+  // console.log('buildExportObjects.js, exportOptions', exportOptions)
   let exportObjects = []
   let fieldsToAddToAllExportObjects = []
   objects.forEach((object) => {
@@ -125,7 +125,7 @@ export default (exportOptions, objects, combineTaxonomies, oneRowPerRelation, on
                         fieldsToAddToAllExportObjects = _.union(fieldsToAddToAllExportObjects, [`${cName}: ${fName} GUIDs`])
                         // we want to return an array of rPartner objects and an array of GUIDs
                         const rPartners = _.get(relation, fName, null)
-                        console.log('rPartners', rPartners)
+                        // console.log('rPartners', rPartners)
                         if (rPartners && rPartners.length > 0) {
                           // build Beziehungspartner
                           const key = `${cName}: ${fName}`
@@ -134,6 +134,9 @@ export default (exportOptions, objects, combineTaxonomies, oneRowPerRelation, on
                           } else {
                             exportObject[key] = rPartners
                           }
+                          /**
+                           * Beziehungspartner is an array of objects
+                           */
                           // build Beziehungspartner GUID
                           const guidArray = _.pluck(rPartners, 'GUID')
                           const key2 = `${cName}: ${fName} GUIDs`
@@ -194,22 +197,6 @@ export default (exportOptions, objects, combineTaxonomies, oneRowPerRelation, on
     })
     exportObjects = exportObjectsWithAllFields
   }
-
-  console.log('buildExportObjects.js, exportObjects before converting arrays', _.clone(exportObjects))
-  // check all field values. Convert arrays to join(', '), objects to JSON.stringify
-  /*exportObjects.forEach((object) => {
-    Object.keys(object).forEach((key, objIndex) => {
-      let value = object[key]
-      if (_.isArray(value)) {
-        value.forEach((val, vIndex) => {
-          if (_.isPlainObject(val)) object[key][vIndex] = JSON.stringify(val)
-        })
-        object[key] = value.join(', ')
-      } else if (_.isPlainObject(value)) {
-        object[key] = JSON.stringify(value)
-      }
-    })
-  })*/
-  console.log('buildExportObjects.js, exportObjects after converting arrays', exportObjects)
+  // console.log('buildExportObjects.js, exportObjects', exportObjects)
   return exportObjects
 }

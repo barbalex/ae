@@ -47,6 +47,7 @@ export default React.createClass({
           // if field content is array, write it into separate lines
           if (_.isArray(value)) {
             value = value.map((val, index) => {
+              if (_.isPlainObject(val)) val = JSON.stringify(val)
               if (index + 1 === value.length) return <p key={index}>{val}<br/></p>
               return <p key={index}>{val}</p>
             })

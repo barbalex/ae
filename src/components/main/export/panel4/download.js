@@ -4,8 +4,15 @@ import d3 from 'd3'
 import moment from 'moment'
 import createBlobXlsx from './createBlobXlsx.js'
 import FileSaver from 'browser-filesaver'
+import stringifyExportObjects from './stringifyExportObjects.js'
 
 export default (exportObjects, format) => {
+  /**
+   * some arrays contain objects
+   * these need to be JSON.stringified
+   */
+  exportObjects = stringifyExportObjects(exportObjects)
+
   const date = moment().format('YYYY-MM-DD_HH-mm')
   const filename = `${date}_arteigenschaften.${format}`
   let blob
