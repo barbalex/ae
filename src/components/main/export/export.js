@@ -367,7 +367,7 @@ export default React.createClass({
   },
 
   tooManyRcsChoosen (cNameNew) {
-    const { exportOptions } = this.state
+    const { exportOptions, oneRowPerRelation } = this.state
     let rcsChoosen = [cNameNew]
     Object.keys(exportOptions).forEach((cName) => {
       const isRc = _.get(exportOptions, `${cName}.cType`) === 'rc'
@@ -378,7 +378,7 @@ export default React.createClass({
       })
     })
     rcsChoosen = _.union(rcsChoosen, [cNameNew])
-    return rcsChoosen.length > 1
+    return oneRowPerRelation && rcsChoosen.length > 1
   },
 
   onChangeOnlyObjectsWithCollectionData (onlyObjectsWithCollectionData) {
