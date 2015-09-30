@@ -9,7 +9,8 @@
 
 import _ from 'lodash'
 
-export default (exportOptions, objects, combineTaxonomies, oneRowPerRelation) => {
+export default (exportOptions, objects, combineTaxonomies, oneRowPerRelation, onlyObjectsWithCollectionData) => {
+  console.log('buildExportObjects.js, exportOptions', exportOptions)
   let exportObjects = []
   let fieldsToAddToAllExportObjects = []
   objects.forEach((object) => {
@@ -32,24 +33,23 @@ export default (exportOptions, objects, combineTaxonomies, oneRowPerRelation) =>
         // TODO: deal with combineTaxonomies
         Object.keys(exportOptions[cName]).forEach((fName) => {
           if (_.get(exportOptions, `${cName}.${fName}.export`)) {
+            // first set null value to make shure every field is created. Will be updated later
+            exportObject[`${cName}: ${fName}`] = null
             /**
              * get value of this field in object
              */
-            let cTypeName
-            switch (cType) {
-            case 'taxonomy':
-              cTypeName = 'Taxonomien'
-              break
-            case 'pc':
-              cTypeName = 'Eigenschaftensammlungen'
-              break
-            case 'rc':
-              cTypeName = 'Beziehungssammlungen'
-              break
-            default:
-              return null
+            const cTypeNames = {
+              taxonomy: 'Taxonomien',
+              pc: 'Eigenschaftensammlungen',
+              rc: 'Beziehungssammlungen'
             }
+            const cTypeName = cTypeNames[cType]
+            console.log('buildExportObjects.js, object', object)
+            console.log('buildExportObjects.js, exportObjects cName', cName)
+            console.log('buildExportObjects.js, cTypeName', cTypeName)
+            console.log('buildExportObjects.js, object[cTypeName]', object[cTypeName])
             const collection = _.find(object[cTypeName], (c) => c.Name === cName)
+            console.log('buildExportObjects.js, collection', collection)
             if (collection) {
               if (cType !== 'rc') {
                 const value = _.get(collection, `Eigenschaften[${fName}]`, null)
@@ -75,9 +75,9 @@ export default (exportOptions, objects, combineTaxonomies, oneRowPerRelation) =>
                     let exportObjectsToAdd = []
                     relations.forEach((relation) => {
                       let newExportObject = _.clone(exportObject)
-                      Object.keys(relation).forEach((fName) => {
+                      Object.keys(relation).forEach((rKey) => {
                         if (fName !== 'Beziehungspartner') {
-                          const value = _.get(relation, fName, null)
+                          const value = _.get(relation, rKey, null)
                           const key = `${cName}: ${fName}`
                           newExportObject[key] = value
                         } else {
@@ -85,12 +85,12 @@ export default (exportOptions, objects, combineTaxonomies, oneRowPerRelation) =>
                           // add this field later to all export objects
                           fieldsToAddToAllExportObjects = _.union(fieldsToAddToAllExportObjects, [`${cName}: ${fName} GUID`])
                           // build Beziehungspartner
-                          const rawValue = _.get(relation, fName, null)
-                          const value = rawValue ? JSON.stringify(rawValue) : null
+                          const rawValue = _.get(relation, rKey, null)
+                          const value = rawValue && rawValue[0] ? JSON.stringify(rawValue[0]) : null
                           const key = `${cName}: ${fName}`
                           newExportObject[key] = value
                           // build Beziehungspartner GUID
-                          const value2 = _.get(relation, `${fName}.GUID`, null)
+                          const value2 = _.pluck(rawValue, `GUID`)
                           const key2 = `${cName}: ${fName} GUID`
                           newExportObject[key2] = value2
                         }
@@ -129,8 +129,8 @@ export default (exportOptions, objects, combineTaxonomies, oneRowPerRelation) =>
                           // build Beziehungspartner
                           const value = rPartners.map((rPartner) => JSON.stringify(rPartner))
                           const key = `${cName}: ${fName}`
-                          if (_.has(exportObject, key)) {
-                            exportObject[key] = _.union(exportObject[key], value)
+                          if (exportObject[key]) {
+                            exportObject[key].push(value)
                           } else {
                             exportObject[key] = value
                           }
@@ -157,14 +157,12 @@ export default (exportOptions, objects, combineTaxonomies, oneRowPerRelation) =>
      * exportObject can either be a single object
      * or an array of objects (relations, oneRowPerRelation = false)
      */
-    console.log('buildExportObjects.js, exportObject before adding to exportObjects', exportObject)
     if (_.isArray(exportObject)) {
       exportObjects = exportObjects.concat(exportObject)
     } else {
       exportObjects.push(exportObject)
     }
   })
-  console.log('buildExportObjects.js, exportObjects before rebuilding with all fields', exportObjects)
   // console.log('buildExportObjects.js: exportObjects', exportObjects)
   if (fieldsToAddToAllExportObjects.length > 0) {
     // add all these fields to every export object if it does not already exist
@@ -176,7 +174,6 @@ export default (exportOptions, objects, combineTaxonomies, oneRowPerRelation) =>
     // make sure guid is first field
     exportObjectFields = _.without(exportObjectFields, 'GUID')
     exportObjectFields.unshift('GUID')
-    console.log('buildExportObjects.js, exportObjectFields', exportObjectFields)
     // loop exportObjects, build new objects with all fields and add them to exportObjectsWithAllFields
     let exportObjectsWithAllFields = []
     exportObjects.forEach((exportObject) => {
@@ -187,6 +184,24 @@ export default (exportOptions, objects, combineTaxonomies, oneRowPerRelation) =>
       exportObjectsWithAllFields.push(newObject)
     })
     exportObjects = exportObjectsWithAllFields
+    /**
+     * if onlyObjectsWithCollectionData === true:
+     * remove all objects that only contain GUID
+     */
+    if (onlyObjectsWithCollectionData) {
+      let objIndex = exportObjects.length
+      while (objIndex--) {
+        const object = exportObjects[objIndex]
+        let removeObject = false
+        Object.keys(object).forEach((key) => {
+          if (key !== 'GUID') {
+            const value = object[key]
+            if (value === null || value === undefined) removeObject = true
+          }
+        })
+        if (removeObject) exportObjects.splice(objIndex, 1)
+      }
+    }
     console.log('buildExportObjects.js, exportObjects after rebuilding with all fields', exportObjects)
   }
   return exportObjects

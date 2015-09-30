@@ -72,7 +72,7 @@ export default (Actions) => {
           }
 
           // 5. build fields
-          const exportObjects = buildExportObjects(exportOptions, objects, combineTaxonomies, oneRowPerRelation)
+          const exportObjects = buildExportObjects(exportOptions, objects, combineTaxonomies, oneRowPerRelation, onlyObjectsWithCollectionData)
           // console.log('exportDataStore, onBuildExportData: exportObjects', exportObjects)
 
           // 6. tell the view
