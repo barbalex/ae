@@ -255,7 +255,7 @@ export default React.createClass({
     this.setState({ exportObjects, exportOptions })
   },
 
-  onChooseAllOfCollection (pcType, cName, cType, event) {
+  onChooseAllOfCollection (cName, cType, event) {
     let { exportOptions, collectionsWithAllChoosen } = this.state
     const { maxNumberOfFieldsToChoose } = this.state
     const { taxonomyFields, pcFields, relationFields } = this.props
@@ -264,11 +264,11 @@ export default React.createClass({
     const exportObjects = []
     let state = { exportObjects }
     let fields = taxonomyFields
-    if (pcType === 'pc') fields = pcFields
-    if (pcType === 'rc') fields = relationFields
+    if (cType === 'pc') fields = pcFields
+    if (cType === 'rc') fields = relationFields
     const cNameObject = fields[cName]
     // we do not want the taxonomy field 'Hierarchie'
-    if (pcType === 'taxonomy' && cNameObject.Hierarchie) delete cNameObject.Hierarchie
+    if (cType === 'taxonomy' && cNameObject.Hierarchie) delete cNameObject.Hierarchie
 
     const numberOfFieldsChoosen = this.fieldsChoosen().length + Object.keys(cNameObject).length
     if (choosen && numberOfFieldsChoosen > maxNumberOfFieldsToChoose) {

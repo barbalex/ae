@@ -23,7 +23,7 @@ export default React.createClass({
 
   onChooseAllOfCollection (cName, event) {
     const { onChooseAllOfCollection } = this.props
-    onChooseAllOfCollection('taxonomy', cName, event)
+    onChooseAllOfCollection(cName, 'taxonomy', event)
   },
 
   render () {
@@ -56,7 +56,7 @@ export default React.createClass({
             type='checkbox'
             label='alle'
             checked={checked}
-            onChange={this.onChooseAllOfCollection.bind(this, cNameKey, 'taxonomy')} />
+            onChange={this.onChooseAllOfCollection.bind(this, cNameKey)} />
         </div>
       )
     }
