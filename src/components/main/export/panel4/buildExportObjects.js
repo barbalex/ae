@@ -52,7 +52,7 @@ export default (exportOptions, objects, combineTaxonomies, oneRowPerRelation) =>
             const collection = _.find(object[cTypeName], (c) => c.Name === cName)
             if (collection) {
               if (cType !== 'rc') {
-                const value = collection.Eigenschaften[fName]
+                const value = _.get(collection, `Eigenschaften[${fName}]`, null)
                 const key = `${cName}: ${fName}`
                 exportObject[key] = value
               } else {
