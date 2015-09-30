@@ -41,10 +41,16 @@ export default React.createClass({
       // need only the first 10
       if (index < 10) {
         const rows = keys.map((key) => {
-          // return values for not existing fieds!
+          // return values for not existing fields!
           // if not, table gets torn apart
           let value = pc[key] || ''
-          if (_.isArray(value)) value = value.join(', ')
+          // if field content is array, write it into separate lines
+          if (_.isArray(value)) {
+            value = value.map((val, index) => {
+              if (index + 1 === value.length) return <p key={index}>{val}<br/></p>
+              return <p key={index}>{val}</p>
+            })
+          }
           return <td key={key}>{value}</td>
         })
         return (
