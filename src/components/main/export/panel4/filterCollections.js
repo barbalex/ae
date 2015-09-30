@@ -61,9 +61,6 @@ export default (exportOptions, objects, combineTaxonomies, onlyObjectsWithCollec
                     } else {
                       const rPartnersFulfilling = isFilterFulfilledForBeziehungspartner(relations[rIndex][fName], filterValue, co)
                       if (rPartnersFulfilling.length > 0) {
-                        // console.log('filterCollections.js, cName', cName)
-                        // console.log('filterCollections.js, fName', fName)
-                        // console.log('filterCollections.js, rPartnersFulfilling', rPartnersFulfilling)
                         relations[rIndex][fName] = rPartnersFulfilling
                         returnFromRelationsLoop = true
                       }
@@ -79,13 +76,11 @@ export default (exportOptions, objects, combineTaxonomies, onlyObjectsWithCollec
               }
               return false
             })
-            // console.log('filterCollections.js, objects', objects)
           }
         }
       })
     }
   })
-  // console.log('filterCollections.js: objects before combineTaxonomies', objects)
   if (combineTaxonomies) {
     /**
      * exportOptions does not contain cNames of the taxonomies

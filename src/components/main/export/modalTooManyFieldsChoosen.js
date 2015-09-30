@@ -30,7 +30,8 @@ export default React.createClass({
 
         <Modal.Body>
           <p>Sie haben mehr als 35 Exportfelder gewählt.</p>
-          <p>Wenn Sie zuviele Daten exportieren, können schlimme Dinge passieren. Zum Beispiel:</p>
+          <p>Wenn Sie zuviele Daten exportieren, können schlimme Dinge passieren.<br/>
+            Zum Beispiel:</p>
             <ul>
               <li>kann der Server explodieren,</li>
               <li>das Netzwerkkabel schmelzen,</li>

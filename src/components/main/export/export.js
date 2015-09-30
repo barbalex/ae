@@ -9,7 +9,8 @@ import Panel1 from './panel1/panel1.js'
 import Panel2 from './panel2/panel2.js'
 import Panel3 from './panel3/panel3.js'
 import Panel4 from './panel4/panel4.js'
-import ModalTooManyFieldsChosen from './modalTooManyFieldsChosen.js'
+import ModalTooManyFieldsChoosen from './modalTooManyFieldsChoosen.js'
+import ModalTooManyRcsChoosen from './modalTooManyRcsChoosen.js'
 
 export default React.createClass({
   displayName: 'Export',
@@ -39,6 +40,7 @@ export default React.createClass({
     onlyObjectsWithCollectionData: React.PropTypes.bool,
     includeDataFromSynonyms: React.PropTypes.bool,
     tooManyFieldsChoosen: React.PropTypes.bool,
+    tooManyRcsChoosen: React.PropTypes.bool,
     maxNumberOfFieldsToChoose: React.PropTypes.number,
     collectionsWithAllChoosen: React.PropTypes.array,
     oneRowPerRelation: React.PropTypes.bool,
@@ -98,6 +100,11 @@ export default React.createClass({
        */
       tooManyFieldsChoosen: false,
       maxNumberOfFieldsToChoose: 35,
+      /**
+       * make sure, if user chooses oneRowPerRelation,
+       * he chooses fields form no more than one rc
+       */
+      tooManyRcsChoosen: false,
       /**
        * need to be state because field allChoosen needs to be unchecked
        * when a single field in the collection is unchecked
@@ -265,7 +272,6 @@ export default React.createClass({
 
   onChooseAllOfCollection (cName, cType, event) {
     let { exportOptions, collectionsWithAllChoosen } = this.state
-    const { maxNumberOfFieldsToChoose } = this.state
     const { taxonomyFields, pcFields, relationFields } = this.props
     const choosen = event.target.checked
     // set exportObjects back
@@ -277,12 +283,15 @@ export default React.createClass({
     const cNameObject = fields[cName]
     // we do not want the taxonomy field 'Hierarchie'
     if (cType === 'taxonomy' && cNameObject.Hierarchie) delete cNameObject.Hierarchie
-
-    const numberOfFieldsChoosen = this.fieldsChoosen().length + Object.keys(cNameObject).length
-    if (choosen && numberOfFieldsChoosen > maxNumberOfFieldsToChoose) {
+    const fieldsNewlyChoosen = Object.keys(cNameObject).map((fName) => `${cName}${fName}`)
+    if (choosen && this.tooManyFieldsChoosen(fieldsNewlyChoosen)) {
       event.preventDefault()
       const tooManyFieldsChoosen = true
       Object.assign(state, { tooManyFieldsChoosen })
+    } else if (choosen && this.tooManyRcsChoosen(cName)) {
+      event.preventDefault()
+      const tooManyRcsChoosen = true
+      Object.assign(state, { tooManyRcsChoosen })
     } else {
       Object.keys(cNameObject).forEach((fName) => {
         const valuePath = `${cName}.${fName}.export`
@@ -305,16 +314,19 @@ export default React.createClass({
 
   onChooseField (cName, fName, cType, event) {
     let { exportOptions, collectionsWithAllChoosen } = this.state
-    const { maxNumberOfFieldsToChoose } = this.state
     let choosen = event.target.checked
     // set exportObjects back
     const exportObjects = []
     let state = { exportObjects }
-    const numberOfFieldsChoosen = this.fieldsChoosen().length + 1
-    if (choosen && numberOfFieldsChoosen > maxNumberOfFieldsToChoose) {
+    const fieldNewlyChoosen = `${cName}${fName}`
+    if (choosen && this.tooManyFieldsChoosen([fieldNewlyChoosen])) {
       event.preventDefault()
       const tooManyFieldsChoosen = true
       Object.assign(state, { tooManyFieldsChoosen })
+    } else if (choosen && this.tooManyRcsChoosen(cName)) {
+      event.preventDefault()
+      const tooManyRcsChoosen = true
+      Object.assign(state, { tooManyRcsChoosen })
     } else {
       const valuePath = `${cName}.${fName}.export`
       _.set(exportOptions, valuePath, choosen)
@@ -335,18 +347,38 @@ export default React.createClass({
     this.setState({ tooManyFieldsChoosen })
   },
 
-  fieldsChoosen () {
-    const { exportOptions } = this.state
-    let fieldsChoosen = []
+  tooManyFieldsChoosen (fieldsNewlyChoosen) {
+    const { exportOptions, maxNumberOfFieldsToChoose } = this.state
+    let fieldsChoosen = fieldsNewlyChoosen
     Object.keys(exportOptions).forEach((cName) => {
       Object.keys(exportOptions[cName]).forEach((fName) => {
         if (exportOptions[cName][fName].export) {
-          const field = { cName, fName }
-          fieldsChoosen.push(field)
+          const field = `${cName}${fName}`
+          fieldsChoosen = _.union(fieldsChoosen, [field])
         }
       })
     })
-    return fieldsChoosen
+    return fieldsChoosen.length > maxNumberOfFieldsToChoose
+  },
+
+  resetTooManyRcsChoosen () {
+    const tooManyRcsChoosen = false
+    this.setState({ tooManyRcsChoosen })
+  },
+
+  tooManyRcsChoosen (cNameNew) {
+    const { exportOptions } = this.state
+    let rcsChoosen = [cNameNew]
+    Object.keys(exportOptions).forEach((cName) => {
+      const isRc = _.get(exportOptions, `${cName}.cType`) === 'rc'
+      Object.keys(exportOptions[cName]).forEach((fName) => {
+        if (exportOptions[cName][fName].export && isRc) {
+          rcsChoosen = _.union(rcsChoosen, [cName])
+        }
+      })
+    })
+    rcsChoosen = _.union(rcsChoosen, [cNameNew])
+    return rcsChoosen.length > 1
   },
 
   onChangeOnlyObjectsWithCollectionData (onlyObjectsWithCollectionData) {
@@ -362,6 +394,7 @@ export default React.createClass({
 
   onChangeOneRowPerRelation (oneRowPerRelation) {
     const exportObjects = []
+    // TODO: if oneRowPerRelation check exportOptions if too many rc's were choosen
     this.setState({ exportObjects, oneRowPerRelation })
   },
 
@@ -371,13 +404,18 @@ export default React.createClass({
 
   render () {
     const { groupsLoadedOrLoading, groupsLoadingObjects, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, pcs, pcsQuerying, rcs, rcsQuerying } = this.props
-    const { combineTaxonomies, errorBuildingExportOptions, activePanel, panel1Done, exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, tooManyFieldsChoosen, collectionsWithAllChoosen, oneRowPerRelation, format, exportObjects, errorBuildingExportData } = this.state
+    const { combineTaxonomies, errorBuildingExportOptions, activePanel, panel1Done, exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, tooManyFieldsChoosen, tooManyRcsChoosen, collectionsWithAllChoosen, oneRowPerRelation, format, exportObjects, errorBuildingExportData } = this.state
 
     return (
       <div id='export' className='formContent'>
         {tooManyFieldsChoosen ?
-          <ModalTooManyFieldsChosen
+          <ModalTooManyFieldsChoosen
             resetTooManyFieldsChoosen={this.resetTooManyFieldsChoosen} />
+          : null
+        }
+        {tooManyRcsChoosen ?
+          <ModalTooManyRcsChoosen
+            resetTooManyRcsChoosen={this.resetTooManyRcsChoosen} />
           : null
         }
         <h4>Eigenschaften exportieren</h4>
