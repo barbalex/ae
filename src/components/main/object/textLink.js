@@ -20,6 +20,12 @@ export default React.createClass({
     guid: React.PropTypes.string
   },
 
+  getInitialState () {
+    const { guid } = this.props
+    const url = `/${guid}`
+    return { url }
+  },
+
   onClickUrl (event) {
     event.preventDefault()
     const { guid } = this.props
@@ -28,8 +34,13 @@ export default React.createClass({
 
   render () {
     const { label, value, guid } = this.props
+    const { url } = this.state
     // can't use getPathFromGuid because it is possible that the relation partner's group was not loaded yet
-    const url = '/' + guid
+    getPathFromGuid(guid)
+      .then(({ url }) => {
+        if (url) this.setState({ url })
+      })
+      .catch((error) => console.log('error fetching path from guid:', error))
 
     return (
       <div className='form-group'>
@@ -37,7 +48,7 @@ export default React.createClass({
             {label ? label + ':' : null}
           </label>
           <p className='form-control-static feldtext controls'>
-            <a href='#' onClick={this.onClickUrl}>
+            <a href={url} onClick={this.onClickUrl}>
               {value}
             </a>
           </p>
