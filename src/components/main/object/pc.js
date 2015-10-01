@@ -39,7 +39,7 @@ function buildFieldForProperty (propertyCollection, object, value, key, pcType) 
           return <LinkToSameGroup key={key} fieldName={key} guid ={linkedObjectId} objectName={linkedObjectName} />
         }
       })
-      .catch((error) => app.Actions.showError({title: 'propertyCollection.js: error getting item from objectStore:', msg: error}))
+      .catch((error) => app.Actions.showError({title: 'pc.js: error getting item from objectStore:', msg: error}))
   }
   if ((key === 'Gültige Namen' || key === 'Eingeschlossene Arten') && object.Gruppe === 'Flora') {
     // build array of links

@@ -11,9 +11,11 @@ import React from 'react'
 // import Inspector from 'react-json-inspector'
 import _ from 'lodash'
 import Taxonomy from './taxonomy.js'
-import PropertyCollections from './propertyCollections.js'
-import PropertyCollection from './propertyCollection.js'
-import RelationCollection from './relationCollection.js'
+import PropertyCollections from './pcs.js'
+import RelationCollections from './rcs.js'
+import PropertyCollection from './pc.js'
+import RelationCollection from './rc.js'
+import TaxonomicRelationCollections from './taxRcs.js'
 
 export default React.createClass({
   displayName: 'Object',
@@ -26,9 +28,7 @@ export default React.createClass({
   render () {
     const { object, synonymObjects } = this.props
     let pcsOfSynonymsComponent = null
-    let rcsComponent = null
     let rcsOfSynonymsComponent = null
-    let taxRcsComponent = null
     let objectRcs = []
     let taxRcs = []
     let pcsOfSynonyms = []
@@ -36,6 +36,7 @@ export default React.createClass({
     let namesOfPcsBuilt = []
     let namesOfRcsBuilt = []
     const pcs = object.Eigenschaftensammlungen
+    const rcs = object.Beziehungssammlungen
 
     // no object? > return empty component
     if (!object || _.keys(object).length === 0) {
@@ -46,34 +47,11 @@ export default React.createClass({
     }
 
     // relation collections
-    if (object.Beziehungssammlungen && object.Beziehungssammlungen.length > 0) {
-      const rcs = object.Beziehungssammlungen
-
+    if (rcs && rcs.length > 0) {
       // regular relation collections
       objectRcs = _.filter(rcs, (rc) => !rc.Typ)
-
-      if (objectRcs.length > 0) {
-        const rcComponent = objectRcs.map((rc, index) => <RelationCollection key={index} object={object} relationCollection={rc} />)
-        rcsComponent = (
-          <div>
-            <h4>Beziehungen:</h4>
-            {rcComponent}
-          </div>
-        )
-      }
-
       // taxonomic relation collections
       taxRcs = _.filter(rcs, (rc) => rc.Typ && rc.Typ === 'taxonomisch')
-      if (taxRcs.length > 0) {
-        const taxRcComponent = taxRcs.map((rc, index) => <RelationCollection key={index} object={object} relationCollection={rc} />)
-        taxRcsComponent = (
-          <div>
-            <h4>Taxonomische Beziehungen:</h4>
-            {taxRcComponent}
-          </div>
-        )
-      }
-
       // list of names of relation collections
       // needed to choose which relation collections of synonym objects need to be built
       namesOfRcsBuilt = _.pluck(rcs, 'Name')
@@ -157,9 +135,9 @@ export default React.createClass({
     return (
       <div id='object' className='formContent'>
         <Taxonomy object={object} />
-        {taxRcsComponent ? taxRcsComponent : null}
+        {taxRcs.length > 0 ? <TaxonomicRelationCollections taxRcs={taxRcs} /> : null}
         {pcs.length > 0 ? <PropertyCollections object={object} /> : null}
-        {rcsComponent ? rcsComponent : null}
+        {objectRcs.length > 0 ? <RelationCollections objectRcs={objectRcs} /> : null}
         {pcsOfSynonymsComponent ? pcsOfSynonymsComponent : null}
         {rcsOfSynonymsComponent ? rcsOfSynonymsComponent : null}
         {/*<Inspector data={object}/>*/}

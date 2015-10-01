@@ -1,7 +1,7 @@
 'use strict'
 
 import React from 'react'
-import PropertyCollection from './propertyCollection.js'
+import PropertyCollection from './pc.js'
 
 export default React.createClass({
   displayName: 'Taxonomy',
