@@ -12,7 +12,6 @@ import _ from 'lodash'
 import Taxonomy from './taxonomy.js'
 import PropertyCollections from './pcs.js'
 import RelationCollections from './rcs.js'
-import RelationCollection from './rc.js'
 import TaxonomicRelationCollections from './taxRcs.js'
 import PcsOfSynonyms from './pcsOfSynonyms.js'
 import RcsOfSynonyms from './rcsOfSynonyms.js'
@@ -27,7 +26,6 @@ export default React.createClass({
 
   render () {
     const { object, synonymObjects } = this.props
-    let rcsOfSynonymsComponent = null
     let objectRcs = []
     let taxRcs = []
     let pcsOfSynonyms = []
@@ -52,6 +50,9 @@ export default React.createClass({
     // needed to choose which property collections of synonym objects need to be built
     if (pcs && pcs.length > 0) namesOfPcsBuilt = _.pluck(pcs, 'Name')
 
+    /**
+     * build pcsOfSynonyms
+     */
     if (synonymObjects.length > 0) {
       synonymObjects.forEach((synonymObject) => {
         // property collections
@@ -66,7 +67,9 @@ export default React.createClass({
           })
         }
 
-        // relation collections
+        /**
+         * build rcsOfSynonyms
+         */
         if (synonymObject.Beziehungssammlungen && synonymObject.Beziehungssammlungen.length > 0) {
           synonymObject.Beziehungssammlungen.forEach((rcOfSynonym) => {
             if (!_.includes(namesOfRcsBuilt, rcOfSynonym.Name) && rcOfSynonym['Art der Beziehungen'] !== 'synonym' && rcOfSynonym.Typ !== 'taxonomisch') {
@@ -93,10 +96,8 @@ export default React.createClass({
                   return !!relationOfOriginalWithSamePartners
                 })
               }
-              if (rcOfSynonym.Beziehungen.length > 0) {
-                // if Synonym has relations that weren't yet shown, push them
-                rcsOfSynonyms.push(rcOfSynonym)
-              }
+              // if Synonym has relations that weren't yet shown, push them
+              if (rcOfSynonym.Beziehungen.length > 0) rcsOfSynonyms.push(rcOfSynonym)
             }
           })
         }
