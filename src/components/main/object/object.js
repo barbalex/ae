@@ -10,6 +10,7 @@
 import React from 'react'
 // import Inspector from 'react-json-inspector'
 import _ from 'lodash'
+import Taxonomy from './taxonomy.js'
 import PropertyCollection from './propertyCollection.js'
 import RelationCollection from './relationCollection.js'
 
@@ -23,7 +24,6 @@ export default React.createClass({
 
   render () {
     const { object, synonymObjects } = this.props
-    let taxComponent = null
     let pcsComponent = null
     let pcsOfSynonymsComponent = null
     let rcsComponent = null
@@ -42,11 +42,6 @@ export default React.createClass({
         <fieldset id='main'>
         </fieldset>
       )
-    }
-
-    // taxonomy collection
-    if (object.Taxonomie) {
-      taxComponent = <PropertyCollection pcType='Taxonomie' object={object} propertyCollection={object.Taxonomie} />
     }
 
     // relation collections
@@ -172,8 +167,8 @@ export default React.createClass({
 
     return (
       <div id='object' className='formContent'>
-        <h4>Taxonomie:</h4>
-        {taxComponent ? taxComponent : null}
+        <Taxonomy
+          object={object} />
         {taxRcsComponent ? taxRcsComponent : null}
         {pcsComponent ? pcsComponent : null}
         {rcsComponent ? rcsComponent : null}
