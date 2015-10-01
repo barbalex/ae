@@ -208,7 +208,6 @@ export default React.createClass({
     this.setState(state)
 
     const url = '/' + path.join('/') + (guid ? '?id=' + guid : '')
-    console.log('home.js, onActivePathStoreChange, navigating to', url)
     app.router.navigate(url)
   },
 
