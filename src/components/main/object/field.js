@@ -49,7 +49,7 @@ export default React.createClass({
     if (typeof fieldValue === 'boolean') {
       return <FieldBoolean fieldName={fieldName} fieldValue={fieldValue} pcType={pcType} pcName={pcName} />
     }
-    // fallback ist text input
+    // fallback is text input
     return <FieldInput fieldName={fieldName} fieldValue={fieldValue} inputType={'text'} pcType={pcType} pcName={pcName} />
   }
 })
