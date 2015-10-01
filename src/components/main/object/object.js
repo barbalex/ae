@@ -15,6 +15,7 @@ import RelationCollections from './rcs.js'
 import RelationCollection from './rc.js'
 import TaxonomicRelationCollections from './taxRcs.js'
 import PcsOfSynonyms from './pcsOfSynonyms.js'
+import RcsOfSynonyms from './rcsOfSynonyms.js'
 
 export default React.createClass({
   displayName: 'Object',
@@ -100,16 +101,6 @@ export default React.createClass({
           })
         }
       })
-
-      if (rcsOfSynonyms.length > 0) {
-        const rcComponent = rcsOfSynonyms.map((rc, index) => <RelationCollection key={index} object={object} relationCollection={rc} />)
-        rcsOfSynonymsComponent = (
-          <div>
-            <h4>Beziehungen von Synonymen:</h4>
-            {rcComponent}
-          </div>
-        )
-      }
     }
 
     return (
@@ -119,7 +110,7 @@ export default React.createClass({
         {pcs.length > 0 ? <PropertyCollections object={object} /> : null}
         {objectRcs.length > 0 ? <RelationCollections objectRcs={objectRcs} /> : null}
         {pcsOfSynonyms.length > 0 ? <PcsOfSynonyms pcsOfSynonyms={pcsOfSynonyms} object={object} /> : null}
-        {rcsOfSynonymsComponent ? rcsOfSynonymsComponent : null}
+        {rcsOfSynonyms.length > 0 ? <RcsOfSynonyms rcsOfSynonyms={rcsOfSynonyms} /> : null}
         {/*<Inspector data={object}/>*/}
       </div>
     )
