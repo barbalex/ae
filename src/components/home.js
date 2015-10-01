@@ -199,12 +199,16 @@ export default React.createClass({
       // must be home
       gruppe = null
     }
-    const object = undefined
-    state = Object.assign(state, { object, gruppe, showImportPc, showImportRc, showExportieren, showOrganizations })
+    state = Object.assign(state, { gruppe, showImportPc, showImportRc, showExportieren, showOrganizations })
+    if (!guid) {
+      const object = undefined
+      state = Object.assign(state, { object })
+    }
 
     this.setState(state)
 
     const url = '/' + path.join('/') + (guid ? '?id=' + guid : '')
+    console.log('home.js, onActivePathStoreChange, navigating to', url)
     app.router.navigate(url)
   },
 

@@ -16,11 +16,8 @@ function extractPayloadFromObject (object) {
     path = replaceProblematicPathCharactersFromArray(path)
   }
   path.unshift(object.Gruppe)  // hm. this is too much when loading with view per group
-  const payload = {
-    path: path,
-    url: '/' + path.join('/')
-  }
-  return payload
+  const url = '/' + path.join('/')
+  return { path, url }
 }
 
 export default (guid) => {

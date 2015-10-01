@@ -8,6 +8,7 @@
 
 import app from 'ampersand-app'
 import React from 'react'
+import getPathFromGuid from '../../../modules/getPathFromGuid.js'
 
 export default React.createClass({
   displayName: 'TextLink',
@@ -21,7 +22,7 @@ export default React.createClass({
 
   onClickUrl (event) {
     event.preventDefault()
-    const guid = this.props.guid
+    const { guid } = this.props
     if (guid) app.Actions.loadActiveObjectStore(guid)
   },
 
@@ -36,7 +37,7 @@ export default React.createClass({
             {label ? label + ':' : null}
           </label>
           <p className='form-control-static feldtext controls'>
-            <a href={url} onClick={this.onClickUrl}>
+            <a href='#' onClick={this.onClickUrl}>
               {value}
             </a>
           </p>

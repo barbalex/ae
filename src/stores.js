@@ -27,6 +27,7 @@ import filterCollections from './components/main/export/panel4/filterCollections
 import addCollectionsOfSynonyms from './components/main/export/panel4/addCollectionsOfSynonyms.js'
 import buildExportObjects from './components/main/export/panel4/buildExportObjects.js'
 import removeCollectionsNotFulfilling from './components/main/export/panel4/removeCollectionsNotFulfilling.js'
+import getPathFromGuid from './modules/getPathFromGuid.js'
 
 export default (Actions) => {
   app.exportDataStore = Reflux.createStore({
@@ -915,17 +916,23 @@ export default (Actions) => {
     item: {},
 
     onLoadActiveObjectStoreCompleted (item) {
-      // only change if something has changed
+      // only change if active item has changed
       if (!_.isEqual(item, this.item)) {
         // item can be an object or {}
         this.item = item
         this.loaded = _.keys(item).length > 0
         // tell views that data has changed
         this.trigger(item, [])
-        // now check for synonym objects
-        // if they exist: trigger again and pass synonyms
-        getSynonymsOfObject(item)
+        // load path for this object...
+        getPathFromGuid(item._id)
+          .then(({ path, url }) => {
+            // ...if it differs from the loaded path
+            if (!_.isEqual(app.activePathStore.path, path)) app.Actions.loadActivePathStore(path, item._id)
+            // now check for synonym objects
+            return getSynonymsOfObject(item)
+          })
           .then((synonymObjects) => {
+            // if they exist: trigger again and pass synonyms
             if (synonymObjects.length > 0) this.trigger(item, synonymObjects)
           })
           .catch((error) =>
