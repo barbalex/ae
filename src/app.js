@@ -125,6 +125,8 @@ app.extend({
   }
 })
 
-// o.k., everything necessary is prepared
-// now lauch the app
+/**
+ * o.k., everything necessary is prepared
+ * now lauch the app
+ */
 app.init()
