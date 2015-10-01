@@ -1,6 +1,5 @@
 /*
- * Synonym Objects
- * in order not to have to constantly have all items loaded in memory
+ * in order not to constantly have all items loaded in memory
  * synonym objects are fetched from localDb
  * and then passed in as props
  */
@@ -13,9 +12,9 @@ import _ from 'lodash'
 import Taxonomy from './taxonomy.js'
 import PropertyCollections from './pcs.js'
 import RelationCollections from './rcs.js'
-import PropertyCollection from './pc.js'
 import RelationCollection from './rc.js'
 import TaxonomicRelationCollections from './taxRcs.js'
+import PcsOfSynonyms from './pcsOfSynonyms.js'
 
 export default React.createClass({
   displayName: 'Object',
@@ -27,7 +26,6 @@ export default React.createClass({
 
   render () {
     const { object, synonymObjects } = this.props
-    let pcsOfSynonymsComponent = null
     let rcsOfSynonymsComponent = null
     let objectRcs = []
     let taxRcs = []
@@ -37,14 +35,6 @@ export default React.createClass({
     let namesOfRcsBuilt = []
     const pcs = object.Eigenschaftensammlungen
     const rcs = object.Beziehungssammlungen
-
-    // no object? > return empty component
-    if (!object || _.keys(object).length === 0) {
-      return (
-        <fieldset id='main'>
-        </fieldset>
-      )
-    }
 
     // relation collections
     if (rcs && rcs.length > 0) {
@@ -111,16 +101,6 @@ export default React.createClass({
         }
       })
 
-      if (pcsOfSynonyms.length > 0) {
-        const pcComponent = pcsOfSynonyms.map((pc, index) => <PropertyCollection key={index} pcType='Datensammlung' object={object} propertyCollection={pc}/>)
-        pcsOfSynonymsComponent = (
-          <div>
-            <h4>Eigenschaften von Synonymen:</h4>
-            {pcComponent}
-          </div>
-        )
-      }
-
       if (rcsOfSynonyms.length > 0) {
         const rcComponent = rcsOfSynonyms.map((rc, index) => <RelationCollection key={index} object={object} relationCollection={rc} />)
         rcsOfSynonymsComponent = (
@@ -138,7 +118,7 @@ export default React.createClass({
         {taxRcs.length > 0 ? <TaxonomicRelationCollections taxRcs={taxRcs} /> : null}
         {pcs.length > 0 ? <PropertyCollections object={object} /> : null}
         {objectRcs.length > 0 ? <RelationCollections objectRcs={objectRcs} /> : null}
-        {pcsOfSynonymsComponent ? pcsOfSynonymsComponent : null}
+        {pcsOfSynonyms.length > 0 ? <PcsOfSynonyms pcsOfSynonyms={pcsOfSynonyms} object={object} /> : null}
         {rcsOfSynonymsComponent ? rcsOfSynonymsComponent : null}
         {/*<Inspector data={object}/>*/}
       </div>

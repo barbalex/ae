@@ -77,7 +77,7 @@ export default React.createClass({
   render () {
     const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, synonymObjects, pcs, pcsQuerying, rcs, rcsQuerying, showImportPc, showImportRc, showExportieren, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, showOrganizations, email, replicatingToAe, replicatingToAeTime, offlineIndexes } = this.props
     const { formClassNames, errors } = this.state
-    const showObject = object !== undefined
+    const showObject = object && Object.keys(object).length > 0
 
     return (
       <fieldset id='main'>
