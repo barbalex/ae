@@ -11,6 +11,7 @@ import React from 'react'
 // import Inspector from 'react-json-inspector'
 import _ from 'lodash'
 import Taxonomy from './taxonomy.js'
+import PropertyCollections from './propertyCollections.js'
 import PropertyCollection from './propertyCollection.js'
 import RelationCollection from './relationCollection.js'
 
@@ -24,7 +25,6 @@ export default React.createClass({
 
   render () {
     const { object, synonymObjects } = this.props
-    let pcsComponent = null
     let pcsOfSynonymsComponent = null
     let rcsComponent = null
     let rcsOfSynonymsComponent = null
@@ -35,6 +35,7 @@ export default React.createClass({
     let rcsOfSynonyms = []
     let namesOfPcsBuilt = []
     let namesOfRcsBuilt = []
+    const pcs = object.Eigenschaftensammlungen
 
     // no object? > return empty component
     if (!object || _.keys(object).length === 0) {
@@ -78,21 +79,9 @@ export default React.createClass({
       namesOfRcsBuilt = _.pluck(rcs, 'Name')
     }
 
-    // property collections
-    if (object.Eigenschaftensammlungen && object.Eigenschaftensammlungen.length > 0) {
-      const pcs = object.Eigenschaftensammlungen
-      const pcComponent = pcs.map((pc, index) => <PropertyCollection key={index} pcType='Datensammlung' object={object} propertyCollection={pc}/>)
-      pcsComponent = (
-        <div>
-          <h4>Eigenschaften:</h4>
-          {pcComponent}
-        </div>
-      )
-
-      // list names of property collections
-      // needed to choose which property collections of synonym objects need to be built
-      namesOfPcsBuilt = _.pluck(pcs, 'Name')
-    }
+    // list names of property collections
+    // needed to choose which property collections of synonym objects need to be built
+    if (pcs && pcs.length > 0) namesOfPcsBuilt = _.pluck(pcs, 'Name')
 
     if (synonymObjects.length > 0) {
       synonymObjects.forEach((synonymObject) => {
@@ -167,10 +156,9 @@ export default React.createClass({
 
     return (
       <div id='object' className='formContent'>
-        <Taxonomy
-          object={object} />
+        <Taxonomy object={object} />
         {taxRcsComponent ? taxRcsComponent : null}
-        {pcsComponent ? pcsComponent : null}
+        {pcs.length > 0 ? <PropertyCollections object={object} /> : null}
         {rcsComponent ? rcsComponent : null}
         {pcsOfSynonymsComponent ? pcsOfSynonymsComponent : null}
         {rcsOfSynonymsComponent ? rcsOfSynonymsComponent : null}
