@@ -52,6 +52,8 @@ export default React.createClass({
               return <p key={index}>{val}</p>
             })
           }
+          if (value === true) value = 'ja'
+          if (value === false) value = 'nein'
           return <td key={key}>{value}</td>
         })
         return (
