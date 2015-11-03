@@ -12,6 +12,9 @@ import actions from './actions.js'
 import stores from './stores'
 import pouchUrl from './modules/getCouchUrl.js'
 import getGroupsLoadedFromLocalGroupsDb from './modules/getGroupsLoadedFromLocalGroupsDb.js'
+// need this polyfill to transform promise.all
+// without it IE11 and lower bark
+import 'babel-polyfill'
 // make webpack import styles
 import './styles/main.styl'
 // make webpack import server.js
