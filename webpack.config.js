@@ -19,7 +19,23 @@ config.module.loaders.push(
   {test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff'},
   {test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=application/octet-stream'},
   {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file'},
-  {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=image/svg+xml'}
+  {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=image/svg+xml'},
+  {
+    test: /\.jsx?$/,
+    exclude: /(node_modules|bower_components)/,
+    loader: 'babel',
+    query: {
+      presets: ['es2015', 'react', 'stage-0']
+    }
+  },
+  {
+    test: /\.js?$/,
+    exclude: /(node_modules|bower_components)/,
+    loader: 'babel',
+    query: {
+      presets: ['es2015', 'react', 'stage-0']
+    }
+  }
 )
 
 // need to add this so request can load
