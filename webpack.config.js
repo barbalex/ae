@@ -22,7 +22,7 @@ config.module.loaders.push(
   {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=image/svg+xml'},
   {
     test: /\.jsx?$/,
-    exclude: /(node_modules|bower_components)/,
+    exclude: /(node_modules)/,
     loader: 'babel',
     query: {
       presets: ['es2015', 'react', 'stage-2']
@@ -33,7 +33,6 @@ config.module.loaders.push(
 // need to add this so request can load
 // see: https://github.com/request/request/issues/1529
 config.node = {
-  // console: 'empty',
   fs: 'empty',
   net: 'empty',
   tls: 'empty'
