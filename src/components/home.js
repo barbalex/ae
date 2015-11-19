@@ -9,8 +9,6 @@ import MenuButton from './menu/menuButton/menuButton.js'
 import ResizeButton from './menu/resizeButton.js'
 import Groups from './menu/groups/groups.js'
 import Filter from './menu/filter.js'
-import FaviconImage from '../../img/aster_144.png'
-import Favicon from 'react-favicon'
 import Symbols from './symbols/symbols.js'
 import Main from './main/main.js'
 import Tree from './menu/tree/tree.js'
@@ -249,7 +247,6 @@ export default React.createClass({
     // otherwise the menu can't be shown outside when menu is short
     return (
       <NavHelper style={homeStyle}>
-        <Favicon url={[FaviconImage]}/>
         <MenuButton
           object={object}
           offlineIndexes={offlineIndexes}

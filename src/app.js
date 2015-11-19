@@ -21,6 +21,8 @@ import './styles/main.styl'
 import 'file?name=server.js!../server.js'
 // this lib can not be imported directly - need to load it as a global using https://github.com/webpack/script-loader
 import 'script!../node_modules/xlsx/dist/xlsx.core.min.js'
+// load favicon
+require('file?name=favicon.ico!../favicon.ico')
 
 /**
  * set up pouchdb plugins
