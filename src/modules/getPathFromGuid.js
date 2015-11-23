@@ -11,9 +11,12 @@ import replaceProblematicPathCharactersFromArray from './replaceProblematicPathC
 
 function extractPayloadFromObject (object) {
   let path = []
-  if (_.has(object, 'Taxonomien[0].Eigenschaften.Hierarchie')) {
-    path = _.pluck(object.Taxonomien[0].Eigenschaften.Hierarchie, 'Name')
-    path = replaceProblematicPathCharactersFromArray(path)
+  if (object.Taxonomien) {
+    const standardtaxonomie = object.Taxonomien.find((taxonomy) => taxonomy['Standardtaxonomie'])
+    if (standardtaxonomie && _.has(standardtaxonomie, 'Eigenschaften.Hierarchie')) {
+      path = _.pluck(standardtaxonomie.Eigenschaften.Hierarchie, 'Name')
+      path = replaceProblematicPathCharactersFromArray(path)
+    }
   }
   path.unshift(object.Gruppe)  // hm. this is too much when loading with view per group
   const url = '/' + path.join('/')

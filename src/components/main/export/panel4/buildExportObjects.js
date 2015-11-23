@@ -36,7 +36,6 @@ export default (exportOptions, objects, combineTaxonomies, oneRowPerRelation, on
       const cType = exportOptions[cName].cType
       if (cType) {
         // o.k., this is not object
-        // TODO: deal with combineTaxonomies
         Object.keys(exportOptions[cName]).forEach((fName) => {
           if (_.get(exportOptions, `${cName}.${fName}.export`)) {
             // first set null value to make shure every field is created. Will be updated later
@@ -51,10 +50,11 @@ export default (exportOptions, objects, combineTaxonomies, oneRowPerRelation, on
             }
             const cTypeName = cTypeNames[cType]
             let collection
-            if (cType === 'taxonomy' && combineTaxonomies) {
+            if (cType === 'taxonomy' && combineTaxonomies && object.Taxonomien) {
               // TODO: do the following steps for ALL taxonomies
               // i.e. create exportObject if any of the taxonomies contain desired fields
-              collection = object.Taxonomien[0]
+              const standardtaxonomie = object.Taxonomien.find((taxonomy) => taxonomy['Standardtaxonomie'])
+              collection = standardtaxonomie
             } else {
               collection = _.find(object[cTypeName], (c) => c.Name === cName)
             }

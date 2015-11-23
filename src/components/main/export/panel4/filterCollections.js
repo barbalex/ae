@@ -36,10 +36,11 @@ export default (exportOptions, objects, combineTaxonomies, onlyObjectsWithCollec
               if (cType === 'pc') collections = object.Eigenschaftensammlungen
               if (cType === 'rc') collections = object.Beziehungssammlungen
               let collection = _.find(collections, (c) => c.Name === cName)
-              if (cType === 'taxonomy' && !combineTaxonomies) {
+              if (cType === 'taxonomy' && !combineTaxonomies && object.Taxonomien) {
                 collections = object.Taxonomien
+                const standardtaxonomie = object.Taxonomien.find((taxonomy) => taxonomy['Standardtaxonomie'])
                 // TODO: later loop all taxonomies and return if any fulfills
-                collection = object.Taxonomien[0]
+                collection = standardtaxonomie
               }
               if (collection) {
                 // if taxonomy or pc, check directly

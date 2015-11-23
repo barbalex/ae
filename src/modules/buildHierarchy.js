@@ -40,7 +40,7 @@
  * 3. repeat until there is no more hierarchy object
  *
  * later this function can be changed to build hierarchy objects for taxonomies
- * in the meantime Taxonomien[0] is used
+ * in the meantime Standardtaxonomie is used
  */
 
 'use strict'
@@ -217,46 +217,49 @@ export default (objects) => {
   let hierarchy = []
 
   // extract Hierarchie from objects
-  // used to use _.map but that contained undefined elements because it always returns a value
+  // used to use .map but that contained undefined elements because it always returns a value
   const hierarchiesArray = []
   objects.forEach((object) => {
-    if (object.Taxonomien && object.Taxonomien[0] && object.Taxonomien[0].Eigenschaften && object.Taxonomien[0].Eigenschaften.Hierarchie && object.Gruppe) {
-      const hArray = _.get(object, 'Taxonomien[0].Eigenschaften.Hierarchie')
-      const gruppenObjekt = {'Name': object.Gruppe}
-      hArray.unshift(gruppenObjekt)
-      hierarchiesArray.push(hArray)
+    if (object.Taxonomien) {
+      const standardtaxonomie = object.Taxonomien.find((taxonomy) => taxonomy['Standardtaxonomie'])
+      if (standardtaxonomie && _.has(standardtaxonomie, 'Eigenschaften.Hierarchie') && object.Gruppe) {
+        const hArray = _.get(standardtaxonomie, 'Eigenschaften.Hierarchie')
+        const gruppenObjekt = {'Name': object.Gruppe}
+        hArray.unshift(gruppenObjekt)
+        hierarchiesArray.push(hArray)
+      }
     }
   })
 
   hierarchiesArray.forEach((hArray) => {
     switch (hArray.length) {
-    case 1:
-      checkLevel1(hierarchy, hArray)
-      break
-    case 2:
-      checkLevel2(hierarchy, hArray)
-      break
-    case 3:
-      checkLevel3(hierarchy, hArray)
-      break
-    case 4:
-      checkLevel4(hierarchy, hArray)
-      break
-    case 5:
-      checkLevel5(hierarchy, hArray)
-      break
-    case 6:
-      checkLevel6(hierarchy, hArray)
-      break
-    case 7:
-      checkLevel7(hierarchy, hArray)
-      break
-    case 8:
-      checkLevel8(hierarchy, hArray)
-      break
-    case 9:
-      checkLevel9(hierarchy, hArray)
-      break
+      case 1:
+        checkLevel1(hierarchy, hArray)
+        break
+      case 2:
+        checkLevel2(hierarchy, hArray)
+        break
+      case 3:
+        checkLevel3(hierarchy, hArray)
+        break
+      case 4:
+        checkLevel4(hierarchy, hArray)
+        break
+      case 5:
+        checkLevel5(hierarchy, hArray)
+        break
+      case 6:
+        checkLevel6(hierarchy, hArray)
+        break
+      case 7:
+        checkLevel7(hierarchy, hArray)
+        break
+      case 8:
+        checkLevel8(hierarchy, hArray)
+        break
+      case 9:
+        checkLevel9(hierarchy, hArray)
+        break
     }
   })
 

@@ -19,7 +19,8 @@ export default (items) => {
     items.forEach((item) => {
       // get hierarchy from the Hierarchie field
       // default value (in case there is none) is []
-      const hierarchy = _.get(item, 'Taxonomien[0].Eigenschaften.Hierarchie', [])
+      const standardtaxonomie = item.Taxonomien.find((taxonomy) => taxonomy['Standardtaxonomie'])
+      const hierarchy = standardtaxonomie ? _.get(standardtaxonomie, 'Eigenschaften.Hierarchie', []) : []
       let path = _.pluck(hierarchy, 'Name')
       // if path is [] make shure no path is added
       if (path.length > 0) {
