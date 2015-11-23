@@ -17,8 +17,9 @@ const ddoc = {
   views: {
     'mooseById': {
       map: function (doc) {
-        if (doc.Typ && doc.Typ === 'Objekt' && doc.Gruppe && doc.Gruppe === 'Moose') {
-          emit(doc.Taxonomien[0].Eigenschaften['Taxonomie ID'], null)
+        if (doc.Typ && doc.Typ === 'Objekt' && doc.Gruppe && doc.Gruppe === 'Moose' && doc.Taxonomien) {
+          const standardtaxonomie = doc.Taxonomien.find((taxonomy) => taxonomy['Standardtaxonomie'])
+          if (standardtaxonomie) emit(standardtaxonomie.Eigenschaften['Taxonomie ID'], null)
         }
       }.toString()
     }

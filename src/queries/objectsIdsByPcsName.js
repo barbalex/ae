@@ -19,12 +19,8 @@ const ddoc = {
   views: {
     'objectsIdsByPcsName': {
       map: function (doc) {
-        if (doc.Typ && doc.Typ === 'Objekt') {
-          if (doc.Eigenschaftensammlungen) {
-            doc.Eigenschaftensammlungen.forEach(function (es) {
-              emit(es.Name, doc._id)
-            })
-          }
+        if (doc.Typ && doc.Typ === 'Objekt' && doc.Eigenschaftensammlungen) {
+          doc.Eigenschaftensammlungen.forEach((es) => emit(es.Name, doc._id))
         }
       }.toString()
     }
