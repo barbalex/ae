@@ -658,9 +658,7 @@ export default (Actions) => {
       // if pc's exist, send them immediately
       this.pcsQuerying = true
       this.getPcs()
-        .then((pcs) => {
-          return this.trigger(pcs, this.pcsQuerying)
-        })
+        .then((pcs) => this.trigger(pcs, this.pcsQuerying))
         .catch((error) =>
           app.Actions.showError({title: 'propertyCollectionsStore, error getting existing pcs:', msg: error})
         )
