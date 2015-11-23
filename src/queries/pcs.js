@@ -19,11 +19,11 @@ const ddoc = {
     'pcs': {
       map: function (doc) {
         if (doc.Typ && doc.Typ === 'Objekt' && doc.Eigenschaftensammlungen) {
-          doc.Eigenschaftensammlungen.forEach((pc) => {
+          doc.Eigenschaftensammlungen.forEach(function (pc) {
             // add pcZusammenfassend
-            const pcZusammenfassend = !!pc.zusammenfassend
-            let felder = {}
-            Object.keys(pc).forEach((key) => {
+            var pcZusammenfassend = !!pc.zusammenfassend
+            var felder = {}
+            Object.keys(pc).forEach(function (key) {
               if (key !== 'Typ' && key !== 'Name' && key !== 'Eigenschaften') {
                 felder[key] = pc[key]
               }

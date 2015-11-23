@@ -17,11 +17,11 @@ const ddoc = {
     'rcs': {
       map: function (doc) {
         if (doc.Typ && doc.Typ === 'Objekt' && doc.Beziehungssammlungen) {
-          doc.Beziehungssammlungen.forEach((rc) => {
+          doc.Beziehungssammlungen.forEach(function (rc) {
             // add rcCombining
-            const rcCombining = !!rc.zusammenfassend
-            let felder = {}
-            Object.keys(rc).forEach((key) => {
+            var rcCombining = !!rc.zusammenfassend
+            var felder = {}
+            Object.keys(rc).forEach(function (key) {
               if (key !== 'Typ' && key !== 'Name' && key !== 'Eigenschaften') {
                 felder[key] = rc[key]
               }
