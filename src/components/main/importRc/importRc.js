@@ -291,19 +291,20 @@ export default React.createClass({
   },
 
   buildPartnerFromObject (object) {
+    const standardtaxonomie = object.Taxonomien.find((taxonomy) => taxonomy.Standardtaxonomie)
     let partner = {}
     partner.Gruppe = object.Gruppe
     if (object.Gruppe === 'Lebensräume') {
-      partner.Taxonomie = _.get(object, 'Taxonomie.Name')
-      const label = _.get(object, 'Taxonomie.Eigenschaften.Label')
-      const einheit = _.get(object, 'Taxonomie.Eigenschaften.Einheit')
+      partner.Taxonomie = _.get(standardtaxonomie, 'Name')
+      const label = _.get(standardtaxonomie, 'Eigenschaften.Label')
+      const einheit = _.get(standardtaxonomie, 'Eigenschaften.Einheit')
       if (label) {
         partner.Name = label + ': ' + einheit
       } else {
         partner.Name = einheit
       }
     } else {
-      partner.Name = object.Taxonomie.Eigenschaften['Artname vollständig']
+      partner.Name = standardtaxonomie.Eigenschaften['Artname vollständig']
     }
     partner.GUID = object._id
     return partner

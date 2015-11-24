@@ -2,26 +2,27 @@
 
 export default (object) => {
   let wikipediaLink = '//de.wikipedia.org/wiki/'
+  const standardtaxonomie = object.Taxonomien.find((taxonomy) => taxonomy.Standardtaxonomie)
 
   switch (object.Gruppe) {
     case 'Flora':
-      if (object.Taxonomie.Eigenschaften['Name Deutsch']) {
-        wikipediaLink += object.Taxonomie.Eigenschaften['Name Deutsch']
+      if (standardtaxonomie.Eigenschaften['Name Deutsch']) {
+        wikipediaLink += standardtaxonomie.Eigenschaften['Name Deutsch']
       } else {
-        wikipediaLink += object.Taxonomie.Eigenschaften.Artname
+        wikipediaLink += standardtaxonomie.Eigenschaften.Artname
       }
       break
     case 'Fauna':
-      wikipediaLink += object.Taxonomie.Eigenschaften.Gattung + '_' + object.Taxonomie.Eigenschaften.Art
+      wikipediaLink += standardtaxonomie.Eigenschaften.Gattung + '_' + standardtaxonomie.Eigenschaften.Art
       break
     case 'Moose':
-      wikipediaLink += object.Taxonomie.Eigenschaften.Gattung + '_' + object.Taxonomie.Eigenschaften.Art
+      wikipediaLink += standardtaxonomie.Eigenschaften.Gattung + '_' + standardtaxonomie.Eigenschaften.Art
       break
     case 'Macromycetes':
-      wikipediaLink += object.Taxonomie.Eigenschaften.Name
+      wikipediaLink += standardtaxonomie.Eigenschaften.Name
       break
     case 'Lebensräume':
-      wikipediaLink += object.Taxonomie.Eigenschaften.Einheit
+      wikipediaLink += standardtaxonomie.Eigenschaften.Einheit
       break
   }
 

@@ -35,7 +35,8 @@ function buildFieldForProperty (propertyCollection, object, value, key, pcType) 
       .then((linkedObject) => {
         if (linkedObject) {
           const linkedObjectId = linkedObject._id
-          const linkedObjectName = linkedObject.Taxonomie.Eigenschaften['Artname vollständig']
+          const standardtaxonomie = linkedObject.Taxonomien.find((taxonomy) => taxonomy.Standardtaxonomie)
+          const linkedObjectName = standardtaxonomie.Eigenschaften['Artname vollständig']
           return <LinkToSameGroup key={key} fieldName={key} guid ={linkedObjectId} objectName={linkedObjectName} />
         }
       })

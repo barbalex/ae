@@ -4,10 +4,13 @@ import app from 'ampersand-app'
 
 export default (items) => {
   const options = []
-  // used to use _.map but it returned bad options because in always returns a value
+
+  // console.log('buildFilterOptions.js, items received', items)
+
   items.forEach((object) => {
-    if (object.Taxonomie && object.Taxonomie.Eigenschaften) {
-      const eig = object.Taxonomie.Eigenschaften
+    const standardtaxonomie = object.Taxonomien.find((taxonomy) => taxonomy.Standardtaxonomie)
+    if (standardtaxonomie && standardtaxonomie.Eigenschaften) {
+      const eig = standardtaxonomie.Eigenschaften
       if (eig['Artname vollständig']) {
         // this is a species object
         options.push({
@@ -25,6 +28,8 @@ export default (items) => {
       }
     }
   })
+
+  // console.log('buildFilterOptions.js, options', options)
 
   // save to db
   app.localFilterOptionsDb.bulkDocs(options)

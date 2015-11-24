@@ -2,7 +2,8 @@
 
 export default (object) => {
   let googleBilderLink = 'https://www.google.ch/search?num=10&hl=de&site=imghp&tbm=isch&source=hp&bih=824&q="'
-  const tax = object.Taxonomie.Eigenschaften
+  const standardtaxonomie = object.Taxonomien.find((taxonomy) => taxonomy.Standardtaxonomie)
+  const tax = standardtaxonomie.Eigenschaften || {}
 
   switch (object.Gruppe) {
     case 'Flora':
