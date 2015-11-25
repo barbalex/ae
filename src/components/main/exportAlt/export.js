@@ -243,7 +243,7 @@ export default React.createClass({
       const typePath = `${cName}.cType`
       _.set(exportOptions, typePath, cType)
       Object.assign(state, { exportOptions })
-      if (choosen === false && _.includes(collectionsWithAllChoosen, cName)) {
+      if (choosen === false && collectionsWithAllChoosen.includes(cName)) {
         collectionsWithAllChoosen = _.without(collectionsWithAllChoosen, cName)
         Object.assign(state, { collectionsWithAllChoosen })
       }

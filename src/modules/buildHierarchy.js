@@ -51,7 +51,7 @@ import _ from 'lodash'
 import replaceProblematicPathCharactersFromArray from './replaceProblematicPathCharactersFromArray.js'
 
 function checkLevel1 (hierarchy, hArray) {
-  let el1 = _.find(hierarchy, (el) => el.Name === hArray[0].Name)
+  let el1 = hierarchy.find((el) => el.Name === hArray[0].Name)
   if (!el1) {
     el1 = _.clone(hArray[0])
     el1.children = []
@@ -62,8 +62,8 @@ function checkLevel1 (hierarchy, hArray) {
 
 function checkLevel2 (hierarchy, hArray) {
   checkLevel1(hierarchy, hArray)
-  const el1 = _.find(hierarchy, (el) => el.Name === hArray[0].Name)
-  let el2 = _.find(el1.children, (el) => el.Name === hArray[1].Name)
+  const el1 = hierarchy.find((el) => el.Name === hArray[0].Name)
+  let el2 = el1.children.find((el) => el.Name === hArray[1].Name)
   if (!el2) {
     el2 = _.clone(hArray[1])
     el2.children = []
@@ -75,9 +75,9 @@ function checkLevel2 (hierarchy, hArray) {
 function checkLevel3 (hierarchy, hArray) {
   checkLevel1(hierarchy, hArray)
   checkLevel2(hierarchy, hArray)
-  const el1 = _.find(hierarchy, (el) => el.Name === hArray[0].Name)
-  const el2 = _.find(el1.children, (el) => el.Name === hArray[1].Name)
-  let el3 = _.find(el2.children, (el) => el.Name === hArray[2].Name)
+  const el1 = hierarchy.find((el) => el.Name === hArray[0].Name)
+  const el2 = el1.children.find((el) => el.Name === hArray[1].Name)
+  let el3 = el2.children.find((el) => el.Name === hArray[2].Name)
   if (!el3) {
     el3 = _.clone(hArray[2])
     el3.children = []
@@ -90,10 +90,10 @@ function checkLevel4 (hierarchy, hArray) {
   checkLevel1(hierarchy, hArray)
   checkLevel2(hierarchy, hArray)
   checkLevel3(hierarchy, hArray)
-  const el1 = _.find(hierarchy, (el) => el.Name === hArray[0].Name)
-  const el2 = _.find(el1.children, (el) => el.Name === hArray[1].Name)
-  const el3 = _.find(el2.children, (el) => el.Name === hArray[2].Name)
-  let el4 = _.find(el3.children, (el) => el.Name === hArray[3].Name)
+  const el1 = hierarchy.find((el) => el.Name === hArray[0].Name)
+  const el2 = el1.children.find((el) => el.Name === hArray[1].Name)
+  const el3 = el2.children.find((el) => el.Name === hArray[2].Name)
+  let el4 = el3.children.find((el) => el.Name === hArray[3].Name)
   if (!el4) {
     el4 = _.clone(hArray[3])
     el4.children = []
@@ -107,11 +107,11 @@ function checkLevel5 (hierarchy, hArray) {
   checkLevel2(hierarchy, hArray)
   checkLevel3(hierarchy, hArray)
   checkLevel4(hierarchy, hArray)
-  const el1 = _.find(hierarchy, (el) => el.Name === hArray[0].Name)
-  const el2 = _.find(el1.children, (el) => el.Name === hArray[1].Name)
-  const el3 = _.find(el2.children, (el) => el.Name === hArray[2].Name)
-  const el4 = _.find(el3.children, (el) => el.Name === hArray[3].Name)
-  let el5 = _.find(el4.children, (el) => el.Name === hArray[4].Name)
+  const el1 = hierarchy.find((el) => el.Name === hArray[0].Name)
+  const el2 = el1.children.find((el) => el.Name === hArray[1].Name)
+  const el3 = el2.children.find((el) => el.Name === hArray[2].Name)
+  const el4 = el3.children.find((el) => el.Name === hArray[3].Name)
+  let el5 = el4.children.find((el) => el.Name === hArray[4].Name)
   if (!el5) {
     el5 = _.clone(hArray[4])
     el5.children = []
@@ -126,12 +126,12 @@ function checkLevel6 (hierarchy, hArray) {
   checkLevel3(hierarchy, hArray)
   checkLevel4(hierarchy, hArray)
   checkLevel5(hierarchy, hArray)
-  const el1 = _.find(hierarchy, (el) => el.Name === hArray[0].Name)
-  const el2 = _.find(el1.children, (el) => el.Name === hArray[1].Name)
-  const el3 = _.find(el2.children, (el) => el.Name === hArray[2].Name)
-  const el4 = _.find(el3.children, (el) => el.Name === hArray[3].Name)
-  const el5 = _.find(el4.children, (el) => el.Name === hArray[4].Name)
-  let el6 = _.find(el5.children, (el) => el.Name === hArray[5].Name)
+  const el1 = hierarchy.find((el) => el.Name === hArray[0].Name)
+  const el2 = el1.children.find((el) => el.Name === hArray[1].Name)
+  const el3 = el2.children.find((el) => el.Name === hArray[2].Name)
+  const el4 = el3.children.find((el) => el.Name === hArray[3].Name)
+  const el5 = el4.children.find((el) => el.Name === hArray[4].Name)
+  let el6 = el5.children.find((el) => el.Name === hArray[5].Name)
   if (!el6) {
     el6 = _.clone(hArray[5])
     el6.children = []
@@ -147,13 +147,13 @@ function checkLevel7 (hierarchy, hArray) {
   checkLevel4(hierarchy, hArray)
   checkLevel5(hierarchy, hArray)
   checkLevel6(hierarchy, hArray)
-  const el1 = _.find(hierarchy, (el) => el.Name === hArray[0].Name)
-  const el2 = _.find(el1.children, (el) => el.Name === hArray[1].Name)
-  const el3 = _.find(el2.children, (el) => el.Name === hArray[2].Name)
-  const el4 = _.find(el3.children, (el) => el.Name === hArray[3].Name)
-  const el5 = _.find(el4.children, (el) => el.Name === hArray[4].Name)
-  const el6 = _.find(el5.children, (el) => el.Name === hArray[5].Name)
-  let el7 = _.find(el6.children, (el) => el.Name === hArray[6].Name)
+  const el1 = hierarchy.find((el) => el.Name === hArray[0].Name)
+  const el2 = el1.children.find((el) => el.Name === hArray[1].Name)
+  const el3 = el2.children.find((el) => el.Name === hArray[2].Name)
+  const el4 = el3.children.find((el) => el.Name === hArray[3].Name)
+  const el5 = el4.children.find((el) => el.Name === hArray[4].Name)
+  const el6 = el5.children.find((el) => el.Name === hArray[5].Name)
+  let el7 = el6.children.find((el) => el.Name === hArray[6].Name)
   if (!el7) {
     el7 = _.clone(hArray[6])
     el7.children = []
@@ -170,14 +170,14 @@ function checkLevel8 (hierarchy, hArray) {
   checkLevel5(hierarchy, hArray)
   checkLevel6(hierarchy, hArray)
   checkLevel7(hierarchy, hArray)
-  const el1 = _.find(hierarchy, (el) => el.Name === hArray[0].Name)
-  const el2 = _.find(el1.children, (el) => el.Name === hArray[1].Name)
-  const el3 = _.find(el2.children, (el) => el.Name === hArray[2].Name)
-  const el4 = _.find(el3.children, (el) => el.Name === hArray[3].Name)
-  const el5 = _.find(el4.children, (el) => el.Name === hArray[4].Name)
-  const el6 = _.find(el5.children, (el) => el.Name === hArray[5].Name)
-  const el7 = _.find(el6.children, (el) => el.Name === hArray[6].Name)
-  let el8 = _.find(el7.children, (el) => el.Name === hArray[7].Name)
+  const el1 = hierarchy.find((el) => el.Name === hArray[0].Name)
+  const el2 = el1.children.find((el) => el.Name === hArray[1].Name)
+  const el3 = el2.children.find((el) => el.Name === hArray[2].Name)
+  const el4 = el3.children.find((el) => el.Name === hArray[3].Name)
+  const el5 = el4.children.find((el) => el.Name === hArray[4].Name)
+  const el6 = el5.children.find((el) => el.Name === hArray[5].Name)
+  const el7 = el6.children.find((el) => el.Name === hArray[6].Name)
+  let el8 = el7.children.find((el) => el.Name === hArray[7].Name)
   if (!el8) {
     el8 = _.clone(hArray[7])
     el8.children = []
@@ -195,15 +195,15 @@ function checkLevel9 (hierarchy, hArray) {
   checkLevel6(hierarchy, hArray)
   checkLevel7(hierarchy, hArray)
   checkLevel8(hierarchy, hArray)
-  const el1 = _.find(hierarchy, (el) => el.Name === hArray[0].Name)
-  const el2 = _.find(el1.children, (el) => el.Name === hArray[1].Name)
-  const el3 = _.find(el2.children, (el) => el.Name === hArray[2].Name)
-  const el4 = _.find(el3.children, (el) => el.Name === hArray[3].Name)
-  const el5 = _.find(el4.children, (el) => el.Name === hArray[4].Name)
-  const el6 = _.find(el5.children, (el) => el.Name === hArray[5].Name)
-  const el7 = _.find(el6.children, (el) => el.Name === hArray[6].Name)
-  const el8 = _.find(el7.children, (el) => el.Name === hArray[7].Name)
-  let el9 = _.find(el8.children, (el) => el.Name === hArray[8].Name)
+  const el1 = hierarchy.find((el) => el.Name === hArray[0].Name)
+  const el2 = el1.children.find((el) => el.Name === hArray[1].Name)
+  const el3 = el2.children.find((el) => el.Name === hArray[2].Name)
+  const el4 = el3.children.find((el) => el.Name === hArray[3].Name)
+  const el5 = el4.children.find((el) => el.Name === hArray[4].Name)
+  const el6 = el5.children.find((el) => el.Name === hArray[5].Name)
+  const el7 = el6.children.find((el) => el.Name === hArray[6].Name)
+  const el8 = el7.children.find((el) => el.Name === hArray[7].Name)
+  let el9 = el8.children.find((el) => el.Name === hArray[8].Name)
   if (!el9) {
     el9 = _.clone(hArray[8])
     el9.children = []

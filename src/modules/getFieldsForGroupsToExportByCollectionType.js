@@ -16,7 +16,7 @@
 import _ from 'lodash'
 
 export default (allFields, groupsToExport, collectionType, combineTaxonomies) => {
-  let fields = _.filter(allFields, (field) => _.includes(groupsToExport, field.group) && field.cType === collectionType)
+  let fields = allFields.filter((field) => groupsToExport.includes(field.group) && field.cType === collectionType)
   // same fields can be in multiple groups > remove group, then group and sum count
   fields = fields.map((field) => {
     delete field.cType

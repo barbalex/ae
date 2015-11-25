@@ -25,7 +25,7 @@ export default React.createClass({
 
     groupsLoaded.sort()
     const groupCheckboxes = groupsLoaded.map((group, index) => {
-      const checked = _.includes(groupsToExport, group)
+      const checked = groupsToExport.includes(group)
       return <Input key={index} type='checkbox' label={group} checked={checked} onChange={this.onChangeGroup.bind(this, group)} />
     })
 

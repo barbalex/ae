@@ -30,12 +30,12 @@ export default (exportOptions, objects, combineTaxonomies, onlyObjectsWithCollec
            * only filter if a filter value was passed for this field
            */
           if (filterValue !== undefined) {
-            objects = _.filter(objects, (object) => {
+            objects = objects.filter((object) => {
               // find collection with this name
               let collections = []
               if (cType === 'pc') collections = object.Eigenschaftensammlungen
               if (cType === 'rc') collections = object.Beziehungssammlungen
-              let collection = _.find(collections, (c) => c.Name === cName)
+              let collection = collections.find((c) => c.Name === cName)
               if (cType === 'taxonomy' && !combineTaxonomies && object.Taxonomien) {
                 collections = object.Taxonomien
                 const standardtaxonomie = object.Taxonomien.find((taxonomy) => taxonomy['Standardtaxonomie'])
@@ -95,7 +95,7 @@ export default (exportOptions, objects, combineTaxonomies, onlyObjectsWithCollec
          * only filter if a filter value was passed for this field
          */
         if (filterValue !== undefined) {
-          objects = _.filter(objects, (object) => {
+          objects = objects.filter((object) => {
             let returnFromRelationsLoop = false
             object.Taxonomien.forEach((taxonomy) => {
               if (isFilterFulfilled(taxonomy.Eigenschaften[fName], filterValue, co)) {

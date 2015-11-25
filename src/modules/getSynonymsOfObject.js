@@ -9,7 +9,7 @@ export default (object) => {
     if (object.Beziehungssammlungen && object.Beziehungssammlungen.length > 0) {
       const rcs = object.Beziehungssammlungen
       // taxonomic relation collections
-      const taxRcs = _.filter(rcs, (rc) => rc.Typ && rc.Typ === 'taxonomisch')
+      const taxRcs = rcs.filter((rc) => rc.Typ && rc.Typ === 'taxonomisch')
       // synonym objects
       const guidsOfSynonyms = getGuidsOfSynonymsFromTaxonomicRcs(taxRcs)
       app.localDb.allDocs({include_docs: true, keys: guidsOfSynonyms})

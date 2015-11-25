@@ -10,13 +10,13 @@
 import _ from 'lodash'
 
 export default (objects, objectToAddTo, _id) => {
-  const synonym = _.find(objects, (object) => object._id === _id)
+  const synonym = objects.find((object) => object._id === _id)
   if (synonym) {
     // add missing pcs
     const synPcs = _.get(synonym, 'Eigenschaftensammlungen')
     const pcs = _.get(objectToAddTo, 'Eigenschaftensammlungen')
     synPcs.forEach((synPc) => {
-      const existing = _.find(pcs, (pc) => pc.Name === synPc.Name)
+      const existing = pcs.find((pc) => pc.Name === synPc.Name)
       if (!existing) objectToAddTo.Eigenschaftensammlungen.push(synPc)
     })
     // add missing rcs
@@ -25,7 +25,7 @@ export default (objects, objectToAddTo, _id) => {
     synRcs.forEach((synRc) => {
       // we don't want taxonomic rc's
       if (!_.get(synRc, 'Typ')) {
-        const existing = _.find(rcs, (rc) => rc.Name === synRc.Name)
+        const existing = rcs.find((rc) => rc.Name === synRc.Name)
         if (!existing) objectToAddTo.Beziehungssammlungen.push(synRc)
       }
     })

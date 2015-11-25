@@ -51,11 +51,11 @@ export default (Actions) => {
 
           // 1. filter ids
           if (exportOptions.object._id.value) {
-            objects = _.filter(objects, (object) => _.includes(exportOptions.object._id.value, object._id))
+            objects = objects.filter((object) => exportOptions.object._id.value.includes(object._id))
           }
           // 2. filter groups
           const groups = exportOptions.object.Gruppen.value
-          objects = _.filter(objects, (object) => _.includes(groups, object.Gruppe))
+          objects = objects.filter((object) => groups.includes(object.Gruppe))
           // console.log('objects.length after filtering for group', objects.length)
 
           // 3. add missing pc's and rc's of synonyms if applicable
@@ -318,7 +318,7 @@ export default (Actions) => {
       // alert say "Daten werden vorbereitet..."
       this.trigger({ importingProgress, deletingRcInstancesProgress, deletingRcProgress })
       // make sure there are no rcsToImport without _id
-      rcsToImport = _.filter(rcsToImport, (rcToImport) => !!rcToImport._id)
+      rcsToImport = rcsToImport.filter((rcToImport) => !!rcToImport._id)
       /**
        * prepare rcsToImport:
        * combine all objects with the same _id like this:
@@ -504,7 +504,7 @@ export default (Actions) => {
       return new Promise((resolve, reject) => {
         this.getFields()
           .then((fields) => {
-            const groupsFields = _.filter(fields, (field) => _.includes(groups, field.group))
+            const groupsFields = fields.filter((field) => groups.includes(field.group))
             resolve(groupsFields)
           })
           .catch((error) => reject(error))
@@ -546,7 +546,7 @@ export default (Actions) => {
             // if so: queryFieldsOfGroup
             // only do this if group was passed
             const groupsInAllFields = _.uniq(_.pluck(allFields, 'group'))
-            const fieldsExistForRequestedGroup = _.includes(groupsInAllFields, group)
+            const fieldsExistForRequestedGroup = groupsInAllFields.includes(group)
             fieldsQuerying = !fieldsExistForRequestedGroup
             this.trigger({ taxonomyFields, pcFields, relationFields, fieldsQuerying, fieldsQueryingError })
             if (!fieldsExistForRequestedGroup) {
@@ -647,7 +647,7 @@ export default (Actions) => {
       return new Promise((resolve, reject) => {
         this.getPcs()
           .then((pcs) => {
-            const pc = _.find(pcs, (pc) => pc.name === name)
+            const pc = pcs.find((pc) => pc.name === name)
             resolve(pc)
           })
           .catch((error) => reject(error))
@@ -747,7 +747,7 @@ export default (Actions) => {
       return new Promise((resolve, reject) => {
         this.getRcs()
           .then((rcs) => {
-            const rc = _.find(rcs, (rc) => rc.name === name)
+            const rc = rcs.find((rc) => rc.name === name)
             resolve(rc)
           })
           .catch((error) => reject(error))
@@ -968,7 +968,7 @@ export default (Actions) => {
       return new Promise((resolve, reject) => {
         this.groupsLoaded()
           .then((groupsLoaded) => {
-            const groupIsLoaded = _.includes(groupsLoaded, gruppe)
+            const groupIsLoaded = groupsLoaded.includes(gruppe)
             resolve(groupIsLoaded)
           })
           .catch((error) =>

@@ -56,7 +56,7 @@ export default (exportOptions, objects, combineTaxonomies, oneRowPerRelation, on
               const standardtaxonomie = object.Taxonomien.find((taxonomy) => taxonomy['Standardtaxonomie'])
               collection = standardtaxonomie
             } else {
-              collection = _.find(object[cTypeName], (c) => c.Name === cName)
+              collection = object[cTypeName].find((c) => c.Name === cName)
             }
             if (collection) {
               if (cType !== 'rc') {

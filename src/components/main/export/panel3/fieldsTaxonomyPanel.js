@@ -49,7 +49,7 @@ export default React.createClass({
     })
     let alleField = null
     if (fields.length > 1) {
-      const checked = _.includes(collectionsWithAllChoosen, cNameKey)
+      const checked = collectionsWithAllChoosen.includes(cNameKey)
       alleField = (
         <div className='felderspalte alleWaehlenCheckbox' style={{marginBottom: 5}}>
           <Input

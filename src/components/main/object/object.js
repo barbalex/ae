@@ -38,9 +38,9 @@ export default React.createClass({
     // relation collections
     if (rcs && rcs.length > 0) {
       // regular relation collections
-      objectRcs = _.filter(rcs, (rc) => !rc.Typ)
+      objectRcs = rcs.filter((rc) => !rc.Typ)
       // taxonomic relation collections
-      taxRcs = _.filter(rcs, (rc) => rc.Typ && rc.Typ === 'taxonomisch')
+      taxRcs = rcs.filter((rc) => rc.Typ && rc.Typ === 'taxonomisch')
       // list of names of relation collections
       // needed to choose which relation collections of synonym objects need to be built
       namesOfRcsBuilt = _.pluck(rcs, 'Name')
@@ -58,7 +58,7 @@ export default React.createClass({
         // property collections
         if (synonymObject.Eigenschaftensammlungen && synonymObject.Eigenschaftensammlungen.length > 0) {
           synonymObject.Eigenschaftensammlungen.forEach((pc) => {
-            if (!_.includes(namesOfPcsBuilt, pc.Name)) {
+            if (!namesOfPcsBuilt.includes(pc.Name)) {
               // this pc is not yet shown
               pcsOfSynonyms.push(pc)
               // update namesOfPcsBuilt
@@ -72,7 +72,7 @@ export default React.createClass({
          */
         if (synonymObject.Beziehungssammlungen && synonymObject.Beziehungssammlungen.length > 0) {
           synonymObject.Beziehungssammlungen.forEach((rcOfSynonym) => {
-            if (!_.includes(namesOfRcsBuilt, rcOfSynonym.Name) && rcOfSynonym['Art der Beziehungen'] !== 'synonym' && rcOfSynonym.Typ !== 'taxonomisch') {
+            if (!namesOfRcsBuilt.includes(rcOfSynonym.Name) && rcOfSynonym['Art der Beziehungen'] !== 'synonym' && rcOfSynonym.Typ !== 'taxonomisch') {
               // this rc is not yet shown and is not taxonomic
               rcsOfSynonyms.push(rcOfSynonym)
               // update namesOfRcsBuilt
@@ -80,14 +80,14 @@ export default React.createClass({
             } else if (rcOfSynonym['Art der Beziehungen'] !== 'synonym' && rcOfSynonym.Typ !== 'taxonomisch') {
               // this rc is already shown
               // but there could be relations that are not shown yet
-              const rcOfOriginal = _.find(object.Beziehungssammlungen, (rc) => rc.Name === rcOfSynonym.Name)
+              const rcOfOriginal = object.Beziehungssammlungen.find((rc) => rc.Name === rcOfSynonym.Name)
 
               if (rcOfSynonym.Beziehungen && rcOfSynonym.Beziehungen.length > 0 && rcOfOriginal && rcOfOriginal.Beziehungen && rcOfOriginal.Beziehungen.length > 0) {
                 // Both objects have relations in the same relation collection
                 // remove relations existing in original object from synonym
                 rcOfSynonym.Beziehungen = _.reject(rcOfSynonym.Beziehungen, (relationOfSynonym) => {
                   // search in relations of original object for a relation with the same relation partners
-                  const relationOfOriginalWithSamePartners = _.find(rcOfOriginal.Beziehungen, (relationOfOriginal) => {
+                  const relationOfOriginalWithSamePartners = rcOfOriginal.Beziehungen.find((relationOfOriginal) => {
                     if (relationOfSynonym.Beziehungspartner.length > 0 && relationOfOriginal.Beziehungspartner.length > 0) {
                       return relationOfSynonym.Beziehungspartner[0].GUID === relationOfOriginal.Beziehungspartner[0].GUID
                     }

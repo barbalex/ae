@@ -63,7 +63,7 @@ export default () => {
     if (!gruppe) return false
     // make sure a valid group was passed
     const gruppen = getGruppen()
-    const validGroup = _.includes(gruppen, gruppe)
+    const validGroup = gruppen.includes(gruppe)
     if (!validGroup) return Actions.loadObjectStore.failed('Actions.loadObjectStore: the group passed is not valid', gruppe)
 
     // app.loadingGroupsStore.groupsLoading is a task list that is worked off one by one

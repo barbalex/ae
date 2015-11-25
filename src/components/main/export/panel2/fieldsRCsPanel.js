@@ -27,7 +27,7 @@ export default React.createClass({
   render () {
     const { relationFields, onChangeCoSelect, rcs, exportOptions, cNameKey } = this.props
     const cNameObject = relationFields[cNameKey]
-    const rc = _.find(rcs, (rc) => rc.name === cNameKey)
+    const rc = rcs.find((rc) => rc.name === cNameKey)
     const fieldsSorted = _.sortBy(Object.keys(cNameObject), (fNameKey) => fNameKey.toLowerCase())
     const fields = fieldsSorted.map((fNameKey) => {
       const fieldKey = fNameKey.toLowerCase()

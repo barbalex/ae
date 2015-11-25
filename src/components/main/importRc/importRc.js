@@ -386,7 +386,7 @@ export default React.createClass({
           })
           let idsToImportWithDuplicates = _.pluck(rcsToImport, idsImportIdField)
           // remove emtpy values
-          idsToImportWithDuplicates = _.filter(idsToImportWithDuplicates, (id) => !!id)
+          idsToImportWithDuplicates = idsToImportWithDuplicates.filter((id) => !!id)
           const idsNumberOfRecordsWithIdValue = idsToImportWithDuplicates.length
           const idsOfAeObjects = _.values(idGuidObject)
           const idGuidImportable = _.omit(idGuidObject, (guid, id) => !guid)
@@ -523,7 +523,7 @@ export default React.createClass({
     this.setState({ bsBearbeitenErlaubt: true })
     // check if this name exists
     // if so and it is not combining: check if it was imported by the user
-    const sameRc = _.find(rcs, (rc) => rc.name === name)
+    const sameRc = rcs.find((rc) => rc.name === name)
     const bsBearbeitenErlaubt = !sameRc || (sameRc && (sameRc.combining || sameRc.importedBy === email))
     if (!bsBearbeitenErlaubt) {
       this.setState({ bsBearbeitenErlaubt: false })

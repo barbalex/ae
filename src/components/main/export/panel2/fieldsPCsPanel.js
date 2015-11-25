@@ -27,7 +27,7 @@ export default React.createClass({
   render () {
     const { pcFields, onChangeCoSelect, pcs, exportOptions, cNameKey } = this.props
     const cNameObject = pcFields[cNameKey]
-    const pc = _.find(pcs, (pc) => pc.name === cNameKey)
+    const pc = pcs.find((pc) => pc.name === cNameKey)
     const fieldsSorted = _.sortBy(Object.keys(cNameObject), (fNameKey) => fNameKey.toLowerCase())
     const fields = fieldsSorted.map((fNameKey) => {
       const fieldKey = fNameKey.toLowerCase()

@@ -58,7 +58,7 @@ export default React.createClass({
     const collections = collectionKeysSorted.map((cNameKey, cIndex) => {
       const collectionKey = cNameKey.toLowerCase()
       const openPanel = activePanelOpeningWhenOnlyOneCollection === cIndex
-      const rc = _.find(rcs, (rc) => rc.name === cNameKey)
+      const rc = rcs.find((rc) => rc.name === cNameKey)
       return (
         <Panel key={collectionKey} collapsible header={rc.name} eventKey={cIndex} onClick={this.onClickPanel.bind(this, cIndex)}>
           {openPanel ?
