@@ -7,7 +7,6 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import _ from 'lodash'
 import getPathFromGuid from '../../../modules/getPathFromGuid.js'
 
 export default React.createClass({
@@ -20,7 +19,9 @@ export default React.createClass({
 
   onClick (guid, event) {
     event.preventDefault()
-    getPathFromGuid(guid)
+    console.log('FieldLinksToSameGroup guid', guid)
+    if (guid) app.Actions.loadActiveObjectStore(guid)
+    /*getPathFromGuid(guid)
       .then((result) => {
         const path = result.path
         if (guid) app.Actions.loadActiveObjectStore(guid)
@@ -28,12 +29,15 @@ export default React.createClass({
       })
       .catch((error) =>
         app.Actions.showError({title: 'linksToSameGroup.js: error getting path for guid ' + guid + ':', msg: error})
-      )
+      )*/
   },
 
   render () {
     const { objects, fieldName } = this.props
     const linkArray = objects.map((object, index) => {
+
+      console.log('linksToSameGroup.js, rendering link to guid', object.guid)
+
       getPathFromGuid(object.guid)
         .then((result) => {
           const url = result.url

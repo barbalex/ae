@@ -8,7 +8,6 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import getPathFromGuid from '../../../modules/getPathFromGuid.js'
 
 export default React.createClass({
   displayName: 'TextLink',
@@ -20,12 +19,6 @@ export default React.createClass({
     guid: React.PropTypes.string
   },
 
-  getInitialState () {
-    const { guid } = this.props
-    const url = `/${guid}`
-    return { url }
-  },
-
   onClickUrl (event) {
     event.preventDefault()
     const { guid } = this.props
@@ -34,24 +27,20 @@ export default React.createClass({
 
   render () {
     const { label, value, guid } = this.props
-    const { url } = this.state
+    const url = `/${guid}`
     // can't use getPathFromGuid because it is possible that the relation partner's group was not loaded yet
-    getPathFromGuid(guid)
-      .then(({ url }) => {
-        if (url) this.setState({ url })
-      })
-      .catch((error) => console.log('error fetching path from guid:', error))
+    // and using it starts an infinite loop
 
     return (
       <div className='form-group'>
-          <label className='control-label'>
-            {label ? label + ':' : null}
-          </label>
-          <p className='form-control-static feldtext controls'>
-            <a href={url} onClick={this.onClickUrl}>
-              {value}
-            </a>
-          </p>
+        <label className='control-label'>
+          {label ? label + ':' : null}
+        </label>
+        <p className='form-control-static feldtext controls'>
+          <a href={url} onClick={this.onClickUrl}>
+            {value}
+          </a>
+        </p>
       </div>
     )
   }

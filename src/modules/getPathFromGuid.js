@@ -24,6 +24,7 @@ function extractPayloadFromObject (object) {
 }
 
 export default (guid) => {
+  // console.log('getPathFromGuid.js, guid', guid)
   return new Promise((resolve, reject) => {
     app.objectStore.getItem(guid)
       .then((object) => resolve(extractPayloadFromObject(object)))

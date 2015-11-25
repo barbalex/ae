@@ -38,13 +38,9 @@ export default React.createClass({
     const guid = result.value
     // const label = result.label
 
+    console.log('filter.js, onSelectObject, guid', guid)
+
     app.Actions.loadActiveObjectStore(guid)
-    getPathFromGuid(guid)
-      .then((result) => {
-        const path = result.path
-        app.Actions.loadActivePathStore(path, guid)
-      })
-      .catch((error) => app.Actions.showError({title: 'filter.js: error getting path for guid ' + guid + ':', msg: error}))
 
     /*this.setState({
       itemFiltered: {
