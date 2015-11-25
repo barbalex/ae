@@ -56,6 +56,7 @@ export default React.createClass({
     const { taxonomyFields, pcFields, relationFields, onChooseField, onChooseAllOfCollection, pcs, rcs, exportOptions, collectionsWithAllChoosen, oneRowPerRelation, onChangeOneRowPerRelation } = this.props
     const { activePanel } = this.state
     const guidChecked = _.get(exportOptions, 'object._id.export')
+    const taxonomyHeader = Object.keys(taxonomyFields).length > 1 ? 'Taxonomien' : 'Taxonomie'
 
     return (
       <Accordion activeKey={activePanel}>
@@ -68,7 +69,7 @@ export default React.createClass({
             : null
           }
         </Panel>
-        <Panel className='collectionPanel' collapsible header='Taxonomie' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
+        <Panel className='collectionPanel' collapsible header={taxonomyHeader} eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
           {activePanel === 2 ?
             <FieldsTaxonomy
               exportOptions={exportOptions}

@@ -50,6 +50,7 @@ export default React.createClass({
   render () {
     const { taxonomyFields, pcFields, relationFields, onChangeFilterField, onChangeCoSelect, pcs, rcs, exportOptions } = this.props
     const { activePanel } = this.state
+    const taxonomyHeader = Object.keys(taxonomyFields).length > 1 ? 'Taxonomien' : 'Taxonomie'
 
     return (
       <Accordion activeKey={activePanel}>
@@ -60,7 +61,7 @@ export default React.createClass({
             : null
           }
         </Panel>
-        <Panel className='collectionPanel' collapsible header='Taxonomie' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
+        <Panel className='collectionPanel' collapsible header={taxonomyHeader} eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
           {activePanel === 2 ?
             <FieldsTaxonomy
               taxonomyFields={taxonomyFields}
