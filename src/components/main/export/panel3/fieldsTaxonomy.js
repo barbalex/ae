@@ -53,7 +53,7 @@ export default React.createClass({
     // open panel if there is only one
     const numberOfCollections = Object.keys(taxonomyFields).length
     const activePanelOpeningWhenOnlyOneCollection = numberOfCollections === 1 ? 0 : activePanel
-    const collectionKeysSorted = _.sortBy(Object.keys(taxonomyFields), (cNameKey) => cNameKey.toLowerCase())
+    const collectionKeysSorted = Object.keys(taxonomyFields).sort((cNameKey) => cNameKey.toLowerCase())
     const collections = collectionKeysSorted.map((cNameKey, cIndex) => {
       const collectionKey = cNameKey.toLowerCase()
       return (

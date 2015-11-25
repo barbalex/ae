@@ -84,7 +84,7 @@ export default (offlineIndexes) => {
           count: row.value
         }))
         // sort by pcName
-        pcs = _.sortBy(pcs, (pc) => pc.name)
+        pcs = pcs.sort((pc) => pc.name)
         resolve(pcs)
       })
       .catch((error) => reject(error))

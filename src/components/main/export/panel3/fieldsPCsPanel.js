@@ -30,7 +30,7 @@ export default React.createClass({
     const { pcFields, exportOptions, cNameKey, collectionsWithAllChoosen } = this.props
 
     const cNameObject = pcFields[cNameKey]
-    const fieldsSorted = _.sortBy(Object.keys(cNameObject), (fNameKey) => fNameKey.toLowerCase())
+    const fieldsSorted = Object.keys(cNameObject).sort((fNameKey) => fNameKey.toLowerCase())
     const fields = fieldsSorted.map((fNameKey) => {
       const fieldKey = fNameKey.toLowerCase()
       let checked = false

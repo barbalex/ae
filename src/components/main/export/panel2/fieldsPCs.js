@@ -54,7 +54,7 @@ export default React.createClass({
     const numberOfCollections = Object.keys(pcFields).length
     const activePanelOpeningWhenOnlyOneCollection = numberOfCollections === 1 ? 0 : activePanel
 
-    const collectionKeysSorted = _.sortBy(Object.keys(pcFields), (cNameKey) => cNameKey.toLowerCase())
+    const collectionKeysSorted = Object.keys(pcFields).sort((cNameKey) => cNameKey.toLowerCase())
     const collections = collectionKeysSorted.map((cNameKey, cIndex) => {
       const collectionKey = cNameKey.toLowerCase()
       const openPanel = activePanelOpeningWhenOnlyOneCollection === cIndex

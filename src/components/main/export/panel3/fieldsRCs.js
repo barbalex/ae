@@ -68,7 +68,7 @@ export default React.createClass({
       marginBottom: 3
     }
 
-    const collectionKeysSorted = _.sortBy(Object.keys(relationFields), (cNameKey) => cNameKey.toLowerCase())
+    const collectionKeysSorted = Object.keys(relationFields).sort((cNameKey) => cNameKey.toLowerCase())
     const collections = collectionKeysSorted.map((cNameKey, cIndex) => {
       const collectionKey = cNameKey.toLowerCase()
       const rc = rcs.find((rc) => rc.name === cNameKey)

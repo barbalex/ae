@@ -608,7 +608,7 @@ export default (Actions) => {
       app.localDb.get('_local/pcs', { include_docs: true })
         .then((doc) => {
           doc.pcs.push(pc)
-          doc.pcs = _.sortBy(doc.pcs, (pc) => pc.name)
+          doc.pcs = doc.pcs.sort((pc) => pc.name)
           pcs = doc.pcs
           return app.localDb.put(doc)
         })
@@ -708,7 +708,7 @@ export default (Actions) => {
       app.localDb.get('_local/rcs', { include_docs: true })
         .then((doc) => {
           doc.rcs.push(rc)
-          doc.rcs = _.sortBy(doc.rcs, (rc) => rc.name)
+          doc.rcs = doc.rcs.sort((rc) => rc.name)
           rcs = doc.rcs
           return app.localDb.put(doc)
         })

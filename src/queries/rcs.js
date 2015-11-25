@@ -82,7 +82,7 @@ export default (offlineIndexes) => {
           count: row.value
         }))
         // sort by rcName
-        rcs = _.sortBy(rcs, (rc) => rc.name)
+        rcs = rcs.sort((rc) => rc.name)
         resolve(rcs)
       })
       .catch((error) => reject(error))

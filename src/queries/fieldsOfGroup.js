@@ -10,7 +10,6 @@
 'use strict'
 
 import app from 'ampersand-app'
-import _ from 'lodash'
 
 const ddoc = {
   _id: '_design/fieldsOfGroup',
@@ -116,7 +115,7 @@ export default (group, offlineIndexes) => {
           count: row.value
         }))
         // sort by pcName
-        fields = _.sortBy(fields, (field) => [field.cName, field.fName])
+        fields = fields.sort((field) => [field.cName, field.fName])
         resolve(fields)
       })
       .catch((error) => reject(error))
