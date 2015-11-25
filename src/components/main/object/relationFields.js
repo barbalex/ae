@@ -24,9 +24,7 @@ export default React.createClass({
       if (typeof fieldValue === 'string') fieldValue = fieldValue.replace('&#39;', '\'')
       if (fieldName !== 'Beziehungspartner') {
         const rcName = relationCollection.Name.replace(/"/g, "'")
-        return (
-          <Field key={fieldName} fieldName={fieldName} fieldValue={fieldValue} pcType={'Beziehungssammlung'} pcName={rcName} />
-        )
+        return <Field key={fieldName} fieldName={fieldName} fieldValue={fieldValue} pcType={'Beziehungssammlung'} pcName={rcName} />
       }
     })
 
