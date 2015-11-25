@@ -8,8 +8,10 @@ export default (path, gruppe, guid) => {
     app.Actions.loadActiveObjectStore(guid)
   } else if (path && path.length > 0) {
     app.Actions.loadActivePathStore(path, guid)
-      .then(() => getObjectFromPath(path))
-      .then((object) => app.Actions.loadActiveObjectStore(object._id))
+    getObjectFromPath(path)
+      .then((object) => {
+        if (object) app.Actions.loadActiveObjectStore(object._id)
+      })
       .catch((error) =>
         app.Actions.showError({title: 'kickOffStores.js: error loading active object store or getting path for path "' + path + '":', msg: error})
       )
