@@ -309,7 +309,7 @@ export default React.createClass({
           const idsOfAeObjects = _.values(idGuidObject)
 
           const idGuidImportable = _.omit(idGuidObject, (guid, id) => !guid)
-          const idsImportable = _.keys(idGuidImportable)
+          const idsImportable = Object.keys(idGuidImportable)
           // extracting from keys converts numbers to strings! Convert back
           idsImportable.forEach((id, index) => {
             if (!isNaN(id)) idsImportable[index] = parseInt(id, 10)

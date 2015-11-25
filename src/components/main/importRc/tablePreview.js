@@ -30,7 +30,7 @@ export default React.createClass({
     // get a list of all keys
     let keys = []
     rcsToImport.forEach((pc) => {
-      keys = _.union(keys, _.keys(pc))
+      keys = _.union(keys, Object.keys(pc))
     })
     // remove '_id' and 'rPartners' from keys
     keys = _.without(keys, '_id', 'rPartners')

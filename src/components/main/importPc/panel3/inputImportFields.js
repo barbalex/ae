@@ -24,7 +24,7 @@ export default React.createClass({
      // get a list of all keys
     let keys = []
     pcsToImport.forEach((pc) => {
-      keys = _.union(keys, _.keys(pc))
+      keys = _.union(keys, Object.keys(pc))
     })
 
     const style = { height: ((keys.length * 18) + 9) + 'px' }

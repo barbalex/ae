@@ -390,7 +390,7 @@ export default React.createClass({
           const idsNumberOfRecordsWithIdValue = idsToImportWithDuplicates.length
           const idsOfAeObjects = _.values(idGuidObject)
           const idGuidImportable = _.omit(idGuidObject, (guid, id) => !guid)
-          const idsImportable = _.keys(idGuidImportable)
+          const idsImportable = Object.keys(idGuidImportable)
           // extracting from keys converts numbers to strings! Convert back
           idsImportable.forEach((id, index) => {
             if (!isNaN(id)) idsImportable[index] = parseInt(id, 10)
@@ -398,7 +398,7 @@ export default React.createClass({
 
           let idsNumberImportable = 0
           idsToImportWithDuplicates.forEach((id) => {
-            if (_.includes(idsImportable, id)) idsNumberImportable++
+            if (idsImportable.includes(id)) idsNumberImportable++
           })
           // get ids not fetched
           const idsNotImportable = _.difference(idsToImportWithDuplicates, idsImportable)

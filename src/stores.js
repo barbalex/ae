@@ -914,12 +914,12 @@ export default (Actions) => {
     item: {},
 
     onLoadActiveObjectStoreCompleted (item) {
-      console.log('activeObjectStore, onLoadActiveObjectStoreCompleted, item', item)
+      // console.log('activeObjectStore, onLoadActiveObjectStoreCompleted, item', item)
       // only change if active item has changed
       if (!_.isEqual(item, this.item)) {
         // item can be an object or {}
         this.item = item
-        this.loaded = _.keys(item).length > 0
+        this.loaded = Object.keys(item).length > 0
         // tell views that data has changed
         this.trigger(item, [])
         // load path for this object...

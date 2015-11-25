@@ -2,8 +2,7 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import _ from 'lodash'
-import { Button, ButtonGroup, DropdownButton, MenuItem, Input } from 'react-bootstrap'
+import { Button, ButtonGroup, DropdownButton, MenuItem } from 'react-bootstrap'
 import InputIndexes from './inputIndexes.js'
 import buildGoogleImageLink from '../../../modules/buildGoogleImageLink.js'
 import buildWikipediaLink from '../../../modules/buildWikipediaLink.js'
@@ -55,7 +54,7 @@ export default React.createClass({
 
   render () {
     const { object, offlineIndexes, onClickToggleOfflineIndexes } = this.props
-    const isObject = object && _.keys(object).length > 0
+    const isObject = object && Object.keys(object).length > 0
     const googleLink = isObject ? buildGoogleImageLink(object) : '#'
     const wikipediaLink = isObject ? buildWikipediaLink(object) : '#'
 

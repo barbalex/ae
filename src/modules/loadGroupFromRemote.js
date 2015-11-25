@@ -18,7 +18,7 @@ export default (gruppe, callback) => {
           // this group does not exist yet in the store
           const gruppeString = gruppe === 'Lebensräume' ? 'lr' : (gruppe === 'Macromycetes' ? 'pilze' : gruppe.toLowerCase())
           app.remoteDb.get('ae-' + gruppeString)
-            .then((doc) =>_.keys(doc._attachments))
+            .then((doc) => Object.keys(doc._attachments))
             .then((attachments) => {
               // sort attachments so the one with the last docs is loaded last
               // reason: write the checkpoint for the last docs only

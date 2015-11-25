@@ -187,7 +187,7 @@ export default (exportOptions, objects, combineTaxonomies, oneRowPerRelation, on
     // add all these fields to every export object if it does not already exist
     // BUT: how get right order?
     // like this: rebuild every export object new
-    let exportObjectFields = _.keys(exportObjects[0])
+    let exportObjectFields = Object.keys(exportObjects[0])
     exportObjectFields = _.union(exportObjectFields, fieldsToAddToAllExportObjects)
     exportObjectFields.sort()
     // make sure guid is first field
