@@ -9,6 +9,7 @@ import app from 'ampersand-app'
 import _ from 'lodash'
 import { ListenerMixin } from 'reflux'
 import React from 'react'
+import ReactDOM from 'react-dom'
 import Objekt from './object/object.js'
 import ImportPc from './importPc/importPc.js'
 import ImportRc from './importRc/importRc.js'
@@ -69,7 +70,7 @@ export default React.createClass({
   },
 
   onResize () {
-    const thisWidth = React.findDOMNode(this).offsetWidth
+    const thisWidth = ReactDOM.findDOMNode(this).offsetWidth
     const formClassNames = thisWidth > 700 ? 'form form-horizontal' : 'form'
     this.setState({ formClassNames })
   },
