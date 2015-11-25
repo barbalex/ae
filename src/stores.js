@@ -479,9 +479,7 @@ export default (Actions) => {
       return new Promise((resolve, reject) => {
         app.localDb.get('_local/fields', { include_docs: true })
           .then((doc) => resolve(doc.fields))
-          .catch((error) =>
-            reject('Fehler in fieldsStore, getFields: ' + error)
-          )
+          .catch((error) => reject('Fehler in fieldsStore, getFields: ' + error))
       })
     },
 
