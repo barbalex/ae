@@ -26,7 +26,7 @@ const ddoc = {
         }
         if (doc.Typ && doc.Typ === 'Objekt' && doc.Gruppe && doc.Gruppe === 'Flora' && doc.Taxonomien) {
           var standardtaxonomie = findStandardTaxonomyInDoc(doc)
-          if (standardtaxonomie) emit(standardtaxonomie.Eigenschaften['Taxonomie ID'], null)
+          if (standardtaxonomie) window.emit(standardtaxonomie.Eigenschaften['Taxonomie ID'], null)
         }
       }.toString()
     }

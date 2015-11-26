@@ -23,7 +23,7 @@ const ddoc = {
                 var eigenschaften = taxonomy.Eigenschaften
                 Object.keys(eigenschaften).forEach(function (feldname) {
                   var feldwert = eigenschaften[feldname]
-                  emit([doc.Gruppe, 'taxonomy', taxonomy.Name, feldname, typeof feldwert], doc._id)
+                  window.emit([doc.Gruppe, 'taxonomy', taxonomy.Name, feldname, typeof feldwert], doc._id)
                 })
               }
             })
@@ -35,7 +35,7 @@ const ddoc = {
                 var eigenschaften = pc.Eigenschaften
                 Object.keys(eigenschaften).forEach(function (feldname) {
                   var feldwert = eigenschaften[feldname]
-                  emit([doc.Gruppe, 'propertyCollection', pc.Name, feldname, typeof feldwert], doc._id)
+                  window.emit([doc.Gruppe, 'propertyCollection', pc.Name, feldname, typeof feldwert], doc._id)
                 })
               }
             })
@@ -50,7 +50,7 @@ const ddoc = {
                     // irgendwie liefert dieser Loop auch Zahlen, die aussehen als wären sie die keys eines Arrays. Ausschliessen
                     if (isNaN(parseInt(feldname, 10))) {
                       // jetzt loopen wir durch die Daten der Beziehung
-                      emit([doc.Gruppe, 'relation', beziehungssammlung.Name, feldname, typeof feldwert], doc._id)
+                      window.emit([doc.Gruppe, 'relation', beziehungssammlung.Name, feldname, typeof feldwert], doc._id)
                     }
                   })
                 })

@@ -22,11 +22,23 @@ export default React.createClass({
         <WellTechnAnforderungenAnDatei />
         <WellAnforderungenAnCsv />
         <WellAnforderungenInhaltlich />
-
-        <input type='file' className='form-control' onChange={onChangeFile} />
-        {validPcsToImport ? null : <div className='validateDiv'>Bitte wählen Sie eine Datei</div>}
-
-        {pcsToImport.length > 0 ? <TablePreview pcsToImport={pcsToImport} /> : null}
+        <input
+          type='file'
+          className='form-control'
+          onChange={onChangeFile} />
+        {
+          validPcsToImport
+          ? null
+          : <div className='validateDiv'>
+              Bitte wählen Sie eine Datei
+            </div>
+        }
+        {
+          pcsToImport.length > 0
+          ? <TablePreview
+              pcsToImport={pcsToImport} />
+          : null
+        }
       </div>
     )
   }

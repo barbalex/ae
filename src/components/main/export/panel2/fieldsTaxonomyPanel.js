@@ -60,7 +60,7 @@ export default React.createClass({
           onChange={this.onChange.bind(this, cNameKey, fNameKey)}
           buttonAfter={buttonAfter} >
           <option value={null}></option>
-          <option value={true}>ja</option>
+          <option value>ja</option>
           <option value={false}>nein</option>
         </Input>
       )

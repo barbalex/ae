@@ -112,7 +112,7 @@ export default React.createClass({
         {objectRcs.length > 0 ? <RelationCollections objectRcs={objectRcs} /> : null}
         {pcsOfSynonyms.length > 0 ? <PcsOfSynonyms pcsOfSynonyms={pcsOfSynonyms} object={object} /> : null}
         {rcsOfSynonyms.length > 0 ? <RcsOfSynonyms rcsOfSynonyms={rcsOfSynonyms} /> : null}
-        {/*<Inspector data={object}/>*/}
+        {/* <Inspector data={object}/> */}
       </div>
     )
   }

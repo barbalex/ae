@@ -102,7 +102,7 @@ export default (Actions) => {
           this.trigger('success')
           app.fieldsStore.emptyFields()
         })
-        .catch((error) => this.trigger('error'))
+        .catch((error) => this.trigger('error')) // eslint-disable-line handle-callback-err
     }
   })
 
@@ -114,7 +114,7 @@ export default (Actions) => {
       this.trigger('replicating')
       app.localDb.replicate.to(app.remoteDb)
         .then((result) => this.trigger('success'))
-        .catch((error) => this.trigger('error'))
+        .catch((error) => this.trigger('error'))  // eslint-disable-line handle-callback-err
     }
   })
 

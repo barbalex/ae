@@ -65,24 +65,24 @@ export default React.createClass({
           <Button onClick={this.searchWikipediaArticle} bsSize='small' disabled={!isObject} href={wikipediaLink} target='_blank'>Wikipedia</Button>
           <Button onClick={this.exportProperties} bsSize='small'>Export</Button>
           <DropdownButton id='importDropdown' title='Import' bsSize='small'>
-            <MenuItem header={true}>Importieren oder löschen:</MenuItem>
+            <MenuItem header>Importieren oder löschen:</MenuItem>
             <MenuItem onSelect={this.importPropertyCollection}>Eigenschaften</MenuItem>
             <MenuItem onSelect={this.importRelationsCollection}>Beziehungen</MenuItem>
           </DropdownButton>
           <DropdownButton id='moreDropdown' title='Mehr...' bsSize='small'>
             <MenuItem onSelect={this.openOrganisationen}>Organisationen und Benutzer</MenuItem>
             <MenuItem divider/>
-            <MenuItem header={true}>Daten:</MenuItem>
+            <MenuItem header>Daten:</MenuItem>
             <MenuItem onSelect={this.loadPouchFromRemote}>Fehlende Gruppen laden</MenuItem>
             <MenuItem onSelect={this.replicateFromAe}><strong>Von</strong> arteigenschaften.ch replizieren</MenuItem>
             <MenuItem onSelect={this.replicateToAe}><strong>Nach</strong> arteigenschaften.ch replizieren</MenuItem>
             <MenuItem divider/>
-            <MenuItem header={true}>Indizes:</MenuItem>
+            <MenuItem header>Indizes:</MenuItem>
             <InputIndexes offlineIndexes={offlineIndexes} onClickToggleOfflineIndexes={onClickToggleOfflineIndexes} />
             <MenuItem divider/>
-            <MenuItem onSelect={this.openAdminPage} disabled={true}>Administration</MenuItem>
+            <MenuItem onSelect={this.openAdminPage} disabled>Administration</MenuItem>
             <MenuItem divider/>
-            <MenuItem header={true}>Über arteigenschaften.ch:</MenuItem>
+            <MenuItem header>Über arteigenschaften.ch:</MenuItem>
             <MenuItem href='//github.com/FNSKtZH/artendb/blob/master/README.md' target='_blank'>Projekt-Beschreibung</MenuItem>
             <MenuItem href='//github.com/FNSKtZH/artendb' target='_blank'>Code</MenuItem>
             <MenuItem href='//github.com/FNSKtZH/artendb/commits/master' target='_blank'>Letzte Änderungen</MenuItem>

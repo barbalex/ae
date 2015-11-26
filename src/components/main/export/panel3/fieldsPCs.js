@@ -60,15 +60,21 @@ export default React.createClass({
       const collectionKey = cNameKey.toLowerCase()
       const pc = pcs.find((pc) => pc.name === cNameKey)
       return (
-        <Panel key={collectionKey} collapsible header={pc.name} eventKey={cIndex} onClick={this.onClickPanel.bind(this, cIndex)}>
-          {activePanelOpeningWhenOnlyOneCollection === cIndex ?
-            <FieldsPCsPanel
-              cNameKey={cNameKey}
-              pcFields={pcFields}
-              exportOptions={exportOptions}
-              collectionsWithAllChoosen={collectionsWithAllChoosen}
-              onChooseField={onChooseField}
-              onChooseAllOfCollection={onChooseAllOfCollection} />
+        <Panel
+          key={collectionKey}
+          collapsible
+          header={pc.name}
+          eventKey={cIndex}
+          onClick={this.onClickPanel.bind(this, cIndex)}>
+          {
+            activePanelOpeningWhenOnlyOneCollection === cIndex
+            ? <FieldsPCsPanel
+                cNameKey={cNameKey}
+                pcFields={pcFields}
+                exportOptions={exportOptions}
+                collectionsWithAllChoosen={collectionsWithAllChoosen}
+                onChooseField={onChooseField}
+                onChooseAllOfCollection={onChooseAllOfCollection} />
             : null
           }
         </Panel>

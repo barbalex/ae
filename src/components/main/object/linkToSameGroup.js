@@ -7,7 +7,6 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import getPathFromGuid from '../../../modules/getPathFromGuid.js'
 
 export default React.createClass({
   displayName: 'FieldLinkToSameGroup',

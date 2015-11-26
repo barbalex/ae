@@ -5,7 +5,7 @@
  * that contain the pc with the name
  *
  * if offlineIndexes is true: queries from remote and does not create design doc
- * 
+ *
  * no es6 in ddocs!
  */
 
@@ -21,7 +21,7 @@ const ddoc = {
       map: function (doc) {
         if (doc.Typ && doc.Typ === 'Objekt' && doc.Eigenschaftensammlungen) {
           doc.Eigenschaftensammlungen.forEach(function (es) {
-            emit(es.Name, doc._id)
+            window.emit(es.Name, doc._id)
           })
         }
       }.toString()

@@ -10,23 +10,23 @@ export default (object) => {
       const { Artname, Art, Name, Gattung, Einheit } = properties
 
       switch (object.Gruppe) {
-      case 'Flora':
-        if (properties['Name Deutsch']) {
-          link += properties['Name Deutsch']
-        } else {
-          link += Artname
-        }
-        break
-      case 'Fauna':
-      case 'Moose':
-        link += Gattung + '_' + Art
-        break
-      case 'Macromycetes':
-        link += Name
-        break
-      case 'Lebensräume':
-        link += Einheit
-        break
+        case 'Flora':
+          if (properties['Name Deutsch']) {
+            link += properties['Name Deutsch']
+          } else {
+            link += Artname
+          }
+          break
+        case 'Fauna':
+        case 'Moose':
+          link += Gattung + '_' + Art
+          break
+        case 'Macromycetes':
+          link += Name
+          break
+        case 'Lebensräume':
+          link += Einheit
+          break
       }
     }
   }

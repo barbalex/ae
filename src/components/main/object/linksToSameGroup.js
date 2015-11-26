@@ -21,23 +21,11 @@ export default React.createClass({
     event.preventDefault()
     console.log('FieldLinksToSameGroup guid', guid)
     if (guid) app.Actions.loadActiveObjectStore(guid)
-    /*getPathFromGuid(guid)
-      .then((result) => {
-        const path = result.path
-        if (guid) app.Actions.loadActiveObjectStore(guid)
-        app.Actions.loadActivePathStore(path, guid)
-      })
-      .catch((error) =>
-        app.Actions.showError({title: 'linksToSameGroup.js: error getting path for guid ' + guid + ':', msg: error})
-      )*/
   },
 
   render () {
     const { objects, fieldName } = this.props
     const linkArray = objects.map((object, index) => {
-
-      console.log('linksToSameGroup.js, rendering link to guid', object.guid)
-
       getPathFromGuid(object.guid)
         .then((result) => {
           const url = result.url

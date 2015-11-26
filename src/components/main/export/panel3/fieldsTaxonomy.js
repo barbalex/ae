@@ -57,15 +57,21 @@ export default React.createClass({
     const collections = collectionKeysSorted.map((cNameKey, cIndex) => {
       const collectionKey = cNameKey.toLowerCase()
       return (
-        <Panel key={collectionKey} collapsible header={cNameKey} eventKey={cIndex} onClick={this.onClickPanel.bind(this, cIndex)}>
-          {activePanelOpeningWhenOnlyOneCollection === cIndex ?
-            <FieldsTaxonomyPanel
-              cNameKey={cNameKey}
-              taxonomyFields={taxonomyFields}
-              exportOptions={exportOptions}
-              collectionsWithAllChoosen={collectionsWithAllChoosen}
-              onChooseField={onChooseField}
-              onChooseAllOfCollection={onChooseAllOfCollection} />
+        <Panel
+          key={collectionKey}
+          collapsible
+          header={cNameKey}
+          eventKey={cIndex}
+          onClick={this.onClickPanel.bind(this, cIndex)}>
+          {
+            activePanelOpeningWhenOnlyOneCollection === cIndex
+            ? <FieldsTaxonomyPanel
+                cNameKey={cNameKey}
+                taxonomyFields={taxonomyFields}
+                exportOptions={exportOptions}
+                collectionsWithAllChoosen={collectionsWithAllChoosen}
+                onChooseField={onChooseField}
+                onChooseAllOfCollection={onChooseAllOfCollection} />
             : null
           }
         </Panel>

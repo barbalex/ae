@@ -23,14 +23,16 @@ export default React.createClass({
     }
   },
 
-  /*componentWillUpdate () {
+  /*
+  componentWillUpdate () {
     const { taxonomyFields } = this.props
     const { activePanel } = this.state
     // open collection panel if there is only one
     console.log('taxonomyFields', taxonomyFields)
     const numberOfCollections = Object.keys(taxonomyFields).length
     if (numberOfCollections === 1 && activePanel !== 0) this.setState({ activePanel: 0 })
-  },*/
+  },
+  */
 
   onClickPanel (number, event) {
     let { activePanel } = this.state
@@ -60,14 +62,20 @@ export default React.createClass({
       const collectionKey = cNameKey.toLowerCase()
       const openPanel = activePanelOpeningWhenOnlyOneCollection === cIndex
       return (
-        <Panel key={collectionKey} collapsible header={cNameKey} eventKey={cIndex} onClick={this.onClickPanel.bind(this, cIndex)}>
-          {openPanel ?
-            <FieldsTaxonomyPanel
-              cNameKey={cNameKey}
-              taxonomyFields={taxonomyFields}
-              exportOptions={exportOptions}
-              onChangeCoSelect={onChangeCoSelect}
-              onChangeFilterField={onChangeFilterField} />
+        <Panel
+          key={collectionKey}
+          collapsible
+          header={cNameKey}
+          eventKey={cIndex}
+          onClick={this.onClickPanel.bind(this, cIndex)}>
+          {
+            openPanel
+            ? <FieldsTaxonomyPanel
+                cNameKey={cNameKey}
+                taxonomyFields={taxonomyFields}
+                exportOptions={exportOptions}
+                onChangeCoSelect={onChangeCoSelect}
+                onChangeFilterField={onChangeFilterField} />
             : null
           }
         </Panel>

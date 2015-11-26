@@ -163,21 +163,21 @@ export default React.createClass({
       if (activePanel === number) return this.setState({ activePanel: '' })
       // validate input before opening a panel
       switch (number) {
-      case 1:
-        this.setState({ activePanel: 1 })
-        break
-      case 2:
-        const isPanel1Done = this.isPanel1Done()
-        if (isPanel1Done) this.setState({ activePanel: 2 })
-        break
-      case 3:
-        const isPanel2Done = this.isPanel2Done()
-        if (isPanel2Done) this.setState({ activePanel: 3 })
-        break
-      case 4:
-        const isPanel3Done = this.isPanel3Done() || this.isPanel2Done()
-        if (isPanel3Done) this.setState({ activePanel: 4 })
-        break
+        case 1:
+          this.setState({ activePanel: 1 })
+          break
+        case 2:
+          const isPanel1Done = this.isPanel1Done()
+          if (isPanel1Done) this.setState({ activePanel: 2 })
+          break
+        case 3:
+          const isPanel2Done = this.isPanel2Done()
+          if (isPanel2Done) this.setState({ activePanel: 3 })
+          break
+        case 4:
+          const isPanel3Done = this.isPanel3Done() || this.isPanel2Done()
+          if (isPanel3Done) this.setState({ activePanel: 4 })
+          break
       }
     } else {
       event.stopPropagation()
@@ -419,89 +419,95 @@ export default React.createClass({
 
     return (
       <div id='export' className='formContent'>
-        {tooManyFieldsChoosen ?
-          <ModalTooManyFieldsChoosen
-            resetTooManyFieldsChoosen={this.resetTooManyFieldsChoosen} />
+        {
+          tooManyFieldsChoosen
+          ? <ModalTooManyFieldsChoosen
+              resetTooManyFieldsChoosen={this.resetTooManyFieldsChoosen} />
           : null
         }
-        {tooManyRcsChoosen ?
-          <ModalTooManyRcsChoosen
-            resetTooManyRcsChoosen={this.resetTooManyRcsChoosen} />
+        {
+          tooManyRcsChoosen
+          ? <ModalTooManyRcsChoosen
+              resetTooManyRcsChoosen={this.resetTooManyRcsChoosen} />
           : null
         }
         <h4>Eigenschaften exportieren</h4>
         <Accordion activeKey={activePanel} onSelect={this.handleOnSelectPanel}>
           <Panel collapsible header='1. Gruppe(n) wählen' eventKey={1} onClick={this.onClickPanel.bind(this, 1)}>
-            {activePanel === 1 ?
-              <Panel1
-                groupsLoadingObjects={groupsLoadingObjects}
-                fieldsQuerying={fieldsQuerying}
-                fieldsQueryingError={fieldsQueryingError}
-                errorBuildingExportOptions={errorBuildingExportOptions}
-                taxonomyFields={taxonomyFields}
-                groupsLoadedOrLoading={groupsLoadedOrLoading}
-                combineTaxonomies={combineTaxonomies}
-                panel1Done={panel1Done}
-                exportOptions={exportOptions}
-                pcsQuerying={pcsQuerying}
-                rcsQuerying={rcsQuerying}
-                onChangeCombineTaxonomies={this.onChangeCombineTaxonomies}
-                onChangeGroupsToExport={this.onChangeGroupsToExport} />
+            {
+              activePanel === 1
+              ? <Panel1
+                  groupsLoadingObjects={groupsLoadingObjects}
+                  fieldsQuerying={fieldsQuerying}
+                  fieldsQueryingError={fieldsQueryingError}
+                  errorBuildingExportOptions={errorBuildingExportOptions}
+                  taxonomyFields={taxonomyFields}
+                  groupsLoadedOrLoading={groupsLoadedOrLoading}
+                  combineTaxonomies={combineTaxonomies}
+                  panel1Done={panel1Done}
+                  exportOptions={exportOptions}
+                  pcsQuerying={pcsQuerying}
+                  rcsQuerying={rcsQuerying}
+                  onChangeCombineTaxonomies={this.onChangeCombineTaxonomies}
+                  onChangeGroupsToExport={this.onChangeGroupsToExport} />
               : null
             }
           </Panel>
 
           <Panel className='exportFields' collapsible header='2. filtern' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
-            {activePanel === 2 ?
-              <Panel2
-                groupsLoadingObjects={groupsLoadingObjects}
-                taxonomyFields={taxonomyFields}
-                pcFields={pcFields}
-                relationFields={relationFields}
-                groupsLoadedOrLoading={groupsLoadedOrLoading}
-                pcs={pcs}
-                rcs={rcs}
-                exportOptions={exportOptions}
-                onlyObjectsWithCollectionData={onlyObjectsWithCollectionData}
-                onChangeFilterField={this.onChangeFilterField}
-                onChangeCoSelect={this.onChangeCoSelect}
-                onChangeOnlyObjectsWithCollectionData={this.onChangeOnlyObjectsWithCollectionData} />
+            {
+              activePanel === 2
+              ? <Panel2
+                  groupsLoadingObjects={groupsLoadingObjects}
+                  taxonomyFields={taxonomyFields}
+                  pcFields={pcFields}
+                  relationFields={relationFields}
+                  groupsLoadedOrLoading={groupsLoadedOrLoading}
+                  pcs={pcs}
+                  rcs={rcs}
+                  exportOptions={exportOptions}
+                  onlyObjectsWithCollectionData={onlyObjectsWithCollectionData}
+                  onChangeFilterField={this.onChangeFilterField}
+                  onChangeCoSelect={this.onChangeCoSelect}
+                  onChangeOnlyObjectsWithCollectionData={this.onChangeOnlyObjectsWithCollectionData} />
               : null
             }
           </Panel>
 
           <Panel collapsible header='3. Eigenschaften wählen' eventKey={3} onClick={this.onClickPanel.bind(this, 3)}>
-            {activePanel === 3 ?
-              <Panel3
-                taxonomyFields={taxonomyFields}
-                pcFields={pcFields}
-                relationFields={relationFields}
-                exportOptions={exportOptions}
-                pcs={pcs}
-                rcs={rcs}
-                includeDataFromSynonyms={includeDataFromSynonyms}
-                collectionsWithAllChoosen={collectionsWithAllChoosen}
-                oneRowPerRelation={oneRowPerRelation}
-                onChangeIncludeDataFromSynonyms={this.onChangeIncludeDataFromSynonyms}
-                onChooseField={this.onChooseField}
-                onChooseAllOfCollection={this.onChooseAllOfCollection}
-                onChangeOneRowPerRelation={this.onChangeOneRowPerRelation} />
+            {
+              activePanel === 3
+              ? <Panel3
+                  taxonomyFields={taxonomyFields}
+                  pcFields={pcFields}
+                  relationFields={relationFields}
+                  exportOptions={exportOptions}
+                  pcs={pcs}
+                  rcs={rcs}
+                  includeDataFromSynonyms={includeDataFromSynonyms}
+                  collectionsWithAllChoosen={collectionsWithAllChoosen}
+                  oneRowPerRelation={oneRowPerRelation}
+                  onChangeIncludeDataFromSynonyms={this.onChangeIncludeDataFromSynonyms}
+                  onChooseField={this.onChooseField}
+                  onChooseAllOfCollection={this.onChooseAllOfCollection}
+                  onChangeOneRowPerRelation={this.onChangeOneRowPerRelation} />
               : null
             }
           </Panel>
 
           <Panel collapsible header='4. exportieren' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>
-            {activePanel === 4 ?
-              <Panel4
-                exportOptions={exportOptions}
-                onlyObjectsWithCollectionData={onlyObjectsWithCollectionData}
-                includeDataFromSynonyms={includeDataFromSynonyms}
-                oneRowPerRelation={oneRowPerRelation}
-                combineTaxonomies={combineTaxonomies}
-                format={format}
-                onChangeFormat={this.onChangeFormat}
-                exportObjects={exportObjects}
-                errorBuildingExportData={errorBuildingExportData} />
+            {
+              activePanel === 4
+              ? <Panel4
+                  exportOptions={exportOptions}
+                  onlyObjectsWithCollectionData={onlyObjectsWithCollectionData}
+                  includeDataFromSynonyms={includeDataFromSynonyms}
+                  oneRowPerRelation={oneRowPerRelation}
+                  combineTaxonomies={combineTaxonomies}
+                  format={format}
+                  onChangeFormat={this.onChangeFormat}
+                  exportObjects={exportObjects}
+                  errorBuildingExportData={errorBuildingExportData} />
               : null
             }
           </Panel>

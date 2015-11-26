@@ -60,15 +60,21 @@ export default React.createClass({
       const openPanel = activePanelOpeningWhenOnlyOneCollection === cIndex
       const rc = rcs.find((rc) => rc.name === cNameKey)
       return (
-        <Panel key={collectionKey} collapsible header={rc.name} eventKey={cIndex} onClick={this.onClickPanel.bind(this, cIndex)}>
-          {openPanel ?
-            <FieldsRCsPanel
-              cNameKey={cNameKey}
-              relationFields={relationFields}
-              onChangeFilterField={onChangeFilterField}
-              onChangeCoSelect={onChangeCoSelect}
-              rcs={rcs}
-              exportOptions={exportOptions} />
+        <Panel
+          key={collectionKey}
+          collapsible
+          header={rc.name}
+          eventKey={cIndex}
+          onClick={this.onClickPanel.bind(this, cIndex)}>
+          {
+            openPanel
+            ? <FieldsRCsPanel
+                cNameKey={cNameKey}
+                relationFields={relationFields}
+                onChangeFilterField={onChangeFilterField}
+                onChangeCoSelect={onChangeCoSelect}
+                rcs={rcs}
+                exportOptions={exportOptions} />
             : null
           }
         </Panel>
@@ -76,7 +82,8 @@ export default React.createClass({
     })
 
     return (
-      <Accordion activeKey={activePanelOpeningWhenOnlyOneCollection}>
+      <Accordion
+        activeKey={activePanelOpeningWhenOnlyOneCollection}>
         {collections}
       </Accordion>
     )

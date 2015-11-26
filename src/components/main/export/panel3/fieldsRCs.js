@@ -73,15 +73,21 @@ export default React.createClass({
       const collectionKey = cNameKey.toLowerCase()
       const rc = rcs.find((rc) => rc.name === cNameKey)
       return (
-        <Panel key={collectionKey} collapsible header={rc.name} eventKey={cIndex} onClick={this.onClickPanel.bind(this, cIndex)}>
-          {activePanelOpeningWhenOnlyOneCollection === cIndex ?
-            <FieldsRCsPanel
-              cNameKey={cNameKey}
-              relationFields={relationFields}
-              exportOptions={exportOptions}
-              collectionsWithAllChoosen={collectionsWithAllChoosen}
-              onChooseField={onChooseField}
-              onChooseAllOfCollection={onChooseAllOfCollection} />
+        <Panel
+          key={collectionKey}
+          collapsible
+          header={rc.name}
+          eventKey={cIndex}
+          onClick={this.onClickPanel.bind(this, cIndex)}>
+          {
+            activePanelOpeningWhenOnlyOneCollection === cIndex
+            ? <FieldsRCsPanel
+                cNameKey={cNameKey}
+                relationFields={relationFields}
+                exportOptions={exportOptions}
+                collectionsWithAllChoosen={collectionsWithAllChoosen}
+                onChooseField={onChooseField}
+                onChooseAllOfCollection={onChooseAllOfCollection} />
             : null
           }
         </Panel>
@@ -92,10 +98,20 @@ export default React.createClass({
       <div>
         <WellRelationsOptions />
         <div id='rcOptions' style={divStyle}>
-          <Input type='checkbox' label='Pro Beziehung eine Zeile' checked={oneRowPerRelation} onChange={this.onChangeOneRowPerRelation.bind(this, true)} style={{marginBottom: 0}} />
-          <Input type='checkbox' label='Pro Art/Lebensraum eine Zeile und alle Beziehungen kommagetrennt in einem Feld' checked={!oneRowPerRelation} onChange={this.onChangeOneRowPerRelation.bind(this, false)} />
+          <Input
+            type='checkbox'
+            label='Pro Beziehung eine Zeile'
+            checked={oneRowPerRelation}
+            onChange={this.onChangeOneRowPerRelation.bind(this, true)}
+            style={{marginBottom: 0}} />
+          <Input
+            type='checkbox'
+            label='Pro Art/Lebensraum eine Zeile und alle Beziehungen kommagetrennt in einem Feld'
+            checked={!oneRowPerRelation}
+            onChange={this.onChangeOneRowPerRelation.bind(this, false)} />
         </div>
-        <Accordion activeKey={activePanelOpeningWhenOnlyOneCollection}>
+        <Accordion
+          activeKey={activePanelOpeningWhenOnlyOneCollection}>
           {collections}
         </Accordion>
       </div>

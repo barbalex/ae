@@ -30,12 +30,48 @@ export default React.createClass({
 
     return (
       <div>
-        <Button className='btn-primary' onClick={onClickImportieren}><Glyphicon glyph='download-alt'/> Eigenschaftensammlung "{name}" importieren</Button>
-        <ButtonDeletePcInstances name={name} pcsRemoved={pcsRemoved} deletingPcInstancesProgress={deletingPcInstancesProgress} onClickRemovePcInstances={onClickRemovePcInstances} />
-        {showProgressbarImport ? <ProgressbarImport importingProgress={importingProgress} /> : null}
-        {showAlertFirst5Imported ? <AlertFirst5Imported idsOfAeObjects={idsOfAeObjects} idsNotImportable={idsNotImportable} replicatingToAe={replicatingToAe} replicatingToAeTime={replicatingToAeTime} /> : null}
-        {deletingPcInstancesProgress !== null ? <ProgressBar bsStyle='success' now={deletingPcInstancesProgress} label={`${deletingPcInstancesProgress}% entfernt`} /> : null}
-        {deletingPcInstancesProgress === 100 ? <AlertFirst5Deleted idsOfAeObjects={idsOfAeObjects} nameBestehend={name} replicatingToAe={replicatingToAe} replicatingToAeTime={replicatingToAeTime} /> : null}
+        <Button
+          className='btn-primary'
+          onClick={onClickImportieren}>
+            <Glyphicon glyph='download-alt'/> Eigenschaftensammlung "{name}" importieren
+        </Button>
+        <ButtonDeletePcInstances
+          name={name}
+          pcsRemoved={pcsRemoved}
+          deletingPcInstancesProgress={deletingPcInstancesProgress}
+          onClickRemovePcInstances={onClickRemovePcInstances} />
+        {
+          showProgressbarImport
+          ? <ProgressbarImport
+              importingProgress={importingProgress} />
+          : null
+        }
+        {
+          showAlertFirst5Imported
+          ? <AlertFirst5Imported
+              idsOfAeObjects={idsOfAeObjects}
+              idsNotImportable={idsNotImportable}
+              replicatingToAe={replicatingToAe}
+              replicatingToAeTime={replicatingToAeTime} />
+          : null
+        }
+        {
+          deletingPcInstancesProgress !== null
+          ? <ProgressBar
+              bsStyle='success'
+              now={deletingPcInstancesProgress}
+              label={`${deletingPcInstancesProgress}% entfernt`} />
+          : null
+        }
+        {
+          deletingPcInstancesProgress === 100
+          ? <AlertFirst5Deleted
+              idsOfAeObjects={idsOfAeObjects}
+              nameBestehend={name}
+              replicatingToAe={replicatingToAe}
+              replicatingToAeTime={replicatingToAeTime} />
+          : null
+        }
       </div>
     )
   }

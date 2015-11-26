@@ -71,27 +71,95 @@ export default React.createClass({
 
     return (
       <div>
-        {showLoadAllGroups ? <AlertLoadAllGroups open='true' groupsLoadingObjects={groupsLoadingObjects} alertAllGroupsBsStyle={alertAllGroupsBsStyle} /> : null}
+        {showLoadAllGroups
+          ? <AlertLoadAllGroups
+              open='true'
+              groupsLoadingObjects={groupsLoadingObjects}
+              alertAllGroupsBsStyle={alertAllGroupsBsStyle} />
+          : null
+        }
         <WellTippsUndTricks />
         <WellAutorenrechte />
-
-        <InputNameBestehend nameBestehend={nameBestehend} beschreibung={beschreibung} datenstand={datenstand} nutzungsbedingungen={nutzungsbedingungen} link={link} zusammenfassend={zusammenfassend} email={email} pcs={pcs} groupsLoadedOrLoading={groupsLoadedOrLoading} onChangeNameBestehend={onChangeNameBestehend} />
-        <ButtonDeletePc nameBestehend={nameBestehend} enableDeletePcButton={enableDeletePcButton} deletingPcProgress={deletingPcProgress} onClickDeletePc={onClickDeletePc} />
-        {showAlertDeletePcBuildingIndex ? <AlertDeletePcBuildingIndex /> : null}
-        {deletingPcProgress !== null ? <ProgressbarDeletePc progress={deletingPcProgress} /> : null}
-        {deletingPcProgress === 100 ? <div className='feld'><AlertFirst5Deleted idsOfAeObjects={idsOfAeObjects} nameBestehend={nameBestehend} replicatingToAe={replicatingToAe} replicatingToAeTime={replicatingToAeTime} /></div> : null}
-
+        <InputNameBestehend
+          nameBestehend={nameBestehend}
+          beschreibung={beschreibung}
+          datenstand={datenstand}
+          nutzungsbedingungen={nutzungsbedingungen}
+          link={link}
+          zusammenfassend={zusammenfassend}
+          email={email}
+          pcs={pcs}
+          groupsLoadedOrLoading={groupsLoadedOrLoading}
+          onChangeNameBestehend={onChangeNameBestehend} />
+        <ButtonDeletePc
+          nameBestehend={nameBestehend}
+          enableDeletePcButton={enableDeletePcButton}
+          deletingPcProgress={deletingPcProgress}
+          onClickDeletePc={onClickDeletePc} />
+        {
+          showAlertDeletePcBuildingIndex
+          ? <AlertDeletePcBuildingIndex />
+          : null
+        }
+        {
+          deletingPcProgress !== null
+          ? <ProgressbarDeletePc
+              progress={deletingPcProgress} />
+          : null
+        }
+        {
+          deletingPcProgress === 100
+          ? <div className='feld'>
+              <AlertFirst5Deleted
+                idsOfAeObjects={idsOfAeObjects}
+                nameBestehend={nameBestehend}
+                replicatingToAe={replicatingToAe}
+                replicatingToAeTime={replicatingToAeTime} />
+            </div>
+          : null
+        }
         <hr />
-
-        <InputName name={name} validName={validName} onChangeName={onChangeName} onBlurName={onBlurName} />
-        {esBearbeitenErlaubt ? null : <AlertEditingPcDisallowed />}
-        <InputBeschreibung beschreibung={beschreibung} validBeschreibung={validBeschreibung} onChangeBeschreibung={onChangeBeschreibung} />
-        <InputDatenstand datenstand={datenstand} validDatenstand={validDatenstand} onChangeDatenstand={onChangeDatenstand} />
-        <InputNutzungsbedingungen nutzungsbedingungen={nutzungsbedingungen} validNutzungsbedingungen={validNutzungsbedingungen} onChangeNutzungsbedingungen={onChangeNutzungsbedingungen} />
-        <InputLink link={link} validLink={validLink} onChangeLink={onChangeLink} onBlurLink={onBlurLink} />
-        <InputImportiertVon importiertVon={importiertVon} />
-        <InputZusammenfassend zusammenfassend={zusammenfassend} onChangeZusammenfassend={onChangeZusammenfassend} />
-        {zusammenfassend ? <InputUrsprungsEs nameUrsprungsEs={nameUrsprungsEs} pcs={pcs} validUrsprungsEs={validUrsprungsEs} onChangeNameUrsprungsEs={onChangeNameUrsprungsEs} /> : null}
+        <InputName
+          name={name}
+          validName={validName}
+          onChangeName={onChangeName}
+          onBlurName={onBlurName} />
+        {
+          esBearbeitenErlaubt
+          ? null
+          : <AlertEditingPcDisallowed />
+        }
+        <InputBeschreibung
+          beschreibung={beschreibung}
+          validBeschreibung={validBeschreibung}
+          onChangeBeschreibung={onChangeBeschreibung} />
+        <InputDatenstand
+          datenstand={datenstand}
+          validDatenstand={validDatenstand}
+          onChangeDatenstand={onChangeDatenstand} />
+        <InputNutzungsbedingungen
+          nutzungsbedingungen={nutzungsbedingungen}
+          validNutzungsbedingungen={validNutzungsbedingungen}
+          onChangeNutzungsbedingungen={onChangeNutzungsbedingungen} />
+        <InputLink
+          link={link}
+          validLink={validLink}
+          onChangeLink={onChangeLink}
+          onBlurLink={onBlurLink} />
+        <InputImportiertVon
+          importiertVon={importiertVon} />
+        <InputZusammenfassend
+          zusammenfassend={zusammenfassend}
+          onChangeZusammenfassend={onChangeZusammenfassend} />
+        {
+          zusammenfassend
+          ? <InputUrsprungsEs
+              nameUrsprungsEs={nameUrsprungsEs}
+              pcs={pcs}
+              validUrsprungsEs={validUrsprungsEs}
+              onChangeNameUrsprungsEs={onChangeNameUrsprungsEs} />
+          : null
+        }
       </div>
     )
   }

@@ -98,16 +98,15 @@ export default () => {
         // if object is empty, store will have no item
         // so there is never a failed action
         .then((object) => Actions.loadActiveObjectStore.completed(object))
-        .catch((error) => {
+        .catch((error) => {  // eslint-disable-line handle-callback-err
           // this group is not loaded yet
           // get Object from couch
           app.remoteDb.get(guid, { include_docs: true })
             .then((object) => Actions.loadActiveObjectStore.completed(object))
             .catch((error) => app.Actions.showError({
-                title: 'error fetching doc from remoteDb with guid ' + guid + ':',
-                msg: error
-              })
-            )
+              title: 'error fetching doc from remoteDb with guid ' + guid + ':',
+              msg: error
+            }))
         })
     }
   })

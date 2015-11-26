@@ -198,10 +198,7 @@ export default React.createClass({
       gruppe = null
     }
     state = Object.assign(state, { gruppe, showImportPc, showImportRc, showExportieren, showOrganizations })
-    if (!guid) {
-      const object = undefined
-      state = Object.assign(state, { object })
-    }
+    if (!guid) state = Object.assign(state, { object: undefined })
 
     this.setState(state)
 
@@ -255,24 +252,27 @@ export default React.createClass({
           <div id='menuLine'>
             <ResizeButton />
           </div>
-          {showGruppen ?
-            <Groups
-              groupsLoadedOrLoading={groupsLoadedOrLoading} />
+          {
+            showGruppen
+            ? <Groups
+                groupsLoadedOrLoading={groupsLoadedOrLoading} />
             : null
           }
-          {showFilter ?
-            <Filter
-              filterOptions={filterOptions}
-              loadingFilterOptions={loadingFilterOptions} />
+          {
+            showFilter
+            ? <Filter
+                filterOptions={filterOptions}
+                loadingFilterOptions={loadingFilterOptions} />
             : null
           }
-          {showTree ?
-            <Tree
-              hierarchy={hierarchy}
-              groupsLoadingObjects={groupsLoadingObjects}
-              allGroupsLoaded={allGroupsLoaded}
-              object={object}
-              path={path} />
+          {
+            showTree
+            ? <Tree
+                hierarchy={hierarchy}
+                groupsLoadingObjects={groupsLoadingObjects}
+                allGroupsLoaded={allGroupsLoaded}
+                object={object}
+                path={path} />
             : null
           }
         </div>
@@ -286,33 +286,37 @@ export default React.createClass({
           replicatingToAeTime={replicatingToAeTime}
           replicatingFromAe={replicatingFromAe}
           replicatingFromAeTime={replicatingFromAeTime} />
-        {showMain ?
-          <Main
-            object={object}
-            allGroupsLoaded={allGroupsLoaded}
-            groupsLoadedOrLoading={groupsLoadedOrLoading}
-            groupsLoadingObjects={groupsLoadingObjects}
-            synonymObjects={synonymObjects}
-            pcs={pcs}
-            rcs={rcs}
-            pcsQuerying={pcsQuerying}
-            rcsQuerying={rcsQuerying}
-            showImportPc={showImportPc}
-            showImportRc={showImportRc}
-            showExportieren={showExportieren}
-            fieldsQuerying={fieldsQuerying}
-            fieldsQueryingError={fieldsQueryingError}
-            taxonomyFields={taxonomyFields}
-            pcFields={pcFields}
-            relationFields={relationFields}
-            showOrganizations={showOrganizations}
-            email={email}
-            replicatingToAe={replicatingToAe}
-            replicatingToAeTime={replicatingToAeTime}
-            offlineIndexes={offlineIndexes} />
+        {showMain
+          ? <Main
+              object={object}
+              allGroupsLoaded={allGroupsLoaded}
+              groupsLoadedOrLoading={groupsLoadedOrLoading}
+              groupsLoadingObjects={groupsLoadingObjects}
+              synonymObjects={synonymObjects}
+              pcs={pcs}
+              rcs={rcs}
+              pcsQuerying={pcsQuerying}
+              rcsQuerying={rcsQuerying}
+              showImportPc={showImportPc}
+              showImportRc={showImportRc}
+              showExportieren={showExportieren}
+              fieldsQuerying={fieldsQuerying}
+              fieldsQueryingError={fieldsQueryingError}
+              taxonomyFields={taxonomyFields}
+              pcFields={pcFields}
+              relationFields={relationFields}
+              showOrganizations={showOrganizations}
+              email={email}
+              replicatingToAe={replicatingToAe}
+              replicatingToAeTime={replicatingToAeTime}
+              offlineIndexes={offlineIndexes} />
           : null
         }
-        {showLogin ? <Login /> : null}
+        {
+          showLogin
+          ? <Login />
+          : null
+        }
       </NavHelper>
     )
   }

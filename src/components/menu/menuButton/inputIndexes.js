@@ -18,6 +18,7 @@ export default React.createClass({
         <ul>
           <li>Browser und PC werden stark gefordert, um die Indizes aufzubauen</li>
           <li>Möglich, dass der Browser dabei abstürzt oder Sie eine Koffein-Vergiftung erleiden, bis die Indizes endlich fertig sind...</li>
+          <li>Dies ist ein selten benötigtes und (möglicherweise zu) wenig getestetes Feature</li>
         </ul>
         <p>Sie sind aber nötig, wenn Sie:</p>
         <ul>
@@ -34,13 +35,16 @@ export default React.createClass({
       paddingLeft: 20,
       paddingRight: 20
     }
+    const cbStyle = {
+      marginLeft: -20 + 'px !important'
+    }
 
     return (
       <li style={liStyle}>
-        <Input type='checkbox' label='Von arteigenschaften.ch verwenden (empfohlen)' checked={!offlineIndexes} onChange={onClickToggleOfflineIndexes} />
+        <Input type='checkbox' label='Von arteigenschaften.ch verwenden (empfohlen)' checked={!offlineIndexes} onChange={onClickToggleOfflineIndexes} style={cbStyle} />
         <div className='checkbox'>
           <label className='control-label'>
-            <input type='checkbox' checked={offlineIndexes} onChange={onClickToggleOfflineIndexes} />
+            <input type='checkbox' checked={offlineIndexes} onChange={onClickToggleOfflineIndexes} style={cbStyle} />
               lokale verwenden<br />(
                 <OverlayTrigger trigger={['hover', 'focus']} rootClose placement='right' overlay={this.popover()}>
                   <span className='withPopover'>bitte vorher lesen</span>

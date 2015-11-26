@@ -47,7 +47,8 @@ export default (gruppe, callback) => {
               })
               series
               // turned off because on office computer this crashes!!!
-              /*.then(() => {
+              /*
+              .then(() => {
                 // let regular replication catch up if objects have changed since dump was created
                 app.Actions.showGroupLoading({
                   group: gruppe,
@@ -57,7 +58,8 @@ export default (gruppe, callback) => {
                   filter: (doc) => (doc.Gruppe && doc.Gruppe === gruppe),
                   batch_size: 500
                 })
-              })*/
+              })
+              */
               .then(() => {
                 app.Actions.showGroupLoading({
                   group: gruppe,

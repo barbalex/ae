@@ -7,7 +7,6 @@
  * returns filtered objects
  */
 
-import _ from 'lodash'
 import isFilterFulfilled from './isFilterFulfilled.js'
 import isFilterFulfilledForBeziehungspartner from './isFilterFulfilledForBeziehungspartner.js'
 

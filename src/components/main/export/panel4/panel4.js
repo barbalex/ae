@@ -46,30 +46,35 @@ export default React.createClass({
           includeDataFromSynonyms={includeDataFromSynonyms}
           oneRowPerRelation={oneRowPerRelation}
           combineTaxonomies={combineTaxonomies} />
-        {exportObjects.length > 0 ?
-          <TablePreview
-            exportObjects={exportObjects} />
+        {
+          exportObjects.length > 0
+          ? <TablePreview
+              exportObjects={exportObjects} />
           : null
         }
-        {showAlertBuildingData ?
-          <AlertBuildingExportData />
+        {
+          showAlertBuildingData
+          ? <AlertBuildingExportData />
           : null
         }
-        {errorBuildingExportData ?
-          <AlertErrorBuildingExportData
-            errorBuildingExportData={errorBuildingExportData} />
+        {
+          errorBuildingExportData
+          ? <AlertErrorBuildingExportData
+              errorBuildingExportData={errorBuildingExportData} />
           : null
         }
-        {showExportComponents ?
-          <WellFormat
-            format={format}
-            onChangeFormat={onChangeFormat} />
+        {
+          showExportComponents
+          ? <WellFormat
+              format={format}
+              onChangeFormat={onChangeFormat} />
           : null
         }
-        {showExportComponents ?
-          <ButtonExport
-            exportObjects={exportObjects}
-            format={format} />
+        {
+          showExportComponents
+          ? <ButtonExport
+              exportObjects={exportObjects}
+              format={format} />
           : null
         }
       </div>

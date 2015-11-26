@@ -84,55 +84,55 @@ export default React.createClass({
       <fieldset id='main'>
         <form className={formClassNames} autoComplete='off'>
           <Errors errors={errors} />
-          {showObject ?
-            <Objekt
-              object={object}
-              synonymObjects={synonymObjects} />
+          {showObject
+            ? <Objekt
+                object={object}
+                synonymObjects={synonymObjects} />
             : null
           }
-          {showImportPc ?
-            <ImportPc
-              email={email}
-              pcs={pcs}
-              offlineIndexes={offlineIndexes}
-              groupsLoadedOrLoading={groupsLoadedOrLoading}
-              groupsLoadingObjects={groupsLoadingObjects}
-              allGroupsLoaded={allGroupsLoaded}
-              replicatingToAe={replicatingToAe}
-              replicatingToAeTime={replicatingToAeTime} />
+          {showImportPc
+            ? <ImportPc
+                email={email}
+                pcs={pcs}
+                offlineIndexes={offlineIndexes}
+                groupsLoadedOrLoading={groupsLoadedOrLoading}
+                groupsLoadingObjects={groupsLoadingObjects}
+                allGroupsLoaded={allGroupsLoaded}
+                replicatingToAe={replicatingToAe}
+                replicatingToAeTime={replicatingToAeTime} />
             : null
           }
-          {showImportRc ?
-            <ImportRc
-              email={email}
-              rcs={rcs}
-              offlineIndexes={offlineIndexes}
-              groupsLoadedOrLoading={groupsLoadedOrLoading}
-              groupsLoadingObjects={groupsLoadingObjects}
-              allGroupsLoaded={allGroupsLoaded}
-              replicatingToAe={replicatingToAe}
-              replicatingToAeTime={replicatingToAeTime} />
+          {showImportRc
+            ? <ImportRc
+                email={email}
+                rcs={rcs}
+                offlineIndexes={offlineIndexes}
+                groupsLoadedOrLoading={groupsLoadedOrLoading}
+                groupsLoadingObjects={groupsLoadingObjects}
+                allGroupsLoaded={allGroupsLoaded}
+                replicatingToAe={replicatingToAe}
+                replicatingToAeTime={replicatingToAeTime} />
             : null
           }
-          {showExportieren ?
-            <Export
-              groupsLoadedOrLoading={groupsLoadedOrLoading}
-              groupsLoadingObjects={groupsLoadingObjects}
-              fieldsQuerying={fieldsQuerying}
-              fieldsQueryingError={fieldsQueryingError}
-              taxonomyFields={taxonomyFields}
-              pcFields={pcFields}
-              relationFields={relationFields}
-              pcs={pcs}
-              rcs={rcs}
-              pcsQuerying={pcsQuerying}
-              rcsQuerying={rcsQuerying}
-              offlineIndexes={offlineIndexes} />
+          {showExportieren
+            ? <Export
+                groupsLoadedOrLoading={groupsLoadedOrLoading}
+                groupsLoadingObjects={groupsLoadingObjects}
+                fieldsQuerying={fieldsQuerying}
+                fieldsQueryingError={fieldsQueryingError}
+                taxonomyFields={taxonomyFields}
+                pcFields={pcFields}
+                relationFields={relationFields}
+                pcs={pcs}
+                rcs={rcs}
+                pcsQuerying={pcsQuerying}
+                rcsQuerying={rcsQuerying}
+                offlineIndexes={offlineIndexes} />
             : null
           }
-          {showOrganizations ?
-            <Organizations
-              email={email} />
+          {showOrganizations
+            ? <Organizations
+                email={email} />
             : null
           }
         </form>

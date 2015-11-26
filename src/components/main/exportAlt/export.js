@@ -5,10 +5,8 @@ import React from 'react'
 import { ListenerMixin } from 'reflux'
 import { Accordion, Panel } from 'react-bootstrap'
 import _ from 'lodash'
-import Panel1 from './panel1/panel1.js'
 import Panel2 from './panel2/panel2.js'
 import Panel3 from './panel3/panel3.js'
-import Panel4 from './panel4/panel4.js'
 import ModalTooManyFieldsChoosen from './modalTooManyFieldsChoosen.js'
 import ModalTooManyRcsChoosen from './modalTooManyRcsChoosen.js'
 
@@ -154,12 +152,12 @@ export default React.createClass({
       if (activePanel === number) return this.setState({ activePanel: '' })
       // validate input before opening a panel
       switch (number) {
-      case 1:
-        this.setState({ activePanel: 1 })
-        break
-      case 2:
-        this.setState({ activePanel: 2 })
-        break
+        case 1:
+          this.setState({ activePanel: 1 })
+          break
+        case 2:
+          this.setState({ activePanel: 2 })
+          break
       }
     } else {
       event.stopPropagation()
@@ -320,54 +318,56 @@ export default React.createClass({
 
     return (
       <div id='export' className='formContent'>
-        {tooManyFieldsChoosen ?
-          <ModalTooManyFieldsChoosen
-            resetTooManyFieldsChoosen={this.resetTooManyFieldsChoosen} />
+        {
+          tooManyFieldsChoosen
+          ? <ModalTooManyFieldsChoosen
+              resetTooManyFieldsChoosen={this.resetTooManyFieldsChoosen} />
           : null
         }
-        {tooManyRcsChoosen ?
-          <ModalTooManyRcsChoosen
-            resetTooManyRcsChoosen={this.resetTooManyRcsChoosen} />
+        {
+          tooManyRcsChoosen
+          ? <ModalTooManyRcsChoosen
+              resetTooManyRcsChoosen={this.resetTooManyRcsChoosen} />
           : null
         }
         <h4>Eigenschaften für das Artenlistentool wählen</h4>
         <Accordion activeKey={activePanel} onSelect={this.handleOnSelectPanel}>
 
           <Panel className='exportFields' collapsible header='1. Eigenschaften wählen' eventKey={1} onClick={this.onClickPanel.bind(this, 1)}>
-            {activePanel === 1 ?
-              <Panel2
-                groupsLoadingObjects={groupsLoadingObjects}
-                taxonomyFields={taxonomyFields}
-                pcFields={pcFields}
-                relationFields={relationFields}
-                groupsLoadedOrLoading={groupsLoadedOrLoading}
-                pcs={pcs}
-                rcs={rcs}
-                exportOptions={exportOptions}
-                onlyObjectsWithCollectionData={onlyObjectsWithCollectionData}
-                onChangeFilterField={this.onChangeFilterField}
-                onChangeCoSelect={this.onChangeCoSelect}
-                onChangeOnlyObjectsWithCollectionData={this.onChangeOnlyObjectsWithCollectionData} />
+            {activePanel === 1
+              ? <Panel2
+                  groupsLoadingObjects={groupsLoadingObjects}
+                  taxonomyFields={taxonomyFields}
+                  pcFields={pcFields}
+                  relationFields={relationFields}
+                  groupsLoadedOrLoading={groupsLoadedOrLoading}
+                  pcs={pcs}
+                  rcs={rcs}
+                  exportOptions={exportOptions}
+                  onlyObjectsWithCollectionData={onlyObjectsWithCollectionData}
+                  onChangeFilterField={this.onChangeFilterField}
+                  onChangeCoSelect={this.onChangeCoSelect}
+                  onChangeOnlyObjectsWithCollectionData={this.onChangeOnlyObjectsWithCollectionData} />
               : null
             }
           </Panel>
 
           <Panel collapsible header='2. URL generieren' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
-            {activePanel === 2 ?
-              <Panel3
-                taxonomyFields={taxonomyFields}
-                pcFields={pcFields}
-                relationFields={relationFields}
-                exportOptions={exportOptions}
-                pcs={pcs}
-                rcs={rcs}
-                includeDataFromSynonyms={includeDataFromSynonyms}
-                collectionsWithAllChoosen={collectionsWithAllChoosen}
-                oneRowPerRelation={oneRowPerRelation}
-                onChangeIncludeDataFromSynonyms={this.onChangeIncludeDataFromSynonyms}
-                onChooseField={this.onChooseField}
-                onChooseAllOfCollection={this.onChooseAllOfCollection}
-                onChangeOneRowPerRelation={this.onChangeOneRowPerRelation} />
+            {activePanel === 2
+              ? <Panel3
+                  taxonomyFields={taxonomyFields}
+                  pcFields={pcFields}
+                  relationFields={relationFields}
+                  exportOptions={exportOptions}
+                  pcs={pcs}
+                  rcs={rcs}
+                  includeDataFromSynonyms={includeDataFromSynonyms}
+                  collectionsWithAllChoosen={collectionsWithAllChoosen}
+                  oneRowPerRelation={oneRowPerRelation}
+                  onChangeIncludeDataFromSynonyms={this.onChangeIncludeDataFromSynonyms}
+                  onChooseField={this.onChooseField}
+                  onChooseAllOfCollection={this.onChooseAllOfCollection}
+                  onChangeOneRowPerRelation={this.onChangeOneRowPerRelation} />
               : null
             }
           </Panel>

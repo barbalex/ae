@@ -4,7 +4,7 @@
  * then returns an object for every property collection
  *
  * if offlineIndexes is true: queries from remote and does not create design doc
- * 
+ *
  * no es6 in ddocs!
  */
 
@@ -28,7 +28,7 @@ const ddoc = {
                 felder[key] = pc[key]
               }
             })
-            emit([pc.Name, pcZusammenfassend, pc['importiert von'], felder], null)
+            window.emit([pc.Name, pcZusammenfassend, pc['importiert von'], felder], null)
           })
         }
       }.toString(),

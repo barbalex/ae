@@ -1,7 +1,6 @@
 'use strict'
 
 import app from 'ampersand-app'
-import _ from 'lodash'
 import getGuidsOfSynonymsFromTaxonomicRcs from './getGuidsOfSynonymsFromTaxonomicRcs.js'
 
 export default (object) => {

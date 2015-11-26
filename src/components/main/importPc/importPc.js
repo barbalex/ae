@@ -369,22 +369,22 @@ export default React.createClass({
       if (activePanel === number) return this.setState({ activePanel: '' })
 
       switch (number) {
-      case 1:
-        this.setState({ activePanel: 1 })
-        break
-      case 2:
-        if (!allGroupsLoaded) this.setState({ ultimatelyAlertLoadAllGroups: true })
-        const isPanel1Done = this.isPanel1Done()
-        if (isPanel1Done && allGroupsLoaded) this.setState({ activePanel: 2 })
-        break
-      case 3:
-        const isPanel2Done = this.isPanel2Done()
-        if (isPanel2Done) this.setState({ activePanel: 3 })
-        break
-      case 4:
-        const isPanel3Done = this.isPanel3Done()
-        if (isPanel3Done) this.setState({ activePanel: 4 })
-        break
+        case 1:
+          this.setState({ activePanel: 1 })
+          break
+        case 2:
+          if (!allGroupsLoaded) this.setState({ ultimatelyAlertLoadAllGroups: true })
+          const isPanel1Done = this.isPanel1Done()
+          if (isPanel1Done && allGroupsLoaded) this.setState({ activePanel: 2 })
+          break
+        case 3:
+          const isPanel2Done = this.isPanel2Done()
+          if (isPanel2Done) this.setState({ activePanel: 3 })
+          break
+        case 4:
+          const isPanel3Done = this.isPanel3Done()
+          if (isPanel3Done) this.setState({ activePanel: 4 })
+          break
       }
     }
   },
@@ -442,9 +442,9 @@ export default React.createClass({
       this.setState({ esBearbeitenErlaubt: false })
       // delete text after a second
       setTimeout(() => this.setState({
-          nameBestehend: null,
-          name: null
-        }), 1000)
+        nameBestehend: null,
+        name: null
+      }), 1000)
       // close alert after 8 seconds
       setTimeout(() => this.setState({ esBearbeitenErlaubt: true }), 8000)
     }
@@ -508,90 +508,90 @@ export default React.createClass({
         <h4>Eigenschaften importieren</h4>
         <Accordion activeKey={activePanel}>
           <Panel collapsible header='1. Eigenschaftensammlung beschreiben' eventKey={1} onClick={this.onClickPanel.bind(this, 1)}>
-            {activePanel === 1 ?
-              <Panel1
-                groupsLoadingObjects={groupsLoadingObjects}
-                allGroupsLoaded={allGroupsLoaded}
-                groupsLoadedOrLoading={groupsLoadedOrLoading}
-                nameBestehend={nameBestehend}
-                name={name}
-                beschreibung={beschreibung}
-                datenstand={datenstand}
-                nutzungsbedingungen={nutzungsbedingungen}
-                link={link}
-                importiertVon={importiertVon}
-                zusammenfassend={zusammenfassend}
-                nameUrsprungsEs={nameUrsprungsEs}
-                email={email}
-                pcs={pcs}
-                idsOfAeObjects={idsOfAeObjects}
-                deletingPcProgress={deletingPcProgress}
-                esBearbeitenErlaubt={esBearbeitenErlaubt}
-                ultimatelyAlertLoadAllGroups={ultimatelyAlertLoadAllGroups}
-                validName={validName}
-                validBeschreibung={validBeschreibung}
-                validDatenstand={validDatenstand}
-                validNutzungsbedingungen={validNutzungsbedingungen}
-                validLink={validLink}
-                validUrsprungsEs={validUrsprungsEs}
-                replicatingToAe={replicatingToAe}
-                replicatingToAeTime={replicatingToAeTime}
-                onClickDeletePc={this.onClickDeletePc}
-                onChangeNameUrsprungsEs={this.onChangeNameUrsprungsEs}
-                onChangeZusammenfassend={this.onChangeZusammenfassend}
-                onBlurLink={this.onBlurLink}
-                onChangeLink={this.onChangeLink}
-                onChangeNutzungsbedingungen={this.onChangeNutzungsbedingungen}
-                onChangeDatenstand={this.onChangeDatenstand}
-                onChangeBeschreibung={this.onChangeBeschreibung}
-                onBlurName={this.onBlurName}
-                onChangeName={this.onChangeName}
-                onChangeNameBestehend={this.onChangeNameBestehend} />
+            {activePanel === 1
+              ? <Panel1
+                  groupsLoadingObjects={groupsLoadingObjects}
+                  allGroupsLoaded={allGroupsLoaded}
+                  groupsLoadedOrLoading={groupsLoadedOrLoading}
+                  nameBestehend={nameBestehend}
+                  name={name}
+                  beschreibung={beschreibung}
+                  datenstand={datenstand}
+                  nutzungsbedingungen={nutzungsbedingungen}
+                  link={link}
+                  importiertVon={importiertVon}
+                  zusammenfassend={zusammenfassend}
+                  nameUrsprungsEs={nameUrsprungsEs}
+                  email={email}
+                  pcs={pcs}
+                  idsOfAeObjects={idsOfAeObjects}
+                  deletingPcProgress={deletingPcProgress}
+                  esBearbeitenErlaubt={esBearbeitenErlaubt}
+                  ultimatelyAlertLoadAllGroups={ultimatelyAlertLoadAllGroups}
+                  validName={validName}
+                  validBeschreibung={validBeschreibung}
+                  validDatenstand={validDatenstand}
+                  validNutzungsbedingungen={validNutzungsbedingungen}
+                  validLink={validLink}
+                  validUrsprungsEs={validUrsprungsEs}
+                  replicatingToAe={replicatingToAe}
+                  replicatingToAeTime={replicatingToAeTime}
+                  onClickDeletePc={this.onClickDeletePc}
+                  onChangeNameUrsprungsEs={this.onChangeNameUrsprungsEs}
+                  onChangeZusammenfassend={this.onChangeZusammenfassend}
+                  onBlurLink={this.onBlurLink}
+                  onChangeLink={this.onChangeLink}
+                  onChangeNutzungsbedingungen={this.onChangeNutzungsbedingungen}
+                  onChangeDatenstand={this.onChangeDatenstand}
+                  onChangeBeschreibung={this.onChangeBeschreibung}
+                  onBlurName={this.onBlurName}
+                  onChangeName={this.onChangeName}
+                  onChangeNameBestehend={this.onChangeNameBestehend} />
               : null
             }
           </Panel>
 
           <Panel collapsible header='2. Eigenschaften laden' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
-            {activePanel === 2 ?
-              <Panel2
-                pcsToImport={pcsToImport}
-                validPcsToImport={validPcsToImport}
-                onChangeFile={this.onChangeFile} />
+            {activePanel === 2
+              ? <Panel2
+                  pcsToImport={pcsToImport}
+                  validPcsToImport={validPcsToImport}
+                  onChangeFile={this.onChangeFile} />
               : null
             }
           </Panel>
 
           <Panel collapsible header="3. ID's identifizieren" eventKey={3} onClick={this.onClickPanel.bind(this, 3)}>
-            {activePanel === 3 ?
-              <Panel3
-                pcsToImport={pcsToImport}
-                idsImportIdField={idsImportIdField}
-                idsAeIdField={idsAeIdField}
-                idsAnalysisComplete={idsAnalysisComplete}
-                idsNumberOfRecordsWithIdValue={idsNumberOfRecordsWithIdValue}
-                idsDuplicate={idsDuplicate}
-                idsNumberImportable={idsNumberImportable}
-                idsNotImportable={idsNotImportable}
-                idsNotANumber={idsNotANumber}
-                onChangeAeId={this.onChangeAeId}
-                onChangeImportId={this.onChangeImportId} />
+            {activePanel === 3
+              ? <Panel3
+                  pcsToImport={pcsToImport}
+                  idsImportIdField={idsImportIdField}
+                  idsAeIdField={idsAeIdField}
+                  idsAnalysisComplete={idsAnalysisComplete}
+                  idsNumberOfRecordsWithIdValue={idsNumberOfRecordsWithIdValue}
+                  idsDuplicate={idsDuplicate}
+                  idsNumberImportable={idsNumberImportable}
+                  idsNotImportable={idsNotImportable}
+                  idsNotANumber={idsNotANumber}
+                  onChangeAeId={this.onChangeAeId}
+                  onChangeImportId={this.onChangeImportId} />
               : null
             }
           </Panel>
 
           <Panel collapsible header='4. importieren' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>
-            {activePanel === 4 ?
-              <Panel4
-                name={name}
-                pcsRemoved={pcsRemoved}
-                idsOfAeObjects={idsOfAeObjects}
-                idsNotImportable={idsNotImportable}
-                importingProgress={importingProgress}
-                deletingPcInstancesProgress={deletingPcInstancesProgress}
-                replicatingToAe={replicatingToAe}
-                replicatingToAeTime={replicatingToAeTime}
-                onClickRemovePcInstances={this.onClickRemovePcInstances}
-                onClickImportieren={this.onClickImportieren} />
+            {activePanel === 4
+              ? <Panel4
+                  name={name}
+                  pcsRemoved={pcsRemoved}
+                  idsOfAeObjects={idsOfAeObjects}
+                  idsNotImportable={idsNotImportable}
+                  importingProgress={importingProgress}
+                  deletingPcInstancesProgress={deletingPcInstancesProgress}
+                  replicatingToAe={replicatingToAe}
+                  replicatingToAeTime={replicatingToAeTime}
+                  onClickRemovePcInstances={this.onClickRemovePcInstances}
+                  onClickImportieren={this.onClickImportieren} />
               : null
             }
           </Panel>

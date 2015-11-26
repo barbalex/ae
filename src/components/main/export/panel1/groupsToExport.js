@@ -2,7 +2,6 @@
 
 import React from 'react'
 import { Input } from 'react-bootstrap'
-import _ from 'lodash'
 
 export default React.createClass({
   displayName: 'GroupsToExport',
@@ -26,7 +25,14 @@ export default React.createClass({
     groupsLoaded.sort()
     const groupCheckboxes = groupsLoaded.map((group, index) => {
       const checked = groupsToExport.includes(group)
-      return <Input key={index} type='checkbox' label={group} checked={checked} onChange={this.onChangeGroup.bind(this, group)} />
+      return (
+        <Input
+          key={index}
+          type='checkbox'
+          label={group}
+          checked={checked}
+          onChange={this.onChangeGroup.bind(this, group)} />
+      )
     })
 
     return (

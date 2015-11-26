@@ -363,9 +363,8 @@ export default React.createClass({
           // - that is shown in ui so should not be changed
           rc.rPartners = rPartners
         })
-        .catch((error) => {
-          // ignore - can simply be that no object was found for id
-        })
+        // ignore error - can simply be that no object was found for id
+        .catch((error) => {})  // eslint-disable-line handle-callback-err
       })
       const rcPartnerState = { idsWithoutPartner, rPartnerIdsToImport, rPartnerIdsImportable }
 
@@ -454,22 +453,22 @@ export default React.createClass({
       if (activePanel === number) return this.setState({ activePanel: '' })
 
       switch (number) {
-      case 1:
-        this.setState({ activePanel: 1 })
-        break
-      case 2:
-        if (!allGroupsLoaded) this.setState({ ultimatelyAlertLoadAllGroups: true })
-        const isPanel1Done = this.isPanel1Done()
-        if (isPanel1Done && allGroupsLoaded) this.setState({ activePanel: 2 })
-        break
-      case 3:
-        const isPanel2Done = this.isPanel2Done()
-        if (isPanel2Done) this.setState({ activePanel: 3 })
-        break
-      case 4:
-        const isPanel3Done = this.isPanel3Done()
-        if (isPanel3Done) this.setState({ activePanel: 4 })
-        break
+        case 1:
+          this.setState({ activePanel: 1 })
+          break
+        case 2:
+          if (!allGroupsLoaded) this.setState({ ultimatelyAlertLoadAllGroups: true })
+          const isPanel1Done = this.isPanel1Done()
+          if (isPanel1Done && allGroupsLoaded) this.setState({ activePanel: 2 })
+          break
+        case 3:
+          const isPanel2Done = this.isPanel2Done()
+          if (isPanel2Done) this.setState({ activePanel: 3 })
+          break
+        case 4:
+          const isPanel3Done = this.isPanel3Done()
+          if (isPanel3Done) this.setState({ activePanel: 4 })
+          break
       }
     } else {
       event.stopPropagation()
@@ -507,7 +506,7 @@ export default React.createClass({
   isPanel3Done () {
     const { idsOfAeObjects, rcsToImport, idsNumberImportable, idsNotImportable, idsNotANumber } = this.state
     const isPanel2Done = this.isPanel2Done()
-    const variablesToPass = {rcsToImport, idsNumberImportable, idsNotImportable, idsNotANumber }
+    const variablesToPass = { rcsToImport, idsNumberImportable, idsNotImportable, idsNotANumber }
     const idsAnalysisResultType = getSuccessTypeFromAnalysis(variablesToPass)
     const panel3Done = idsAnalysisResultType !== 'danger' && idsOfAeObjects.length > 0
     let state = { panel3Done }
@@ -529,9 +528,9 @@ export default React.createClass({
       this.setState({ bsBearbeitenErlaubt: false })
       // delete text after a second
       setTimeout(() => this.setState({
-          nameBestehend: null,
-          name: null
-        }), 1000)
+        nameBestehend: null,
+        name: null
+      }), 1000)
       // close alert after 8 seconds
       setTimeout(() => this.setState({ bsBearbeitenErlaubt: true }), 8000)
     }

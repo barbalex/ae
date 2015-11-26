@@ -9,16 +9,17 @@ import app from 'ampersand-app'
 import React from 'react'
 import { Typeahead } from 'react-typeahead'
 import { Glyphicon } from 'react-bootstrap'
-import getPathFromGuid from '../../modules/getPathFromGuid.js'
 
 export default React.createClass({
   displayName: 'Filter',
 
-  /*getInitialState () {
+  /*
+  getInitialState () {
     return {
       value: 'initial value'
     }
-  },*/
+  },
+  */
 
   propTypes: {
     filterOptions: React.PropTypes.array,
@@ -28,9 +29,11 @@ export default React.createClass({
 
   onClickEmptyFilterField () {
     console.log('filter.js: clicked remove')
-    /*this.setState({
+    /*
+    this.setState({
       value: 'empty'
-    })*/
+    })
+    */
     this.refs.typeahead.focus()
   },
 
@@ -42,12 +45,14 @@ export default React.createClass({
 
     app.Actions.loadActiveObjectStore(guid)
 
-    /*this.setState({
+    /*
+    this.setState({
       itemFiltered: {
         'value': guid,
         'label': label
       }
-    })*/
+    })
+    */
   },
 
   render () {

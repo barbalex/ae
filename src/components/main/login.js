@@ -63,10 +63,9 @@ export default React.createClass({
     if (this.validSignin(email, password)) {
       app.remoteDb.login(email, password)
         .then((response) => app.Actions.login({
-            logIn: false,
-            email: email
-          })
-        )
+          logIn: false,
+          email: email
+        }))
         .catch((error) => this.setState({ email: null, loginError: error }))
     }
   },

@@ -52,23 +52,31 @@ export default React.createClass({
     if (allGroupsLoaded) maxHeight += 59                    // correction if all groups are loaded
     const treeStyle = { maxHeight }
 
-    const loadingMessages = groupsLoadingObjects.map((groupLoadingObject, index) => <LoadingMessage key={index} groupLoadingObject={groupLoadingObject} />)
+    const loadingMessages = groupsLoadingObjects.map((groupLoadingObject, index) => (
+      <LoadingMessage
+        key={index}
+        groupLoadingObject={groupLoadingObject} />
+    ))
 
     return (
       <div>
-        <div id='tree' style={treeStyle}>
-          {hierarchy ?
-            <div>
-              <Nodes
-                hierarchy={hierarchy}
-                object={object}
-                path={path} />
-            </div>
+        <div
+          id='tree'
+          style={treeStyle}>
+          {
+            hierarchy
+            ? <div>
+                <Nodes
+                  hierarchy={hierarchy}
+                  object={object}
+                  path={path} />
+              </div>
             : null
           }
         </div>
-        {loading ?
-          loadingMessages
+        {
+          loading
+          ? loadingMessages
           : null
         }
       </div>

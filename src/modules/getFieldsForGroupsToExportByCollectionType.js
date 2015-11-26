@@ -90,7 +90,6 @@ export default (allFields, groupsToExport, collectionType, combineTaxonomies) =>
         fNameObject.groups.push(object.group)
       })
       cNameObject[key] = fNameObject
-
     })
 
     taxonomyNameObject[key] = cNameObject

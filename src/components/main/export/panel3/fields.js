@@ -60,49 +60,81 @@ export default React.createClass({
 
     return (
       <Accordion activeKey={activePanel}>
-        <Panel collapsible header='Art / Lebensraum' eventKey={1} onClick={this.onClickPanel.bind(this, 1)}>
-          {activePanel === 1 ?
-            <div className='felderspalte' style={{marginBottom: -8}}>
-              <Input type='checkbox' label='GUID' onChange={this.onChangeMyExportData.bind(this, 'object', '_id')} checked={guidChecked} />
-              <Input type='checkbox' label='Gruppe' onChange={this.onChangeMyExportData.bind(this, 'object', 'Gruppe')} />
-            </div>
+        <Panel
+          collapsible
+          header='Art / Lebensraum'
+          eventKey={1}
+          onClick={this.onClickPanel.bind(this, 1)}>
+          {
+            activePanel === 1
+            ? <div
+                className='felderspalte'
+                style={{marginBottom: -8}}>
+                <Input
+                  type='checkbox'
+                  label='GUID'
+                  onChange={this.onChangeMyExportData.bind(this, 'object', '_id')}
+                  checked={guidChecked} />
+                <Input
+                  type='checkbox'
+                  label='Gruppe'
+                  onChange={this.onChangeMyExportData.bind(this, 'object', 'Gruppe')} />
+              </div>
             : null
           }
         </Panel>
-        <Panel className='collectionPanel' collapsible header={taxonomyHeader} eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
-          {activePanel === 2 ?
-            <FieldsTaxonomy
-              exportOptions={exportOptions}
-              taxonomyFields={taxonomyFields}
-              collectionsWithAllChoosen={collectionsWithAllChoosen}
-              onChooseField={onChooseField}
-              onChooseAllOfCollection={onChooseAllOfCollection} />
+        <Panel
+          className='collectionPanel'
+          collapsible
+          header={taxonomyHeader}
+          eventKey={2}
+          onClick={this.onClickPanel.bind(this, 2)}>
+          {
+            activePanel === 2
+            ? <FieldsTaxonomy
+                exportOptions={exportOptions}
+                taxonomyFields={taxonomyFields}
+                collectionsWithAllChoosen={collectionsWithAllChoosen}
+                onChooseField={onChooseField}
+                onChooseAllOfCollection={onChooseAllOfCollection} />
             : null
           }
         </Panel>
-        <Panel className='collectionPanel' collapsible header='Eigenschaftensammlungen' eventKey={3} onClick={this.onClickPanel.bind(this, 3)}>
-          {activePanel === 3 ?
-            <FieldsPCs
-              exportOptions={exportOptions}
-              pcFields={pcFields}
-              pcs={pcs}
-              collectionsWithAllChoosen={collectionsWithAllChoosen}
-              onChooseField={onChooseField}
-              onChooseAllOfCollection={onChooseAllOfCollection} />
+        <Panel
+          className='collectionPanel'
+          collapsible
+          header='Eigenschaftensammlungen'
+          eventKey={3}
+          onClick={this.onClickPanel.bind(this, 3)}>
+          {
+            activePanel === 3
+            ? <FieldsPCs
+                exportOptions={exportOptions}
+                pcFields={pcFields}
+                pcs={pcs}
+                collectionsWithAllChoosen={collectionsWithAllChoosen}
+                onChooseField={onChooseField}
+                onChooseAllOfCollection={onChooseAllOfCollection} />
             : null
           }
         </Panel>
-        <Panel className='collectionPanel' collapsible header='Beziehungssammlungen' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>
-          {activePanel === 4 ?
-            <FieldsRCs
-              exportOptions={exportOptions}
-              relationFields={relationFields}
-              rcs={rcs}
-              collectionsWithAllChoosen={collectionsWithAllChoosen}
-              oneRowPerRelation={oneRowPerRelation}
-              onChooseField={onChooseField}
-              onChooseAllOfCollection={onChooseAllOfCollection}
-              onChangeOneRowPerRelation={onChangeOneRowPerRelation} />
+        <Panel
+          className='collectionPanel'
+          collapsible
+          header='Beziehungssammlungen'
+          eventKey={4}
+          onClick={this.onClickPanel.bind(this, 4)}>
+          {
+            activePanel === 4
+            ? <FieldsRCs
+                exportOptions={exportOptions}
+                relationFields={relationFields}
+                rcs={rcs}
+                collectionsWithAllChoosen={collectionsWithAllChoosen}
+                oneRowPerRelation={oneRowPerRelation}
+                onChooseField={onChooseField}
+                onChooseAllOfCollection={onChooseAllOfCollection}
+                onChangeOneRowPerRelation={onChangeOneRowPerRelation} />
             : null
           }
         </Panel>

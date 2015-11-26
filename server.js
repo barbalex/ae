@@ -4,15 +4,19 @@
 
 'use strict'
 
-var /*serverOptionsDevelopment = {    // wird nur in Entwicklung genutzt
+// only used sometimes in development
+// set options into new Hapi.Server()
+/*
+var serverOptionsDevelopment = {
     debug: {
       log: ['error'],
       request: ['error']
     }
-  },*/
-  Hapi = require('hapi'),
-  Inert = require('inert'),
-  server = new Hapi.Server()
+  }
+*/
+var Hapi = require('hapi')
+var Inert = require('inert')
+var server = new Hapi.Server()
 
 server.register(Inert, () => {
   server.connection({

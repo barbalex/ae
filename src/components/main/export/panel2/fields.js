@@ -55,41 +55,57 @@ export default React.createClass({
     return (
       <Accordion activeKey={activePanel}>
         <Panel collapsible header='Art / Lebensraum' eventKey={1} onClick={this.onClickPanel.bind(this, 1)}>
-          {activePanel === 1 ?
-            <InputFilterGuid
-              onChangeFilterField={onChangeFilterField} />
+          {
+            activePanel === 1
+            ? <InputFilterGuid
+                onChangeFilterField={onChangeFilterField} />
             : null
           }
         </Panel>
-        <Panel className='collectionPanel' collapsible header={taxonomyHeader} eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
-          {activePanel === 2 ?
-            <FieldsTaxonomy
-              taxonomyFields={taxonomyFields}
-              exportOptions={exportOptions}
-              onChangeFilterField={onChangeFilterField}
-              onChangeCoSelect={onChangeCoSelect} />
+        <Panel
+          className='collectionPanel'
+          collapsible header={taxonomyHeader}
+          eventKey={2}
+          onClick={this.onClickPanel.bind(this, 2)}>
+          {
+            activePanel === 2
+            ? <FieldsTaxonomy
+                taxonomyFields={taxonomyFields}
+                exportOptions={exportOptions}
+                onChangeFilterField={onChangeFilterField}
+                onChangeCoSelect={onChangeCoSelect} />
             : null
           }
         </Panel>
-        <Panel className='collectionPanel' collapsible header='Eigenschaftensammlungen' eventKey={3} onClick={this.onClickPanel.bind(this, 3)}>
-          {activePanel === 3 ?
-            <FieldsPCs
-              pcFields={pcFields}
-              pcs={pcs}
-              exportOptions={exportOptions}
-              onChangeFilterField={onChangeFilterField}
-              onChangeCoSelect={onChangeCoSelect} />
+        <Panel
+          className='collectionPanel'
+          collapsible header='Eigenschaftensammlungen'
+          eventKey={3}
+          onClick={this.onClickPanel.bind(this, 3)}>
+          {
+            activePanel === 3
+            ? <FieldsPCs
+                pcFields={pcFields}
+                pcs={pcs}
+                exportOptions={exportOptions}
+                onChangeFilterField={onChangeFilterField}
+                onChangeCoSelect={onChangeCoSelect} />
             : null
           }
         </Panel>
-        <Panel className='collectionPanel' collapsible header='Beziehungssammlungen' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>
-          {activePanel === 4 ?
-            <FieldsRCs
-              relationFields={relationFields}
-              rcs={rcs}
-              exportOptions={exportOptions}
-              onChangeFilterField={onChangeFilterField}
-              onChangeCoSelect={onChangeCoSelect} />
+        <Panel
+          className='collectionPanel'
+          collapsible header='Beziehungssammlungen'
+          eventKey={4}
+          onClick={this.onClickPanel.bind(this, 4)}>
+          {
+            activePanel === 4
+            ? <FieldsRCs
+                relationFields={relationFields}
+                rcs={rcs}
+                exportOptions={exportOptions}
+                onChangeFilterField={onChangeFilterField}
+                onChangeCoSelect={onChangeCoSelect} />
             : null
           }
         </Panel>

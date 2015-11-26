@@ -26,7 +26,7 @@ const ddoc = {
                 felder[key] = rc[key]
               }
             })
-            emit([rc.Name, rcCombining, rc['importiert von'], felder], null)
+            window.emit([rc.Name, rcCombining, rc['importiert von'], felder], null)
           })
         }
       }.toString(),

@@ -37,24 +37,49 @@ export default React.createClass({
             <Email email={email} />
           </div>
           <div className='symbol-div'>
-            {showReplicatingFromAe ? <ReplicatingFromAe replicatingFromAe={replicatingFromAe} replicatingFromAeTime={replicatingFromAeTime} /> : null}
+            {
+              showReplicatingFromAe
+              ? <ReplicatingFromAe
+                  replicatingFromAe={replicatingFromAe}
+                  replicatingFromAeTime={replicatingFromAeTime} />
+              : null
+            }
           </div>
           <div className='symbol-div'>
-            {showReplicatingToAe ? <ReplicatingToAe replicatingToAe={replicatingToAe} replicatingToAeTime={replicatingToAeTime} /> : null}
+            {
+              showReplicatingToAe
+              ? <ReplicatingToAe
+                  replicatingToAe={replicatingToAe}
+                  replicatingToAeTime={replicatingToAeTime} />
+              : null
+            }
           </div>
           <div className='symbol-div'>
-            {pcsQuerying ? <PcsQuerying /> : null}
+            {
+              pcsQuerying
+              ? <PcsQuerying />
+              : null
+            }
           </div>
           <div className='symbol-div'>
-            {rcsQuerying ? <RcsQuerying /> : null}
+            {
+              rcsQuerying
+              ? <RcsQuerying />
+              : null
+            }
           </div>
           <div className='symbol-div'>
-            {fieldsQuerying ? <FieldsQuerying /> : null}
+            {
+              fieldsQuerying
+              ? <FieldsQuerying />
+              : null
+            }
           </div>
           <div className='symbol-div'>
-            {showGroupsLoading ?
-              <GroupsLoading
-                groupsLoadingObjects={groupsLoadingObjects} />
+            {
+              showGroupsLoading
+              ? <GroupsLoading
+                  groupsLoadingObjects={groupsLoadingObjects} />
               : null
             }
           </div>
