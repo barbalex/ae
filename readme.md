@@ -32,7 +32,7 @@
 - Die Daten werden mit Hilfe von [pouchdb](http://pouchdb.com) im Browser gespeichert
 - Schnittstellen zu anderen Anwendungen werden wie bisher direkt durch die CouchApp gewährleistet. Ev. wird in einem zweiten Schritt ein unabhängiger api-Server erstellt, der sie mit Hilfe von [hapi.js](http://hapijs.com) bereitstellt
 
-###Unterschiede zur bisherigen Anwendung
+###Technische Unterschiede zur bisherigen Anwendung
 
 - Neuste Technologie, stark verringerte Komplexität, viel bessere Unterhalt- und Erweiterbarkeit
   - Ein mit Flux und React bewandter Software-Ingenieur kann sich sehr rasch einarbeiten
@@ -46,7 +46,12 @@
   - Indizes müssen lokal aufgebaut werden - das kann den Browser stark belasten.<br/>Indizes werden für Importe und Exporte benötigt
   - Die Anwendung beansprucht viel Festplattenspeicher: Nach dem erstmaligen Laden aller Gruppen ca. 680 MB.<br/>Wenn man Indizes nutzt, werden daraus bis zu einigen Gigabites
 - Da viele Aufgaben neu von der Anwendung wahrgenommen werden, reicht der kleinste verfügbare Server
-- Die Anwendung ist strukturell vorbereitet: Künftig kann der Import von Taxonomien ermöglicht werden
+
+###Funktionale Erweiterungen verglichen mit der bisherigen Anwendung
+- Jedes Objekt kann n Taxonomien haben, wie bisher schon Eigenschaften- und Beziehungssammlungen (realisiert). Das ermöglicht diese künftigen Erweiterungen:
+  - Import von Taxonomien über die Benutzeroberfläche, wie heute bei Eigenschaften- und Beziehungssammlungen
+  - Der Benutzer kann wählen, nach welcher Taxonomie der Strukturbaum aufgebaut wird
+- Daten sind geschützt. Ihre Anpassung wird durch Organisationen gesteuert, welche Benutzern entsprechende Rechte erteilen (pendent)
 
 ###Aktueller Stand
 ####Man kann jetzt:
@@ -57,14 +62,14 @@
 - Daten exportieren
 - Öffnet man die Anwendung beim ersten Besuch direkt mit einem Art-Link [(Beispiel)](http://erfassen.ch/Moose/Musci%20Laubmoose/Buxbaumiaceae/Buxbaumia/Buxbaumia%20aphylla%20Hedw?id=6B7B1CC6-7505-4D79-8E24-F43E464EDB48), lädt sie die Art von der zentralen Datenbank, zeigt sie an und lädt anschliessend die entsprechende Gruppe nach.<br/>
   So sieht man die Art rasch. Sobald die Gruppe fertig geladen ist, wird der Strukturbaum aufgebaut.<br/>
-  Beim nächsten Aufruf einer Art aus dieser Gruppe, wird die Art von der lokalen Datenbank geholt
+  Beim nächsten Aufruf einer Art aus dieser Gruppe, wird die Art aus der lokalen Datenbank geholt
 - Bilder auf Google suchen
 - Wikipedia Artikel suchen
 - Eigenschaftensammlungen importieren...
 - Beziehungssammlungen importieren...
-- ...und anschliessend mit der zentralen Datenbank replizieren (vorläufig auf [erfassen.ch](http://erfassen.ch), nicht [arteigenschaften.ch](http://arteigenschaften.ch)).<br/>
+- ...und anschliessend mit der zentralen Datenbank replizieren.<br/>
   Es wäre einfach, nach jedem Import automatisch zu replizieren. Aber so wie es jetzt realisiert ist, kann jemand eigene Daten importieren, ohne sie mit [arteigenschaften.ch](http://arteigenschaften.ch) zu teilen. Das kann in Einzelfällen auch ein Vorteil sein
-- Aktuelle Daten von der zentralen Datenbank (jetzt [erfassen.ch](http://erfassen.ch)) replizieren.<br/>
+- Aktuelle Daten von der zentralen Datenbank replizieren.<br/>
   Es wäre einfach, bei jedem Start der Anwendung von der zentralen Datenbank zu replizieren, wenn der Benutzer bereits alle Gruppen geladen hat. Das wäre vermutlich sinnvoll
 - Vor allem bei Importen und Exporten werden Informationen und Rückmeldungen verbessert
 - Die Anwendung passt sich an den Handy-Bildschirm an - und läuft auf meinem Nexus 6 recht schön (allerdings auf WLAN getestet)
@@ -72,6 +77,7 @@
 - Links sind aussagekräftig, wenn auch nicht besonders lesbar, weil Leerzeichen in der URL von Browsern mit "%20" dargestellt werden
 - Wo möglich wird bei langsamen Vorgängen der Fortschritt angezeigt, z.B. beim Laden von Gruppen.<br/>
   Leider ist das nicht immer möglich, z.B. wenn Indizes gebaut werden
+- Ein Objekt kann beliebig viele Taxonomien enthalten
 
 Die Anwendung ist auf [erfassen.ch](http://erfassen.ch) aufgeschaltet. Man kann hier üben, soviel man will.<br/>
 Test-Login: User "z@z.ch", Passwort "z".
@@ -80,6 +86,5 @@ Test-Login: User "z@z.ch", Passwort "z".
 
 - Organisationen und Benutzer
 - Testen
-- Auf dem Internet Explorer zum Laufen bringen
 
-Die Anwendung wird auf Google Chrome entwickelt. Auf Firefox und Edge ist sie erst rudimentär getestet. Auf dem Internet Explorer läuft sie noch nicht. Die verwendeten Technologien sollten ab IE9 funktionieren (mit ein paar Ausnahmen, die es aber heute schon gibt). Unsicher ist aber, ob der IE9 leistungsfähig genug ist.
+Die Anwendung wird auf Google Chrome entwickelt. Auf Firefox scheint sie gut zu funktionieren. Edge und IE 11 sind leider ungeeignet, weil sie die lokale Speicherung so vieler Daten nicht zulassen. Safari ist offenbar grundsätzlich noch nicht geeignet für native Web-Anwendungen.
