@@ -5,8 +5,8 @@ import React from 'react'
 import { ListenerMixin } from 'reflux'
 import { Accordion, Panel } from 'react-bootstrap'
 import _ from 'lodash'
+import Panel1 from './panel1/panel1.js'
 import Panel2 from './panel2/panel2.js'
-import Panel3 from './panel3/panel3.js'
 import ModalTooManyFieldsChoosen from './modalTooManyFieldsChoosen.js'
 import ModalTooManyRcsChoosen from './modalTooManyRcsChoosen.js'
 
@@ -119,6 +119,7 @@ export default React.createClass({
        * 2. export on row per object
        *    and combine all relations in one field
        *    separated by commas
+       *  for alt export one row per relation
        */
       oneRowPerRelation: true
     }
@@ -333,28 +334,10 @@ export default React.createClass({
         <h4>Eigenschaften für das Artenlistentool wählen</h4>
         <Accordion activeKey={activePanel} onSelect={this.handleOnSelectPanel}>
 
-          <Panel className='exportFields' collapsible header='1. Eigenschaften wählen' eventKey={1} onClick={this.onClickPanel.bind(this, 1)}>
-            {activePanel === 1
-              ? <Panel2
-                  groupsLoadingObjects={groupsLoadingObjects}
-                  taxonomyFields={taxonomyFields}
-                  pcFields={pcFields}
-                  relationFields={relationFields}
-                  groupsLoadedOrLoading={groupsLoadedOrLoading}
-                  pcs={pcs}
-                  rcs={rcs}
-                  exportOptions={exportOptions}
-                  onlyObjectsWithCollectionData={onlyObjectsWithCollectionData}
-                  onChangeFilterField={this.onChangeFilterField}
-                  onChangeCoSelect={this.onChangeCoSelect}
-                  onChangeOnlyObjectsWithCollectionData={this.onChangeOnlyObjectsWithCollectionData} />
-              : null
-            }
-          </Panel>
-
-          <Panel collapsible header='2. URL generieren' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
-            {activePanel === 2
-              ? <Panel3
+          <Panel collapsible header='1. Eigenschaften wählen' eventKey={1} onClick={this.onClickPanel.bind(this, 1)}>
+            {
+              activePanel === 1
+              ? <Panel1
                   taxonomyFields={taxonomyFields}
                   pcFields={pcFields}
                   relationFields={relationFields}
@@ -368,6 +351,21 @@ export default React.createClass({
                   onChooseField={this.onChooseField}
                   onChooseAllOfCollection={this.onChooseAllOfCollection}
                   onChangeOneRowPerRelation={this.onChangeOneRowPerRelation} />
+              : null
+            }
+          </Panel>
+
+          <Panel collapsible header='2. URL generieren' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
+            {
+              activePanel === 2
+              ? <Panel2
+                  exportOptions={exportOptions}
+                  onlyObjectsWithCollectionData={onlyObjectsWithCollectionData}
+                  includeDataFromSynonyms={includeDataFromSynonyms}
+                  oneRowPerRelation={oneRowPerRelation}
+                  combineTaxonomies={combineTaxonomies}
+                  exportObjects={exportObjects}
+                  errorBuildingExportData={errorBuildingExportData} />
               : null
             }
           </Panel>
