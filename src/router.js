@@ -11,12 +11,31 @@ import replaceProblematicPathCharactersFromArray from './modules/replaceProblema
 
 export default Router.extend({
   routes: {
+    'index.html?exportieren_fuer_artenlistentool=true': 'exportAlt',
     '*path': 'home'
+  },
+
+  exportAlt () {
+    console.log('router, route is exportAlt')
+    ReactDOM.render(
+      <Home
+        gruppe={null}
+        guid={null}
+        path={['exportieren', 'artenlistentool']}
+        showImportPc={false}
+        showImportRc={false}
+        showExportieren={false}
+        showExportierenAlt
+        showOrganizations={false}
+        email={null} />,
+      document.getElementById('root')
+    )
   },
 
   // all object paths depend on data i.e. are unpredictable
   // that is why there is only one route and it is analysed with a series of if's
   home (pathName) {
+    console.log('router, route is home')
     // this is the entry point of the application
     // > read props from url
     let path = pathName ? pathName.split('/') : []
