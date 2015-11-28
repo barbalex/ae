@@ -39,6 +39,7 @@ export default React.createClass({
     showImportPc: React.PropTypes.bool,
     showImportRc: React.PropTypes.bool,
     showExportieren: React.PropTypes.bool,
+    showExportierenAlt: React.PropTypes.bool,
     showOrganizations: React.PropTypes.bool,
     logIn: React.PropTypes.bool,
     email: React.PropTypes.string,
@@ -59,7 +60,7 @@ export default React.createClass({
   },
 
   getInitialState () {
-    const { gruppe, guid, path, showImportPc, showImportRc, showExportieren, showOrganizations, email } = this.props
+    const { gruppe, guid, path, showImportPc, showImportRc, showExportieren, showExportierenAlt, showOrganizations, email } = this.props
     const groupsLoadedOrLoading = gruppe ? [gruppe] : []
 
     // this happens on first load
@@ -83,6 +84,7 @@ export default React.createClass({
       showImportPc: showImportPc,
       showImportRc: showImportRc,
       showExportieren: showExportieren,
+      showExportierenAlt: showExportierenAlt,
       showOrganizations: showOrganizations,
       logIn: false,
       email: email,
@@ -174,6 +176,7 @@ export default React.createClass({
     let showImportPc = false
     let showImportRc = false
     let showExportieren = false
+    let showExportierenAlt = false
     let showOrganizations = false
 
     if (path.length === 2 && path[0] === 'importieren') {
@@ -190,6 +193,8 @@ export default React.createClass({
     } else if (path.length === 1 && path[0] === 'exportieren') {
       showExportieren = true
       gruppe = null
+    } else if (path.length === 2 && path[0] === 'exportieren' && path[1] === 'artenlistentool') {
+      showExportierenAlt = true
     } else if (path[0]) {
       // this would be an object url
       gruppe = path[0]
@@ -197,7 +202,7 @@ export default React.createClass({
       // must be home
       gruppe = null
     }
-    state = Object.assign(state, { gruppe, showImportPc, showImportRc, showExportieren, showOrganizations })
+    state = Object.assign(state, { gruppe, showImportPc, showImportRc, showExportieren, showExportierenAlt, showOrganizations })
     if (!guid) state = Object.assign(state, { object: undefined })
 
     this.setState(state)
@@ -230,52 +235,61 @@ export default React.createClass({
   },
 
   render () {
-    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, showImportPc, showImportRc, showExportieren, showOrganizations, logIn, email, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, pcs, rcs, pcsQuerying, rcsQuerying, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, offlineIndexes } = this.state
+    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, showImportPc, showImportRc, showExportieren, showExportierenAlt, showOrganizations, logIn, email, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, pcs, rcs, pcsQuerying, rcsQuerying, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, offlineIndexes } = this.state
     const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
     const showGruppen = groupsNotLoaded.length > 0
     const showFilter = filterOptions.length > 0 || loadingFilterOptions
     const showTree = groupsLoadedOrLoading.length > 0
-    const showMain = object !== undefined || showImportRc || showImportPc || showExportieren || showOrganizations
+    const showMain = object !== undefined || showImportRc || showImportPc || showExportieren || showExportierenAlt || showOrganizations
     const showLogin = logIn && !email
     let homeStyle = {}
     if (pcsQuerying || rcsQuerying || fieldsQuerying) homeStyle.cursor = 'progress'
+    const showMenu = !showExportierenAlt
 
     // MenuButton needs to be outside of the menu
     // otherwise the menu can't be shown outside when menu is short
     return (
       <NavHelper style={homeStyle}>
-        <MenuButton
-          object={object}
-          offlineIndexes={offlineIndexes}
-          onClickToggleOfflineIndexes={this.onClickToggleOfflineIndexes} />
-        <div id='menu' className='menu'>
-          <div id='menuLine'>
-            <ResizeButton />
-          </div>
-          {
-            showGruppen
-            ? <Groups
-                groupsLoadedOrLoading={groupsLoadedOrLoading} />
-            : null
-          }
-          {
-            showFilter
-            ? <Filter
-                filterOptions={filterOptions}
-                loadingFilterOptions={loadingFilterOptions} />
-            : null
-          }
-          {
-            showTree
-            ? <Tree
-                hierarchy={hierarchy}
-                groupsLoadingObjects={groupsLoadingObjects}
-                allGroupsLoaded={allGroupsLoaded}
-                object={object}
-                path={path} />
-            : null
-          }
-        </div>
+        {
+          showMenu
+          ? <MenuButton
+              object={object}
+              offlineIndexes={offlineIndexes}
+              onClickToggleOfflineIndexes={this.onClickToggleOfflineIndexes} />
+          : null
+        }
+        {
+          showMenu
+          ? <div id='menu' className='menu'>
+              <div id='menuLine'>
+                <ResizeButton />
+              </div>
+              {
+                showGruppen
+                ? <Groups
+                    groupsLoadedOrLoading={groupsLoadedOrLoading} />
+                : null
+              }
+              {
+                showFilter
+                ? <Filter
+                    filterOptions={filterOptions}
+                    loadingFilterOptions={loadingFilterOptions} />
+                : null
+              }
+              {
+                showTree
+                ? <Tree
+                    hierarchy={hierarchy}
+                    groupsLoadingObjects={groupsLoadingObjects}
+                    allGroupsLoaded={allGroupsLoaded}
+                    object={object}
+                    path={path} />
+                : null
+              }
+            </div>
+          : null
+        }
         <Symbols
           email={email}
           groupsLoadingObjects={groupsLoadingObjects}
@@ -300,6 +314,7 @@ export default React.createClass({
               showImportPc={showImportPc}
               showImportRc={showImportRc}
               showExportieren={showExportieren}
+              showExportierenAlt={showExportierenAlt}
               fieldsQuerying={fieldsQuerying}
               fieldsQueryingError={fieldsQueryingError}
               taxonomyFields={taxonomyFields}

@@ -5,6 +5,7 @@ import React from 'react'
 import { ListenerMixin } from 'reflux'
 import { Accordion, Panel } from 'react-bootstrap'
 import _ from 'lodash'
+import addClass from 'amp-add-class'
 import Panel1 from './panel1/panel1.js'
 import Panel2 from './panel2/panel2.js'
 import ModalTooManyFieldsChoosen from './modalTooManyFieldsChoosen.js'
@@ -127,6 +128,9 @@ export default React.createClass({
 
   componentDidMount () {
     const { offlineIndexes } = this.props
+    const bodyElement = document.body
+    addClass(bodyElement, 'force-mobile')
+    this.forceUpdate()
     // make sure, pcs are queried
     app.Actions.queryPropertyCollections(offlineIndexes)
     app.Actions.queryRelationCollections(offlineIndexes)

@@ -15,6 +15,7 @@
   "author": "Alexander Gabriel",
   "license": "ISC",
   "dependencies": {
+    "amp-add-class": "1.1.0",
     "amp-has-class": "1.0.3",
     "amp-toggle-class": "1.1.0",
     "ampersand-app": "1.0.4",

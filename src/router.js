@@ -29,6 +29,7 @@ export default Router.extend({
     let showImportPc = false
     let showImportRc = false
     let showExportieren = false
+    let showExportierenAlt = false
     let showOrganizations = false
 
     app.loginStore.getLogin()
@@ -60,6 +61,8 @@ export default Router.extend({
         } else if (path.length === 1 && path[0] === 'organisationen_und_benutzer') {
           showOrganizations = true
           gruppe = null
+        } else if (path.length === 2 && path[0] === 'exportieren' && path[1] === 'artenlistentool') {
+          showExportierenAlt = true
         } else if (path[0]) {
           // this would be an object url
           gruppe = path[0]
@@ -76,6 +79,7 @@ export default Router.extend({
             showImportPc={showImportPc}
             showImportRc={showImportRc}
             showExportieren={showExportieren}
+            showExportierenAlt={showExportierenAlt}
             showOrganizations={showOrganizations}
             email={email} />,
           document.getElementById('root')

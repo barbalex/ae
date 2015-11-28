@@ -14,6 +14,7 @@ import Objekt from './object/object.js'
 import ImportPc from './importPc/importPc.js'
 import ImportRc from './importRc/importRc.js'
 import Export from './export/export.js'
+import ExportAlt from './exportAlt/exportAlt.js'
 import Organizations from './organizations.js'
 import Errors from './errors.js'
 
@@ -32,6 +33,7 @@ export default React.createClass({
     showImportPc: React.PropTypes.bool,
     showImportRc: React.PropTypes.bool,
     showExportieren: React.PropTypes.bool,
+    showExportierenAlt: React.PropTypes.bool,
     fieldsQuerying: React.PropTypes.bool,
     fieldsQueryingError: React.PropTypes.object,
     taxonomyFields: React.PropTypes.object,
@@ -76,7 +78,7 @@ export default React.createClass({
   },
 
   render () {
-    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, synonymObjects, pcs, pcsQuerying, rcs, rcsQuerying, showImportPc, showImportRc, showExportieren, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, showOrganizations, email, replicatingToAe, replicatingToAeTime, offlineIndexes } = this.props
+    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, synonymObjects, pcs, pcsQuerying, rcs, rcsQuerying, showImportPc, showImportRc, showExportieren, showExportierenAlt, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, showOrganizations, email, replicatingToAe, replicatingToAeTime, offlineIndexes } = this.props
     const { formClassNames, errors } = this.state
     const showObject = object && Object.keys(object).length > 0
 
@@ -116,6 +118,22 @@ export default React.createClass({
           }
           {showExportieren
             ? <Export
+                groupsLoadedOrLoading={groupsLoadedOrLoading}
+                groupsLoadingObjects={groupsLoadingObjects}
+                fieldsQuerying={fieldsQuerying}
+                fieldsQueryingError={fieldsQueryingError}
+                taxonomyFields={taxonomyFields}
+                pcFields={pcFields}
+                relationFields={relationFields}
+                pcs={pcs}
+                rcs={rcs}
+                pcsQuerying={pcsQuerying}
+                rcsQuerying={rcsQuerying}
+                offlineIndexes={offlineIndexes} />
+            : null
+          }
+          {showExportierenAlt
+            ? <ExportAlt
                 groupsLoadedOrLoading={groupsLoadedOrLoading}
                 groupsLoadingObjects={groupsLoadingObjects}
                 fieldsQuerying={fieldsQuerying}
