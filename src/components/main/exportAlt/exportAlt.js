@@ -128,6 +128,7 @@ export default React.createClass({
 
   componentDidMount () {
     const { offlineIndexes } = this.props
+    const { exportOptions, combineTaxonomies } = this.state
     const bodyElement = document.body
     addClass(bodyElement, 'force-mobile')
     this.forceUpdate()
@@ -135,6 +136,9 @@ export default React.createClass({
     app.Actions.queryPropertyCollections(offlineIndexes)
     app.Actions.queryRelationCollections(offlineIndexes)
     this.listenTo(app.exportDataStore, this.onChangeExportDataStore)
+    // TODO: is this good? Or rather do it once?
+    app.Actions.queryFields(exportOptions.object.Gruppen.value, 'Flora', combineTaxonomies, offlineIndexes)
+    app.Actions.queryFields(exportOptions.object.Gruppen.value, 'Fauna', combineTaxonomies, offlineIndexes)
   },
 
   onChangeExportDataStore ({ exportObjects, errorBuildingExportData }) {
