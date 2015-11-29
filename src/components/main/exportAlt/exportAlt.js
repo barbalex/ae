@@ -10,6 +10,7 @@ import Panel1 from './panel1/panel1.js'
 import Panel2 from './panel2/panel2.js'
 import ModalTooManyFieldsChoosen from './modalTooManyFieldsChoosen.js'
 import ModalTooManyRcsChoosen from './modalTooManyRcsChoosen.js'
+import getCouchUrl from '../../../modules/getCouchUrl.js'
 
 export default React.createClass({
   displayName: 'Export',
@@ -173,20 +174,6 @@ export default React.createClass({
     }
   },
 
-  onChangeGroupsToExport (group, checked) {
-    let { exportOptions } = this.state
-    const { combineTaxonomies } = this.state
-    const { offlineIndexes } = this.props
-    if (checked) exportOptions.object.Gruppen.value.push(group)
-    if (!checked) exportOptions.object.Gruppen.value = _.without(exportOptions.object.Gruppen.value, group)
-    const panel1Done = exportOptions.object.Gruppen.value.length > 0
-    const panel2Done = exportOptions.object.Gruppen.value.length > 0
-    const exportObjects = []
-    this.setState({ exportObjects, exportOptions, panel1Done, panel2Done })
-    app.Actions.queryFields(exportOptions.object.Gruppen.value, group, combineTaxonomies, offlineIndexes)
-    // console.log('exportOptions', exportOptions)
-  },
-
   onChooseAllOfCollection (cName, cType, event) {
     let { exportOptions, collectionsWithAllChoosen } = this.state
     const { taxonomyFields, pcFields, relationFields } = this.props
@@ -321,8 +308,16 @@ export default React.createClass({
     this.setState({ exportObjects, oneRowPerRelation, exportOptions })
   },
 
+  buildUrl () {
+    const { includeDataFromSynonyms, oneRowPerRelation } = this.state
+    const listName = includeDataFromSynonyms ? 'export_alt_mit_synonymen' : 'export_alt'
+    const viewName = includeDataFromSynonyms ? 'alt_arten_mit_synonymen' : 'alt_arten'
+    const url = `${getCouchUrl()}/_design/artendb/_list/${listName}/${viewName}?include_docs=true&bezInZeilen=${oneRowPerRelation}&felder=` + JSON.stringify('gewaehlteFelderObjekt')
+    return url
+  },
+
   render () {
-    const { groupsLoadedOrLoading, groupsLoadingObjects, taxonomyFields, pcFields, relationFields, pcs, rcs } = this.props
+    const { taxonomyFields, pcFields, relationFields, pcs, rcs } = this.props
     const { activePanel, exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, tooManyFieldsChoosen, tooManyRcsChoosen, collectionsWithAllChoosen, oneRowPerRelation } = this.state
 
     return (
