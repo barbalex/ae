@@ -30,16 +30,12 @@ export default React.createClass({
     pcsQuerying: React.PropTypes.bool,
     rcs: React.PropTypes.array,
     rcsQuerying: React.PropTypes.bool,
-    showImportPc: React.PropTypes.bool,
-    showImportRc: React.PropTypes.bool,
-    showExportieren: React.PropTypes.bool,
-    showExportierenAlt: React.PropTypes.bool,
+    mainComponent: React.PropTypes.string,
     fieldsQuerying: React.PropTypes.bool,
     fieldsQueryingError: React.PropTypes.object,
     taxonomyFields: React.PropTypes.object,
     pcFields: React.PropTypes.object,
     relationFields: React.PropTypes.object,
-    showOrganizations: React.PropTypes.bool,
     email: React.PropTypes.string,
     allGroupsLoaded: React.PropTypes.bool,
     groupsLoadedOrLoading: React.PropTypes.array,
@@ -78,7 +74,7 @@ export default React.createClass({
   },
 
   render () {
-    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, synonymObjects, pcs, pcsQuerying, rcs, rcsQuerying, showImportPc, showImportRc, showExportieren, showExportierenAlt, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, showOrganizations, email, replicatingToAe, replicatingToAeTime, offlineIndexes } = this.props
+    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, synonymObjects, pcs, pcsQuerying, rcs, rcsQuerying, mainComponent, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, email, replicatingToAe, replicatingToAeTime, offlineIndexes } = this.props
     const { formClassNames, errors } = this.state
     const showObject = object && Object.keys(object).length > 0
 
@@ -86,13 +82,15 @@ export default React.createClass({
       <fieldset id='main'>
         <form className={formClassNames} autoComplete='off'>
           <Errors errors={errors} />
-          {showObject
+          {
+            showObject
             ? <Objekt
                 object={object}
                 synonymObjects={synonymObjects} />
             : null
           }
-          {showImportPc
+          {
+            mainComponent === 'importPc'
             ? <ImportPc
                 email={email}
                 pcs={pcs}
@@ -104,7 +102,8 @@ export default React.createClass({
                 replicatingToAeTime={replicatingToAeTime} />
             : null
           }
-          {showImportRc
+          {
+            mainComponent === 'importRc'
             ? <ImportRc
                 email={email}
                 rcs={rcs}
@@ -116,7 +115,8 @@ export default React.createClass({
                 replicatingToAeTime={replicatingToAeTime} />
             : null
           }
-          {showExportieren
+          {
+            mainComponent === 'exportieren'
             ? <Export
                 groupsLoadedOrLoading={groupsLoadedOrLoading}
                 groupsLoadingObjects={groupsLoadingObjects}
@@ -132,7 +132,8 @@ export default React.createClass({
                 offlineIndexes={offlineIndexes} />
             : null
           }
-          {showExportierenAlt
+          {
+            mainComponent === 'exportierenAlt'
             ? <ExportAlt
                 groupsLoadedOrLoading={groupsLoadedOrLoading}
                 groupsLoadingObjects={groupsLoadingObjects}
@@ -148,7 +149,8 @@ export default React.createClass({
                 offlineIndexes={offlineIndexes} />
             : null
           }
-          {showOrganizations
+          {
+            mainComponent === 'organizations'
             ? <Organizations
                 email={email} />
             : null

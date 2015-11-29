@@ -16,17 +16,12 @@ export default Router.extend({
   },
 
   exportAlt () {
-    console.log('router, route is exportAlt')
     ReactDOM.render(
       <Home
         gruppe={null}
         guid={null}
         path={['exportieren', 'artenlistentool']}
-        showImportPc={false}
-        showImportRc={false}
-        showExportieren={false}
-        showExportierenAlt
-        showOrganizations={false}
+        mainComponent={'exportAlt'}
         email={null} />,
       document.getElementById('root')
     )
@@ -35,7 +30,6 @@ export default Router.extend({
   // all object paths depend on data i.e. are unpredictable
   // that is why there is only one route and it is analysed with a series of if's
   home (pathName) {
-    console.log('router, route is home')
     // this is the entry point of the application
     // > read props from url
     let path = pathName ? pathName.split('/') : []
@@ -45,11 +39,7 @@ export default Router.extend({
     // followed by ?id=<guid> if an object is shown
     let guid = getUrlParameterByName('id')
     let gruppe = null
-    let showImportPc = false
-    let showImportRc = false
-    let showExportieren = false
-    let showExportierenAlt = false
-    let showOrganizations = false
+    let mainComponent = null
 
     app.loginStore.getLogin()
       .then((login) => {
@@ -57,10 +47,10 @@ export default Router.extend({
 
         if (path.length === 2 && path[0] === 'importieren') {
           if (path[1] === 'eigenschaften') {
-            showImportPc = true
+            mainComponent = 'importPc'
             gruppe = null
           } else if (path[1] === 'beziehungen') {
-            showImportRc = true
+            mainComponent = 'importPc'
             gruppe = null
           }
         } else if (path.length === 1 && isGuid(path[0])) {
@@ -69,7 +59,7 @@ export default Router.extend({
           gruppe = null
         } else if (path.length === 1 && path[0] === 'exportieren') {
           // this is a path of style /<guid>
-          showExportieren = true
+          mainComponent = 'exportieren'
           gruppe = null
         } else if (path.length === 1 && path[0] === 'indexhtml') {
           // this is a path of style /index.html?id=<guid>
@@ -78,10 +68,10 @@ export default Router.extend({
           guid = getUrlParameterByName('id')
           gruppe = null
         } else if (path.length === 1 && path[0] === 'organisationen_und_benutzer') {
-          showOrganizations = true
+          mainComponent = 'organizations'
           gruppe = null
         } else if (path.length === 2 && path[0] === 'exportieren' && path[1] === 'artenlistentool') {
-          showExportierenAlt = true
+          mainComponent = 'exportierenAlt'
         } else if (path[0]) {
           // this would be an object url
           gruppe = path[0]
@@ -95,11 +85,7 @@ export default Router.extend({
             gruppe={gruppe}
             guid={guid}
             path={path}
-            showImportPc={showImportPc}
-            showImportRc={showImportRc}
-            showExportieren={showExportieren}
-            showExportierenAlt={showExportierenAlt}
-            showOrganizations={showOrganizations}
+            mainComponent={mainComponent}
             email={email} />,
           document.getElementById('root')
         )

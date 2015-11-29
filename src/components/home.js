@@ -36,11 +36,7 @@ export default React.createClass({
     guid: React.PropTypes.string,
     options: React.PropTypes.array,
     loadingFilterOptions: React.PropTypes.bool,
-    showImportPc: React.PropTypes.bool,
-    showImportRc: React.PropTypes.bool,
-    showExportieren: React.PropTypes.bool,
-    showExportierenAlt: React.PropTypes.bool,
-    showOrganizations: React.PropTypes.bool,
+    mainComponent: React.PropTypes.string,
     logIn: React.PropTypes.bool,
     email: React.PropTypes.string,
     replicatingToAe: React.PropTypes.string,
@@ -60,7 +56,7 @@ export default React.createClass({
   },
 
   getInitialState () {
-    const { gruppe, guid, path, showImportPc, showImportRc, showExportieren, showExportierenAlt, showOrganizations, email } = this.props
+    const { gruppe, guid, path, mainComponent, email } = this.props
     const groupsLoadedOrLoading = gruppe ? [gruppe] : []
 
     // this happens on first load
@@ -81,11 +77,7 @@ export default React.createClass({
       guid: guid,
       filterOptions: [],
       loadingFilterOptions: false,
-      showImportPc: showImportPc,
-      showImportRc: showImportRc,
-      showExportieren: showExportieren,
-      showExportierenAlt: showExportierenAlt,
-      showOrganizations: showOrganizations,
+      mainComponent: mainComponent,
       logIn: false,
       email: email,
       replicatingToAe: null,
@@ -173,28 +165,24 @@ export default React.createClass({
     let state = { path, guid }
 
     let gruppe = null
-    let showImportPc = false
-    let showImportRc = false
-    let showExportieren = false
-    let showExportierenAlt = false
-    let showOrganizations = false
+    let mainComponent = null
 
     if (path.length === 2 && path[0] === 'importieren') {
       if (path[1] === 'eigenschaften') {
-        showImportPc = true
+        mainComponent = 'importPc'
         gruppe = null
       } else if (path[1] === 'beziehungen') {
-        showImportRc = true
+        mainComponent = 'importPc'
         gruppe = null
       }
     } else if (path.length === 1 && path[0] === 'organisationen_und_benutzer') {
-      showOrganizations = true
+      mainComponent = 'organizations'
       gruppe = null
     } else if (path.length === 1 && path[0] === 'exportieren') {
-      showExportieren = true
+      mainComponent = 'exportieren'
       gruppe = null
     } else if (path.length === 2 && path[0] === 'exportieren' && path[1] === 'artenlistentool') {
-      showExportierenAlt = true
+      mainComponent = 'exportierenAlt'
     } else if (path[0]) {
       // this would be an object url
       gruppe = path[0]
@@ -202,7 +190,7 @@ export default React.createClass({
       // must be home
       gruppe = null
     }
-    state = Object.assign(state, { gruppe, showImportPc, showImportRc, showExportieren, showExportierenAlt, showOrganizations })
+    state = Object.assign(state, { gruppe, mainComponent })
     if (!guid) state = Object.assign(state, { object: undefined })
 
     this.setState(state)
@@ -235,16 +223,16 @@ export default React.createClass({
   },
 
   render () {
-    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, showImportPc, showImportRc, showExportieren, showExportierenAlt, showOrganizations, logIn, email, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, pcs, rcs, pcsQuerying, rcsQuerying, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, offlineIndexes } = this.state
+    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, mainComponent, logIn, email, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, pcs, rcs, pcsQuerying, rcsQuerying, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, offlineIndexes } = this.state
     const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
     const showGruppen = groupsNotLoaded.length > 0
     const showFilter = filterOptions.length > 0 || loadingFilterOptions
     const showTree = groupsLoadedOrLoading.length > 0
-    const showMain = object !== undefined || showImportRc || showImportPc || showExportieren || showExportierenAlt || showOrganizations
+    const showMain = object !== undefined || !!mainComponent
     const showLogin = logIn && !email
     let homeStyle = {}
     if (pcsQuerying || rcsQuerying || fieldsQuerying) homeStyle.cursor = 'progress'
-    const showMenu = !showExportierenAlt
+    const showMenu = mainComponent !== 'exportierenAlt'
 
     // MenuButton needs to be outside of the menu
     // otherwise the menu can't be shown outside when menu is short
@@ -311,16 +299,12 @@ export default React.createClass({
               rcs={rcs}
               pcsQuerying={pcsQuerying}
               rcsQuerying={rcsQuerying}
-              showImportPc={showImportPc}
-              showImportRc={showImportRc}
-              showExportieren={showExportieren}
-              showExportierenAlt={showExportierenAlt}
+              mainComponent={mainComponent}
               fieldsQuerying={fieldsQuerying}
               fieldsQueryingError={fieldsQueryingError}
               taxonomyFields={taxonomyFields}
               pcFields={pcFields}
               relationFields={relationFields}
-              showOrganizations={showOrganizations}
               email={email}
               replicatingToAe={replicatingToAe}
               replicatingToAeTime={replicatingToAeTime}
