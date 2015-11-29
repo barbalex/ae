@@ -10,6 +10,7 @@ export default (path) => {
     if (path.length === 0) resolve(null)
     getPathsFromLocalPathDb()
       .then((paths) => {
+        if (!paths) return resolve(null)
         const guid = paths[pathString]
         resolve(guid)
       })
