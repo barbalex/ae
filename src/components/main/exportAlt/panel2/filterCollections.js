@@ -1,30 +1,29 @@
 'use strict'
 
 /**
- * gets exportOptions and objects
- * loops all fields in exportOptions
+ * gets urlOptions and objects
+ * loops all fields in urlOptions
  * and filters objects according to value and comparison operator
  * returns filtered objects
  */
 
 import isFilterFulfilled from './isFilterFulfilled.js'
-import isFilterFulfilledForBeziehungspartner from './isFilterFulfilledForBeziehungspartner.js'
 
-export default (exportOptions, objects, combineTaxonomies, onlyObjectsWithCollectionData) => {
-  Object.keys(exportOptions).forEach((cName) => {
-    const cType = exportOptions[cName].cType
+export default (urlOptions, objects, combineTaxonomies, onlyObjectsWithCollectionData) => {
+  Object.keys(urlOptions).forEach((cName) => {
+    const cType = urlOptions[cName].cType
     /**
      * skip cName === 'object'. Was dealt with in stores.js
      * if cType === 'taxonomy' and combineTaxonomies: skip. Will be dealt with below
      */
     if (cName !== 'object' && !(cType === 'taxonomy' && combineTaxonomies)) {
-      Object.keys(exportOptions[cName]).forEach((fName) => {
+      Object.keys(urlOptions[cName]).forEach((fName) => {
         /**
          * always exclude fName === 'cType'
          */
         if (fName !== 'cType') {
-          const filterValue = exportOptions[cName][fName].value
-          const co = exportOptions[cName][fName].co
+          const filterValue = urlOptions[cName][fName].value
+          const co = urlOptions[cName][fName].co
           /**
            * only filter if a filter value was passed for this field
            */

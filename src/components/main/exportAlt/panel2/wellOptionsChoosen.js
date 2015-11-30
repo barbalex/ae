@@ -13,7 +13,7 @@ export default React.createClass({
   displayName: 'OptionsChoosen',
 
   propTypes: {
-    exportOptions: React.PropTypes.object,
+    urlOptions: React.PropTypes.object,
     onlyObjectsWithCollectionData: React.PropTypes.bool,
     includeDataFromSynonyms: React.PropTypes.bool,
     oneRowPerRelation: React.PropTypes.bool,
@@ -21,8 +21,8 @@ export default React.createClass({
   },
 
   groupsText () {
-    const { exportOptions } = this.props
-    const groups = exportOptions.object.Gruppen.value
+    const { urlOptions } = this.props
+    const groups = urlOptions.object.Gruppen.value
     const prefix = groups.length > 1 ? 'Gruppen: ' : 'Gruppe: '
     return prefix + groups.join(', ')
   },
@@ -48,12 +48,12 @@ export default React.createClass({
   },
 
   filtersAndFields () {
-    const { exportOptions } = this.props
+    const { urlOptions } = this.props
     let filters = []
     let fields = []
-    Object.keys(exportOptions).forEach((cName) => {
-      Object.keys(exportOptions[cName]).forEach((fName) => {
-        const field = exportOptions[cName][fName]
+    Object.keys(urlOptions).forEach((cName) => {
+      Object.keys(urlOptions[cName]).forEach((fName) => {
+        const field = urlOptions[cName][fName]
         if (field.value) {
           const filterValue = field.co !== undefined ? `${field.co} ${field.value}` : `${field.value}`
           filters.push({ cName, fName, filterValue })

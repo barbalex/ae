@@ -13,7 +13,7 @@ export default React.createClass({
     onChooseField: React.PropTypes.func,
     onChooseAllOfCollection: React.PropTypes.func,
     activePanel: React.PropTypes.number,
-    exportOptions: React.PropTypes.object,
+    urlOptions: React.PropTypes.object,
     collectionsWithAllChoosen: React.PropTypes.array
   },
 
@@ -48,7 +48,7 @@ export default React.createClass({
   },
 
   render () {
-    const { taxonomyFields, exportOptions, onChooseField, onChooseAllOfCollection, collectionsWithAllChoosen } = this.props
+    const { taxonomyFields, urlOptions, onChooseField, onChooseAllOfCollection, collectionsWithAllChoosen } = this.props
     const { activePanel } = this.state
     // open panel if there is only one
     const numberOfCollections = Object.keys(taxonomyFields).length
@@ -68,7 +68,7 @@ export default React.createClass({
             ? <FieldsTaxonomyPanel
                 cNameKey={cNameKey}
                 taxonomyFields={taxonomyFields}
-                exportOptions={exportOptions}
+                urlOptions={urlOptions}
                 collectionsWithAllChoosen={collectionsWithAllChoosen}
                 onChooseField={onChooseField}
                 onChooseAllOfCollection={onChooseAllOfCollection} />

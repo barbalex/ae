@@ -14,7 +14,7 @@ export default React.createClass({
     onChooseAllOfCollection: React.PropTypes.func,
     pcs: React.PropTypes.array,
     activePanel: React.PropTypes.number,
-    exportOptions: React.PropTypes.object,
+    urlOptions: React.PropTypes.object,
     collectionsWithAllChoosen: React.PropTypes.array
   },
 
@@ -49,7 +49,7 @@ export default React.createClass({
   },
 
   render () {
-    const { pcFields, pcs, exportOptions, collectionsWithAllChoosen, onChooseAllOfCollection, onChooseField } = this.props
+    const { pcFields, pcs, urlOptions, collectionsWithAllChoosen, onChooseAllOfCollection, onChooseField } = this.props
     const { activePanel } = this.state
     // open panel if there is only one
     const numberOfCollections = Object.keys(pcFields).length
@@ -71,7 +71,7 @@ export default React.createClass({
             ? <FieldsPCsPanel
                 cNameKey={cNameKey}
                 pcFields={pcFields}
-                exportOptions={exportOptions}
+                urlOptions={urlOptions}
                 collectionsWithAllChoosen={collectionsWithAllChoosen}
                 onChooseField={onChooseField}
                 onChooseAllOfCollection={onChooseAllOfCollection} />

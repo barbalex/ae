@@ -1,5 +1,5 @@
 /**
- * gets exportOptions and objects
+ * gets urlOptions and objects
  * builds export data
  * which is an array of objects containing keys (= field names) and values (= field values)
  * returns exportObjects
@@ -9,8 +9,8 @@
 
 import _ from 'lodash'
 
-export default (exportOptions, objects, combineTaxonomies, oneRowPerRelation, onlyObjectsWithCollectionData) => {
-  console.log('buildExportObjects.js, exportOptions', exportOptions)
+export default (urlOptions, objects, combineTaxonomies, oneRowPerRelation, onlyObjectsWithCollectionData) => {
+  console.log('buildExportObjects.js, urlOptions', urlOptions)
   let exportObjects = []
   let fieldsToAddToAllExportObjects = []
   objects.forEach((object) => {
@@ -22,22 +22,22 @@ export default (exportOptions, objects, combineTaxonomies, oneRowPerRelation, on
     let objectMissesCollection = false
     let exportObject = {}
     // 1. add _id if applicable
-    if (_.get(exportOptions, 'object._id.export')) {
+    if (_.get(urlOptions, 'object._id.export')) {
       const value = _.get(object, '_id', null)
       exportObject.GUID = value
     }
     // 2. add Gruppen if applicable
-    if (_.get(exportOptions, 'object.Gruppen.export')) {
+    if (_.get(urlOptions, 'object.Gruppen.export')) {
       const value = _.get(object, 'Gruppe', null)
       exportObject.Gruppe = value
     }
     // 3. push any other pc or rc field
-    Object.keys(exportOptions).forEach((cName) => {
-      const cType = exportOptions[cName].cType
+    Object.keys(urlOptions).forEach((cName) => {
+      const cType = urlOptions[cName].cType
       if (cType) {
         // o.k., this is not object
-        Object.keys(exportOptions[cName]).forEach((fName) => {
-          if (_.get(exportOptions, `${cName}.${fName}.export`)) {
+        Object.keys(urlOptions[cName]).forEach((fName) => {
+          if (_.get(urlOptions, `${cName}.${fName}.export`)) {
             // first set null value to make shure every field is created. Will be updated later
             exportObject[`${cName}: ${fName}`] = null
             /**

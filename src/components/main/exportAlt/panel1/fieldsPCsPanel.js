@@ -10,7 +10,7 @@ export default React.createClass({
   propTypes: {
     cNameKey: React.PropTypes.string,
     pcFields: React.PropTypes.object,
-    exportOptions: React.PropTypes.object,
+    urlOptions: React.PropTypes.object,
     collectionsWithAllChoosen: React.PropTypes.array,
     onChooseField: React.PropTypes.func,
     onChooseAllOfCollection: React.PropTypes.func
@@ -27,7 +27,7 @@ export default React.createClass({
   },
 
   render () {
-    const { pcFields, exportOptions, cNameKey, collectionsWithAllChoosen } = this.props
+    const { pcFields, urlOptions, cNameKey, collectionsWithAllChoosen } = this.props
 
     const cNameObject = pcFields[cNameKey]
     const fieldsSorted = Object.keys(cNameObject).sort((fNameKey) => fNameKey.toLowerCase())
@@ -35,7 +35,7 @@ export default React.createClass({
       const fieldKey = fNameKey.toLowerCase()
       let checked = false
       const path = `${cNameKey}.${fNameKey}.export`
-      if (_.has(exportOptions, path)) checked = _.get(exportOptions, path)
+      if (_.has(urlOptions, path)) checked = _.get(urlOptions, path)
       return (
         <Input
           key={fieldKey}

@@ -12,7 +12,7 @@ export default React.createClass({
     taxonomyFields: React.PropTypes.object,
     pcFields: React.PropTypes.object,
     relationFields: React.PropTypes.object,
-    exportOptions: React.PropTypes.object,
+    urlOptions: React.PropTypes.object,
     pcs: React.PropTypes.array,
     rcs: React.PropTypes.array,
     includeDataFromSynonyms: React.PropTypes.bool,
@@ -25,7 +25,7 @@ export default React.createClass({
   },
 
   render () {
-    const { taxonomyFields, pcFields, relationFields, pcs, rcs, exportOptions, includeDataFromSynonyms, onChangeIncludeDataFromSynonyms, onChooseField, onChooseAllOfCollection, collectionsWithAllChoosen, oneRowPerRelation, onChangeOneRowPerRelation } = this.props
+    const { taxonomyFields, pcFields, relationFields, pcs, rcs, urlOptions, includeDataFromSynonyms, onChangeIncludeDataFromSynonyms, onChooseField, onChooseAllOfCollection, collectionsWithAllChoosen, oneRowPerRelation, onChangeOneRowPerRelation } = this.props
 
     return (
       <div>
@@ -34,7 +34,7 @@ export default React.createClass({
           includeDataFromSynonyms={includeDataFromSynonyms}
           onChangeIncludeDataFromSynonyms={onChangeIncludeDataFromSynonyms} />
         <Fields
-          exportOptions={exportOptions}
+          urlOptions={urlOptions}
           taxonomyFields={taxonomyFields}
           pcFields={pcFields}
           pcs={pcs}

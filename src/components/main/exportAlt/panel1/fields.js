@@ -19,7 +19,7 @@ export default React.createClass({
     pcs: React.PropTypes.array,
     rcs: React.PropTypes.array,
     activePanel: React.PropTypes.number,
-    exportOptions: React.PropTypes.object,
+    urlOptions: React.PropTypes.object,
     collectionsWithAllChoosen: React.PropTypes.array,
     oneRowPerRelation: React.PropTypes.bool,
     onChangeOneRowPerRelation: React.PropTypes.func
@@ -53,9 +53,9 @@ export default React.createClass({
   },
 
   render () {
-    const { taxonomyFields, pcFields, relationFields, onChooseField, onChooseAllOfCollection, pcs, rcs, exportOptions, collectionsWithAllChoosen, oneRowPerRelation, onChangeOneRowPerRelation } = this.props
+    const { taxonomyFields, pcFields, relationFields, onChooseField, onChooseAllOfCollection, pcs, rcs, urlOptions, collectionsWithAllChoosen, oneRowPerRelation, onChangeOneRowPerRelation } = this.props
     const { activePanel } = this.state
-    const guidChecked = _.get(exportOptions, 'object._id.export')
+    const guidChecked = _.get(urlOptions, 'object._id.export')
     const taxonomyHeader = Object.keys(taxonomyFields).length > 1 ? 'Taxonomien' : 'Taxonomie'
 
     return (
@@ -92,7 +92,7 @@ export default React.createClass({
           {
             activePanel === 2
             ? <FieldsTaxonomy
-                exportOptions={exportOptions}
+                urlOptions={urlOptions}
                 taxonomyFields={taxonomyFields}
                 collectionsWithAllChoosen={collectionsWithAllChoosen}
                 onChooseField={onChooseField}
@@ -109,7 +109,7 @@ export default React.createClass({
           {
             activePanel === 3
             ? <FieldsPCs
-                exportOptions={exportOptions}
+                urlOptions={urlOptions}
                 pcFields={pcFields}
                 pcs={pcs}
                 collectionsWithAllChoosen={collectionsWithAllChoosen}
@@ -127,7 +127,7 @@ export default React.createClass({
           {
             activePanel === 4
             ? <FieldsRCs
-                exportOptions={exportOptions}
+                urlOptions={urlOptions}
                 relationFields={relationFields}
                 rcs={rcs}
                 collectionsWithAllChoosen={collectionsWithAllChoosen}

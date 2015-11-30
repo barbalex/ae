@@ -14,7 +14,7 @@ export default React.createClass({
     onChooseAllOfCollection: React.PropTypes.func,
     rcs: React.PropTypes.array,
     activePanel: React.PropTypes.number,
-    exportOptions: React.PropTypes.object,
+    urlOptions: React.PropTypes.object,
     collectionsWithAllChoosen: React.PropTypes.array,
     oneRowPerRelation: React.PropTypes.bool,
     onChangeOneRowPerRelation: React.PropTypes.func
@@ -56,7 +56,7 @@ export default React.createClass({
   },
 
   render () {
-    const { relationFields, rcs, exportOptions, onChooseField, onChooseAllOfCollection, collectionsWithAllChoosen, oneRowPerRelation } = this.props
+    const { relationFields, rcs, urlOptions, onChooseField, onChooseAllOfCollection, collectionsWithAllChoosen, oneRowPerRelation } = this.props
     const { activePanel } = this.state
     // open panel if there is only one
     const numberOfCollections = Object.keys(relationFields).length
@@ -83,7 +83,7 @@ export default React.createClass({
             ? <FieldsRCsPanel
                 cNameKey={cNameKey}
                 relationFields={relationFields}
-                exportOptions={exportOptions}
+                urlOptions={urlOptions}
                 collectionsWithAllChoosen={collectionsWithAllChoosen}
                 onChooseField={onChooseField}
                 onChooseAllOfCollection={onChooseAllOfCollection} />

@@ -12,7 +12,7 @@ export default React.createClass({
   displayName: 'Panel2',
 
   propTypes: {
-    exportOptions: React.PropTypes.object,
+    urlOptions: React.PropTypes.object,
     onlyObjectsWithCollectionData: React.PropTypes.bool,
     includeDataFromSynonyms: React.PropTypes.bool,
     oneRowPerRelation: React.PropTypes.bool,
@@ -22,21 +22,23 @@ export default React.createClass({
   },
 
   componentDidMount () {
-    const { exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, oneRowPerRelation, combineTaxonomies } = this.props
+    const { urlOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, oneRowPerRelation, combineTaxonomies } = this.props
     // make sure, pcs are queried
-    app.Actions.buildExportData({ exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, oneRowPerRelation, combineTaxonomies })
+    app.Actions.buildExportData({ urlOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, oneRowPerRelation, combineTaxonomies })
     console.log('building export data')
   },
 
   render () {
-    const { exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, oneRowPerRelation, combineTaxonomies, exportObjects, errorBuildingExportData } = this.props
+    const { urlOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, oneRowPerRelation, combineTaxonomies, exportObjects, errorBuildingExportData } = this.props
     const showAlertBuildingData = exportObjects.length === 0 && !errorBuildingExportData
+
+    console.log('urlOptions', urlOptions)
 
     return (
       <div>
         <WellSoGehts />
         <WellOptionsChoosen
-          exportOptions={exportOptions}
+          urlOptions={urlOptions}
           onlyObjectsWithCollectionData={onlyObjectsWithCollectionData}
           includeDataFromSynonyms={includeDataFromSynonyms}
           oneRowPerRelation={oneRowPerRelation}

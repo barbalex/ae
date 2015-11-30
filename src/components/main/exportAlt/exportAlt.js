@@ -31,7 +31,7 @@ export default React.createClass({
     panel1Done: React.PropTypes.bool,
     panel2Done: React.PropTypes.bool,
     panel3Done: React.PropTypes.bool,
-    exportOptions: React.PropTypes.object,
+    urlOptions: React.PropTypes.object,
     pcs: React.PropTypes.array,
     pcsQuerying: React.PropTypes.bool,
     rcs: React.PropTypes.array,
@@ -50,7 +50,7 @@ export default React.createClass({
   },
 
   /**
-   * exportOptions object:
+   * urlOptions object:
    * co is: comparison operator
    * {
    *   object: {
@@ -66,8 +66,6 @@ export default React.createClass({
    *   cName: {
    *     cType: '',
    *     fName: {
-   *       value: '',
-   *       co: '',
    *       export: ''
    *     },
    *     ...
@@ -76,7 +74,7 @@ export default React.createClass({
    * }
    */
   getInitialState () {
-    const exportOptions = {
+    const urlOptions = {
       object: {
         _id: {
           export: true
@@ -110,7 +108,7 @@ export default React.createClass({
       /**
        * now follow the options needed to build the export data
        */
-      exportOptions: exportOptions,
+      urlOptions: urlOptions,
       onlyObjectsWithCollectionData: true,
       includeDataFromSynonyms: true,
       /**
@@ -129,7 +127,7 @@ export default React.createClass({
 
   componentDidMount () {
     const { offlineIndexes } = this.props
-    const { exportOptions, combineTaxonomies } = this.state
+    const { urlOptions, combineTaxonomies } = this.state
     const bodyElement = document.body
     addClass(bodyElement, 'force-mobile')
     this.forceUpdate()
@@ -138,8 +136,8 @@ export default React.createClass({
     app.Actions.queryRelationCollections(offlineIndexes)
     this.listenTo(app.exportDataStore, this.onChangeExportDataStore)
     // TODO: is this good? Or rather do it once?
-    app.Actions.queryFields(exportOptions.object.Gruppen.value, 'Flora', combineTaxonomies, offlineIndexes)
-    app.Actions.queryFields(exportOptions.object.Gruppen.value, 'Fauna', combineTaxonomies, offlineIndexes)
+    app.Actions.queryFields(urlOptions.object.Gruppen.value, 'Flora', combineTaxonomies, offlineIndexes)
+    app.Actions.queryFields(urlOptions.object.Gruppen.value, 'Fauna', combineTaxonomies, offlineIndexes)
   },
 
   onChangeExportDataStore ({ exportObjects, errorBuildingExportData }) {
@@ -175,7 +173,7 @@ export default React.createClass({
   },
 
   onChooseAllOfCollection (cName, cType, event) {
-    let { exportOptions, collectionsWithAllChoosen } = this.state
+    let { urlOptions, collectionsWithAllChoosen } = this.state
     const { taxonomyFields, pcFields, relationFields } = this.props
     const choosen = event.target.checked
     // set exportObjects back
@@ -199,11 +197,11 @@ export default React.createClass({
     } else {
       Object.keys(cNameObject).forEach((fName) => {
         const valuePath = `${cName}.${fName}.export`
-        _.set(exportOptions, valuePath, choosen)
+        _.set(urlOptions, valuePath, choosen)
         const typePath = `${cName}.cType`
-        _.set(exportOptions, typePath, cType)
+        _.set(urlOptions, typePath, cType)
       })
-      Object.assign(state, { exportOptions })
+      Object.assign(state, { urlOptions })
       if (choosen === false) {
         collectionsWithAllChoosen = _.without(collectionsWithAllChoosen, cName)
         Object.assign(state, { collectionsWithAllChoosen })
@@ -213,11 +211,11 @@ export default React.createClass({
       }
     }
     this.setState(state)
-    // console.log('exportOptions', exportOptions)
+    // console.log('urlOptions', urlOptions)
   },
 
   onChooseField (cName, fName, cType, event) {
-    let { exportOptions, collectionsWithAllChoosen } = this.state
+    let { urlOptions, collectionsWithAllChoosen } = this.state
     let choosen = event.target.checked
     // set exportObjects back
     const exportObjects = []
@@ -233,17 +231,17 @@ export default React.createClass({
       Object.assign(state, { tooManyRcsChoosen })
     } else {
       const valuePath = `${cName}.${fName}.export`
-      _.set(exportOptions, valuePath, choosen)
+      _.set(urlOptions, valuePath, choosen)
       const typePath = `${cName}.cType`
-      _.set(exportOptions, typePath, cType)
-      Object.assign(state, { exportOptions })
+      _.set(urlOptions, typePath, cType)
+      Object.assign(state, { urlOptions })
       if (choosen === false && collectionsWithAllChoosen.includes(cName)) {
         collectionsWithAllChoosen = _.without(collectionsWithAllChoosen, cName)
         Object.assign(state, { collectionsWithAllChoosen })
       }
     }
     this.setState(state)
-    // console.log('exportOptions', exportOptions)
+    console.log('urlOptions', urlOptions)
   },
 
   resetTooManyFieldsChoosen () {
@@ -252,11 +250,11 @@ export default React.createClass({
   },
 
   tooManyFieldsChoosen (fieldsNewlyChoosen) {
-    const { exportOptions, maxNumberOfFieldsToChoose } = this.state
+    const { urlOptions, maxNumberOfFieldsToChoose } = this.state
     let fieldsChoosen = fieldsNewlyChoosen
-    Object.keys(exportOptions).forEach((cName) => {
-      Object.keys(exportOptions[cName]).forEach((fName) => {
-        if (exportOptions[cName][fName].export) {
+    Object.keys(urlOptions).forEach((cName) => {
+      Object.keys(urlOptions[cName]).forEach((fName) => {
+        if (urlOptions[cName][fName].export) {
           const field = `${cName}${fName}`
           fieldsChoosen = _.union(fieldsChoosen, [field])
         }
@@ -271,13 +269,13 @@ export default React.createClass({
   },
 
   tooManyRcsChoosen (cNameNew, oneRowPerRelationPassed) {
-    const { exportOptions } = this.state
+    const { urlOptions } = this.state
     const oneRowPerRelation = oneRowPerRelationPassed || this.state.oneRowPerRelation
     let rcsChoosen = cNameNew ? [cNameNew] : []
-    Object.keys(exportOptions).forEach((cName) => {
-      const isRc = _.get(exportOptions, `${cName}.cType`) === 'rc'
-      Object.keys(exportOptions[cName]).forEach((fName) => {
-        if (exportOptions[cName][fName].export && isRc) {
+    Object.keys(urlOptions).forEach((cName) => {
+      const isRc = _.get(urlOptions, `${cName}.cType`) === 'rc'
+      Object.keys(urlOptions[cName]).forEach((fName) => {
+        if (urlOptions[cName][fName].export && isRc) {
           rcsChoosen = _.union(rcsChoosen, [cName])
         }
       })
@@ -293,19 +291,19 @@ export default React.createClass({
   },
 
   onChangeOneRowPerRelation (oneRowPerRelation) {
-    const { exportOptions } = this.state
+    const { urlOptions } = this.state
     const exportObjects = []
     /**
-     * if oneRowPerRelation = true, check in exportOptions if too many rc's were choosen
+     * if oneRowPerRelation = true, check in urlOptions if too many rc's were choosen
      * pass oneRowPerRelation because it's state is not yet refreshed
      */
     if (this.tooManyRcsChoosen(null, oneRowPerRelation)) {
-      // reset rc settings from exportOptions
-      Object.keys(exportOptions).forEach((cName) => {
-        if (_.get(exportOptions, `${cName}.cType`) === 'rc') delete exportOptions[cName]
+      // reset rc settings from urlOptions
+      Object.keys(urlOptions).forEach((cName) => {
+        if (_.get(urlOptions, `${cName}.cType`) === 'rc') delete urlOptions[cName]
       })
     }
-    this.setState({ exportObjects, oneRowPerRelation, exportOptions })
+    this.setState({ exportObjects, oneRowPerRelation, urlOptions })
   },
 
   buildUrl () {
@@ -318,7 +316,7 @@ export default React.createClass({
 
   render () {
     const { taxonomyFields, pcFields, relationFields, pcs, rcs } = this.props
-    const { activePanel, exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, tooManyFieldsChoosen, tooManyRcsChoosen, collectionsWithAllChoosen, oneRowPerRelation } = this.state
+    const { activePanel, urlOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, tooManyFieldsChoosen, tooManyRcsChoosen, collectionsWithAllChoosen, oneRowPerRelation } = this.state
 
     return (
       <div id='export' className='formContent'>
@@ -344,7 +342,7 @@ export default React.createClass({
                   taxonomyFields={taxonomyFields}
                   pcFields={pcFields}
                   relationFields={relationFields}
-                  exportOptions={exportOptions}
+                  urlOptions={urlOptions}
                   pcs={pcs}
                   rcs={rcs}
                   includeDataFromSynonyms={includeDataFromSynonyms}
@@ -362,7 +360,7 @@ export default React.createClass({
             {
               activePanel === 2
               ? <Panel2
-                  exportOptions={exportOptions}
+                  urlOptions={urlOptions}
                   onlyObjectsWithCollectionData={onlyObjectsWithCollectionData}
                   includeDataFromSynonyms={includeDataFromSynonyms}
                   oneRowPerRelation={oneRowPerRelation}
