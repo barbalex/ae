@@ -1,7 +1,8 @@
 'use strict'
 
 import React from 'react'
-import WellSoGehts from './wellSoGehts.js'
+import { Input, Button, Well } from 'react-bootstrap'
+import CopyToClipboard from 'react-copy-to-clipboard'
 import WellOptionsChoosen from './wellOptionsChoosen.js'
 import buildExportFields from './buildExportFields.js'
 import getCouchUrl from '../../../../modules/getCouchUrl.js'
@@ -12,7 +13,9 @@ export default React.createClass({
   propTypes: {
     urlOptions: React.PropTypes.object,
     includeDataFromSynonyms: React.PropTypes.bool,
-    oneRowPerRelation: React.PropTypes.bool
+    oneRowPerRelation: React.PropTypes.bool,
+    urlCopied: React.PropTypes.string,
+    onCopyUrl: React.PropTypes.func
   },
 
   buildUrl () {
@@ -25,21 +28,47 @@ export default React.createClass({
     return url
   },
 
-  render () {
-    const { urlOptions, includeDataFromSynonyms, oneRowPerRelation } = this.props
-    const url = this.buildUrl()
+  copyUrl (url, event) {
+    const { onCopyUrl } = this.props
+    // an event is only passed if this function is called from the link
+    if (event && event.preventDefault) event.preventDefault()
+    onCopyUrl(url)
+  },
 
-    console.log('urlOptions', urlOptions)
-    console.log('url', url)
+  render () {
+    const { urlOptions, includeDataFromSynonyms, oneRowPerRelation, urlCopied } = this.props
+    const url = this.buildUrl()
+    const urlCopiedButtonBsStyle = urlCopied === url ? 'success' : 'default'
+    const textareaStyle = {
+      paddingRight: 15,
+      paddingLeft: 15
+    }
 
     return (
       <div>
-        <WellSoGehts />
         <WellOptionsChoosen
           urlOptions={urlOptions}
           includeDataFromSynonyms={includeDataFromSynonyms}
           oneRowPerRelation={oneRowPerRelation} />
-        <p>{url}</p>
+        <Well bsSize='small'><b>So geht`s</b>
+          <ul>
+            <li>Die URL wurde generiert.</li>
+            <li><strong><a href='#' onClick={this.copyUrl.bind(this, url)}>Kopieren Sie sie...</a></strong></li>
+            <li><strong>...um sie im Artenlistentool einzufügen</strong></li>
+          </ul>
+        </Well>
+        <div style={textareaStyle}>
+          <Input type='textarea' label='URL' defaultValue={url} />
+        </div>
+        <CopyToClipboard text={url} onCopy={this.copyUrl.bind(this, url)}>
+          <Button bsStyle={urlCopiedButtonBsStyle}>
+            {
+              urlCopied === url
+              ? 'URL kopiert'
+              : 'URL kopieren'
+            }
+          </Button>
+        </CopyToClipboard>
       </div>
     )
   }

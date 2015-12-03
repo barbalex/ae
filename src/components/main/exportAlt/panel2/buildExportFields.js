@@ -8,7 +8,6 @@
 import _ from 'lodash'
 
 export default (urlOptions) => {
-  console.log('buildExportObjects.js, urlOptions', urlOptions)
   let felder = []
 
   // 1. add _id if applicable
@@ -50,6 +49,5 @@ export default (urlOptions) => {
     }
   })
 
-  console.log('buildExportObjects.js, felder', felder)
   return felder
 }

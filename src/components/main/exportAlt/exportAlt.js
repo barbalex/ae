@@ -46,7 +46,8 @@ export default React.createClass({
     oneRowPerRelation: React.PropTypes.bool,
     format: React.PropTypes.string,
     exportObjects: React.PropTypes.array,
-    errorBuildingExportData: React.PropTypes.object
+    errorBuildingExportData: React.PropTypes.object,
+    urlCopied: React.PropTypes.string
   },
 
   /**
@@ -121,7 +122,11 @@ export default React.createClass({
        *    separated by commas
        *  for alt export one row per relation
        */
-      oneRowPerRelation: true
+      oneRowPerRelation: true,
+      /**
+       * state for copying url's
+       */
+      urlCopied: null
     }
   },
 
@@ -148,6 +153,10 @@ export default React.createClass({
     // this is the clean way to handle choosing a panel heading
     // but it only works when the user clicks the link in the panel heading
     // console.log('handleOnSelectPanel, activeKey', activeKey)
+  },
+
+  onCopyUrl (urlCopied) {
+    this.setState({ urlCopied })
   },
 
   onClickPanel (number, event) {
@@ -178,7 +187,9 @@ export default React.createClass({
     const choosen = event.target.checked
     // set exportObjects back
     const exportObjects = []
-    let state = { exportObjects }
+    // set urlCopied back
+    const urlCopied = null
+    let state = { exportObjects, urlCopied }
     let fields = taxonomyFields
     if (cType === 'pc') fields = pcFields
     if (cType === 'rc') fields = relationFields
@@ -219,7 +230,9 @@ export default React.createClass({
     let choosen = event.target.checked
     // set exportObjects back
     const exportObjects = []
-    let state = { exportObjects }
+    // set urlCopied back
+    const urlCopied = null
+    let state = { exportObjects, urlCopied }
     const fieldNewlyChoosen = `${cName}${fName}`
     if (choosen && this.tooManyFieldsChoosen([fieldNewlyChoosen])) {
       event.preventDefault()
@@ -287,7 +300,9 @@ export default React.createClass({
   onChangeIncludeDataFromSynonyms (event) {
     const includeDataFromSynonyms = event.target.checked
     const exportObjects = []
-    this.setState({ exportObjects, includeDataFromSynonyms })
+    // set urlCopied back
+    const urlCopied = null
+    this.setState({ exportObjects, includeDataFromSynonyms, urlCopied })
   },
 
   onChangeOneRowPerRelation (oneRowPerRelation) {
@@ -303,22 +318,14 @@ export default React.createClass({
         if (_.get(urlOptions, `${cName}.cType`) === 'rc') delete urlOptions[cName]
       })
     }
-    this.setState({ exportObjects, oneRowPerRelation, urlOptions })
-  },
-
-  buildUrl () {
-    const { includeDataFromSynonyms, oneRowPerRelation } = this.state
-    const listName = includeDataFromSynonyms ? 'export_alt_mit_synonymen' : 'export_alt'
-    const viewName = includeDataFromSynonyms ? 'alt_arten_mit_synonymen' : 'alt_arten'
-    const url = `${getCouchUrl()}/_design/artendb/_list/${listName}/${viewName}?include_docs=true&bezInZeilen=${oneRowPerRelation}&felder=` + JSON.stringify('gewaehlteFelderObjekt')
-    return url
+    // set urlCopied back
+    const urlCopied = null
+    this.setState({ exportObjects, oneRowPerRelation, urlOptions, urlCopied })
   },
 
   render () {
     const { taxonomyFields, pcFields, relationFields, pcs, rcs } = this.props
-    const { activePanel, urlOptions, includeDataFromSynonyms, tooManyFieldsChoosen, tooManyRcsChoosen, collectionsWithAllChoosen, oneRowPerRelation } = this.state
-
-    console.log('exportAlt.js, render, urlOptions', urlOptions)
+    const { activePanel, urlOptions, includeDataFromSynonyms, tooManyFieldsChoosen, tooManyRcsChoosen, collectionsWithAllChoosen, oneRowPerRelation, urlCopied } = this.state
 
     return (
       <div id='export' className='formContent'>
@@ -364,7 +371,9 @@ export default React.createClass({
               ? <Panel2
                   urlOptions={urlOptions}
                   includeDataFromSynonyms={includeDataFromSynonyms}
-                  oneRowPerRelation={oneRowPerRelation} />
+                  oneRowPerRelation={oneRowPerRelation}
+                  onCopyUrl={this.onCopyUrl}
+                  urlCopied={urlCopied} />
               : null
             }
           </Panel>
