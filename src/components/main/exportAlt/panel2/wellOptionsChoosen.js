@@ -14,10 +14,8 @@ export default React.createClass({
 
   propTypes: {
     urlOptions: React.PropTypes.object,
-    onlyObjectsWithCollectionData: React.PropTypes.bool,
     includeDataFromSynonyms: React.PropTypes.bool,
-    oneRowPerRelation: React.PropTypes.bool,
-    combineTaxonomies: React.PropTypes.bool
+    oneRowPerRelation: React.PropTypes.bool
   },
 
   groupsText () {
@@ -27,19 +25,9 @@ export default React.createClass({
     return prefix + groups.join(', ')
   },
 
-  taxonomienZusammenfassenText () {
-    const { combineTaxonomies } = this.props
-    return combineTaxonomies ? 'Die Felder der Taxonomien werden zusammengefasst' : 'Die Felder der Taxonomien werden einzeln dargestellt'
-  },
-
   dataFromSynonymsText () {
     const { includeDataFromSynonyms } = this.props
     return includeDataFromSynonyms ? 'Informationen von Synonymen werden berücksichtigt' : 'Informationen von Synonymen werden ignoriert'
-  },
-
-  onlyObjectsWithCollectionDataText () {
-    const { onlyObjectsWithCollectionData } = this.props
-    return onlyObjectsWithCollectionData ? 'Filterkriterien in Eigenschaften- und Beziehungssammlungen filtern Arten bzw. Lebensräume' : 'Filterkriterien in Eigenschaften- und Beziehungssammlungen filtern Eigenschaften- bzw. Beziehungssammlungen'
   },
 
   oneRowPerRelationText () {
@@ -47,47 +35,20 @@ export default React.createClass({
     return oneRowPerRelation ? 'Pro Beziehung eine Zeile' : 'Pro Art/Lebensraum eine Zeile, alle Beziehungen kommagetrennt in einem Feld'
   },
 
-  filtersAndFields () {
+  fields () {
     const { urlOptions } = this.props
-    let filters = []
     let fields = []
     Object.keys(urlOptions).forEach((cName) => {
       Object.keys(urlOptions[cName]).forEach((fName) => {
         const field = urlOptions[cName][fName]
-        if (field.value) {
-          const filterValue = field.co !== undefined ? `${field.co} ${field.value}` : `${field.value}`
-          filters.push({ cName, fName, filterValue })
-        }
         if (field.export) fields.push({ cName, fName })
       })
     })
-    return ({ filters, fields })
-  },
-
-  filtersList () {
-    const spanStyle = {
-      backgroundColor: '#DADADA',
-      padding: '1px 8px',
-      marginLeft: 5,
-      borderRadius: 3
-    }
-    let { filters } = this.filtersAndFields()
-    // don't want to show Gruppen, it is already shown as groupsText
-    filters = _.reject(filters, (filter) => filter.cName === 'object' && filter.fName === 'Gruppen')
-    if (filters.length > 0) {
-      return filters.map((filter, index) => {
-        const fName = filter.fName
-        const cName = filter.cName
-        const filterValue = filter.filterValue
-        if (cName === 'object') return <li key={index}>{fName === '_id' ? 'GUID' : fName} <span style={spanStyle}>{filterValue}</span></li>
-        return <li key={index}>{cName}: {fName} <span style={spanStyle}>{filterValue}</span></li>
-      })
-    }
-    return <li>Kein Filter gewählt</li>
+    return fields
   },
 
   fieldsList () {
-    const { fields } = this.filtersAndFields()
+    const fields = this.fields()
     if (fields.length > 0) {
       return fields.map((field, index) => {
         const fName = field.fName
@@ -109,15 +70,8 @@ export default React.createClass({
         <p style={pStyle}>Gewählte Optionen:</p>
         <ul style={ulStyle}>
           <li>{this.groupsText()}</li>
-          <li>{this.taxonomienZusammenfassenText()}</li>
           <li>{this.dataFromSynonymsText()}</li>
-          <li>{this.onlyObjectsWithCollectionDataText()}</li>
           <li>{this.oneRowPerRelationText()}</li>
-          <li>Filter:
-            <ul style={ulStyle}>
-              {this.filtersList()}
-            </ul>
-          </li>
           <li>Eigenschaften:
             <ul style={ulStyle}>
               {this.fieldsList()}

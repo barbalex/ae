@@ -29,8 +29,6 @@ export default React.createClass({
         <ul className='adb-hidden' style={{'display': visible ? 'block' : 'none'}}>
           <li>Die URL wurde generiert und zum Kopieren markiert</li>
           <li><strong>Kopieren Sie die URL, um sie im Artenlistentool einzufügen</strong></li>
-          <li>Eine Vorschau der ersten 10 Datensätze wird angezeigt</li>
-          <li>Zusätzlich zu den von Ihnen gewählten Feldern, werden weitere geliefert, die vom Artenlistentool benötigt werden</li>
         </ul>
       </Well>
     )

@@ -316,7 +316,9 @@ export default React.createClass({
 
   render () {
     const { taxonomyFields, pcFields, relationFields, pcs, rcs } = this.props
-    const { activePanel, urlOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, tooManyFieldsChoosen, tooManyRcsChoosen, collectionsWithAllChoosen, oneRowPerRelation } = this.state
+    const { activePanel, urlOptions, includeDataFromSynonyms, tooManyFieldsChoosen, tooManyRcsChoosen, collectionsWithAllChoosen, oneRowPerRelation } = this.state
+
+    console.log('exportAlt.js, render, urlOptions', urlOptions)
 
     return (
       <div id='export' className='formContent'>
@@ -361,12 +363,8 @@ export default React.createClass({
               activePanel === 2
               ? <Panel2
                   urlOptions={urlOptions}
-                  onlyObjectsWithCollectionData={onlyObjectsWithCollectionData}
                   includeDataFromSynonyms={includeDataFromSynonyms}
-                  oneRowPerRelation={oneRowPerRelation}
-                  combineTaxonomies={combineTaxonomies}
-                  exportObjects={exportObjects}
-                  errorBuildingExportData={errorBuildingExportData} />
+                  oneRowPerRelation={oneRowPerRelation} />
               : null
             }
           </Panel>
