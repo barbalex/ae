@@ -3,6 +3,7 @@
 import React from 'react'
 import { Input, Button, Well } from 'react-bootstrap'
 import CopyToClipboard from 'react-copy-to-clipboard'
+import Textarea from 'react-textarea-autosize'
 import WellOptionsChoosen from './wellOptionsChoosen.js'
 import buildExportFields from './buildExportFields.js'
 import getCouchUrl from '../../../../modules/getCouchUrl.js'
@@ -40,8 +41,12 @@ export default React.createClass({
     const url = this.buildUrl()
     const urlCopiedButtonBsStyle = urlCopied === url ? 'success' : 'default'
     const textareaStyle = {
-      paddingRight: 15,
-      paddingLeft: 15
+      width: 100 + '%',
+      borderRadius: 3,
+      marginBottom: 5
+    }
+    const textareaLabelStyle = {
+      marginBottom: 0
     }
 
     return (
@@ -50,18 +55,44 @@ export default React.createClass({
           urlOptions={urlOptions}
           includeDataFromSynonyms={includeDataFromSynonyms}
           oneRowPerRelation={oneRowPerRelation} />
-        <Well bsSize='small'><b>So geht`s</b>
+        <Well
+          bsSize='small'>
+          <b>
+            So geht`s
+          </b>
           <ul>
             <li>Die URL wurde generiert.</li>
-            <li><strong><a href='#' onClick={this.copyUrl.bind(this, url)}>Kopieren Sie sie...</a></strong></li>
-            <li><strong>...um sie im Artenlistentool einzufügen</strong></li>
+            <li>
+              <strong>
+                <a href='#'
+                  onClick={this.copyUrl.bind(this, url)}>
+                  Kopieren Sie sie...
+                </a>
+              </strong>
+            </li>
+            <li>
+              <strong>
+                ...um sie im Artenlistentool einzufügen
+              </strong>
+            </li>
           </ul>
         </Well>
-        <div style={textareaStyle}>
-          <Input type='textarea' label='URL' defaultValue={url} />
+        <div>
+          <p
+            style={textareaLabelStyle}>
+            <strong>
+              URL
+            </strong>
+          </p>
+          <Textarea
+            defaultValue={url}
+            style={textareaStyle} />
         </div>
-        <CopyToClipboard text={url} onCopy={this.copyUrl.bind(this, url)}>
-          <Button bsStyle={urlCopiedButtonBsStyle}>
+        <CopyToClipboard
+          text={url}
+          onCopy={this.copyUrl.bind(this, url)}>
+          <Button
+            bsStyle={urlCopiedButtonBsStyle}>
             {
               urlCopied === url
               ? 'URL kopiert'

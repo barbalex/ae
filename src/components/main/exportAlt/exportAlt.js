@@ -222,7 +222,6 @@ export default React.createClass({
       }
     }
     this.setState(state)
-    // console.log('urlOptions', urlOptions)
   },
 
   onChooseField (cName, fName, cType, event) {
@@ -254,7 +253,6 @@ export default React.createClass({
       }
     }
     this.setState(state)
-    console.log('urlOptions', urlOptions)
   },
 
   resetTooManyFieldsChoosen () {
