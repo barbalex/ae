@@ -15,7 +15,7 @@ import ImportPc from './importPc/importPc.js'
 import ImportRc from './importRc/importRc.js'
 import Export from './export/export.js'
 import ExportAlt from './exportAlt/exportAlt.js'
-import Organizations from './organizations.js'
+import Organizations from './organizations/organizations.js'
 import Errors from './errors.js'
 
 export default React.createClass({
