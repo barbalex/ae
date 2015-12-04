@@ -11,7 +11,7 @@
 import app from 'ampersand-app'
 import React from 'react'
 import _ from 'lodash'
-import { Accordion, Panel, Input, Glyphicon } from 'react-bootstrap'
+import { PanelGroup, Panel, Input, Glyphicon, ListGroup, ListGroupItem, OverlayTrigger, Tooltip } from 'react-bootstrap'
 
 export default React.createClass({
   displayName: 'Organizations',
@@ -44,7 +44,7 @@ export default React.createClass({
 
   orgValues () {
     const { organizations, email } = this.props
-    const orgWhereUserIsAdmin = organizations.filter((org) => org.orgAdministratoren.includes(email))
+    const orgWhereUserIsAdmin = organizations.filter((org) => org.orgAdmins.includes(email))
     const orgNamesWhereUserIsAdmin = _.pluck(orgWhereUserIsAdmin, 'Name')
     return orgNamesWhereUserIsAdmin.map((name, index) => <option key={index} value={name}>{name}</option>)
   },
@@ -53,25 +53,50 @@ export default React.createClass({
     app.Actions.removeEsWriterFromActiveOrganization(esWriter)
   },
 
+  removeEsWriterTooltip () {
+    return <Tooltip id='removeThisEsWriter'>entfernen</Tooltip>
+  },
+
+  removeEsWriterGlyph (esWriter) {
+    const glyphStyle = {
+      position: 'absolute',
+      right: 10,
+      top: 6,
+      fontSize: 1.5 + 'em',
+      color: 'red'
+    }
+    return (
+      <OverlayTrigger
+        placement='top'
+        overlay={this.removeEsWriterTooltip()}>
+        <Glyphicon
+          glyph='remove-circle'
+          style={glyphStyle}
+          onClick={this.removeEsWriter.bind(this, esWriter)} />
+      </OverlayTrigger>
+    )
+  },
+
   esWriters () {
     const { activeOrganization } = this.props
     const glyphStyle = {
       position: 'absolute',
-      top: 3,
-      marginLeft: 5,
-      fontSize: 1.1 + 'em',
+      top: 11,
+      marginLeft: 10,
+      fontSize: 1.3 + 'em',
       color: 'red',
       cursor: 'pointer'
     }
     const liStyle = {
-      position: 'relative'
+      // position: 'relative'
     }
-    if (activeOrganization && activeOrganization.esSchreiber) {
-      return activeOrganization.esSchreiber.map((esWriter, index) => (
-        <li key={index} style={liStyle}>
+
+    if (activeOrganization && activeOrganization.esWriters) {
+      return activeOrganization.esWriters.map((esWriter, index) => (
+        <ListGroupItem key={index} style={liStyle}>
           {esWriter}
-          <Glyphicon glyph='remove-circle' style={glyphStyle} onClick={this.removeEsWriter.bind(this, esWriter)} />
-        </li>
+          {this.removeEsWriterGlyph(esWriter)}
+        </ListGroupItem>
       ))
     }
     return null
@@ -79,11 +104,14 @@ export default React.createClass({
 
   render () {
     const { onChangeActiveOrganization } = this.props
+    const labelStyle = {
+      marginBottom: 0
+    }
 
     return (
       <div className='formContent'>
         <h4>Organisationen und Benutzer</h4>
-        <Accordion>
+        <PanelGroup defaultActiveKey='1' accordion>
           <Panel header='Organisationen' eventKey='1'>
             <Input
               type='select'
@@ -93,17 +121,17 @@ export default React.createClass({
               { this.orgValues() }
             </Input>
             <div className='emailList'>
-              <p>Benutzer mit Schreibrecht für Eigenschaften- und Beziehungssammlungen</p>
-              <ul>
+              <p style={labelStyle}>Benutzer mit Schreibrecht für Eigenschaften- und Beziehungssammlungen</p>
+              <ListGroup>
                 {this.esWriters()}
-              </ul>
+              </ListGroup>
             </div>
 
           </Panel>
           <Panel header='Neuen Benutzer erfassen' eventKey='2'>
             testdata
           </Panel>
-        </Accordion>
+        </PanelGroup>
       </div>
     )
   }

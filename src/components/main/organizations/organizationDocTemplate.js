@@ -1,7 +1,7 @@
 {
   "Typ": "Organisation",
   "Name": "FNS Kt. ZH",
-  "esSchreiber": ["alex@gabriel-software.ch"],
-  "lrSchreiber": ["alex@gabriel-software.ch"],
-  "orgAdministratoren": ["andreas.lienhard@bd.zh.ch"]
+  "esWriters": ["alex@gabriel-software.ch"],
+  "lrWriters": ["alex@gabriel-software.ch"],
+  "orgAdmins": ["andreas.lienhard@bd.zh.ch"]
 }

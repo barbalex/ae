@@ -200,7 +200,7 @@ export default (Actions) => {
           const organizations = result.rows.map((row) => row.doc)
           this.organizations = organizations
           // set activeOrganization if user is logged in and only admin in one organization
-          const orgWhereUserIsAdmin = organizations.filter((org) => org.orgAdministratoren.includes(email))
+          const orgWhereUserIsAdmin = organizations.filter((org) => org.orgAdmins.includes(email))
           const orgNamesWhereUserIsAdmin = _.pluck(orgWhereUserIsAdmin, 'Name')
           if (orgNamesWhereUserIsAdmin.length === 1) this.activeOrganizationName = orgNamesWhereUserIsAdmin[0]
           this.triggerMe()
@@ -215,7 +215,7 @@ export default (Actions) => {
 
     onRemoveEsWriterFromActiveOrganization (esWriter) {
       let activeOrganization = this.getActiveOrganization()
-      activeOrganization.esSchreiber = activeOrganization.esSchreiber.filter((esW) => esW !== esWriter)
+      activeOrganization.esWriters = activeOrganization.esWriters.filter((esW) => esW !== esWriter)
       this.updateOrganizationByName(activeOrganization.Name, activeOrganization)
     },
 
