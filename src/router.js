@@ -5,7 +5,6 @@ import Router from 'ampersand-router'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Home from './components/home.js'
-import getUrlParameterByName from './modules/getUrlParameterByName.js'
 import replaceProblematicPathCharactersFromArray from './modules/replaceProblematicPathCharactersFromArray.js'
 import extractInfoFromPath from './modules/extractInfoFromPath.js'
 

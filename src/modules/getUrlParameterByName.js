@@ -11,5 +11,5 @@ export default (name) => {
   name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]')
   const regex = new RegExp('[\\?&]' + name + '=([^&#]*)')
   const results = regex.exec(window.location.search)
-  return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '))
+  return results === null ? undefined : decodeURIComponent(results[1].replace(/\+/g, ' '))
 }
