@@ -895,7 +895,35 @@ export default (Actions) => {
       if (this.guid !== guid || !_.isEqual(this.path, path)) {
         this.guid = guid
         this.path = path
-        this.trigger(path, guid)
+
+        let gruppe = null
+        let mainComponent = null
+
+        if (path.length === 2 && path[0] === 'importieren') {
+          if (path[1] === 'eigenschaften') {
+            mainComponent = 'importPc'
+            gruppe = null
+          } else if (path[1] === 'beziehungen') {
+            mainComponent = 'importPc'
+            gruppe = null
+          }
+        } else if (path.length === 1 && path[0] === 'organisationen') {
+          mainComponent = 'organizations'
+          gruppe = null
+        } else if (path.length === 1 && path[0] === 'exportieren') {
+          mainComponent = 'exportieren'
+          gruppe = null
+        } else if (path.length === 2 && path[0] === 'exportieren' && path[1] === 'artenlistentool') {
+          mainComponent = 'exportierenAlt'
+        } else if (path[0]) {
+          // this would be an object url
+          gruppe = path[0]
+        } else {
+          // must be home
+          gruppe = null
+        }
+
+        this.trigger({ path, guid, gruppe, mainComponent })
       }
     }
   })

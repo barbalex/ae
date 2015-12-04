@@ -161,38 +161,9 @@ export default React.createClass({
     this.setState(passedVariables)
   },
 
-  onActivePathStoreChange (path, guid) {
-    let state = { path, guid }
-
-    let gruppe = null
-    let mainComponent = null
-
-    if (path.length === 2 && path[0] === 'importieren') {
-      if (path[1] === 'eigenschaften') {
-        mainComponent = 'importPc'
-        gruppe = null
-      } else if (path[1] === 'beziehungen') {
-        mainComponent = 'importPc'
-        gruppe = null
-      }
-    } else if (path.length === 1 && path[0] === 'organisationen') {
-      mainComponent = 'organizations'
-      gruppe = null
-    } else if (path.length === 1 && path[0] === 'exportieren') {
-      mainComponent = 'exportieren'
-      gruppe = null
-    } else if (path.length === 2 && path[0] === 'exportieren' && path[1] === 'artenlistentool') {
-      mainComponent = 'exportierenAlt'
-    } else if (path[0]) {
-      // this would be an object url
-      gruppe = path[0]
-    } else {
-      // must be home
-      gruppe = null
-    }
-    state = Object.assign(state, { gruppe, mainComponent })
+  onActivePathStoreChange ({ path, guid, gruppe, mainComponent }) {
+    let state = { path, guid, gruppe, mainComponent }
     if (!guid) state = Object.assign(state, { object: undefined })
-
     this.setState(state)
 
     const url = '/' + path.join('/') + (guid ? '?id=' + guid : '')
