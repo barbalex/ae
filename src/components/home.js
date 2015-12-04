@@ -162,10 +162,8 @@ export default React.createClass({
   },
 
   onActivePathStoreChange ({ path, guid, gruppe, mainComponent }) {
-    let state = { path, guid, gruppe, mainComponent }
-    if (!guid) state = Object.assign(state, { object: undefined })
-    this.setState(state)
-
+    this.setState({ path, guid, gruppe, mainComponent })
+    // navigate
     const url = '/' + path.join('/') + (guid ? '?id=' + guid : '')
     app.router.navigate(url)
   },
