@@ -38,7 +38,8 @@ export default () => {
     showError: {},
     replicateToAe: {},
     replicateFromAe: {},
-    buildExportData: {}
+    buildExportData: {},
+    getOrganizations: {}
   })
 
   Actions.loadPouchFromRemote.listen(() => {

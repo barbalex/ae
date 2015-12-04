@@ -157,6 +157,27 @@ export default (Actions) => {
     }
   })
 
+  app.organizationsStore = Reflux.createStore({
+    /**
+     * used to manage organizations or rather: writers and admins of organizations
+     */
+    listenables: Actions,
+
+    organizations: [],
+
+    onGetOrganizations () {
+      // send cached organizations first
+      if (this.organizations.length > 0) this.trigger(this.organizations)
+      app.remoteDb.query('organizations', { include_docs: true })
+        .then((result) => {
+          const organizations = result.rows.map((row) => row.doc)
+          this.organizations = organizations
+          this.trigger(organizations)
+        })
+        .catch((error) => app.Actions.showError({title: 'errer fetching organizations from remoteDb:', msg: error}))
+    }
+  })
+
   app.objectsPcsStore = Reflux.createStore({
     /**
      * used to manipulate property collections in objects

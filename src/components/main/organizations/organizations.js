@@ -1,5 +1,13 @@
 'use strict'
 
+/**
+ * when loading:
+ * - get organizations from remoteDb
+ * - filter the ones, this user is admin for
+ * - list these in dropdown field
+ * - preset activeOrganization if user is admin in only one
+ */
+
 import app from 'ampersand-app'
 import React from 'react'
 import { Accordion, Panel } from 'react-bootstrap'
@@ -27,10 +35,10 @@ export default React.createClass({
       <div className='formContent'>
         <h4>Organisationen und Benutzer</h4>
         <Accordion>
-          <Panel header='Organisation' eventKey='1'>
+          <Panel header='Organisationen' eventKey='1'>
             testdata
           </Panel>
-          <Panel header='Benutzer' eventKey='2'>
+          <Panel header='Neuen Benutzer erfassen' eventKey='2'>
             testdata
           </Panel>
         </Accordion>
