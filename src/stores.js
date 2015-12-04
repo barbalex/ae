@@ -28,6 +28,7 @@ import addCollectionsOfSynonyms from './components/main/export/panel4/addCollect
 import buildExportObjects from './components/main/export/panel4/buildExportObjects.js'
 import removeCollectionsNotFulfilling from './components/main/export/panel4/removeCollectionsNotFulfilling.js'
 import getPathFromGuid from './modules/getPathFromGuid.js'
+import extractInfoFromPath from './modules/extractInfoFromPath.js'
 
 export default (Actions) => {
   app.exportDataStore = Reflux.createStore({
@@ -895,34 +896,7 @@ export default (Actions) => {
       if (this.guid !== guid || !_.isEqual(this.path, path)) {
         this.guid = guid
         this.path = path
-
-        let gruppe = null
-        let mainComponent = null
-
-        if (path.length === 2 && path[0] === 'importieren') {
-          if (path[1] === 'eigenschaften') {
-            mainComponent = 'importPc'
-            gruppe = null
-          } else if (path[1] === 'beziehungen') {
-            mainComponent = 'importPc'
-            gruppe = null
-          }
-        } else if (path.length === 1 && path[0] === 'organisationen') {
-          mainComponent = 'organizations'
-          gruppe = null
-        } else if (path.length === 1 && path[0] === 'exportieren') {
-          mainComponent = 'exportieren'
-          gruppe = null
-        } else if (path.length === 2 && path[0] === 'exportieren' && path[1] === 'artenlistentool') {
-          mainComponent = 'exportierenAlt'
-        } else if (path[0]) {
-          // this would be an object url
-          gruppe = path[0]
-        } else {
-          // must be home
-          gruppe = null
-        }
-
+        const { gruppe, mainComponent } = extractInfoFromPath(path)
         this.trigger({ path, guid, gruppe, mainComponent })
       }
     }
