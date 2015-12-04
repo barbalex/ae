@@ -52,7 +52,8 @@ export default React.createClass({
     taxonomyFields: React.PropTypes.object,
     pcFields: React.PropTypes.object,
     relationFields: React.PropTypes.object,
-    offlineIndexes: React.PropTypes.bool
+    offlineIndexes: React.PropTypes.bool,
+    organizations: React.PropTypes.array
   },
 
   getInitialState () {
@@ -97,7 +98,8 @@ export default React.createClass({
       // if true: get index calls from remoteDb
       // if false: query localDb
       // this uses indexes which are VERY slow to build and make the app instable
-      offlineIndexes: false
+      offlineIndexes: false,
+      organizations: []
     }
   },
 
@@ -115,6 +117,11 @@ export default React.createClass({
     this.listenTo(app.propertyCollectionsStore, this.onChangePropertyCollectionsStore)
     this.listenTo(app.relationCollectionsStore, this.onChangeRelationCollectionsStore)
     this.listenTo(app.fieldsStore, this.onChangeFieldsStore)
+    this.listenTo(app.organizationsStore, this.onOrganizationsStoreChange)
+  },
+
+  onOrganizationsStoreChange (organizations) {
+    this.setState({ organizations })
   },
 
   onChangePropertyCollectionsStore (pcs, pcsQuerying) {
@@ -192,7 +199,7 @@ export default React.createClass({
   },
 
   render () {
-    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, mainComponent, logIn, email, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, pcs, rcs, pcsQuerying, rcsQuerying, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, offlineIndexes } = this.state
+    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, mainComponent, logIn, email, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, pcs, rcs, pcsQuerying, rcsQuerying, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, offlineIndexes, organizations } = this.state
     const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
     const showGruppen = groupsNotLoaded.length > 0
     const showFilter = filterOptions.length > 0 || loadingFilterOptions
@@ -277,7 +284,8 @@ export default React.createClass({
               email={email}
               replicatingToAe={replicatingToAe}
               replicatingToAeTime={replicatingToAeTime}
-              offlineIndexes={offlineIndexes} />
+              offlineIndexes={offlineIndexes}
+              organizations={organizations} />
           : null
         }
         {

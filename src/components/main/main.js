@@ -43,7 +43,8 @@ export default React.createClass({
     errors: React.PropTypes.array,
     replicatingToAe: React.PropTypes.string,
     replicatingToAeTime: React.PropTypes.string,
-    offlineIndexes: React.PropTypes.bool
+    offlineIndexes: React.PropTypes.bool,
+    organizations: React.PropTypes.array
   },
 
   getInitialState () {
@@ -74,7 +75,7 @@ export default React.createClass({
   },
 
   render () {
-    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, synonymObjects, pcs, pcsQuerying, rcs, rcsQuerying, mainComponent, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, email, replicatingToAe, replicatingToAeTime, offlineIndexes } = this.props
+    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, synonymObjects, pcs, pcsQuerying, rcs, rcsQuerying, mainComponent, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, email, replicatingToAe, replicatingToAeTime, offlineIndexes, organizations } = this.props
     const { formClassNames, errors } = this.state
     const showObject = object && Object.keys(object).length > 0
 
@@ -152,7 +153,8 @@ export default React.createClass({
           {
             mainComponent === 'organizations'
             ? <Organizations
-                email={email} />
+                email={email}
+                organizations={organizations} />
             : null
           }
         </form>

@@ -16,7 +16,8 @@ export default React.createClass({
   displayName: 'Organizations',
 
   propTypes: {
-    email: React.PropTypes.string
+    email: React.PropTypes.string,
+    organizations: React.PropTypes.array
   },
 
   componentDidMount () {
@@ -28,9 +29,11 @@ export default React.createClass({
       }
       app.Actions.login(loginVariables)
     }
+    app.Actions.getOrganizations()
   },
 
   render () {
+    const { organizations } = this.props
     return (
       <div className='formContent'>
         <h4>Organisationen und Benutzer</h4>
