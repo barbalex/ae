@@ -29,7 +29,7 @@ export default React.createClass({
   },
 
   openOrganisationen () {
-    app.Actions.loadActivePathStore(['organisationen_und_benutzer'])
+    app.Actions.loadActivePathStore(['organisationen'])
   },
 
   replicateToAe () {

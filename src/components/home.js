@@ -61,7 +61,7 @@ export default React.createClass({
 
     // this happens on first load
     // need to kick off stores
-    if (!(path.length === 2 && path[0] === 'importieren') && !(path.length === 1 && path[0] === 'organisationen_und_benutzer') && !(path.length === 1 && path[0] === 'exportieren') && path[0]) {
+    if (!(path.length === 2 && path[0] === 'importieren') && !(path.length === 1 && path[0] === 'organisationen') && !(path.length === 1 && path[0] === 'exportieren') && path[0]) {
       // this would be an object url
       kickOffStores(path, gruppe, guid)
     }
@@ -175,7 +175,7 @@ export default React.createClass({
         mainComponent = 'importPc'
         gruppe = null
       }
-    } else if (path.length === 1 && path[0] === 'organisationen_und_benutzer') {
+    } else if (path.length === 1 && path[0] === 'organisationen') {
       mainComponent = 'organizations'
       gruppe = null
     } else if (path.length === 1 && path[0] === 'exportieren') {

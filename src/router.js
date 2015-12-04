@@ -67,7 +67,7 @@ export default Router.extend({
           // and is still called by ALT and EvAB
           guid = getUrlParameterByName('id')
           gruppe = null
-        } else if (path.length === 1 && path[0] === 'organisationen_und_benutzer') {
+        } else if (path.length === 1 && path[0] === 'organisationen') {
           mainComponent = 'organizations'
           gruppe = null
         } else if (path.length === 2 && path[0] === 'exportieren' && path[1] === 'artenlistentool') {
