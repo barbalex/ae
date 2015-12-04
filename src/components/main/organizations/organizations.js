@@ -11,7 +11,7 @@
 import app from 'ampersand-app'
 import React from 'react'
 import _ from 'lodash'
-import { Accordion, Panel, Input } from 'react-bootstrap'
+import { Accordion, Panel, Input, Glyphicon } from 'react-bootstrap'
 
 export default React.createClass({
   displayName: 'Organizations',
@@ -19,7 +19,7 @@ export default React.createClass({
   propTypes: {
     email: React.PropTypes.string,
     organizations: React.PropTypes.array,
-    activeOrganization: React.PropTypes.string,
+    activeOrganization: React.PropTypes.object,
     onChangeActiveOrganization: React.PropTypes.func
   },
 
@@ -39,7 +39,7 @@ export default React.createClass({
       }
       app.Actions.login(loginVariables)
     }
-    app.Actions.getOrganizations()
+    app.Actions.getOrganizations(email)
   },
 
   orgValues () {
@@ -49,9 +49,32 @@ export default React.createClass({
     return orgNamesWhereUserIsAdmin.map((name, index) => <option key={index} value={name}>{name}</option>)
   },
 
+  removeEsWriter (esWriter) {
+    app.Actions.removeEsWriterFromActiveOrganization(esWriter)
+  },
+
   esWriters () {
     const { activeOrganization } = this.props
-    activeOrganization.esSchreiber.map((esWriter) => )
+    const glyphStyle = {
+      position: 'absolute',
+      top: 3,
+      marginLeft: 5,
+      fontSize: 1.1 + 'em',
+      color: 'red',
+      cursor: 'pointer'
+    }
+    const liStyle = {
+      position: 'relative'
+    }
+    if (activeOrganization && activeOrganization.esSchreiber) {
+      return activeOrganization.esSchreiber.map((esWriter, index) => (
+        <li key={index} style={liStyle}>
+          {esWriter}
+          <Glyphicon glyph='remove-circle' style={glyphStyle} onClick={this.removeEsWriter.bind(this, esWriter)} />
+        </li>
+      ))
+    }
+    return null
   },
 
   render () {
@@ -69,7 +92,12 @@ export default React.createClass({
               onChange={onChangeActiveOrganization}>
               { this.orgValues() }
             </Input>
-            <p>Benutzer mit Schreibrecht für Eigenschaften- und Beziehungssammlungen</p>
+            <div className='emailList'>
+              <p>Benutzer mit Schreibrecht für Eigenschaften- und Beziehungssammlungen</p>
+              <ul>
+                {this.esWriters()}
+              </ul>
+            </div>
 
           </Panel>
           <Panel header='Neuen Benutzer erfassen' eventKey='2'>

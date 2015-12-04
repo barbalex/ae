@@ -45,7 +45,7 @@ export default React.createClass({
     replicatingToAeTime: React.PropTypes.string,
     offlineIndexes: React.PropTypes.bool,
     organizations: React.PropTypes.array,
-    activeOrganization: React.PropTypes.string,
+    activeOrganization: React.PropTypes.object,
     onChangeActiveOrganization: React.PropTypes.func
   },
 

@@ -165,16 +165,64 @@ export default (Actions) => {
 
     organizations: [],
 
-    onGetOrganizations () {
+    lastOrganizations: [],
+
+    activeOrganizationName: null,
+
+    getActiveOrganization () {
+      return this.organizations.find((org) => org.Name === this.activeOrganizationName)
+    },
+
+    updateOrganizationByName (name, organization) {
+      const index = this.organizations.findIndex((org) => org.Name === name)
+      this.lastOrganizations = this.organizations
+      this.organizations[index] = organization
+      // optimistically update ui
+      this.triggerMe()
+      app.remoteDb.put(organization)
+        .then((result) => {
+          // update rev in cache
+          organization.rev = result.rev
+          this.organizations[index] = organization
+        })
+        .catch((error) => {
+          app.Actions.showError({title: 'error updating esWriter in remoteDb:', msg: error})
+          // roll back change in cache
+          this.organizations = this.lastOrganizations
+        })
+    },
+
+    onGetOrganizations (email) {
       // send cached organizations first
-      if (this.organizations.length > 0) this.trigger(this.organizations)
+      if (this.organizations.length > 0) this.triggerMe()
       app.remoteDb.query('organizations', { include_docs: true })
         .then((result) => {
           const organizations = result.rows.map((row) => row.doc)
           this.organizations = organizations
-          this.trigger(organizations)
+          // set activeOrganization if user is logged in and only admin in one organization
+          const orgWhereUserIsAdmin = organizations.filter((org) => org.orgAdministratoren.includes(email))
+          const orgNamesWhereUserIsAdmin = _.pluck(orgWhereUserIsAdmin, 'Name')
+          if (orgNamesWhereUserIsAdmin.length === 1) this.activeOrganizationName = orgNamesWhereUserIsAdmin[0]
+          this.triggerMe()
         })
-        .catch((error) => app.Actions.showError({title: 'errer fetching organizations from remoteDb:', msg: error}))
+        .catch((error) => app.Actions.showError({title: 'error fetching organizations from remoteDb:', msg: error}))
+    },
+
+    onSetActiveOrganization (name) {
+      this.activeOrganizationName = name
+      this.triggerMe()
+    },
+
+    onRemoveEsWriterFromActiveOrganization (esWriter) {
+      let activeOrganization = this.getActiveOrganization()
+      activeOrganization.esSchreiber = activeOrganization.esSchreiber.filter((esW) => esW !== esWriter)
+      this.updateOrganizationByName(activeOrganization.Name, activeOrganization)
+    },
+
+    triggerMe () {
+      const organizations = this.organizations
+      const activeOrganization = this.getActiveOrganization()
+      this.trigger({ organizations, activeOrganization })
     }
   })
 

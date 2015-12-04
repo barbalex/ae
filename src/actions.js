@@ -39,7 +39,9 @@ export default () => {
     replicateToAe: {},
     replicateFromAe: {},
     buildExportData: {},
-    getOrganizations: {}
+    getOrganizations: {},
+    setActiveOrganization: {},
+    removeEsWriterFromActiveOrganization: {}
   })
 
   Actions.loadPouchFromRemote.listen(() => {

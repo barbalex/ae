@@ -54,7 +54,7 @@ export default React.createClass({
     relationFields: React.PropTypes.object,
     offlineIndexes: React.PropTypes.bool,
     organizations: React.PropTypes.array,
-    activeOrganization: React.PropTypes.string
+    activeOrganization: React.PropTypes.object
   },
 
   getInitialState () {
@@ -122,22 +122,13 @@ export default React.createClass({
     this.listenTo(app.organizationsStore, this.onOrganizationsStoreChange)
   },
 
-  onOrganizationsStoreChange (organizations) {
-    const { email } = this.state
-    let state = { organizations }
-    const orgWhereUserIsAdmin = organizations.filter((org) => org.orgAdministratoren.includes(email))
-    const orgNamesWhereUserIsAdmin = _.pluck(orgWhereUserIsAdmin, 'Name')
-
-    if (orgNamesWhereUserIsAdmin.length === 1) {
-      const activeOrganization = orgNamesWhereUserIsAdmin[0]
-      Object.assign(state, { activeOrganization })
-    }
-    this.setState(state)
+  onOrganizationsStoreChange ({ organizations, activeOrganization }) {
+    this.setState({ organizations, activeOrganization })
   },
 
   onChangeActiveOrganization (event) {
-    const activeOrganization = event.target.value
-    this.setState({ activeOrganization })
+    const activeOrganizationName = event.target.value
+    app.Actions.setActiveOrganization(activeOrganizationName)
   },
 
   onChangePropertyCollectionsStore (pcs, pcsQuerying) {
