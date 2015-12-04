@@ -204,7 +204,7 @@ export default (Actions) => {
       app.remoteDb.put(organization)
         .then((result) => {
           // update rev in cache
-          organization.rev = result.rev
+          organization._rev = result.rev
           this.organizations[index] = organization
           this.triggerMe()
         })
@@ -249,6 +249,7 @@ export default (Actions) => {
     triggerMe () {
       const organizations = this.organizations
       const activeOrganization = this.getActiveOrganization()
+      console.log('activeOrganization', activeOrganization)
       this.trigger({ organizations, activeOrganization })
     }
   })

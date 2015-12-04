@@ -11,7 +11,7 @@
 import app from 'ampersand-app'
 import React from 'react'
 import _ from 'lodash'
-import { PanelGroup, Panel, Input, Glyphicon, ListGroup, ListGroupItem, OverlayTrigger, Tooltip } from 'react-bootstrap'
+import { PanelGroup, Panel, Input, Glyphicon, ListGroup, ListGroupItem, OverlayTrigger, Tooltip, Alert } from 'react-bootstrap'
 import isValidEmail from '../../../modules/isValidEmail.js'
 
 export default React.createClass({
@@ -99,27 +99,38 @@ export default React.createClass({
     this.setState({ newEsWriter })
   },
 
-  onBlurNewEsWriter (event) {
+  onBlurNewEsWriter () {
     let { newEsWriter, newEsWriterAlert } = this.state
     const { activeOrganization } = this.props
 
     // set alert back if exists
     if (newEsWriterAlert) newEsWriterAlert = null
 
-    // is this valid email?
-    if (newEsWriter && !isValidEmail(newEsWriter)) {
-      newEsWriterAlert = 'Bitte erfassen Sie eine email-Adresse'
-      return this.setState({ newEsWriterAlert })
-    }
+    if (newEsWriter) {
+      // is this valid email?
+      if (!isValidEmail(newEsWriter)) {
+        newEsWriterAlert = 'Bitte erfassen Sie eine email-Adresse'
+        return this.setState({ newEsWriterAlert })
+      }
 
-    // is this a registered user? Sorry, no way to test this without password
-    // save change
-    activeOrganization.esWriters.push(newEsWriter)
-    app.Actions.updateActiveOrganization(activeOrganization.Name, activeOrganization)
+      // is this a registered user? Sorry, no way to test this without password
+      // save change
+      activeOrganization.esWriters.push(newEsWriter)
+      app.Actions.updateActiveOrganization(activeOrganization.Name, activeOrganization)
+    }
 
     // manage state and set back newEsWriter
     newEsWriter = null
     this.setState({ newEsWriterAlert, newEsWriter })
+  },
+
+  newEsWriterAlert () {
+    const { newEsWriterAlert } = this.state
+    return (
+      <Alert bsStyle='danger'>
+        <strong>{newEsWriterAlert}</strong>
+      </Alert>
+    )
   },
 
   render () {
@@ -157,6 +168,11 @@ export default React.createClass({
                 onBlur={this.onBlurNewEsWriter}
                 bsStyle={newEsWriterBsStyle} />
             </div>
+            {
+              newEsWriterAlert
+              ? this.newEsWriterAlert()
+              : null
+            }
 
           </Panel>
           <Panel header='Neuen Benutzer erfassen' eventKey='2'>
