@@ -6,7 +6,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import Home from './components/home.js'
 import getUrlParameterByName from './modules/getUrlParameterByName.js'
-import isGuid from './modules/isGuid.js'
 import replaceProblematicPathCharactersFromArray from './modules/replaceProblematicPathCharactersFromArray.js'
 import extractInfoFromPath from './modules/extractInfoFromPath.js'
 
@@ -37,16 +36,9 @@ export default Router.extend({
     let path = pathName ? pathName.split('/') : []
     path = replaceProblematicPathCharactersFromArray(path)
 
-    // a regular url consists of hierarchy names
-    // followed by ?id=<guid> if an object is shown
-    let guid = getUrlParameterByName('id')
-    let gruppe = null
-    let mainComponent = null
-
     app.loginStore.getLogin()
       .then((login) => {
         const email = login.email
-
         const { mainComponent, gruppe, guid } = extractInfoFromPath(path)
 
         ReactDOM.render(
