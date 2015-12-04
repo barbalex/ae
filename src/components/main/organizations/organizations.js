@@ -10,15 +10,25 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import { Accordion, Panel } from 'react-bootstrap'
+import _ from 'lodash'
+import { Accordion, Panel, Input } from 'react-bootstrap'
 
 export default React.createClass({
   displayName: 'Organizations',
 
   propTypes: {
     email: React.PropTypes.string,
-    organizations: React.PropTypes.array
+    organizations: React.PropTypes.array,
+    activeOrganization: React.PropTypes.string,
+    onChangeActiveOrganization: React.PropTypes.func
   },
+
+  /*
+  getInitialState () {
+    return {
+      activeOrganization: null
+    }
+  },*/
 
   componentDidMount () {
     const { email } = this.props
@@ -32,14 +42,28 @@ export default React.createClass({
     app.Actions.getOrganizations()
   },
 
+  orgValues () {
+    const { organizations, email } = this.props
+    const orgWhereUserIsAdmin = organizations.filter((org) => org.orgAdministratoren.includes(email))
+    const orgNamesWhereUserIsAdmin = _.pluck(orgWhereUserIsAdmin, 'Name')
+    return orgNamesWhereUserIsAdmin.map((name, index) => <option key={index} value={name}>{name}</option>)
+  },
+
   render () {
-    const { organizations } = this.props
+    const { organizations, activeOrganization, onChangeActiveOrganization } = this.props
+
     return (
       <div className='formContent'>
         <h4>Organisationen und Benutzer</h4>
         <Accordion>
           <Panel header='Organisationen' eventKey='1'>
-            testdata
+            <Input
+              type='select'
+              label='Organisation'
+              placeholder='bitte eine Organisation wählen'
+              onChange={onChangeActiveOrganization}>
+              { this.orgValues() }
+            </Input>
           </Panel>
           <Panel header='Neuen Benutzer erfassen' eventKey='2'>
             testdata

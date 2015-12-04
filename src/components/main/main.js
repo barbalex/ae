@@ -44,7 +44,9 @@ export default React.createClass({
     replicatingToAe: React.PropTypes.string,
     replicatingToAeTime: React.PropTypes.string,
     offlineIndexes: React.PropTypes.bool,
-    organizations: React.PropTypes.array
+    organizations: React.PropTypes.array,
+    activeOrganization: React.PropTypes.string,
+    onChangeActiveOrganization: React.PropTypes.func
   },
 
   getInitialState () {
@@ -75,7 +77,7 @@ export default React.createClass({
   },
 
   render () {
-    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, synonymObjects, pcs, pcsQuerying, rcs, rcsQuerying, mainComponent, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, email, replicatingToAe, replicatingToAeTime, offlineIndexes, organizations } = this.props
+    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, synonymObjects, pcs, pcsQuerying, rcs, rcsQuerying, mainComponent, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, email, replicatingToAe, replicatingToAeTime, offlineIndexes, organizations, activeOrganization, onChangeActiveOrganization } = this.props
     const { formClassNames, errors } = this.state
     const showObject = object && Object.keys(object).length > 0
 
@@ -154,7 +156,9 @@ export default React.createClass({
             mainComponent === 'organizations'
             ? <Organizations
                 email={email}
-                organizations={organizations} />
+                organizations={organizations}
+                activeOrganization={activeOrganization}
+                onChangeActiveOrganization={onChangeActiveOrganization} />
             : null
           }
         </form>

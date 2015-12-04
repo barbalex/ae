@@ -53,7 +53,8 @@ export default React.createClass({
     pcFields: React.PropTypes.object,
     relationFields: React.PropTypes.object,
     offlineIndexes: React.PropTypes.bool,
-    organizations: React.PropTypes.array
+    organizations: React.PropTypes.array,
+    activeOrganization: React.PropTypes.string
   },
 
   getInitialState () {
@@ -99,7 +100,8 @@ export default React.createClass({
       // if false: query localDb
       // this uses indexes which are VERY slow to build and make the app instable
       offlineIndexes: false,
-      organizations: []
+      organizations: [],
+      activeOrganization: null
     }
   },
 
@@ -121,7 +123,21 @@ export default React.createClass({
   },
 
   onOrganizationsStoreChange (organizations) {
-    this.setState({ organizations })
+    const { email } = this.state
+    let state = { organizations }
+    const orgWhereUserIsAdmin = organizations.filter((org) => org.orgAdministratoren.includes(email))
+    const orgNamesWhereUserIsAdmin = _.pluck(orgWhereUserIsAdmin, 'Name')
+
+    if (orgNamesWhereUserIsAdmin.length === 1) {
+      const activeOrganization = orgNamesWhereUserIsAdmin[0]
+      Object.assign(state, { activeOrganization })
+    }
+    this.setState(state)
+  },
+
+  onChangeActiveOrganization (event) {
+    const activeOrganization = event.target.value
+    this.setState({ activeOrganization })
   },
 
   onChangePropertyCollectionsStore (pcs, pcsQuerying) {
@@ -199,7 +215,7 @@ export default React.createClass({
   },
 
   render () {
-    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, mainComponent, logIn, email, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, pcs, rcs, pcsQuerying, rcsQuerying, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, offlineIndexes, organizations } = this.state
+    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, mainComponent, logIn, email, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, pcs, rcs, pcsQuerying, rcsQuerying, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, offlineIndexes, organizations, activeOrganization } = this.state
     const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
     const showGruppen = groupsNotLoaded.length > 0
     const showFilter = filterOptions.length > 0 || loadingFilterOptions
@@ -285,7 +301,9 @@ export default React.createClass({
               replicatingToAe={replicatingToAe}
               replicatingToAeTime={replicatingToAeTime}
               offlineIndexes={offlineIndexes}
-              organizations={organizations} />
+              organizations={organizations}
+              activeOrganization={activeOrganization}
+              onChangeActiveOrganization={this.onChangeActiveOrganization} />
           : null
         }
         {
