@@ -49,8 +49,13 @@ export default React.createClass({
     return orgNamesWhereUserIsAdmin.map((name, index) => <option key={index} value={name}>{name}</option>)
   },
 
+  esWriters () {
+    const { activeOrganization } = this.props
+    activeOrganization.esSchreiber.map((esWriter) => )
+  },
+
   render () {
-    const { organizations, activeOrganization, onChangeActiveOrganization } = this.props
+    const { onChangeActiveOrganization } = this.props
 
     return (
       <div className='formContent'>
@@ -64,6 +69,8 @@ export default React.createClass({
               onChange={onChangeActiveOrganization}>
               { this.orgValues() }
             </Input>
+            <p>Benutzer mit Schreibrecht für Eigenschaften- und Beziehungssammlungen</p>
+
           </Panel>
           <Panel header='Neuen Benutzer erfassen' eventKey='2'>
             testdata
