@@ -21,7 +21,7 @@ const ddoc = {
       map: function (doc) {
         if (doc.Typ && doc.Typ === 'Objekt' && doc.Eigenschaftensammlungen) {
           doc.Eigenschaftensammlungen.forEach(function (es) {
-            window.emit(es.Name, doc._id)
+            emit(es.Name, doc._id)
           })
         }
       }.toString()

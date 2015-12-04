@@ -28,7 +28,7 @@ const ddoc = {
                 felder[key] = pc[key]
               }
             })
-            window.emit([pc.Name, pcZusammenfassend, pc['importiert von'], felder], null)
+            emit([pc.Name, pcZusammenfassend, pc['importiert von'], felder], null)
           })
         }
       }.toString(),
