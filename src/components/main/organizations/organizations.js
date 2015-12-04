@@ -12,6 +12,7 @@ import app from 'ampersand-app'
 import React from 'react'
 import _ from 'lodash'
 import { PanelGroup, Panel, Input, Glyphicon, ListGroup, ListGroupItem, OverlayTrigger, Tooltip } from 'react-bootstrap'
+import isValidEmail from '../../../modules/isValidEmail.js'
 
 export default React.createClass({
   displayName: 'Organizations',
@@ -20,15 +21,17 @@ export default React.createClass({
     email: React.PropTypes.string,
     organizations: React.PropTypes.array,
     activeOrganization: React.PropTypes.object,
-    onChangeActiveOrganization: React.PropTypes.func
+    onChangeActiveOrganization: React.PropTypes.func,
+    newEsWriter: React.PropTypes.string,
+    newEsWriterAlert: React.PropTypes.string
   },
 
-  /*
   getInitialState () {
     return {
-      activeOrganization: null
+      newEsWriter: null,
+      newEsWriterAlert: null
     }
-  },*/
+  },
 
   componentDidMount () {
     const { email } = this.props
@@ -61,7 +64,7 @@ export default React.createClass({
     const glyphStyle = {
       position: 'absolute',
       right: 10,
-      top: 6,
+      top: 8,
       fontSize: 1.5 + 'em',
       color: 'red'
     }
@@ -79,21 +82,10 @@ export default React.createClass({
 
   esWriters () {
     const { activeOrganization } = this.props
-    const glyphStyle = {
-      position: 'absolute',
-      top: 11,
-      marginLeft: 10,
-      fontSize: 1.3 + 'em',
-      color: 'red',
-      cursor: 'pointer'
-    }
-    const liStyle = {
-      // position: 'relative'
-    }
 
     if (activeOrganization && activeOrganization.esWriters) {
       return activeOrganization.esWriters.map((esWriter, index) => (
-        <ListGroupItem key={index} style={liStyle}>
+        <ListGroupItem key={index}>
           {esWriter}
           {this.removeEsWriterGlyph(esWriter)}
         </ListGroupItem>
@@ -102,10 +94,42 @@ export default React.createClass({
     return null
   },
 
+  onChangeNewEsWriter (event) {
+    const newEsWriter = event.target.value
+    this.setState({ newEsWriter })
+  },
+
+  onBlurNewEsWriter (event) {
+    let { newEsWriter, newEsWriterAlert } = this.state
+    const { activeOrganization } = this.props
+
+    // set alert back if exists
+    if (newEsWriterAlert) newEsWriterAlert = null
+
+    // is this valid email?
+    if (newEsWriter && !isValidEmail(newEsWriter)) {
+      newEsWriterAlert = 'Bitte erfassen Sie eine email-Adresse'
+      return this.setState({ newEsWriterAlert })
+    }
+
+    // is this a registered user? Sorry, no way to test this without password
+    // save change
+    activeOrganization.esWriters.push(newEsWriter)
+    app.Actions.updateActiveOrganization(activeOrganization.Name, activeOrganization)
+
+    // manage state and set back newEsWriter
+    newEsWriter = null
+    this.setState({ newEsWriterAlert, newEsWriter })
+  },
+
   render () {
     const { onChangeActiveOrganization } = this.props
+    const { newEsWriter, newEsWriterAlert } = this.state
+    const newEsWriterBsStyle = newEsWriterAlert ? 'error' : null
     const labelStyle = {
-      marginBottom: 0
+      marginBottom: 0,
+      marginTop: 15,
+      fontWeight: 700
     }
 
     return (
@@ -122,9 +146,16 @@ export default React.createClass({
             </Input>
             <div className='emailList'>
               <p style={labelStyle}>Benutzer mit Schreibrecht für Eigenschaften- und Beziehungssammlungen</p>
-              <ListGroup>
+              <ListGroup style={{ marginBottom: 0 }}>
                 {this.esWriters()}
               </ListGroup>
+              <Input
+                type='email'
+                label='Benutzer hinzufügen'
+                value={newEsWriter}
+                onChange={this.onChangeNewEsWriter}
+                onBlur={this.onBlurNewEsWriter}
+                bsStyle={newEsWriterBsStyle} />
             </div>
 
           </Panel>

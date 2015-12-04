@@ -42,6 +42,12 @@ window.app = app
 window.PouchDB = PouchDB
 
 /**
+ * get path to remote _users db
+ */
+const remoteDbUrl = pouchUrl()
+const remoteUsersDbUrl = remoteDbUrl.replace('/ae', '/_users')
+
+/**
  * ampersand-app is extended with app methods (=singleton)
  * modules that need an app method import ampersand-app instead of using a global
  */
@@ -63,7 +69,8 @@ app.extend({
       this.localPathDb = new PouchDB('aePaths'),
       this.localGroupsDb = new PouchDB('aeGroups'),
       this.localFilterOptionsDb = new PouchDB('aeFilterOptions'),
-      this.remoteDb = new PouchDB(pouchUrl())
+      this.remoteDb = new PouchDB(pouchUrl()),
+      this.remoteUsersDb = new PouchDB(remoteUsersDbUrl)
     ])
     .then(() => Promise.all([
       /**

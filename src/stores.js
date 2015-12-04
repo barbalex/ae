@@ -157,6 +157,28 @@ export default (Actions) => {
     }
   })
 
+  app.usersStore = Reflux.createStore({
+    /**
+     * used to cache users names
+     */
+    listenables: Actions,
+
+    userNames: [],
+
+    onGetUsers () {
+      if (this.userNames.length > 0) this.trigger(this.userNames)
+      app.remoteUsersDb.allDocs({ include_docs: true })
+        .then((result) => {
+          console.log('usersStore, onGetUsers, result', result)
+          const users = result.rows.map((row) => row.doc)
+          const userNames = _.pluck(users, 'name')
+          this.userNames = userNames
+          this.trigger(this.userNames)
+        })
+        .catch((error) => app.Actions.showError({title: 'error fetching organizations from remoteDb:', msg: error}))
+    }
+  })
+
   app.organizationsStore = Reflux.createStore({
     /**
      * used to manage organizations or rather: writers and admins of organizations
@@ -184,9 +206,10 @@ export default (Actions) => {
           // update rev in cache
           organization.rev = result.rev
           this.organizations[index] = organization
+          this.triggerMe()
         })
         .catch((error) => {
-          app.Actions.showError({title: 'error updating esWriter in remoteDb:', msg: error})
+          app.Actions.showError({title: 'error updating esWriter in remoteDb:', msg: error.message})
           // roll back change in cache
           this.organizations = this.lastOrganizations
         })
@@ -206,6 +229,10 @@ export default (Actions) => {
           this.triggerMe()
         })
         .catch((error) => app.Actions.showError({title: 'error fetching organizations from remoteDb:', msg: error}))
+    },
+
+    onUpdateActiveOrganization (name, organization) {
+      this.updateOrganizationByName(name, organization)
     },
 
     onSetActiveOrganization (name) {

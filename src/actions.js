@@ -41,7 +41,9 @@ export default () => {
     buildExportData: {},
     getOrganizations: {},
     setActiveOrganization: {},
-    removeEsWriterFromActiveOrganization: {}
+    updateActiveOrganization: {},
+    removeEsWriterFromActiveOrganization: {},
+    getUsers: {}
   })
 
   Actions.loadPouchFromRemote.listen(() => {
