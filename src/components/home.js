@@ -54,7 +54,8 @@ export default React.createClass({
     relationFields: React.PropTypes.object,
     offlineIndexes: React.PropTypes.bool,
     organizations: React.PropTypes.array,
-    activeOrganization: React.PropTypes.object
+    activeOrganization: React.PropTypes.object,
+    userIsNotOrgAdmin: React.PropTypes.bool
   },
 
   getInitialState () {
@@ -101,7 +102,8 @@ export default React.createClass({
       // this uses indexes which are VERY slow to build and make the app instable
       offlineIndexes: false,
       organizations: [],
-      activeOrganization: null
+      activeOrganization: null,
+      userIsNotOrgAdmin: false
     }
   },
 
@@ -122,8 +124,8 @@ export default React.createClass({
     this.listenTo(app.organizationsStore, this.onOrganizationsStoreChange)
   },
 
-  onOrganizationsStoreChange ({ organizations, activeOrganization }) {
-    this.setState({ organizations, activeOrganization })
+  onOrganizationsStoreChange ({ organizations, activeOrganization, userIsNotOrgAdmin }) {
+    this.setState({ organizations, activeOrganization, userIsNotOrgAdmin })
   },
 
   onChangeActiveOrganization (event) {
@@ -206,7 +208,7 @@ export default React.createClass({
   },
 
   render () {
-    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, mainComponent, logIn, email, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, pcs, rcs, pcsQuerying, rcsQuerying, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, offlineIndexes, organizations, activeOrganization } = this.state
+    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, mainComponent, logIn, email, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, pcs, rcs, pcsQuerying, rcsQuerying, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, offlineIndexes, organizations, activeOrganization, userIsNotOrgAdmin } = this.state
     const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
     const showGruppen = groupsNotLoaded.length > 0
     const showFilter = filterOptions.length > 0 || loadingFilterOptions
@@ -294,7 +296,8 @@ export default React.createClass({
               offlineIndexes={offlineIndexes}
               organizations={organizations}
               activeOrganization={activeOrganization}
-              onChangeActiveOrganization={this.onChangeActiveOrganization} />
+              onChangeActiveOrganization={this.onChangeActiveOrganization}
+              userIsNotOrgAdmin={userIsNotOrgAdmin} />
           : null
         }
         {

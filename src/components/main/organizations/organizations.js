@@ -11,7 +11,7 @@
 import app from 'ampersand-app'
 import React from 'react'
 import _ from 'lodash'
-import { PanelGroup, Panel, Input } from 'react-bootstrap'
+import { PanelGroup, Panel, Input, Alert } from 'react-bootstrap'
 import UsersList from './usersList.js'
 
 export default React.createClass({
@@ -21,7 +21,8 @@ export default React.createClass({
     email: React.PropTypes.string,
     organizations: React.PropTypes.array,
     activeOrganization: React.PropTypes.object,
-    onChangeActiveOrganization: React.PropTypes.func
+    onChangeActiveOrganization: React.PropTypes.func,
+    userIsNotOrgAdmin: React.PropTypes.bool
   },
 
   componentDidMount () {
@@ -43,8 +44,27 @@ export default React.createClass({
     return orgNamesWhereUserIsAdmin.map((name, index) => <option key={index} value={name}>{name}</option>)
   },
 
+  userIsNotOrgAdminAlert () {
+    return (
+      <Alert bsStyle='danger'>
+        <strong>Sie sind in keiner Organisation Administrator.<br/>Daher wird auch keine angezeigt.</strong>
+      </Alert>
+    )
+  },
+
+  lowerPart () {
+    const { activeOrganization, userIsNotOrgAdmin, email } = this.props
+    return (
+      <UsersList
+        activeOrganization={activeOrganization}
+        userFieldName='esWriters'
+        userIsNotOrgAdmin={userIsNotOrgAdmin}
+        email={email} />
+    )
+  },
+
   render () {
-    const { onChangeActiveOrganization, activeOrganization } = this.props
+    const { onChangeActiveOrganization, userIsNotOrgAdmin, email } = this.props
 
     return (
       <div className='formContent'>
@@ -58,9 +78,16 @@ export default React.createClass({
               onChange={onChangeActiveOrganization}>
               { this.orgValues() }
             </Input>
-            <UsersList
-              activeOrganization={activeOrganization}
-              userFieldName='esWriters' />
+            {
+              email && !userIsNotOrgAdmin
+              ? this.lowerPart()
+              : null
+            }
+            {
+              userIsNotOrgAdmin && email
+              ? this.userIsNotOrgAdminAlert()
+              : null
+            }
           </Panel>
           <Panel header='Neuen Benutzer erfassen' eventKey='2'>
             testdata

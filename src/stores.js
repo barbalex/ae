@@ -191,6 +191,8 @@ export default (Actions) => {
 
     activeOrganizationName: null,
 
+    userIsNotOrgAdmin: false,
+
     getActiveOrganization () {
       return this.organizations.find((org) => org.Name === this.activeOrganizationName)
     },
@@ -220,12 +222,14 @@ export default (Actions) => {
       if (this.organizations.length > 0) this.triggerMe()
       app.remoteDb.query('organizations', { include_docs: true })
         .then((result) => {
+          this.userIsNotOrgAdmin = false
           const organizations = result.rows.map((row) => row.doc)
           this.organizations = organizations
           // set activeOrganization if user is logged in and only admin in one organization
           const orgWhereUserIsAdmin = organizations.filter((org) => org.orgAdmins.includes(email))
           const orgNamesWhereUserIsAdmin = _.pluck(orgWhereUserIsAdmin, 'Name')
           if (orgNamesWhereUserIsAdmin.length === 1) this.activeOrganizationName = orgNamesWhereUserIsAdmin[0]
+          if (orgNamesWhereUserIsAdmin.length === 0) this.userIsNotOrgAdmin = true
           this.triggerMe()
         })
         .catch((error) => app.Actions.showError({title: 'error fetching organizations from remoteDb:', msg: error}))
@@ -251,8 +255,8 @@ export default (Actions) => {
     triggerMe () {
       const organizations = this.organizations
       const activeOrganization = this.getActiveOrganization()
-      console.log('activeOrganization', activeOrganization)
-      this.trigger({ organizations, activeOrganization })
+      const userIsNotOrgAdmin = this.userIsNotOrgAdmin
+      this.trigger({ organizations, activeOrganization, userIsNotOrgAdmin })
     }
   })
 

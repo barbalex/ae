@@ -43,7 +43,8 @@ export default React.createClass({
       right: 10,
       top: 8,
       fontSize: 1.5 + 'em',
-      color: 'red'
+      color: 'red',
+      cursor: 'pointer'
     }
     return (
       <OverlayTrigger
@@ -60,7 +61,7 @@ export default React.createClass({
   users () {
     const { activeOrganization, userFieldName } = this.props
 
-    if (activeOrganization && activeOrganization[userFieldName]) {
+    if (activeOrganization && activeOrganization[userFieldName] && activeOrganization[userFieldName].length > 0) {
       return activeOrganization[userFieldName].map((user, index) => (
         <ListGroupItem key={index}>
           {user}
@@ -68,7 +69,7 @@ export default React.createClass({
         </ListGroupItem>
       ))
     }
-    return null
+    return <p>(Noch) keine</p>
   },
 
   onChangeNewEsWriter (event) {

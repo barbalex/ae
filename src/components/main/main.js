@@ -46,7 +46,8 @@ export default React.createClass({
     offlineIndexes: React.PropTypes.bool,
     organizations: React.PropTypes.array,
     activeOrganization: React.PropTypes.object,
-    onChangeActiveOrganization: React.PropTypes.func
+    onChangeActiveOrganization: React.PropTypes.func,
+    userIsNotOrgAdmin: React.PropTypes.bool
   },
 
   getInitialState () {
@@ -77,7 +78,7 @@ export default React.createClass({
   },
 
   render () {
-    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, synonymObjects, pcs, pcsQuerying, rcs, rcsQuerying, mainComponent, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, email, replicatingToAe, replicatingToAeTime, offlineIndexes, organizations, activeOrganization, onChangeActiveOrganization } = this.props
+    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, synonymObjects, pcs, pcsQuerying, rcs, rcsQuerying, mainComponent, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, email, replicatingToAe, replicatingToAeTime, offlineIndexes, organizations, activeOrganization, onChangeActiveOrganization, userIsNotOrgAdmin } = this.props
     const { formClassNames, errors } = this.state
     const showObject = object && Object.keys(object).length > 0
 
@@ -158,7 +159,8 @@ export default React.createClass({
                 email={email}
                 organizations={organizations}
                 activeOrganization={activeOrganization}
-                onChangeActiveOrganization={onChangeActiveOrganization} />
+                onChangeActiveOrganization={onChangeActiveOrganization}
+                userIsNotOrgAdmin={userIsNotOrgAdmin} />
             : null
           }
         </form>
