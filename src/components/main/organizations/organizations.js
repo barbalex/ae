@@ -55,11 +55,23 @@ export default React.createClass({
   lowerPart () {
     const { activeOrganization, userIsNotOrgAdmin, email } = this.props
     return (
-      <UsersList
-        activeOrganization={activeOrganization}
-        userFieldName='esWriters'
-        userIsNotOrgAdmin={userIsNotOrgAdmin}
-        email={email} />
+      <div>
+        <UsersList
+          activeOrganization={activeOrganization}
+          userFieldName='esWriters'
+          userIsNotOrgAdmin={userIsNotOrgAdmin}
+          email={email} />
+        <UsersList
+          activeOrganization={activeOrganization}
+          userFieldName='lrWriters'
+          userIsNotOrgAdmin={userIsNotOrgAdmin}
+          email={email} />
+        <UsersList
+          activeOrganization={activeOrganization}
+          userFieldName='orgAdmins'
+          userIsNotOrgAdmin={userIsNotOrgAdmin}
+          email={email} />
+      </div>
     )
   },
 
