@@ -42,7 +42,7 @@ export default () => {
     getOrganizations: {},
     setActiveOrganization: {},
     updateActiveOrganization: {},
-    removeEsWriterFromActiveOrganization: {},
+    removeUserFromActiveOrganization: {},
     getUsers: {}
   })
 

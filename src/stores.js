@@ -240,10 +240,12 @@ export default (Actions) => {
       this.triggerMe()
     },
 
-    onRemoveEsWriterFromActiveOrganization (esWriter) {
+    onRemoveUserFromActiveOrganization (user, userFieldName) {
       let activeOrganization = this.getActiveOrganization()
-      activeOrganization.esWriters = activeOrganization.esWriters.filter((esW) => esW !== esWriter)
-      this.updateOrganizationByName(activeOrganization.Name, activeOrganization)
+      if (activeOrganization[userFieldName]) {
+        activeOrganization[userFieldName] = activeOrganization[userFieldName].filter((esW) => esW !== user)
+        this.updateOrganizationByName(activeOrganization.Name, activeOrganization)
+      }
     },
 
     triggerMe () {
