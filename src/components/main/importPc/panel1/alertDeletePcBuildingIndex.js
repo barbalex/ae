@@ -12,7 +12,10 @@ export default React.createClass({
       marginTop: 11
     }
     return (
-      <Alert className='feld' bsStyle='info' style={style}>
+      <Alert
+        className='feld'
+        bsStyle='info'
+        style={style}>
         Hole Arten/Lebensräume, um die Eigenschaftensammlung daraus zu löschen.<br/>
         Beim ersten Mal muss der Index aufgebaut werden. Das dauert einige Minuten...
       </Alert>

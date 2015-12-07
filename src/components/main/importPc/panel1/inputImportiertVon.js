@@ -12,7 +12,8 @@ export default React.createClass({
 
   popover () {
     return (
-      <Popover id='InputImportiertVonPopover'>
+      <Popover
+        id='InputImportiertVonPopover'>
         <p>Das ist immer die Email des angemeldeten Benutzers</p>
       </Popover>
     )
@@ -22,11 +23,23 @@ export default React.createClass({
     const { importiertVon } = this.props
 
     return (
-      <div className='form-group'>
-        <OverlayTrigger trigger={['click', 'focus']} rootClose placement='right' overlay={this.popover()}>
-          <label className='control-label withPopover'>importiert von</label>
+      <div
+        className='form-group'>
+        <OverlayTrigger
+          trigger={['click', 'focus']}
+          rootClose
+          placement='right'
+          overlay={this.popover()}>
+          <label
+            className='control-label withPopover'>
+            importiert von
+          </label>
         </OverlayTrigger>
-        <input type='text' className='form-control controls' value={importiertVon} disabled />
+        <input
+          type='text'
+          className='form-control controls'
+          value={importiertVon}
+          disabled />
       </div>
     )
   }

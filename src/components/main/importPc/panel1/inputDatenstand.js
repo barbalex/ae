@@ -20,7 +20,9 @@ export default React.createClass({
 
   popover () {
     return (
-      <Popover id='InputDatenstandPopover' title='Wozu ein Datenstand?'>
+      <Popover
+        id='InputDatenstandPopover'
+        title='Wozu ein Datenstand?'>
         <p>Hier sieht der Nutzer, wann die Eigenschaftensammlung zuletzt aktualisiert wurde.</p>
       </Popover>
     )
@@ -30,12 +32,32 @@ export default React.createClass({
     const { datenstand, validDatenstand } = this.props
 
     return (
-      <div className={validDatenstand ? 'form-group' : 'form-group has-error'}>
-        <OverlayTrigger trigger={['click', 'focus']} rootClose placement='right' overlay={this.popover()}>
-          <label className='control-label withPopover'>Datenstand</label>
+      <div
+        className={validDatenstand ? 'form-group' : 'form-group has-error'}>
+        <OverlayTrigger
+          trigger={['click', 'focus']}
+          rootClose
+          placement='right'
+          overlay={this.popover()}>
+          <label
+            className='control-label withPopover'>
+            Datenstand
+          </label>
         </OverlayTrigger>
-        <input type='textarea' className='form-control controls' rows={1} value={datenstand} onChange={this.onChange} />
-        {validDatenstand ? null : <div className='validateDiv feld'>Ein Datenstand ist erforderlich</div>}
+        <input
+          type='textarea'
+          className='form-control controls'
+          rows={1}
+          value={datenstand}
+          onChange={this.onChange} />
+        {
+          validDatenstand
+          ? null
+          : <div
+              className='validateDiv feld'>
+              Ein Datenstand ist erforderlich
+            </div>
+        }
       </div>
     )
   }

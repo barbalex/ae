@@ -34,17 +34,29 @@ export default React.createClass({
     const { nameBestehend } = this.props
 
     return (
-      <div className='static-modal'>
+      <div
+        className='static-modal'>
         <Modal.Dialog onHide={this.onHide}>
           <Modal.Header>
-            <Modal.Title>Eigenschaftensammlung "{nameBestehend}" löschen</Modal.Title>
+            <Modal.Title>
+              Eigenschaftensammlung "{nameBestehend}" löschen
+            </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <p>Sie möchten die Eigenschaftensammlung "{nameBestehend}" und alle ihre Eigenschaften endgültig aus allen Arten und/oder Lebensräumen entfernen?</p>
+            <p>
+              Sie möchten die Eigenschaftensammlung "{nameBestehend}" und alle ihre Eigenschaften endgültig aus allen Arten und/oder Lebensräumen entfernen?
+            </p>
           </Modal.Body>
           <Modal.Footer>
-            <Button bsStyle='danger' onClick={this.onClickDelete}>ja, löschen!</Button>
-            <Button onClick={this.schliessen}>schliessen</Button>
+            <Button
+              bsStyle='danger'
+              onClick={this.onClickDelete}>
+              ja, löschen!
+            </Button>
+            <Button
+              onClick={this.schliessen}>
+              schliessen
+            </Button>
           </Modal.Footer>
         </Modal.Dialog>
       </div>

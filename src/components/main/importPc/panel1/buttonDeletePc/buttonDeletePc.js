@@ -46,8 +46,25 @@ export default React.createClass({
 
     return (
       <div>
-        {nameBestehend ? <Button bsStyle='danger' className='feld' onClick={this.onClickDeletePc} disabled={!enableDeletePcButton}><Glyphicon glyph='trash'/> Eigenschaftensammlung "{nameBestehend}" aus allen Arten/Lebensräumen entfernen</Button> : null}
-        {showConfirmModal ? <ModalDeletePc nameBestehend={nameBestehend} onClickDeletePc={this.onClickDelete} closeModal={this.closeModal} /> : null}
+        {
+          nameBestehend
+          ? <Button
+              bsStyle='danger'
+              className='feld'
+              onClick={this.onClickDeletePc}
+              disabled={!enableDeletePcButton}>
+              <Glyphicon glyph='trash'/> Eigenschaftensammlung "{nameBestehend}" aus allen Arten/Lebensräumen entfernen
+            </Button>
+          : null
+        }
+        {
+          showConfirmModal
+          ? <ModalDeletePc
+              nameBestehend={nameBestehend}
+              onClickDeletePc={this.onClickDelete}
+              closeModal={this.closeModal} />
+          : null
+        }
       </div>
     )
   }
