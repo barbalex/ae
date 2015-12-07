@@ -592,46 +592,50 @@ export default React.createClass({
             collapsible header='1. Beziehungssammlung beschreiben'
             eventKey={1}
             onClick={this.onClickPanel.bind(this, 1)}>
-            <Panel1
-              groupsLoadingObjects={groupsLoadingObjects}
-              allGroupsLoaded={allGroupsLoaded}
-              groupsLoadedOrLoading={groupsLoadedOrLoading}
-              nameBestehend={nameBestehend}
-              name={name}
-              beschreibung={beschreibung}
-              datenstand={datenstand}
-              nutzungsbedingungen={nutzungsbedingungen}
-              link={link}
-              importiertVon={importiertVon}
-              zusammenfassend={zusammenfassend}
-              nameUrsprungsBs={nameUrsprungsBs}
-              email={email}
-              rcs={rcs}
-              idsOfAeObjects={idsOfAeObjects}
-              deletingRcProgress={deletingRcProgress}
-              bsBearbeitenErlaubt={bsBearbeitenErlaubt}
-              ultimatelyAlertLoadAllGroups={ultimatelyAlertLoadAllGroups}
-              validName={validName}
-              validBeschreibung={validBeschreibung}
-              validDatenstand={validDatenstand}
-              validNutzungsbedingungen={validNutzungsbedingungen}
-              validLink={validLink}
-              validUrsprungsBs={validUrsprungsBs}
-              replicatingToAe={replicatingToAe}
-              replicatingToAeTime={replicatingToAeTime}
-              organizations={organizations}
-              onClickDeleteRc={this.onClickDeleteRc}
-              isUrsprungsBsValid={this.isUrsprungsBsValid}
-              onChangeNameBestehend={this.onChangeNameBestehend}
-              onChangeNameUrsprungsBs={this.onChangeNameUrsprungsBs}
-              onChangeZusammenfassend={this.onChangeZusammenfassend}
-              onChangeLink={this.onChangeLink}
-              onChangeNutzungsbedingungen={this.onChangeNutzungsbedingungen}
-              onChangeDatenstand={this.onChangeDatenstand}
-              onChangeBeschreibung={this.onChangeBeschreibung}
-              onChangeName={this.onChangeName}
-              isLinkValid={this.isLinkValid}
-              isEditingRcAllowed={this.isEditingRcAllowed} />
+            {
+              activePanel === 1
+              ? <Panel1
+                  groupsLoadingObjects={groupsLoadingObjects}
+                  allGroupsLoaded={allGroupsLoaded}
+                  groupsLoadedOrLoading={groupsLoadedOrLoading}
+                  nameBestehend={nameBestehend}
+                  name={name}
+                  beschreibung={beschreibung}
+                  datenstand={datenstand}
+                  nutzungsbedingungen={nutzungsbedingungen}
+                  link={link}
+                  importiertVon={importiertVon}
+                  zusammenfassend={zusammenfassend}
+                  nameUrsprungsBs={nameUrsprungsBs}
+                  email={email}
+                  rcs={rcs}
+                  idsOfAeObjects={idsOfAeObjects}
+                  deletingRcProgress={deletingRcProgress}
+                  bsBearbeitenErlaubt={bsBearbeitenErlaubt}
+                  ultimatelyAlertLoadAllGroups={ultimatelyAlertLoadAllGroups}
+                  validName={validName}
+                  validBeschreibung={validBeschreibung}
+                  validDatenstand={validDatenstand}
+                  validNutzungsbedingungen={validNutzungsbedingungen}
+                  validLink={validLink}
+                  validUrsprungsBs={validUrsprungsBs}
+                  replicatingToAe={replicatingToAe}
+                  replicatingToAeTime={replicatingToAeTime}
+                  organizations={organizations}
+                  onClickDeleteRc={this.onClickDeleteRc}
+                  isUrsprungsBsValid={this.isUrsprungsBsValid}
+                  onChangeNameBestehend={this.onChangeNameBestehend}
+                  onChangeNameUrsprungsBs={this.onChangeNameUrsprungsBs}
+                  onChangeZusammenfassend={this.onChangeZusammenfassend}
+                  onChangeLink={this.onChangeLink}
+                  onChangeNutzungsbedingungen={this.onChangeNutzungsbedingungen}
+                  onChangeDatenstand={this.onChangeDatenstand}
+                  onChangeBeschreibung={this.onChangeBeschreibung}
+                  onChangeName={this.onChangeName}
+                  isLinkValid={this.isLinkValid}
+                  isEditingRcAllowed={this.isEditingRcAllowed} />
+              : null
+            }
           </Panel>
 
           <Panel
