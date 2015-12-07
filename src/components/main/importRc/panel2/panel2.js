@@ -18,17 +18,8 @@ export default React.createClass({
     onChangeFile: React.PropTypes.func
   },
 
-  // validXxx: to check validity of these fields
-  getInitialState () {
-    return {
-      rcsToImport: [],
-      validRcsToImport: true
-    }
-  },
-
   render () {
-    const { rcsToImport, validRcsToImport } = this.state
-    const { onChangeFile } = this.props
+    const { rcsToImport, validRcsToImport, onChangeFile } = this.props
 
     return (
       <div>
