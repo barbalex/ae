@@ -432,8 +432,13 @@ export default React.createClass({
           : null
         }
         <h4>Eigenschaften exportieren</h4>
-        <Accordion activeKey={activePanel} onSelect={this.handleOnSelectPanel}>
-          <Panel collapsible header='1. Gruppe(n) wählen' eventKey={1} onClick={this.onClickPanel.bind(this, 1)}>
+        <Accordion
+          activeKey={activePanel}
+          onSelect={this.handleOnSelectPanel}>
+          <Panel
+            collapsible header='1. Gruppe(n) wählen'
+            eventKey={1}
+            onClick={this.onClickPanel.bind(this, 1)}>
             {
               activePanel === 1
               ? <Panel1

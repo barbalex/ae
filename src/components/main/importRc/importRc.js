@@ -5,37 +5,21 @@ import React from 'react'
 import { Accordion, Panel, ProgressBar, Button, Glyphicon } from 'react-bootstrap'
 import _ from 'lodash'
 import { ListenerMixin } from 'reflux'
-import WellTippsUndTricks from './wellTippsUndTricks.js'
-import WellAutorenrechte from './wellAutorenrechte.js'
 import WellTechnAnforderungenAnDatei from './wellTechnAnforderungenAnDatei.js'
 import WellAnforderungenAnCsv from './wellAnforderungenAnCsv.js'
 import WellAnforderungenInhaltlich from './wellAnforderungenInhaltlich.js'
-import InputNameBestehend from './inputNameBestehend.js'
-import ButtonDeleteRc from './buttonDeleteRc/buttonDeleteRc.js'
 import ButtonDeleteRcInstances from './buttonDeleteRcInstances/buttonDeleteRcInstances.js'
-import InputName from './inputName.js'
-import AlertEditingRcDisallowed from './alertEditingRcDisallowed.js'
-import InputBeschreibung from './inputBeschreibung.js'
-import InputDatenstand from './inputDatenstand.js'
-import InputNutzungsbedingungen from './inputNutzungsbedingungen.js'
-import InputLink from './inputLink.js'
-import InputImportiertVon from './inputImportiertVon.js'
-import InputZusammenfassend from './inputZusammenfassend.js'
-import InputUrsprungsBs from './inputUrsprungsBs.js'
 import AlertIdsAnalysisResult from './alertIdsAnalysisResult.js'
 import TablePreview from './tablePreview.js'
 import InputImportFields from './inputImportFields.js'
 import InputAeId from './inputAeId.js'
 import ProgressbarImport from './progressbarImport.js'
-import ProgressbarDeleteRc from './progressbarDeleteRc.js'
-import AlertDeleteRcBuildingIndex from './alertDeleteRcBuildingIndex.js'
 import AlertFirst5Imported from './alertFirst5Imported.js'
 import AlertFirst5Deleted from './alertFirst5Deleted.js'
 import getObjectsFromFile from './getObjectsFromFile.js'
 import isValidUrl from '../../../modules/isValidUrl.js'
 import getSuccessTypeFromAnalysis from './getSuccessTypeFromAnalysis.js'
 import getGuidsById from '../../../modules/getGuidsById.js'
-import AlertLoadAllGroups from './alertLoadAllGroups.js'
 import Panel1 from './panel1/panel1.js'
 
 export default React.createClass({
@@ -161,6 +145,7 @@ export default React.createClass({
 
   onChangeNameBestehend (nameBestehend) {
     const editingRcIsAllowed = this.isEditingRcAllowed(nameBestehend)
+
     if (nameBestehend) {
       app.relationCollectionsStore.getRcByName(nameBestehend)
         .then((rc) => {
@@ -607,118 +592,50 @@ export default React.createClass({
         </h4>
         <Accordion
           activeKey={activePanel}>
-          <Panel1
-            stateFollowingPanel1Reset={this.stateFollowingPanel1Reset}
-            onClickDeleteRc={this.onClickDeleteRc}
-            isUrsprungsBsValid={this.isUrsprungsBsValid}
-            onChangeNameBestehend={this.onChangeNameBestehend}
-            onChangeNameUrsprungsBs={this.onChangeNameUrsprungsBs}
-            onChangeZusammenfassend={this.onChangeZusammenfassend}
-            onChangeLink={this.onChangeLink}
-            onChangeNutzungsbedingungen={this.onChangeNutzungsbedingungen}
-            onChangeDatenstand={this.onChangeDatenstand}
-            onChangeBeschreibung={this.onChangeBeschreibung}
-            onChangeName={this.onChangeName}
-            isLinkValid={this.isLinkValid}
-            isEditingRcAllowed={this.isEditingRcAllowed} />
           <Panel
             collapsible header='1. Beziehungssammlung beschreiben'
             eventKey={1}
             onClick={this.onClickPanel.bind(this, 1)}>
-            {
-              showLoadAllGroups
-              ? <AlertLoadAllGroups
-                  open='true'
-                  groupsLoadingObjects={groupsLoadingObjects}
-                  alertAllGroupsBsStyle={alertAllGroupsBsStyle} />
-              : null
-            }
-            <WellTippsUndTricks />
-            <WellAutorenrechte />
-
-            <InputNameBestehend
+            <Panel1
+              groupsLoadingObjects={groupsLoadingObjects}
+              allGroupsLoaded={allGroupsLoaded}
+              groupsLoadedOrLoading={groupsLoadedOrLoading}
               nameBestehend={nameBestehend}
+              name={name}
               beschreibung={beschreibung}
               datenstand={datenstand}
               nutzungsbedingungen={nutzungsbedingungen}
               link={link}
+              importiertVon={importiertVon}
               zusammenfassend={zusammenfassend}
+              nameUrsprungsBs={nameUrsprungsBs}
               email={email}
               rcs={rcs}
-              groupsLoadedOrLoading={groupsLoadedOrLoading}
-              onChangeNameBestehend={this.onChangeNameBestehend} />
-            <ButtonDeleteRc
-              nameBestehend={nameBestehend}
-              enableDeleteRcButton={enableDeleteRcButton}
+              idsOfAeObjects={idsOfAeObjects}
               deletingRcProgress={deletingRcProgress}
-              onClickDeleteRc={this.onClickDeleteRc} />
-            {
-              showAlertDeleteRcBuildingIndex
-              ? <AlertDeleteRcBuildingIndex />
-              : null
-            }
-            {
-              deletingRcProgress !== null
-              ? <ProgressbarDeleteRc
-                  progress={deletingRcProgress} />
-              : null
-            }
-            {
-              deletingRcProgress === 100
-              ? <div
-                  className='feld'>
-                  <AlertFirst5Deleted
-                    idsOfAeObjects={idsOfAeObjects}
-                    nameBestehend={nameBestehend}
-                    replicatingToAe={replicatingToAe}
-                    replicatingToAeTime={replicatingToAeTime} />
-                </div>
-              : null
-            }
-
-            <hr />
-
-            <InputName
-              name={name}
+              bsBearbeitenErlaubt={bsBearbeitenErlaubt}
+              ultimatelyAlertLoadAllGroups={ultimatelyAlertLoadAllGroups}
               validName={validName}
-              onChangeName={this.onChangeName}
-              onBlurName={this.onBlurName} />
-            {
-              bsBearbeitenErlaubt
-              ? null
-              : <AlertEditingRcDisallowed />
-            }
-            <InputBeschreibung
-              beschreibung={beschreibung}
               validBeschreibung={validBeschreibung}
-              onChangeBeschreibung={this.onChangeBeschreibung} />
-            <InputDatenstand
-              datenstand={datenstand}
               validDatenstand={validDatenstand}
-              onChangeDatenstand={this.onChangeDatenstand} />
-            <InputNutzungsbedingungen
-              nutzungsbedingungen={nutzungsbedingungen}
               validNutzungsbedingungen={validNutzungsbedingungen}
-              onChangeNutzungsbedingungen={this.onChangeNutzungsbedingungen} />
-            <InputLink
-              link={link}
               validLink={validLink}
+              validUrsprungsBs={validUrsprungsBs}
+              replicatingToAe={replicatingToAe}
+              replicatingToAeTime={replicatingToAeTime}
+              organizations={organizations}
+              onClickDeleteRc={this.onClickDeleteRc}
+              isUrsprungsBsValid={this.isUrsprungsBsValid}
+              onChangeNameBestehend={this.onChangeNameBestehend}
+              onChangeNameUrsprungsBs={this.onChangeNameUrsprungsBs}
+              onChangeZusammenfassend={this.onChangeZusammenfassend}
               onChangeLink={this.onChangeLink}
-              onBlurLink={this.onBlurLink} />
-            <InputImportiertVon
-              importiertVon={importiertVon} />
-            <InputZusammenfassend
-              zusammenfassend={zusammenfassend}
-              onChangeZusammenfassend={this.onChangeZusammenfassend} />
-            {
-              zusammenfassend
-              ? <InputUrsprungsBs
-                  nameUrsprungsBs={nameUrsprungsBs}
-                  rcs={rcs}
-                  validUrsprungsBs={validUrsprungsBs}
-                  onChangeNameUrsprungsBs={this.onChangeNameUrsprungsBs} />
-              : null
-            }
+              onChangeNutzungsbedingungen={this.onChangeNutzungsbedingungen}
+              onChangeDatenstand={this.onChangeDatenstand}
+              onChangeBeschreibung={this.onChangeBeschreibung}
+              onChangeName={this.onChangeName}
+              isLinkValid={this.isLinkValid}
+              isEditingRcAllowed={this.isEditingRcAllowed} />
           </Panel>
 
           <Panel
