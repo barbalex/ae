@@ -35,7 +35,7 @@ export default React.createClass({
     // remove '_id' and 'rPartners' from keys
     keys = _.without(keys, '_id', 'rPartners')
 
-    const thead = keys.map((key, index) => <td key={index}>{key}</td>)
+    const thead = keys.map((key, index) => <th key={index}>{key}</th>)
     const tbody = rcsToImport.map((pc, index) => {
       // need only the first 10
       if (index < 10) {
@@ -65,7 +65,9 @@ export default React.createClass({
         <div className='panel panel-default' style={{backgroundColor: '#fffff0'}}>
           <Table responsive bordered striped condensed hover>
             <thead>
-              {thead}
+              <tr>
+                {thead}
+              </tr>
             </thead>
             <tbody>
               {tbody}

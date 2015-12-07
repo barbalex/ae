@@ -36,7 +36,7 @@ export default React.createClass({
     // get a list of all keys
     const keys = Object.keys(exportObjects[0])
 
-    const thead = keys.map((key, index) => <td key={index}>{key}</td>)
+    const thead = keys.map((key, index) => <th key={index}>{key}</th>)
     const tbody = exportObjects.map((pc, index) => {
       // need only the first 10
       if (index < 10) {
@@ -76,7 +76,9 @@ export default React.createClass({
         <div className='panel panel-default' style={{backgroundColor: '#fffff0'}}>
           <Table responsive bordered striped condensed hover style={{borderRadius: 3}}>
             <thead>
-              {thead}
+              <tr>
+                {thead}
+              </tr>
             </thead>
             <tbody>
               {tbody}
