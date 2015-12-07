@@ -88,7 +88,8 @@ export default React.createClass({
     validRcsToImport: React.PropTypes.bool,
     replicatingToAe: React.PropTypes.string,
     replicatingToAeTime: React.PropTypes.string,
-    offlineIndexes: React.PropTypes.bool
+    offlineIndexes: React.PropTypes.bool,
+    organizations: React.PropTypes.array
   },
 
   // nameBestehend ... nameUrsprungsBs: input fields
@@ -587,7 +588,7 @@ export default React.createClass({
 
   render () {
     const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsBs, bsBearbeitenErlaubt, rcsToImport, rcsRemoved, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsBs, validRcsToImport, activePanel, idsAeIdField, idsImportIdField, idsNumberOfRecordsWithIdValue, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, panel3Done, importingProgress, deletingRcInstancesProgress, deletingRcProgress, idsWithoutPartner, rPartnerIdsToImport, rPartnerIdsImportable } = this.state
-    const { groupsLoadedOrLoading, email, rcs, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime } = this.props
+    const { groupsLoadedOrLoading, email, rcs, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime, organizations } = this.props
     const showLoadAllGroups = email && !allGroupsLoaded
     const showAlertDeleteRcBuildingIndex = deletingRcProgress && deletingRcProgress < 100
     const alertAllGroupsBsStyle = ultimatelyAlertLoadAllGroups ? 'danger' : 'info'
@@ -597,57 +598,226 @@ export default React.createClass({
     const showAlertFirst5Imported = importingProgress === 100 && !rcsRemoved
 
     return (
-      <div id='importieren' className='formContent'>
-        <h4>Beziehungen importieren</h4>
-        <Accordion activeKey={activePanel}>
-          <Panel collapsible header='1. Beziehungssammlung beschreiben' eventKey={1} onClick={this.onClickPanel.bind(this, 1)}>
-            {showLoadAllGroups ? <AlertLoadAllGroups open='true' groupsLoadingObjects={groupsLoadingObjects} alertAllGroupsBsStyle={alertAllGroupsBsStyle} /> : null}
+      <div
+        id='importieren'
+        className='formContent'>
+        <h4>
+          Beziehungen importieren
+        </h4>
+        <Accordion
+          activeKey={activePanel}>
+          <Panel
+            collapsible header='1. Beziehungssammlung beschreiben'
+            eventKey={1}
+            onClick={this.onClickPanel.bind(this, 1)}>
+            {
+              showLoadAllGroups
+              ? <AlertLoadAllGroups
+                  open='true'
+                  groupsLoadingObjects={groupsLoadingObjects}
+                  alertAllGroupsBsStyle={alertAllGroupsBsStyle} />
+              : null
+            }
             <WellTippsUndTricks />
             <WellAutorenrechte />
 
-            <InputNameBestehend nameBestehend={nameBestehend} beschreibung={beschreibung} datenstand={datenstand} nutzungsbedingungen={nutzungsbedingungen} link={link} zusammenfassend={zusammenfassend} email={email} rcs={rcs} groupsLoadedOrLoading={groupsLoadedOrLoading} onChangeNameBestehend={this.onChangeNameBestehend} />
-            <ButtonDeleteRc nameBestehend={nameBestehend} enableDeleteRcButton={enableDeleteRcButton} deletingRcProgress={deletingRcProgress} onClickDeleteRc={this.onClickDeleteRc} />
-            {showAlertDeleteRcBuildingIndex ? <AlertDeleteRcBuildingIndex /> : null}
-            {deletingRcProgress !== null ? <ProgressbarDeleteRc progress={deletingRcProgress} /> : null}
-            {deletingRcProgress === 100 ? <div className='feld'><AlertFirst5Deleted idsOfAeObjects={idsOfAeObjects} nameBestehend={nameBestehend} replicatingToAe={replicatingToAe} replicatingToAeTime={replicatingToAeTime} /></div> : null}
+            <InputNameBestehend
+              nameBestehend={nameBestehend}
+              beschreibung={beschreibung}
+              datenstand={datenstand}
+              nutzungsbedingungen={nutzungsbedingungen}
+              link={link}
+              zusammenfassend={zusammenfassend}
+              email={email}
+              rcs={rcs}
+              groupsLoadedOrLoading={groupsLoadedOrLoading}
+              onChangeNameBestehend={this.onChangeNameBestehend} />
+            <ButtonDeleteRc
+              nameBestehend={nameBestehend}
+              enableDeleteRcButton={enableDeleteRcButton}
+              deletingRcProgress={deletingRcProgress}
+              onClickDeleteRc={this.onClickDeleteRc} />
+            {
+              showAlertDeleteRcBuildingIndex
+              ? <AlertDeleteRcBuildingIndex />
+              : null
+            }
+            {
+              deletingRcProgress !== null
+              ? <ProgressbarDeleteRc
+                  progress={deletingRcProgress} />
+              : null
+            }
+            {
+              deletingRcProgress === 100
+              ? <div
+                  className='feld'>
+                  <AlertFirst5Deleted
+                    idsOfAeObjects={idsOfAeObjects}
+                    nameBestehend={nameBestehend}
+                    replicatingToAe={replicatingToAe}
+                    replicatingToAeTime={replicatingToAeTime} />
+                </div>
+              : null
+            }
 
             <hr />
 
             <InputName name={name} validName={validName} onChangeName={this.onChangeName} onBlurName={this.onBlurName} />
-            {bsBearbeitenErlaubt ? null : <AlertEditingRcDisallowed />}
-            <InputBeschreibung beschreibung={beschreibung} validBeschreibung={validBeschreibung} onChangeBeschreibung={this.onChangeBeschreibung} />
-            <InputDatenstand datenstand={datenstand} validDatenstand={validDatenstand} onChangeDatenstand={this.onChangeDatenstand} />
-            <InputNutzungsbedingungen nutzungsbedingungen={nutzungsbedingungen} validNutzungsbedingungen={validNutzungsbedingungen} onChangeNutzungsbedingungen={this.onChangeNutzungsbedingungen} />
-            <InputLink link={link} validLink={validLink} onChangeLink={this.onChangeLink} onBlurLink={this.onBlurLink} />
-            <InputImportiertVon importiertVon={importiertVon} />
-            <InputZusammenfassend zusammenfassend={zusammenfassend} onChangeZusammenfassend={this.onChangeZusammenfassend} />
-            {zusammenfassend ? <InputUrsprungsBs nameUrsprungsBs={nameUrsprungsBs} rcs={rcs} validUrsprungsBs={validUrsprungsBs} onChangeNameUrsprungsBs={this.onChangeNameUrsprungsBs} /> : null}
+            {
+              bsBearbeitenErlaubt
+              ? null
+              : <AlertEditingRcDisallowed />
+            }
+            <InputBeschreibung
+              beschreibung={beschreibung}
+              validBeschreibung={validBeschreibung}
+              onChangeBeschreibung={this.onChangeBeschreibung} />
+            <InputDatenstand
+              datenstand={datenstand}
+              validDatenstand={validDatenstand}
+              onChangeDatenstand={this.onChangeDatenstand} />
+            <InputNutzungsbedingungen
+              nutzungsbedingungen={nutzungsbedingungen}
+              validNutzungsbedingungen={validNutzungsbedingungen}
+              onChangeNutzungsbedingungen={this.onChangeNutzungsbedingungen} />
+            <InputLink
+              link={link}
+              validLink={validLink}
+              onChangeLink={this.onChangeLink}
+              onBlurLink={this.onBlurLink} />
+            <InputImportiertVon
+              importiertVon={importiertVon} />
+            <InputZusammenfassend
+              zusammenfassend={zusammenfassend}
+              onChangeZusammenfassend={this.onChangeZusammenfassend} />
+            {
+              zusammenfassend
+              ? <InputUrsprungsBs
+                  nameUrsprungsBs={nameUrsprungsBs}
+                  rcs={rcs}
+                  validUrsprungsBs={validUrsprungsBs}
+                  onChangeNameUrsprungsBs={this.onChangeNameUrsprungsBs} />
+              : null
+            }
           </Panel>
 
-          <Panel collapsible header='2. Beziehungen laden' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
+          <Panel
+            collapsible header='2. Beziehungen laden'
+            eventKey={2}
+            onClick={this.onClickPanel.bind(this, 2)}>
             <WellTechnAnforderungenAnDatei />
             <WellAnforderungenAnCsv />
             <WellAnforderungenInhaltlich />
 
-            <input type='file' className='form-control' onChange={this.onChangeFile} />
-            {validRcsToImport ? null : <div className='validateDiv'>Bitte wählen Sie eine Datei</div>}
+            <input
+              type='file'
+              className='form-control'
+              onChange={this.onChangeFile} />
+            {
+              validRcsToImport
+              ? null
+              : <div
+                  className='validateDiv'>
+                  Bitte wählen Sie eine Datei
+                </div>
+            }
 
-            {rcsToImport.length > 0 ? <TablePreview rcsToImport={rcsToImport} /> : null}
+            {
+              rcsToImport.length > 0
+              ? <TablePreview
+                  rcsToImport={rcsToImport} />
+              : null
+            }
           </Panel>
 
-          <Panel collapsible header="3. ID's identifizieren" eventKey={3} onClick={this.onClickPanel.bind(this, 3)}>
-            {rcsToImport.length > 0 ? <InputImportFields idsImportIdField={idsImportIdField} rcsToImport={rcsToImport} onChangeImportId={this.onChangeImportId} /> : null}
-            <InputAeId idsAeIdField={idsAeIdField} onChangeAeId={this.onChangeAeId} />
-            {idsImportIdField && idsAeIdField ? <AlertIdsAnalysisResult idsImportIdField={idsImportIdField} idsAeIdField={idsAeIdField} rcsToImport={rcsToImport} idsNumberOfRecordsWithIdValue={idsNumberOfRecordsWithIdValue} idsNumberImportable={idsNumberImportable} idsNotImportable={idsNotImportable} idsAnalysisComplete={idsAnalysisComplete} idsNotANumber={idsNotANumber} idsWithoutPartner={idsWithoutPartner} rPartnerIdsToImport={rPartnerIdsToImport} rPartnerIdsImportable={rPartnerIdsImportable} /> : null}
+          <Panel
+            collapsible header="3. ID's identifizieren"
+            eventKey={3}
+            onClick={this.onClickPanel.bind(this, 3)}>
+            {
+              rcsToImport.length > 0
+              ? <InputImportFields
+                  idsImportIdField={idsImportIdField}
+                  rcsToImport={rcsToImport}
+                  onChangeImportId={this.onChangeImportId} />
+              : null
+            }
+            <InputAeId
+              idsAeIdField={idsAeIdField}
+              onChangeAeId={this.onChangeAeId} />
+            {
+              idsImportIdField && idsAeIdField
+              ? <AlertIdsAnalysisResult
+                  idsImportIdField={idsImportIdField}
+                  idsAeIdField={idsAeIdField}
+                  rcsToImport={rcsToImport}
+                  idsNumberOfRecordsWithIdValue={idsNumberOfRecordsWithIdValue}
+                  idsNumberImportable={idsNumberImportable}
+                  idsNotImportable={idsNotImportable}
+                  idsAnalysisComplete={idsAnalysisComplete}
+                  idsNotANumber={idsNotANumber}
+                  idsWithoutPartner={idsWithoutPartner}
+                  rPartnerIdsToImport={rPartnerIdsToImport}
+                  rPartnerIdsImportable={rPartnerIdsImportable} />
+              : null
+            }
           </Panel>
 
-          <Panel collapsible header='4. importieren' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>
-            {panel3Done ? <Button className='btn-primary' onClick={this.onClickImportieren}><Glyphicon glyph='download-alt'/> Eigenschaftensammlung "{name}" importieren</Button> : null }
-            {showDeleteRcInstancesButton ? <ButtonDeleteRcInstances name={name} rcsRemoved={rcsRemoved} deletingRcInstancesProgress={deletingRcInstancesProgress} onClickRemoveRcInstances={this.onClickRemoveRcInstances} /> : null}
-            {showProgressbarImport ? <ProgressbarImport importingProgress={importingProgress} /> : null}
-            {showAlertFirst5Imported ? <AlertFirst5Imported idsOfAeObjects={idsOfAeObjects} idsNotImportable={idsNotImportable} replicatingToAe={replicatingToAe} replicatingToAeTime={replicatingToAeTime} /> : null}
-            {deletingRcInstancesProgress !== null ? <ProgressBar bsStyle='success' now={deletingRcInstancesProgress} label={`${deletingRcInstancesProgress}% entfernt`} /> : null}
-            {deletingRcInstancesProgress === 100 ? <AlertFirst5Deleted idsOfAeObjects={idsOfAeObjects} nameBestehend={name} replicatingToAe={replicatingToAe} replicatingToAeTime={replicatingToAeTime} /> : null}
+          <Panel
+            collapsible header='4. importieren'
+            eventKey={4}
+            onClick={this.onClickPanel.bind(this, 4)}>
+            {
+              panel3Done
+              ? <Button
+                  className='btn-primary'
+                  onClick={this.onClickImportieren}>
+                  <Glyphicon glyph='download-alt'/> Eigenschaftensammlung "{name}" importieren
+                </Button>
+              : null
+            }
+            {
+              showDeleteRcInstancesButton
+              ? <ButtonDeleteRcInstances
+                  name={name}
+                  rcsRemoved={rcsRemoved}
+                  deletingRcInstancesProgress={deletingRcInstancesProgress}
+                  onClickRemoveRcInstances={this.onClickRemoveRcInstances} />
+              : null
+            }
+            {
+              showProgressbarImport
+              ? <ProgressbarImport
+                  importingProgress={importingProgress} />
+              : null
+            }
+            {
+              showAlertFirst5Imported
+              ? <AlertFirst5Imported
+                  idsOfAeObjects={idsOfAeObjects}
+                  idsNotImportable={idsNotImportable}
+                  replicatingToAe={replicatingToAe}
+                  replicatingToAeTime={replicatingToAeTime} />
+              : null
+            }
+            {
+              deletingRcInstancesProgress !== null
+              ? <ProgressBar
+                  bsStyle='success'
+                  now={deletingRcInstancesProgress}
+                  label={`${deletingRcInstancesProgress}% entfernt`} />
+              : null
+            }
+            {
+              deletingRcInstancesProgress === 100
+              ? <AlertFirst5Deleted
+                  idsOfAeObjects={idsOfAeObjects}
+                  nameBestehend={name}
+                  replicatingToAe={replicatingToAe}
+                  replicatingToAeTime={replicatingToAeTime} />
+              : null
+            }
           </Panel>
 
         </Accordion>
