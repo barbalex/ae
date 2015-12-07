@@ -36,7 +36,7 @@ export default React.createClass({
       // add an empty option at the beginning
       options.unshift(<option key='noValue' value={null}></option>)
       return options
-    } else if (groupsLoadedOrLoading.length > 0) {
+    } else if (groupsLoadedOrLoading && groupsLoadedOrLoading.length > 0) {
       // this option is showed while loading
       return <option value={null}>Lade Daten...</option>
     } else {

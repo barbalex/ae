@@ -36,6 +36,7 @@ import isValidUrl from '../../../modules/isValidUrl.js'
 import getSuccessTypeFromAnalysis from './getSuccessTypeFromAnalysis.js'
 import getGuidsById from '../../../modules/getGuidsById.js'
 import AlertLoadAllGroups from './alertLoadAllGroups.js'
+import Panel1 from './panel1/panel1.js'
 
 export default React.createClass({
   displayName: 'ImportRelationCollections',
@@ -227,7 +228,7 @@ export default React.createClass({
   },
 
   onBlurLink () {
-    this.validLink()
+    this.isLinkValid()
   },
 
   onChangeZusammenfassend (zusammenfassend) {
@@ -237,7 +238,7 @@ export default React.createClass({
 
   onChangeNameUrsprungsBs (nameUrsprungsBs) {
     this.setState({ nameUrsprungsBs })
-    this.validUrsprungsBs(nameUrsprungsBs)
+    this.isUrsprungsBsValid(nameUrsprungsBs)
   },
 
   onChangeFile (event) {
@@ -257,7 +258,7 @@ export default React.createClass({
       getObjectsFromFile(file)
         .then((rcsToImport) => {
           this.setState({ rcsToImport })
-          this.validRcsToImport()
+          this.isRcsToImportValid()
         })
         .catch((error) => app.Actions.showError({title: 'Fehler beim Lesen der Datei:', msg: error}))
     }
@@ -479,12 +480,12 @@ export default React.createClass({
   isPanel1Done () {
     const { email } = this.props
     // run all validation
-    const validName = this.validName()
-    const validBeschreibung = this.validBeschreibung()
-    const validDatenstand = this.validDatenstand()
-    const validNutzungsbedingungen = this.validNutzungsbedingungen()
-    const validLink = this.validLink()
-    const validUrsprungsBs = this.validUrsprungsBs()
+    const validName = this.isNameValid()
+    const validBeschreibung = this.isBeschreibungValid()
+    const validDatenstand = this.isDatenstandValid()
+    const validNutzungsbedingungen = this.isNutzungsbedingungenValid()
+    const validLink = this.isLinkValid()
+    const validUrsprungsBs = this.isUrsprungsBsValid()
     const validEmail = !!email
     // check if panel 1 is done
     const panel1Done = validName && validBeschreibung && validDatenstand && validNutzungsbedingungen && validLink && validUrsprungsBs && validEmail
@@ -495,7 +496,7 @@ export default React.createClass({
   },
 
   isPanel2Done () {
-    const validRcsToImport = this.validRcsToImport()
+    const validRcsToImport = this.isRcsToImportValid()
     const panel1Done = this.isPanel1Done()
     const panel2Done = panel1Done && validRcsToImport
     let state = { panel2Done }
@@ -538,38 +539,38 @@ export default React.createClass({
     return bsBearbeitenErlaubt
   },
 
-  validName () {
+  isNameValid () {
     const validName = !!this.state.name
     this.setState({ validName })
     return validName
   },
 
-  validBeschreibung () {
+  isBeschreibungValid () {
     const validBeschreibung = !!this.state.beschreibung
     this.setState({ validBeschreibung })
     return validBeschreibung
   },
 
-  validDatenstand () {
+  isDatenstandValid () {
     const validDatenstand = !!this.state.datenstand
     this.setState({ validDatenstand })
     return validDatenstand
   },
 
-  validNutzungsbedingungen () {
+  isNutzungsbedingungenValid () {
     const validNutzungsbedingungen = !!this.state.nutzungsbedingungen
     this.setState({ validNutzungsbedingungen })
     return validNutzungsbedingungen
   },
 
-  validLink () {
+  isLinkValid () {
     const link = this.state.link
     const validLink = !link || isValidUrl(link)
     this.setState({ validLink })
     return validLink
   },
 
-  validUrsprungsBs (nameUrsprungsBs) {
+  isUrsprungsBsValid (nameUrsprungsBs) {
     // when nameUrsprungsBs is passed back from child component, this function is called right after setting state of nameUrsprungsBs
     // so state would not yet be updated! > needs to be passed directly
     const { zusammenfassend } = this.state
@@ -580,7 +581,7 @@ export default React.createClass({
     return validUrsprungsBs
   },
 
-  validRcsToImport () {
+  isRcsToImportValid () {
     const validRcsToImport = this.state.rcsToImport.length > 0
     this.setState({ validRcsToImport })
     return validRcsToImport
@@ -606,6 +607,20 @@ export default React.createClass({
         </h4>
         <Accordion
           activeKey={activePanel}>
+          <Panel1
+            stateFollowingPanel1Reset={this.stateFollowingPanel1Reset}
+            onClickDeleteRc={this.onClickDeleteRc}
+            isUrsprungsBsValid={this.isUrsprungsBsValid}
+            onChangeNameBestehend={this.onChangeNameBestehend}
+            onChangeNameUrsprungsBs={this.onChangeNameUrsprungsBs}
+            onChangeZusammenfassend={this.onChangeZusammenfassend}
+            onChangeLink={this.onChangeLink}
+            onChangeNutzungsbedingungen={this.onChangeNutzungsbedingungen}
+            onChangeDatenstand={this.onChangeDatenstand}
+            onChangeBeschreibung={this.onChangeBeschreibung}
+            onChangeName={this.onChangeName}
+            isLinkValid={this.isLinkValid}
+            isEditingRcAllowed={this.isEditingRcAllowed} />
           <Panel
             collapsible header='1. Beziehungssammlung beschreiben'
             eventKey={1}
@@ -663,7 +678,11 @@ export default React.createClass({
 
             <hr />
 
-            <InputName name={name} validName={validName} onChangeName={this.onChangeName} onBlurName={this.onBlurName} />
+            <InputName
+              name={name}
+              validName={validName}
+              onChangeName={this.onChangeName}
+              onBlurName={this.onBlurName} />
             {
               bsBearbeitenErlaubt
               ? null
