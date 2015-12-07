@@ -35,7 +35,7 @@ export default React.createClass({
     // remove '_id' and 'rPartners' from keys
     keys = _.without(keys, '_id', 'rPartners')
 
-    const thead = keys.map((key, index) => <th key={index}>{key}</th>)
+    const thead = keys.map((key, index) => <td key={index}>{key}</td>)
     const tbody = rcsToImport.map((pc, index) => {
       // need only the first 10
       if (index < 10) {
