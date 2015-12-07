@@ -41,17 +41,40 @@ export default React.createClass({
       const path = _.findKey(paths, (value) => value === id)
       if (path) {
         const href = `${window.location.protocol}//${window.location.host}/${path}?id=${id}`
-        return <li key={index}><a href={href} target='_blank'>{path.replace(/\//g, ' > ')}</a></li>
+        return (
+          <li
+            key={index}>
+            <a
+              href={href}
+              target='_blank'>
+              {path.replace(/\//g, ' > ')}
+            </a>
+          </li>
+          )
       }
     })
 
     return (
-      <Alert bsStyle='info' style={alertStyle}>
+      <Alert
+        bsStyle='info'
+        style={alertStyle}>
         <p>Aus {idsOfAeObjects.length} Datensätzen wurde die Eigenschaftensammlung "{nameBestehend}" entfernt.<br/>
           Beispiele zur Kontrolle:
         </p>
-        {paths ? <ul>{examples}</ul> : null}
-        {paths ? <ReplicationNotice replicatingToAe={replicatingToAe} replicatingToAeTime={replicatingToAeTime} /> : null}
+        {
+          paths
+          ? <ul>
+              {examples}
+            </ul>
+          : null
+        }
+        {
+          paths
+          ? <ReplicationNotice
+              replicatingToAe={replicatingToAe}
+              replicatingToAeTime={replicatingToAeTime} />
+          : null
+        }
       </Alert>
     )
   }

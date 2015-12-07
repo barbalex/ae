@@ -505,11 +505,21 @@ export default React.createClass({
     const { groupsLoadedOrLoading, email, pcs, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime, organizations } = this.props
 
     return (
-      <div id='importieren' className='formContent'>
-        <h4>Eigenschaften importieren</h4>
-        <Accordion activeKey={activePanel}>
-          <Panel collapsible header='1. Eigenschaftensammlung beschreiben' eventKey={1} onClick={this.onClickPanel.bind(this, 1)}>
-            {activePanel === 1
+      <div
+        id='importieren'
+        className='formContent'>
+        <h4>
+          Eigenschaften importieren
+        </h4>
+        <Accordion
+          activeKey={activePanel}>
+          <Panel
+            collapsible
+            header='1. Eigenschaftensammlung beschreiben'
+            eventKey={1}
+            onClick={this.onClickPanel.bind(this, 1)}>
+            {
+              activePanel === 1
               ? <Panel1
                   groupsLoadingObjects={groupsLoadingObjects}
                   allGroupsLoaded={allGroupsLoaded}
@@ -553,8 +563,13 @@ export default React.createClass({
             }
           </Panel>
 
-          <Panel collapsible header='2. Eigenschaften laden' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
-            {activePanel === 2
+          <Panel
+            collapsible
+            header='2. Eigenschaften laden'
+            eventKey={2}
+            onClick={this.onClickPanel.bind(this, 2)}>
+            {
+              activePanel === 2
               ? <Panel2
                   pcsToImport={pcsToImport}
                   validPcsToImport={validPcsToImport}
@@ -563,8 +578,13 @@ export default React.createClass({
             }
           </Panel>
 
-          <Panel collapsible header="3. ID's identifizieren" eventKey={3} onClick={this.onClickPanel.bind(this, 3)}>
-            {activePanel === 3
+          <Panel
+            collapsible
+            header="3. ID's identifizieren"
+            eventKey={3}
+            onClick={this.onClickPanel.bind(this, 3)}>
+            {
+              activePanel === 3
               ? <Panel3
                   pcsToImport={pcsToImport}
                   idsImportIdField={idsImportIdField}
@@ -581,8 +601,13 @@ export default React.createClass({
             }
           </Panel>
 
-          <Panel collapsible header='4. importieren' eventKey={4} onClick={this.onClickPanel.bind(this, 4)}>
-            {activePanel === 4
+          <Panel
+            collapsible
+            header='4. importieren'
+            eventKey={4}
+            onClick={this.onClickPanel.bind(this, 4)}>
+            {
+              activePanel === 4
               ? <Panel4
                   name={name}
                   pcsRemoved={pcsRemoved}

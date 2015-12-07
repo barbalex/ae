@@ -31,11 +31,24 @@ export default React.createClass({
     const { zusammenfassend } = this.props
 
     return (
-      <div className={'form-group'}>
-        <OverlayTrigger trigger={['click', 'focus']} rootClose placement='right' overlay={this.popover()}>
-          <label className='control-label withPopover' htmlFor={'dsZusammenfassend'}>zusammenfassend</label>
+      <div
+        className={'form-group'}>
+        <OverlayTrigger
+          trigger={['click', 'focus']}
+          rootClose
+          placement='right'
+          overlay={this.popover()}>
+          <label
+            className='control-label withPopover'
+            htmlFor={'dsZusammenfassend'}>
+            zusammenfassend
+          </label>
         </OverlayTrigger>
-        <input type='checkbox' label={'zusammenfassend'} checked={zusammenfassend} onChange={this.onChange} />
+        <input
+          type='checkbox'
+          label={'zusammenfassend'}
+          checked={zusammenfassend}
+          onChange={this.onChange} />
       </div>
     )
   }

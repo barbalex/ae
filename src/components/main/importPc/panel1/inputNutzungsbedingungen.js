@@ -19,7 +19,9 @@ export default React.createClass({
 
   popover () {
     return (
-      <Popover id='InputNutzungsbedingungenPopover' title='Wozu Nutzunsbedingungen?'>
+      <Popover
+        id='InputNutzungsbedingungenPopover'
+        title='Wozu Nutzunsbedingungen?'>
         <p>Der Nutzer soll wissen, was er mit den Daten machen darf.</p>
         <p><strong>Beispiele:</strong></p>
         <p>Wenn <strong>fremde Daten</strong> mit Einverständnis des Autors importiert werden:<br/>
@@ -34,12 +36,32 @@ export default React.createClass({
     const { nutzungsbedingungen, validNutzungsbedingungen } = this.props
 
     return (
-      <div className={validNutzungsbedingungen ? 'form-group' : 'form-group has-error'}>
-        <OverlayTrigger trigger={['click', 'focus']} rootClose placement='right' overlay={this.popover()}>
-          <label className='control-label withPopover'>Nutzungsbedingungen</label>
+      <div
+        className={validNutzungsbedingungen ? 'form-group' : 'form-group has-error'}>
+        <OverlayTrigger
+          trigger={['click', 'focus']}
+          rootClose
+          placement='right'
+          overlay={this.popover()}>
+          <label
+            className='control-label withPopover'>
+            Nutzungsbedingungen
+          </label>
         </OverlayTrigger>
-        <textarea className='form-control controls' rows={1} value={nutzungsbedingungen} onChange={this.onChange}></textarea>
-        {validNutzungsbedingungen ? null : <div className='validateDiv feld'>Nutzungsbedingungen sind erforderlich</div>}
+        <textarea
+          className='form-control controls'
+          rows={1}
+          value={nutzungsbedingungen}
+          onChange={this.onChange}>
+        </textarea>
+        {
+          validNutzungsbedingungen
+          ? null
+          : <div
+              className='validateDiv feld'>
+              Nutzungsbedingungen sind erforderlich
+            </div>
+        }
       </div>
     )
   }

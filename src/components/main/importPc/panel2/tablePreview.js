@@ -41,10 +41,16 @@ export default React.createClass({
           // return values for not existing fieds!
           // if not, table gets torn apart
           const value = pc[key] || ''
-          return <td key={key}>{value}</td>
+          return (
+            <td
+              key={key}>
+              {value}
+            </td>
+          )
         })
         return (
-          <tr key={index}>
+          <tr
+            key={index}>
             {rows}
           </tr>
         )
@@ -52,16 +58,27 @@ export default React.createClass({
     })
 
     return (
-      <div style={tablePreviewStyle}>
-        <p style={legendStyle}>{legend}</p>
+      <div
+        style={tablePreviewStyle}>
+        <p
+          style={legendStyle}>
+          {legend}
+        </p>
         {
         /**
          * surround table with panel to get rounded corners
          * source: http://stackoverflow.com/questions/18729638/rounded-tables-in-twitter-bootstrap-3
          */
         }
-        <div className='panel panel-default' style={{backgroundColor: '#fffff0'}}>
-          <Table responsive bordered striped condensed hover>
+        <div
+          className='panel panel-default'
+          style={{backgroundColor: '#fffff0'}}>
+          <Table
+            responsive
+            bordered
+            striped
+            condensed
+            hover>
             <thead>
               <tr>
                 {thead}

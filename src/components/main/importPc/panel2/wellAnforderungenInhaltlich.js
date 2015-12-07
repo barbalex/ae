@@ -28,8 +28,13 @@ export default React.createClass({
     }
 
     return (
-      <Well bsSize='small' style={wellStyle}><b>Inhaltliche Anforderungen </b> <a href='#' onClick={this.onClickToggle} className='showNextHidden'>{visible ? '...weniger' : '...mehr'}</a>
-        <ul className='adb-hidden' style={{'display': visible ? 'block' : 'none'}}>
+      <Well
+        bsSize='small'
+        style={wellStyle}>
+        <b>Inhaltliche Anforderungen </b> <a href='#' onClick={this.onClickToggle} className='showNextHidden'>{visible ? '...weniger' : '...mehr'}</a>
+        <ul
+          className='adb-hidden'
+          style={{'display': visible ? 'block' : 'none'}}>
           <li>Um die Art oder den Lebensraum zu identifizieren müssen Sie eine ID mitliefern.<br/>
             Entweder die GUID der ArtenDb.<br/>
             Oder die vom entsprechenden nationalen Artdatenzentrum für diese Artengruppe verwendete ID (z.B. Flora: SISF-Nr)</li>

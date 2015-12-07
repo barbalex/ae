@@ -20,7 +20,15 @@ export default React.createClass({
     const { idsAeIdField } = this.props
 
     return (
-      <Input type='select' bsSize='small' label={'zugehörige ID in ArtenDb'} multiple className='form-control controls' style={{'height': 101 + 'px'}} value={[idsAeIdField]} onChange={this.onChange}>
+      <Input
+        type='select'
+        bsSize='small'
+        label={'zugehörige ID in ArtenDb'}
+        multiple
+        className='form-control controls'
+        style={{'height': 101 + 'px'}}
+        value={[idsAeIdField]}
+        onChange={this.onChange}>
         <option value='GUID'>GUID der ArtenDb</option>
         <option value='Fauna'>ID der Info Fauna (NUESP)</option>
         <option value='Flora'>ID der Info Flora (SISF-NR)</option>

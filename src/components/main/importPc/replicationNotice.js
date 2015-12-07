@@ -25,13 +25,29 @@ export default React.createClass({
     if (replicatingToAe === 'success') {
       style.color = '#00AA00'
       text = 'Zuletzt nach arteigenschaften.ch repliziert: ' + replicatingToAeTime
-      return <p style={style}>{text}</p>
+      return (
+        <p
+          style={style}>
+          {text}
+        </p>
+      )
     }
     if (replicatingToAe === 'error') {
       style.color = 'red'
       text = 'Replikation nach arteigenschaften.ch gescheitert um: ' + replicatingToAeTime
-      return <p style={style}>{text}</p>
+      return (
+        <p
+          style={style}>
+          {text}
+        </p>
+      )
     }
-    return <Button onClick={this.onClickReplicateToAe} style={style}><Glyphicon glyph='cloud-upload'/> {text}</Button>
+    return (
+      <Button
+        onClick={this.onClickReplicateToAe}
+        style={style}>
+        <Glyphicon glyph='cloud-upload'/> {text}
+      </Button>
+    )
   }
 })

@@ -49,8 +49,20 @@ export default React.createClass({
 
     return (
       <div style={divStyle}>
-        <Button bsStyle='danger' onClick={this.onClickDeletePcInstances} disabled={pcsRemoved}><Glyphicon glyph='trash'/> Eigenschaftensammlung "{name}" aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen</Button>
-        {showConfirmModal ? <ModalDeletePcInstances name={name} onClickRemovePcInstances={this.onClickRemove} closeModal={this.closeModal} /> : null}
+        <Button
+          bsStyle='danger'
+          onClick={this.onClickDeletePcInstances}
+          disabled={pcsRemoved}>
+          <Glyphicon glyph='trash'/> Eigenschaftensammlung "{name}" aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen
+        </Button>
+        {
+          showConfirmModal
+          ? <ModalDeletePcInstances
+              name={name}
+              onClickRemovePcInstances={this.onClickRemove}
+              closeModal={this.closeModal} />
+          : null
+        }
       </div>
     )
   }

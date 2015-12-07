@@ -35,7 +35,8 @@ export default React.createClass({
         <Alert bsStyle='info'>Bitte warten, die Daten werden analysiert.<br/>
           Das kann eine Weile dauern...<br/>
           ...vor allem wenn Sie zum ersten Mal Daten mit Hilfe einer ID eines nationalen Zentrums importieren:<br/>
-          ...dann muss nämlich der entsprechende Index aufgebaut werden.</Alert>
+          ...dann muss nämlich der entsprechende Index aufgebaut werden.
+        </Alert>
       )
     }
 
@@ -52,14 +53,33 @@ export default React.createClass({
     const successType = getSuccessTypeFromAnalysis({ pcsToImport, idsNumberImportable, idsNotImportable, idsNotANumber, idsDuplicate })
 
     return (
-      <Alert bsStyle={successType}>
-        <p><strong>Ergebnis der Analyse</strong></p>
+      <Alert
+        bsStyle={successType}>
+        <p>
+          <strong>
+            Ergebnis der Analyse
+          </strong>
+        </p>
         {titleText}
         <ul>
-          <li>{recordsWithIdValueText}</li>
-          {idsNotANumber.length === 0 ? null : <li>{idsNotNumbersText}<br/>{idsNotNumbersList}</li>}
-          {idsDuplicate.length === 0 ? null : <li>{idsDuplicateText}</li>}
-          {idsNotImportable.length === 0 ? null : <li>{recordsNotImportableText}<br/>{idsNotImportableList}</li>}
+          <li>
+            {recordsWithIdValueText}
+          </li>
+          {
+            idsNotANumber.length === 0
+            ? null
+            : <li>{idsNotNumbersText}<br/>{idsNotNumbersList}</li>
+          }
+          {
+            idsDuplicate.length === 0
+            ? null
+            : <li>{idsDuplicateText}</li>
+          }
+          {
+            idsNotImportable.length === 0
+            ? null
+            : <li>{recordsNotImportableText}<br/>{idsNotImportableList}</li>
+          }
           <li>{recordsImportableText}</li>
         </ul>
       </Alert>

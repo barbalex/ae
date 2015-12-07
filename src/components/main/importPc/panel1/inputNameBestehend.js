@@ -35,16 +35,38 @@ export default React.createClass({
         // or: user is admin
         const mutable = (importedBy === email || combining || Boolean(window.localStorage.admin))
         const className = mutable ? 'adbGruenFett' : 'adbGrauNormal'
-        return <option key={index} value={name} className={className}>{name}</option>
+        return (
+          <option
+            key={index}
+            value={name}
+            className={className}>
+            {name}
+          </option>
+        )
       })
       // add an empty option at the beginning
-      options.unshift(<option key='noValue' value={null}></option>)
+      options.unshift(
+        <option
+          key='noValue'
+          value={null}>
+        </option>
+      )
       return options
     } else if (groupsLoadedOrLoading.length > 0) {
       // this option is showed while loading
-      return <option value={null}>Lade Daten...</option>
+      return (
+        <option
+          value={null}>
+          Lade Daten...
+        </option>
+      )
     } else {
-      return <option value={null}>Keine Gruppe geladen</option>
+      return (
+        <option
+          value={null}>
+          Keine Gruppe geladen
+        </option>
+      )
     }
   },
 
@@ -52,9 +74,20 @@ export default React.createClass({
     const { nameBestehend } = this.props
 
     return (
-      <div className='form-group'>
-        <label className='control-label' htmlFor='nameBestehend'>Bestehende wählen</label>
-        <select id='nameBestehend' className='form-control controls' selected={nameBestehend} onChange={this.onChange}>{this.options()}</select>
+      <div
+        className='form-group'>
+        <label
+          className='control-label'
+          htmlFor='nameBestehend'>
+          Bestehende wählen
+        </label>
+        <select
+          id='nameBestehend'
+          className='form-control controls'
+          selected={nameBestehend}
+          onChange={this.onChange}>
+          {this.options()}
+        </select>
       </div>
     )
   }

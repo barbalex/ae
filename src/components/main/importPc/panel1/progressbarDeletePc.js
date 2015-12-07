@@ -13,6 +13,14 @@ export default React.createClass({
   render () {
     const { progress } = this.props
     const label = progress + '% gelöscht'
-    return <div className='feld'><ProgressBar bsStyle='success' now={progress} label={label} /></div>
+    return (
+      <div
+        className='feld'>
+        <ProgressBar
+          bsStyle='success'
+          now={progress}
+          label={label} />
+      </div>
+    )
   }
 })

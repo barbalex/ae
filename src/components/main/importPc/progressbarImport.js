@@ -13,6 +13,11 @@ export default React.createClass({
   render () {
     const { importingProgress } = this.props
     const label = importingProgress + '% importiert'
-    return <ProgressBar bsStyle='success' now={importingProgress} label={label} />
+    return (
+      <ProgressBar
+        bsStyle='success'
+        now={importingProgress}
+        label={label} />
+    )
   }
 })
