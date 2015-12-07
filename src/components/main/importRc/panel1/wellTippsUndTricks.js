@@ -27,7 +27,7 @@ export default React.createClass({
     return (
       <Well bsSize='small'><strong>Tipps und Tricks</strong> <a href='#' onClick={this.onClickToggle} className='showNextHidden'>{visible ? '...weniger' : '...mehr'}</a>
         <ul className='adb-hidden' style={{'display': visible ? 'block' : 'none'}}>
-          <li>Klicken Sie auf unterstrichene Feldnamen, um zu erfahren, wie das jeweilige Feld beschrieben werden sollte.</li>
+          <li>Klicken Sie auf unterstrichene Feldnamen, um zu erfahren, wie das jeweilige Feld beschrieben werden sollte</li>
         </ul>
       </Well>
     )
