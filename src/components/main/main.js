@@ -103,7 +103,8 @@ export default React.createClass({
                 groupsLoadingObjects={groupsLoadingObjects}
                 allGroupsLoaded={allGroupsLoaded}
                 replicatingToAe={replicatingToAe}
-                replicatingToAeTime={replicatingToAeTime} />
+                replicatingToAeTime={replicatingToAeTime}
+                organizations={organizations} />
             : null
           }
           {
@@ -116,7 +117,8 @@ export default React.createClass({
                 groupsLoadingObjects={groupsLoadingObjects}
                 allGroupsLoaded={allGroupsLoaded}
                 replicatingToAe={replicatingToAe}
-                replicatingToAeTime={replicatingToAeTime} />
+                replicatingToAeTime={replicatingToAeTime}
+                organizations={organizations} />
             : null
           }
           {
