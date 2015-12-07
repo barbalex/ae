@@ -1,16 +1,13 @@
 'use strict'
 
 import React from 'react'
-import { ListenerMixin } from 'reflux'
 import WellTechnAnforderungenAnDatei from './wellTechnAnforderungenAnDatei.js'
 import WellAnforderungenAnCsv from './wellAnforderungenAnCsv.js'
 import WellAnforderungenInhaltlich from './wellAnforderungenInhaltlich.js'
 import TablePreview from './tablePreview.js'
 
 export default React.createClass({
-  displayName: 'ImportRelationCollections',
-
-  mixins: [ListenerMixin],
+  displayName: 'Panel2',
 
   propTypes: {
     rcsToImport: React.PropTypes.array,

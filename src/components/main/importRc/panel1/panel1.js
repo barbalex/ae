@@ -1,7 +1,6 @@
 'use strict'
 
 import React from 'react'
-import { ListenerMixin } from 'reflux'
 import WellTippsUndTricks from './wellTippsUndTricks.js'
 import WellAutorenrechte from './wellAutorenrechte.js'
 import InputNameBestehend from './inputNameBestehend.js'
@@ -21,9 +20,7 @@ import AlertFirst5Deleted from '../alertFirst5Deleted.js'
 import AlertLoadAllGroups from '../alertLoadAllGroups.js'
 
 export default React.createClass({
-  displayName: 'DescribeRC',
-
-  mixins: [ListenerMixin],
+  displayName: 'Panel1',
 
   propTypes: {
     groupsLoadingObjects: React.PropTypes.array,
@@ -65,32 +62,6 @@ export default React.createClass({
     onChangeBeschreibung: React.PropTypes.func,
     onChangeName: React.PropTypes.func,
     onChangeNameBestehend: React.PropTypes.func
-  },
-
-  // nameBestehend ... nameUrsprungsBs: input fields
-  // validXxx: to check validity of these fields
-  getInitialState () {
-    return {
-      nameBestehend: null,
-      name: null,
-      beschreibung: null,
-      datenstand: null,
-      nutzungsbedingungen: null,
-      link: null,
-      importiertVon: this.props.email,
-      zusammenfassend: null,
-      nameUrsprungsBs: null,
-      bsBearbeitenErlaubt: true,
-      idsOfAeObjects: [],
-      deletingRcProgress: null,
-      ultimatelyAlertLoadAllGroups: false,
-      validName: true,
-      validBeschreibung: true,
-      validDatenstand: true,
-      validNutzungsbedingungen: true,
-      validLink: true,
-      validUrsprungsBs: true
-    }
   },
 
   onBlurName (name) {

@@ -6,9 +6,6 @@ import { Accordion, Panel, ProgressBar, Button, Glyphicon } from 'react-bootstra
 import _ from 'lodash'
 import { ListenerMixin } from 'reflux'
 import ButtonDeleteRcInstances from './buttonDeleteRcInstances/buttonDeleteRcInstances.js'
-import AlertIdsAnalysisResult from './alertIdsAnalysisResult.js'
-import InputImportFields from './inputImportFields.js'
-import InputAeId from './inputAeId.js'
 import ProgressbarImport from './progressbarImport.js'
 import AlertFirst5Imported from './alertFirst5Imported.js'
 import AlertFirst5Deleted from './alertFirst5Deleted.js'
@@ -18,6 +15,7 @@ import getSuccessTypeFromAnalysis from './getSuccessTypeFromAnalysis.js'
 import getGuidsById from '../../../modules/getGuidsById.js'
 import Panel1 from './panel1/panel1.js'
 import Panel2 from './panel2/panel2.js'
+import Panel3 from './panel3/panel3.js'
 
 export default React.createClass({
   displayName: 'ImportRelationCollections',
@@ -654,30 +652,21 @@ export default React.createClass({
             eventKey={3}
             onClick={this.onClickPanel.bind(this, 3)}>
             {
-              rcsToImport.length > 0
-              ? <InputImportFields
-                  idsImportIdField={idsImportIdField}
+              activePanel === 3
+              ? <Panel3
                   rcsToImport={rcsToImport}
-                  onChangeImportId={this.onChangeImportId} />
-              : null
-            }
-            <InputAeId
-              idsAeIdField={idsAeIdField}
-              onChangeAeId={this.onChangeAeId} />
-            {
-              idsImportIdField && idsAeIdField
-              ? <AlertIdsAnalysisResult
                   idsImportIdField={idsImportIdField}
                   idsAeIdField={idsAeIdField}
-                  rcsToImport={rcsToImport}
+                  idsAnalysisComplete={idsAnalysisComplete}
                   idsNumberOfRecordsWithIdValue={idsNumberOfRecordsWithIdValue}
                   idsNumberImportable={idsNumberImportable}
                   idsNotImportable={idsNotImportable}
-                  idsAnalysisComplete={idsAnalysisComplete}
                   idsNotANumber={idsNotANumber}
                   idsWithoutPartner={idsWithoutPartner}
                   rPartnerIdsToImport={rPartnerIdsToImport}
-                  rPartnerIdsImportable={rPartnerIdsImportable} />
+                  rPartnerIdsImportable={rPartnerIdsImportable}
+                  onChangeAeId={this.onChangeAeId}
+                  onChangeImportId={this.onChangeImportId} />
               : null
             }
           </Panel>

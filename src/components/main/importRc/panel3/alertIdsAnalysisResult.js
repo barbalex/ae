@@ -6,7 +6,7 @@
 
 import React from 'react'
 import { Alert } from 'react-bootstrap'
-import getSuccessTypeFromAnalysis from './getSuccessTypeFromAnalysis.js'
+import getSuccessTypeFromAnalysis from '../getSuccessTypeFromAnalysis.js'
 
 export default React.createClass({
   displayName: 'AlertIdsAnalysisResult',
