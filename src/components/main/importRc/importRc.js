@@ -5,12 +5,8 @@ import React from 'react'
 import { Accordion, Panel, ProgressBar, Button, Glyphicon } from 'react-bootstrap'
 import _ from 'lodash'
 import { ListenerMixin } from 'reflux'
-import WellTechnAnforderungenAnDatei from './wellTechnAnforderungenAnDatei.js'
-import WellAnforderungenAnCsv from './wellAnforderungenAnCsv.js'
-import WellAnforderungenInhaltlich from './wellAnforderungenInhaltlich.js'
 import ButtonDeleteRcInstances from './buttonDeleteRcInstances/buttonDeleteRcInstances.js'
 import AlertIdsAnalysisResult from './alertIdsAnalysisResult.js'
-import TablePreview from './tablePreview.js'
 import InputImportFields from './inputImportFields.js'
 import InputAeId from './inputAeId.js'
 import ProgressbarImport from './progressbarImport.js'
@@ -21,6 +17,7 @@ import isValidUrl from '../../../modules/isValidUrl.js'
 import getSuccessTypeFromAnalysis from './getSuccessTypeFromAnalysis.js'
 import getGuidsById from '../../../modules/getGuidsById.js'
 import Panel1 from './panel1/panel1.js'
+import Panel2 from './panel2/panel2.js'
 
 export default React.createClass({
   displayName: 'ImportRelationCollections',
@@ -642,27 +639,12 @@ export default React.createClass({
             collapsible header='2. Beziehungen laden'
             eventKey={2}
             onClick={this.onClickPanel.bind(this, 2)}>
-            <WellTechnAnforderungenAnDatei />
-            <WellAnforderungenAnCsv />
-            <WellAnforderungenInhaltlich />
-
-            <input
-              type='file'
-              className='form-control'
-              onChange={this.onChangeFile} />
             {
-              validRcsToImport
-              ? null
-              : <div
-                  className='validateDiv'>
-                  Bitte wählen Sie eine Datei
-                </div>
-            }
-
-            {
-              rcsToImport.length > 0
-              ? <TablePreview
-                  rcsToImport={rcsToImport} />
+              activePanel === 2
+              ? <Panel2
+                  rcsToImport={rcsToImport}
+                  validRcsToImport={validRcsToImport}
+                  onChangeFile={this.onChangeFile} />
               : null
             }
           </Panel>
