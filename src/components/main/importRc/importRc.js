@@ -567,9 +567,6 @@ export default React.createClass({
   render () {
     const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsBs, bsBearbeitenErlaubt, rcsToImport, rcsRemoved, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsBs, validRcsToImport, activePanel, idsAeIdField, idsImportIdField, idsNumberOfRecordsWithIdValue, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, panel3Done, importingProgress, deletingRcInstancesProgress, deletingRcProgress, idsWithoutPartner, rPartnerIdsToImport, rPartnerIdsImportable } = this.state
     const { groupsLoadedOrLoading, email, rcs, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime, organizations } = this.props
-    const showDeleteRcInstancesButton = panel3Done
-    const showProgressbarImport = importingProgress !== null && !rcsRemoved
-    const showAlertFirst5Imported = importingProgress === 100 && !rcsRemoved
 
     return (
       <div
