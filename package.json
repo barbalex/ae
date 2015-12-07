@@ -34,7 +34,7 @@
     "classnames": "2.2.1",
     "css-loader": "0.23.0",
     "d3": "3.5.10",
-    "del": "2.1.0",
+    "del": "2.2.0",
     "file-loader": "0.8.5",
     "gulp": "3.9.0",
     "gulp-sftp": "0.1.5",
