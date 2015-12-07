@@ -48,22 +48,9 @@ export default React.createClass({
     const { nameBestehend } = this.props
 
     return (
-      <div
-        className='form-group'>
-        <label
-          className='control-label'
-          htmlFor='nameBestehend'>
-          Bestehende wählen
-        </label>
-        <select
-          id='nameBestehend'
-          className='form-control controls'
-          selected={nameBestehend}
-          onChange={this.onChange}>
-          {
-            this.options()
-          }
-        </select>
+      <div className='form-group'>
+        <label className='control-label' htmlFor='nameBestehend'>Bestehende wählen</label>
+        <select id='nameBestehend' className='form-control controls' selected={nameBestehend} onChange={this.onChange}>{this.options()}</select>
       </div>
     )
   }
