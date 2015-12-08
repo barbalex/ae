@@ -354,6 +354,7 @@ export default (Actions) => {
                     Datenstand: datenstand,
                     Nutzungsbedingungen: nutzungsbedingungen,
                     Link: link,
+                    'Organisation mit Schreibrecht': orgMitSchreibrecht,
                     'importiert von': importiertVon
                   },
                   count: 0

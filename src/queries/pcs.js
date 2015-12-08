@@ -28,7 +28,7 @@ const ddoc = {
                 felder[key] = pc[key]
               }
             })
-            emit([pc.Name, pcZusammenfassend, pc['importiert von'], felder], null)
+            emit([pc.Name, pcZusammenfassend, pc['Organisation mit Schreibrecht'], pc['importiert von'], felder], null)
           })
         }
       }.toString(),
