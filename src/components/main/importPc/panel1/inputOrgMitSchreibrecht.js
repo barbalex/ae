@@ -43,7 +43,8 @@ export default React.createClass({
   },
 
   render () {
-    const { orgMitSchreibrecht, onChangeOrgMitSchreibrecht } = this.props
+    const { onChangeOrgMitSchreibrecht, userIsEsWriterInOrgs } = this.props
+    const selected = userIsEsWriterInOrgs && userIsEsWriterInOrgs.length === 1 ? userIsEsWriterInOrgs[0] : null
 
     return (
       <div
@@ -56,7 +57,7 @@ export default React.createClass({
         <select
           id='orgMitSchreibrecht'
           className='form-control controls'
-          selected={orgMitSchreibrecht}
+          value={selected}
           onChange={onChangeOrgMitSchreibrecht}>
           {this.options()}
         </select>
