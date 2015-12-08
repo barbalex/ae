@@ -22,7 +22,14 @@ export default React.createClass({
     organizations: React.PropTypes.array,
     activeOrganization: React.PropTypes.object,
     onChangeActiveOrganization: React.PropTypes.func,
-    userIsAdminInOrgs: React.PropTypes.array
+    userIsAdminInOrgs: React.PropTypes.array,
+    pcsOfOrganization: React.PropTypes.array
+  },
+
+  getInitialState () {
+    return {
+      pcsOfOrganization: []
+    }
   },
 
   componentDidMount () {
@@ -36,6 +43,16 @@ export default React.createClass({
     }
     app.Actions.getOrganizations(email)
   },
+
+  /*
+  shouldComponentUpdate () {
+    const { activeOrganization } = this.props
+    if (activeOrganization && activeOrganization.Name) {
+      const pcsOfOrganization = app.propertyCollectionsStore.getPcsOfOrganization(activeOrganization.Name)
+      this.setState({ pcsOfOrganization })
+    }
+    return true
+  },*/
 
   orgValues () {
     const { organizations, email } = this.props
@@ -71,7 +88,10 @@ export default React.createClass({
 
   render () {
     const { onChangeActiveOrganization, userIsAdminInOrgs, email, activeOrganization } = this.props
+    const { pcsOfOrganization } = this.state
     const showLowerPart = email && activeOrganization && userIsAdminInOrgs.includes(activeOrganization.Name)
+
+    console.log('pcsOfOrganization', pcsOfOrganization)
 
     return (
       <div className='formContent'>

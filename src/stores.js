@@ -774,6 +774,17 @@ export default (Actions) => {
       })
     },
 
+    getPcsOfOrganization (orgName) {
+      return new Promise((resolve, reject) => {
+        this.getPcs()
+          .then((pcs) => {
+            const pcsOfOrg = pcs.filter((pc) => pc['Organisation mit Schreibrecht'] === orgName)
+            resolve(pcsOfOrg)
+          })
+          .catch((error) => reject(error))
+      })
+    },
+
     onQueryPropertyCollections (offlineIndexes) {
       // if pc's exist, send them immediately
       this.pcsQuerying = true
