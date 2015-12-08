@@ -49,6 +49,7 @@ export default React.createClass({
     validDatenstand: React.PropTypes.bool,
     validNutzungsbedingungen: React.PropTypes.bool,
     validLink: React.PropTypes.bool,
+    validOrgMitSchreibrecht: React.PropTypes.bool,
     validUrsprungsEs: React.PropTypes.bool,
     replicatingToAe: React.PropTypes.string,
     replicatingToAeTime: React.PropTypes.string,
@@ -69,7 +70,7 @@ export default React.createClass({
   },
 
   render () {
-    const { onClickDeletePc, onChangeNameUrsprungsEs, onChangeZusammenfassend, onBlurLink, onChangeLink, onChangeNutzungsbedingungen, onChangeDatenstand, onChangeBeschreibung, onBlurName, onChangeName, onChangeNameBestehend, nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, orgMitSchreibrecht, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs, ultimatelyAlertLoadAllGroups, deletingPcProgress, groupsLoadedOrLoading, email, pcs, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime, onChangeOrgMitSchreibrecht, userIsEsWriterInOrgs } = this.props
+    const { onClickDeletePc, onChangeNameUrsprungsEs, onChangeZusammenfassend, onBlurLink, onChangeLink, onChangeNutzungsbedingungen, onChangeDatenstand, onChangeBeschreibung, onBlurName, onChangeName, onChangeNameBestehend, nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, orgMitSchreibrecht, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validOrgMitSchreibrecht, validUrsprungsEs, ultimatelyAlertLoadAllGroups, deletingPcProgress, groupsLoadedOrLoading, email, pcs, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime, onChangeOrgMitSchreibrecht, userIsEsWriterInOrgs } = this.props
     const showLoadAllGroups = email && !allGroupsLoaded
     const showAlertDeletePcBuildingIndex = deletingPcProgress && deletingPcProgress < 100
     const alertAllGroupsBsStyle = ultimatelyAlertLoadAllGroups ? 'danger' : 'info'
@@ -160,6 +161,7 @@ export default React.createClass({
           onChangeLink={onChangeLink}
           onBlurLink={onBlurLink} />
         <InputOrgMitSchreibrecht
+          validOrgMitSchreibrecht={validOrgMitSchreibrecht}
           onChangeOrgMitSchreibrecht={onChangeOrgMitSchreibrecht}
           userIsEsWriterInOrgs={userIsEsWriterInOrgs} />
         <InputImportiertVon

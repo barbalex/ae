@@ -17,9 +17,9 @@ export default React.createClass({
           className='feld'
           bsStyle='danger'
           style={style}>
-          Importieren können Sie nur, wenn Ihnen von einer Organisation entsprechende Schreibrechte erteilt wurden.<br/>
-          Da Sie keine Schreibrechte haben, können Sie keine Eigenschaften importieren.<br/>
-          Wenn Sie Eigenschaften importieren möchten, wenden Sie sich bitte an eine der beteiligten Organisationen, z.B. <a href='mailto:andreas.lienhard@bd.zh.ch'>die Fachstelle Naturschutz des Kantons Zürich</a>.
+          Sie besitzen keine Schreibrechte.<br/>
+          Importieren kann nur, wer von einer beteiligten Organisation Schreibrechte erhält.<br/>
+          Wenn Sie Eigenschaften importieren möchten, wenden Sie sich bitte an <a href='mailto:andreas.lienhard@bd.zh.ch'>die Fachstelle Naturschutz des Kantons Zürich</a>.
         </Alert>
       </div>
     )

@@ -7,6 +7,7 @@ export default React.createClass({
   displayName: 'InputOrganisationMitSchreibrecht',
 
   propTypes: {
+    validOrgMitSchreibrecht: React.PropTypes.bool,
     onChangeOrgMitSchreibrecht: React.PropTypes.func,
     userIsEsWriterInOrgs: React.PropTypes.array
   },
@@ -54,12 +55,12 @@ export default React.createClass({
   },
 
   render () {
-    const { onChangeOrgMitSchreibrecht, userIsEsWriterInOrgs } = this.props
+    const { onChangeOrgMitSchreibrecht, userIsEsWriterInOrgs, validOrgMitSchreibrecht } = this.props
     const selected = userIsEsWriterInOrgs && userIsEsWriterInOrgs.length === 1 ? userIsEsWriterInOrgs[0] : null
 
     return (
       <div
-        className='form-group'>
+        className={validOrgMitSchreibrecht ? 'form-group' : 'form-group has-error'}>
         <OverlayTrigger
           trigger={['click', 'focus']}
           rootClose
@@ -76,6 +77,14 @@ export default React.createClass({
           onChange={onChangeOrgMitSchreibrecht}>
           {this.options()}
         </select>
+        {
+          validOrgMitSchreibrecht
+          ? null
+          : <div
+              className='validateDiv feld'>
+              Es muss eine Organisation mit Schreibrecht gewählt sein
+            </div>
+        }
       </div>
     )
   }

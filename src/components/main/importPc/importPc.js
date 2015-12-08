@@ -60,6 +60,7 @@ export default React.createClass({
     validDatenstand: React.PropTypes.bool,
     validNutzungsbedingungen: React.PropTypes.bool,
     validLink: React.PropTypes.bool,
+    validOrgMitSchreibrecht: React.PropTypes.bool,
     validUrsprungsEs: React.PropTypes.bool,
     validPcsToImport: React.PropTypes.bool,
     replicatingToAe: React.PropTypes.string,
@@ -112,6 +113,7 @@ export default React.createClass({
       validDatenstand: true,
       validNutzungsbedingungen: true,
       validLink: true,
+      validOrgMitSchreibrecht: true,
       validUrsprungsEs: true,
       validPcsToImport: true
     }
@@ -410,9 +412,10 @@ export default React.createClass({
     const validNutzungsbedingungen = this.validNutzungsbedingungen()
     const validLink = this.validLink()
     const validUrsprungsEs = this.validUrsprungsEs()
+    const validOrgMitSchreibrecht = this.validOrgMitSchreibrecht()
     const validEmail = !!email
     // check if panel 1 is done
-    const panel1Done = validName && validBeschreibung && validDatenstand && validNutzungsbedingungen && validLink && validUrsprungsEs && validEmail
+    const panel1Done = validName && validBeschreibung && validDatenstand && validNutzungsbedingungen && validLink && validUrsprungsEs && validOrgMitSchreibrecht && validEmail
     let state = { panel1Done }
     if (!panel1Done) state = Object.assign(state, { activePanel: 1 })
     this.setState(state)
@@ -494,6 +497,13 @@ export default React.createClass({
     return validLink
   },
 
+  validOrgMitSchreibrecht () {
+    const orgMitSchreibrecht = this.state.orgMitSchreibrecht
+    const validOrgMitSchreibrecht = !!orgMitSchreibrecht
+    this.setState({ validOrgMitSchreibrecht })
+    return validOrgMitSchreibrecht
+  },
+
   validUrsprungsEs (nameUrsprungsEs) {
     // when nameUrsprungsEs is passed back from child component, this function is called right after setting state of nameUrsprungsEs
     // so state would not yet be updated! > needs to be passed directly
@@ -512,7 +522,7 @@ export default React.createClass({
   },
 
   render () {
-    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, pcsToImport, pcsRemoved, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs, validPcsToImport, activePanel, idsAeIdField, idsImportIdField, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, importingProgress, deletingPcInstancesProgress, deletingPcProgress, orgMitSchreibrecht } = this.state
+    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, pcsToImport, pcsRemoved, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validOrgMitSchreibrecht, validUrsprungsEs, validPcsToImport, activePanel, idsAeIdField, idsImportIdField, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, importingProgress, deletingPcInstancesProgress, deletingPcProgress, orgMitSchreibrecht } = this.state
     const { groupsLoadedOrLoading, email, pcs, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime, organizations, userIsEsWriterInOrgs } = this.props
 
     return (
@@ -556,6 +566,7 @@ export default React.createClass({
                   validDatenstand={validDatenstand}
                   validNutzungsbedingungen={validNutzungsbedingungen}
                   validLink={validLink}
+                  validOrgMitSchreibrecht={validOrgMitSchreibrecht}
                   validUrsprungsEs={validUrsprungsEs}
                   replicatingToAe={replicatingToAe}
                   replicatingToAeTime={replicatingToAeTime}
