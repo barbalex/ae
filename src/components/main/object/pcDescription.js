@@ -32,7 +32,7 @@ export default React.createClass({
   render () {
     const { pc } = this.props
     const { isVisible } = this.state
-    let mehr = ''
+    let mehr = null
 
     const datenstand = (
       <div className='dsBeschreibungZeile'>
@@ -48,7 +48,7 @@ export default React.createClass({
       </div>
     )
 
-    let link = ''
+    let link = null
     if (pc.Link) {
       link = (
         <div className='dsBeschreibungZeile'>
@@ -58,7 +58,7 @@ export default React.createClass({
       )
     }
 
-    let organisation = ''
+    let organisation = null
     if (pc['Organisation mit Schreibrecht']) {
       organisation = (
         <div className='dsBeschreibungZeile'>
@@ -68,7 +68,7 @@ export default React.createClass({
       )
     }
 
-    let importiertVon = ''
+    let importiertVon = null
     if (pc['importiert von']) {
       importiertVon = (
         <div className='dsBeschreibungZeile'>
@@ -78,19 +78,19 @@ export default React.createClass({
       )
     }
 
-    let ursprungsEs = ''
+    let ursprungsEs = null
     if (pc.Ursprungsdatensammlung) {
       ursprungsEs = (
         <div className='dsBeschreibungZeile'>
           <div>Zus.-fassend:</div>
-          <div>Diese Datensammlung fasst die Daten mehrerer Eigenschaftensammlungen in einer zusammen.<br/>Die angezeigten Informationen stammen aus der Eigenschaftensammlung {'"' + pc.Ursprungsdatensammlung + '"'}</div>
+          <div>Diese Eigenschaftensammlung fasst die Daten mehrerer Eigenschaftensammlungen in einer zusammen.<br/>Die angezeigten Informationen stammen aus {'"' + pc.Ursprungsdatensammlung + '"'}</div>
         </div>
       )
     } else {
       ursprungsEs = (
         <div className='dsBeschreibungZeile'>
           <div>Zus.-fassend:</div>
-          <div>Diese Datensammlung fasst die Daten mehrerer Eigenschaftensammlungen in einer zusammen.<br/>Bei den angezeigten Informationen ist die Ursprungs-Eigenschaftensammlung leider nicht beschrieben</div>
+          <div>Diese Eigenschaftensammlung fasst die Daten mehrerer Eigenschaftensammlungen in einer zusammen.<br/>Leider ist die Ursprungs-Eigenschaftensammlung nicht beschrieben</div>
         </div>
       )
     }
@@ -100,12 +100,12 @@ export default React.createClass({
         <span>
           {<a href='#' onClick={this.onClick} className='showNextHidden'>{pc.Beschreibung ? (isVisible ? '...weniger' : '...mehr') : 'Beschreibung der Datensammlung anzeigen'}</a>}
           <div style={{display: isVisible ? 'block' : 'none'}}>
-            {pc.Datenstand ? datenstand : ''}
-            {pc.Nutzungsbedingungen ? nutzunbsbedingungen : ''}
-            {pc.Link ? link : ''}
+            {pc.Datenstand ? datenstand : null}
+            {pc.Nutzungsbedingungen ? nutzunbsbedingungen : null}
+            {pc.Link ? link : null}
             {organisation}
-            {pc['importiert von'] ? importiertVon : ''}
-            {pc.zusammenfassend ? ursprungsEs : ''}
+            {pc['importiert von'] ? importiertVon : null}
+            {pc.zusammenfassend ? ursprungsEs : null}
           </div>
         </span>
       )
