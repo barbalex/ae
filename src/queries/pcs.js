@@ -79,8 +79,9 @@ export default (offlineIndexes) => {
         let pcs = uniqueRows.map((row) => ({
           name: row.key[0],
           combining: row.key[1],
-          importedBy: row.key[2],
-          fields: row.key[3],
+          organisation: row.key[2],
+          importedBy: row.key[3],
+          fields: row.key[4],
           count: row.value
         }))
         // sort by pcName
