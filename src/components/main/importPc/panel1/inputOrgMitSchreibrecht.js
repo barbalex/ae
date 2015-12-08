@@ -1,14 +1,25 @@
 'use strict'
 
 import React from 'react'
+import { OverlayTrigger, Popover } from 'react-bootstrap'
 
 export default React.createClass({
   displayName: 'InputOrganisationMitSchreibrecht',
 
   propTypes: {
-    orgMitSchreibrecht: React.PropTypes.string,
     onChangeOrgMitSchreibrecht: React.PropTypes.func,
     userIsEsWriterInOrgs: React.PropTypes.array
+  },
+
+  popover () {
+    return (
+      <Popover
+        id='inputOrganisationMitSchreibrechtPopover'
+        title='Was heisst das?'>
+        <p>Diese Organisation verwaltet die Eigenschaftensammlung.</p>
+        <p>Sie bestimmt, wer sie verändern kann, bzw. wer importieren kann.</p>
+      </Popover>
+    )
   },
 
   options () {
@@ -49,13 +60,17 @@ export default React.createClass({
     return (
       <div
         className='form-group'>
-        <label
-          className='control-label'
-          htmlFor='orgMitSchreibrecht'>
-          Organisation mit Schreibrecht
-        </label>
+        <OverlayTrigger
+          trigger={['click', 'focus']}
+          rootClose
+          placement='right'
+          overlay={this.popover()}>
+          <label
+            className='control-label withPopover'>
+            Organisation mit Schreibrecht
+          </label>
+        </OverlayTrigger>
         <select
-          id='orgMitSchreibrecht'
           className='form-control controls'
           value={selected}
           onChange={onChangeOrgMitSchreibrecht}>
