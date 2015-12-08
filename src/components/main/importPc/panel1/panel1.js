@@ -15,6 +15,7 @@ import InputBeschreibung from './inputBeschreibung.js'
 import InputDatenstand from './inputDatenstand.js'
 import InputNutzungsbedingungen from './inputNutzungsbedingungen.js'
 import InputLink from './inputLink.js'
+import InputOrgMitSchreibrecht from './inputOrgMitSchreibrecht.js'
 import InputImportiertVon from './inputImportiertVon.js'
 import InputZusammenfassend from './inputZusammenfassend.js'
 import InputUrsprungsEs from './inputUrsprungsEs.js'
@@ -32,6 +33,7 @@ export default React.createClass({
     datenstand: React.PropTypes.string,
     nutzungsbedingungen: React.PropTypes.string,
     link: React.PropTypes.string,
+    orgMitSchreibrecht: React.PropTypes.string,
     importiertVon: React.PropTypes.string,
     zusammenfassend: React.PropTypes.bool,
     nameUrsprungsEs: React.PropTypes.string,
@@ -59,11 +61,13 @@ export default React.createClass({
     onChangeBeschreibung: React.PropTypes.func,
     onBlurName: React.PropTypes.func,
     onChangeName: React.PropTypes.func,
-    onChangeNameBestehend: React.PropTypes.func
+    onChangeNameBestehend: React.PropTypes.func,
+    onChangeOrgMitSchreibrecht: React.PropTypes.func,
+    organizations: React.PropTypes.array
   },
 
   render () {
-    const { onClickDeletePc, onChangeNameUrsprungsEs, onChangeZusammenfassend, onBlurLink, onChangeLink, onChangeNutzungsbedingungen, onChangeDatenstand, onChangeBeschreibung, onBlurName, onChangeName, onChangeNameBestehend, nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs, ultimatelyAlertLoadAllGroups, deletingPcProgress, groupsLoadedOrLoading, email, pcs, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime } = this.props
+    const { onClickDeletePc, onChangeNameUrsprungsEs, onChangeZusammenfassend, onBlurLink, onChangeLink, onChangeNutzungsbedingungen, onChangeDatenstand, onChangeBeschreibung, onBlurName, onChangeName, onChangeNameBestehend, nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, orgMitSchreibrecht, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs, ultimatelyAlertLoadAllGroups, deletingPcProgress, groupsLoadedOrLoading, email, pcs, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime, organizations, onChangeOrgMitSchreibrecht } = this.props
     const showLoadAllGroups = email && !allGroupsLoaded
     const showAlertDeletePcBuildingIndex = deletingPcProgress && deletingPcProgress < 100
     const alertAllGroupsBsStyle = ultimatelyAlertLoadAllGroups ? 'danger' : 'info'
@@ -146,6 +150,10 @@ export default React.createClass({
           validLink={validLink}
           onChangeLink={onChangeLink}
           onBlurLink={onBlurLink} />
+        <InputOrgMitSchreibrecht
+          orgMitSchreibrecht={orgMitSchreibrecht}
+          organizations={organizations}
+          onChangeOrgMitSchreibrecht={onChangeOrgMitSchreibrecht} />
         <InputImportiertVon
           importiertVon={importiertVon} />
         <InputZusammenfassend

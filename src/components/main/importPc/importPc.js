@@ -29,6 +29,7 @@ export default React.createClass({
     datenstand: React.PropTypes.string,
     nutzungsbedingungen: React.PropTypes.string,
     link: React.PropTypes.string,
+    orgMitSchreibrecht: React.PropTypes.string,
     importiertVon: React.PropTypes.string,
     zusammenfassend: React.PropTypes.bool,
     nameUrsprungsEs: React.PropTypes.string,
@@ -79,6 +80,7 @@ export default React.createClass({
       datenstand: null,
       nutzungsbedingungen: null,
       link: null,
+      orgMitSchreibrecht: null,
       importiertVon: this.props.email,
       zusammenfassend: null,
       nameUrsprungsEs: null,
@@ -125,6 +127,7 @@ export default React.createClass({
     }
     // get property collections
     app.Actions.queryPropertyCollections(offlineIndexes)
+    app.Actions.getOrganizations(email)
   },
 
   onChangeObjectsPcsStore (state) {
@@ -154,6 +157,11 @@ export default React.createClass({
     } else {
       this.setState({ nameBestehend: null })
     }
+  },
+
+  onChangeOrgMitSchreibrecht (event) {
+    const orgMitSchreibrecht = event.target.value
+    this.setState({ orgMitSchreibrecht })
   },
 
   stateFollowingPanel1Reset () {
@@ -501,7 +509,7 @@ export default React.createClass({
   },
 
   render () {
-    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, pcsToImport, pcsRemoved, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs, validPcsToImport, activePanel, idsAeIdField, idsImportIdField, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, importingProgress, deletingPcInstancesProgress, deletingPcProgress } = this.state
+    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, pcsToImport, pcsRemoved, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs, validPcsToImport, activePanel, idsAeIdField, idsImportIdField, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, importingProgress, deletingPcInstancesProgress, deletingPcProgress, orgMitSchreibrecht } = this.state
     const { groupsLoadedOrLoading, email, pcs, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime, organizations } = this.props
 
     return (
@@ -530,6 +538,7 @@ export default React.createClass({
                   datenstand={datenstand}
                   nutzungsbedingungen={nutzungsbedingungen}
                   link={link}
+                  orgMitSchreibrecht={orgMitSchreibrecht}
                   importiertVon={importiertVon}
                   zusammenfassend={zusammenfassend}
                   nameUrsprungsEs={nameUrsprungsEs}
@@ -558,6 +567,7 @@ export default React.createClass({
                   onBlurName={this.onBlurName}
                   onChangeName={this.onChangeName}
                   onChangeNameBestehend={this.onChangeNameBestehend}
+                  onChangeOrgMitSchreibrecht={this.onChangeOrgMitSchreibrecht}
                   organizations={organizations} />
               : null
             }
