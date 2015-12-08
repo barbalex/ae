@@ -7,6 +7,7 @@ import AlertDeletePcBuildingIndex from './alertDeletePcBuildingIndex.js'
 import AlertFirst5Deleted from '../alertFirst5Deleted.js'
 import AlertLoadAllGroups from './alertLoadAllGroups.js'
 import AlertEditingPcDisallowed from './alertEditingPcDisallowed.js'
+import AlertNotEsWriter from './alertNotEsWriter.js'
 import ButtonDeletePc from './buttonDeletePc/buttonDeletePc.js'
 import ProgressbarDeletePc from './progressbarDeletePc.js'
 import InputNameBestehend from './inputNameBestehend.js'
@@ -73,6 +74,7 @@ export default React.createClass({
     const showAlertDeletePcBuildingIndex = deletingPcProgress && deletingPcProgress < 100
     const alertAllGroupsBsStyle = ultimatelyAlertLoadAllGroups ? 'danger' : 'info'
     const enableDeletePcButton = !!nameBestehend
+    const alertNotEsWriter = email && (!userIsEsWriterInOrgs || userIsEsWriterInOrgs.length === 0)
 
     return (
       <div>
@@ -97,6 +99,11 @@ export default React.createClass({
           groupsLoadedOrLoading={groupsLoadedOrLoading}
           onChangeNameBestehend={onChangeNameBestehend}
           userIsEsWriterInOrgs={userIsEsWriterInOrgs} />
+        {
+          alertNotEsWriter
+          ? <AlertNotEsWriter />
+          : null
+        }
         <ButtonDeletePc
           nameBestehend={nameBestehend}
           enableDeletePcButton={enableDeletePcButton}
