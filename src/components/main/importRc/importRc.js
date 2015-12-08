@@ -29,6 +29,7 @@ export default React.createClass({
     datenstand: React.PropTypes.string,
     nutzungsbedingungen: React.PropTypes.string,
     link: React.PropTypes.string,
+    orgMitSchreibrecht: React.PropTypes.string,
     importiertVon: React.PropTypes.string,
     zusammenfassend: React.PropTypes.bool,
     nameUrsprungsBs: React.PropTypes.string,
@@ -61,6 +62,7 @@ export default React.createClass({
     validDatenstand: React.PropTypes.bool,
     validNutzungsbedingungen: React.PropTypes.bool,
     validLink: React.PropTypes.bool,
+    validOrgMitSchreibrecht: React.PropTypes.bool,
     validUrsprungsBs: React.PropTypes.bool,
     validRcsToImport: React.PropTypes.bool,
     replicatingToAe: React.PropTypes.string,
@@ -82,6 +84,7 @@ export default React.createClass({
       datenstand: null,
       nutzungsbedingungen: null,
       link: null,
+      orgMitSchreibrecht: null,
       importiertVon: this.props.email,
       zusammenfassend: null,
       nameUrsprungsBs: null,
@@ -112,6 +115,7 @@ export default React.createClass({
       validDatenstand: true,
       validNutzungsbedingungen: true,
       validLink: true,
+      validOrgMitSchreibrecht: true,
       validUrsprungsBs: true,
       validRcsToImport: true
     }
@@ -160,6 +164,11 @@ export default React.createClass({
     } else {
       this.setState({ nameBestehend: null })
     }
+  },
+
+  onChangeOrgMitSchreibrecht (event) {
+    const orgMitSchreibrecht = event.target.value
+    this.setState({ orgMitSchreibrecht })
   },
 
   stateFollowingPanel1Reset () {
@@ -464,9 +473,10 @@ export default React.createClass({
     const validNutzungsbedingungen = this.isNutzungsbedingungenValid()
     const validLink = this.isLinkValid()
     const validUrsprungsBs = this.isUrsprungsBsValid()
+    const validOrgMitSchreibrecht = this.validOrgMitSchreibrecht()
     const validEmail = !!email
     // check if panel 1 is done
-    const panel1Done = validName && validBeschreibung && validDatenstand && validNutzungsbedingungen && validLink && validUrsprungsBs && validEmail
+    const panel1Done = validName && validBeschreibung && validDatenstand && validNutzungsbedingungen && validLink && validUrsprungsBs && validOrgMitSchreibrecht && validEmail
     let state = { panel1Done }
     if (!panel1Done) state = Object.assign(state, { activePanel: 1 })
     this.setState(state)
@@ -548,6 +558,13 @@ export default React.createClass({
     return validLink
   },
 
+  validOrgMitSchreibrecht () {
+    const orgMitSchreibrecht = this.state.orgMitSchreibrecht
+    const validOrgMitSchreibrecht = !!orgMitSchreibrecht
+    this.setState({ validOrgMitSchreibrecht })
+    return validOrgMitSchreibrecht
+  },
+
   isUrsprungsBsValid (nameUrsprungsBs) {
     // when nameUrsprungsBs is passed back from child component, this function is called right after setting state of nameUrsprungsBs
     // so state would not yet be updated! > needs to be passed directly
@@ -566,8 +583,8 @@ export default React.createClass({
   },
 
   render () {
-    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsBs, bsBearbeitenErlaubt, rcsToImport, rcsRemoved, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsBs, validRcsToImport, activePanel, idsAeIdField, idsImportIdField, idsNumberOfRecordsWithIdValue, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, panel3Done, importingProgress, deletingRcInstancesProgress, deletingRcProgress, idsWithoutPartner, rPartnerIdsToImport, rPartnerIdsImportable } = this.state
-    const { groupsLoadedOrLoading, email, rcs, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime, organizations } = this.props
+    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsBs, bsBearbeitenErlaubt, rcsToImport, rcsRemoved, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validOrgMitSchreibrecht, validUrsprungsBs, validRcsToImport, activePanel, idsAeIdField, idsImportIdField, idsNumberOfRecordsWithIdValue, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, panel3Done, importingProgress, deletingRcInstancesProgress, deletingRcProgress, idsWithoutPartner, rPartnerIdsToImport, rPartnerIdsImportable } = this.state
+    const { groupsLoadedOrLoading, email, rcs, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime, organizations, userIsEsWriterInOrgs } = this.props
 
     return (
       <div
@@ -608,6 +625,7 @@ export default React.createClass({
                   validDatenstand={validDatenstand}
                   validNutzungsbedingungen={validNutzungsbedingungen}
                   validLink={validLink}
+                  validOrgMitSchreibrecht={validOrgMitSchreibrecht}
                   validUrsprungsBs={validUrsprungsBs}
                   replicatingToAe={replicatingToAe}
                   replicatingToAeTime={replicatingToAeTime}
@@ -615,6 +633,7 @@ export default React.createClass({
                   onClickDeleteRc={this.onClickDeleteRc}
                   isUrsprungsBsValid={this.isUrsprungsBsValid}
                   onChangeNameBestehend={this.onChangeNameBestehend}
+                  onChangeOrgMitSchreibrecht={this.onChangeOrgMitSchreibrecht}
                   onChangeNameUrsprungsBs={this.onChangeNameUrsprungsBs}
                   onChangeZusammenfassend={this.onChangeZusammenfassend}
                   onChangeLink={this.onChangeLink}
@@ -623,7 +642,8 @@ export default React.createClass({
                   onChangeBeschreibung={this.onChangeBeschreibung}
                   onChangeName={this.onChangeName}
                   isLinkValid={this.isLinkValid}
-                  isEditingRcAllowed={this.isEditingRcAllowed} />
+                  isEditingRcAllowed={this.isEditingRcAllowed}
+                  userIsEsWriterInOrgs={userIsEsWriterInOrgs} />
               : null
             }
           </Panel>

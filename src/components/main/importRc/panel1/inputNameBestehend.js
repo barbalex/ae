@@ -10,7 +10,8 @@ export default React.createClass({
     nameBestehend: React.PropTypes.string,
     email: React.PropTypes.string,
     rcs: React.PropTypes.array,
-    onChangeNameBestehend: React.PropTypes.func
+    onChangeNameBestehend: React.PropTypes.func,
+    userIsEsWriterInOrgs: React.PropTypes.array
   },
 
   onChange (event) {
@@ -20,7 +21,8 @@ export default React.createClass({
   },
 
   options () {
-    const { email, rcs, groupsLoadedOrLoading } = this.props
+    const { email, rcs, groupsLoadedOrLoading, userIsEsWriterInOrgs } = this.props
+    // TODO: check if user is writer in pcs's organization instead of imported by
 
     if (rcs && rcs.length > 0) {
       let options = rcs.map((rc, index) => {

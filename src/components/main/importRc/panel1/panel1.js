@@ -7,10 +7,12 @@ import InputNameBestehend from './inputNameBestehend.js'
 import ButtonDeleteRc from './buttonDeleteRc/buttonDeleteRc.js'
 import InputName from './inputName.js'
 import AlertEditingRcDisallowed from './alertEditingRcDisallowed.js'
+import AlertNotEsWriter from './alertNotEsWriter.js'
 import InputBeschreibung from './inputBeschreibung.js'
 import InputDatenstand from './inputDatenstand.js'
 import InputNutzungsbedingungen from './inputNutzungsbedingungen.js'
 import InputLink from './inputLink.js'
+import InputOrgMitSchreibrecht from './inputOrgMitSchreibrecht.js'
 import InputImportiertVon from './inputImportiertVon.js'
 import InputZusammenfassend from './inputZusammenfassend.js'
 import InputUrsprungsBs from './inputUrsprungsBs.js'
@@ -46,6 +48,7 @@ export default React.createClass({
     validDatenstand: React.PropTypes.bool,
     validNutzungsbedingungen: React.PropTypes.bool,
     validLink: React.PropTypes.bool,
+    validOrgMitSchreibrecht: React.PropTypes.bool,
     validUrsprungsBs: React.PropTypes.bool,
     replicatingToAe: React.PropTypes.string,
     replicatingToAeTime: React.PropTypes.string,
@@ -61,7 +64,9 @@ export default React.createClass({
     onChangeDatenstand: React.PropTypes.func,
     onChangeBeschreibung: React.PropTypes.func,
     onChangeName: React.PropTypes.func,
-    onChangeNameBestehend: React.PropTypes.func
+    onChangeNameBestehend: React.PropTypes.func,
+    onChangeOrgMitSchreibrecht: React.PropTypes.func,
+    userIsEsWriterInOrgs: React.PropTypes.array
   },
 
   onBlurName (name) {
@@ -75,11 +80,12 @@ export default React.createClass({
   },
 
   render () {
-    const { groupsLoadedOrLoading, email, rcs, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime, organizations, onClickDeleteRc, onChangeNameUrsprungsBs, onChangeZusammenfassend, onChangeLink, onChangeNutzungsbedingungen, onChangeDatenstand, onChangeBeschreibung, onChangeName, onChangeNameBestehend, bsBearbeitenErlaubt, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsBs, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsBs, name, nameBestehend, ultimatelyAlertLoadAllGroups, deletingRcProgress } = this.props
+    const { groupsLoadedOrLoading, email, rcs, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime, organizations, onClickDeleteRc, onChangeNameUrsprungsBs, onChangeZusammenfassend, onChangeLink, onChangeNutzungsbedingungen, onChangeDatenstand, onChangeBeschreibung, onChangeName, onChangeNameBestehend, bsBearbeitenErlaubt, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validOrgMitSchreibrecht, validUrsprungsBs, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsBs, name, nameBestehend, ultimatelyAlertLoadAllGroups, deletingRcProgress, onChangeOrgMitSchreibrecht, userIsEsWriterInOrgs } = this.props
     const showLoadAllGroups = email && !allGroupsLoaded
     const showAlertDeleteRcBuildingIndex = deletingRcProgress && deletingRcProgress < 100
     const alertAllGroupsBsStyle = ultimatelyAlertLoadAllGroups ? 'danger' : 'info'
     const enableDeleteRcButton = !!nameBestehend
+    const alertNotEsWriter = email && (!userIsEsWriterInOrgs || userIsEsWriterInOrgs.length === 0)
 
     return (
       <div>
@@ -104,7 +110,13 @@ export default React.createClass({
           email={email}
           rcs={rcs}
           groupsLoadedOrLoading={groupsLoadedOrLoading}
-          onChangeNameBestehend={onChangeNameBestehend} />
+          onChangeNameBestehend={onChangeNameBestehend}
+          userIsEsWriterInOrgs={userIsEsWriterInOrgs} />
+        {
+          alertNotEsWriter
+          ? <AlertNotEsWriter />
+          : null
+        }
         <ButtonDeleteRc
           nameBestehend={nameBestehend}
           enableDeleteRcButton={enableDeleteRcButton}
@@ -163,6 +175,10 @@ export default React.createClass({
           validLink={validLink}
           onChangeLink={onChangeLink}
           onBlurLink={this.onBlurLink} />
+        <InputOrgMitSchreibrecht
+          validOrgMitSchreibrecht={validOrgMitSchreibrecht}
+          onChangeOrgMitSchreibrecht={onChangeOrgMitSchreibrecht}
+          userIsEsWriterInOrgs={userIsEsWriterInOrgs} />
         <InputImportiertVon
           importiertVon={importiertVon} />
         <InputZusammenfassend
