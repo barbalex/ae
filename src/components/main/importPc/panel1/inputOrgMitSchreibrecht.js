@@ -7,27 +7,20 @@ export default React.createClass({
 
   propTypes: {
     orgMitSchreibrecht: React.PropTypes.string,
-    organizations: React.PropTypes.array,
-    onChangeOrgMitSchreibrecht: React.PropTypes.func
-  },
-
-  onChange (event) {
-    const orgMitSchreibrecht = event.target.value
-
+    onChangeOrgMitSchreibrecht: React.PropTypes.func,
+    userIsEsWriterInOrgs: React.PropTypes.array
   },
 
   options () {
-    const { organizations } = this.props
+    const { userIsEsWriterInOrgs } = this.props
 
-    console.log('organizations', organizations)
-
-    if (organizations && organizations.length > 0) {
-      let options = organizations.map((org, index) => {
+    if (userIsEsWriterInOrgs && userIsEsWriterInOrgs.length > 0) {
+      let options = userIsEsWriterInOrgs.map((org, index) => {
         return (
           <option
             key={index}
-            value={org.Name}>
-            {org.Name}
+            value={org}>
+            {org}
           </option>
         )
       })

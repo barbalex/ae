@@ -55,7 +55,9 @@ export default React.createClass({
     offlineIndexes: React.PropTypes.bool,
     organizations: React.PropTypes.array,
     activeOrganization: React.PropTypes.object,
-    userIsNotOrgAdmin: React.PropTypes.bool
+    userIsAdminInOrgs: React.PropTypes.array,
+    userIsEsWriterInOrgs: React.PropTypes.array,
+    userIsLrWriterInOrgs: React.PropTypes.array
   },
 
   getInitialState () {
@@ -103,7 +105,9 @@ export default React.createClass({
       offlineIndexes: false,
       organizations: [],
       activeOrganization: null,
-      userIsNotOrgAdmin: false
+      userIsAdminInOrgs: [],
+      userIsEsWriterInOrgs: [],
+      userIsLrWriterInOrgs: []
     }
   },
 
@@ -124,8 +128,8 @@ export default React.createClass({
     this.listenTo(app.organizationsStore, this.onOrganizationsStoreChange)
   },
 
-  onOrganizationsStoreChange ({ organizations, activeOrganization, userIsNotOrgAdmin }) {
-    this.setState({ organizations, activeOrganization, userIsNotOrgAdmin })
+  onOrganizationsStoreChange ({ organizations, activeOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, userIsLrWriterInOrgs }) {
+    this.setState({ organizations, activeOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, userIsLrWriterInOrgs })
   },
 
   onChangeActiveOrganization (event) {
@@ -208,7 +212,7 @@ export default React.createClass({
   },
 
   render () {
-    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, mainComponent, logIn, email, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, pcs, rcs, pcsQuerying, rcsQuerying, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, offlineIndexes, organizations, activeOrganization, userIsNotOrgAdmin } = this.state
+    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, mainComponent, logIn, email, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, pcs, rcs, pcsQuerying, rcsQuerying, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, offlineIndexes, organizations, activeOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, userIsLrWriterInOrgs } = this.state
     const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
     const showGruppen = groupsNotLoaded.length > 0
     const showFilter = filterOptions.length > 0 || loadingFilterOptions
@@ -297,7 +301,9 @@ export default React.createClass({
               organizations={organizations}
               activeOrganization={activeOrganization}
               onChangeActiveOrganization={this.onChangeActiveOrganization}
-              userIsNotOrgAdmin={userIsNotOrgAdmin} />
+              userIsAdminInOrgs={userIsAdminInOrgs}
+              userIsEsWriterInOrgs={userIsEsWriterInOrgs}
+              userIsLrWriterInOrgs={userIsLrWriterInOrgs} />
           : null
         }
         {

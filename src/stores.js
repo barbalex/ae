@@ -191,7 +191,11 @@ export default (Actions) => {
 
     activeOrganizationName: null,
 
-    userIsNotOrgAdmin: false,
+    userIsAdminInOrgs: [],
+
+    userIsEsWriterInOrgs: [],
+
+    userIsLrWriterInOrgs: [],
 
     getActiveOrganization () {
       return this.organizations.find((org) => org.Name === this.activeOrganizationName)
@@ -222,14 +226,24 @@ export default (Actions) => {
       if (this.organizations.length > 0) this.triggerMe()
       app.remoteDb.query('organizations', { include_docs: true })
         .then((result) => {
-          this.userIsNotOrgAdmin = false
+          this.userIsAdminInOrgs = []
+          this.userIsEsWriterInOrgs = []
+          this.userIsLrWriterInOrgs = []
           const organizations = result.rows.map((row) => row.doc)
           this.organizations = organizations
+          // is user admin in orgs?
+          const orgsWhereUserIsAdmin = organizations.filter((org) => org.orgAdmins.includes(email))
+          this.userIsAdminInOrgs = _.pluck(orgsWhereUserIsAdmin, 'Name')
           // set activeOrganization if user is logged in and only admin in one organization
-          const orgWhereUserIsAdmin = organizations.filter((org) => org.orgAdmins.includes(email))
-          const orgNamesWhereUserIsAdmin = _.pluck(orgWhereUserIsAdmin, 'Name')
-          if (orgNamesWhereUserIsAdmin.length === 1) this.activeOrganizationName = orgNamesWhereUserIsAdmin[0]
-          if (orgNamesWhereUserIsAdmin.length === 0) this.userIsNotOrgAdmin = true
+          if (this.userIsAdminInOrgs.length === 1) this.activeOrganizationName = this.userIsAdminInOrgs[0]
+          // is user es-writer in orgs?
+          let orgsWhereUserIsEsWriter = organizations.filter((org) => org.esWriters.includes(email))
+          orgsWhereUserIsEsWriter = _.union(orgsWhereUserIsEsWriter, orgsWhereUserIsAdmin)
+          this.userIsEsWriterInOrgs = _.pluck(orgsWhereUserIsEsWriter, 'Name')
+          // is user lr-writer in orgs?
+          let orgsWhereUserLrEsWriter = organizations.filter((org) => org.lrWriters.includes(email))
+          orgsWhereUserLrEsWriter = _.union(orgsWhereUserLrEsWriter, orgsWhereUserIsAdmin)
+          this.userIsLrWriterInOrgs = _.pluck(orgsWhereUserLrEsWriter, 'Name')
           this.triggerMe()
         })
         .catch((error) => app.Actions.showError({title: 'error fetching organizations from remoteDb:', msg: error}))
@@ -255,8 +269,10 @@ export default (Actions) => {
     triggerMe () {
       const organizations = this.organizations
       const activeOrganization = this.getActiveOrganization()
-      const userIsNotOrgAdmin = this.userIsNotOrgAdmin
-      this.trigger({ organizations, activeOrganization, userIsNotOrgAdmin })
+      const userIsAdminInOrgs = this.userIsAdminInOrgs
+      const userIsEsWriterInOrgs = this.userIsEsWriterInOrgs
+      const userIsLrWriterInOrgs = this.userIsLrWriterInOrgs
+      this.trigger({ organizations, activeOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, userIsLrWriterInOrgs })
     }
   })
 

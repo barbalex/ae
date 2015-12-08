@@ -66,7 +66,8 @@ export default React.createClass({
     replicatingToAe: React.PropTypes.string,
     replicatingToAeTime: React.PropTypes.string,
     offlineIndexes: React.PropTypes.bool,
-    organizations: React.PropTypes.array
+    organizations: React.PropTypes.array,
+    userIsEsWriterInOrgs: React.PropTypes.array
   },
 
   // nameBestehend ... nameUrsprungsBs: input fields

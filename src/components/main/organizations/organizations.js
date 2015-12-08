@@ -22,7 +22,7 @@ export default React.createClass({
     organizations: React.PropTypes.array,
     activeOrganization: React.PropTypes.object,
     onChangeActiveOrganization: React.PropTypes.func,
-    userIsNotOrgAdmin: React.PropTypes.bool
+    userIsAdminInOrgs: React.PropTypes.array
   },
 
   componentDidMount () {
@@ -53,30 +53,25 @@ export default React.createClass({
   },
 
   lowerPart () {
-    const { activeOrganization, userIsNotOrgAdmin, email } = this.props
+    const { activeOrganization } = this.props
     return (
       <div>
         <UsersList
           activeOrganization={activeOrganization}
-          userFieldName='esWriters'
-          userIsNotOrgAdmin={userIsNotOrgAdmin}
-          email={email} />
+          userFieldName='esWriters' />
         <UsersList
           activeOrganization={activeOrganization}
-          userFieldName='lrWriters'
-          userIsNotOrgAdmin={userIsNotOrgAdmin}
-          email={email} />
+          userFieldName='lrWriters' />
         <UsersList
           activeOrganization={activeOrganization}
-          userFieldName='orgAdmins'
-          userIsNotOrgAdmin={userIsNotOrgAdmin}
-          email={email} />
+          userFieldName='orgAdmins' />
       </div>
     )
   },
 
   render () {
-    const { onChangeActiveOrganization, userIsNotOrgAdmin, email } = this.props
+    const { onChangeActiveOrganization, userIsAdminInOrgs, email, activeOrganization } = this.props
+    const showLowerPart = email && activeOrganization && userIsAdminInOrgs.includes(activeOrganization.Name)
 
     return (
       <div className='formContent'>
@@ -91,12 +86,12 @@ export default React.createClass({
               { this.orgValues() }
             </Input>
             {
-              email && !userIsNotOrgAdmin
+              showLowerPart
               ? this.lowerPart()
               : null
             }
             {
-              userIsNotOrgAdmin && email
+              !showLowerPart
               ? this.userIsNotOrgAdminAlert()
               : null
             }

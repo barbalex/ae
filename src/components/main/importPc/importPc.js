@@ -65,7 +65,8 @@ export default React.createClass({
     replicatingToAe: React.PropTypes.string,
     replicatingToAeTime: React.PropTypes.string,
     offlineIndexes: React.PropTypes.bool,
-    organizations: React.PropTypes.array
+    organizations: React.PropTypes.array,
+    userIsEsWriterInOrgs: React.PropTypes.array
   },
 
   // nameBestehend ... nameUrsprungsEs: input fields
@@ -510,7 +511,7 @@ export default React.createClass({
 
   render () {
     const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, pcsToImport, pcsRemoved, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs, validPcsToImport, activePanel, idsAeIdField, idsImportIdField, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, importingProgress, deletingPcInstancesProgress, deletingPcProgress, orgMitSchreibrecht } = this.state
-    const { groupsLoadedOrLoading, email, pcs, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime, organizations } = this.props
+    const { groupsLoadedOrLoading, email, pcs, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime, organizations, userIsEsWriterInOrgs } = this.props
 
     return (
       <div
@@ -568,7 +569,8 @@ export default React.createClass({
                   onChangeName={this.onChangeName}
                   onChangeNameBestehend={this.onChangeNameBestehend}
                   onChangeOrgMitSchreibrecht={this.onChangeOrgMitSchreibrecht}
-                  organizations={organizations} />
+                  organizations={organizations}
+                  userIsEsWriterInOrgs={userIsEsWriterInOrgs} />
               : null
             }
           </Panel>

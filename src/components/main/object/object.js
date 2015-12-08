@@ -21,7 +21,8 @@ export default React.createClass({
 
   propTypes: {
     object: React.PropTypes.object,
-    synonymObjects: React.PropTypes.array
+    synonymObjects: React.PropTypes.array,
+    userIsLrWriterInOrgs: React.PropTypes.array
   },
 
   render () {

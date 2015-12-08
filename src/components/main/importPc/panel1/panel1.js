@@ -63,11 +63,12 @@ export default React.createClass({
     onChangeName: React.PropTypes.func,
     onChangeNameBestehend: React.PropTypes.func,
     onChangeOrgMitSchreibrecht: React.PropTypes.func,
-    organizations: React.PropTypes.array
+    organizations: React.PropTypes.array,
+    userIsEsWriterInOrgs: React.PropTypes.array
   },
 
   render () {
-    const { onClickDeletePc, onChangeNameUrsprungsEs, onChangeZusammenfassend, onBlurLink, onChangeLink, onChangeNutzungsbedingungen, onChangeDatenstand, onChangeBeschreibung, onBlurName, onChangeName, onChangeNameBestehend, nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, orgMitSchreibrecht, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs, ultimatelyAlertLoadAllGroups, deletingPcProgress, groupsLoadedOrLoading, email, pcs, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime, organizations, onChangeOrgMitSchreibrecht } = this.props
+    const { onClickDeletePc, onChangeNameUrsprungsEs, onChangeZusammenfassend, onBlurLink, onChangeLink, onChangeNutzungsbedingungen, onChangeDatenstand, onChangeBeschreibung, onBlurName, onChangeName, onChangeNameBestehend, nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, orgMitSchreibrecht, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validUrsprungsEs, ultimatelyAlertLoadAllGroups, deletingPcProgress, groupsLoadedOrLoading, email, pcs, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime, organizations, onChangeOrgMitSchreibrecht, userIsEsWriterInOrgs } = this.props
     const showLoadAllGroups = email && !allGroupsLoaded
     const showAlertDeletePcBuildingIndex = deletingPcProgress && deletingPcProgress < 100
     const alertAllGroupsBsStyle = ultimatelyAlertLoadAllGroups ? 'danger' : 'info'
@@ -152,8 +153,8 @@ export default React.createClass({
           onBlurLink={onBlurLink} />
         <InputOrgMitSchreibrecht
           orgMitSchreibrecht={orgMitSchreibrecht}
-          organizations={organizations}
-          onChangeOrgMitSchreibrecht={onChangeOrgMitSchreibrecht} />
+          onChangeOrgMitSchreibrecht={onChangeOrgMitSchreibrecht}
+          userIsEsWriterInOrgs={userIsEsWriterInOrgs} />
         <InputImportiertVon
           importiertVon={importiertVon} />
         <InputZusammenfassend

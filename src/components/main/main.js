@@ -47,7 +47,9 @@ export default React.createClass({
     organizations: React.PropTypes.array,
     activeOrganization: React.PropTypes.object,
     onChangeActiveOrganization: React.PropTypes.func,
-    userIsNotOrgAdmin: React.PropTypes.bool
+    userIsAdminInOrgs: React.PropTypes.array,
+    userIsEsWriterInOrgs: React.PropTypes.array,
+    userIsLrWriterInOrgs: React.PropTypes.array
   },
 
   getInitialState () {
@@ -78,7 +80,7 @@ export default React.createClass({
   },
 
   render () {
-    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, synonymObjects, pcs, pcsQuerying, rcs, rcsQuerying, mainComponent, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, email, replicatingToAe, replicatingToAeTime, offlineIndexes, organizations, activeOrganization, onChangeActiveOrganization, userIsNotOrgAdmin } = this.props
+    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, synonymObjects, pcs, pcsQuerying, rcs, rcsQuerying, mainComponent, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, email, replicatingToAe, replicatingToAeTime, offlineIndexes, organizations, activeOrganization, onChangeActiveOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, userIsLrWriterInOrgs } = this.props
     const { formClassNames, errors } = this.state
     const showObject = object && Object.keys(object).length > 0 && !mainComponent
 
@@ -90,7 +92,8 @@ export default React.createClass({
             showObject
             ? <Objekt
                 object={object}
-                synonymObjects={synonymObjects} />
+                synonymObjects={synonymObjects}
+                userIsLrWriterInOrgs={userIsLrWriterInOrgs} />
             : null
           }
           {
@@ -104,7 +107,8 @@ export default React.createClass({
                 allGroupsLoaded={allGroupsLoaded}
                 replicatingToAe={replicatingToAe}
                 replicatingToAeTime={replicatingToAeTime}
-                organizations={organizations} />
+                organizations={organizations}
+                userIsEsWriterInOrgs={userIsEsWriterInOrgs} />
             : null
           }
           {
@@ -118,7 +122,8 @@ export default React.createClass({
                 allGroupsLoaded={allGroupsLoaded}
                 replicatingToAe={replicatingToAe}
                 replicatingToAeTime={replicatingToAeTime}
-                organizations={organizations} />
+                organizations={organizations}
+                userIsEsWriterInOrgs={userIsEsWriterInOrgs} />
             : null
           }
           {
@@ -162,7 +167,7 @@ export default React.createClass({
                 organizations={organizations}
                 activeOrganization={activeOrganization}
                 onChangeActiveOrganization={onChangeActiveOrganization}
-                userIsNotOrgAdmin={userIsNotOrgAdmin} />
+                userIsAdminInOrgs={userIsAdminInOrgs} />
             : null
           }
         </form>
