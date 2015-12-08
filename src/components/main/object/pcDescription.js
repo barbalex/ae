@@ -43,7 +43,7 @@ export default React.createClass({
 
     const nutzunbsbedingungen = (
       <div className='dsBeschreibungZeile'>
-        <div>Nutzungs-<br/>bedingungen:</div>
+        <div>Nutzungsbedingungen:</div>
         <div>{pc.Nutzungsbedingungen}</div>
       </div>
     )
@@ -54,6 +54,16 @@ export default React.createClass({
         <div className='dsBeschreibungZeile'>
           <div>Link:</div>
           <div><a href={pc.Link} target={'_blank'}>{pc.Link}</a></div>
+        </div>
+      )
+    }
+
+    let organisation = ''
+    if (pc['Organisation mit Schreibrecht']) {
+      organisation = (
+        <div className='dsBeschreibungZeile'>
+          <div>Organisation mit Schreibrecht:</div>
+          <div>{pc['Organisation mit Schreibrecht']}</div>
         </div>
       )
     }
@@ -93,6 +103,7 @@ export default React.createClass({
             {pc.Datenstand ? datenstand : ''}
             {pc.Nutzungsbedingungen ? nutzunbsbedingungen : ''}
             {pc.Link ? link : ''}
+            {organisation}
             {pc['importiert von'] ? importiertVon : ''}
             {pc.zusammenfassend ? ursprungsEs : ''}
           </div>

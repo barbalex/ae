@@ -95,7 +95,8 @@ export default React.createClass({
           email={email}
           pcs={pcs}
           groupsLoadedOrLoading={groupsLoadedOrLoading}
-          onChangeNameBestehend={onChangeNameBestehend} />
+          onChangeNameBestehend={onChangeNameBestehend}
+          userIsEsWriterInOrgs={userIsEsWriterInOrgs} />
         <ButtonDeletePc
           nameBestehend={nameBestehend}
           enableDeletePcButton={enableDeletePcButton}

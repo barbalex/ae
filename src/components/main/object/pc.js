@@ -97,11 +97,29 @@ export default React.createClass({
 
     return (
       <Accordion>
-        <Panel header={propertyCollection.Name} eventKey='1'>
-          {showEditToobar ? editToolbar : null}
-          {showPcDescription ? <PcDescription pc={propertyCollection} /> : null}
+        <Panel
+          header={propertyCollection.Name}
+          eventKey='1'>
+          {
+            showEditToobar
+            ? editToolbar
+            : null
+          }
+          {
+            showPcDescription
+            ? <PcDescription pc={propertyCollection} />
+            : null
+          }
           <div>
-            {pcType === 'Taxonomie' ? <Field fieldName={'GUID'} fieldValue={object._id} pcType={pcType} pcName={pcName} /> : null}
+            {
+              pcType === 'Taxonomie'
+              ? <Field
+                  fieldName={'GUID'}
+                  fieldValue={object._id}
+                  pcType={pcType}
+                  pcName={pcName} />
+              : null
+            }
             {properties}
           </div>
         </Panel>

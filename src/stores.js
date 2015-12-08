@@ -284,7 +284,7 @@ export default (Actions) => {
     listenables: Actions,
 
     onImportPcs (state) {
-      const { pcsToImport, idsImportIdField, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs } = state
+      const { pcsToImport, idsImportIdField, name, beschreibung, datenstand, nutzungsbedingungen, link, orgMitSchreibrecht, importiertVon, zusammenfassend, nameUrsprungsEs } = state
 
       let importingProgress = 0
       // set back deleting progress to close progressbar and deletion examples
@@ -307,6 +307,7 @@ export default (Actions) => {
               pc.Datenstand = datenstand
               pc.Nutzungsbedingungen = nutzungsbedingungen
               if (link) pc.Link = link
+              pc['Organisation mit Schreibrecht'] = orgMitSchreibrecht
               pc['importiert von'] = importiertVon
               if (zusammenfassend) pc.zusammenfassend = zusammenfassend
               if (nameUrsprungsEs) pc.Ursprungsdatensammlung = nameUrsprungsEs
