@@ -153,7 +153,6 @@ export default React.createClass({
           onChangeLink={onChangeLink}
           onBlurLink={onBlurLink} />
         <InputOrgMitSchreibrecht
-          orgMitSchreibrecht={orgMitSchreibrecht}
           onChangeOrgMitSchreibrecht={onChangeOrgMitSchreibrecht}
           userIsEsWriterInOrgs={userIsEsWriterInOrgs} />
         <InputImportiertVon
