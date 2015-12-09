@@ -61,33 +61,108 @@ export default React.createClass({
     return (
       <div id='menuBtn' className='btn-group menu'>
         <ButtonGroup>
-          <Button onClick={this.searchGoogleImages} bsSize='small' disabled={!isObject} href={googleLink} target='_blank'>Bilder</Button>
-          <Button onClick={this.searchWikipediaArticle} bsSize='small' disabled={!isObject} href={wikipediaLink} target='_blank'>Wikipedia</Button>
-          <Button onClick={this.exportProperties} bsSize='small'>Export</Button>
-          <DropdownButton id='importDropdown' title='Import' bsSize='small'>
-            <MenuItem header>Importieren oder löschen:</MenuItem>
-            <MenuItem onSelect={this.importPropertyCollection}>Eigenschaften</MenuItem>
-            <MenuItem onSelect={this.importRelationsCollection}>Beziehungen</MenuItem>
+          <Button
+            onClick={this.searchGoogleImages}
+            bsSize='small'
+            disabled={!isObject}
+            href={googleLink}
+            target='_blank'>
+            Bilder
+          </Button>
+          <Button
+            onClick={this.searchWikipediaArticle}
+            bsSize='small'
+            disabled={!isObject}
+            href={wikipediaLink}
+            target='_blank'>
+            Wikipedia
+          </Button>
+          <Button
+            onClick={this.exportProperties}
+            bsSize='small'>
+            Export
+          </Button>
+          <DropdownButton
+            id='importDropdown'
+            title='Import'
+            bsSize='small'>
+            <MenuItem header>
+              Importieren oder löschen:
+            </MenuItem>
+            <MenuItem
+              onSelect={this.importPropertyCollection}>
+              Eigenschaften
+            </MenuItem>
+            <MenuItem
+              onSelect={this.importRelationsCollection}>
+              Beziehungen
+            </MenuItem>
           </DropdownButton>
-          <DropdownButton id='moreDropdown' title='Mehr...' bsSize='small'>
-            <MenuItem onSelect={this.openOrganisationen}>Organisationen und Benutzer</MenuItem>
+          <DropdownButton
+            id='moreDropdown'
+            title='Mehr...'
+            bsSize='small'>
+            <MenuItem
+              onSelect={this.openOrganisationen}>
+              Organisationen
+            </MenuItem>
             <MenuItem divider/>
-            <MenuItem header>Daten:</MenuItem>
-            <MenuItem onSelect={this.loadPouchFromRemote}>Fehlende Gruppen laden</MenuItem>
-            <MenuItem onSelect={this.replicateFromAe}><strong>Von</strong> arteigenschaften.ch replizieren</MenuItem>
-            <MenuItem onSelect={this.replicateToAe}><strong>Nach</strong> arteigenschaften.ch replizieren</MenuItem>
+            <MenuItem header>
+              Daten:
+            </MenuItem>
+            <MenuItem
+              onSelect={this.loadPouchFromRemote}>
+              Fehlende Gruppen laden
+            </MenuItem>
+            <MenuItem
+              onSelect={this.replicateFromAe}>
+              <strong>Von</strong> arteigenschaften.ch replizieren
+            </MenuItem>
+            <MenuItem
+              onSelect={this.replicateToAe}>
+              <strong>Nach</strong> arteigenschaften.ch replizieren
+            </MenuItem>
             <MenuItem divider/>
-            <MenuItem header>Indizes:</MenuItem>
-            <InputIndexes offlineIndexes={offlineIndexes} onClickToggleOfflineIndexes={onClickToggleOfflineIndexes} />
+            <MenuItem header>
+              Indizes:
+            </MenuItem>
+            <InputIndexes
+              offlineIndexes={offlineIndexes}
+              onClickToggleOfflineIndexes={onClickToggleOfflineIndexes} />
             <MenuItem divider/>
-            <MenuItem onSelect={this.openAdminPage} disabled>Administration</MenuItem>
+            <MenuItem
+              onSelect={this.openAdminPage}
+              disabled>
+              Administration
+            </MenuItem>
             <MenuItem divider/>
-            <MenuItem header>Über arteigenschaften.ch:</MenuItem>
-            <MenuItem href='//github.com/FNSKtZH/artendb/blob/master/README.md' target='_blank'>Projekt-Beschreibung</MenuItem>
-            <MenuItem href='//github.com/FNSKtZH/artendb' target='_blank'>Code</MenuItem>
-            <MenuItem href='//github.com/FNSKtZH/artendb/commits/master' target='_blank'>Letzte Änderungen</MenuItem>
-            <MenuItem href='mailto:alex@gabriel-software.ch'>Email an Autor</MenuItem>
-            <MenuItem href='https://twitter.com/arteigenschaft' target='_blank'>auf Twitter folgen</MenuItem>
+            <MenuItem header>
+              Über arteigenschaften.ch:
+            </MenuItem>
+            <MenuItem
+              href='//github.com/FNSKtZH/artendb/blob/master/README.md'
+              target='_blank'>
+              Projekt-Beschreibung
+            </MenuItem>
+            <MenuItem
+              href='//github.com/FNSKtZH/artendb'
+              target='_blank'>
+              Code
+            </MenuItem>
+            <MenuItem
+              href='//github.com/FNSKtZH/artendb/commits/master'
+              target='_blank'>
+              Letzte Änderungen
+            </MenuItem>
+            <MenuItem
+              href='mailto:alex@gabriel-software.ch'>
+              Email an Autor
+            </MenuItem>
+            <MenuItem
+              href='https://twitter.com/arteigenschaft'
+              target='_blank'>
+              auf Twitter folgen
+            </MenuItem>
           </DropdownButton>
         </ButtonGroup>
       </div>

@@ -93,9 +93,15 @@ export default React.createClass({
 
     return (
       <div className='formContent'>
-        <h4>Organisationen und Benutzer</h4>
-        <PanelGroup defaultActiveKey='1' accordion>
-          <Panel header='Organisationen' eventKey='1'>
+        <h4>
+          Organisationen
+        </h4>
+        <PanelGroup
+          defaultActiveKey='1'
+          accordion>
+          <Panel
+            header='Organisation bearbeiten'
+            eventKey='1'>
             <Input
               type='select'
               label='Organisation'
@@ -114,8 +120,10 @@ export default React.createClass({
               : null
             }
           </Panel>
-          <Panel header='Neuen Benutzer erfassen' eventKey='2'>
-            testdata
+          <Panel
+            header='Organisation hinzufügen oder entfernen'
+            eventKey='2'>
+            Diese Funktion ist (noch) nicht realisiert
           </Panel>
         </PanelGroup>
       </div>
