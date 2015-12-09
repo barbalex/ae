@@ -36,11 +36,9 @@ export default React.createClass({
   },
 
   anmelden () {
-    const loginVariables = {
-      logIn: true,
-      email: undefined
-    }
-    app.Actions.login(loginVariables)
+    const logIn = true
+    const email = undefined  // eslint-disable-line
+    app.Actions.login({ logIn, email })
     this.setState({ open: false })
     document.removeEventListener('click', this.onClickDocument)
   },

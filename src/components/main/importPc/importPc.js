@@ -120,13 +120,12 @@ export default React.createClass({
   componentDidMount () {
     this.listenTo(app.objectsPcsStore, this.onChangeObjectsPcsStore)
     // show login of not logged in
-    const { email, offlineIndexes } = this.props
+    const { offlineIndexes } = this.props
+    let { email } = this.props
     if (!email) {
-      const loginVariables = {
-        logIn: true,
-        email: undefined
-      }
-      app.Actions.login(loginVariables)
+      const logIn = true
+      email = undefined
+      app.Actions.login({ logIn, email })
     }
     // get property collections
     app.Actions.queryPropertyCollections(offlineIndexes)

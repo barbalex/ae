@@ -33,13 +33,11 @@ export default React.createClass({
   },
 
   componentDidMount () {
-    const { email } = this.props
+    let { email } = this.props
     if (!email) {
-      const loginVariables = {
-        logIn: true,
-        email: undefined
-      }
-      app.Actions.login(loginVariables)
+      const logIn = true
+      email = undefined
+      app.Actions.login({ logIn, email })
     }
     app.Actions.getOrganizations(email)
   },

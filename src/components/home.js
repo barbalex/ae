@@ -177,8 +177,8 @@ export default React.createClass({
     this.setState({ groupsLoadingObjects, groupsLoadedOrLoading, allGroupsLoaded })
   },
 
-  onLoginStoreChange (passedVariables) {
-    this.setState(passedVariables)
+  onLoginStoreChange ({ logIn, email }) {
+    this.setState({ logIn, email })
   },
 
   onActivePathStoreChange ({ path, guid, gruppe, mainComponent }) {

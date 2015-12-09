@@ -929,20 +929,17 @@ export default (Actions) => {
       })
     },
 
-    onLogin (passedVariables) {
-      const { logIn, email } = passedVariables
-      // change email only if it was passed
-      const changeEmail = email !== undefined
+    onLogin ({ logIn, email }) {
       app.localDb.get('_local/login', { include_docs: true })
         .then((doc) => {
-          if (doc.logIn !== logIn || (changeEmail && doc.email !== email) || (logIn && !email)) {
+          if (doc.logIn !== logIn || (email && doc.email !== email) || (logIn && !email)) {
             doc.logIn = logIn
-            if (changeEmail) {
+            if (email) {
               doc.email = email
             } else {
-              passedVariables.email = doc.email
+              email = doc.email
             }
-            this.trigger(passedVariables)
+            this.trigger({ logIn, email })
             return app.localDb.put(doc)
           }
         })
