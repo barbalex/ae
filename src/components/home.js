@@ -15,7 +15,7 @@ import Tree from './menu/tree/tree.js'
 import getGruppen from '../modules/gruppen.js'
 import NavHelper from '../components/navHelper.js'
 import kickOffStores from '../modules/kickOffStores.js'
-import Login from './main/login.js'
+import Login from './main/login/login.js'
 
 const gruppen = getGruppen()
 

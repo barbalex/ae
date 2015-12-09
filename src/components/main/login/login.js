@@ -7,7 +7,7 @@
 import app from 'ampersand-app'
 import React from 'react'
 import { Modal, Input, Alert, Button } from 'react-bootstrap'
-import validateEmail from '../../modules/validateEmail.js'
+import validateEmail from '../../../modules/validateEmail.js'
 
 export default React.createClass({
   displayName: 'Login',
@@ -15,18 +15,24 @@ export default React.createClass({
   propTypes: {
     invalidEmail: React.PropTypes.bool,
     invalidPassword: React.PropTypes.bool,
+    invalidPassword2: React.PropTypes.bool,
     email: React.PropTypes.string,
     password: React.PropTypes.string,
-    loginError: React.PropTypes.string
+    password2: React.PropTypes.string,
+    loginError: React.PropTypes.string,
+    signUp: React.PropTypes.bool
   },
 
   getInitialState () {
     return {
       invalidEmail: false,
       invalidPassword: false,
+      invalidPassword2: false,
       email: null,
       password: null,
-      loginError: null
+      password2: null,
+      loginError: null,
+      signUp: false
     }
   },
 
@@ -57,14 +63,33 @@ export default React.createClass({
     }
   },
 
+  onKeyDownPassword2 (event) {
+    const enter = 13
+    if (event.keyCode === enter) this.onClickWantToSignup()
+  },
+
   checkSignin (email, password) {
-    if (this.validSignin(email, password)) {
+    if (this.isSigninValid(email, password)) {
       app.remoteDb.login(email, password)
         .then((response) => app.Actions.login({
           logIn: false,
           email: email
         }))
         .catch((error) => this.setState({ email: null, loginError: error }))
+    }
+  },
+
+  onClickWantToSignup (event) {
+    if (event && event.preventDefault) event.preventDefault()
+    this.setState({ signUp: true })
+    console.log('signup')
+  },
+
+  onClickSignup () {
+    const { email, password, password2 } = this.state
+    if (this.isSigninValid(email, password, password2)) {
+      // TODO: sign up, then sign in
+      console.log('should sign you up now')
     }
   },
 
@@ -76,12 +101,18 @@ export default React.createClass({
   onBlurEmail (event) {
     const email = event.target.value
     this.setState({ email })
-    this.validEmail(email)
+    this.isEmailValid(email)
   },
 
   onBlurPassword (event) {
     const password = event.target.value
     this.setState({ password })
+  },
+
+  onBlurPassword2 (event) {
+    const password2 = event.target.value
+    this.setState({ password2 })
+    this.isPassword2Valid()
   },
 
   onAlertDismiss () {
@@ -92,28 +123,111 @@ export default React.createClass({
     app.Actions.login({ logIn: false })
   },
 
-  validEmail (email) {
+  isEmailValid (email) {
     const validEmail = email && validateEmail(email)
     const invalidEmail = !validEmail
     this.setState({ invalidEmail })
     return validEmail
   },
 
-  validPassword (password) {
+  isPasswordValid (password) {
     const validPassword = !!password
     const invalidPassword = !validPassword
     this.setState({ invalidPassword })
     return validPassword
   },
 
-  validSignin (email, password) {
-    const validEmail = this.validEmail(email)
-    const validPassword = this.validPassword(password)
-    return validEmail && validPassword
+  isPassword2Valid (password2) {
+    const { password } = this.state
+    const validPassword2 = password === password2
+    const invalidPassword2 = !validPassword2
+    this.setState({ invalidPassword2 })
+    return validPassword2
+  },
+
+  isSigninValid (email, password, password2) {
+    const { signUp } = this.state
+    const validEmail = this.isEmailValid(email)
+    const validPassword = this.isPasswordValid(password)
+    let validSignin = validEmail && validPassword
+    if (signUp) {
+      const password2Valid = this.isPassword2Valid(password2)
+      validSignin = validSignin && password2Valid
+    }
+    return validSignin
+  },
+
+  wantToSignupButtonComponent () {
+    return (
+      <Button
+        onClick={this.onClickWantToSignup}>
+        neues Konto erstellen
+      </Button>
+    )
+  },
+
+  signupButtonComponent () {
+    return (
+      <Button
+        className='btn-primary'
+        onClick={this.onClickSignup}>
+        Konto erstellen
+      </Button>
+    )
+  },
+
+  signinButtonComponent () {
+    return (
+      <Button
+        ref='anmeldenButton'
+        className='btn-primary'
+        onClick={this.onClickLogin}>
+        anmelden
+      </Button>
+    )
+  },
+
+  forgotPasswordComponent () {
+    return (
+      <p
+        className='Passwort'
+        style={{'marginBottom': -5 + 'px'}}>
+        Passwort vergessen?<br/>
+        <a href='mailto:alex@gabriel-software.ch'>Mailen Sie mir</a>, möglichst mit derselben email-Adresse, die Sie für das Konto verwenden.
+      </p>
+    )
+  },
+
+  password2Component () {
+    const { invalidPassword2 } = this.state
+    const password2InputBsStyle = invalidPassword2 ? 'error' : null
+    return (
+      <div
+        className='formGroup'>
+        <Input
+          type='password'
+          id='password2'
+          label={'Passwort bestätigen'}
+          className={'controls'}
+          placeholder='Passwort bestätigen'
+          bsStyle={password2InputBsStyle}
+          onBlur={this.onBlurPassword2}
+          onKeyDown={this.onKeyDownPassword2}
+          required />
+        {
+          invalidPassword2
+          ? <div
+              className='validateDivAfterRBC'>
+              Passwort stimmt nicht überein
+            </div>
+          : null
+        }
+      </div>
+    )
   },
 
   render () {
-    const { invalidEmail, invalidPassword, loginError } = this.state
+    const { invalidEmail, invalidPassword, loginError, signUp } = this.state
     const emailInputBsStyle = invalidEmail ? 'error' : null
     const passwordInputBsStyle = invalidPassword ? 'error' : null
     const loginErrorMessage = loginError && loginError.message ? loginError.message : null
@@ -121,15 +235,17 @@ export default React.createClass({
       marginBottom: 8
     }
 
-    console.log('loginError', loginError)
-
     return (
       <div className='static-modal'>
         <Modal.Dialog
           onHide={this.onHide}>
           <Modal.Header>
             <Modal.Title>
-              Anmelden
+              {
+                !signUp
+                ? 'Anmelden'
+                : 'Konto erstellen'
+              }
             </Modal.Title>
           </Modal.Header>
 
@@ -138,8 +254,7 @@ export default React.createClass({
               className={'form'}
               autoComplete='off'>
               <p className='anmelden'>
-                Für diese Funktion müssen Sie angemeldet sein.<br/>
-                <a href='mailto:alex@gabriel-software.ch'>Mailen Sie mir</a>, um ein Login zu erhalten.
+                Für diese Funktion müssen Sie angemeldet sein
               </p>
               <div
                 className='formGroup'>
@@ -186,32 +301,45 @@ export default React.createClass({
                 }
               </div>
               {
-                loginErrorMessage
+                loginErrorMessage && !signUp
                 ? <Alert
                     bsStyle='danger'
                     onDismiss={this.onAlertDismiss}
                     style={styleAlert}>
                     Fehler beim Anmelden: {loginErrorMessage}<br/>
-                    Müssen Sie ein Konto erstellen?
+                    Müssen Sie <a href='#' onClick={this.onClickWantToSignup}>ein Konto erstellen?</a>
                   </Alert>
                 : null
               }
-              <p
-                className='Passwort'
-                style={{'marginBottom': -5 + 'px'}}>
-                Passwort vergessen?<br/>
-                <a href='mailto:alex@gabriel-software.ch'>Mailen Sie mir</a>, möglichst mit derselben email-Adresse, die Sie für das Konto verwenden.
-              </p>
+              {
+                !signUp
+                ? this.forgotPasswordComponent()
+                : null
+              }
+              {
+                signUp
+                ? this.password2Component()
+                : null
+              }
             </form>
           </Modal.Body>
 
           <Modal.Footer>
-            <Button
-              ref='anmeldenButton'
-              className='btn-primary'
-              onClick={this.onClickLogin}>
-              anmelden
-            </Button>
+            {
+              !signUp
+              ? this.signinButtonComponent()
+              : null
+            }
+            {
+              !signUp
+              ? this.wantToSignupButtonComponent()
+              : null
+            }
+            {
+              signUp
+              ? this.signupButtonComponent()
+              : null
+            }
             <Button
               onClick={this.schliessen}>
               schliessen
