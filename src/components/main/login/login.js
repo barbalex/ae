@@ -65,31 +65,33 @@ export default React.createClass({
 
   onKeyDownPassword2 (event) {
     const enter = 13
-    if (event.keyCode === enter) this.onClickWantToSignup()
+    if (event.keyCode === enter) this.onClickSignup()
+  },
+
+  logIn (email, password) {
+    app.remoteDb.login(email, password)
+      .then((response) => app.Actions.login({
+        logIn: false,
+        email: email
+      }))
+      .catch((error) => this.setState({ loginError: error }))
   },
 
   checkSignin (email, password) {
-    if (this.isSigninValid(email, password)) {
-      app.remoteDb.login(email, password)
-        .then((response) => app.Actions.login({
-          logIn: false,
-          email: email
-        }))
-        .catch((error) => this.setState({ email: null, loginError: error }))
-    }
+    if (this.isSigninValid(email, password)) this.logIn(email, password)
   },
 
   onClickWantToSignup (event) {
     if (event && event.preventDefault) event.preventDefault()
     this.setState({ signUp: true })
-    console.log('signup')
   },
 
   onClickSignup () {
     const { email, password, password2 } = this.state
     if (this.isSigninValid(email, password, password2)) {
-      // TODO: sign up, then sign in
-      console.log('should sign you up now')
+      app.remoteDb.signup(email, password)
+        .then((response) => this.logIn(email, password))
+        .catch((error) => this.setState({ email: null, loginError: error }))
     }
   },
 
@@ -98,21 +100,29 @@ export default React.createClass({
     this.checkSignin(email, password)
   },
 
-  onBlurEmail (event) {
+  onChangeEmail (event) {
     const email = event.target.value
     this.setState({ email })
+  },
+
+  onBlurEmail (event) {
+    const email = event.target.value
     this.isEmailValid(email)
   },
 
-  onBlurPassword (event) {
+  onChangePassword (event) {
     const password = event.target.value
     this.setState({ password })
   },
 
-  onBlurPassword2 (event) {
+  onChangePassword2 (event) {
     const password2 = event.target.value
     this.setState({ password2 })
-    this.isPassword2Valid()
+  },
+
+  onBlurPassword2 (event) {
+    const password2 = event.target.value
+    this.isPassword2Valid(password2)
   },
 
   onAlertDismiss () {
@@ -199,7 +209,7 @@ export default React.createClass({
   },
 
   password2Component () {
-    const { invalidPassword2 } = this.state
+    const { invalidPassword2, password2 } = this.state
     const password2InputBsStyle = invalidPassword2 ? 'error' : null
     return (
       <div
@@ -210,7 +220,9 @@ export default React.createClass({
           label={'Passwort bestätigen'}
           className={'controls'}
           placeholder='Passwort bestätigen'
+          value={password2}
           bsStyle={password2InputBsStyle}
+          onChange={this.onChangePassword2}
           onBlur={this.onBlurPassword2}
           onKeyDown={this.onKeyDownPassword2}
           required />
@@ -227,7 +239,7 @@ export default React.createClass({
   },
 
   render () {
-    const { invalidEmail, invalidPassword, loginError, signUp } = this.state
+    const { invalidEmail, invalidPassword, loginError, signUp, email, password } = this.state
     const emailInputBsStyle = invalidEmail ? 'error' : null
     const passwordInputBsStyle = invalidPassword ? 'error' : null
     const loginErrorMessage = loginError && loginError.message ? loginError.message : null
@@ -244,7 +256,7 @@ export default React.createClass({
               {
                 !signUp
                 ? 'Anmelden'
-                : 'Konto erstellen'
+                : 'Neues Konto erstellen'
               }
             </Modal.Title>
           </Modal.Header>
@@ -253,9 +265,15 @@ export default React.createClass({
             <form
               className={'form'}
               autoComplete='off'>
-              <p className='anmelden'>
-                Für diese Funktion müssen Sie angemeldet sein
-              </p>
+              {
+                !signUp
+                ? (
+                    <p className='anmelden'>
+                      Für diese Funktion müssen Sie angemeldet sein
+                    </p>
+                  )
+                : null
+              }
               <div
                 className='formGroup'>
                 <Input
@@ -265,7 +283,9 @@ export default React.createClass({
                   bsSize='small'
                   className={'controls'}
                   placeholder='Email'
+                  value={email}
                   bsStyle={emailInputBsStyle}
+                  onChange={this.onChangeEmail}
                   onBlur={this.onBlurEmail}
                   onKeyDown={this.onKeyDownEmail}
                   required
@@ -287,7 +307,9 @@ export default React.createClass({
                   label={'Passwort'}
                   className={'controls'}
                   placeholder='Passwort'
+                  value={password}
                   bsStyle={passwordInputBsStyle}
+                  onChange={this.onChangePassword}
                   onBlur={this.onBlurPassword}
                   onKeyDown={this.onKeyDownPassword}
                   required />

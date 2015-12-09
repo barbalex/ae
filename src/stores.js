@@ -932,16 +932,10 @@ export default (Actions) => {
     onLogin ({ logIn, email }) {
       app.localDb.get('_local/login', { include_docs: true })
         .then((doc) => {
-          if (doc.logIn !== logIn || (email && doc.email !== email) || (logIn && !email)) {
-            doc.logIn = logIn
-            if (email) {
-              doc.email = email
-            } else {
-              email = doc.email
-            }
-            this.trigger({ logIn, email })
-            return app.localDb.put(doc)
-          }
+          doc.logIn = logIn
+          doc.email = email
+          this.trigger({ logIn, email })
+          return app.localDb.put(doc)
         })
         .catch((error) =>
           app.Actions.showError({title: 'loginStore: error logging in:', msg: error})
