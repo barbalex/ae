@@ -191,7 +191,8 @@ export default React.createClass({
                     bsStyle='danger'
                     onDismiss={this.onAlertDismiss}
                     style={styleAlert}>
-                    Fehler beim Anmelden: {loginErrorMessage}
+                    Fehler beim Anmelden: {loginErrorMessage}<br/>
+                    Müssen Sie ein Konto erstellen?
                   </Alert>
                 : null
               }
