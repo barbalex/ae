@@ -116,9 +116,12 @@ export default React.createClass({
     const { invalidEmail, invalidPassword, loginError } = this.state
     const emailInputBsStyle = invalidEmail ? 'error' : null
     const passwordInputBsStyle = invalidPassword ? 'error' : null
+    const loginErrorMessage = loginError && loginError.message ? loginError.message : null
     const styleAlert = {
       marginBottom: 8
     }
+
+    console.log('loginError', loginError)
 
     return (
       <div className='static-modal'>
@@ -183,12 +186,12 @@ export default React.createClass({
                 }
               </div>
               {
-                loginError
+                loginErrorMessage
                 ? <Alert
                     bsStyle='danger'
                     onDismiss={this.onAlertDismiss}
                     style={styleAlert}>
-                    Fehler beim Anmelden: {loginError}
+                    Fehler beim Anmelden: {loginErrorMessage}
                   </Alert>
                 : null
               }
