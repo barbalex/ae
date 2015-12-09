@@ -120,7 +120,7 @@ export default React.createClass({
     const titleObject = {
       esWriters: 'Benutzer mit Schreibrecht für Eigenschaften- und Beziehungssammlungen',
       lrWriters: 'Benutzer mit Schreibrecht für Lebensräume',
-      orgAdmins: 'Organisations-Administrator'
+      orgAdmins: 'Organisations-Administrator(en)'
     }
     const title = titleObject[userFieldName]
     const titleStyle = {
