@@ -41,7 +41,6 @@ export default React.createClass({
     if (event.keyCode === enter) {
       // if enter was pressed, update the value first
       const email = event.target.value
-      console.log('email:', email)
       this.setState({ email })
       this.checkSignin(email, password)
     }
