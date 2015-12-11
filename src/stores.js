@@ -912,7 +912,7 @@ export default (Actions) => {
 
   app.userStore = Reflux.createStore({
     /*
-     * contains email of logged in user
+     * contains email and roles of logged in user
      * well, it is saved in pouch as local doc _local/login
      * and contains "logIn" bool which states if user needs to log in
      * app.js sets default _local/login if not exists on app start
