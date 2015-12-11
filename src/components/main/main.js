@@ -37,6 +37,7 @@ export default React.createClass({
     pcFields: React.PropTypes.object,
     relationFields: React.PropTypes.object,
     email: React.PropTypes.string,
+    userRoles: React.PropTypes.array,
     allGroupsLoaded: React.PropTypes.bool,
     groupsLoadedOrLoading: React.PropTypes.array,
     groupsLoadingObjects: React.PropTypes.array,
@@ -80,7 +81,7 @@ export default React.createClass({
   },
 
   render () {
-    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, synonymObjects, pcs, pcsQuerying, rcs, rcsQuerying, mainComponent, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, email, replicatingToAe, replicatingToAeTime, offlineIndexes, organizations, activeOrganization, onChangeActiveOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, userIsLrWriterInOrgs } = this.props
+    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, synonymObjects, pcs, pcsQuerying, rcs, rcsQuerying, mainComponent, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, email, userRoles, replicatingToAe, replicatingToAeTime, offlineIndexes, organizations, activeOrganization, onChangeActiveOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, userIsLrWriterInOrgs } = this.props
     const { formClassNames, errors } = this.state
     const showObject = object && Object.keys(object).length > 0 && !mainComponent
 
@@ -164,6 +165,7 @@ export default React.createClass({
             mainComponent === 'organizations'
             ? <Organizations
                 email={email}
+                userRoles={userRoles}
                 organizations={organizations}
                 activeOrganization={activeOrganization}
                 onChangeActiveOrganization={onChangeActiveOrganization}

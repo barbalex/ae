@@ -929,12 +929,13 @@ export default (Actions) => {
       })
     },
 
-    onLogin ({ logIn, email }) {
+    onLogin ({ logIn, email, roles }) {
       app.localDb.get('_local/login', { include_docs: true })
         .then((doc) => {
           doc.logIn = logIn
-          doc.email = email
-          this.trigger({ logIn, email })
+          doc.email = email || undefined
+          doc.roles = roles || []
+          this.trigger({ logIn, email, roles })
           return app.localDb.put(doc)
         })
         .catch((error) =>

@@ -39,6 +39,7 @@ export default React.createClass({
     mainComponent: React.PropTypes.string,
     logIn: React.PropTypes.bool,
     email: React.PropTypes.string,
+    userRoles: React.PropTypes.array,
     replicatingToAe: React.PropTypes.string,
     replicatingToAeTime: React.PropTypes.string,
     replicatingFromAe: React.PropTypes.string,
@@ -85,6 +86,7 @@ export default React.createClass({
       mainComponent: mainComponent,
       logIn: false,
       email: email,
+      userRoles: [],
       replicatingToAe: null,
       replicatingToAeTime: null,
       replicatingFromAe: null,
@@ -177,8 +179,8 @@ export default React.createClass({
     this.setState({ groupsLoadingObjects, groupsLoadedOrLoading, allGroupsLoaded })
   },
 
-  onLoginStoreChange ({ logIn, email }) {
-    this.setState({ logIn, email })
+  onLoginStoreChange ({ logIn, email, roles: userRoles }) {
+    this.setState({ logIn, email, userRoles })
   },
 
   onActivePathStoreChange ({ path, guid, gruppe, mainComponent }) {

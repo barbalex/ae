@@ -72,7 +72,8 @@ export default React.createClass({
     app.remoteDb.login(email, password)
       .then((response) => app.Actions.login({
         logIn: false,
-        email: email
+        email: email,
+        roles: response.roles
       }))
       .catch((error) => this.setState({ loginError: error }))
   },

@@ -19,6 +19,7 @@ export default React.createClass({
 
   propTypes: {
     email: React.PropTypes.string,
+    userRoles: React.PropTypes.array,
     organizations: React.PropTypes.array,
     activeOrganization: React.PropTypes.object,
     onChangeActiveOrganization: React.PropTypes.func,
@@ -36,8 +37,7 @@ export default React.createClass({
     let { email } = this.props
     if (!email) {
       const logIn = true
-      email = undefined
-      app.Actions.login({ logIn, email })
+      app.Actions.login({ logIn })
     }
     app.Actions.getOrganizations(email)
   },
