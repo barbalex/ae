@@ -72,12 +72,12 @@ export default React.createClass({
     return <p>(Noch) keine</p>
   },
 
-  onChangeNewEsWriter (event) {
+  onChangeNewWriter (event) {
     const newUser = event.target.value
     this.setState({ newUser })
   },
 
-  onBlurNewEsWriter () {
+  onBlurNewWriter () {
     let { newUser, newUserAlert } = this.state
     const { activeOrganization, userFieldName } = this.props
 
@@ -92,7 +92,9 @@ export default React.createClass({
       }
 
       // is this a registered user? Sorry, no way to test this without password
-      // save change
+      // TODO: Update user roles: add activeOrganization.Name + ' es' or ' lr' or ' admin'
+
+      // save change to organization
       if (activeOrganization[userFieldName]) {
         activeOrganization[userFieldName].push(newUser)
         app.Actions.updateActiveOrganization(activeOrganization.Name, activeOrganization)
@@ -116,7 +118,7 @@ export default React.createClass({
   render () {
     const { userFieldName } = this.props
     const { newUser, newUserAlert } = this.state
-    const newEsWriterBsStyle = newUserAlert ? 'error' : null
+    const newWriterBsStyle = newUserAlert ? 'error' : null
     const titleObject = {
       esWriters: 'Benutzer mit Schreibrecht für Eigenschaften- und Beziehungssammlungen',
       lrWriters: 'Benutzer mit Schreibrecht für Lebensräume',
@@ -139,9 +141,9 @@ export default React.createClass({
           type='email'
           label='Benutzer hinzufügen'
           value={newUser}
-          onChange={this.onChangeNewEsWriter}
-          onBlur={this.onBlurNewEsWriter}
-          bsStyle={newEsWriterBsStyle} />
+          onChange={this.onChangeNewWriter}
+          onBlur={this.onBlurNewWriter}
+          bsStyle={newWriterBsStyle} />
         {
           newUserAlert
           ? this.newUserAlert()
