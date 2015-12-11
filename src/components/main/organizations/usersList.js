@@ -9,6 +9,8 @@ import app from 'ampersand-app'
 import React from 'react'
 import { Input, Glyphicon, ListGroup, ListGroupItem, OverlayTrigger, Tooltip, Alert } from 'react-bootstrap'
 import isValidEmail from '../../../modules/isValidEmail.js'
+import addRolesToUser from './addRolesToUser.js'
+import doesUserExist from './doesUserExist.js'
 
 export default React.createClass({
   displayName: 'UsersList',
@@ -92,18 +94,44 @@ export default React.createClass({
       }
 
       // is this a registered user? Sorry, no way to test this without password
-      // TODO: Update user roles: add activeOrganization.Name + ' es' or ' lr' or ' admin'
-
-      // save change to organization
-      if (activeOrganization[userFieldName]) {
-        activeOrganization[userFieldName].push(newUser)
-        app.Actions.updateActiveOrganization(activeOrganization.Name, activeOrganization)
-      }
+      doesUserExist(newUser)
+        .then((userExists) => {
+          if (userExists && activeOrganization[userFieldName]) {
+            // Update user roles
+            const roleFromField = {
+              'esWriters': `${activeOrganization.Name} es`,
+              'lrWriters': `${activeOrganization.Name} lr`,
+              'orgAdmins': `${activeOrganization.Name} org`
+            }
+            let roles = []
+            roles.push(roleFromField[userFieldName])
+            addRolesToUser(newUser, roles)
+              .then(() => {
+                // save change to organization
+                activeOrganization[userFieldName].push(newUser)
+                app.Actions.updateActiveOrganization(activeOrganization.Name, activeOrganization)
+                // manage state and set back newUser
+                newUser = null
+                newUserAlert = null
+                this.setState({ newUserAlert, newUser })
+              })
+              .catch((error) => {
+                newUser = null
+                newUserAlert = 'Fehler: ' + error.message
+                this.setState({ newUserAlert, newUser })
+              })
+          } else {
+            newUserAlert = 'Es gibt keinen Benutzer mit email ' + newUser
+            newUser = null
+            return this.setState({ newUserAlert, newUser })
+          }
+        })
+        .catch((error) => {
+          newUser = null
+          newUserAlert = 'Fehler: ' + error.message
+          this.setState({ newUserAlert, newUser })
+        })
     }
-
-    // manage state and set back newUser
-    newUser = null
-    this.setState({ newUserAlert, newUser })
   },
 
   newUserAlert () {
