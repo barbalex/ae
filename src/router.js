@@ -35,7 +35,7 @@ export default Router.extend({
     let path = pathName ? pathName.split('/') : []
     path = replaceProblematicPathCharactersFromArray(path)
 
-    app.loginStore.getLogin()
+    app.userStore.getLogin()
       .then((login) => {
         const email = login.email
         const { mainComponent, gruppe, guid } = extractInfoFromPath(path)

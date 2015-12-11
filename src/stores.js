@@ -829,7 +829,7 @@ export default (Actions) => {
         app.localDb.get('_local/rcs', { include_docs: true })
           .then((doc) => resolve(doc.rcs))
           .catch((error) =>
-            reject('loginStore: error getting relation collections from localDb: ' + error)
+            reject('userStore: error getting relation collections from localDb: ' + error)
           )
       })
     },
@@ -910,7 +910,7 @@ export default (Actions) => {
     }
   })
 
-  app.loginStore = Reflux.createStore({
+  app.userStore = Reflux.createStore({
     /*
      * contains email of logged in user
      * well, it is saved in pouch as local doc _local/login
@@ -924,7 +924,7 @@ export default (Actions) => {
         app.localDb.get('_local/login', { include_docs: true })
           .then((doc) => resolve(doc))
           .catch((error) =>
-            reject('loginStore: error getting login from localDb: ' + error)
+            reject('userStore: error getting login from localDb: ' + error)
           )
       })
     },
@@ -938,7 +938,7 @@ export default (Actions) => {
           return app.localDb.put(doc)
         })
         .catch((error) =>
-          app.Actions.showError({title: 'loginStore: error logging in:', msg: error})
+          app.Actions.showError({title: 'userStore: error logging in:', msg: error})
         )
     }
   })
