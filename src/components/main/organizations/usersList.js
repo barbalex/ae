@@ -11,6 +11,7 @@ import { Input, Glyphicon, ListGroup, ListGroupItem, OverlayTrigger, Tooltip, Al
 import isValidEmail from '../../../modules/isValidEmail.js'
 import addRolesToUser from './addRolesToUser.js'
 import doesUserExist from './doesUserExist.js'
+import getRoleFromOrgField from './getRoleFromOrgField.js'
 
 export default React.createClass({
   displayName: 'UsersList',
@@ -95,16 +96,12 @@ export default React.createClass({
 
       // is this a registered user? Sorry, no way to test this without password
       doesUserExist(newUser)
-        .then((userExists) => {
-          if (userExists && activeOrganization[userFieldName]) {
+        .then((result) => {
+          if (result.data && activeOrganization[userFieldName]) {
             // Update user roles
-            const roleFromField = {
-              'esWriters': `${activeOrganization.Name} es`,
-              'lrWriters': `${activeOrganization.Name} lr`,
-              'orgAdmins': `${activeOrganization.Name} org`
-            }
             let roles = []
-            roles.push(roleFromField[userFieldName])
+            const role = getRoleFromOrgField(activeOrganization, userFieldName)
+            roles.push(role)
             addRolesToUser(newUser, roles)
               .then(() => {
                 // save change to organization
@@ -127,6 +124,7 @@ export default React.createClass({
           }
         })
         .catch((error) => {
+          console.log('error from doesUserExist', error)
           newUser = null
           newUserAlert = 'Fehler: ' + error.message
           this.setState({ newUserAlert, newUser })

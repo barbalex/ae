@@ -29,6 +29,8 @@ import buildExportObjects from './components/main/export/panel4/buildExportObjec
 import removeCollectionsNotFulfilling from './components/main/export/panel4/removeCollectionsNotFulfilling.js'
 import getPathFromGuid from './modules/getPathFromGuid.js'
 import extractInfoFromPath from './modules/extractInfoFromPath.js'
+import removeRolesFromUser from './components/main/organizations/removeRolesFromUser.js'
+import getRoleFromOrgField from './components/main/organizations/getRoleFromOrgField.js'
 
 export default (Actions) => {
   app.exportDataStore = Reflux.createStore({
@@ -261,8 +263,19 @@ export default (Actions) => {
     onRemoveUserFromActiveOrganization (user, userFieldName) {
       let activeOrganization = this.getActiveOrganization()
       if (activeOrganization[userFieldName]) {
-        activeOrganization[userFieldName] = activeOrganization[userFieldName].filter((esW) => esW !== user)
-        this.updateOrganizationByName(activeOrganization.Name, activeOrganization)
+        let roles = []
+        const role = getRoleFromOrgField(activeOrganization, userFieldName)
+        roles.push(role)
+        removeRolesFromUser(user, roles)
+          .then(() => {
+            activeOrganization[userFieldName] = activeOrganization[userFieldName].filter((esW) => esW !== user)
+            this.updateOrganizationByName(activeOrganization.Name, activeOrganization)
+          })
+          .catch((error) => {
+            // TODO
+          })
+      } else {
+        // TODO
       }
     },
 
