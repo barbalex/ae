@@ -949,6 +949,11 @@ export default (Actions) => {
           doc.email = email || undefined
           doc.roles = roles || []
           this.trigger({ logIn, email, roles })
+          /*
+           * need to requery organizations if they have been loaded
+           * because isUserAdmin needs to be updated
+           */
+          if (email && app.organizationsStore.organizations.length > 0) app.Actions.getOrganizations(email)
           return app.localDb.put(doc)
         })
         .catch((error) =>
