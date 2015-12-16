@@ -70,7 +70,7 @@ export default React.createClass({
   },
 
   render () {
-    const { onClickDeletePc, onChangeNameUrsprungsEs, onChangeZusammenfassend, onBlurLink, onChangeLink, onChangeNutzungsbedingungen, onChangeDatenstand, onChangeBeschreibung, onBlurName, onChangeName, onChangeNameBestehend, nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validOrgMitSchreibrecht, validUrsprungsEs, ultimatelyAlertLoadAllGroups, deletingPcProgress, groupsLoadedOrLoading, email, pcs, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime, onChangeOrgMitSchreibrecht, userIsEsWriterInOrgs } = this.props
+    const { onClickDeletePc, onChangeNameUrsprungsEs, onChangeZusammenfassend, onBlurLink, onChangeLink, onChangeNutzungsbedingungen, onChangeDatenstand, onChangeBeschreibung, onBlurName, onChangeName, onChangeNameBestehend, nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validOrgMitSchreibrecht, validUrsprungsEs, ultimatelyAlertLoadAllGroups, deletingPcProgress, groupsLoadedOrLoading, email, pcs, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime, onChangeOrgMitSchreibrecht, userIsEsWriterInOrgs, orgMitSchreibrecht } = this.props
     const showLoadAllGroups = email && !allGroupsLoaded
     const showAlertDeletePcBuildingIndex = deletingPcProgress && deletingPcProgress < 100
     const alertAllGroupsBsStyle = ultimatelyAlertLoadAllGroups ? 'danger' : 'info'
@@ -161,6 +161,7 @@ export default React.createClass({
           onChangeLink={onChangeLink}
           onBlurLink={onBlurLink} />
         <InputOrgMitSchreibrecht
+          orgMitSchreibrecht={orgMitSchreibrecht}
           validOrgMitSchreibrecht={validOrgMitSchreibrecht}
           onChangeOrgMitSchreibrecht={onChangeOrgMitSchreibrecht}
           userIsEsWriterInOrgs={userIsEsWriterInOrgs} />

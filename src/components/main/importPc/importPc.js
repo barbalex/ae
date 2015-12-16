@@ -75,6 +75,8 @@ export default React.createClass({
   // panel1Done, panel2Done, panel3Done: to guide inputting
   // validXxx: to check validity of these fields
   getInitialState () {
+    // const { userIsEsWriterInOrgs } = this.props
+    // const orgMitSchreibrecht = userIsEsWriterInOrgs && userIsEsWriterInOrgs.length === 1 ? userIsEsWriterInOrgs[0] : null
     return {
       nameBestehend: null,
       name: null,
@@ -495,7 +497,7 @@ export default React.createClass({
   },
 
   validOrgMitSchreibrecht () {
-    const orgMitSchreibrecht = this.state.orgMitSchreibrecht
+    const { orgMitSchreibrecht } = this.state
     const validOrgMitSchreibrecht = !!orgMitSchreibrecht
     this.setState({ validOrgMitSchreibrecht })
     return validOrgMitSchreibrecht

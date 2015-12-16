@@ -7,6 +7,7 @@ export default React.createClass({
   displayName: 'InputOrganisationMitSchreibrecht',
 
   propTypes: {
+    orgMitSchreibrecht: React.PropTypes.string,
     validOrgMitSchreibrecht: React.PropTypes.bool,
     onChangeOrgMitSchreibrecht: React.PropTypes.func,
     userIsEsWriterInOrgs: React.PropTypes.array
@@ -55,8 +56,8 @@ export default React.createClass({
   },
 
   render () {
-    const { onChangeOrgMitSchreibrecht, userIsEsWriterInOrgs, validOrgMitSchreibrecht } = this.props
-    const selected = userIsEsWriterInOrgs && userIsEsWriterInOrgs.length === 1 ? userIsEsWriterInOrgs[0] : null
+    const { orgMitSchreibrecht, onChangeOrgMitSchreibrecht, userIsEsWriterInOrgs, validOrgMitSchreibrecht } = this.props
+    // const selected = userIsEsWriterInOrgs && userIsEsWriterInOrgs.length === 1 ? userIsEsWriterInOrgs[0] : null
 
     return (
       <div
@@ -73,7 +74,7 @@ export default React.createClass({
         </OverlayTrigger>
         <select
           className='form-control controls'
-          value={selected}
+          value={orgMitSchreibrecht}
           onChange={onChangeOrgMitSchreibrecht}>
           {this.options()}
         </select>
