@@ -31,6 +31,7 @@ import getPathFromGuid from './modules/getPathFromGuid.js'
 import extractInfoFromPath from './modules/extractInfoFromPath.js'
 import removeRolesFromUser from './components/main/organizations/removeRolesFromUser.js'
 import getRoleFromOrgField from './components/main/organizations/getRoleFromOrgField.js'
+import refreshUserRoles from './modules/refreshUserRoles.js'
 
 export default (Actions) => {
   app.exportDataStore = Reflux.createStore({
@@ -935,7 +936,10 @@ export default (Actions) => {
     getLogin () {
       return new Promise((resolve, reject) => {
         app.localDb.get('_local/login', { include_docs: true })
-          .then((doc) => resolve(doc))
+          .then((doc) => {
+            refreshUserRoles(doc.email)
+            resolve(doc)
+          })
           .catch((error) =>
             reject('userStore: error getting login from localDb: ' + error)
           )

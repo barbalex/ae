@@ -225,6 +225,8 @@ export default React.createClass({
     if (pcsQuerying || rcsQuerying || fieldsQuerying) homeStyle.cursor = 'progress'
     const showMenu = mainComponent !== 'exportierenAlt'
 
+    console.log('home.js, userRoles', userRoles)
+
     // MenuButton needs to be outside of the menu
     // otherwise the menu can't be shown outside when menu is short
     return (
