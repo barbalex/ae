@@ -20,6 +20,9 @@ import ProgressbarDeleteRc from './progressbarDeleteRc.js'
 import AlertDeleteRcBuildingIndex from './alertDeleteRcBuildingIndex.js'
 import AlertFirst5Deleted from '../alertFirst5Deleted.js'
 import AlertLoadAllGroups from '../alertLoadAllGroups.js'
+import isUserServerAdmin from '../../../../modules/isUserServerAdmin.js'
+import isUserOrgAdminAnywhere from '../../../../modules/isUserOrgAdmin.js'
+import isUserEsWriterAnywhere from '../../../../modules/isUserEsWriter.js'
 
 export default React.createClass({
   displayName: 'Panel1',
@@ -86,7 +89,7 @@ export default React.createClass({
     const showAlertDeleteRcBuildingIndex = deletingRcProgress && deletingRcProgress < 100
     const alertAllGroupsBsStyle = ultimatelyAlertLoadAllGroups ? 'danger' : 'info'
     const enableDeleteRcButton = !!nameBestehend
-    const alertNotEsWriter = email && (!userIsEsWriterInOrgs || userIsEsWriterInOrgs.length === 0)
+    const alertNotEsWriter = isUserServerAdmin(userRoles) || isUserOrgAdminAnywhere(userRoles) || isUserEsWriterAnywhere(userRoles)
 
     return (
       <div>

@@ -20,6 +20,9 @@ import InputOrgMitSchreibrecht from './inputOrgMitSchreibrecht.js'
 import InputImportiertVon from './inputImportiertVon.js'
 import InputZusammenfassend from './inputZusammenfassend.js'
 import InputUrsprungsEs from './inputUrsprungsEs.js'
+import isUserServerAdmin from '../../../../modules/isUserServerAdmin.js'
+import isUserOrgAdminAnywhere from '../../../../modules/isUserOrgAdmin.js'
+import isUserEsWriterAnywhere from '../../../../modules/isUserEsWriter.js'
 
 export default React.createClass({
   displayName: 'Panel1',
@@ -76,7 +79,7 @@ export default React.createClass({
     const showAlertDeletePcBuildingIndex = deletingPcProgress && deletingPcProgress < 100
     const alertAllGroupsBsStyle = ultimatelyAlertLoadAllGroups ? 'danger' : 'info'
     const enableDeletePcButton = !!nameBestehend
-    const alertNotEsWriter = email && (!userIsEsWriterInOrgs || userIsEsWriterInOrgs.length === 0)
+    const alertNotEsWriter = isUserServerAdmin(userRoles) || isUserOrgAdminAnywhere(userRoles) || isUserEsWriterAnywhere(userRoles)
 
     return (
       <div>

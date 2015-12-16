@@ -38,11 +38,6 @@ export default React.createClass({
         // mutable if user is: esWriter of org, admin of org, db/server-Admin
         const mutable = isUserServerAdmin(userRoles) || isUserOrgAdmin(userRoles, organization) || isUserEsWriter(userRoles, organization) || combining
         const className = mutable ? 'adbGruenFett' : 'adbGrauNormal'
-
-        console.log('InputNameBestehend, pc', pc)
-        console.log('InputNameBestehend, organization', organization)
-        console.log('InputNameBestehend, mutable', mutable)
-
         return (
           <option
             key={index}

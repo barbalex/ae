@@ -11,10 +11,14 @@ export default React.createClass({
       marginBottom: 5
     }
     return (
-      <div className='form-group'>
-        <Alert className='feld' bsStyle='danger' style={style}>
-          Sie können nur Eigenschaftensammlungen verändern, die Sie selber importiert haben. Ausnahme: zusammenfassende.<br/>
-          Bitte wählen Sie einen anderen Namen.
+      <div
+        className='form-group'>
+        <Alert
+          className='feld'
+          bsStyle='danger'
+          style={style}>
+          Sie Eigenschaftensammlungen nur verändern, wenn die Organisation mit Schreibrecht Ihnen Schreibrechte erteilt.<br/>
+          Ausnahme: zusammenfassende Eigenschaftensammlungen.
         </Alert>
       </div>
     )

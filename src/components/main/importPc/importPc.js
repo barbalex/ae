@@ -13,6 +13,9 @@ import getObjectsFromFile from './getObjectsFromFile.js'
 import isValidUrl from '../../../modules/isValidUrl.js'
 import getSuccessTypeFromAnalysis from './panel3/getSuccessTypeFromAnalysis.js'
 import getGuidsById from '../../../modules/getGuidsById.js'
+import isUserServerAdmin from '../../../modules/isUserServerAdmin.js'
+import isUserOrgAdmin from '../../../modules/isUserOrgAdmin.js'
+import isUserEsWriter from '../../../modules/isUserEsWriter.js'
 
 export default React.createClass({
   displayName: 'ImportPropertyCollections',
@@ -445,14 +448,16 @@ export default React.createClass({
   },
 
   isEditingPcAllowed (name) {
-    const { email, pcs } = this.props
+    const { userRoles, pcs } = this.props
     // set editing allowed to true
     // reason: close alert if it is still shown from last select
     this.setState({ esBearbeitenErlaubt: true })
     // check if this name exists
     // if so and it is not combining: check if it was imported by the user
     const samePc = pcs.find((pc) => pc.name === name)
-    const esBearbeitenErlaubt = !samePc || (samePc && (samePc.combining || samePc.importedBy === email))
+    const organization = !!samePc ? samePc.organization : null
+    const esBearbeitenErlaubt = !samePc || (samePc && (samePc.combining || isUserServerAdmin(userRoles) || isUserOrgAdmin(userRoles, organization) || isUserEsWriter(userRoles, organization)))
+
     if (!esBearbeitenErlaubt) {
       this.setState({ esBearbeitenErlaubt: false })
       // delete text after a second

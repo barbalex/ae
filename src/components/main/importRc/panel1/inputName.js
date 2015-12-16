@@ -14,12 +14,13 @@ export default React.createClass({
   },
 
   onChange (event) {
-    const link = event.target.value
-    this.props.onChangeName(link)
+    const name = event.target.value
+    this.props.onChangeName(name)
   },
 
-  onBlur () {
-    this.props.onBlurName()
+  onBlur (event) {
+    const name = event.target.value
+    this.props.onBlurName(name)
   },
 
   popover () {

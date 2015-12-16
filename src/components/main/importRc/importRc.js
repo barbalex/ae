@@ -13,6 +13,9 @@ import Panel1 from './panel1/panel1.js'
 import Panel2 from './panel2/panel2.js'
 import Panel3 from './panel3/panel3.js'
 import Panel4 from './panel4/panel4.js'
+import isUserServerAdmin from '../../../modules/isUserServerAdmin.js'
+import isUserOrgAdmin from '../../../modules/isUserOrgAdmin.js'
+import isUserEsWriter from '../../../modules/isUserEsWriter.js'
 
 export default React.createClass({
   displayName: 'ImportRelationCollections',
@@ -505,14 +508,15 @@ export default React.createClass({
   },
 
   isEditingRcAllowed (name) {
-    const { email, rcs } = this.props
+    const { userRoles, rcs } = this.props
     // set editing allowed to true
     // reason: close alert if it is still shown from last select
     this.setState({ bsBearbeitenErlaubt: true })
     // check if this name exists
     // if so and it is not combining: check if it was imported by the user
     const sameRc = rcs.find((rc) => rc.name === name)
-    const bsBearbeitenErlaubt = !sameRc || (sameRc && (sameRc.combining || sameRc.importedBy === email))
+    const organization = !!sameRc ? sameRc.organization : null
+    const bsBearbeitenErlaubt = !sameRc || (sameRc && (sameRc.combining || isUserServerAdmin(userRoles) || isUserOrgAdmin(userRoles, organization) || isUserEsWriter(userRoles, organization)))
     if (!bsBearbeitenErlaubt) {
       this.setState({ bsBearbeitenErlaubt: false })
       // delete text after a second

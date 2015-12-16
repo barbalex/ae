@@ -28,22 +28,42 @@ export default React.createClass({
     const { userRoles, rcs, groupsLoadedOrLoading } = this.props
     if (rcs && rcs.length > 0) {
       let options = rcs.map((rc, index) => {
-        const name = rc.name
-        const combining = rc.combining
-        const organization = rc['Organisation mit Schreibrecht']
+        const { name, combining, organization } = rc
         // mutable if user is: esWriter of org, admin of org, db/server-Admin
         const mutable = isUserServerAdmin(userRoles) || isUserOrgAdmin(userRoles, organization) || isUserEsWriter(userRoles, organization) || combining
         const className = mutable ? 'adbGruenFett' : 'adbGrauNormal'
-        return <option key={index} value={name} className={className}>{name}</option>
+        return (
+          <option
+            key={index}
+            value={name}
+            className={className}>
+            {name}
+          </option>
+        )
       })
       // add an empty option at the beginning
-      options.unshift(<option key='noValue' value={null}></option>)
+      options.unshift(
+        <option
+          key='noValue'
+          value={null}>
+        </option>
+      )
       return options
     } else if (groupsLoadedOrLoading && groupsLoadedOrLoading.length > 0) {
       // this option is showed while loading
-      return <option value={null}>Lade Daten...</option>
+      return (
+        <option
+          value={null}>
+          Lade Daten...
+        </option>
+      )
     } else {
-      return <option value={null}>Keine Gruppe geladen</option>
+      return (
+        <option
+          value={null}>
+          Keine Gruppe geladen
+        </option>
+      )
     }
   },
 
