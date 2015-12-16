@@ -29,7 +29,12 @@ export default React.createClass({
     }
 
     return (
-      <Input bsSize='small' type='select' style={coSelectStyle} value={value} onChange={this.onChange.bind(this, cNameKey, fNameKey)}>
+      <Input
+        bsSize='small'
+        type='select'
+        style={coSelectStyle}
+        value={value}
+        onChange={this.onChange.bind(this, cNameKey, fNameKey)}>
         <option value={null}></option>
         <option value='='>&#61;</option>
         <option value='>'>&#62;</option>
