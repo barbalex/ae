@@ -36,13 +36,13 @@ const ddoc = {
 }
 
 const queryOptions = {
-  group_level: 4,
+  group_level: 5,
   reduce: '_count'
 }
 // don't understand why but passing reduce
 // produces an error in couch
 const queryOptionsCouch = {
-  group_level: 4
+  group_level: 5
 }
 
 const query = {
