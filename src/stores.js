@@ -238,7 +238,10 @@ export default (Actions) => {
           const orgsWhereUserIsAdmin = organizations.filter((org) => org.orgAdmins.includes(email))
           this.userIsAdminInOrgs = _.pluck(orgsWhereUserIsAdmin, 'Name')
           // set activeOrganization if user is logged in and only admin in one organization
-          if (this.userIsAdminInOrgs.length === 1) this.activeOrganizationName = this.userIsAdminInOrgs[0]
+          if (this.userIsAdminInOrgs.length === 1) {
+            this.activeOrganizationName = this.userIsAdminInOrgs[0]
+            app.Actions.getPcsOfOrganization(this.activeOrganizationName)
+          }
           // is user es-writer in orgs?
           let orgsWhereUserIsEsWriter = organizations.filter((org) => org.esWriters.includes(email))
           orgsWhereUserIsEsWriter = _.union(orgsWhereUserIsEsWriter, orgsWhereUserIsAdmin)

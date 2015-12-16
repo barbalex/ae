@@ -14,6 +14,7 @@ import { ListenerMixin } from 'reflux'
 import _ from 'lodash'
 import { PanelGroup, Panel, Input, Alert } from 'react-bootstrap'
 import UsersList from './usersList.js'
+import CollectionList from './collectionList.js'
 
 export default React.createClass({
   displayName: 'Organizations',
@@ -54,7 +55,14 @@ export default React.createClass({
     const { organizations, email } = this.props
     const orgWhereUserIsAdmin = organizations.filter((org) => org.orgAdmins.includes(email))
     const orgNamesWhereUserIsAdmin = _.pluck(orgWhereUserIsAdmin, 'Name')
-    return orgNamesWhereUserIsAdmin.map((name, index) => <option key={index} value={name}>{name}</option>)
+    // orgNamesWhereUserIsAdmin.unshift(null)
+    return orgNamesWhereUserIsAdmin.map((name, index) => (
+      <option
+        key={index}
+        value={name}>
+        {name}
+      </option>
+    ))
   },
 
   userIsNotOrgAdminAlert () {
@@ -67,6 +75,7 @@ export default React.createClass({
 
   lowerPart () {
     const { activeOrganization } = this.props
+    const { pcsOfOrganization } = this.state
     return (
       <div>
         <UsersList
@@ -78,6 +87,10 @@ export default React.createClass({
         <UsersList
           activeOrganization={activeOrganization}
           userFieldName='orgAdmins' />
+        <CollectionList
+          collections={pcsOfOrganization}
+          cType='Eigenschaftensammlungen'
+          orgName={activeOrganization.Name} />
       </div>
     )
   },
@@ -85,11 +98,6 @@ export default React.createClass({
   render () {
     const { onChangeActiveOrganization, userIsAdminInOrgs, email, activeOrganization } = this.props
     const showLowerPart = email && activeOrganization && userIsAdminInOrgs.includes(activeOrganization.Name)
-    const { pcsOfOrganization } = this.state
-
-    console.log('pcsOfOrganization', pcsOfOrganization)
-
-    // TODO: does not work because input is not changed
 
     return (
       <div className='formContent'>
