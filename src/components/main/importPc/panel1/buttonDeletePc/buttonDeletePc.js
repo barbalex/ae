@@ -48,13 +48,15 @@ export default React.createClass({
       <div>
         {
           nameBestehend
-          ? <Button
-              bsStyle='danger'
-              className='feld'
-              onClick={this.onClickDeletePc}
-              disabled={!enableDeletePcButton}>
-              <Glyphicon glyph='trash'/> Eigenschaftensammlung "{nameBestehend}" aus allen Arten/Lebensräumen entfernen
-            </Button>
+          ? <div className='form-group'>
+              <Button
+                bsStyle='danger'
+                className='feld'
+                onClick={this.onClickDeletePc}
+                disabled={!enableDeletePcButton}>
+                <Glyphicon glyph='trash'/> Eigenschaftensammlung "{nameBestehend}" aus allen Arten/Lebensräumen entfernen
+              </Button>
+            </div>
           : null
         }
         {

@@ -366,7 +366,7 @@ export default (Actions) => {
                 const pc = {
                   name: name,
                   combining: zusammenfassend,
-                  importedBy: importiertVon,
+                  organization: orgMitSchreibrecht,
                   fields: {
                     Beschreibung: beschreibung,
                     Datenstand: datenstand,
@@ -448,7 +448,7 @@ export default (Actions) => {
     listenables: Actions,
 
     onImportRcs (state) {
-      const { idsImportIdField, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs } = state
+      const { idsImportIdField, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, orgMitSchreibrecht, zusammenfassend, nameUrsprungsEs } = state
       let { rcsToImport } = state
 
       let importingProgress = 0
@@ -528,13 +528,14 @@ export default (Actions) => {
               const rc = {
                 name: name,
                 combining: zusammenfassend,
-                importedBy: importiertVon,
+                organization: orgMitSchreibrecht,
                 fields: {
                   Beschreibung: beschreibung,
                   Datenstand: datenstand,
                   Nutzungsbedingungen: nutzungsbedingungen,
                   Link: link,
-                  'importiert von': importiertVon
+                  'importiert von': importiertVon,
+                  'Organisation mit Schreibrecht': orgMitSchreibrecht
                 },
                 count: 0
               }
@@ -724,7 +725,6 @@ export default (Actions) => {
         app.propertyCollectionsStore.getPcs()
           .then((pcs) => {
             const pcsOfOrg = pcs.filter((pc) => pc.organization === orgName)
-            console.log('pcsOfOrganizationStore, getPcsOfOrganization, pcsOfOrg', pcsOfOrg)
             this.trigger(pcsOfOrg)
           })
           .catch((error) =>
@@ -740,7 +740,7 @@ export default (Actions) => {
      * keeps last query result in pouch (_local/pcs.pcs) for fast delivery
      * app.js sets default _local/pcs.pcs = [] if not exists on app start
      * pc's are arrays of the form:
-     * [collectionType, pcName, combining, importedBy, {Beschreibung: xxx, Datenstand: xxx, Link: xxx, Nutzungsbedingungen: xxx}, count: xxx]
+     * [collectionType, pcName, combining, organization, {Beschreibung: xxx, Datenstand: xxx, Link: xxx, Nutzungsbedingungen: xxx}, count: xxx]
      *
      * when this store triggers it passes two variables:
      * pcs: the propberty collections
@@ -823,8 +823,6 @@ export default (Actions) => {
       queryPcs(offlineIndexes)
         .then((pcs) => {
           this.pcsQuerying = false
-          // email has empty values. Set default
-          pcs.forEach((pc) => pc.importedBy = pc.importedBy || 'alex@gabriel-software.ch')
           this.trigger(pcs, this.pcsQuerying)
           return this.savePcs(pcs)
         })
@@ -843,7 +841,6 @@ export default (Actions) => {
         app.relationCollectionsStore.getRcs()
           .then((rcs) => {
             const rcsOfOrg = rcs.filter((pc) => pc.organization === orgName)
-            console.log('rcsOfOrganizationStore, getRcsOfOrganization, rcsOfOrg', rcsOfOrg)
             this.trigger(rcsOfOrg)
           })
           .catch((error) =>
@@ -859,7 +856,7 @@ export default (Actions) => {
      * keeps last query result in pouch (_local/rcs.rcs) for fast delivery
      * app.js sets default _local/rcs.rcs = [] if not exists on app start
      * rc's are arrays of the form:
-     * [collectionType, rcName, combining, importedBy, {Beschreibung: xxx, Datenstand: xxx, Link: xxx, Nutzungsbedingungen: xxx}, count: xxx]
+     * [collectionType, rcName, combining, organization, {Beschreibung: xxx, Datenstand: xxx, Link: xxx, Nutzungsbedingungen: xxx}, count: xxx]
      *
      * when this store triggers it passes two variables:
      * rcs: the relation collections
@@ -942,10 +939,6 @@ export default (Actions) => {
       queryRcs(offlineIndexes)
         .then((rcs) => {
           this.rcsQuerying = false
-          // email has empty values. Set default
-          rcs.forEach((rc) => {
-            rc.importedBy = rc.importedBy || 'alex@gabriel-software.ch'
-          })
           this.trigger(rcs, this.rcsQuerying)
           return this.saveRcs(rcs)
         })

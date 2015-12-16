@@ -410,8 +410,8 @@ export default React.createClass({
   },
 
   onClickImportieren () {
-    const { rcsToImport, idsImportIdField, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsBs } = this.state
-    app.Actions.importRcs({ rcsToImport, idsImportIdField, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsBs })
+    const { rcsToImport, idsImportIdField, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, orgMitSchreibrecht, zusammenfassend, nameUrsprungsBs } = this.state
+    app.Actions.importRcs({ rcsToImport, idsImportIdField, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, orgMitSchreibrecht, zusammenfassend, nameUrsprungsBs })
   },
 
   onClickDeleteRc () {

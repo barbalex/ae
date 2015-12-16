@@ -148,7 +148,6 @@ export default React.createClass({
         .then((pc) => {
           // only go on if pc exists (prevent error)
           if (pc) {
-            console.log('pc', pc)
             const beschreibung = pc.fields.Beschreibung
             const datenstand = pc.fields.Datenstand
             const nutzungsbedingungen = pc.fields.Nutzungsbedingungen

@@ -38,13 +38,13 @@ const ddoc = {
 }
 
 const queryOptionsPouch = {
-  group_level: 5,
+  group_level: 4,
   reduce: '_count'
 }
 // don't understand why but passing reduce
 // produces an error in couch
 const queryOptionsCouch = {
-  group_level: 5
+  group_level: 4
 }
 
 const query = {
@@ -80,8 +80,7 @@ export default (offlineIndexes) => {
           name: row.key[0],
           combining: row.key[1],
           organization: row.key[2],
-          importedBy: row.key[3],
-          fields: row.key[4],
+          fields: row.key[3],
           count: row.value
         }))
         // sort by pcName
