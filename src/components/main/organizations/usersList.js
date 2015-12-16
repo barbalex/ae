@@ -96,8 +96,8 @@ export default React.createClass({
 
       // is this a registered user? Sorry, no way to test this without password
       doesUserExist(newUser)
-        .then((result) => {
-          if (result.data && activeOrganization[userFieldName]) {
+        .then((exists) => {
+          if (exists && activeOrganization[userFieldName]) {
             // Update user roles
             let roles = []
             const role = getRoleFromOrgField(activeOrganization, userFieldName)
