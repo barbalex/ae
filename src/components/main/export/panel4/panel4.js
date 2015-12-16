@@ -29,7 +29,6 @@ export default React.createClass({
     const { exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, oneRowPerRelation, combineTaxonomies } = this.props
     // make sure, pcs are queried
     app.Actions.buildExportData({ exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, oneRowPerRelation, combineTaxonomies })
-    console.log('building export data')
   },
 
   render () {
