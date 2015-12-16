@@ -10,12 +10,15 @@
 
 import app from 'ampersand-app'
 import React from 'react'
+import { ListenerMixin } from 'reflux'
 import _ from 'lodash'
 import { PanelGroup, Panel, Input, Alert } from 'react-bootstrap'
 import UsersList from './usersList.js'
 
 export default React.createClass({
   displayName: 'Organizations',
+
+  mixins: [ListenerMixin],
 
   propTypes: {
     email: React.PropTypes.string,
@@ -40,17 +43,12 @@ export default React.createClass({
       app.Actions.login({ logIn })
     }
     app.Actions.getOrganizations(email)
+    this.listenTo(app.pcsOfOrganizationStore, this.onPcsOfOrganizationStoreChange)
   },
 
-  /*
-  shouldComponentUpdate () {
-    const { activeOrganization } = this.props
-    if (activeOrganization && activeOrganization.Name) {
-      const pcsOfOrganization = app.propertyCollectionsStore.getPcsOfOrganization(activeOrganization.Name)
-      this.setState({ pcsOfOrganization })
-    }
-    return true
-  },*/
+  onPcsOfOrganizationStoreChange (pcsOfOrganization) {
+    this.setState({ pcsOfOrganization })
+  },
 
   orgValues () {
     const { organizations, email } = this.props
@@ -86,10 +84,12 @@ export default React.createClass({
 
   render () {
     const { onChangeActiveOrganization, userIsAdminInOrgs, email, activeOrganization } = this.props
-    const { pcsOfOrganization } = this.state
     const showLowerPart = email && activeOrganization && userIsAdminInOrgs.includes(activeOrganization.Name)
+    const { pcsOfOrganization } = this.state
 
     console.log('pcsOfOrganization', pcsOfOrganization)
+
+    // TODO: does not work because input is not changed
 
     return (
       <div className='formContent'>

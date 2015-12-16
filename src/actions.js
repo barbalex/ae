@@ -43,7 +43,8 @@ export default () => {
     setActiveOrganization: {},
     updateActiveOrganization: {},
     removeUserFromActiveOrganization: {},
-    getUsers: {}
+    getUsers: {},
+    getPcsOfOrganization: {}
   })
 
   Actions.loadPouchFromRemote.listen(() => {

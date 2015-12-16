@@ -711,6 +711,25 @@ export default (Actions) => {
     }
   })
 
+  app.pcsOfOrganizationStore = Reflux.createStore({
+
+    listenables: Actions,
+
+    onGetPcsOfOrganization (orgName) {
+      return new Promise((resolve, reject) => {
+        app.propertyCollectionsStore.getPcs()
+          .then((pcs) => {
+            const pcsOfOrg = pcs.filter((pc) => pc.organization === orgName)
+            console.log('pcsOfOrganizationStore, getPcsOfOrganization, pcsOfOrg', pcsOfOrg)
+            this.trigger(pcsOfOrg)
+          })
+          .catch((error) =>
+            app.Actions.showError({title: 'pcsOfOrganizationStore, error getting existing pcs of ' + orgName + ':', msg: error})
+          )
+      })
+    }
+  })
+
   app.propertyCollectionsStore = Reflux.createStore({
     /*
      * queries property collections
@@ -783,17 +802,6 @@ export default (Actions) => {
           .then((pcs) => {
             const pc = pcs.find((pc) => pc.name === name)
             resolve(pc)
-          })
-          .catch((error) => reject(error))
-      })
-    },
-
-    getPcsOfOrganization (orgName) {
-      return new Promise((resolve, reject) => {
-        this.getPcs()
-          .then((pcs) => {
-            const pcsOfOrg = pcs.filter((pc) => pc['Organisation mit Schreibrecht'] === orgName)
-            resolve(pcsOfOrg)
           })
           .catch((error) => reject(error))
       })
