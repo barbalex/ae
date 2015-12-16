@@ -100,8 +100,6 @@ export default React.createClass({
       )
     }
 
-    console.log('PcDescription.js, pc', pc)
-
     return (
       <div>
         <div className='Datensammlung beschreibungDatensammlung'>
