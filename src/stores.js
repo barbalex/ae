@@ -241,6 +241,7 @@ export default (Actions) => {
           if (this.userIsAdminInOrgs.length === 1) {
             this.activeOrganizationName = this.userIsAdminInOrgs[0]
             app.Actions.getPcsOfOrganization(this.activeOrganizationName)
+            app.Actions.getRcsOfOrganization(this.activeOrganizationName)
           }
           // is user es-writer in orgs?
           let orgsWhereUserIsEsWriter = organizations.filter((org) => org.esWriters.includes(email))
@@ -830,6 +831,25 @@ export default (Actions) => {
         .catch((error) =>
           app.Actions.showError({title: 'propertyCollectionsStore, error querying up to date pcs:', msg: error})
         )
+    }
+  })
+
+  app.rcsOfOrganizationStore = Reflux.createStore({
+
+    listenables: Actions,
+
+    onGetRcsOfOrganization (orgName) {
+      return new Promise((resolve, reject) => {
+        app.relationCollectionsStore.getRcs()
+          .then((rcs) => {
+            const rcsOfOrg = rcs.filter((pc) => pc.organization === orgName)
+            console.log('rcsOfOrganizationStore, getRcsOfOrganization, rcsOfOrg', rcsOfOrg)
+            this.trigger(rcsOfOrg)
+          })
+          .catch((error) =>
+            app.Actions.showError({title: 'rcsOfOrganizationStore, error getting existing rcs of ' + orgName + ':', msg: error})
+          )
+      })
     }
   })
 

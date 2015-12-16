@@ -28,12 +28,14 @@ export default React.createClass({
     activeOrganization: React.PropTypes.object,
     onChangeActiveOrganization: React.PropTypes.func,
     userIsAdminInOrgs: React.PropTypes.array,
-    pcsOfOrganization: React.PropTypes.array
+    pcsOfOrganization: React.PropTypes.array,
+    rcsOfOrganization: React.PropTypes.array
   },
 
   getInitialState () {
     return {
-      pcsOfOrganization: []
+      pcsOfOrganization: [],
+      rcsOfOrganization: []
     }
   },
 
@@ -45,10 +47,15 @@ export default React.createClass({
     }
     app.Actions.getOrganizations(email)
     this.listenTo(app.pcsOfOrganizationStore, this.onPcsOfOrganizationStoreChange)
+    this.listenTo(app.rcsOfOrganizationStore, this.onRcsOfOrganizationStoreChange)
   },
 
   onPcsOfOrganizationStoreChange (pcsOfOrganization) {
     this.setState({ pcsOfOrganization })
+  },
+
+  onRcsOfOrganizationStoreChange (rcsOfOrganization) {
+    this.setState({ rcsOfOrganization })
   },
 
   orgValues () {
@@ -75,7 +82,7 @@ export default React.createClass({
 
   lowerPart () {
     const { activeOrganization } = this.props
-    const { pcsOfOrganization } = this.state
+    const { pcsOfOrganization, rcsOfOrganization } = this.state
     return (
       <div>
         <UsersList
@@ -87,10 +94,22 @@ export default React.createClass({
         <UsersList
           activeOrganization={activeOrganization}
           userFieldName='orgAdmins' />
-        <CollectionList
-          collections={pcsOfOrganization}
-          cType='Eigenschaftensammlungen'
-          orgName={activeOrganization.Name} />
+        {
+          pcsOfOrganization.length > 0
+          ? <CollectionList
+            collections={pcsOfOrganization}
+            cType='Eigenschaftensammlungen'
+            orgName={activeOrganization.Name} />
+          : null
+        }
+        {
+          rcsOfOrganization.length > 0
+          ? <CollectionList
+            collections={rcsOfOrganization}
+            cType='Beziehungssammlungen'
+            orgName={activeOrganization.Name} />
+          : null
+        }
       </div>
     )
   },

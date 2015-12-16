@@ -138,6 +138,7 @@ export default React.createClass({
     const activeOrganizationName = event.target.value
     app.Actions.setActiveOrganization(activeOrganizationName)
     app.Actions.getPcsOfOrganization(activeOrganizationName)
+    app.Actions.getRcsOfOrganization(activeOrganizationName)
   },
 
   onChangePropertyCollectionsStore (pcs, pcsQuerying) {
