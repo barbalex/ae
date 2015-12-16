@@ -1,6 +1,9 @@
 'use strict'
 
 import React from 'react'
+import isUserServerAdmin from '../../../../modules/isUserServerAdmin.js'
+import isUserOrgAdmin from '../../../../modules/isUserOrgAdmin.js'
+import isUserEsWriter from '../../../../modules/isUserEsWriter.js'
 
 export default React.createClass({
   displayName: 'InputNameBestehend',
@@ -9,6 +12,7 @@ export default React.createClass({
     groupsLoadedOrLoading: React.PropTypes.array,
     nameBestehend: React.PropTypes.string,
     email: React.PropTypes.string,
+    userRoles: React.PropTypes.array,
     rcs: React.PropTypes.array,
     onChangeNameBestehend: React.PropTypes.func,
     userIsEsWriterInOrgs: React.PropTypes.array
@@ -21,17 +25,14 @@ export default React.createClass({
   },
 
   options () {
-    const { email, rcs, groupsLoadedOrLoading, userIsEsWriterInOrgs } = this.props
-    // TODO: check if user is writer in pcs's organization instead of imported by
-
+    const { userRoles, rcs, groupsLoadedOrLoading } = this.props
     if (rcs && rcs.length > 0) {
       let options = rcs.map((rc, index) => {
         const name = rc.name
         const combining = rc.combining
-        const importedBy = rc.importedBy
-        // mutable: only those imported by user and combining rc's
-        // or: user is admin
-        const mutable = (importedBy === email || combining || Boolean(window.localStorage.admin))
+        const organization = rc['Organisation mit Schreibrecht']
+        // mutable if user is: esWriter of org, admin of org, db/server-Admin
+        const mutable = isUserServerAdmin(userRoles) || isUserOrgAdmin(userRoles, organization) || isUserEsWriter(userRoles, organization) || combining
         const className = mutable ? 'adbGruenFett' : 'adbGrauNormal'
         return <option key={index} value={name} className={className}>{name}</option>
       })
@@ -62,9 +63,7 @@ export default React.createClass({
           className='form-control controls'
           selected={nameBestehend}
           onChange={this.onChange}>
-          {
-            this.options()
-          }
+          {this.options()}
         </select>
       </div>
     )

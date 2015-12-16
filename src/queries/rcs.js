@@ -77,7 +77,7 @@ export default (offlineIndexes) => {
         let rcs = uniqueRows.map((row) => ({
           name: row.key[0],
           combining: row.key[1],
-          organisation: row.key[2],
+          organization: row.key[2],
           importedBy: row.key[3],
           fields: row.key[4],
           count: row.value

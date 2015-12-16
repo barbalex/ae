@@ -101,6 +101,7 @@ export default React.createClass({
             mainComponent === 'importPc'
             ? <ImportPc
                 email={email}
+                userRoles={userRoles}
                 pcs={pcs}
                 offlineIndexes={offlineIndexes}
                 groupsLoadedOrLoading={groupsLoadedOrLoading}
@@ -116,6 +117,7 @@ export default React.createClass({
             mainComponent === 'importRc'
             ? <ImportRc
                 email={email}
+                userRoles={userRoles}
                 rcs={rcs}
                 offlineIndexes={offlineIndexes}
                 groupsLoadedOrLoading={groupsLoadedOrLoading}

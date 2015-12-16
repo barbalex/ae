@@ -34,6 +34,7 @@ export default React.createClass({
     zusammenfassend: React.PropTypes.bool,
     nameUrsprungsBs: React.PropTypes.string,
     email: React.PropTypes.string,
+    userRoles: React.PropTypes.array,
     rcs: React.PropTypes.array,
     rcsToImport: React.PropTypes.array,
     rcsRemoved: React.PropTypes.bool,
@@ -582,7 +583,7 @@ export default React.createClass({
 
   render () {
     const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsBs, bsBearbeitenErlaubt, rcsToImport, rcsRemoved, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validOrgMitSchreibrecht, validUrsprungsBs, validRcsToImport, activePanel, idsAeIdField, idsImportIdField, idsNumberOfRecordsWithIdValue, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, panel3Done, importingProgress, deletingRcInstancesProgress, deletingRcProgress, idsWithoutPartner, rPartnerIdsToImport, rPartnerIdsImportable } = this.state
-    const { groupsLoadedOrLoading, email, rcs, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime, organizations, userIsEsWriterInOrgs } = this.props
+    const { groupsLoadedOrLoading, email, userRoles, rcs, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime, organizations, userIsEsWriterInOrgs } = this.props
 
     return (
       <div
@@ -613,6 +614,7 @@ export default React.createClass({
                   zusammenfassend={zusammenfassend}
                   nameUrsprungsBs={nameUrsprungsBs}
                   email={email}
+                  userRoles={userRoles}
                   rcs={rcs}
                   idsOfAeObjects={idsOfAeObjects}
                   deletingRcProgress={deletingRcProgress}

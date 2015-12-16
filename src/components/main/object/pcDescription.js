@@ -58,9 +58,9 @@ export default React.createClass({
       )
     }
 
-    let organisation = null
+    let organization = null
     if (pc['Organisation mit Schreibrecht']) {
-      organisation = (
+      organization = (
         <div className='dsBeschreibungZeile'>
           <div>Organisation mit Schreibrecht:</div>
           <div>{pc['Organisation mit Schreibrecht']}</div>
@@ -103,7 +103,7 @@ export default React.createClass({
             {pc.Datenstand ? datenstand : null}
             {pc.Nutzungsbedingungen ? nutzunbsbedingungen : null}
             {pc.Link ? link : null}
-            {organisation}
+            {organization}
             {pc['importiert von'] ? importiertVon : null}
             {pc.zusammenfassend ? ursprungsEs : null}
           </div>

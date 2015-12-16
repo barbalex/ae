@@ -1,6 +1,9 @@
 'use strict'
 
 import React from 'react'
+import isUserServerAdmin from '../../../../modules/isUserServerAdmin.js'
+import isUserOrgAdmin from '../../../../modules/isUserOrgAdmin.js'
+import isUserEsWriter from '../../../../modules/isUserEsWriter.js'
 
 export default React.createClass({
   displayName: 'InputNameBestehend',
@@ -9,6 +12,7 @@ export default React.createClass({
     groupsLoadedOrLoading: React.PropTypes.array,
     nameBestehend: React.PropTypes.string,
     email: React.PropTypes.string,
+    userRoles: React.PropTypes.array,
     pcs: React.PropTypes.array,
     onChangeNameBestehend: React.PropTypes.func,
     userIsEsWriterInOrgs: React.PropTypes.array
@@ -25,18 +29,20 @@ export default React.createClass({
   },
 
   options () {
-    const { email, pcs, groupsLoadedOrLoading, userIsEsWriterInOrgs } = this.props
+    const { userRoles, pcs, groupsLoadedOrLoading } = this.props
     // TODO: check if user is writer in pcs's organization instead of imported by
 
     if (pcs && pcs.length > 0) {
       let options = pcs.map((pc, index) => {
-        const name = pc.name
-        const combining = pc.combining
-        const importedBy = pc.importedBy
-        // mutable: only those imported by user and combining pc's
-        // or: user is admin
-        const mutable = (importedBy === email || combining || Boolean(window.localStorage.admin))
+        const { name, combining, organization } = pc
+        // mutable if user is: esWriter of org, admin of org, db/server-Admin
+        const mutable = isUserServerAdmin(userRoles) || isUserOrgAdmin(userRoles, organization) || isUserEsWriter(userRoles, organization) || combining
         const className = mutable ? 'adbGruenFett' : 'adbGrauNormal'
+
+        console.log('InputNameBestehend, pc', pc)
+        console.log('InputNameBestehend, organization', organization)
+        console.log('InputNameBestehend, mutable', mutable)
+
         return (
           <option
             key={index}
