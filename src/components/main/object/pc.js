@@ -14,6 +14,7 @@ import LinkToSameGroup from './linkToSameGroup.js'
 import LinksToSameGroup from './linksToSameGroup.js'
 import FieldInput from './fieldInput.js'
 import Field from './field.js'
+import isUserLrWriter from '../../../modules/isUserLrWriter.js'
 
 function buildFieldForProperty (propertyCollection, object, value, key, pcType) {
   const pcName = propertyCollection.Name.replace(/"/g, "'")
@@ -63,12 +64,15 @@ export default React.createClass({
   propTypes: {
     pcType: React.PropTypes.string,
     object: React.PropTypes.object,
-    propertyCollection: React.PropTypes.object
+    propertyCollection: React.PropTypes.object,
+    userRoles: React.PropTypes.array
   },
 
   render () {
-    const { propertyCollection, pcType, object } = this.props
+    const { propertyCollection, pcType, object, userRoles } = this.props
     const pcName = replaceInvalidCharactersInIdNames(propertyCollection.Name)
+    const isLr = object.Gruppe === 'Lebensräume'
+    const objectIsEditable = isLr && isUserLrWriter(userRoles, propertyCollection['Organisation mit Schreibrecht'])
 
     const editToolbar = (
       <div className='btn-toolbar bearbToolbar'>
