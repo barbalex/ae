@@ -91,6 +91,11 @@ app.extend({
         logIn: false,
         email: null
       }),
+      // initiate tax data if necessary
+      this.localDb.putIfNotExists({
+        _id: '_local/tax',
+        tax: []
+      }),
       // initiate pcs data if necessary
       this.localDb.putIfNotExists({
         _id: '_local/pcs',
