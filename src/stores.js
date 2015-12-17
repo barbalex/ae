@@ -295,8 +295,6 @@ export default (Actions) => {
     onGetTcsOfOrganization (orgName) {
       app.taxonomyCollectionsStore.getTcs()
         .then((tcs) => {
-          console.log('organizationsStore, onGetTcsOfOrganization, tcs', tcs)
-          console.log('organizationsStore, onGetTcsOfOrganization, orgName', orgName)
           this.tcsOfActiveOrganization = tcs.filter((tc) => tc.organization === orgName)
           this.triggerMe()
         })
