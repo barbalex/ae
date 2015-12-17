@@ -73,8 +73,8 @@ export default React.createClass({
 
   lowerPart () {
     const { activeOrganization, tcsOfActiveOrganization, pcsOfActiveOrganization, rcsOfActiveOrganization } = this.props
-    const lr = tcsOfActiveOrganization.filter((tcs) => tcs.group === 'Lebensräume')
-    const nonLrTcs = tcsOfActiveOrganization.filter((tcs) => tcs.group !== 'Lebensräume')
+    const lr = _.uniq(tcsOfActiveOrganization.filter((tcs) => tcs.group === 'Lebensräume'), (tc) => tc.name)
+    const nonLrTcs = _.uniq(tcsOfActiveOrganization.filter((tcs) => tcs.group !== 'Lebensräume'), (tc) => tc.name)
     const showDatenTitel = tcsOfActiveOrganization.length > 0 || pcsOfActiveOrganization.length > 0 || rcsOfActiveOrganization.length > 0
 
     return (
