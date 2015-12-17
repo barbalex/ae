@@ -32,12 +32,13 @@ export default React.createClass({
   },
 
   componentDidMount () {
-    let { email } = this.props
+    let { email, offlineIndexes } = this.props
     if (!email) {
       const logIn = true
       app.Actions.login({ logIn })
     }
     app.Actions.getOrganizations(email)
+    app.Actions.queryTaxonomyCollections(offlineIndexes)
   },
 
   orgValues () {
@@ -66,8 +67,6 @@ export default React.createClass({
     const { activeOrganization, tcsOfActiveOrganization, pcsOfActiveOrganization, rcsOfActiveOrganization } = this.props
 
     console.log('organizations.js, render, tcsOfActiveOrganization', tcsOfActiveOrganization)
-    // console.log('organizations.js, render, pcsOfActiveOrganization', pcsOfActiveOrganization)
-    // console.log('organizations.js, render, rcsOfActiveOrganization', rcsOfActiveOrganization)
 
     return (
       <div>

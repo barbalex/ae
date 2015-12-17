@@ -336,7 +336,6 @@ export default (Actions) => {
       const tcsOfActiveOrganization = this.tcsOfActiveOrganization
       const pcsOfActiveOrganization = this.pcsOfActiveOrganization
       const rcsOfActiveOrganization = this.rcsOfActiveOrganization
-      // TODO: trigger tcsOfOrg, pcsOfOrt, rcsOfOrg
       this.trigger({ organizations, activeOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, userIsLrWriterInOrgs, tcsOfActiveOrganization, pcsOfActiveOrganization, rcsOfActiveOrganization })
     }
   })
