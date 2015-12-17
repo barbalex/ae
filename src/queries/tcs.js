@@ -14,9 +14,9 @@ import app from 'ampersand-app'
 import _ from 'lodash'
 
 const ddoc = {
-  _id: '_design/tax',
+  _id: '_design/tcs',
   views: {
-    'tax': {
+    'tcs': {
       map: function (doc) {
         if (doc.Typ && doc.Typ === 'Objekt' && doc.Gruppe && doc.Taxonomien) {
           doc.Taxonomien.forEach(function (tc) {
@@ -55,14 +55,14 @@ const query = {
           // ignore if doc already exists
           if (error.status !== 409) reject(error)
         })
-        .then((response) => app.localDb.query('tax', queryOptionsPouch))
+        .then((response) => app.localDb.query('tcs', queryOptionsPouch))
         .then((result) => resolve(result))
         .catch((error) => reject(error))
     })
   },
   remote () {
     return new Promise((resolve, reject) => {
-      app.remoteDb.query('tax', queryOptionsCouch)
+      app.remoteDb.query('tcs', queryOptionsCouch)
         .then((result) => resolve(result))
         .catch((error) => reject(error))
     })
@@ -76,7 +76,7 @@ export default (offlineIndexes) => {
       .then((result) => {
         const rows = result.rows
         const uniqueRows = _.uniq(rows, (row) => row.key[0])
-        let tax = uniqueRows.map((row) => ({
+        let tcs = uniqueRows.map((row) => ({
           group: row.key[0],
           standard: row.key[1],
           name: row.key[2],
@@ -85,8 +85,8 @@ export default (offlineIndexes) => {
           count: row.value
         }))
         // sort by pcName
-        tax = tax.sort((tc) => tc.name)
-        resolve(tax)
+        tcs = tcs.sort((tc) => tc.name)
+        resolve(tcs)
       })
       .catch((error) => reject(error))
   })
