@@ -16,12 +16,20 @@ export default React.createClass({
     let pcsComponent = null
 
     if (pcsOfSynonyms.length > 0) {
-      pcsComponent = pcsOfSynonyms.map((pc, index) => <PropertyCollection key={index} pcType='Datensammlung' object={object} propertyCollection={pc}/>)
+      pcsComponent = pcsOfSynonyms.map((pc, index) => (
+        <PropertyCollection
+          key={index}
+          pcType='Datensammlung'
+          object={object}
+          propertyCollection={pc}/>
+      ))
     }
 
     return (
       <div>
-        <h4>Eigenschaften von Synonymen:</h4>
+        <h4>
+          Eigenschaften von Synonymen:
+        </h4>
         {pcsComponent}
       </div>
     )

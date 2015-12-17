@@ -22,27 +22,26 @@ export default React.createClass({
 
     return (
       <div className='form-group'>
-          <label
-            className='control-label'
-            htmlFor={fieldName}
-          >
-            {fieldName + ':'}
-          </label>
-          <p>
-            <a href={fieldValue}>
-              <input
-                className={'controls form-control input-sm'}
-                dsTyp={pcType}
-                dsName={pcName}
-                id={fieldName}
-                name={fieldName}
-                type={'text'}
-                value={fieldValue}
-                readOnly={'readonly'}
-                style={{'cursor': 'pointer'}}
-              />
-            </a>
-          </p>
+        <label
+          className='control-label'
+          htmlFor={fieldName}
+        >
+          {fieldName + ':'}
+        </label>
+        <p>
+          <a href={fieldValue}>
+            <input
+              className='controls form-control input-sm'
+              dsTyp={pcType}
+              dsName={pcName}
+              id={fieldName}
+              name={fieldName}
+              type='text'
+              value={fieldValue}
+              readOnly='readonly'
+              style={{'cursor': 'pointer'}} />
+          </a>
+        </p>
       </div>
     )
   }

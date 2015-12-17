@@ -32,12 +32,21 @@ export default React.createClass({
     // and using it starts an infinite loop
 
     return (
-      <div className='form-group'>
-        <label className='control-label'>
-          {label ? label + ':' : null}
+      <div
+        className='form-group'>
+        <label
+          className='control-label'>
+          {
+            label
+            ? label + ':'
+            : null
+          }
         </label>
-        <p className='form-control-static feldtext controls'>
-          <a href={url} onClick={this.onClickUrl}>
+        <p
+          className='form-control-static feldtext controls'>
+          <a
+            href={url}
+            onClick={this.onClickUrl}>
             {value}
           </a>
         </p>

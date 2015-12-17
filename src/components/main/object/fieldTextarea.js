@@ -23,18 +23,21 @@ export default React.createClass({
 
     return (
       <div className='form-group form-group-sm'>
-        <label htmlFor={fieldName} className='control-label'>
-          <span>{fieldName + ':'}</span>
+        <label
+          htmlFor={fieldName}
+          className='control-label'>
+          <span>
+            {fieldName + ':'}
+          </span>
         </label>
         <Textarea
           dsTyp={pcType}
           dsName={pcName}
           id={fieldName}
           name={fieldName}
-          readOnly={'readonly'}
-          className={'controls form-control'}
-          defaultValue={fieldValue}
-        />
+          readOnly='readonly'
+          className='controls form-control'
+          defaultValue={fieldValue} />
       </div>
     )
   }

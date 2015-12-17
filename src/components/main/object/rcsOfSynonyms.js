@@ -15,12 +15,18 @@ export default React.createClass({
     let rcsComponent = null
 
     if (rcsOfSynonyms.length > 0) {
-      rcsComponent = rcsOfSynonyms.map((rc, index) => <RelationCollection key={index} relationCollection={rc}/>)
+      rcsComponent = rcsOfSynonyms.map((rc, index) => (
+        <RelationCollection
+          key={index}
+          relationCollection={rc}/>
+      ))
     }
 
     return (
       <div>
-        <h4>Beziehungen von Synonymen:</h4>
+        <h4>
+          Beziehungen von Synonymen:
+        </h4>
         {rcsComponent}
       </div>
     )

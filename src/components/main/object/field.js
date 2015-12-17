@@ -35,21 +35,60 @@ export default React.createClass({
 
     if ((typeof fieldValue === 'string' && fieldValue.slice(0, 7) === 'http://') || (typeof fieldValue === 'string' && fieldValue.slice(0, 8) === 'https://') || (typeof fieldValue === 'string' && fieldValue.slice(0, 2) === '//')) {
       // www-Links als Link darstellen
-      return <FieldLink fieldName={fieldName} fieldValue={fieldValue} pcType={pcType} pcName={pcName} />
+      return (
+        <FieldLink
+          fieldName={fieldName}
+          fieldValue={fieldValue}
+          pcType={pcType}
+          pcName={pcName} />
+      )
     }
     if (typeof fieldValue === 'string' && fieldValue.length < 45) {
-      return <FieldInput fieldName={fieldName} fieldValue={fieldValue} inputType={'text'} pcType={pcType} pcName={pcName} />
+      return (
+        <FieldInput
+          fieldName={fieldName}
+          fieldValue={fieldValue}
+          inputType='text'
+          pcType={pcType}
+          pcName={pcName} />
+      )
     }
     if (typeof fieldValue === 'string' && fieldValue.length >= 45) {
-      return <FieldTextarea fieldName={fieldName} fieldValue={fieldValue} pcType={pcType} pcName={pcName} />
+      return (
+        <FieldTextarea
+          fieldName={fieldName}
+          fieldValue={fieldValue}
+          pcType={pcType}
+          pcName={pcName} />
+      )
     }
     if (typeof fieldValue === 'number') {
-      return <FieldInput fieldName={fieldName} fieldValue={fieldValue} inputType={'number'} pcType={pcType} pcName={pcName} />
+      return (
+        <FieldInput
+          fieldName={fieldName}
+          fieldValue={fieldValue}
+          inputType='number'
+          pcType={pcType}
+          pcName={pcName} />
+      )
     }
     if (typeof fieldValue === 'boolean') {
-      return <FieldBoolean fieldName={fieldName} fieldValue={fieldValue} pcType={pcType} pcName={pcName} />
+      return (
+        <FieldBoolean
+          fieldName={fieldName}
+          fieldValue={fieldValue}
+          pcType={pcType}
+          pcName={pcName} />
+      )
     }
     // fallback is text input
-    return <FieldInput fieldName={fieldName} fieldValue={fieldValue} inputType={'text'} pcType={pcType} pcName={pcName} />
+    return (
+      <FieldInput
+        fieldName={fieldName}
+        fieldValue={fieldValue}
+        inputType='text'
+        pcType={pcType}
+        pcName={pcName} />
+    )
   }
 })

@@ -37,8 +37,7 @@ export default React.createClass({
           id={fieldName}
           name={fieldName}
           checked={fieldValue}
-          readOnly={'readonly'}
-        />
+          readOnly='readonly' />
       </div>
     )
   }

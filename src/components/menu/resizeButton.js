@@ -3,9 +3,7 @@
 import React from 'react'
 import hasClass from 'amp-has-class'
 import toggleClass from 'amp-toggle-class'
-import Button from 'react-bootstrap/lib/Button'
-import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger'
-import Tooltip from 'react-bootstrap/lib/Tooltip'
+import { Tooltip, OverlayTrigger, Glyphicon, Button } from 'react-bootstrap'
 
 const bodyElement = document.body
 
@@ -17,18 +15,27 @@ export default React.createClass({
     this.forceUpdate()
   },
 
+  tooltip () {
+    return (
+      <Tooltip
+        id='btnResizeTooltip'>
+        {hasClass(bodyElement, 'force-mobile') ? 'in zwei Spalten anzeigen' : 'ganze Breite nutzen'}
+      </Tooltip>
+    )
+  },
+
   render () {
     return (
       <OverlayTrigger
         placement='left'
-        overlay={<Tooltip id='btnResizeTooltip'>{hasClass(bodyElement, 'force-mobile') ? 'in zwei Spalten anzeigen' : 'ganze Breite nutzen'}</Tooltip>}
+        overlay={this.tooltip()}
       >
         <Button
           id='btnResize'
           className='pull-right'
           bsSize='small'
           onClick={this.resize}>
-          <span className='glyphicon glyphicon-resize-horizontal'></span>
+          <Glyphicon glyph='resize-horizontal' />
         </Button>
       </OverlayTrigger>
     )

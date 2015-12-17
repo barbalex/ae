@@ -19,7 +19,7 @@ export default React.createClass({
 
   onClick (guid, event) {
     event.preventDefault()
-    console.log('FieldLinksToSameGroup guid', guid)
+    // console.log('FieldLinksToSameGroup guid', guid)
     if (guid) app.Actions.loadActiveObjectStore(guid)
   },
 
@@ -30,8 +30,13 @@ export default React.createClass({
         .then((result) => {
           const url = result.url
           return (
-            <p key={index} className='controls feldtext'>
-              <a href={url} className='form-control-static linkZuArtGleicherGruppe' onClick={this.onClick.bind(this, object._id)}>
+            <p
+              key={index}
+              className='controls feldtext'>
+              <a
+                href={url}
+                className='form-control-static linkZuArtGleicherGruppe'
+                onClick={this.onClick.bind(this, object._id)}>
                 {object.Name}
               </a>
             </p>
@@ -43,11 +48,14 @@ export default React.createClass({
     })
 
     return (
-      <div className='form-group'>
-        <label className='control-label'>
+      <div
+        className='form-group'>
+        <label
+          className='control-label'>
           {fieldName + ':'}
         </label>
-        <span className='feldtext controls'>
+        <span
+          className='feldtext controls'>
           {linkArray}
         </span>
       </div>

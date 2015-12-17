@@ -36,9 +36,8 @@ export default React.createClass({
         id={fieldName}
         name={fieldName}
         value={fieldValue}
-        readOnly={'readonly'}
-        className={'controls'}
-      />
+        readOnly='readonly'
+        className={'controls'} />
     )
   }
 })

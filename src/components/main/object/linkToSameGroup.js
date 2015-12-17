@@ -20,7 +20,7 @@ export default React.createClass({
   onClick (event) {
     event.preventDefault()
     const { guid } = this.props
-    console.log('linkToSameGroup.js, onClick, guid', guid)
+    // console.log('linkToSameGroup.js, onClick, guid', guid)
     if (guid) app.Actions.loadActiveObjectStore(guid)
   },
 
@@ -28,12 +28,18 @@ export default React.createClass({
     const { fieldName, guid, objectName } = this.props
     const url = `/${guid}`
     return (
-      <div className='form-group'>
-        <label className='control-label'>
+      <div
+        className='form-group'>
+        <label
+          className='control-label'>
           {fieldName + ':'}
         </label>
-        <p className='form-control-static controls feldtext'>
-          <a href={url} className='linkZuArtGleicherGruppe' onClick={this.onClick} >
+        <p
+          className='form-control-static controls feldtext'>
+          <a
+            href={url}
+            className='linkZuArtGleicherGruppe'
+            onClick={this.onClick} >
             {objectName}
           </a>
         </p>

@@ -41,14 +41,25 @@ function buildFieldForProperty (propertyCollection, object, value, key, pcType) 
           const linkedObjectId = linkedObject._id
           const standardtaxonomie = linkedObject.Taxonomien.find((taxonomy) => taxonomy.Standardtaxonomie)
           const linkedObjectName = standardtaxonomie.Eigenschaften['Artname vollständig']
-          return <LinkToSameGroup key={key} fieldName={key} guid ={linkedObjectId} objectName={linkedObjectName} />
+          return (
+            <LinkToSameGroup
+              key={key}
+              fieldName={key}
+              guid={linkedObjectId}
+              objectName={linkedObjectName} />
+          )
         }
       })
       .catch((error) => app.Actions.showError({title: 'pc.js: error getting item from objectStore:', msg: error}))
   }
   if ((key === 'Gültige Namen' || key === 'Eingeschlossene Arten') && object.Gruppe === 'Flora') {
     // build array of links
-    return <LinksToSameGroup key={key} fieldName={key} objects={value} />
+    return (
+      <LinksToSameGroup
+        key={key}
+        fieldName={key}
+        objects={value} />
+    )
   }
   if (((key === 'Artname' || key === 'Synonyme') && object.Gruppe === 'Flora') || (key === 'Parent' && object.Gruppe === 'Lebensräume') || (key === 'Hierarchie' && _.isArray(value))) {
     // don't show this field
@@ -56,9 +67,24 @@ function buildFieldForProperty (propertyCollection, object, value, key, pcType) 
   }
   if (_.isArray(value)) {
     // this field contains an array of values
-    return <FieldInput key={key} fieldName={key} fieldValue={value.toString()} inputType={'textarea'} pcType={pcType} pcName={pcName} />
+    return (
+      <FieldInput
+        key={key}
+        fieldName={key}
+        fieldValue={value.toString()}
+        inputType='textarea'
+        pcType={pcType}
+        pcName={pcName} />
+    )
   }
-  return <Field key={key} fieldName={key} fieldValue={value} pcType={pcType} pcName={pcName} />
+  return (
+    <Field
+      key={key}
+      fieldName={key}
+      fieldValue={value}
+      pcType={pcType}
+      pcName={pcName} />
+  )
 }
 
 export default React.createClass({
@@ -90,14 +116,7 @@ export default React.createClass({
     const isLr = object.Gruppe === 'Lebensräume'
     const org = propertyCollection['Organisation mit Schreibrecht']
     const collectionIsEditable = isLr && (isUserLrWriter(userRoles, org) || isUserOrgAdmin(userRoles, org) || isUserServerAdmin(userRoles))
-
-    console.log('pc.js, render, isLr', isLr)
-    console.log('pc.js, render, userRoles', userRoles)
-    console.log('pc.js, render, org', org)
-    console.log('pc.js, render, collectionIsEditable', collectionIsEditable)
-
     const properties = _.map(propertyCollection.Eigenschaften, (value, key) => buildFieldForProperty(propertyCollection, object, value, key, pcType))
-
     const showPcDescription = object.Gruppe !== 'Lebensräume' || pcType !== 'Taxonomie'
 
     return (
@@ -108,8 +127,8 @@ export default React.createClass({
           {
             collectionIsEditable
             ? <EditButtonGroup
-              editing={editing}
-              toggleEditing={this.toggleEditing} />
+                editing={editing}
+                toggleEditing={this.toggleEditing} />
             : null
           }
           {
