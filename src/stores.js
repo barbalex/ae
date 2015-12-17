@@ -14,6 +14,7 @@ import getSynonymsOfObject from './modules/getSynonymsOfObject.js'
 import addGroupsLoadedToLocalGroupsDb from './modules/addGroupsLoadedToLocalGroupsDb.js'
 import getGruppen from './modules/gruppen.js'
 import loadGroupFromRemote from './modules/loadGroupFromRemote.js'
+import queryTcs from './queries/tcs.js'
 import queryPcs from './queries/pcs.js'
 import queryRcs from './queries/rcs.js'
 import queryFieldsOfGroup from './queries/fieldsOfGroup.js'
@@ -716,6 +717,24 @@ export default (Actions) => {
     }
   })
 
+  app.taxOfOrganizationStore = Reflux.createStore({
+
+    listenables: Actions,
+
+    onGetTaxOfOrganization (orgName) {
+      return new Promise((resolve, reject) => {
+        app.propertyCollectionsStore.getTax()
+          .then((tax) => {
+            const taxOfOrg = tax.filter((taxCol) => taxCol.organization === orgName)
+            this.trigger(taxOfOrg)
+          })
+          .catch((error) =>
+            app.Actions.showError({title: 'taxOfOrganizationStore, error getting existing tax of ' + orgName + ':', msg: error})
+          )
+      })
+    }
+  })
+
   app.pcsOfOrganizationStore = Reflux.createStore({
 
     listenables: Actions,
@@ -731,6 +750,104 @@ export default (Actions) => {
             app.Actions.showError({title: 'pcsOfOrganizationStore, error getting existing pcs of ' + orgName + ':', msg: error})
           )
       })
+    }
+  })
+
+  app.taxonomyCollectionsStore = Reflux.createStore({
+    /*
+     * queries taxonomy collections
+     * keeps last query result in pouch (_local/tcs.tcs) for fast delivery
+     * app.js sets default _local/tcs.tcs = [] if not exists on app start
+     * tc's are arrays of the form:
+     * [group, standardtaxonomy, name, organization, {Beschreibung: xxx, Datenstand: xxx, Link: xxx, Nutzungsbedingungen: xxx}, count: xxx]
+     *
+     * when this store triggers it passes two variables:
+     * tcs: the propberty collections
+     * tcsQuerying: true/false: are tcs being queryied? if true: show warning in symbols
+     */
+    listenables: Actions,
+
+    tcsQuerying: false,
+
+    getTcs () {
+      return new Promise((resolve, reject) => {
+        app.localDb.get('_local/tcs', { include_docs: true })
+          .then((doc) => resolve(doc.tcs))
+          .catch((error) =>
+            reject('Fehler in taxonomyCollectionsStore, getTcs: ' + error)
+          )
+      })
+    },
+
+    saveTc (tc) {
+      let tcs
+      app.localDb.get('_local/tcs', { include_docs: true })
+        .then((doc) => {
+          doc.tcs.push(tc)
+          doc.tcs = doc.tcs.sort((tc) => tc.name)
+          tcs = doc.tcs
+          return app.localDb.put(doc)
+        })
+        .then(() => this.trigger(tcs, this.tcsQuerying))
+        .catch((error) =>
+          app.Actions.showError({title: 'Fehler in taxonomyCollectionsStore, saveTc:', msg: error})
+        )
+    },
+
+    saveTcs (tcs) {
+      app.localDb.get('_local/tcs', { include_docs: true })
+        .then((doc) => {
+          doc.tcs = tcs
+          return app.localDb.put(doc)
+        })
+        .catch((error) =>
+          app.Actions.showError({title: 'Fehler in taxonomyCollectionsStore, saveTcs:', msg: error})
+        )
+    },
+
+    removeTcByName (name) {
+      let tcs
+      app.localDb.get('_local/tcs', { include_docs: true })
+        .then((doc) => {
+          doc.tcs = _.reject(doc.tcs, (tc) => tc.name === name)
+          tcs = doc.tcs
+          return app.localDb.put(doc)
+        })
+        .then(() => this.trigger(tcs, this.tcsQuerying))
+        .catch((error) =>
+          app.Actions.showError({title: 'Fehler in taxonomyCollectionsStore, removeTcByName:', msg: error})
+        )
+    },
+
+    getTcByName (name) {
+      return new Promise((resolve, reject) => {
+        this.getTcs()
+          .then((tcs) => {
+            const tc = tcs.find((tc) => tc.name === name)
+            resolve(tc)
+          })
+          .catch((error) => reject(error))
+      })
+    },
+
+    onQueryTaxonomyCollections (offlineIndexes) {
+      // if tc's exist, send them immediately
+      this.tcsQuerying = true
+      this.getTcs()
+        .then((tcs) => this.trigger(tcs, this.tcsQuerying))
+        .catch((error) =>
+          app.Actions.showError({title: 'taxonomyCollectionsStore, error getting existing tcs:', msg: error})
+        )
+      // now fetch up to date tc's
+      queryTcs(offlineIndexes)
+        .then((tcs) => {
+          this.tcsQuerying = false
+          this.trigger(tcs, this.tcsQuerying)
+          return this.saveTcs(tcs)
+        })
+        .catch((error) =>
+          app.Actions.showError({title: 'taxonomyCollectionsStore, error querying up to date tcs:', msg: error})
+        )
     }
   })
 
