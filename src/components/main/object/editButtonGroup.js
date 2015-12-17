@@ -6,7 +6,7 @@
 'use strict'
 
 import React from 'react'
-import { ButtonGroup, Button, Glyphicon } from 'react-bootstrap'
+import { ButtonGroup, Button, Glyphicon, Overlay, Tooltip } from 'react-bootstrap'
 
 export default React.createClass({
   displayName: 'EditButtonGroup',
@@ -14,6 +14,41 @@ export default React.createClass({
   propTypes: {
     editing: React.PropTypes.bool,
     toggleEditing: React.PropTypes.func
+  },
+
+  editButtonTooltip () {
+    const { editing } = this.props
+    const editText = editing ? 'schützen' : 'bearbeiten'
+    return (
+      <Overlay
+        placement='top'>
+        <Tooltip>
+          {editText}
+        </Tooltip>
+      </Overlay>
+    )
+  },
+
+  addButtonTooltip () {
+    return (
+      <Overlay
+        placement='top'>
+        <Tooltip>
+          'neu'
+        </Tooltip>
+      </Overlay>
+    )
+  },
+
+  removeButtonTooltip () {
+    return (
+      <Overlay
+        placement='top'>
+        <Tooltip>
+          'löschen'
+        </Tooltip>
+      </Overlay>
+    )
   },
 
   render () {
