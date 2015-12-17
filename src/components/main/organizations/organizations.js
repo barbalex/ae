@@ -63,13 +63,23 @@ export default React.createClass({
     )
   },
 
+  titelStyle () {
+    return {
+      marginTop: 20,
+      fontWeight: 600,
+      fontSize: 'large'
+    }
+  },
+
   lowerPart () {
     const { activeOrganization, tcsOfActiveOrganization, pcsOfActiveOrganization, rcsOfActiveOrganization } = this.props
-
-    console.log('organizations.js, render, tcsOfActiveOrganization', tcsOfActiveOrganization)
+    const lr = tcsOfActiveOrganization.filter((tcs) => tcs.group === 'Lebensräume')
+    const nonLrTcs = tcsOfActiveOrganization.filter((tcs) => tcs.group !== 'Lebensräume')
+    const showDatenTitel = tcsOfActiveOrganization.length > 0 || pcsOfActiveOrganization.length > 0 || rcsOfActiveOrganization.length > 0
 
     return (
       <div>
+        <p style={this.titelStyle()}>Benutzerrechte</p>
         <UsersList
           activeOrganization={activeOrganization}
           userFieldName='esWriters' />
@@ -80,10 +90,23 @@ export default React.createClass({
           activeOrganization={activeOrganization}
           userFieldName='orgAdmins' />
         {
-          tcsOfActiveOrganization.length > 0
+          showDatenTitel
+          ? <p style={this.titelStyle()}>Daten, bei denen {activeOrganization.Name} "Organisation mit Schreibrecht" ist</p>
+          : null
+        }
+        {
+          nonLrTcs.length > 0
           ? <CollectionList
-            collections={tcsOfActiveOrganization}
+            collections={nonLrTcs}
             cType='Taxonomiensammlungen'
+            orgName={activeOrganization.Name} />
+          : null
+        }
+        {
+          lr.length > 0
+          ? <CollectionList
+            collections={lr}
+            cType='Lebensräume'
             orgName={activeOrganization.Name} />
           : null
         }
