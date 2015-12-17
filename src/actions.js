@@ -26,6 +26,7 @@ export default () => {
     loadActivePathStore: {},
     login: {},
     showGroupLoading: {},
+    queryTaxonomyCollections: {},
     queryPropertyCollections: {},
     queryRelationCollections: {},
     queryFields: {},
@@ -46,7 +47,7 @@ export default () => {
     getUsers: {},
     getPcsOfOrganization: {},
     getRcsOfOrganization: {},
-    getTaxOfOrganization: {}
+    getTcsOfOrganization: {}
   })
 
   Actions.loadPouchFromRemote.listen(() => {

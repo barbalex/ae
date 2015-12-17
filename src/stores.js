@@ -241,6 +241,7 @@ export default (Actions) => {
           // set activeOrganization if user is logged in and only admin in one organization
           if (this.userIsAdminInOrgs.length === 1) {
             this.activeOrganizationName = this.userIsAdminInOrgs[0]
+            app.Actions.getTcsOfOrganization(this.activeOrganizationName)
             app.Actions.getPcsOfOrganization(this.activeOrganizationName)
             app.Actions.getRcsOfOrganization(this.activeOrganizationName)
           }
@@ -717,19 +718,21 @@ export default (Actions) => {
     }
   })
 
-  app.taxOfOrganizationStore = Reflux.createStore({
+  app.tcsOfOrganizationStore = Reflux.createStore({
 
     listenables: Actions,
 
-    onGetTaxOfOrganization (orgName) {
+    onGetTcsOfOrganization (orgName) {
       return new Promise((resolve, reject) => {
-        app.propertyCollectionsStore.getTax()
-          .then((tax) => {
-            const taxOfOrg = tax.filter((taxCol) => taxCol.organization === orgName)
-            this.trigger(taxOfOrg)
+        app.taxonomyCollectionsStore.getTcs()
+          .then((tcs) => {
+            console.log('tcsOfOrganizationStore, tcs', tcs)
+            console.log('tcsOfOrganizationStore, orgName', orgName)
+            const tcsOfOrg = tcs.filter((tc) => tc.organization === orgName)
+            this.trigger(tcsOfOrg)
           })
           .catch((error) =>
-            app.Actions.showError({title: 'taxOfOrganizationStore, error getting existing tax of ' + orgName + ':', msg: error})
+            app.Actions.showError({title: 'tcsOfOrganizationStore, error getting existing tcs of ' + orgName + ':', msg: error})
           )
       })
     }
@@ -841,6 +844,7 @@ export default (Actions) => {
       // now fetch up to date tc's
       queryTcs(offlineIndexes)
         .then((tcs) => {
+          console.log('taxonomyCollectionsStore, tcs from query', tcs)
           this.tcsQuerying = false
           this.trigger(tcs, this.tcsQuerying)
           return this.saveTcs(tcs)

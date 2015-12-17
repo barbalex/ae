@@ -44,6 +44,8 @@ export default React.createClass({
     replicatingToAeTime: React.PropTypes.string,
     replicatingFromAe: React.PropTypes.string,
     replicatingFromAeTime: React.PropTypes.string,
+    tcs: React.PropTypes.array,
+    tcsQuerying: React.PropTypes.bool,
     pcs: React.PropTypes.array,
     pcsQuerying: React.PropTypes.bool,
     rcs: React.PropTypes.array,
@@ -91,6 +93,8 @@ export default React.createClass({
       replicatingToAeTime: null,
       replicatingFromAe: null,
       replicatingFromAeTime: null,
+      tcs: [],
+      tcsQuerying: false,
       pcs: [],
       pcsQuerying: false,
       rcs: [],
@@ -124,6 +128,7 @@ export default React.createClass({
     this.listenTo(app.replicateToAeStore, this.onReplicateToAeStoreChange)
     this.listenTo(app.replicateFromAeStore, this.onReplicateFromAeStoreChange)
     this.listenTo(app.objectsPcsStore, this.onChangeObjectsPcsStore)
+    this.listenTo(app.taxonomyCollectionsStore, this.onChangeTaxonomyCollectionsStore)
     this.listenTo(app.propertyCollectionsStore, this.onChangePropertyCollectionsStore)
     this.listenTo(app.relationCollectionsStore, this.onChangeRelationCollectionsStore)
     this.listenTo(app.fieldsStore, this.onChangeFieldsStore)
@@ -137,8 +142,13 @@ export default React.createClass({
   onChangeActiveOrganization (event) {
     const activeOrganizationName = event.target.value
     app.Actions.setActiveOrganization(activeOrganizationName)
+    app.Actions.getTcsOfOrganization(activeOrganizationName)
     app.Actions.getPcsOfOrganization(activeOrganizationName)
     app.Actions.getRcsOfOrganization(activeOrganizationName)
+  },
+
+  onChangeTaxonomyCollectionsStore (tcs, tcsQuerying) {
+    this.setState({ tcs, tcsQuerying })
   },
 
   onChangePropertyCollectionsStore (pcs, pcsQuerying) {
@@ -216,7 +226,7 @@ export default React.createClass({
   },
 
   render () {
-    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, mainComponent, logIn, email, userRoles, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, pcs, rcs, pcsQuerying, rcsQuerying, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, offlineIndexes, organizations, activeOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, userIsLrWriterInOrgs } = this.state
+    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, mainComponent, logIn, email, userRoles, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, tcs, pcs, tcsQuerying, rcs, pcsQuerying, rcsQuerying, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, offlineIndexes, organizations, activeOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, userIsLrWriterInOrgs } = this.state
     const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
     const showGruppen = groupsNotLoaded.length > 0
     const showFilter = filterOptions.length > 0 || loadingFilterOptions
@@ -274,6 +284,7 @@ export default React.createClass({
         <Symbols
           email={email}
           groupsLoadingObjects={groupsLoadingObjects}
+          tcsQuerying={tcsQuerying}
           pcsQuerying={pcsQuerying}
           rcsQuerying={rcsQuerying}
           fieldsQuerying={fieldsQuerying}
@@ -288,8 +299,10 @@ export default React.createClass({
               groupsLoadedOrLoading={groupsLoadedOrLoading}
               groupsLoadingObjects={groupsLoadingObjects}
               synonymObjects={synonymObjects}
+              tcs={tcs}
               pcs={pcs}
               rcs={rcs}
+              tcsQuerying={tcsQuerying}
               pcsQuerying={pcsQuerying}
               rcsQuerying={rcsQuerying}
               mainComponent={mainComponent}

@@ -23,31 +23,39 @@ export default React.createClass({
 
   propTypes: {
     email: React.PropTypes.string,
+    offlineIndexes: React.PropTypes.bool,
     userRoles: React.PropTypes.array,
     organizations: React.PropTypes.array,
     activeOrganization: React.PropTypes.object,
     onChangeActiveOrganization: React.PropTypes.func,
     userIsAdminInOrgs: React.PropTypes.array,
+    tcsOfOrganization: React.PropTypes.array,
     pcsOfOrganization: React.PropTypes.array,
     rcsOfOrganization: React.PropTypes.array
   },
 
   getInitialState () {
     return {
+      tcsOfOrganization: [],
       pcsOfOrganization: [],
       rcsOfOrganization: []
     }
   },
 
   componentDidMount () {
-    let { email } = this.props
+    let { email, offlineIndexes, activeOrganization } = this.props
     if (!email) {
       const logIn = true
       app.Actions.login({ logIn })
     }
     app.Actions.getOrganizations(email)
+    this.listenTo(app.tcsOfOrganizationStore, this.onTcsOfOrganizationStoreChange)
     this.listenTo(app.pcsOfOrganizationStore, this.onPcsOfOrganizationStoreChange)
     this.listenTo(app.rcsOfOrganizationStore, this.onRcsOfOrganizationStoreChange)
+  },
+
+  onTcsOfOrganizationStoreChange (tcsOfOrganization) {
+    this.setState({ tcsOfOrganization })
   },
 
   onPcsOfOrganizationStoreChange (pcsOfOrganization) {
@@ -82,7 +90,12 @@ export default React.createClass({
 
   lowerPart () {
     const { activeOrganization } = this.props
-    const { pcsOfOrganization, rcsOfOrganization } = this.state
+    const { tcsOfOrganization, pcsOfOrganization, rcsOfOrganization } = this.state
+
+    console.log('organizations.js, render, tcsOfOrganization', tcsOfOrganization)
+    // console.log('organizations.js, render, pcsOfOrganization', pcsOfOrganization)
+    // console.log('organizations.js, render, rcsOfOrganization', rcsOfOrganization)
+
     return (
       <div>
         <UsersList
@@ -94,6 +107,14 @@ export default React.createClass({
         <UsersList
           activeOrganization={activeOrganization}
           userFieldName='orgAdmins' />
+        {
+          tcsOfOrganization.length > 0
+          ? <CollectionList
+            collections={tcsOfOrganization}
+            cType='Taxonomiensammlungen'
+            orgName={activeOrganization.Name} />
+          : null
+        }
         {
           pcsOfOrganization.length > 0
           ? <CollectionList

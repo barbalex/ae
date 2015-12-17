@@ -5,6 +5,7 @@ import ReplicatingToAe from './replicatingToAe.js'
 import ReplicatingFromAe from './replicatingFromAe.js'
 import Email from './email.js'
 import GroupsLoading from './groupsLoading.js'
+import TcsQuerying from './tcsQuerying.js'
 import PcsQuerying from './pcsQuerying.js'
 import RcsQuerying from './rcsQuerying.js'
 import FieldsQuerying from './fieldsQuerying.js'
@@ -14,6 +15,7 @@ export default React.createClass({
 
   propTypes: {
     groupsLoadingObjects: React.PropTypes.array,
+    tcsQuerying: React.PropTypes.bool,
     pcsQuerying: React.PropTypes.bool,
     rcsQuerying: React.PropTypes.bool,
     fieldsQuerying: React.PropTypes.bool,
@@ -25,7 +27,7 @@ export default React.createClass({
   },
 
   render () {
-    const { email, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, groupsLoadingObjects, pcsQuerying, rcsQuerying, fieldsQuerying } = this.props
+    const { email, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, groupsLoadingObjects, tcsQuerying, pcsQuerying, rcsQuerying, fieldsQuerying } = this.props
     const showReplicatingToAe = replicatingToAe !== null
     const showReplicatingFromAe = replicatingFromAe !== null
     const showGroupsLoading = groupsLoadingObjects.length > 0
@@ -51,6 +53,13 @@ export default React.createClass({
               ? <ReplicatingToAe
                   replicatingToAe={replicatingToAe}
                   replicatingToAeTime={replicatingToAeTime} />
+              : null
+            }
+          </div>
+          <div className='symbol-div'>
+            {
+              tcsQuerying
+              ? <TcsQuerying />
               : null
             }
           </div>

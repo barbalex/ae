@@ -26,6 +26,8 @@ export default React.createClass({
   propTypes: {
     object: React.PropTypes.object,
     synonymObjects: React.PropTypes.array,
+    tcs: React.PropTypes.array,
+    tcsQuerying: React.PropTypes.bool,
     pcs: React.PropTypes.array,
     pcsQuerying: React.PropTypes.bool,
     rcs: React.PropTypes.array,
@@ -81,7 +83,7 @@ export default React.createClass({
   },
 
   render () {
-    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, synonymObjects, pcs, pcsQuerying, rcs, rcsQuerying, mainComponent, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, email, userRoles, replicatingToAe, replicatingToAeTime, offlineIndexes, organizations, activeOrganization, onChangeActiveOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, userIsLrWriterInOrgs } = this.props
+    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, synonymObjects, tcs, tcsQuerying, pcs, pcsQuerying, rcs, rcsQuerying, mainComponent, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, email, userRoles, replicatingToAe, replicatingToAeTime, offlineIndexes, organizations, activeOrganization, onChangeActiveOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, userIsLrWriterInOrgs } = this.props
     const { formClassNames, errors } = this.state
     const showObject = object && Object.keys(object).length > 0 && !mainComponent
 
@@ -166,12 +168,15 @@ export default React.createClass({
           {
             mainComponent === 'organizations'
             ? <Organizations
+                tcs={tcs}
+                tcsQuerying={tcsQuerying}
                 email={email}
                 userRoles={userRoles}
                 organizations={organizations}
                 activeOrganization={activeOrganization}
                 onChangeActiveOrganization={onChangeActiveOrganization}
-                userIsAdminInOrgs={userIsAdminInOrgs} />
+                userIsAdminInOrgs={userIsAdminInOrgs}
+                offlineIndexes={offlineIndexes} />
             : null
           }
         </form>

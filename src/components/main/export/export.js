@@ -138,6 +138,7 @@ export default React.createClass({
   componentDidMount () {
     const { offlineIndexes } = this.props
     // make sure, pcs are queried
+    // app.Actions.queryTaxonomyCollections(offlineIndexes)
     app.Actions.queryPropertyCollections(offlineIndexes)
     app.Actions.queryRelationCollections(offlineIndexes)
     this.listenTo(app.exportDataStore, this.onChangeExportDataStore)
