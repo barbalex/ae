@@ -6,54 +6,64 @@
 'use strict'
 
 import React from 'react'
-import { ButtonGroup, Button, Glyphicon, Overlay, Tooltip } from 'react-bootstrap'
+import { ButtonGroup, Button, Glyphicon, OverlayTrigger, Tooltip } from 'react-bootstrap'
 
 export default React.createClass({
   displayName: 'EditButtonGroup',
 
   propTypes: {
     editing: React.PropTypes.bool,
-    toggleEditing: React.PropTypes.func
+    toggleEditing: React.PropTypes.func,
+    showEditButtonOverlay: React.PropTypes.bool,
+    showAddButtonOverlay: React.PropTypes.bool,
+    showRemoveButtonOverlay: React.PropTypes.bool
   },
 
-  editButtonTooltip () {
-    const { editing } = this.props
+  editButton () {
+    const { editing, toggleEditing } = this.props
+    const editGlyph = editing ? 'ban-circle' : 'pencil'
     const editText = editing ? 'schützen' : 'bearbeiten'
     return (
-      <Overlay
+      <OverlayTrigger
+        overlay={<Tooltip id='editButtonTooltip'>{editText}</Tooltip>}
         placement='top'>
-        <Tooltip>
-          {editText}
-        </Tooltip>
-      </Overlay>
+        <Button
+          onClick={toggleEditing}>
+          <Glyphicon glyph={editGlyph} />
+        </Button>
+      </OverlayTrigger>
     )
   },
 
-  addButtonTooltip () {
+  addButton () {
+    const { editing } = this.props
     return (
-      <Overlay
+      <OverlayTrigger
+        overlay={<Tooltip id='addButtonTooltip'>neu</Tooltip>}
         placement='top'>
-        <Tooltip>
-          'neu'
-        </Tooltip>
-      </Overlay>
+        <Button
+          disabled={!editing}>
+          <Glyphicon glyph='plus' />
+        </Button>
+      </OverlayTrigger>
     )
   },
 
-  removeButtonTooltip () {
+  removeButton () {
+    const { editing } = this.props
     return (
-      <Overlay
+      <OverlayTrigger
+        overlay={<Tooltip id='editingButtonTooltip'>löschen</Tooltip>}
         placement='top'>
-        <Tooltip>
-          'löschen'
-        </Tooltip>
-      </Overlay>
+        <Button
+          disabled={!editing}>
+          <Glyphicon glyph='trash' />
+        </Button>
+      </OverlayTrigger>
     )
   },
 
   render () {
-    const { editing, toggleEditing } = this.props
-    const editGlyph = editing ? 'ban-circle' : 'pencil'
     const bgStyle = {
       float: 'right',
       marginTop: -55 + 'px'
@@ -61,18 +71,9 @@ export default React.createClass({
 
     return (
       <ButtonGroup style={bgStyle}>
-        <Button
-          onClick={toggleEditing}>
-          <Glyphicon glyph={editGlyph} />
-        </Button>
-        <Button
-          disabled={!editing}>
-          <Glyphicon glyph='plus' />
-        </Button>
-        <Button
-          disabled={!editing}>
-          <Glyphicon glyph='trash' />
-        </Button>
+        {this.editButton()}
+        {this.addButton()}
+        {this.removeButton()}
       </ButtonGroup>
     )
   }
