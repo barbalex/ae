@@ -54,8 +54,7 @@ export default React.createClass({
     rcsOfActiveOrganization: React.PropTypes.array,
     onChangeActiveOrganization: React.PropTypes.func,
     userIsAdminInOrgs: React.PropTypes.array,
-    userIsEsWriterInOrgs: React.PropTypes.array,
-    userIsLrWriterInOrgs: React.PropTypes.array
+    userIsEsWriterInOrgs: React.PropTypes.array
   },
 
   getInitialState () {
@@ -86,7 +85,7 @@ export default React.createClass({
   },
 
   render () {
-    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, synonymObjects, tcs, tcsQuerying, pcs, pcsQuerying, rcs, rcsQuerying, mainComponent, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, email, userRoles, replicatingToAe, replicatingToAeTime, offlineIndexes, organizations, activeOrganization, onChangeActiveOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, userIsLrWriterInOrgs, tcsOfActiveOrganization, pcsOfActiveOrganization, rcsOfActiveOrganization } = this.props
+    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, synonymObjects, tcs, tcsQuerying, pcs, pcsQuerying, rcs, rcsQuerying, mainComponent, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, email, userRoles, replicatingToAe, replicatingToAeTime, offlineIndexes, organizations, activeOrganization, onChangeActiveOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, tcsOfActiveOrganization, pcsOfActiveOrganization, rcsOfActiveOrganization } = this.props
     const { formClassNames, errors } = this.state
     const showObject = object && Object.keys(object).length > 0 && !mainComponent
 
@@ -99,7 +98,7 @@ export default React.createClass({
             ? <Objekt
                 object={object}
                 synonymObjects={synonymObjects}
-                userIsLrWriterInOrgs={userIsLrWriterInOrgs} />
+                userRoles={userRoles} />
             : null
           }
           {

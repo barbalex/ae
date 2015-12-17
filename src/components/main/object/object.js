@@ -7,7 +7,6 @@
 'use strict'
 
 import React from 'react'
-// import Inspector from 'react-json-inspector'
 import _ from 'lodash'
 import Taxonomy from './taxonomy.js'
 import PropertyCollections from './pcs.js'
@@ -22,7 +21,7 @@ export default React.createClass({
   propTypes: {
     object: React.PropTypes.object,
     synonymObjects: React.PropTypes.array,
-    userIsLrWriterInOrgs: React.PropTypes.array
+    userRoles: React.PropTypes.array
   },
 
   render () {
@@ -106,14 +105,42 @@ export default React.createClass({
     }
 
     return (
-      <div id='object' className='formContent'>
-        <Taxonomy object={object} />
-        {taxRcs.length > 0 ? <TaxonomicRelationCollections taxRcs={taxRcs} /> : null}
-        {pcs.length > 0 ? <PropertyCollections object={object} /> : null}
-        {objectRcs.length > 0 ? <RelationCollections objectRcs={objectRcs} /> : null}
-        {pcsOfSynonyms.length > 0 ? <PcsOfSynonyms pcsOfSynonyms={pcsOfSynonyms} object={object} /> : null}
-        {rcsOfSynonyms.length > 0 ? <RcsOfSynonyms rcsOfSynonyms={rcsOfSynonyms} /> : null}
-        {/* <Inspector data={object}/> */}
+      <div
+        id='object'
+        className='formContent'>
+        <Taxonomy
+          object={object} />
+        {
+          taxRcs.length > 0
+          ? <TaxonomicRelationCollections
+              taxRcs={taxRcs} />
+          : null
+        }
+        {
+          pcs.length > 0
+          ? <PropertyCollections
+              object={object} />
+          : null
+        }
+        {
+          objectRcs.length > 0
+          ? <RelationCollections
+              objectRcs={objectRcs} />
+          : null
+        }
+        {
+          pcsOfSynonyms.length > 0
+          ? <PcsOfSynonyms
+              pcsOfSynonyms={pcsOfSynonyms}
+              object={object} />
+          : null
+        }
+        {
+          rcsOfSynonyms.length > 0
+          ? <RcsOfSynonyms
+              rcsOfSynonyms={rcsOfSynonyms} />
+          : null
+        }
       </div>
     )
   }

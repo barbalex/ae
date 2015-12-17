@@ -205,8 +205,6 @@ export default (Actions) => {
 
     userIsEsWriterInOrgs: [],
 
-    userIsLrWriterInOrgs: [],
-
     getActiveOrganization () {
       return this.organizations.find((org) => org.Name === this.activeOrganizationName)
     },
@@ -238,7 +236,6 @@ export default (Actions) => {
         .then((result) => {
           this.userIsAdminInOrgs = []
           this.userIsEsWriterInOrgs = []
-          this.userIsLrWriterInOrgs = []
           const organizations = result.rows.map((row) => row.doc)
           this.organizations = organizations
           // is user admin in orgs?
@@ -258,7 +255,6 @@ export default (Actions) => {
           // is user lr-writer in orgs?
           let orgsWhereUserLrEsWriter = organizations.filter((org) => org.lrWriters.includes(email))
           orgsWhereUserLrEsWriter = _.union(orgsWhereUserLrEsWriter, orgsWhereUserIsAdmin)
-          this.userIsLrWriterInOrgs = _.pluck(orgsWhereUserLrEsWriter, 'Name')
           this.triggerMe()
         })
         .catch((error) => app.Actions.showError({title: 'error fetching organizations from remoteDb:', msg: error}))
@@ -330,11 +326,10 @@ export default (Actions) => {
       const activeOrganization = this.getActiveOrganization()
       const userIsAdminInOrgs = this.userIsAdminInOrgs
       const userIsEsWriterInOrgs = this.userIsEsWriterInOrgs
-      const userIsLrWriterInOrgs = this.userIsLrWriterInOrgs
       const tcsOfActiveOrganization = this.tcsOfActiveOrganization
       const pcsOfActiveOrganization = this.pcsOfActiveOrganization
       const rcsOfActiveOrganization = this.rcsOfActiveOrganization
-      this.trigger({ organizations, activeOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, userIsLrWriterInOrgs, tcsOfActiveOrganization, pcsOfActiveOrganization, rcsOfActiveOrganization })
+      this.trigger({ organizations, activeOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, tcsOfActiveOrganization, pcsOfActiveOrganization, rcsOfActiveOrganization })
     }
   })
 
