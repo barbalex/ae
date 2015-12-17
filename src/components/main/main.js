@@ -49,6 +49,9 @@ export default React.createClass({
     offlineIndexes: React.PropTypes.bool,
     organizations: React.PropTypes.array,
     activeOrganization: React.PropTypes.object,
+    tcsOfActiveOrganization: React.PropTypes.array,
+    pcsOfActiveOrganization: React.PropTypes.array,
+    rcsOfActiveOrganization: React.PropTypes.array,
     onChangeActiveOrganization: React.PropTypes.func,
     userIsAdminInOrgs: React.PropTypes.array,
     userIsEsWriterInOrgs: React.PropTypes.array,
@@ -83,7 +86,7 @@ export default React.createClass({
   },
 
   render () {
-    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, synonymObjects, tcs, tcsQuerying, pcs, pcsQuerying, rcs, rcsQuerying, mainComponent, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, email, userRoles, replicatingToAe, replicatingToAeTime, offlineIndexes, organizations, activeOrganization, onChangeActiveOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, userIsLrWriterInOrgs } = this.props
+    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, synonymObjects, tcs, tcsQuerying, pcs, pcsQuerying, rcs, rcsQuerying, mainComponent, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, email, userRoles, replicatingToAe, replicatingToAeTime, offlineIndexes, organizations, activeOrganization, onChangeActiveOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, userIsLrWriterInOrgs, tcsOfActiveOrganization, pcsOfActiveOrganization, rcsOfActiveOrganization } = this.props
     const { formClassNames, errors } = this.state
     const showObject = object && Object.keys(object).length > 0 && !mainComponent
 
@@ -174,6 +177,9 @@ export default React.createClass({
                 userRoles={userRoles}
                 organizations={organizations}
                 activeOrganization={activeOrganization}
+                tcsOfActiveOrganization={tcsOfActiveOrganization}
+                pcsOfActiveOrganization={pcsOfActiveOrganization}
+                rcsOfActiveOrganization={rcsOfActiveOrganization}
                 onChangeActiveOrganization={onChangeActiveOrganization}
                 userIsAdminInOrgs={userIsAdminInOrgs}
                 offlineIndexes={offlineIndexes} />

@@ -75,8 +75,10 @@ export default (offlineIndexes) => {
     query[db]()
       .then((result) => {
         const rows = result.rows
-        const uniqueRows = _.uniq(rows, (row) => row.key[0])
-        let tcs = uniqueRows.map((row) => ({
+        console.log('tcs.js, rows', rows)
+        const uniqueRows = _.uniq(rows, (row) => [row.key[0], row.key[1], row.key[2]])
+        console.log('tcs.js, uniqueRows', uniqueRows)
+        let tcs = rows.map((row) => ({
           group: row.key[0],
           standard: row.key[1],
           name: row.key[2],

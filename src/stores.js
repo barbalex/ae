@@ -195,6 +195,12 @@ export default (Actions) => {
 
     activeOrganizationName: null,
 
+    tcsOfActiveOrganization: [],
+
+    pcsOfActiveOrganization: [],
+
+    rcsOfActiveOrganization: [],
+
     userIsAdminInOrgs: [],
 
     userIsEsWriterInOrgs: [],
@@ -286,13 +292,52 @@ export default (Actions) => {
       }
     },
 
+    onGetTcsOfOrganization (orgName) {
+      app.taxonomyCollectionsStore.getTcs()
+        .then((tcs) => {
+          console.log('organizationsStore, onGetTcsOfOrganization, tcs', tcs)
+          console.log('organizationsStore, onGetTcsOfOrganization, orgName', orgName)
+          this.tcsOfActiveOrganization = tcs.filter((tc) => tc.organization === orgName)
+          this.triggerMe()
+        })
+        .catch((error) =>
+          app.Actions.showError({title: 'organizationsStore, error getting existing tcs of ' + orgName + ':', msg: error})
+        )
+    },
+
+    onGetPcsOfOrganization (orgName) {
+      app.propertyCollectionsStore.getPcs()
+        .then((pcs) => {
+          this.pcsOfActiveOrganization = pcs.filter((pc) => pc.organization === orgName)
+          this.triggerMe()
+        })
+        .catch((error) =>
+          app.Actions.showError({title: 'organizationsStore, error getting existing pcs of ' + orgName + ':', msg: error})
+        )
+    },
+
+    onGetRcsOfOrganization (orgName) {
+      app.relationCollectionsStore.getRcs()
+        .then((rcs) => {
+          this.rcsOfActiveOrganization = rcs.filter((pc) => pc.organization === orgName)
+          this.triggerMe()
+        })
+        .catch((error) =>
+          app.Actions.showError({title: 'organizationsStore, error getting existing rcs of ' + orgName + ':', msg: error})
+        )
+    },
+
     triggerMe () {
       const organizations = this.organizations
       const activeOrganization = this.getActiveOrganization()
       const userIsAdminInOrgs = this.userIsAdminInOrgs
       const userIsEsWriterInOrgs = this.userIsEsWriterInOrgs
       const userIsLrWriterInOrgs = this.userIsLrWriterInOrgs
-      this.trigger({ organizations, activeOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, userIsLrWriterInOrgs })
+      const tcsOfActiveOrganization = this.tcsOfActiveOrganization
+      const pcsOfActiveOrganization = this.pcsOfActiveOrganization
+      const rcsOfActiveOrganization = this.rcsOfActiveOrganization
+      // TODO: trigger tcsOfOrg, pcsOfOrt, rcsOfOrg
+      this.trigger({ organizations, activeOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, userIsLrWriterInOrgs, tcsOfActiveOrganization, pcsOfActiveOrganization, rcsOfActiveOrganization })
     }
   })
 
@@ -718,44 +763,6 @@ export default (Actions) => {
     }
   })
 
-  app.tcsOfOrganizationStore = Reflux.createStore({
-
-    listenables: Actions,
-
-    onGetTcsOfOrganization (orgName) {
-      return new Promise((resolve, reject) => {
-        app.taxonomyCollectionsStore.getTcs()
-          .then((tcs) => {
-            console.log('tcsOfOrganizationStore, tcs', tcs)
-            console.log('tcsOfOrganizationStore, orgName', orgName)
-            const tcsOfOrg = tcs.filter((tc) => tc.organization === orgName)
-            this.trigger(tcsOfOrg)
-          })
-          .catch((error) =>
-            app.Actions.showError({title: 'tcsOfOrganizationStore, error getting existing tcs of ' + orgName + ':', msg: error})
-          )
-      })
-    }
-  })
-
-  app.pcsOfOrganizationStore = Reflux.createStore({
-
-    listenables: Actions,
-
-    onGetPcsOfOrganization (orgName) {
-      return new Promise((resolve, reject) => {
-        app.propertyCollectionsStore.getPcs()
-          .then((pcs) => {
-            const pcsOfOrg = pcs.filter((pc) => pc.organization === orgName)
-            this.trigger(pcsOfOrg)
-          })
-          .catch((error) =>
-            app.Actions.showError({title: 'pcsOfOrganizationStore, error getting existing pcs of ' + orgName + ':', msg: error})
-          )
-      })
-    }
-  })
-
   app.taxonomyCollectionsStore = Reflux.createStore({
     /*
      * queries taxonomy collections
@@ -950,24 +957,6 @@ export default (Actions) => {
         .catch((error) =>
           app.Actions.showError({title: 'propertyCollectionsStore, error querying up to date pcs:', msg: error})
         )
-    }
-  })
-
-  app.rcsOfOrganizationStore = Reflux.createStore({
-
-    listenables: Actions,
-
-    onGetRcsOfOrganization (orgName) {
-      return new Promise((resolve, reject) => {
-        app.relationCollectionsStore.getRcs()
-          .then((rcs) => {
-            const rcsOfOrg = rcs.filter((pc) => pc.organization === orgName)
-            this.trigger(rcsOfOrg)
-          })
-          .catch((error) =>
-            app.Actions.showError({title: 'rcsOfOrganizationStore, error getting existing rcs of ' + orgName + ':', msg: error})
-          )
-      })
     }
   })
 

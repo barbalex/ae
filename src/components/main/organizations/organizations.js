@@ -10,7 +10,6 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import { ListenerMixin } from 'reflux'
 import _ from 'lodash'
 import { PanelGroup, Panel, Input, Alert } from 'react-bootstrap'
 import UsersList from './usersList.js'
@@ -18,8 +17,6 @@ import CollectionList from './collectionList.js'
 
 export default React.createClass({
   displayName: 'Organizations',
-
-  mixins: [ListenerMixin],
 
   propTypes: {
     email: React.PropTypes.string,
@@ -29,41 +26,18 @@ export default React.createClass({
     activeOrganization: React.PropTypes.object,
     onChangeActiveOrganization: React.PropTypes.func,
     userIsAdminInOrgs: React.PropTypes.array,
-    tcsOfOrganization: React.PropTypes.array,
-    pcsOfOrganization: React.PropTypes.array,
-    rcsOfOrganization: React.PropTypes.array
-  },
-
-  getInitialState () {
-    return {
-      tcsOfOrganization: [],
-      pcsOfOrganization: [],
-      rcsOfOrganization: []
-    }
+    tcsOfActiveOrganization: React.PropTypes.array,
+    pcsOfActiveOrganization: React.PropTypes.array,
+    rcsOfActiveOrganization: React.PropTypes.array
   },
 
   componentDidMount () {
-    let { email, offlineIndexes, activeOrganization } = this.props
+    let { email } = this.props
     if (!email) {
       const logIn = true
       app.Actions.login({ logIn })
     }
     app.Actions.getOrganizations(email)
-    this.listenTo(app.tcsOfOrganizationStore, this.onTcsOfOrganizationStoreChange)
-    this.listenTo(app.pcsOfOrganizationStore, this.onPcsOfOrganizationStoreChange)
-    this.listenTo(app.rcsOfOrganizationStore, this.onRcsOfOrganizationStoreChange)
-  },
-
-  onTcsOfOrganizationStoreChange (tcsOfOrganization) {
-    this.setState({ tcsOfOrganization })
-  },
-
-  onPcsOfOrganizationStoreChange (pcsOfOrganization) {
-    this.setState({ pcsOfOrganization })
-  },
-
-  onRcsOfOrganizationStoreChange (rcsOfOrganization) {
-    this.setState({ rcsOfOrganization })
   },
 
   orgValues () {
@@ -89,12 +63,11 @@ export default React.createClass({
   },
 
   lowerPart () {
-    const { activeOrganization } = this.props
-    const { tcsOfOrganization, pcsOfOrganization, rcsOfOrganization } = this.state
+    const { activeOrganization, tcsOfActiveOrganization, pcsOfActiveOrganization, rcsOfActiveOrganization } = this.props
 
-    console.log('organizations.js, render, tcsOfOrganization', tcsOfOrganization)
-    // console.log('organizations.js, render, pcsOfOrganization', pcsOfOrganization)
-    // console.log('organizations.js, render, rcsOfOrganization', rcsOfOrganization)
+    console.log('organizations.js, render, tcsOfActiveOrganization', tcsOfActiveOrganization)
+    // console.log('organizations.js, render, pcsOfActiveOrganization', pcsOfActiveOrganization)
+    // console.log('organizations.js, render, rcsOfActiveOrganization', rcsOfActiveOrganization)
 
     return (
       <div>
@@ -108,25 +81,25 @@ export default React.createClass({
           activeOrganization={activeOrganization}
           userFieldName='orgAdmins' />
         {
-          tcsOfOrganization.length > 0
+          tcsOfActiveOrganization.length > 0
           ? <CollectionList
-            collections={tcsOfOrganization}
+            collections={tcsOfActiveOrganization}
             cType='Taxonomiensammlungen'
             orgName={activeOrganization.Name} />
           : null
         }
         {
-          pcsOfOrganization.length > 0
+          pcsOfActiveOrganization.length > 0
           ? <CollectionList
-            collections={pcsOfOrganization}
+            collections={pcsOfActiveOrganization}
             cType='Eigenschaftensammlungen'
             orgName={activeOrganization.Name} />
           : null
         }
         {
-          rcsOfOrganization.length > 0
+          rcsOfActiveOrganization.length > 0
           ? <CollectionList
-            collections={rcsOfOrganization}
+            collections={rcsOfActiveOrganization}
             cType='Beziehungssammlungen'
             orgName={activeOrganization.Name} />
           : null
