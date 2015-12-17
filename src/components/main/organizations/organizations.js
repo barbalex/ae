@@ -98,32 +98,28 @@ export default React.createClass({
           nonLrTcs.length > 0
           ? <CollectionList
             collections={nonLrTcs}
-            cType='Taxonomiensammlungen'
-            orgName={activeOrganization.Name} />
+            cType='Taxonomiensammlungen' />
           : null
         }
         {
           lr.length > 0
           ? <CollectionList
             collections={lr}
-            cType='Lebensräume'
-            orgName={activeOrganization.Name} />
+            cType='Lebensräume' />
           : null
         }
         {
           pcsOfActiveOrganization.length > 0
           ? <CollectionList
             collections={pcsOfActiveOrganization}
-            cType='Eigenschaftensammlungen'
-            orgName={activeOrganization.Name} />
+            cType='Eigenschaftensammlungen' />
           : null
         }
         {
           rcsOfActiveOrganization.length > 0
           ? <CollectionList
             collections={rcsOfActiveOrganization}
-            cType='Beziehungssammlungen'
-            orgName={activeOrganization.Name} />
+            cType='Beziehungssammlungen' />
           : null
         }
       </div>

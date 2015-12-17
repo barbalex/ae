@@ -25,7 +25,7 @@ export default React.createClass({
   },
 
   render () {
-    const { cType, orgName } = this.props
+    const { cType } = this.props
     const title = cType
     const titleStyle = {
       marginBottom: 0,
