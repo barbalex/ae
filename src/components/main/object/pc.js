@@ -14,7 +14,10 @@ import LinkToSameGroup from './linkToSameGroup.js'
 import LinksToSameGroup from './linksToSameGroup.js'
 import FieldInput from './fieldInput.js'
 import Field from './field.js'
+import isUserServerAdmin from '../../../modules/isUserServerAdmin.js'
+import isUserOrgAdmin from '../../../modules/isUserOrgAdmin.js'
 import isUserLrWriter from '../../../modules/isUserLrWriter.js'
+import EditButtonGroup from './editButtonGroup.js'
 
 function buildFieldForProperty (propertyCollection, object, value, key, pcType) {
   const pcName = propertyCollection.Name.replace(/"/g, "'")
@@ -65,39 +68,37 @@ export default React.createClass({
     pcType: React.PropTypes.string,
     object: React.PropTypes.object,
     propertyCollection: React.PropTypes.object,
-    userRoles: React.PropTypes.array
+    userRoles: React.PropTypes.array,
+    editing: React.PropTypes.bool
+  },
+
+  getInitialState () {
+    return {
+      editing: false
+    }
+  },
+
+  toggleEditing () {
+    const { editing } = this.state
+    this.setState({ editing: !editing })
   },
 
   render () {
     const { propertyCollection, pcType, object, userRoles } = this.props
+    const { editing } = this.state
     const pcName = replaceInvalidCharactersInIdNames(propertyCollection.Name)
     const isLr = object.Gruppe === 'Lebensräume'
-    const objectIsEditable = isLr && isUserLrWriter(userRoles, propertyCollection['Organisation mit Schreibrecht'])
+    const org = propertyCollection['Organisation mit Schreibrecht']
+    const collectionIsEditable = isLr && (isUserLrWriter(userRoles, org) || isUserOrgAdmin(userRoles, org) || isUserServerAdmin(userRoles))
 
-    const editToolbar = (
-      <div className='btn-toolbar bearbToolbar'>
-        <div className='btn-group btn-group-sm'>
-          <button type='button' className='btn btn-default' data-toggle='tooltip' title='bearbeiten'>
-            <i className='glyphicon glyphicon-pencil'/>
-          </button>
-          <button type='button' className='btn btn-default disabled' title='schützen'>
-            <i className='glyphicon glyphicon-ban-circle'/>
-          </button>
-          <button type='button' className='btn btn-default disabled' title='neuer Lebensraum'>
-            <i className='glyphicon glyphicon-plus'/>
-          </button>
-          <button type='button' data-toggle='modal' data-target='#rueckfrage_lr_loeschen' className='btn btn-default disabled' title='Lebensraum löschen'>
-            <i className='glyphicon glyphicon-trash'/>
-          </button>
-        </div>
-      </div>
-    )
+    console.log('pc.js, render, isLr', isLr)
+    console.log('pc.js, render, userRoles', userRoles)
+    console.log('pc.js, render, org', org)
+    console.log('pc.js, render, collectionIsEditable', collectionIsEditable)
 
     const properties = _.map(propertyCollection.Eigenschaften, (value, key) => buildFieldForProperty(propertyCollection, object, value, key, pcType))
 
     const showPcDescription = object.Gruppe !== 'Lebensräume' || pcType !== 'Taxonomie'
-    // const showEditToobar = object.Gruppe === 'Lebensräume' && pcType === 'Taxonomie'  TODO: implement later
-    const showEditToobar = false
 
     return (
       <Accordion>
@@ -105,8 +106,10 @@ export default React.createClass({
           header={propertyCollection.Name}
           eventKey='1'>
           {
-            showEditToobar
-            ? editToolbar
+            collectionIsEditable
+            ? <EditButtonGroup
+              editing={editing}
+              toggleEditing={this.toggleEditing} />
             : null
           }
           {
