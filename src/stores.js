@@ -850,7 +850,6 @@ export default (Actions) => {
       // now fetch up to date tc's
       queryTcs(offlineIndexes)
         .then((tcs) => {
-          console.log('taxonomyCollectionsStore, tcs from query', tcs)
           this.tcsQuerying = false
           this.trigger(tcs, this.tcsQuerying)
           return this.saveTcs(tcs)
