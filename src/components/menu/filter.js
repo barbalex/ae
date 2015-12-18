@@ -13,58 +13,49 @@ import { Glyphicon } from 'react-bootstrap'
 export default React.createClass({
   displayName: 'Filter',
 
-  /*
-  getInitialState () {
-    return {
-      value: 'initial value'
-    }
-  },
-  */
-
   propTypes: {
     filterOptions: React.PropTypes.array,
-    loadingFilterOptions: React.PropTypes.bool/*,
-    value: React.PropTypes.string*/
+    loadingFilterOptions: React.PropTypes.bool
   },
 
   onClickEmptyFilterField () {
-    console.log('filter.js: clicked remove')
-    /*
-    this.setState({
-      value: 'empty'
-    })
-    */
     this.refs.typeahead.focus()
+    this.refs.typeahead.setState({
+      entryValue: '',
+      selection: null,
+      selectionIndex: null,
+      visible: []
+    })
   },
 
   onSelectObject (result) {
     const guid = result.value
-    // const label = result.label
-
-    console.log('filter.js, onSelectObject, guid', guid)
-
     app.Actions.loadActiveObjectStore(guid)
+    this.emptyInTenSeconds()
+  },
 
-    /*
-    this.setState({
-      itemFiltered: {
-        'value': guid,
-        'label': label
-      }
-    })
-    */
+  emptyInTenSeconds () {
+    setTimeout(() => {
+      this.refs.typeahead.setState({
+        entryValue: '',
+        selection: null,
+        selectionIndex: null,
+        visible: []
+      })
+    }, 10000)
   },
 
   render () {
     const { filterOptions, loadingFilterOptions } = this.props
 
     const removeGlyphStyle = {
-      fontSize: 13 + 'px',
+      fontSize: 13,
       position: 'absolute',
-      right: 2 + 'px',
-      top: 3 + 'px',
-      padding: 7 + 'px',
-      color: '#333'
+      right: 2,
+      top: 3,
+      padding: 7,
+      color: '#333',
+      cursor: 'pointer'
     }
 
     const filterField = (
@@ -75,7 +66,7 @@ export default React.createClass({
             style={removeGlyphStyle}
             onClick={this.onClickEmptyFilterField}/>
           <Typeahead
-            ref={'typeahead'}
+            ref='typeahead'
             placeholder={loadingFilterOptions ? 'Ergänze Suchindex...' : 'suchen'}
             maxVisible={10}
             options={filterOptions}
