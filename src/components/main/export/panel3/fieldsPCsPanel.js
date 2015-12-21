@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Input } from 'react-bootstrap'
-import _ from 'lodash'
+import { has, get } from 'lodash'
 
 export default React.createClass({
   displayName: 'FieldsPCsPanel',
@@ -35,7 +35,7 @@ export default React.createClass({
       const fieldKey = fNameKey.toLowerCase()
       let checked = false
       const path = `${cNameKey}.${fNameKey}.export`
-      if (_.has(exportOptions, path)) checked = _.get(exportOptions, path)
+      if (has(exportOptions, path)) checked = get(exportOptions, path)
       return (
         <Input
           key={fieldKey}

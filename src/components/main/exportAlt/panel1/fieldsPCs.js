@@ -2,7 +2,6 @@
 
 import React from 'react'
 import { Accordion, Panel } from 'react-bootstrap'
-import _ from 'lodash'
 import FieldsPCsPanel from './fieldsPCsPanel.js'
 
 export default React.createClass({
@@ -39,7 +38,7 @@ export default React.createClass({
 
     // make sure the heading was clicked
     const parent = event.target.parentElement
-    const headingWasClicked = _.includes(parent.className, 'panel-title') || _.includes(parent.className, 'panel-heading')
+    const headingWasClicked = parent.className.includes('panel-title') || parent.className.includes('panel-heading')
     if (headingWasClicked) {
       // always close panel if it is open
       if (activePanel === number) return this.setState({ activePanel: '' })

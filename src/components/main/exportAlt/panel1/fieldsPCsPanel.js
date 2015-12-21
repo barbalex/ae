@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Input } from 'react-bootstrap'
-import _ from 'lodash'
+import { has, get } from 'lodash'
 
 export default React.createClass({
   displayName: 'FieldsPCsPanel',
@@ -35,7 +35,7 @@ export default React.createClass({
       const fieldKey = fNameKey.toLowerCase()
       let checked = false
       const path = `${cNameKey}.${fNameKey}.export`
-      if (_.has(urlOptions, path)) checked = _.get(urlOptions, path)
+      if (has(urlOptions, path)) checked = get(urlOptions, path)
       return (
         <Input
           key={fieldKey}
@@ -49,7 +49,9 @@ export default React.createClass({
     if (fields.length > 1) {
       const checked = collectionsWithAllChoosen.includes(cNameKey)
       alleField = (
-        <div className='felderspalte alleWaehlenCheckbox' style={{marginBottom: 5}}>
+        <div
+          className='felderspalte alleWaehlenCheckbox'
+          style={{marginBottom: 5}}>
           <Input
             type='checkbox'
             label='alle'

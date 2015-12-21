@@ -5,18 +5,18 @@
  * needed for passing to csv / xlsx
  */
 
-import _ from 'lodash'
+import { isArray, isPlainObject } from 'lodash'
 
 export default (exportObjects) => {
   exportObjects.forEach((object) => {
     Object.keys(object).forEach((key, objIndex) => {
       let value = object[key]
-      if (_.isArray(value)) {
+      if (isArray(value)) {
         value.forEach((val, vIndex) => {
-          if (_.isPlainObject(val)) object[key][vIndex] = JSON.stringify(val)
+          if (isPlainObject(val)) object[key][vIndex] = JSON.stringify(val)
         })
         object[key] = value.join(', ')
-      } else if (_.isPlainObject(value)) {
+      } else if (isPlainObject(value)) {
         object[key] = JSON.stringify(value)
       }
     })

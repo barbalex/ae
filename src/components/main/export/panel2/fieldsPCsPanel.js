@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Input } from 'react-bootstrap'
-import _ from 'lodash'
+import { get } from 'lodash'
 import SelectComparisonOperator from './selectComparisonOperator.js'
 import InfoButtonAfter from './infoButtonAfter.js'
 import PcDescription from './pcDescription.js'
@@ -32,8 +32,8 @@ export default React.createClass({
     const fields = fieldsSorted.map((fNameKey) => {
       const fieldKey = fNameKey.toLowerCase()
       const fNameObject = cNameObject[fNameKey]
-      const value = _.get(exportOptions, `${cNameKey}.${fNameKey}.value`, null)
-      const co = _.get(exportOptions, `${cNameKey}.${fNameKey}.co`, null)
+      const value = get(exportOptions, `${cNameKey}.${fNameKey}.value`, null)
+      const co = get(exportOptions, `${cNameKey}.${fNameKey}.co`, null)
       const selectComparisonOperator = <SelectComparisonOperator cNameKey={cNameKey} fNameKey={fNameKey} value={co} onChangeCoSelect={onChangeCoSelect} />
       const buttonAfter = <InfoButtonAfter fNameObject={fNameObject} />
       if (fNameObject.fType !== 'boolean') {

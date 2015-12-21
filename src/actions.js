@@ -4,7 +4,7 @@ import app from 'ampersand-app'
 import Reflux from 'reflux'
 import PouchDB from 'pouchdb'
 import pouchdbLoad from 'pouchdb-load'
-import _ from 'lodash'
+import { difference } from 'lodash'
 import getGruppen from './modules/gruppen.js'
 import loadGroupFromRemote from './modules/loadGroupFromRemote.js'
 
@@ -56,7 +56,7 @@ export default () => {
     // get groups already loaded
     app.loadingGroupsStore.groupsLoaded()
       .then((groupsLoaded) => {
-        groupsLoading = _.difference(groups, groupsLoaded)
+        groupsLoading = difference(groups, groupsLoaded)
         // load all groups not yet loaded
         groupsLoading.forEach((group) => Actions.loadObjectStore(group))
       })

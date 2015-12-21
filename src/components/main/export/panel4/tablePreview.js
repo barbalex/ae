@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Table } from 'react-bootstrap'
-import _ from 'lodash'
+import { isArray, isPlainObject } from 'lodash'
 
 export default React.createClass({
   displayName: 'TablePreview',
@@ -45,11 +45,23 @@ export default React.createClass({
           // if not, table gets torn apart
           let value = pc[key] || ''
           // if field content is array, write it into separate lines
-          if (_.isArray(value)) {
+          if (isArray(value)) {
             value = value.map((val, index) => {
-              if (_.isPlainObject(val)) val = JSON.stringify(val)
-              if (index + 1 === value.length) return <p key={index}>{val}<br/></p>
-              return <p key={index}>{val}</p>
+              if (isPlainObject(val)) val = JSON.stringify(val)
+              if (index + 1 === value.length) {
+                return (
+                  <p
+                    key={index}>
+                    {val}<br/>
+                  </p>
+                )
+              }
+              return (
+                <p
+                  key={index}>
+                  {val}
+                </p>
+              )
             })
           }
           if (value === true) value = 'ja'

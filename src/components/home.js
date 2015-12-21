@@ -3,7 +3,7 @@
 import app from 'ampersand-app'
 import { ListenerMixin } from 'reflux'
 import React from 'react'
-import _ from 'lodash'
+import { pluck, difference, union } from 'lodash'
 import moment from 'moment'
 import MenuButton from './menu/menuButton/menuButton.js'
 import ResizeButton from './menu/resizeButton.js'
@@ -186,10 +186,10 @@ export default React.createClass({
 
   onLoadingGroupsStoreChange (payload) {
     const { groupsLoadingObjects, groupsLoaded } = payload
-    const groupsLoading = _.pluck(groupsLoadingObjects, 'group')
+    const groupsLoading = pluck(groupsLoadingObjects, 'group')
     // add groups loading to groups loaded to hide the group checkbox of the loading group
-    const groupsLoadedOrLoading = _.union(groupsLoaded, groupsLoading)
-    const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
+    const groupsLoadedOrLoading = union(groupsLoaded, groupsLoading)
+    const groupsNotLoaded = difference(gruppen, groupsLoadedOrLoading)
     const allGroupsLoaded = groupsNotLoaded.length === 0
 
     this.setState({ groupsLoadingObjects, groupsLoadedOrLoading, allGroupsLoaded })
@@ -231,7 +231,7 @@ export default React.createClass({
 
   render () {
     const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, mainComponent, logIn, email, userRoles, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, tcs, pcs, tcsQuerying, rcs, pcsQuerying, rcsQuerying, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, offlineIndexes, organizations, activeOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, tcsOfActiveOrganization, pcsOfActiveOrganization, rcsOfActiveOrganization } = this.state
-    const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
+    const groupsNotLoaded = difference(gruppen, groupsLoadedOrLoading)
     const showGruppen = groupsNotLoaded.length > 0
     const showFilter = filterOptions.length > 0 || loadingFilterOptions
     const showTree = groupsLoadedOrLoading.length > 0

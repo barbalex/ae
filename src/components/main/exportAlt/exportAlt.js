@@ -4,13 +4,12 @@ import app from 'ampersand-app'
 import React from 'react'
 import { ListenerMixin } from 'reflux'
 import { Accordion, Panel } from 'react-bootstrap'
-import _ from 'lodash'
+import { get, set, union, without } from 'lodash'
 import addClass from 'amp-add-class'
 import Panel1 from './panel1/panel1.js'
 import Panel2 from './panel2/panel2.js'
 import ModalTooManyFieldsChoosen from './modalTooManyFieldsChoosen.js'
 import ModalTooManyRcsChoosen from './modalTooManyRcsChoosen.js'
-import getCouchUrl from '../../../modules/getCouchUrl.js'
 
 export default React.createClass({
   displayName: 'Export',
@@ -164,7 +163,7 @@ export default React.createClass({
     let { activePanel } = this.state
     // make sure the heading was clicked
     const parent = event.target.parentElement
-    const headingWasClicked = _.includes(parent.className, 'panel-title') || _.includes(parent.className, 'panel-heading')
+    const headingWasClicked = parent.className.includes('panel-title') || parent.className.includes('panel-heading')
     if (headingWasClicked) {
       // always close panel if it is open
       if (activePanel === number) return this.setState({ activePanel: '' })
@@ -209,16 +208,16 @@ export default React.createClass({
     } else {
       Object.keys(cNameObject).forEach((fName) => {
         const valuePath = `${cName}.${fName}.export`
-        _.set(urlOptions, valuePath, choosen)
+        set(urlOptions, valuePath, choosen)
         const typePath = `${cName}.cType`
-        _.set(urlOptions, typePath, cType)
+        set(urlOptions, typePath, cType)
       })
       Object.assign(state, { urlOptions })
       if (choosen === false) {
-        collectionsWithAllChoosen = _.without(collectionsWithAllChoosen, cName)
+        collectionsWithAllChoosen = without(collectionsWithAllChoosen, cName)
         Object.assign(state, { collectionsWithAllChoosen })
       } else {
-        collectionsWithAllChoosen = _.union(collectionsWithAllChoosen, [cName])
+        collectionsWithAllChoosen = union(collectionsWithAllChoosen, [cName])
         Object.assign(state, { collectionsWithAllChoosen })
       }
     }
@@ -244,12 +243,12 @@ export default React.createClass({
       Object.assign(state, { tooManyRcsChoosen })
     } else {
       const valuePath = `${cName}.${fName}.export`
-      _.set(urlOptions, valuePath, choosen)
+      set(urlOptions, valuePath, choosen)
       const typePath = `${cName}.cType`
-      _.set(urlOptions, typePath, cType)
+      set(urlOptions, typePath, cType)
       Object.assign(state, { urlOptions })
       if (choosen === false && collectionsWithAllChoosen.includes(cName)) {
-        collectionsWithAllChoosen = _.without(collectionsWithAllChoosen, cName)
+        collectionsWithAllChoosen = without(collectionsWithAllChoosen, cName)
         Object.assign(state, { collectionsWithAllChoosen })
       }
     }
@@ -268,7 +267,7 @@ export default React.createClass({
       Object.keys(urlOptions[cName]).forEach((fName) => {
         if (urlOptions[cName][fName].export) {
           const field = `${cName}${fName}`
-          fieldsChoosen = _.union(fieldsChoosen, [field])
+          fieldsChoosen = union(fieldsChoosen, [field])
         }
       })
     })
@@ -285,14 +284,14 @@ export default React.createClass({
     const oneRowPerRelation = oneRowPerRelationPassed || this.state.oneRowPerRelation
     let rcsChoosen = cNameNew ? [cNameNew] : []
     Object.keys(urlOptions).forEach((cName) => {
-      const isRc = _.get(urlOptions, `${cName}.cType`) === 'rc'
+      const isRc = get(urlOptions, `${cName}.cType`) === 'rc'
       Object.keys(urlOptions[cName]).forEach((fName) => {
         if (urlOptions[cName][fName].export && isRc) {
-          rcsChoosen = _.union(rcsChoosen, [cName])
+          rcsChoosen = union(rcsChoosen, [cName])
         }
       })
     })
-    rcsChoosen = _.union(rcsChoosen, [cNameNew])
+    rcsChoosen = union(rcsChoosen, [cNameNew])
     return oneRowPerRelation && rcsChoosen.length > 1
   },
 
@@ -314,7 +313,7 @@ export default React.createClass({
     if (this.tooManyRcsChoosen(null, oneRowPerRelation)) {
       // reset rc settings from urlOptions
       Object.keys(urlOptions).forEach((cName) => {
-        if (_.get(urlOptions, `${cName}.cType`) === 'rc') delete urlOptions[cName]
+        if (get(urlOptions, `${cName}.cType`) === 'rc') delete urlOptions[cName]
       })
     }
     // set urlCopied back

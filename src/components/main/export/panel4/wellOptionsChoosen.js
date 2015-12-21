@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Well } from 'react-bootstrap'
-import _ from 'lodash'
+import { reject } from 'lodash'
 
 const ulStyle = {
   paddingLeft: 20,
@@ -73,7 +73,7 @@ export default React.createClass({
     }
     let { filters } = this.filtersAndFields()
     // don't want to show Gruppen, it is already shown as groupsText
-    filters = _.reject(filters, (filter) => filter.cName === 'object' && filter.fName === 'Gruppen')
+    filters = reject(filters, (filter) => filter.cName === 'object' && filter.fName === 'Gruppen')
     if (filters.length > 0) {
       return filters.map((filter, index) => {
         const fName = filter.fName

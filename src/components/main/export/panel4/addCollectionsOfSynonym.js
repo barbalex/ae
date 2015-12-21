@@ -7,24 +7,24 @@
  * returns objectToAddTo
  */
 
-import _ from 'lodash'
+import { get } from 'lodash'
 
 export default (objects, objectToAddTo, _id) => {
   const synonym = objects.find((object) => object._id === _id)
   if (synonym) {
     // add missing pcs
-    const synPcs = _.get(synonym, 'Eigenschaftensammlungen')
-    const pcs = _.get(objectToAddTo, 'Eigenschaftensammlungen')
+    const synPcs = get(synonym, 'Eigenschaftensammlungen')
+    const pcs = get(objectToAddTo, 'Eigenschaftensammlungen')
     synPcs.forEach((synPc) => {
       const existing = pcs.find((pc) => pc.Name === synPc.Name)
       if (!existing) objectToAddTo.Eigenschaftensammlungen.push(synPc)
     })
     // add missing rcs
-    const synRcs = _.get(synonym, 'Beziehungssammlungen')
-    const rcs = _.get(objectToAddTo, 'Beziehungssammlungen')
+    const synRcs = get(synonym, 'Beziehungssammlungen')
+    const rcs = get(objectToAddTo, 'Beziehungssammlungen')
     synRcs.forEach((synRc) => {
       // we don't want taxonomic rc's
-      if (!_.get(synRc, 'Typ')) {
+      if (!get(synRc, 'Typ')) {
         const existing = rcs.find((rc) => rc.Name === synRc.Name)
         if (!existing) objectToAddTo.Beziehungssammlungen.push(synRc)
       }

@@ -4,7 +4,7 @@ import app from 'ampersand-app'
 import React from 'react'
 import { ListenerMixin } from 'reflux'
 import { Accordion, Panel } from 'react-bootstrap'
-import _ from 'lodash'
+import { without, get, has, set, union } from 'lodash'
 import Panel1 from './panel1/panel1.js'
 import Panel2 from './panel2/panel2.js'
 import Panel3 from './panel3/panel3.js'
@@ -158,7 +158,7 @@ export default React.createClass({
     let { activePanel } = this.state
     // make sure the heading was clicked
     const parent = event.target.parentElement
-    const headingWasClicked = _.includes(parent.className, 'panel-title') || _.includes(parent.className, 'panel-heading')
+    const headingWasClicked = parent.className.includes('panel-title') || parent.className.includes('panel-heading')
     if (headingWasClicked) {
       // always close panel if it is open
       if (activePanel === number) return this.setState({ activePanel: '' })
@@ -218,7 +218,7 @@ export default React.createClass({
     const { combineTaxonomies } = this.state
     const { offlineIndexes } = this.props
     if (checked) exportOptions.object.Gruppen.value.push(group)
-    if (!checked) exportOptions.object.Gruppen.value = _.without(exportOptions.object.Gruppen.value, group)
+    if (!checked) exportOptions.object.Gruppen.value = without(exportOptions.object.Gruppen.value, group)
     const panel1Done = exportOptions.object.Gruppen.value.length > 0
     const panel2Done = exportOptions.object.Gruppen.value.length > 0
     const exportObjects = []
@@ -235,10 +235,10 @@ export default React.createClass({
     // reset possible filters to do with taxonomy from exportOptions
     if (combineTaxonomies) {
       Object.keys(exportOptions).forEach((cName) => {
-        if (_.get(exportOptions, `${cName}.cType`) === 'taxonomy') delete exportOptions[cName]
+        if (get(exportOptions, `${cName}.cType`) === 'taxonomy') delete exportOptions[cName]
       })
     } else {
-      if (_.has(exportOptions, 'Taxonomie(n)')) delete exportOptions['Taxonomie(n)']
+      if (has(exportOptions, 'Taxonomie(n)')) delete exportOptions['Taxonomie(n)']
     }
     this.setState({ exportObjects, exportOptions, combineTaxonomies })
     // recalculate taxonomyFields
@@ -250,7 +250,7 @@ export default React.createClass({
     const { exportOptions } = this.state
     const co = event.target.value
     const coPath = `${cName}.${fName}.co`
-    _.set(exportOptions, coPath, co)
+    set(exportOptions, coPath, co)
     const exportObjects = []
     this.setState({ exportObjects, exportOptions })
     // console.log('exportOptions', exportOptions)
@@ -264,9 +264,9 @@ export default React.createClass({
     if (value === 'false') value = false
     if (value === 'true') value = true
     if (value === '') value = null
-    _.set(exportOptions, valuePath, value)
+    set(exportOptions, valuePath, value)
     const typePath = `${cName}.cType`
-    _.set(exportOptions, typePath, cType)
+    set(exportOptions, typePath, cType)
     const exportObjects = []
     this.setState({ exportObjects, exportOptions })
   },
@@ -296,16 +296,16 @@ export default React.createClass({
     } else {
       Object.keys(cNameObject).forEach((fName) => {
         const valuePath = `${cName}.${fName}.export`
-        _.set(exportOptions, valuePath, choosen)
+        set(exportOptions, valuePath, choosen)
         const typePath = `${cName}.cType`
-        _.set(exportOptions, typePath, cType)
+        set(exportOptions, typePath, cType)
       })
       Object.assign(state, { exportOptions })
       if (choosen === false) {
-        collectionsWithAllChoosen = _.without(collectionsWithAllChoosen, cName)
+        collectionsWithAllChoosen = without(collectionsWithAllChoosen, cName)
         Object.assign(state, { collectionsWithAllChoosen })
       } else {
-        collectionsWithAllChoosen = _.union(collectionsWithAllChoosen, [cName])
+        collectionsWithAllChoosen = union(collectionsWithAllChoosen, [cName])
         Object.assign(state, { collectionsWithAllChoosen })
       }
     }
@@ -330,12 +330,12 @@ export default React.createClass({
       Object.assign(state, { tooManyRcsChoosen })
     } else {
       const valuePath = `${cName}.${fName}.export`
-      _.set(exportOptions, valuePath, choosen)
+      set(exportOptions, valuePath, choosen)
       const typePath = `${cName}.cType`
-      _.set(exportOptions, typePath, cType)
+      set(exportOptions, typePath, cType)
       Object.assign(state, { exportOptions })
       if (choosen === false && collectionsWithAllChoosen.includes(cName)) {
-        collectionsWithAllChoosen = _.without(collectionsWithAllChoosen, cName)
+        collectionsWithAllChoosen = without(collectionsWithAllChoosen, cName)
         Object.assign(state, { collectionsWithAllChoosen })
       }
     }
@@ -355,7 +355,7 @@ export default React.createClass({
       Object.keys(exportOptions[cName]).forEach((fName) => {
         if (exportOptions[cName][fName].export) {
           const field = `${cName}${fName}`
-          fieldsChoosen = _.union(fieldsChoosen, [field])
+          fieldsChoosen = union(fieldsChoosen, [field])
         }
       })
     })
@@ -372,14 +372,14 @@ export default React.createClass({
     const oneRowPerRelation = oneRowPerRelationPassed || this.state.oneRowPerRelation
     let rcsChoosen = cNameNew ? [cNameNew] : []
     Object.keys(exportOptions).forEach((cName) => {
-      const isRc = _.get(exportOptions, `${cName}.cType`) === 'rc'
+      const isRc = get(exportOptions, `${cName}.cType`) === 'rc'
       Object.keys(exportOptions[cName]).forEach((fName) => {
         if (exportOptions[cName][fName].export && isRc) {
-          rcsChoosen = _.union(rcsChoosen, [cName])
+          rcsChoosen = union(rcsChoosen, [cName])
         }
       })
     })
-    rcsChoosen = _.union(rcsChoosen, [cNameNew])
+    rcsChoosen = union(rcsChoosen, [cNameNew])
     return oneRowPerRelation && rcsChoosen.length > 1
   },
 
@@ -404,7 +404,7 @@ export default React.createClass({
     if (this.tooManyRcsChoosen(null, oneRowPerRelation)) {
       // reset rc settings from exportOptions
       Object.keys(exportOptions).forEach((cName) => {
-        if (_.get(exportOptions, `${cName}.cType`) === 'rc') delete exportOptions[cName]
+        if (get(exportOptions, `${cName}.cType`) === 'rc') delete exportOptions[cName]
       })
     }
     this.setState({ exportObjects, oneRowPerRelation, exportOptions })

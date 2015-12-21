@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Accordion, Panel, Input } from 'react-bootstrap'
-import _ from 'lodash'
+import { get } from 'lodash'
 import FieldsTaxonomy from './fieldsTaxonomy.js'
 import FieldsPCs from './fieldsPCs.js'
 import FieldsRCs from './fieldsRCs.js'
@@ -38,7 +38,7 @@ export default React.createClass({
 
     // make sure the heading was clicked
     const parent = event.target.parentElement
-    const headingWasClicked = _.includes(parent.className, 'panel-title') || _.includes(parent.className, 'panel-heading')
+    const headingWasClicked = parent.className.includes('panel-title') || parent.className.includes('panel-heading')
     if (headingWasClicked) {
       // always close panel if it is open
       if (activePanel === number) return this.setState({ activePanel: '' })
@@ -55,7 +55,7 @@ export default React.createClass({
   render () {
     const { taxonomyFields, pcFields, relationFields, onChooseField, onChooseAllOfCollection, pcs, rcs, exportOptions, collectionsWithAllChoosen, oneRowPerRelation, onChangeOneRowPerRelation } = this.props
     const { activePanel } = this.state
-    const guidChecked = _.get(exportOptions, 'object._id.export')
+    const guidChecked = get(exportOptions, 'object._id.export')
     const taxonomyHeader = Object.keys(taxonomyFields).length > 1 ? 'Taxonomien' : 'Taxonomie'
 
     return (
