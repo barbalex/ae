@@ -45,7 +45,7 @@ window.PouchDB = PouchDB
  * get path to remote _users db
  */
 const remoteDbUrl = pouchUrl()
-const remoteUsersDbUrl = remoteDbUrl.replace('/ae', '/_users')
+const remoteUsersDbUrl = remoteDbUrl.replace('/ae', '/_users').replace('/artendb', '/_users')
 
 /**
  * ampersand-app is extended with app methods (=singleton)
