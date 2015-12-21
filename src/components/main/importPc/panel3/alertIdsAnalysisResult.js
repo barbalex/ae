@@ -5,7 +5,7 @@
 'use strict'
 
 import React from 'react'
-import _ from 'lodash'
+import { unique } from 'lodash'
 import { Alert } from 'react-bootstrap'
 import getSuccessTypeFromAnalysis from './getSuccessTypeFromAnalysis.js'
 
@@ -42,7 +42,7 @@ export default React.createClass({
 
     const titleText = <p>Die Importtabelle enthält {pcsToImport.length} Datensätze:</p>
     const recordsWithIdValueText = `${idsNumberOfRecordsWithIdValue} enthalten einen Wert im Feld "${idsImportIdField}"`
-    const idsDuplicateText = `${idsDuplicate.length} enthalten die folgenden mehrfach vorkommenden IDs: ` + _.unique(idsDuplicate).join(', ')
+    const idsDuplicateText = `${idsDuplicate.length} enthalten die folgenden mehrfach vorkommenden IDs: ` + unique(idsDuplicate).join(', ')
     const recordsImportableText = `${idsNumberImportable} können zugeordnet und importiert werden`
 
     const idsNotNumbersText = `${idsNotANumber.length} mit den folgenden Werten im Feld "${idsImportIdField}" enthalten keine Zahlen:`

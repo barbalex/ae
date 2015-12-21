@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { OverlayTrigger, Popover } from 'react-bootstrap'
-import _ from 'lodash'
+import { pluck } from 'lodash'
 
 export default React.createClass({
   displayName: 'InputUrsprungsEs',
@@ -24,7 +24,7 @@ export default React.createClass({
     const { pcs } = this.props
     // don't want combining pcs
     let options = pcs.filter((pc) => !pc.combining)
-    options = _.pluck(options, 'name')
+    options = pluck(options, 'name')
     options = options.map((name, index) => (
         <option
           key={index}

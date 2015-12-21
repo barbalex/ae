@@ -7,7 +7,7 @@
 'use strict'
 
 import app from 'ampersand-app'
-import _ from 'lodash'
+import { union } from 'lodash'
 
 export default (groups) => {
   return new Promise((resolve, reject) => {
@@ -15,13 +15,12 @@ export default (groups) => {
     app.localGroupsDb.get('groups')
       .then((doc) => {
         // make shure a group is not included more than once
-        groupsLoaded = _.union(doc.groupsLoaded, groups)
+        groupsLoaded = union(doc.groupsLoaded, groups)
         doc.groupsLoaded = groupsLoaded
         return app.localGroupsDb.put(doc)
       })
       .then(() => resolve(groupsLoaded))
-      .catch((error) =>
-        reject('addGroupsLoadedToLocalGroupsDb: error getting or putting groups "' + groups + '" from localGroupsDb:', error)
-      )
+      .catch((error) => reject('addGroupsLoadedToLocalGroupsDb: error getting or putting groups "' + groups + '" from localGroupsDb:', error)
+    )
   })
 }

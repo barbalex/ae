@@ -13,7 +13,7 @@
  */
 'use strict'
 
-import _ from 'lodash'
+import { forEach, groupBy } from 'lodash'
 
 export default (allFields, groupsToExport, collectionType, combineTaxonomies) => {
   let fields = allFields.filter((field) => groupsToExport.includes(field.group) && field.cType === collectionType)
@@ -33,7 +33,7 @@ export default (allFields, groupsToExport, collectionType, combineTaxonomies) =>
       count: ''
      }
    */
-  let taxonomyNameObject = _.groupBy(fields, (field) => field.cName)
+  let taxonomyNameObject = groupBy(fields, (field) => field.cName)
   /**
    * format for taxonomyNameObject:
    * {
@@ -41,7 +41,7 @@ export default (allFields, groupsToExport, collectionType, combineTaxonomies) =>
       ...
      }
    */
-  _.forEach(taxonomyNameObject, (cNameArray, key) => {
+  forEach(taxonomyNameObject, (cNameArray, key) => {
     cNameArray = cNameArray.map((field) => {
       delete field.cName
       return field
@@ -53,7 +53,7 @@ export default (allFields, groupsToExport, collectionType, combineTaxonomies) =>
         cName2...
        }
      */
-    let cNameObject = _.groupBy(cNameArray, (field) => field.fName)
+    let cNameObject = groupBy(cNameArray, (field) => field.fName)
     /**
      * format for taxonomyNameObject now:
      *  {
@@ -64,7 +64,7 @@ export default (allFields, groupsToExport, collectionType, combineTaxonomies) =>
           cName2...
         }
      */
-    _.forEach(cNameObject, (fNameArray, key) => {
+    forEach(cNameObject, (fNameArray, key) => {
       fNameArray = fNameArray.map((field) => {
         delete field.fName
         return field
@@ -93,16 +93,16 @@ export default (allFields, groupsToExport, collectionType, combineTaxonomies) =>
     })
 
     taxonomyNameObject[key] = cNameObject
-    /**
-     * format for taxonomyNameObject now:
-     *  {
-          cName1: {                                          <= this is cNameObject
-            fName1: { group: '', fType: '', count: '' },
-            fName2...
-          },
-          cName2...
-        }
-     */
+  /**
+   * format for taxonomyNameObject now:
+   *  {
+        cName1: {                                          <= this is cNameObject
+          fName1: { group: '', fType: '', count: '' },
+          fName2...
+        },
+        cName2...
+      }
+   */
   })
   return taxonomyNameObject
 }

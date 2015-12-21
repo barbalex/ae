@@ -3,7 +3,7 @@
 import app from 'ampersand-app'
 import React from 'react'
 import { Accordion, Panel } from 'react-bootstrap'
-import _ from 'lodash'
+import { difference, pluck, omit, unique, values } from 'lodash'
 import { ListenerMixin } from 'reflux'
 import Panel1 from './panel1/panel1.js'
 import Panel2 from './panel2/panel2.js'
@@ -303,7 +303,7 @@ export default React.createClass({
           }
         })
       }
-      const ids = _.pluck(pcsToImport, idsImportIdField)
+      const ids = pluck(pcsToImport, idsImportIdField)
       // if ids should be numbers but some are not, an error can occur when fetching from the database
       // so dont fetch
       if (idsNotANumber.length > 0) return this.setState({ idsAnalysisComplete: true, idsNotANumber: idsNotANumber })
@@ -314,17 +314,17 @@ export default React.createClass({
             const importId = pc[idsImportIdField]
             pc._id = idGuidObject[importId]
           })
-          let idsToImportWithDuplicates = _.pluck(pcsToImport, idsImportIdField)
+          let idsToImportWithDuplicates = pluck(pcsToImport, idsImportIdField)
           // remove emtpy values
           idsToImportWithDuplicates = idsToImportWithDuplicates.filter((id) => !!id)
           // remove duplicates
-          const idsToImport = _.unique(idsToImportWithDuplicates)
+          const idsToImport = unique(idsToImportWithDuplicates)
           const idsNumberOfRecordsWithIdValue = idsToImportWithDuplicates.length
-          const idsDuplicate = _.difference(idsToImportWithDuplicates, idsToImport)
+          const idsDuplicate = difference(idsToImportWithDuplicates, idsToImport)
           // go on with analysis
-          const idsOfAeObjects = _.values(idGuidObject)
+          const idsOfAeObjects = values(idGuidObject)
 
-          const idGuidImportable = _.omit(idGuidObject, (guid, id) => !guid)
+          const idGuidImportable = omit(idGuidObject, (guid, id) => !guid)
           const idsImportable = Object.keys(idGuidImportable)
           // extracting from keys converts numbers to strings! Convert back
           idsImportable.forEach((id, index) => {
@@ -333,7 +333,7 @@ export default React.createClass({
 
           const idsNumberImportable = idsImportable.length
           // get ids not fetched
-          const idsNotImportable = _.difference(idsToImport, idsImportable)
+          const idsNotImportable = difference(idsToImport, idsImportable)
           const idsAnalysisComplete = true
           // finished? render...
           this.setState({ idsNumberImportable, idsNotImportable, idsAnalysisComplete, idsOfAeObjects, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNotANumber })

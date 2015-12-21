@@ -1,7 +1,7 @@
 'use strict'
 
 import React from 'react'
-import _ from 'lodash'
+import { debounce } from 'lodash'
 import Nodes from './treeNodes.js'
 import LoadingMessage from './loadingMessage.js'
 
@@ -25,7 +25,7 @@ export default React.createClass({
   },
 
   componentDidMount () {
-    window.addEventListener('resize', _.debounce(this.onResize, 150))
+    window.addEventListener('resize', debounce(this.onResize, 150))
   },
 
   componentWillUnmount () {

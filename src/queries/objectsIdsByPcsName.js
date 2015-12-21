@@ -12,7 +12,7 @@
 'use strict'
 
 import app from 'ampersand-app'
-import _ from 'lodash'
+import { pluck } from 'lodash'
 
 const ddoc = {
   _id: '_design/objectsIdsByPcsName',
@@ -60,7 +60,7 @@ export default (name, offlineIndexes) => {
   return new Promise((resolve, reject) => {
     query[db]()
       .then((result) => {
-        const ids = _.pluck(result.rows, 'id')
+        const ids = pluck(result.rows, 'id')
         resolve(ids)
       })
       .catch((error) => reject(error))

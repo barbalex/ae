@@ -5,13 +5,13 @@
 
 'use strict'
 
-import _ from 'lodash'
+import { get } from 'lodash'
 
 export default (urlOptions) => {
   let felder = []
 
   // 1. add _id if applicable
-  if (_.get(urlOptions, 'object._id.export')) {
+  if (get(urlOptions, 'object._id.export')) {
     let feld = {}
     feld.DsName = 'Objekt'
     feld.Feldname = 'GUID'
@@ -19,7 +19,7 @@ export default (urlOptions) => {
   }
 
   // 2. add Gruppen if applicable
-  if (_.get(urlOptions, 'object.Gruppe.export')) {
+  if (get(urlOptions, 'object.Gruppe.export')) {
     let feld = {}
     feld.DsName = 'Objekt'
     feld.Feldname = 'Gruppe'
@@ -32,7 +32,7 @@ export default (urlOptions) => {
     if (cType) {
       // o.k., this is not object. Must be taxonomy, pc or rc
       Object.keys(urlOptions[cName]).forEach((fName) => {
-        if (_.get(urlOptions, `${cName}.${fName}.export`) && fName !== '_id' && fName !== 'Gruppe') {
+        if (get(urlOptions, `${cName}.${fName}.export`) && fName !== '_id' && fName !== 'Gruppe') {
           const dsTypeNames = {
             taxonomy: 'Taxonomie',
             pc: 'Datensammlung',

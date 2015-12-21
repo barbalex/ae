@@ -1,6 +1,6 @@
 'use strict'
 
-import _ from 'lodash'
+import { forEach } from 'lodash'
 import d3 from 'd3'
 
 export default (file) => {
@@ -15,7 +15,7 @@ export default (file) => {
         const objects = d3.csv.parse(data)
         // d3 adds missing fields as '' > remove them
         objects.forEach((object, index) => {
-          _.forEach(object, (value, key) => {
+          forEach(object, (value, key) => {
             if (value === '') delete objects[index][key]
           })
         })

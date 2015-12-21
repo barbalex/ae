@@ -47,13 +47,13 @@
 
 // TODO: refactor to remove repeating code
 
-import _ from 'lodash'
+import { clone, get, has } from 'lodash'
 import replaceProblematicPathCharactersFromArray from './replaceProblematicPathCharactersFromArray.js'
 
 function checkLevel1 (hierarchy, hArray) {
   let el1 = hierarchy.find((el) => el.Name === hArray[0].Name)
   if (!el1) {
-    el1 = _.clone(hArray[0])
+    el1 = clone(hArray[0])
     el1.children = []
     el1.path = replaceProblematicPathCharactersFromArray([el1.Name])
     hierarchy.push(el1)
@@ -65,7 +65,7 @@ function checkLevel2 (hierarchy, hArray) {
   const el1 = hierarchy.find((el) => el.Name === hArray[0].Name)
   let el2 = el1.children.find((el) => el.Name === hArray[1].Name)
   if (!el2) {
-    el2 = _.clone(hArray[1])
+    el2 = clone(hArray[1])
     el2.children = []
     el2.path = replaceProblematicPathCharactersFromArray([el1.Name, el2.Name])
     el1.children.push(el2)
@@ -79,7 +79,7 @@ function checkLevel3 (hierarchy, hArray) {
   const el2 = el1.children.find((el) => el.Name === hArray[1].Name)
   let el3 = el2.children.find((el) => el.Name === hArray[2].Name)
   if (!el3) {
-    el3 = _.clone(hArray[2])
+    el3 = clone(hArray[2])
     el3.children = []
     el3.path = replaceProblematicPathCharactersFromArray([el1.Name, el2.Name, el3.Name])
     el2.children.push(el3)
@@ -95,7 +95,7 @@ function checkLevel4 (hierarchy, hArray) {
   const el3 = el2.children.find((el) => el.Name === hArray[2].Name)
   let el4 = el3.children.find((el) => el.Name === hArray[3].Name)
   if (!el4) {
-    el4 = _.clone(hArray[3])
+    el4 = clone(hArray[3])
     el4.children = []
     el4.path = replaceProblematicPathCharactersFromArray([el1.Name, el2.Name, el3.Name, el4.Name])
     el3.children.push(el4)
@@ -113,7 +113,7 @@ function checkLevel5 (hierarchy, hArray) {
   const el4 = el3.children.find((el) => el.Name === hArray[3].Name)
   let el5 = el4.children.find((el) => el.Name === hArray[4].Name)
   if (!el5) {
-    el5 = _.clone(hArray[4])
+    el5 = clone(hArray[4])
     el5.children = []
     el5.path = replaceProblematicPathCharactersFromArray([el1.Name, el2.Name, el3.Name, el4.Name, el5.Name])
     el4.children.push(el5)
@@ -133,7 +133,7 @@ function checkLevel6 (hierarchy, hArray) {
   const el5 = el4.children.find((el) => el.Name === hArray[4].Name)
   let el6 = el5.children.find((el) => el.Name === hArray[5].Name)
   if (!el6) {
-    el6 = _.clone(hArray[5])
+    el6 = clone(hArray[5])
     el6.children = []
     el6.path = replaceProblematicPathCharactersFromArray([el1.Name, el2.Name, el3.Name, el4.Name, el5.Name, el6.Name])
     el5.children.push(el6)
@@ -155,7 +155,7 @@ function checkLevel7 (hierarchy, hArray) {
   const el6 = el5.children.find((el) => el.Name === hArray[5].Name)
   let el7 = el6.children.find((el) => el.Name === hArray[6].Name)
   if (!el7) {
-    el7 = _.clone(hArray[6])
+    el7 = clone(hArray[6])
     el7.children = []
     el7.path = replaceProblematicPathCharactersFromArray([el1.Name, el2.Name, el3.Name, el4.Name, el5.Name, el6.Name, el7.Name])
     el6.children.push(el7)
@@ -179,7 +179,7 @@ function checkLevel8 (hierarchy, hArray) {
   const el7 = el6.children.find((el) => el.Name === hArray[6].Name)
   let el8 = el7.children.find((el) => el.Name === hArray[7].Name)
   if (!el8) {
-    el8 = _.clone(hArray[7])
+    el8 = clone(hArray[7])
     el8.children = []
     el8.path = replaceProblematicPathCharactersFromArray([el1.Name, el2.Name, el3.Name, el4.Name, el5.Name, el6.Name, el7.Name, el8.Name])
     el7.children.push(el8)
@@ -205,7 +205,7 @@ function checkLevel9 (hierarchy, hArray) {
   const el8 = el7.children.find((el) => el.Name === hArray[7].Name)
   let el9 = el8.children.find((el) => el.Name === hArray[8].Name)
   if (!el9) {
-    el9 = _.clone(hArray[8])
+    el9 = clone(hArray[8])
     el9.children = []
     el9.path = replaceProblematicPathCharactersFromArray([el1.Name, el2.Name, el3.Name, el4.Name, el5.Name, el6.Name, el7.Name, el8.Name, el9.Name])
     el8.children.push(el9)
@@ -222,8 +222,8 @@ export default (objects) => {
   objects.forEach((object) => {
     if (object.Taxonomien) {
       const standardtaxonomie = object.Taxonomien.find((taxonomy) => taxonomy['Standardtaxonomie'])
-      if (standardtaxonomie && _.has(standardtaxonomie, 'Eigenschaften.Hierarchie') && object.Gruppe) {
-        const hArray = _.get(standardtaxonomie, 'Eigenschaften.Hierarchie')
+      if (standardtaxonomie && has(standardtaxonomie, 'Eigenschaften.Hierarchie') && object.Gruppe) {
+        const hArray = get(standardtaxonomie, 'Eigenschaften.Hierarchie')
         const gruppenObjekt = {'Name': object.Gruppe}
         hArray.unshift(gruppenObjekt)
         hierarchiesArray.push(hArray)

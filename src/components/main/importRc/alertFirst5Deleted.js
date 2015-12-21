@@ -3,7 +3,7 @@
 import app from 'ampersand-app'
 import React from 'react'
 import { Alert } from 'react-bootstrap'
-import _ from 'lodash'
+import { findKey } from 'lodash'
 import ReplicationNotice from './replicationNotice.js'
 import getPathsFromLocalPathDb from '../../../modules/getPathsFromLocalPathDb.js'
 
@@ -38,10 +38,19 @@ export default React.createClass({
     }
 
     const examples = first5Ids.map((id, index) => {
-      const path = _.findKey(paths, (value) => value === id)
+      const path = findKey(paths, (value) => value === id)
       if (path) {
         const href = `${window.location.protocol}//${window.location.host}/${path}?id=${id}`
-        return <li key={index}><a href={href} target='_blank'>{path.replace(/\//g, ' > ')}</a></li>
+        return (
+          <li
+            key={index}>
+            <a
+              href={href}
+              target='_blank'>
+              {path.replace(/\//g, ' > ')}
+            </a>
+          </li>
+        )
       }
     })
 
@@ -50,8 +59,20 @@ export default React.createClass({
         <p>Aus {idsOfAeObjects.length} Datensätzen wurde die Eigenschaftensammlung "{nameBestehend}" entfernt.<br/>
           Beispiele zur Kontrolle:
         </p>
-        {paths ? <ul>{examples}</ul> : null}
-        {paths ? <ReplicationNotice replicatingToAe={replicatingToAe} replicatingToAeTime={replicatingToAeTime} /> : null}
+        {
+          paths
+          ? <ul>
+              {examples}
+            </ul>
+          : null
+        }
+        {
+          paths
+          ? <ReplicationNotice
+              replicatingToAe={replicatingToAe}
+              replicatingToAeTime={replicatingToAeTime} />
+          : null
+        }
       </Alert>
     )
   }

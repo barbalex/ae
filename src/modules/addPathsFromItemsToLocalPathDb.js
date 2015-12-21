@@ -7,7 +7,7 @@
 'use strict'
 
 import app from 'ampersand-app'
-import _ from 'lodash'
+import { get, pluck } from 'lodash'
 import replaceProblematicPathCharactersFromArray from './replaceProblematicPathCharactersFromArray.js'
 
 export default (items) => {
@@ -20,8 +20,8 @@ export default (items) => {
       // get hierarchy from the Hierarchie field
       // default value (in case there is none) is []
       const standardtaxonomie = item.Taxonomien.find((taxonomy) => taxonomy['Standardtaxonomie'])
-      const hierarchy = standardtaxonomie ? _.get(standardtaxonomie, 'Eigenschaften.Hierarchie', []) : []
-      let path = _.pluck(hierarchy, 'Name')
+      const hierarchy = standardtaxonomie ? get(standardtaxonomie, 'Eigenschaften.Hierarchie', []) : []
+      let path = pluck(hierarchy, 'Name')
       // if path is [] make shure no path is added
       if (path.length > 0) {
         path = replaceProblematicPathCharactersFromArray(path).join('/')
@@ -45,9 +45,8 @@ export default (items) => {
       paths = Object.assign(paths, pathsOfGruppe)
       app.localPathDb.put(paths)
         .then(() => resolve(paths))
-        .catch((error) =>
-          reject('addPathsFromItemsToLocalPathDb.js: error writing paths to localPathDb:', error)
-        )
+        .catch((error) => reject('addPathsFromItemsToLocalPathDb.js: error writing paths to localPathDb:', error)
+      )
     })
   })
 }

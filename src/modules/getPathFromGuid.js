@@ -6,15 +6,15 @@
 'use strict'
 
 import app from 'ampersand-app'
-import _ from 'lodash'
+import { has, pluck } from 'lodash'
 import replaceProblematicPathCharactersFromArray from './replaceProblematicPathCharactersFromArray.js'
 
 function extractPayloadFromObject (object) {
   let path = []
   if (object.Taxonomien) {
     const standardtaxonomie = object.Taxonomien.find((taxonomy) => taxonomy['Standardtaxonomie'])
-    if (standardtaxonomie && _.has(standardtaxonomie, 'Eigenschaften.Hierarchie')) {
-      path = _.pluck(standardtaxonomie.Eigenschaften.Hierarchie, 'Name')
+    if (standardtaxonomie && has(standardtaxonomie, 'Eigenschaften.Hierarchie')) {
+      path = pluck(standardtaxonomie.Eigenschaften.Hierarchie, 'Name')
       path = replaceProblematicPathCharactersFromArray(path)
     }
   }

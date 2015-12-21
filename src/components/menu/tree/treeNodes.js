@@ -3,7 +3,7 @@
 import app from 'ampersand-app'
 import React from 'react'
 import { Glyphicon } from 'react-bootstrap'
-import _ from 'lodash'
+import { chain, clone } from 'lodash'
 import replaceProblematicPathCharactersFromString from '../../../modules/replaceProblematicPathCharactersFromString.js'
 import getObjectFromPath from '../../../modules/getObjectFromPath.js'
 
@@ -23,7 +23,7 @@ const Nodes = React.createClass({
     let guidOfObjectToLoad = hO.GUID
     // check if clicked node was already active:
     // if path.length is same or shorter as before
-    let pathToLoad = _.clone(hO.path)
+    let pathToLoad = clone(hO.path)
     if (path.length <= hO.path.length) {
       // and last element is same as before
       const positionToCheck = hO.path.length - 1
@@ -49,7 +49,7 @@ const Nodes = React.createClass({
 
   render () {
     const { hierarchy, object, path } = this.props
-    let nodes = _.chain(hierarchy)
+    let nodes = chain(hierarchy)
       .sortBy((hO) => hO.Name)
       .map((hO, index) => {
         const level = hO.path.length
@@ -61,10 +61,24 @@ const Nodes = React.createClass({
         const showNode = replaceProblematicPathCharactersFromString(hO.Name) === activeKey && hO.children
 
         return (
-          <li key={index} level={level} hO={hO} onClick={onClickNode}>
+          <li
+            key={index}
+            level={level}
+            hO={hO}
+            onClick={onClickNode}>
             <Glyphicon glyph={glyph} onClick={onClickNode}/>
-            <div className={keyIsActive ? 'active' : null}>{hO.Name.replace('&#39;', '\'')}</div>
-            {showNode ? <Nodes hierarchy={hO.children} object={object} path={path}/> : ''}
+            <div
+              className={keyIsActive ? 'active' : null}>
+              {hO.Name.replace('&#39;', '\'')}
+            </div>
+            {
+              showNode
+              ? <Nodes
+                  hierarchy={hO.children}
+                  object={object}
+                  path={path}/>
+              : null
+            }
           </li>
         )
       })

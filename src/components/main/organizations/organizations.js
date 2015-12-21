@@ -10,7 +10,7 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import _ from 'lodash'
+import { pluck, uniq } from 'lodash'
 import { PanelGroup, Panel, Input, Alert } from 'react-bootstrap'
 import UsersList from './usersList.js'
 import CollectionList from './collectionList.js'
@@ -44,7 +44,7 @@ export default React.createClass({
   orgValues () {
     const { organizations, email } = this.props
     const orgWhereUserIsAdmin = organizations.filter((org) => org.orgAdmins.includes(email))
-    const orgNamesWhereUserIsAdmin = _.pluck(orgWhereUserIsAdmin, 'Name')
+    const orgNamesWhereUserIsAdmin = pluck(orgWhereUserIsAdmin, 'Name')
     // orgNamesWhereUserIsAdmin.unshift(null)
     return orgNamesWhereUserIsAdmin.map((name, index) => (
       <option
@@ -73,8 +73,8 @@ export default React.createClass({
 
   lowerPart () {
     const { activeOrganization, tcsOfActiveOrganization, pcsOfActiveOrganization, rcsOfActiveOrganization } = this.props
-    const lr = _.uniq(tcsOfActiveOrganization.filter((tcs) => tcs.group === 'Lebensräume'), (tc) => tc.name)
-    const nonLrTcs = _.uniq(tcsOfActiveOrganization.filter((tcs) => tcs.group !== 'Lebensräume'), (tc) => tc.name)
+    const lr = uniq(tcsOfActiveOrganization.filter((tcs) => tcs.group === 'Lebensräume'), (tc) => tc.name)
+    const nonLrTcs = uniq(tcsOfActiveOrganization.filter((tcs) => tcs.group !== 'Lebensräume'), (tc) => tc.name)
     const showDatenTitel = tcsOfActiveOrganization.length > 0 || pcsOfActiveOrganization.length > 0 || rcsOfActiveOrganization.length > 0
 
     return (

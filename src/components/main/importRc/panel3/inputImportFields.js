@@ -1,7 +1,7 @@
 'use strict'
 
 import React from 'react'
-import _ from 'lodash'
+import { union, without } from 'lodash'
 import { Input } from 'react-bootstrap'
 
 export default React.createClass({
@@ -24,10 +24,10 @@ export default React.createClass({
      // get a list of all keys
     let keys = []
     rcsToImport.forEach((pc) => {
-      keys = _.union(keys, Object.keys(pc))
+      keys = union(keys, Object.keys(pc))
     })
     // remove field '_id'
-    keys = _.without(keys, '_id')
+    keys = without(keys, '_id')
 
     const style = { height: ((keys.length * 18) + 9) + 'px' }
     const options = keys.map((key, index) => <option key={index} value={key}>{key}</option>)

@@ -7,7 +7,7 @@
 import app from 'ampersand-app'
 import React from 'react'
 import { Accordion, Panel } from 'react-bootstrap'
-import _ from 'lodash'
+import { isArray, map } from 'lodash'
 import replaceInvalidCharactersInIdNames from '../../../modules/replaceInvalidCharactersInIdNames.js'
 import PcDescription from './pcDescription.js'
 import LinkToSameGroup from './linkToSameGroup.js'
@@ -61,11 +61,11 @@ function buildFieldForProperty (propertyCollection, object, value, key, pcType) 
         objects={value} />
     )
   }
-  if (((key === 'Artname' || key === 'Synonyme') && object.Gruppe === 'Flora') || (key === 'Parent' && object.Gruppe === 'Lebensräume') || (key === 'Hierarchie' && _.isArray(value))) {
+  if (((key === 'Artname' || key === 'Synonyme') && object.Gruppe === 'Flora') || (key === 'Parent' && object.Gruppe === 'Lebensräume') || (key === 'Hierarchie' && isArray(value))) {
     // don't show this field
     return null
   }
-  if (_.isArray(value)) {
+  if (isArray(value)) {
     // this field contains an array of values
     return (
       <FieldInput
@@ -116,7 +116,7 @@ export default React.createClass({
     const isLr = object.Gruppe === 'Lebensräume'
     const org = propertyCollection['Organisation mit Schreibrecht']
     const collectionIsEditable = isLr && (isUserLrWriter(userRoles, org) || isUserOrgAdmin(userRoles, org) || isUserServerAdmin(userRoles))
-    const properties = _.map(propertyCollection.Eigenschaften, (value, key) => buildFieldForProperty(propertyCollection, object, value, key, pcType))
+    const properties = map(propertyCollection.Eigenschaften, (value, key) => buildFieldForProperty(propertyCollection, object, value, key, pcType))
     const showPcDescription = object.Gruppe !== 'Lebensräume' || pcType !== 'Taxonomie'
 
     return (

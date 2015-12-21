@@ -2,7 +2,7 @@
 
 import app from 'ampersand-app'
 import Reflux from 'reflux'
-import _ from 'lodash'
+import { clone, forEach, groupBy, isEqual, pluck, reject, union, uniq, without } from 'lodash'
 import getGroupsLoadedFromLocalGroupsDb from './modules/getGroupsLoadedFromLocalGroupsDb.js'
 import getItemsFromLocalDb from './modules/getItemsFromLocalDb.js'
 import getItemFromLocalDb from './modules/getItemFromLocalDb.js'
@@ -52,7 +52,7 @@ export default (Actions) => {
         .then((objects) => {
           // console.log('objects.length', objects.length)
           // console.log('exportDataStore, onBuildExportData: exportOptions', exportOptions)
-          const originalObjects = _.clone(objects)
+          const originalObjects = clone(objects)
 
           // 1. filter ids
           if (exportOptions.object._id.value) {
@@ -175,7 +175,7 @@ export default (Actions) => {
         .then((result) => {
           console.log('usersStore, onGetUsers, result', result)
           const users = result.rows.map((row) => row.doc)
-          const userNames = _.pluck(users, 'name')
+          const userNames = pluck(users, 'name')
           this.userNames = userNames
           this.trigger(this.userNames)
         })
@@ -240,7 +240,7 @@ export default (Actions) => {
           this.organizations = organizations
           // is user admin in orgs?
           const orgsWhereUserIsAdmin = organizations.filter((org) => org.orgAdmins.includes(email))
-          this.userIsAdminInOrgs = _.pluck(orgsWhereUserIsAdmin, 'Name')
+          this.userIsAdminInOrgs = pluck(orgsWhereUserIsAdmin, 'Name')
           // set activeOrganization if user is logged in and only admin in one organization
           if (this.userIsAdminInOrgs.length === 1) {
             this.activeOrganizationName = this.userIsAdminInOrgs[0]
@@ -250,11 +250,11 @@ export default (Actions) => {
           }
           // is user es-writer in orgs?
           let orgsWhereUserIsEsWriter = organizations.filter((org) => org.esWriters.includes(email))
-          orgsWhereUserIsEsWriter = _.union(orgsWhereUserIsEsWriter, orgsWhereUserIsAdmin)
-          this.userIsEsWriterInOrgs = _.pluck(orgsWhereUserIsEsWriter, 'Name')
+          orgsWhereUserIsEsWriter = union(orgsWhereUserIsEsWriter, orgsWhereUserIsAdmin)
+          this.userIsEsWriterInOrgs = pluck(orgsWhereUserIsEsWriter, 'Name')
           // is user lr-writer in orgs?
           let orgsWhereUserLrEsWriter = organizations.filter((org) => org.lrWriters.includes(email))
-          orgsWhereUserLrEsWriter = _.union(orgsWhereUserLrEsWriter, orgsWhereUserIsAdmin)
+          orgsWhereUserLrEsWriter = union(orgsWhereUserLrEsWriter, orgsWhereUserIsAdmin)
           this.triggerMe()
         })
         .catch((error) => app.Actions.showError({title: 'error fetching organizations from remoteDb:', msg: error}))
@@ -370,7 +370,7 @@ export default (Actions) => {
               if (nameUrsprungsEs) pc.Ursprungsdatensammlung = nameUrsprungsEs
               pc.Eigenschaften = {}
               // now add fields of pc
-              _.forEach(pcToImport, (value, field) => {
+              forEach(pcToImport, (value, field) => {
                 // dont import _id, idField or empty fields
                 if (field !== '_id' && field !== idsImportIdField && value !== '' && value !== null) {
                   // convert values / types if necessary
@@ -380,7 +380,7 @@ export default (Actions) => {
               // make sure, Eigenschaftensammlungen exists
               if (!objectToImportPcInTo.Eigenschaftensammlungen) objectToImportPcInTo.Eigenschaftensammlungen = []
               // if a pc with this name existed already, remove it
-              objectToImportPcInTo.Eigenschaftensammlungen = _.reject(objectToImportPcInTo.Eigenschaftensammlungen, (es) => es.name === name)
+              objectToImportPcInTo.Eigenschaftensammlungen = reject(objectToImportPcInTo.Eigenschaftensammlungen, (es) => es.name === name)
               objectToImportPcInTo.Eigenschaftensammlungen.push(pc)
               objectToImportPcInTo.Eigenschaftensammlungen = sortObjectArrayByName(objectToImportPcInTo.Eigenschaftensammlungen)
               // write to db
@@ -444,7 +444,7 @@ export default (Actions) => {
           ids.forEach((id, index) => {
             app.objectStore.getItem(id)
               .then((doc) => {
-                doc.Eigenschaftensammlungen = _.reject(doc.Eigenschaftensammlungen, (es) => es.Name === name)
+                doc.Eigenschaftensammlungen = reject(doc.Eigenschaftensammlungen, (es) => es.Name === name)
                 return app.localDb.put(doc)
               })
               .then(() => {
@@ -463,7 +463,7 @@ export default (Actions) => {
       idsOfAeObjects.forEach((guid, index) => {
         app.objectStore.getItem(guid)
           .then((doc) => {
-            doc.Eigenschaftensammlungen = _.reject(doc.Eigenschaftensammlungen, (es) => es.Name === name)
+            doc.Eigenschaftensammlungen = reject(doc.Eigenschaftensammlungen, (es) => es.Name === name)
             return app.localDb.put(doc)
           })
           .then(() => {
@@ -509,16 +509,16 @@ export default (Actions) => {
        */
       let rcs = []
       // 1. build an object with keys = _id's, values = array of all import-objects with this _id
-      let rcsToImportObjects = _.groupBy(rcsToImport, '_id')
+      let rcsToImportObjects = groupBy(rcsToImport, '_id')
       // 2. loop the keys of this object and combine the import-objects
-      _.forEach(rcsToImportObjects, (rcToImportArray, id) => {
+      forEach(rcsToImportObjects, (rcToImportArray, id) => {
         const rcstoImportObject = rcToImportArray[0]
         // use relation description from state
         let rc = buildRcFirstLevel({ id, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs })
         // combine relation partners of all objects in field Beziehungen
         rcToImportArray.forEach((rcToImport, index) => {
           let relation = {}
-          _.forEach(rcstoImportObject, (value, field) => {
+          forEach(rcstoImportObject, (value, field) => {
             if (field === 'rPartners') {
               relation.Beziehungspartner = value
             }
@@ -540,7 +540,7 @@ export default (Actions) => {
             // make sure, Beziehungssammlungen exists
             if (!objectToImportRcInTo.Beziehungssammlungen) objectToImportRcInTo.Beziehungssammlungen = []
             // if a rc with this name existed already, remove it
-            objectToImportRcInTo.Beziehungssammlungen = _.reject(objectToImportRcInTo.Beziehungssammlungen, (bs) => bs.Name === name)
+            objectToImportRcInTo.Beziehungssammlungen = reject(objectToImportRcInTo.Beziehungssammlungen, (bs) => bs.Name === name)
             // remove _id
             delete rcToImport._id
             objectToImportRcInTo.Beziehungssammlungen.push(rcToImport)
@@ -605,7 +605,7 @@ export default (Actions) => {
           ids.forEach((id, index) => {
             app.objectStore.getItem(id)
               .then((doc) => {
-                doc.Beziehungssammlungen = _.reject(doc.Beziehungssammlungen, (rc) => rc.Name === name)
+                doc.Beziehungssammlungen = reject(doc.Beziehungssammlungen, (rc) => rc.Name === name)
                 return app.localDb.put(doc)
               })
               .then(() => {
@@ -624,7 +624,7 @@ export default (Actions) => {
       idsOfAeObjects.forEach((guid, index) => {
         app.objectStore.getItem(guid)
           .then((doc) => {
-            doc.Beziehungssammlungen = _.reject(doc.Beziehungssammlungen, (rc) => rc.Name === name)
+            doc.Beziehungssammlungen = reject(doc.Beziehungssammlungen, (rc) => rc.Name === name)
             return app.localDb.put(doc)
           })
           .then(() => {
@@ -668,7 +668,7 @@ export default (Actions) => {
         let allFields = []
         app.localDb.get('_local/fields', { include_docs: true })
           .then((doc) => {
-            doc.fields = _.reject(doc.fields, (field) => field.group === group)
+            doc.fields = reject(doc.fields, (field) => field.group === group)
             doc.fields = doc.fields.concat(fields)
             allFields = doc.fields
             return app.localDb.put(doc)
@@ -723,7 +723,7 @@ export default (Actions) => {
             // check if group is not in allFields
             // if so: queryFieldsOfGroup
             // only do this if group was passed
-            const groupsInAllFields = _.uniq(_.pluck(allFields, 'group'))
+            const groupsInAllFields = uniq(pluck(allFields, 'group'))
             const fieldsExistForRequestedGroup = groupsInAllFields.includes(group)
             fieldsQuerying = !fieldsExistForRequestedGroup
             this.trigger({ taxonomyFields, pcFields, relationFields, fieldsQuerying, fieldsQueryingError })
@@ -811,7 +811,7 @@ export default (Actions) => {
       let tcs
       app.localDb.get('_local/tcs', { include_docs: true })
         .then((doc) => {
-          doc.tcs = _.reject(doc.tcs, (tc) => tc.name === name)
+          doc.tcs = reject(doc.tcs, (tc) => tc.name === name)
           tcs = doc.tcs
           return app.localDb.put(doc)
         })
@@ -909,7 +909,7 @@ export default (Actions) => {
       let pcs
       app.localDb.get('_local/pcs', { include_docs: true })
         .then((doc) => {
-          doc.pcs = _.reject(doc.pcs, (pc) => pc.name === name)
+          doc.pcs = reject(doc.pcs, (pc) => pc.name === name)
           pcs = doc.pcs
           return app.localDb.put(doc)
         })
@@ -1007,7 +1007,7 @@ export default (Actions) => {
       let rcs
       app.localDb.get('_local/rcs', { include_docs: true })
         .then((doc) => {
-          doc.rcs = _.reject(doc.rcs, (rc) => rc.name === name)
+          doc.rcs = reject(doc.rcs, (rc) => rc.name === name)
           rcs = doc.rcs
           return app.localDb.put(doc)
         })
@@ -1164,7 +1164,7 @@ export default (Actions) => {
 
     onLoadActivePathStore (path, guid) {
       // only change if something has changed
-      if (this.guid !== guid || !_.isEqual(this.path, path)) {
+      if (this.guid !== guid || !isEqual(this.path, path)) {
         this.guid = guid
         this.path = path
         const { gruppe, mainComponent } = extractInfoFromPath(path)
@@ -1187,7 +1187,7 @@ export default (Actions) => {
     onLoadActiveObjectStoreCompleted (item) {
       // console.log('activeObjectStore, onLoadActiveObjectStoreCompleted, item', item)
       // only change if active item has changed
-      if (!_.isEqual(item, this.item)) {
+      if (!isEqual(item, this.item)) {
         // item can be an object or {}
         this.item = item
         this.loaded = Object.keys(item).length > 0
@@ -1198,7 +1198,7 @@ export default (Actions) => {
         getPathFromGuid(item._id)
           .then(({ path, url }) => {
             // ...if it differs from the loaded path
-            if (!_.isEqual(app.activePathStore.path, path)) app.Actions.loadActivePathStore(path, item._id)
+            if (!isEqual(app.activePathStore.path, path)) app.Actions.loadActivePathStore(path, item._id)
             // now check for synonym objects
             return getSynonymsOfObject(item)
           })
@@ -1261,17 +1261,17 @@ export default (Actions) => {
           if (allGroups) {
             this.groupsLoading = []
           } else {
-            this.groupsLoading = _.reject(this.groupsLoading, (groupObject) => groupObject.group === group)
+            this.groupsLoading = reject(this.groupsLoading, (groupObject) => groupObject.group === group)
           }
           // add the passed object, if it is not yet loaded
           if (!finishedLoading) {
             // add it to the beginning of the array
             this.groupsLoading.unshift(objectPassed)
           }
-          groupsLoaded = allGroups ? gruppen : _.union(groupsLoaded, [group])
+          groupsLoaded = allGroups ? gruppen : union(groupsLoaded, [group])
           if (finishedLoading) {
             // remove this group from groupsLoading
-            this.groupsLoading = _.without(this.groupsLoading, group)
+            this.groupsLoading = without(this.groupsLoading, group)
             // load next group if on is queued
             if (this.groupsLoading.length > 0) {
               // get group of last element

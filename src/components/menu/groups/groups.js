@@ -1,7 +1,7 @@
 'use strict'
 
 import React from 'react'
-import _ from 'lodash'
+import { difference } from 'lodash'
 import GroupCheckbox from './groupCheckbox.js'
 import getGruppen from '../../../modules/gruppen.js'
 
@@ -16,7 +16,7 @@ export default React.createClass({
 
   render () {
     const { groupsLoadedOrLoading } = this.props
-    const groupsNotLoaded = _.difference(gruppen, groupsLoadedOrLoading)
+    const groupsNotLoaded = difference(gruppen, groupsLoadedOrLoading)
     const groupCheckboxes = groupsNotLoaded.map((group, index) => <GroupCheckbox key={group} group={group} />)
 
     return (

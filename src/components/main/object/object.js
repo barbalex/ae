@@ -7,7 +7,7 @@
 'use strict'
 
 import React from 'react'
-import _ from 'lodash'
+import { pluck, reject } from 'lodash'
 import Taxonomy from './taxonomy.js'
 import PropertyCollections from './pcs.js'
 import RelationCollections from './rcs.js'
@@ -43,12 +43,12 @@ export default React.createClass({
       taxRcs = rcs.filter((rc) => rc.Typ && rc.Typ === 'taxonomisch')
       // list of names of relation collections
       // needed to choose which relation collections of synonym objects need to be built
-      namesOfRcsBuilt = _.pluck(rcs, 'Name')
+      namesOfRcsBuilt = pluck(rcs, 'Name')
     }
 
     // list names of property collections
     // needed to choose which property collections of synonym objects need to be built
-    if (pcs && pcs.length > 0) namesOfPcsBuilt = _.pluck(pcs, 'Name')
+    if (pcs && pcs.length > 0) namesOfPcsBuilt = pluck(pcs, 'Name')
 
     /**
      * build pcsOfSynonyms
@@ -85,7 +85,7 @@ export default React.createClass({
               if (rcOfSynonym.Beziehungen && rcOfSynonym.Beziehungen.length > 0 && rcOfOriginal && rcOfOriginal.Beziehungen && rcOfOriginal.Beziehungen.length > 0) {
                 // Both objects have relations in the same relation collection
                 // remove relations existing in original object from synonym
-                rcOfSynonym.Beziehungen = _.reject(rcOfSynonym.Beziehungen, (relationOfSynonym) => {
+                rcOfSynonym.Beziehungen = reject(rcOfSynonym.Beziehungen, (relationOfSynonym) => {
                   // search in relations of original object for a relation with the same relation partners
                   const relationOfOriginalWithSamePartners = rcOfOriginal.Beziehungen.find((relationOfOriginal) => {
                     if (relationOfSynonym.Beziehungspartner.length > 0 && relationOfOriginal.Beziehungspartner.length > 0) {

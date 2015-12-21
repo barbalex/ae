@@ -3,7 +3,7 @@
 import app from 'ampersand-app'
 import React from 'react'
 import { Alert } from 'react-bootstrap'
-import _ from 'lodash'
+import { findKey } from 'lodash'
 import ReplicationNotice from './replicationNotice.js'
 import getPathsFromLocalPathDb from '../../../modules/getPathsFromLocalPathDb.js'
 
@@ -38,7 +38,7 @@ export default React.createClass({
     }
 
     const examples = first5Ids.map((id, index) => {
-      const path = _.findKey(paths, (value) => value === id)
+      const path = findKey(paths, (value) => value === id)
       if (path) {
         const href = `${window.location.protocol}//${window.location.host}/${path}?id=${id}`
         return (

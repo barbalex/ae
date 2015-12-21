@@ -3,7 +3,7 @@
 import app from 'ampersand-app'
 import React from 'react'
 import { Accordion, Panel } from 'react-bootstrap'
-import _ from 'lodash'
+import { difference, get, pluck, omit, values} from 'lodash'
 import { ListenerMixin } from 'reflux'
 import getObjectsFromFile from './getObjectsFromFile.js'
 import isValidUrl from '../../../modules/isValidUrl.js'
@@ -286,9 +286,9 @@ export default React.createClass({
     let partner = {}
     partner.Gruppe = object.Gruppe
     if (object.Gruppe === 'Lebensräume') {
-      partner.Taxonomie = _.get(standardtaxonomie, 'Name')
-      const label = _.get(standardtaxonomie, 'Eigenschaften.Label')
-      const einheit = _.get(standardtaxonomie, 'Eigenschaften.Einheit')
+      partner.Taxonomie = get(standardtaxonomie, 'Name')
+      const label = get(standardtaxonomie, 'Eigenschaften.Label')
+      const einheit = get(standardtaxonomie, 'Eigenschaften.Einheit')
       if (label) {
         partner.Name = label + ': ' + einheit
       } else {
@@ -359,7 +359,7 @@ export default React.createClass({
       })
       const rcPartnerState = { idsWithoutPartner, rPartnerIdsToImport, rPartnerIdsImportable }
 
-      const ids = _.pluck(rcsToImport, idsImportIdField)
+      const ids = pluck(rcsToImport, idsImportIdField)
       // if ids should be numbers but some are not, an error can occur when fetching from the database
       // so dont fetch
       const idsAnalysisComplete = true
@@ -374,12 +374,12 @@ export default React.createClass({
             const importId = rc[idsImportIdField]
             rc._id = idGuidObject[importId]
           })
-          let idsToImportWithDuplicates = _.pluck(rcsToImport, idsImportIdField)
+          let idsToImportWithDuplicates = pluck(rcsToImport, idsImportIdField)
           // remove emtpy values
           idsToImportWithDuplicates = idsToImportWithDuplicates.filter((id) => !!id)
           const idsNumberOfRecordsWithIdValue = idsToImportWithDuplicates.length
-          const idsOfAeObjects = _.values(idGuidObject)
-          const idGuidImportable = _.omit(idGuidObject, (guid, id) => !guid)
+          const idsOfAeObjects = values(idGuidObject)
+          const idGuidImportable = omit(idGuidObject, (guid, id) => !guid)
           const idsImportable = Object.keys(idGuidImportable)
           // extracting from keys converts numbers to strings! Convert back
           idsImportable.forEach((id, index) => {
@@ -391,7 +391,7 @@ export default React.createClass({
             if (idsImportable.includes(id)) idsNumberImportable++
           })
           // get ids not fetched
-          const idsNotImportable = _.difference(idsToImportWithDuplicates, idsImportable)
+          const idsNotImportable = difference(idsToImportWithDuplicates, idsImportable)
           // finished? render...
           const relationState = { rcsToImport, idsNumberImportable, idsNotImportable, idsAnalysisComplete, idsOfAeObjects, idsNumberOfRecordsWithIdValue, idsNotANumber }
           const state = Object.assign(rcPartnerState, relationState)
@@ -515,7 +515,7 @@ export default React.createClass({
     // check if this name exists
     // if so and it is not combining: check if it was imported by the user
     const sameRc = rcs.find((rc) => rc.name === name)
-    const organization = !!sameRc ? sameRc.organization : null
+    const organization = sameRc ? sameRc.organization : null
     const bsBearbeitenErlaubt = !sameRc || (sameRc && (sameRc.combining || isUserServerAdmin(userRoles) || isUserOrgAdmin(userRoles, organization) || isUserEsWriter(userRoles, organization)))
     if (!bsBearbeitenErlaubt) {
       this.setState({ bsBearbeitenErlaubt: false })

@@ -6,7 +6,7 @@
 
 import app from 'ampersand-app'
 import PouchDB from 'pouchdb'
-import _ from 'lodash'
+import { filter } from 'lodash'
 import getCouchUrl from './getCouchUrl.js'
 import buildHierarchy from './buildHierarchy.js'
 
@@ -46,58 +46,55 @@ export default (gruppe, callback) => {
                 })
               })
               series
-              // turned off because on office computer this crashes!!!
-              /*
-              .then(() => {
-                // let regular replication catch up if objects have changed since dump was created
-                app.Actions.showGroupLoading({
-                  group: gruppe,
-                  message: 'Repliziere ' + gruppe + '...'
+                // turned off because on office computer this crashes!!!
+                /*
+                .then(() => {
+                  // let regular replication catch up if objects have changed since dump was created
+                  app.Actions.showGroupLoading({
+                    group: gruppe,
+                    message: 'Repliziere ' + gruppe + '...'
+                  })
+                  return app.localDb.replicate.from(app.remoteDb, {
+                    filter: (doc) => (doc.Gruppe && doc.Gruppe === gruppe),
+                    batch_size: 500
+                  })
                 })
-                return app.localDb.replicate.from(app.remoteDb, {
-                  filter: (doc) => (doc.Gruppe && doc.Gruppe === gruppe),
-                  batch_size: 500
+                */
+                .then(() => {
+                  app.Actions.showGroupLoading({
+                    group: gruppe,
+                    message: 'Baue Taxonomie für ' + gruppe + '...'
+                  })
+                  return app.objectStore.getItems()
                 })
-              })
-              */
-              .then(() => {
-                app.Actions.showGroupLoading({
-                  group: gruppe,
-                  message: 'Baue Taxonomie für ' + gruppe + '...'
+                .then((items) => {
+                  // need to build filter options, hierarchy and paths only for groups newly loaded
+                  const itemsOfGroup = filter(items, 'Gruppe', gruppe)
+                  app.Actions.loadFilterOptionsStore(itemsOfGroup)
+                  // build path hash - it helps finding an item by path
+                  app.Actions.loadPathStore(itemsOfGroup)
+                  // build hierarchy and save to pouch
+                  const hierarchy = buildHierarchy(itemsOfGroup)
+                  return app.localHierarchyDb.bulkDocs(hierarchy)
                 })
-                return app.objectStore.getItems()
-              })
-              .then((items) => {
-                // need to build filter options, hierarchy and paths only for groups newly loaded
-                const itemsOfGroup = _.filter(items, 'Gruppe', gruppe)
-                app.Actions.loadFilterOptionsStore(itemsOfGroup)
-                // build path hash - it helps finding an item by path
-                app.Actions.loadPathStore(itemsOfGroup)
-                // build hierarchy and save to pouch
-                const hierarchy = buildHierarchy(itemsOfGroup)
-                return app.localHierarchyDb.bulkDocs(hierarchy)
-              })
-              .then((hierarchy) => {
-                app.Actions.showGroupLoading({
-                  group: gruppe,
-                  finishedLoading: true
+                .then((hierarchy) => {
+                  app.Actions.showGroupLoading({
+                    group: gruppe,
+                    finishedLoading: true
+                  })
+                  if (callback) callback
+                  resolve(true)
                 })
-                if (callback) callback
-                resolve(true)
-              })
-              .catch((error) =>
-                reject('loadGroupFromRemote.js: error loading group' + gruppe + 'from remoteDb:', error)
+                .catch((error) => reject('loadGroupFromRemote.js: error loading group' + gruppe + 'from remoteDb:', error)
               )
             })
-            .catch((error) =>
-              reject('loadGroupFromRemote.js: error loading group' + gruppe + 'from remoteDb:', error)
-            )
+            .catch((error) => reject('loadGroupFromRemote.js: error loading group' + gruppe + 'from remoteDb:', error)
+          )
         } else {
           resolve(true)
         }
       })
-      .catch((error) =>
-        reject('loadGroupFromRemote.js, error getting isGroupLoaded for group ' + gruppe + ': ' + error)
-      )
+      .catch((error) => reject('loadGroupFromRemote.js, error getting isGroupLoaded for group ' + gruppe + ': ' + error)
+    )
   })
 }

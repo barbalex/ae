@@ -1,7 +1,7 @@
 'use strict'
 
 import React from 'react'
-import _ from 'lodash'
+import { union, without } from 'lodash'
 import { Table } from 'react-bootstrap'
 
 export default React.createClass({
@@ -30,10 +30,10 @@ export default React.createClass({
     // get a list of all keys
     let keys = []
     rcsToImport.forEach((pc) => {
-      keys = _.union(keys, Object.keys(pc))
+      keys = union(keys, Object.keys(pc))
     })
     // remove '_id' and 'rPartners' from keys
-    keys = _.without(keys, '_id', 'rPartners')
+    keys = without(keys, '_id', 'rPartners')
 
     const thead = keys.map((key, index) => <th key={index}>{key}</th>)
     const tbody = rcsToImport.map((pc, index) => {
