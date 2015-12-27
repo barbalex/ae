@@ -3,7 +3,7 @@
 /**
  * when loading:
  * - get organizations from remoteDb
- * - filter the ones, this user is admin for
+ * - filter the ones this user is admin for
  * - list these in dropdown field
  * - preset activeOrganization if user is admin in only one
  */
@@ -39,6 +39,8 @@ export default React.createClass({
     }
     app.Actions.getOrganizations(email)
     app.Actions.queryTaxonomyCollections(offlineIndexes)
+    app.Actions.queryPropertyCollections(offlineIndexes)
+    app.Actions.queryRelationCollections(offlineIndexes)
   },
 
   orgValues () {
