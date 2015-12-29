@@ -7,7 +7,7 @@ import getGroupsLoadedFromLocalDb from './modules/getGroupsLoadedFromLocalDb.js'
 import getItemsFromLocalDb from './modules/getItemsFromLocalDb.js'
 import getItemFromLocalDb from './modules/getItemFromLocalDb.js'
 import getItemFromRemoteDb from './modules/getItemFromRemoteDb.js'
-import getHierarchyFromLocalHierarchyDb from './modules/getHierarchyFromLocalHierarchyDb.js'
+import getHierarchyFromLocalDb from './modules/getHierarchyFromLocalDb.js'
 import addPathsFromItemsToLocalDb from './modules/addPathsFromItemsToLocalDb.js'
 import buildFilterOptions from './modules/buildFilterOptions.js'
 import getSynonymsOfObject from './modules/getSynonymsOfObject.js'
@@ -1331,7 +1331,7 @@ export default (Actions) => {
      * because they depend on each other / always change together
      *
      * objects are kept in the pouch in localDb,
-     * hierarchies in localHierarchyDb,
+     * hierarchies in localDb,
      * groups in localDb
     */
     listenables: Actions,
@@ -1395,7 +1395,7 @@ export default (Actions) => {
     },
 
     getHierarchy () {
-      return getHierarchyFromLocalHierarchyDb()
+      return getHierarchyFromLocalDb()
     },
 
     onLoadPouchFromLocalCompleted (groupsLoadedInPouch) {

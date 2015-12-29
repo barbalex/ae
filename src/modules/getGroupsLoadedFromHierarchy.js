@@ -9,11 +9,12 @@ import { pluck } from 'lodash'
 
 export default () => {
   return new Promise((resolve, reject) => {
-    app.localHierarchyDb.allDocs({include_docs: true})
-      .then((result) => {
-        const hierarchy = result.rows.map((row) => row.doc)
-        resolve(pluck(hierarchy, 'Name'))
-      })
-      .catch((error) => reject('getGroupsLoadedFromHierarchy: error getting items from localHierarchyDb:', error))
+    app.localDb.get('_local/hierarchy')
+      .then((doc) =>
+        resolve(pluck(doc.hierarchy, 'Name'))
+      )
+      .catch((error) =>
+        reject('getGroupsLoadedFromHierarchy: error getting items from localDb:', error)
+      )
   })
 }

@@ -74,8 +74,12 @@ export default (gruppe, callback) => {
                   // build path hash - it helps finding an item by path
                   app.Actions.loadPathStore(itemsOfGroup)
                   // build hierarchy and save to pouch
-                  const hierarchy = buildHierarchy(itemsOfGroup)
-                  return app.localHierarchyDb.bulkDocs(hierarchy)
+                  return app.localDb.get('_local/hierarchy')
+                    .then((doc) => {
+                      doc.hierarchy = buildHierarchy(itemsOfGroup)
+                      app.localDb.put(doc)
+                    })
+                    .catch((error) => console.log('error putting hierarchy', error))
                 })
                 .then((hierarchy) => {
                   app.Actions.showGroupLoading({
