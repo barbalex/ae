@@ -5,7 +5,7 @@ import React from 'react'
 import { Alert } from 'react-bootstrap'
 import { findKey } from 'lodash'
 import ReplicationNotice from './replicationNotice.js'
-import getPathsFromLocalPathDb from '../../../modules/getPathsFromLocalPathDb.js'
+import getPathsFromLocalDb from '../../../modules/getPathsFromLocalDb.js'
 
 export default React.createClass({
   displayName: 'AlertFirst5Deleted',
@@ -32,7 +32,7 @@ export default React.createClass({
 
     // only get paths on first render
     if (!paths) {
-      getPathsFromLocalPathDb()
+      getPathsFromLocalDb()
         .then((paths) => this.setState({ paths }))
         .catch((error) => app.Actions.showError({title: 'Fehler beim Aufbauen der Beispiele:', msg: error}))
     }

@@ -1,6 +1,6 @@
 'use strict'
 
-import getPathsFromLocalPathDb from './getPathsFromLocalPathDb.js'
+import getPathsFromLocalDb from './getPathsFromLocalDb.js'
 
 export default (path) => {
   const pathString = path.join('/')
@@ -8,7 +8,7 @@ export default (path) => {
   return new Promise((resolve, reject) => {
     if (!path) reject('objectStore, getPath: no path passed')
     if (path.length === 0) resolve(null)
-    getPathsFromLocalPathDb()
+    getPathsFromLocalDb()
       .then((paths) => {
         if (!paths) return resolve(null)
         const guid = paths[pathString]

@@ -66,7 +66,6 @@ app.extend({
     Promise.all([
       this.localDb = new PouchDB('ae'),
       this.localHierarchyDb = new PouchDB('aeHierarchy'),
-      this.localPathDb = new PouchDB('aePaths'),
       this.remoteDb = new PouchDB(pouchUrl()),
       this.remoteUsersDb = new PouchDB(remoteUsersDbUrl)
     ])
@@ -78,6 +77,13 @@ app.extend({
       this.localDb.putIfNotExists({
         _id: '_local/groupsLoaded',
         groupsLoaded: []
+      }),
+      /**
+       * initiate paths if necessary
+       */
+      this.localDb.putIfNotExists({
+        _id: '_local/paths',
+        paths: {}
       }),
       /**
        * initiate filterOptions if necessary

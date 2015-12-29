@@ -1,7 +1,7 @@
 /*
  * gets an item passed
  * generates its path
- * and updates it in localPathDb
+ * and updates it in localDb
  */
 
 'use strict'
@@ -15,18 +15,20 @@ export default (item) => {
     const standardtaxonomie = item.Taxonomien.find((taxonomy) => taxonomy['Standardtaxonomie'])
     const hierarchy = standardtaxonomie ? get(standardtaxonomie, 'Eigenschaften.Hierarchie', []) : []
     let path = pluck(hierarchy, 'Name')
+    let paths = []
     if (path.length > 0) path = replaceProblematicPathCharactersFromArray(path).join('/')
-    app.localPathDb.get('aePaths')
-      .then((paths) => {
-        paths[path] = item._id
-        app.localPathDb.put(paths)
+    app.localDb.get('_local/paths')
+      .then((doc) => {
+        doc.paths[path] = item._id
+        paths = doc.paths
+        app.localDb.put(doc)
           .then(() => resolve(paths))
           .catch((error) =>
-            reject('addPathsFromItemsToLocalPathDb.js: error writing paths to localPathDb:', error)
+            reject('addPathsFromItemsToLocalDb.js: error writing paths to localDb:', error)
           )
       })
       .catch((error) =>
-        reject('addPathsFromItemsToLocalPathDb.js: error getting paths from localPathDb:', error)
+        reject('addPathsFromItemsToLocalDb.js: error getting paths from localDb:', error)
       )
   })
 }

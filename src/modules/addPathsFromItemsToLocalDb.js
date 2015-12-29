@@ -1,7 +1,7 @@
 /*
  * gets new items passed
  * generates their paths
- * and adds them to localPathDb
+ * and adds them to localDb
  */
 
 'use strict'
@@ -30,22 +30,23 @@ export default (items) => {
     })
 
     // combine these paths with those already in pathDb
-    app.localPathDb.get('aePaths', (error, pathsFromDb) => {
+    app.localDb.get('_local/paths', (error, doc) => {
       if (error) {
         if (error.status === 404) {
           // leave paths as it is
         } else {
-          reject('addPathsFromItemsToLocalPathDb.js: error getting paths from localPathDb:', error)
+          reject('addPathsFromItemsToLocalDb.js: error getting paths from localDb:', error)
         }
       } else {
         // there existed already a path object
         // combine them
-        paths = pathsFromDb
+        paths = doc.paths
       }
       paths = Object.assign(paths, pathsOfGruppe)
-      app.localPathDb.put(paths)
+      doc.paths = paths
+      app.localDb.put(doc)
         .then(() => resolve(paths))
-        .catch((error) => reject('addPathsFromItemsToLocalPathDb.js: error writing paths to localPathDb:', error)
+        .catch((error) => reject('addPathsFromItemsToLocalDb.js: error writing paths to localDb:', error)
       )
     })
   })

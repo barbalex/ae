@@ -8,7 +8,7 @@ import getItemsFromLocalDb from './modules/getItemsFromLocalDb.js'
 import getItemFromLocalDb from './modules/getItemFromLocalDb.js'
 import getItemFromRemoteDb from './modules/getItemFromRemoteDb.js'
 import getHierarchyFromLocalHierarchyDb from './modules/getHierarchyFromLocalHierarchyDb.js'
-import addPathsFromItemsToLocalPathDb from './modules/addPathsFromItemsToLocalPathDb.js'
+import addPathsFromItemsToLocalDb from './modules/addPathsFromItemsToLocalDb.js'
 import buildFilterOptions from './modules/buildFilterOptions.js'
 import getSynonymsOfObject from './modules/getSynonymsOfObject.js'
 import addGroupsLoadedToLocalDb from './modules/addGroupsLoadedToLocalDb.js'
@@ -33,7 +33,7 @@ import extractInfoFromPath from './modules/extractInfoFromPath.js'
 import removeRolesFromUser from './components/main/organizations/removeRolesFromUser.js'
 import getRoleFromOrgField from './components/main/organizations/getRoleFromOrgField.js'
 import refreshUserRoles from './modules/refreshUserRoles.js'
-import changePathOfObjectInLocalPathDb from './modules/changePathOfObjectInLocalPathDb.js'
+import changePathOfObjectInLocalDb from './modules/changePathOfObjectInLocalDb.js'
 import buildFilterOptionsFromObject from './modules/buildFilterOptionsFromObject.js'
 
 export default (Actions) => {
@@ -1096,17 +1096,17 @@ export default (Actions) => {
   app.pathStore = Reflux.createStore({
     /*
      * simple store that keeps a hash of paths as keys and guids as values
-     * well, they are kept in the pouch in localPathDb
+     * well, they are kept in the pouch in localDb
      */
     listenables: Actions,
 
     onChangePathForObject (object) {
-      changePathOfObjectInLocalPathDb(object)
+      changePathOfObjectInLocalDb(object)
     },
 
     onLoadPathStore (newItemsPassed) {
       // get existing paths
-      addPathsFromItemsToLocalPathDb(newItemsPassed)
+      addPathsFromItemsToLocalDb(newItemsPassed)
         .then(() => this.trigger(true))
         .catch((error) =>
           app.Actions.showError({title: 'pathStore: error adding paths from passed items:', msg: error})
