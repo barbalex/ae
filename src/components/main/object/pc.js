@@ -93,31 +93,27 @@ export default React.createClass({
   propTypes: {
     pcType: React.PropTypes.string,
     object: React.PropTypes.object,
+    editObjects: React.PropTypes.bool,
+    toggleEditObjects: React.PropTypes.func,
     propertyCollection: React.PropTypes.object,
-    userRoles: React.PropTypes.array,
-    editing: React.PropTypes.bool
-  },
-
-  getInitialState () {
-    return {
-      editing: false
-    }
-  },
-
-  toggleEditing () {
-    const { editing } = this.state
-    this.setState({ editing: !editing })
+    userRoles: React.PropTypes.array
   },
 
   render () {
-    const { propertyCollection, pcType, object, userRoles } = this.props
-    const { editing } = this.state
+    const { propertyCollection, pcType, object, userRoles, editObjects, toggleEditObjects } = this.props
     const pcName = replaceInvalidCharactersInIdNames(propertyCollection.Name)
     const isLr = object.Gruppe === 'Lebensräume'
     const org = propertyCollection['Organisation mit Schreibrecht']
     const collectionIsEditable = isLr && (isUserLrWriter(userRoles, org) || isUserOrgAdmin(userRoles, org) || isUserServerAdmin(userRoles))
     const properties = map(propertyCollection.Eigenschaften, (value, key) => buildFieldForProperty(propertyCollection, object, value, key, pcType))
     const showPcDescription = object.Gruppe !== 'Lebensräume' || pcType !== 'Taxonomie'
+
+    /*
+    console.log('propertyCollection', propertyCollection)
+    console.log('org', org)
+    console.log('userRoles', userRoles)
+    console.log('collectionIsEditable', collectionIsEditable)
+    */
 
     return (
       <Accordion>
@@ -127,8 +123,8 @@ export default React.createClass({
           {
             collectionIsEditable
             ? <EditButtonGroup
-                editing={editing}
-                toggleEditing={this.toggleEditing} />
+                editObjects={editObjects}
+                toggleEditObjects={toggleEditObjects} />
             : null
           }
           {
