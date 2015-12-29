@@ -342,7 +342,7 @@ export default React.createClass({
         let rPartners = []
         // get an array of all partner objects
         Promise.all(rPartnerIds.map((id) => {
-          return app.objectStore.getItem(id)
+          return app.objectStore.getObject(id)
         }))
         .then((objects) => {
           // now build rPartner for each rPartnerId

@@ -15,7 +15,7 @@ export default (path) => {
     // check if a guidPath was passed
     const isGuidPath = path.length === 1 && isGuid(path[0])
     if (isGuidPath) {
-      app.objectStore.getItem(path[0])
+      app.objectStore.getObject(path[0])
         .then((item) => resolve(item))
         .catch((error) => reject('getObjectFromPath, error getting item for guid ' + path[0] + ':', error))
     }
@@ -25,7 +25,7 @@ export default (path) => {
     getGuidFromPath(path)
       .then((guid) => {
         if (guid) {
-          app.objectStore.getItem(guid)
+          app.objectStore.getObject(guid)
             .then((item) => resolve(item))
             .catch((error) => reject('getObjectFromPath, error getting item for guid ' + guid + ':', error))
         } else {

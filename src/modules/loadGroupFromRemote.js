@@ -65,7 +65,7 @@ export default (gruppe, callback) => {
                     group: gruppe,
                     message: 'Baue Taxonomie für ' + gruppe + '...'
                   })
-                  return app.objectStore.getItems()
+                  return app.objectStore.getObjects()
                 })
                 .then((items) => {
                   // need to build filter options, hierarchy and paths only for groups newly loaded

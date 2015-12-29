@@ -35,7 +35,7 @@ function buildFieldForProperty (propertyCollection, object, value, key, pcType, 
     // build as single link
     // console.log('value', value)
     // get name from guid
-    app.objectStore.getItem(value)
+    app.objectStore.getObject(value)
       .then((linkedObject) => {
         if (linkedObject) {
           const linkedObjectId = linkedObject._id

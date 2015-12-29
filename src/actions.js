@@ -47,7 +47,10 @@ export default () => {
     getUsers: {},
     getPcsOfOrganization: {},
     getRcsOfOrganization: {},
-    getTcsOfOrganization: {}
+    getTcsOfOrganization: {},
+    saveObject: {},
+    newObject: {},
+    deleteObject: {}
   })
 
   Actions.loadPouchFromRemote.listen(() => {
@@ -101,7 +104,7 @@ export default () => {
     if (!guid) {
       Actions.loadActiveObjectStore.completed({})
     } else {
-      app.objectStore.getItem(guid)
+      app.objectStore.getObject(guid)
         // group is already loaded
         // pass object to activeObjectStore by completing action
         // if object is empty, store will have no item

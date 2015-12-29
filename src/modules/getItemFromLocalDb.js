@@ -5,7 +5,7 @@ import app from 'ampersand-app'
 export default (guid) => {
   return new Promise((resolve, reject) => {
     if (!guid) {
-      reject('getItemFromLocalDb, getItem: no guid passed')
+      reject('getItemFromLocalDb, getObject: no guid passed')
     }
     app.localDb.get(guid)
       .then((item) => resolve(item))

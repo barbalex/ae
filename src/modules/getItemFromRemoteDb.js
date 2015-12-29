@@ -5,7 +5,7 @@ import app from 'ampersand-app'
 export default (guid) => {
   return new Promise((resolve, reject) => {
     if (!guid) {
-      reject('objectStore, getItem: no guid passed')
+      reject('objectStore, getObject: no guid passed')
     }
     app.remoteDb.get(guid)
       .then((item) => resolve(item))

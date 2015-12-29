@@ -48,7 +48,7 @@ export default (Actions) => {
     listenables: Actions,
 
     onBuildExportData ({ exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, oneRowPerRelation, combineTaxonomies }) {
-      app.objectStore.getItems()
+      app.objectStore.getObjects()
         .then((objects) => {
           // console.log('objects.length', objects.length)
           // console.log('exportDataStore, onBuildExportData: exportOptions', exportOptions)
@@ -355,7 +355,7 @@ export default (Actions) => {
         // get the object to add it to
         const guid = pcToImport._id
         if (guid) {
-          app.objectStore.getItem(guid)
+          app.objectStore.getObject(guid)
             .then((objectToImportPcInTo) => {
               // build pc
               let pc = {}
@@ -442,7 +442,7 @@ export default (Actions) => {
         .then((ids) => {
           idsOfAeObjects = ids
           ids.forEach((id, index) => {
-            app.objectStore.getItem(id)
+            app.objectStore.getObject(id)
               .then((doc) => {
                 doc.Eigenschaftensammlungen = reject(doc.Eigenschaftensammlungen, (es) => es.Name === name)
                 return app.localDb.put(doc)
@@ -461,7 +461,7 @@ export default (Actions) => {
 
     onDeletePcInstances (name, idsOfAeObjects) {
       idsOfAeObjects.forEach((guid, index) => {
-        app.objectStore.getItem(guid)
+        app.objectStore.getObject(guid)
           .then((doc) => {
             doc.Eigenschaftensammlungen = reject(doc.Eigenschaftensammlungen, (es) => es.Name === name)
             return app.localDb.put(doc)
@@ -535,7 +535,7 @@ export default (Actions) => {
 
       // loop rcs
       rcs.forEach((rcToImport, index) => {
-        app.objectStore.getItem(rcToImport._id)
+        app.objectStore.getObject(rcToImport._id)
           .then((objectToImportRcInTo) => {
             // make sure, Beziehungssammlungen exists
             if (!objectToImportRcInTo.Beziehungssammlungen) objectToImportRcInTo.Beziehungssammlungen = []
@@ -603,7 +603,7 @@ export default (Actions) => {
         .then((ids) => {
           idsOfAeObjects = ids
           ids.forEach((id, index) => {
-            app.objectStore.getItem(id)
+            app.objectStore.getObject(id)
               .then((doc) => {
                 doc.Beziehungssammlungen = reject(doc.Beziehungssammlungen, (rc) => rc.Name === name)
                 return app.localDb.put(doc)
@@ -622,7 +622,7 @@ export default (Actions) => {
 
     onDeleteRcInstances (name, idsOfAeObjects) {
       idsOfAeObjects.forEach((guid, index) => {
-        app.objectStore.getItem(guid)
+        app.objectStore.getObject(guid)
           .then((doc) => {
             doc.Beziehungssammlungen = reject(doc.Beziehungssammlungen, (rc) => rc.Name === name)
             return app.localDb.put(doc)
@@ -1307,7 +1307,7 @@ export default (Actions) => {
   app.objectStore = Reflux.createStore({
     /*
      * keeps an array of objects, of hierarchy objects and of groups loaded (i.e. their names)
-     * the are managed with the same store (but different databases)
+     * they are managed with the same store (but different databases)
      * because they depend on each other / always change together
      *
      * objects are kept in the pouch in localDb,
@@ -1316,12 +1316,12 @@ export default (Actions) => {
     */
     listenables: Actions,
 
-    // getItems and getItem get Item(s) from pouch if loaded
-    getItems () {
+    // getObjects and getObject get Object(s) from pouch if loaded
+    getObjects () {
       return getItemsFromLocalDb()
     },
 
-    getItem (guid) {
+    getObject (guid) {
       return new Promise((resolve, reject) => {
         getItemFromLocalDb(guid)
           .then((item) => {
@@ -1333,7 +1333,7 @@ export default (Actions) => {
           })
           .then((item) => resolve(item))
           .catch((error) =>
-            reject('objectStore, getItem: error getting item from guid' + guid + ': ', error)
+            reject('objectStore, getObject: error getting item from guid' + guid + ': ', error)
           )
       })
     },
