@@ -68,14 +68,20 @@ app.extend({
       this.localHierarchyDb = new PouchDB('aeHierarchy'),
       this.localPathDb = new PouchDB('aePaths'),
       this.localGroupsDb = new PouchDB('aeGroups'),
-      this.localFilterOptionsDb = new PouchDB('aeFilterOptions'),
       this.remoteDb = new PouchDB(pouchUrl()),
       this.remoteUsersDb = new PouchDB(remoteUsersDbUrl)
     ])
     .then(() => Promise.all([
       /**
-       * initiate localGroupsDb if necessary
+       * initiate filterOptions if necessary
        * putIfNotExists is a method added by pouchdbUpsert
+       */
+      this.localDb.putIfNotExists({
+        _id: '_local/filterOptions',
+        filterOptions: []
+      }),
+      /**
+       * initiate localGroupsDb if necessary
        */
       this.localGroupsDb.putIfNotExists({
         _id: 'groups',

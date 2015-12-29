@@ -16,8 +16,14 @@ export default (items) => {
   // console.log('buildFilterOptions.js, options', options)
 
   // save to db
-  app.localFilterOptionsDb.bulkDocs(options)
-    .catch((error) => app.Actions.showError({title: 'buildFilterOptions.js: error saving to localFilterOptionsDb:', msg: error}))
+  app.localDb.get('_local/filterOptions')
+    .then((doc) => {
+      doc.filterOptions = options
+      return app.localDb.put(doc)
+    })
+    .catch((error) =>
+      app.Actions.showError({title: 'buildFilterOptions.js: error saving to localDb:', msg: error})
+    )
 
   return options
 }

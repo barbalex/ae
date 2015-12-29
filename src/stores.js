@@ -1118,19 +1118,16 @@ export default (Actions) => {
     /*
      * simple store that keeps an array of filter options
      * because creating them uses a lot of cpu
-     * well, they are kept in the pouch in localFilterOptionsDb
+     * well, they are kept in localDb in _local/filterOptions
     */
     listenables: Actions,
 
     getOptions () {
       return new Promise((resolve, reject) => {
-        app.localFilterOptionsDb.allDocs({include_docs: true})
-          .then((result) => {
-            const filterOptions = result.rows.map((row) => row.doc)
-            resolve(filterOptions)
-          })
+        app.localDb.get('_local/filterOptions')
+          .then((doc) => resolve(doc.filterOptions))
           .catch((error) =>
-            reject('filterOptionsStore: error fetching filterOptions from localFilterOptionsDb:', error)
+            reject('filterOptionsStore: error fetching filterOptions from localDb:', error)
           )
       })
     },
@@ -1158,7 +1155,19 @@ export default (Actions) => {
 
     onChangeFilterOptionsForObject (object) {
       const option = buildFilterOptionsFromObject(object)
-      // if option exists, remove it
+      let options = null
+      app.localDb.get('_local/filterOptions')
+        .then((doc) => {
+          // replace option with new
+          doc.filterOptions = doc.filterOptions.filter((op) => op.value !== object._id)
+          doc.filterOptions.push(option)
+          options = doc.filterOptions
+          return app.localDb.put(doc)
+        })
+        .then(() => this.trigger({ options: options, loading: false }))
+        .catch((error) =>
+          app.Actions.showError({title: 'filterOptionsStore: error preparing trigger:', msg: error})
+        )
     }
   })
 
@@ -1374,7 +1383,7 @@ export default (Actions) => {
           // 5. replace path in pathStore
           app.Actions.changePathForObject(object)
           // 6. replace filter options in filterOptionsStore
-
+          app.Actions.changeFilterOptionsForObject(object)
           // 7. replicate changes to remoteDb
           app.Actions.replicateToAe()
         })
