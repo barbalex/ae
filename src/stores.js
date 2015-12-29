@@ -1215,20 +1215,22 @@ export default (Actions) => {
         this.trigger(item, [])
         // load path for this object...
         // console.log('activeObjectStore, onLoadActiveObjectStoreCompleted,  will call getPathFromGuid with guid', item._id)
-        getPathFromGuid(item._id)
-          .then(({ path, url }) => {
-            // ...if it differs from the loaded path
-            if (!isEqual(app.activePathStore.path, path)) app.Actions.loadActivePathStore(path, item._id)
-            // now check for synonym objects
-            return getSynonymsOfObject(item)
-          })
-          .then((synonymObjects) => {
-            // if they exist: trigger again and pass synonyms
-            if (synonymObjects.length > 0) this.trigger(item, synonymObjects)
-          })
-          .catch((error) =>
-            app.Actions.showError({title: 'activeObjectStore: error fetching synonyms of object:', msg: error})
-          )
+        if (item && item._id) {
+          getPathFromGuid(item._id)
+            .then(({ path, url }) => {
+              // ...if it differs from the loaded path
+              if (!isEqual(app.activePathStore.path, path)) app.Actions.loadActivePathStore(path, item._id)
+              // now check for synonym objects
+              return getSynonymsOfObject(item)
+            })
+            .then((synonymObjects) => {
+              // if they exist: trigger again and pass synonyms
+              if (synonymObjects.length > 0) this.trigger(item, synonymObjects)
+            })
+            .catch((error) =>
+              app.Actions.showError({title: 'activeObjectStore: error fetching synonyms of object:', msg: error})
+            )
+          }
       }
     }
   })

@@ -28,6 +28,6 @@ export default (guid) => {
   return new Promise((resolve, reject) => {
     app.objectStore.getObject(guid)
       .then((object) => resolve(extractPayloadFromObject(object)))
-      .catch((error) => reject('getPathFromGuid.js: error getting Item from objectStore:', error))
+      .catch((error) => reject('getPathFromGuid.js: error getting Item from objectStore for guid ' + guid + ':', error))
   })
 }
