@@ -20,8 +20,6 @@ export default React.createClass({
   render () {
     const { relation, relationCollection } = this.props
 
-    console.log('rendering relationFields.js')
-
     const relationFields = map(relation, (fieldValue, fieldName) => {
       if (typeof fieldValue === 'string') fieldValue = fieldValue.replace('&#39;', '\'')
       if (fieldName !== 'Beziehungspartner') {

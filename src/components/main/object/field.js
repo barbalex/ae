@@ -30,7 +30,7 @@ export default React.createClass({
     const { fieldName, pcType, pcName, collectionIsEditing } = this.props
     let { fieldValue } = this.props
 
-    console.log('field.js, collectionIsEditing', collectionIsEditing)
+    // console.log('field.js, collectionIsEditing', collectionIsEditing)
 
     // convert german booleans
     if (fieldValue === 'nein') fieldValue = false

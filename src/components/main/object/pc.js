@@ -113,9 +113,11 @@ export default React.createClass({
     const properties = map(propertyCollection.Eigenschaften, (value, key) => buildFieldForProperty(propertyCollection, object, value, key, pcType, collectionIsEditing))
     const showPcDescription = object.Gruppe !== 'Lebensräume' || pcType !== 'Taxonomie'
 
+    /*
     console.log('pc.js, collectionIsEditable', collectionIsEditable)
     console.log('pc.js, editObjects', editObjects)
     console.log('pc.js, collectionIsEditing', collectionIsEditing)
+    */
 
     /*
     console.log('propertyCollection', propertyCollection)

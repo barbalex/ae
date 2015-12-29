@@ -27,8 +27,6 @@ export default React.createClass({
   render () {
     const { fieldName, fieldValue, inputType, pcType, pcName, collectionIsEditing } = this.props
 
-    console.log('collectionIsEditing', collectionIsEditing)
-
     return (
       <Input
         type={inputType}
