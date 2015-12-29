@@ -33,6 +33,7 @@ import extractInfoFromPath from './modules/extractInfoFromPath.js'
 import removeRolesFromUser from './components/main/organizations/removeRolesFromUser.js'
 import getRoleFromOrgField from './components/main/organizations/getRoleFromOrgField.js'
 import refreshUserRoles from './modules/refreshUserRoles.js'
+import changePathOfObjectInLocalPathDb from './modules/changePathOfObjectInLocalPathDb.js'
 
 export default (Actions) => {
   app.exportDataStore = Reflux.createStore({
@@ -1098,6 +1099,10 @@ export default (Actions) => {
      */
     listenables: Actions,
 
+    onChangePathForObject (object) {
+      changePathOfObjectInLocalPathDb(object)
+    },
+
     onLoadPathStore (newItemsPassed) {
       // get existing paths
       addPathsFromItemsToLocalPathDb(newItemsPassed)
@@ -1336,6 +1341,42 @@ export default (Actions) => {
             reject('objectStore, getObject: error getting item from guid' + guid + ': ', error)
           )
       })
+    },
+
+    saveObject (object) {
+      /**
+       * 1. if object is active: optimistically update activeObjectStore
+       * 2. write object to localDb
+       * 3. on error revert change to activeObjectStore
+       * 4. update active object rev
+       * 5. replace path in pathStore
+       * 6. replace filter options in filterOptionsStore
+       * 7. replicate changes to remoteDb
+       */
+      // 1. if object is active: optimistically update activeObjectStore
+      const objectIsActive = app.activeObjectStore.item && app.activeObjectStore.item._id && app.activeObjectStore.item._id === object._id
+      let oldActiveObject = null
+      if (objectIsActive) {
+        oldActiveObject = app.activeObjectStore.item
+        app.Actions.loadActiveObjectStore(object)
+      }
+      // 2. write object to localDb
+      app.localDb.put(object)
+        .then((result) => {
+          // 4. update active object rev
+          object._rev = result.rev
+          // 5. replace path in pathStore
+          app.Actions.changePathForObject(object)
+          // 6. replace filter options in filterOptionsStore
+
+          // 7. replicate changes to remoteDb
+          app.Actions.replicateToAe()
+        })
+        .catch((error) => {
+          app.Actions.showError({ title: 'objectStore: error saving object:', msg: error })
+          // 3. on error revert change to activeObjectStore
+          if (oldActiveObject) app.Actions.loadActiveObjectStore(oldActiveObject)
+        })
     },
 
     getHierarchy () {
