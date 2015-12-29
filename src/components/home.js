@@ -33,6 +33,7 @@ export default React.createClass({
     path: React.PropTypes.array,
     synonymObjects: React.PropTypes.array,
     object: React.PropTypes.object,
+    editObjects: React.PropTypes.bool,
     guid: React.PropTypes.string,
     options: React.PropTypes.array,
     loadingFilterOptions: React.PropTypes.bool,
@@ -84,6 +85,7 @@ export default React.createClass({
       path: path,
       synonymObjects: [],
       object: undefined,
+      editObjects: false,
       guid: guid,
       filterOptions: [],
       loadingFilterOptions: false,
@@ -229,8 +231,13 @@ export default React.createClass({
     this.setState({ offlineIndexes })
   },
 
+  toggleEditObjects () {
+    const { editObjects } = this.state
+    this.setState({ editObjects: !editObjects })
+  },
+
   render () {
-    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, mainComponent, logIn, email, userRoles, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, tcs, pcs, tcsQuerying, rcs, pcsQuerying, rcsQuerying, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, offlineIndexes, organizations, activeOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, tcsOfActiveOrganization, pcsOfActiveOrganization, rcsOfActiveOrganization } = this.state
+    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, mainComponent, logIn, email, userRoles, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, tcs, pcs, tcsQuerying, rcs, pcsQuerying, rcsQuerying, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, offlineIndexes, organizations, activeOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, tcsOfActiveOrganization, pcsOfActiveOrganization, rcsOfActiveOrganization, editObjects } = this.state
     const groupsNotLoaded = difference(gruppen, groupsLoadedOrLoading)
     const showGruppen = groupsNotLoaded.length > 0
     const showFilter = filterOptions.length > 0 || loadingFilterOptions
@@ -299,6 +306,8 @@ export default React.createClass({
         {showMain
           ? <Main
               object={object}
+              editObjects={editObjects}
+              toggleEditObjects={this.toggleEditObjects}
               allGroupsLoaded={allGroupsLoaded}
               groupsLoadedOrLoading={groupsLoadedOrLoading}
               groupsLoadingObjects={groupsLoadingObjects}

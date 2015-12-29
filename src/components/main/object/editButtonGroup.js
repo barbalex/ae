@@ -12,23 +12,23 @@ export default React.createClass({
   displayName: 'EditButtonGroup',
 
   propTypes: {
-    editing: React.PropTypes.bool,
-    toggleEditing: React.PropTypes.func,
+    editObjects: React.PropTypes.bool,
+    toggleEditObjects: React.PropTypes.func,
     showEditButtonOverlay: React.PropTypes.bool,
     showAddButtonOverlay: React.PropTypes.bool,
     showRemoveButtonOverlay: React.PropTypes.bool
   },
 
   editButton () {
-    const { editing, toggleEditing } = this.props
-    const editGlyph = editing ? 'ban-circle' : 'pencil'
-    const editText = editing ? 'schützen' : 'bearbeiten'
+    const { editObjects, toggleEditObjects } = this.props
+    const editGlyph = editObjects ? 'ban-circle' : 'pencil'
+    const editText = editObjects ? 'schützen' : 'bearbeiten'
     return (
       <OverlayTrigger
         overlay={<Tooltip id='editButtonTooltip'>{editText}</Tooltip>}
         placement='top'>
         <Button
-          onClick={toggleEditing}>
+          onClick={toggleEditObjects}>
           <Glyphicon glyph={editGlyph} />
         </Button>
       </OverlayTrigger>
@@ -36,13 +36,13 @@ export default React.createClass({
   },
 
   addButton () {
-    const { editing } = this.props
+    const { editObjects } = this.props
     return (
       <OverlayTrigger
         overlay={<Tooltip id='addButtonTooltip'>neu</Tooltip>}
         placement='top'>
         <Button
-          disabled={!editing}>
+          disabled={!editObjects}>
           <Glyphicon glyph='plus' />
         </Button>
       </OverlayTrigger>
@@ -50,13 +50,13 @@ export default React.createClass({
   },
 
   removeButton () {
-    const { editing } = this.props
+    const { editObjects } = this.props
     return (
       <OverlayTrigger
         overlay={<Tooltip id='editingButtonTooltip'>löschen</Tooltip>}
         placement='top'>
         <Button
-          disabled={!editing}>
+          disabled={!editObjects}>
           <Glyphicon glyph='trash' />
         </Button>
       </OverlayTrigger>

@@ -21,11 +21,13 @@ export default React.createClass({
   propTypes: {
     object: React.PropTypes.object,
     synonymObjects: React.PropTypes.array,
-    userRoles: React.PropTypes.array
+    userRoles: React.PropTypes.array,
+    editObjects: React.PropTypes.bool,
+    toggleEditObjects: React.PropTypes.func
   },
 
   render () {
-    const { object, synonymObjects, userRoles } = this.props
+    const { object, synonymObjects, userRoles, editObjects, toggleEditObjects } = this.props
     let objectRcs = []
     let taxRcs = []
     let pcsOfSynonyms = []
@@ -110,7 +112,9 @@ export default React.createClass({
         className='formContent'>
         <Taxonomy
           object={object}
-          userRoles={userRoles} />
+          userRoles={userRoles}
+          editObjects={editObjects}
+          toggleEditObjects={toggleEditObjects} />
         {
           taxRcs.length > 0
           ? <TaxonomicRelationCollections
