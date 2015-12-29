@@ -22,12 +22,15 @@ export default React.createClass({
       React.PropTypes.bool
     ]),
     pcType: React.PropTypes.string,
-    pcName: React.PropTypes.string
+    pcName: React.PropTypes.string,
+    collectionIsEditing: React.PropTypes.bool
   },
 
   render () {
-    const { fieldName, pcType, pcName } = this.props
+    const { fieldName, pcType, pcName, collectionIsEditing } = this.props
     let { fieldValue } = this.props
+
+    console.log('field.js, collectionIsEditing', collectionIsEditing)
 
     // convert german booleans
     if (fieldValue === 'nein') fieldValue = false
@@ -40,7 +43,8 @@ export default React.createClass({
           fieldName={fieldName}
           fieldValue={fieldValue}
           pcType={pcType}
-          pcName={pcName} />
+          pcName={pcName}
+          collectionIsEditing={collectionIsEditing} />
       )
     }
     if (typeof fieldValue === 'string' && fieldValue.length < 45) {
@@ -50,7 +54,8 @@ export default React.createClass({
           fieldValue={fieldValue}
           inputType='text'
           pcType={pcType}
-          pcName={pcName} />
+          pcName={pcName}
+          collectionIsEditing={collectionIsEditing} />
       )
     }
     if (typeof fieldValue === 'string' && fieldValue.length >= 45) {
@@ -59,7 +64,8 @@ export default React.createClass({
           fieldName={fieldName}
           fieldValue={fieldValue}
           pcType={pcType}
-          pcName={pcName} />
+          pcName={pcName}
+          collectionIsEditing={collectionIsEditing} />
       )
     }
     if (typeof fieldValue === 'number') {
@@ -69,7 +75,8 @@ export default React.createClass({
           fieldValue={fieldValue}
           inputType='number'
           pcType={pcType}
-          pcName={pcName} />
+          pcName={pcName}
+          collectionIsEditing={collectionIsEditing} />
       )
     }
     if (typeof fieldValue === 'boolean') {
@@ -78,7 +85,8 @@ export default React.createClass({
           fieldName={fieldName}
           fieldValue={fieldValue}
           pcType={pcType}
-          pcName={pcName} />
+          pcName={pcName}
+          collectionIsEditing={collectionIsEditing} />
       )
     }
     // fallback is text input
@@ -88,7 +96,8 @@ export default React.createClass({
         fieldValue={fieldValue}
         inputType='text'
         pcType={pcType}
-        pcName={pcName} />
+        pcName={pcName}
+        collectionIsEditing={collectionIsEditing} />
     )
   }
 })

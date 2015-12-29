@@ -14,11 +14,12 @@ export default React.createClass({
     fieldName: React.PropTypes.string,
     fieldValue: React.PropTypes.string,
     pcType: React.PropTypes.string,
-    pcName: React.PropTypes.string
+    pcName: React.PropTypes.string,
+    collectionIsEditing: React.PropTypes.bool
   },
 
   render () {
-    const { fieldName, fieldValue, pcType, pcName } = this.props
+    const { fieldName, fieldValue, pcType, pcName, collectionIsEditing } = this.props
 
     return (
       <div className='form-group'>
@@ -38,7 +39,7 @@ export default React.createClass({
               name={fieldName}
               type='text'
               value={fieldValue}
-              readOnly='readonly'
+              readOnly={!collectionIsEditing}
               style={{'cursor': 'pointer'}} />
           </a>
         </p>

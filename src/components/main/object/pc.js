@@ -19,7 +19,7 @@ import isUserOrgAdmin from '../../../modules/isUserOrgAdmin.js'
 import isUserLrWriter from '../../../modules/isUserLrWriter.js'
 import EditButtonGroup from './editButtonGroup.js'
 
-function buildFieldForProperty (propertyCollection, object, value, key, pcType) {
+function buildFieldForProperty (propertyCollection, object, value, key, pcType, collectionIsEditing) {
   const pcName = propertyCollection.Name.replace(/"/g, "'")
   if (typeof value === 'string') {
     // bad hack because jsx shows &#39; not as ' but as &#39;
@@ -46,7 +46,8 @@ function buildFieldForProperty (propertyCollection, object, value, key, pcType) 
               key={key}
               fieldName={key}
               guid={linkedObjectId}
-              objectName={linkedObjectName} />
+              objectName={linkedObjectName}
+              collectionIsEditing={collectionIsEditing} />
           )
         }
       })
@@ -58,7 +59,8 @@ function buildFieldForProperty (propertyCollection, object, value, key, pcType) 
       <LinksToSameGroup
         key={key}
         fieldName={key}
-        objects={value} />
+        objects={value}
+        collectionIsEditing={collectionIsEditing} />
     )
   }
   if (((key === 'Artname' || key === 'Synonyme') && object.Gruppe === 'Flora') || (key === 'Parent' && object.Gruppe === 'Lebensräume') || (key === 'Hierarchie' && isArray(value))) {
@@ -74,7 +76,8 @@ function buildFieldForProperty (propertyCollection, object, value, key, pcType) 
         fieldValue={value.toString()}
         inputType='textarea'
         pcType={pcType}
-        pcName={pcName} />
+        pcName={pcName}
+        collectionIsEditing={collectionIsEditing} />
     )
   }
   return (
@@ -83,7 +86,8 @@ function buildFieldForProperty (propertyCollection, object, value, key, pcType) 
       fieldName={key}
       fieldValue={value}
       pcType={pcType}
-      pcName={pcName} />
+      pcName={pcName}
+      collectionIsEditing={collectionIsEditing} />
   )
 }
 
@@ -105,8 +109,13 @@ export default React.createClass({
     const isLr = object.Gruppe === 'Lebensräume'
     const org = propertyCollection['Organisation mit Schreibrecht']
     const collectionIsEditable = isLr && (isUserLrWriter(userRoles, org) || isUserOrgAdmin(userRoles, org) || isUserServerAdmin(userRoles))
-    const properties = map(propertyCollection.Eigenschaften, (value, key) => buildFieldForProperty(propertyCollection, object, value, key, pcType))
+    const collectionIsEditing = collectionIsEditable && editObjects
+    const properties = map(propertyCollection.Eigenschaften, (value, key) => buildFieldForProperty(propertyCollection, object, value, key, pcType, collectionIsEditing))
     const showPcDescription = object.Gruppe !== 'Lebensräume' || pcType !== 'Taxonomie'
+
+    console.log('pc.js, collectionIsEditable', collectionIsEditable)
+    console.log('pc.js, editObjects', editObjects)
+    console.log('pc.js, collectionIsEditing', collectionIsEditing)
 
     /*
     console.log('propertyCollection', propertyCollection)
@@ -136,10 +145,11 @@ export default React.createClass({
             {
               pcType === 'Taxonomie'
               ? <Field
-                  fieldName={'GUID'}
+                  fieldName='GUID'
                   fieldValue={object._id}
                   pcType={pcType}
-                  pcName={pcName} />
+                  pcName={pcName}
+                  collectionIsEditing={false} />
               : null
             }
             {properties}

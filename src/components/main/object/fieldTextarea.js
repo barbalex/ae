@@ -15,11 +15,12 @@ export default React.createClass({
     fieldName: React.PropTypes.string,
     fieldValue: React.PropTypes.string,
     pcType: React.PropTypes.string,
-    pcName: React.PropTypes.string
+    pcName: React.PropTypes.string,
+    collectionIsEditing: React.PropTypes.bool
   },
 
   render () {
-    const { fieldName, fieldValue, pcType, pcName } = this.props
+    const { fieldName, fieldValue, pcType, pcName, collectionIsEditing } = this.props
 
     return (
       <div className='form-group form-group-sm'>
@@ -35,7 +36,7 @@ export default React.createClass({
           dsName={pcName}
           id={fieldName}
           name={fieldName}
-          readOnly='readonly'
+          readOnly={!collectionIsEditing}
           className='controls form-control'
           defaultValue={fieldValue} />
       </div>

@@ -20,11 +20,14 @@ export default React.createClass({
     ]),
     inputType: React.PropTypes.string,
     pcType: React.PropTypes.string,
-    pcName: React.PropTypes.string
+    pcName: React.PropTypes.string,
+    collectionIsEditing: React.PropTypes.bool
   },
 
   render () {
-    const { fieldName, fieldValue, inputType, pcType, pcName } = this.props
+    const { fieldName, fieldValue, inputType, pcType, pcName, collectionIsEditing } = this.props
+
+    console.log('collectionIsEditing', collectionIsEditing)
 
     return (
       <Input
@@ -36,7 +39,7 @@ export default React.createClass({
         id={fieldName}
         name={fieldName}
         value={fieldValue}
-        readOnly='readonly'
+        readOnly={!collectionIsEditing}
         className={'controls'} />
     )
   }

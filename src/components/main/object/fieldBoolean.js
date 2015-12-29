@@ -14,11 +14,12 @@ export default React.createClass({
     fieldName: React.PropTypes.string,
     fieldValue: React.PropTypes.bool,
     pcType: React.PropTypes.string,
-    pcName: React.PropTypes.string
+    pcName: React.PropTypes.string,
+    collectionIsEditing: React.PropTypes.bool
   },
 
   render () {
-    const { fieldName, fieldValue, pcType, pcName } = this.props
+    const { fieldName, fieldValue, pcType, pcName, collectionIsEditing } = this.props
 
     // need to place checkboxes next to labels, not inside
     // makes styling MUCH easier
@@ -37,7 +38,7 @@ export default React.createClass({
           id={fieldName}
           name={fieldName}
           checked={fieldValue}
-          readOnly='readonly' />
+          readOnly={!collectionIsEditing} />
       </div>
     )
   }
