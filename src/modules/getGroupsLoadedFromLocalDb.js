@@ -4,8 +4,8 @@ import app from 'ampersand-app'
 
 export default () => {
   return new Promise((resolve, reject) => {
-    app.localGroupsDb.get('groups')
+    app.localDb.get('_local/groupsLoaded')
       .then((doc) => resolve(doc.groupsLoaded))
-      .catch((error) => reject('getGroupsLoadedFromLocalGroupsDb: error getting groups doc from localGroupsDb:', error))
+      .catch((error) => reject('getGroupsLoadedFromLocalDb: error getting groups doc from localDb:', error))
   })
 }

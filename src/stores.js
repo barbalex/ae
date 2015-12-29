@@ -3,7 +3,7 @@
 import app from 'ampersand-app'
 import Reflux from 'reflux'
 import { clone, forEach, groupBy, isEqual, pluck, reject, union, uniq, without } from 'lodash'
-import getGroupsLoadedFromLocalGroupsDb from './modules/getGroupsLoadedFromLocalGroupsDb.js'
+import getGroupsLoadedFromLocalDb from './modules/getGroupsLoadedFromLocalDb.js'
 import getItemsFromLocalDb from './modules/getItemsFromLocalDb.js'
 import getItemFromLocalDb from './modules/getItemFromLocalDb.js'
 import getItemFromRemoteDb from './modules/getItemFromRemoteDb.js'
@@ -11,7 +11,7 @@ import getHierarchyFromLocalHierarchyDb from './modules/getHierarchyFromLocalHie
 import addPathsFromItemsToLocalPathDb from './modules/addPathsFromItemsToLocalPathDb.js'
 import buildFilterOptions from './modules/buildFilterOptions.js'
 import getSynonymsOfObject from './modules/getSynonymsOfObject.js'
-import addGroupsLoadedToLocalGroupsDb from './modules/addGroupsLoadedToLocalGroupsDb.js'
+import addGroupsLoadedToLocalDb from './modules/addGroupsLoadedToLocalDb.js'
 import getGruppen from './modules/gruppen.js'
 import loadGroupFromRemote from './modules/loadGroupFromRemote.js'
 import queryTcs from './queries/tcs.js'
@@ -1247,7 +1247,7 @@ export default (Actions) => {
 
     groupsLoaded () {
       return new Promise((resolve, reject) => {
-        getGroupsLoadedFromLocalGroupsDb()
+        getGroupsLoadedFromLocalDb()
           .then((groupsLoaded) => resolve(groupsLoaded))
           .catch((error) =>
             reject('objectStore, groupsLoaded: error getting groups loaded:', error)
@@ -1271,11 +1271,11 @@ export default (Actions) => {
     onShowGroupLoading (objectPassed) {
       // groups: after loading all groups in parallel from remoteDb
       // need to pass a single action for all
-      // otherwise 5 addGroupsLoadedToLocalGroupsDb calls occur at the same moment...
+      // otherwise 5 addGroupsLoadedToLocalDb calls occur at the same moment...
       const { group, allGroups, finishedLoading } = objectPassed
       const gruppen = getGruppen()
 
-      getGroupsLoadedFromLocalGroupsDb()
+      getGroupsLoadedFromLocalDb()
         .then((groupsLoaded) => {
           // if an object with this group is contained in groupsLoading, remove it
           if (allGroups) {
@@ -1304,11 +1304,11 @@ export default (Actions) => {
                   Actions.loadObjectStore.failed(errorMsg, nextGroup)
                 })
             }
-            // write change to groups loaded to localGroupsDb
+            // write change to groups loaded to localDb
             const groupsToPass = allGroups ? gruppen : [group]
-            addGroupsLoadedToLocalGroupsDb(groupsToPass)
+            addGroupsLoadedToLocalDb(groupsToPass)
               .catch((error) =>
-                app.Actions.showError({title: 'loadingGroupsStore, onShowGroupLoading, error adding group(s) to localGroupsDb:', msg: error})
+                app.Actions.showError({title: 'loadingGroupsStore, onShowGroupLoading, error adding group(s) to localDb:', msg: error})
               )
           }
           // inform views
@@ -1319,7 +1319,7 @@ export default (Actions) => {
           this.trigger(payload)
         })
         .catch((error) =>
-          app.Actions.showError({title: 'loadingGroupsStore, onShowGroupLoading, error getting groups loaded from localGroupsDb:', msg: error})
+          app.Actions.showError({title: 'loadingGroupsStore, onShowGroupLoading, error getting groups loaded from localDb:', msg: error})
         )
     }
   })
@@ -1332,7 +1332,7 @@ export default (Actions) => {
      *
      * objects are kept in the pouch in localDb,
      * hierarchies in localHierarchyDb,
-     * groups in localGroupsDb
+     * groups in localDb
     */
     listenables: Actions,
 

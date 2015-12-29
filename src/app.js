@@ -11,7 +11,7 @@ import Router from './router.js'
 import actions from './actions.js'
 import stores from './stores'
 import pouchUrl from './modules/getCouchUrl.js'
-import getGroupsLoadedFromLocalGroupsDb from './modules/getGroupsLoadedFromLocalGroupsDb.js'
+import getGroupsLoadedFromLocalDb from './modules/getGroupsLoadedFromLocalDb.js'
 // need this polyfill to transform promise.all
 // without it IE11 and lower bark
 import 'babel-polyfill'
@@ -67,25 +67,24 @@ app.extend({
       this.localDb = new PouchDB('ae'),
       this.localHierarchyDb = new PouchDB('aeHierarchy'),
       this.localPathDb = new PouchDB('aePaths'),
-      this.localGroupsDb = new PouchDB('aeGroups'),
       this.remoteDb = new PouchDB(pouchUrl()),
       this.remoteUsersDb = new PouchDB(remoteUsersDbUrl)
     ])
     .then(() => Promise.all([
       /**
-       * initiate filterOptions if necessary
+       * initiate groupsLoaded if necessary
        * putIfNotExists is a method added by pouchdbUpsert
+       */
+      this.localDb.putIfNotExists({
+        _id: '_local/groupsLoaded',
+        groupsLoaded: []
+      }),
+      /**
+       * initiate filterOptions if necessary
        */
       this.localDb.putIfNotExists({
         _id: '_local/filterOptions',
         filterOptions: []
-      }),
-      /**
-       * initiate localGroupsDb if necessary
-       */
-      this.localGroupsDb.putIfNotExists({
-        _id: 'groups',
-        groupsLoaded: []
       }),
       /**
        * initiate login data if necessary
@@ -132,7 +131,7 @@ app.extend({
       this.router = new Router()
       this.router.history.start()
       // check if groups have previously been loaded in pouchdb
-      return getGroupsLoadedFromLocalGroupsDb()
+      return getGroupsLoadedFromLocalDb()
     })
     .then((groupsLoadedInPouch) => {
       // if so, load them

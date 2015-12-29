@@ -21,6 +21,6 @@ export default (path, gruppe, guid) => {
       if (!groupIsLoaded) app.Actions.loadObjectStore(gruppe)
     })
     .catch((error) =>
-      app.Actions.showError({title: 'kickOffStores.js: error getting groups from localGroupsDb:', msg: error})
+      app.Actions.showError({title: 'kickOffStores.js: error getting groups from localDb:', msg: error})
     )
 }
