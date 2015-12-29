@@ -34,6 +34,7 @@ import removeRolesFromUser from './components/main/organizations/removeRolesFrom
 import getRoleFromOrgField from './components/main/organizations/getRoleFromOrgField.js'
 import refreshUserRoles from './modules/refreshUserRoles.js'
 import changePathOfObjectInLocalPathDb from './modules/changePathOfObjectInLocalPathDb.js'
+import buildFilterOptionsFromObject from './modules/buildFilterOptionsFromObject.js'
 
 export default (Actions) => {
   app.exportDataStore = Reflux.createStore({
@@ -1153,6 +1154,11 @@ export default (Actions) => {
         .catch((error) =>
           app.Actions.showError({title: 'filterOptionsStore: error preparing trigger:', msg: error})
         )
+    },
+
+    onChangeFilterOptionsForObject (object) {
+      const option = buildFilterOptionsFromObject(object)
+      // if option exists, remove it
     }
   })
 
