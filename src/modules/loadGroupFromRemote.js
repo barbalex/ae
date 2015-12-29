@@ -76,7 +76,8 @@ export default (gruppe, callback) => {
                   // build hierarchy and save to pouch
                   return app.localDb.get('_local/hierarchy')
                     .then((doc) => {
-                      doc.hierarchy = buildHierarchy(itemsOfGroup)
+                      const hierarchyOfGroup = buildHierarchy(itemsOfGroup)
+                      doc.hierarchy.push(hierarchyOfGroup[0])
                       app.localDb.put(doc)
                     })
                     .catch((error) => console.log('error putting hierarchy', error))
