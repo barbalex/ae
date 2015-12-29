@@ -24,6 +24,8 @@ export default (items) => {
       let path = pluck(hierarchy, 'Name')
       // if path is [] make shure no path is added
       if (path.length > 0) {
+        // somehow only Lebensräume contain the group as first array element
+        if (item.Gruppe !== 'Lebensräume') path.unshift(item.Gruppe)
         path = replaceProblematicPathCharactersFromArray(path).join('/')
         pathsOfGruppe[path] = item._id
       }
