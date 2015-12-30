@@ -70,7 +70,7 @@ export default (gruppe, callback) => {
                 .then((items) => {
                   // need to build filter options, hierarchy and paths only for groups newly loaded
                   const itemsOfGroup = filter(items, 'Gruppe', gruppe)
-                  app.Actions.loadFilterOptionsStore(itemsOfGroup)
+                  app.Actions.loadFilterOptions(itemsOfGroup)
                   // build path hash - it helps finding an item by path
                   app.Actions.loadPathStore(itemsOfGroup)
                   // build hierarchy and save to pouch

@@ -1138,13 +1138,13 @@ export default (Actions) => {
       })
     },
 
-    onLoadFilterOptionsStore () {
+    onLoadFilterOptions () {
       const filterOptions = null
       const loading = true
       this.trigger({ filterOptions, loading })
     },
 
-    onLoadFilterOptionsStoreCompleted (newItemsPassed) {
+    onLoadFilterOptionsCompleted (newItemsPassed) {
       let filterOptions = []
       // get existing filterOptions
       this.getOptions()
@@ -1408,7 +1408,7 @@ export default (Actions) => {
     },
 
     onLoadPouchFromLocalCompleted (groupsLoadedInPouch) {
-      Actions.loadFilterOptionsStore()
+      Actions.loadFilterOptions()
       this.getHierarchy()
         .then((hierarchy) => this.trigger(hierarchy))
     },

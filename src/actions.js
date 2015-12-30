@@ -21,7 +21,7 @@ export default () => {
     loadPouchFromLocal: {children: ['completed', 'failed']},
     loadObject: {children: ['completed', 'failed']},
     loadActiveObject: {children: ['completed', 'failed']},
-    loadFilterOptionsStore: {children: ['completed', 'failed']},
+    loadFilterOptions: {children: ['completed', 'failed']},
     changeFilterOptionsForObject: {},
     loadPathStore: {},
     changePathForObject: {},
@@ -68,7 +68,7 @@ export default () => {
       .catch((error) => Actions.loadPouchFromRemote.failed('Actions.loadPouchFromRemote, error loading groups:', error))
   })
 
-  Actions.loadFilterOptionsStore.listen((items) => Actions.loadFilterOptionsStore.completed(items))
+  Actions.loadFilterOptions.listen((items) => Actions.loadFilterOptions.completed(items))
 
   Actions.loadPouchFromLocal.listen((groupsLoadedInPouch) => Actions.loadPouchFromLocal.completed(groupsLoadedInPouch))
 
