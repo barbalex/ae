@@ -131,8 +131,8 @@ export default React.createClass({
     this.listenTo(app.activeObjectStore, this.onActiveObjectStoreChange)
     this.listenTo(app.filterOptionsStore, this.onFilterOptionsStoreChange)
     this.listenTo(app.loadingGroupsStore, this.onLoadingGroupsStoreChange)
-    this.listenTo(app.replicateToAeStore, this.onReplicateToAeStoreChange)
-    this.listenTo(app.replicateFromAeStore, this.onReplicateFromAeStoreChange)
+    this.listenTo(app.replicateToRemoteDbStore, this.onReplicateToRemoteDbStoreChange)
+    this.listenTo(app.replicateFromRemoteDbStore, this.onReplicateFromRemoteDbStoreChange)
     this.listenTo(app.objectsPcsStore, this.onChangeObjectsPcsStore)
     this.listenTo(app.taxonomyCollectionsStore, this.onChangeTaxonomyCollectionsStore)
     this.listenTo(app.propertyCollectionsStore, this.onChangePropertyCollectionsStore)
@@ -176,12 +176,12 @@ export default React.createClass({
     this.setState({ replicatingToAe, replicatingToAeTime })
   },
 
-  onReplicateFromAeStoreChange (replicatingFromAe) {
+  onReplicateFromRemoteDbStoreChange (replicatingFromAe) {
     const replicatingFromAeTime = moment().format('HH:mm')
     this.setState({ replicatingFromAe, replicatingFromAeTime })
   },
 
-  onReplicateToAeStoreChange (replicatingToAe) {
+  onReplicateToRemoteDbStoreChange (replicatingToAe) {
     const replicatingToAeTime = moment().format('HH:mm')
     this.setState({ replicatingToAe, replicatingToAeTime })
   },

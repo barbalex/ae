@@ -17,27 +17,27 @@ export default React.createClass({
   },
 
   exportProperties () {
-    app.Actions.loadActivePathStore(['exportieren'])
+    app.Actions.loadActivePath(['exportieren'])
   },
 
   importPropertyCollection () {
-    app.Actions.loadActivePathStore(['importieren', 'eigenschaften'])
+    app.Actions.loadActivePath(['importieren', 'eigenschaften'])
   },
 
   importRelationsCollection () {
-    app.Actions.loadActivePathStore(['importieren', 'beziehungen'])
+    app.Actions.loadActivePath(['importieren', 'beziehungen'])
   },
 
   openOrganisationen () {
-    app.Actions.loadActivePathStore(['organisationen'])
+    app.Actions.loadActivePath(['organisationen'])
   },
 
-  replicateToAe () {
-    app.Actions.replicateToAe()
+  replicateToRemoteDb () {
+    app.Actions.replicateToRemoteDb()
   },
 
-  replicateFromAe () {
-    app.Actions.replicateFromAe()
+  replicateFromRemoteDb () {
+    app.Actions.replicateFromRemoteDb()
   },
 
   loadPouchFromRemote () {
@@ -115,11 +115,11 @@ export default React.createClass({
               Fehlende Gruppen laden
             </MenuItem>
             <MenuItem
-              onSelect={this.replicateFromAe}>
+              onSelect={this.replicateFromRemoteDb}>
               <strong>Von</strong> arteigenschaften.ch replizieren
             </MenuItem>
             <MenuItem
-              onSelect={this.replicateToAe}>
+              onSelect={this.replicateToRemoteDb}>
               <strong>Nach</strong> arteigenschaften.ch replizieren
             </MenuItem>
             <MenuItem divider/>

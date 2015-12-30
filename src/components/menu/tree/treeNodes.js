@@ -39,7 +39,7 @@ const Nodes = React.createClass({
       .then((objectToLoad) => {
         guidOfObjectToLoad = objectToLoad && objectToLoad._id ? objectToLoad._id : null
         // kick of actions
-        app.Actions.loadActivePathStore(pathToLoad, guidOfObjectToLoad)
+        app.Actions.loadActivePath(pathToLoad, guidOfObjectToLoad)
         app.Actions.loadActiveObject(guidOfObjectToLoad)
       })
       .catch((error) =>

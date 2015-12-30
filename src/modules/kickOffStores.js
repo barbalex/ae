@@ -7,7 +7,7 @@ export default (path, gruppe, guid) => {
   if (guid) {
     app.Actions.loadActiveObject(guid)
   } else if (path && path.length > 0) {
-    app.Actions.loadActivePathStore(path, guid)
+    app.Actions.loadActivePath(path, guid)
     getObjectFromPath(path)
       .then((object) => {
         if (object) app.Actions.loadActiveObject(object._id)

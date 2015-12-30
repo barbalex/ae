@@ -13,7 +13,7 @@ export default React.createClass({
   },
 
   onClickReplicateToAe () {
-    app.Actions.replicateToAe()
+    app.Actions.replicateToRemoteDb()
   },
 
   render () {

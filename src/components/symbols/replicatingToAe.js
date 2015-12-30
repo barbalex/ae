@@ -29,7 +29,7 @@ export default React.createClass({
 
     return (
       <OverlayTrigger placement='left' overlay={tooltip}>
-        <Glyphicon id='replicateToAe' className='symbols symbol' glyph='cloud-upload' style={style}/>
+        <Glyphicon id='replicateToRemoteDb' className='symbols symbol' glyph='cloud-upload' style={style}/>
       </OverlayTrigger>
     )
   }

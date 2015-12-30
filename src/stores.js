@@ -94,11 +94,11 @@ export default (Actions) => {
 
   })
 
-  app.replicateFromAeStore = Reflux.createStore({
+  app.replicateFromRemoteDbStore = Reflux.createStore({
 
     listenables: Actions,
 
-    onReplicateFromAe () {
+    onReplicateFromRemoteDb () {
       this.trigger('replicating')
       const options = {
         filter: (doc) => doc.Gruppe,
@@ -113,19 +113,19 @@ export default (Actions) => {
     }
   })
 
-  app.replicateToAeStore = Reflux.createStore({
+  app.replicateToRemoteDbStore = Reflux.createStore({
 
     listenables: Actions,
 
-    onReplicateToAe () {
+    onReplicateToRemoteDb () {
       this.trigger('replicating')
       app.localDb.replicate.to(app.remoteDb)
         .then((result) => {
-          console.log('replicateToAeStore, result', result)
+          console.log('replicateToRemoteDbStore, result', result)
           this.trigger('success')
         })
         .catch((error) => {
-          console.log('replicateToAeStore, error', error)
+          console.log('replicateToRemoteDbStore, error', error)
           this.trigger('error')
         })  // eslint-disable-line handle-callback-err
     }
@@ -1188,7 +1188,7 @@ export default (Actions) => {
 
     guid: null,
 
-    onLoadActivePathStore (path, guid) {
+    onLoadActivePath (path, guid) {
       // only change if something has changed
       if (this.guid !== guid || !isEqual(this.path, path)) {
         this.guid = guid
@@ -1225,7 +1225,7 @@ export default (Actions) => {
           getPathFromGuid(item._id)
             .then(({ path, url }) => {
               // ...if it differs from the loaded path
-              if (!isEqual(app.activePathStore.path, path)) app.Actions.loadActivePathStore(path, item._id)
+              if (!isEqual(app.activePathStore.path, path)) app.Actions.loadActivePath(path, item._id)
               // now check for synonym objects
               return getSynonymsOfObject(item)
             })
@@ -1394,7 +1394,7 @@ export default (Actions) => {
           // 6. replace filter options in filterOptionsStore
           app.Actions.changeFilterOptionsForObject(object)
           // 7. replicate changes to remoteDb
-          app.Actions.replicateToAe()
+          app.Actions.replicateToRemoteDb()
         })
         .catch((error) => {
           app.Actions.showError({ title: 'objectStore: error saving object:', msg: error })
