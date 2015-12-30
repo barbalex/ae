@@ -12,8 +12,6 @@ import replaceProblematicPathCharactersFromArray from './replaceProblematicPathC
 
 export default (items) => {
   return new Promise((resolve, reject) => {
-    let paths = {_id: 'aePaths'}
-
     // build paths of passed in items (usually: items of a group)
     const pathsOfGruppe = {}
     items.forEach((item) => {
@@ -24,30 +22,33 @@ export default (items) => {
       let path = pluck(hierarchy, 'Name')
       // if path is [] make shure no path is added
       if (path.length > 0) {
-        // somehow only Lebensräume contain the group as first array element
-        if (item.Gruppe !== 'Lebensräume') path.unshift(item.Gruppe)
+        /**
+         * I have no idea when Gruppe is included in path
+         * if I add it it is usually doubly included
+         * if I dont add it it usually isnt there
+         * so only add it if not already included
+         */
+        if (path[0] !== item.Gruppe) path.unshift(item.Gruppe)
         path = replaceProblematicPathCharactersFromArray(path).join('/')
         pathsOfGruppe[path] = item._id
       }
     })
+
+    console.log('addPathsFromItemsToLocalDb.js, paths of gruppe ' + items[0].Gruppe, pathsOfGruppe)
 
     // combine these paths with those already in pathDb
     app.localDb.get('_local/paths', (error, doc) => {
       if (error) {
         if (error.status === 404) {
           // leave paths as it is
+          console.log('error getting _local/paths', error)
         } else {
           reject('addPathsFromItemsToLocalDb.js: error getting paths from localDb:', error)
         }
-      } else {
-        // there existed already a path object
-        // combine them
-        paths = doc.paths
       }
-      paths = Object.assign(paths, pathsOfGruppe)
-      doc.paths = paths
+      doc.paths = Object.assign(doc.paths, pathsOfGruppe)
       app.localDb.put(doc)
-        .then(() => resolve(paths))
+        .then(() => resolve(doc.paths))
         .catch((error) => reject('addPathsFromItemsToLocalDb.js: error writing paths to localDb:', error)
       )
     })
