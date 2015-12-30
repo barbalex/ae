@@ -34,7 +34,7 @@ export default (items) => {
       }
     })
 
-    console.log('addPathsFromItemsToLocalDb.js, paths of gruppe ' + items[0].Gruppe, pathsOfGruppe)
+    // console.log('addPathsFromItemsToLocalDb.js, paths of gruppe ' + items[0].Gruppe, pathsOfGruppe)
 
     // combine these paths with those already in pathDb
     app.localDb.get('_local/paths', (error, doc) => {
