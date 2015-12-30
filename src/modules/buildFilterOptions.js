@@ -4,12 +4,12 @@ import app from 'ampersand-app'
 import buildFilterOptionsFromObject from './buildFilterOptionsFromObject.js'
 
 export default (items) => {
-  const options = []
+  let options = []
 
   // console.log('buildFilterOptions.js, items received', items)
 
   items.forEach((object) => {
-    let option = buildFilterOptionsFromObject(object)
+    const option = buildFilterOptionsFromObject(object)
     if (option) options.push(option)
   })
 
@@ -18,7 +18,7 @@ export default (items) => {
   // save to db
   app.localDb.get('_local/filterOptions')
     .then((doc) => {
-      doc.filterOptions = options
+      doc.filterOptions = doc.filterOptions.concat(options)
       return app.localDb.put(doc)
     })
     .catch((error) =>
