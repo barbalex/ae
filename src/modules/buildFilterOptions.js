@@ -6,8 +6,6 @@ import buildFilterOptionsFromObject from './buildFilterOptionsFromObject.js'
 export default (items) => {
   let options = []
 
-  // console.log('buildFilterOptions.js, items received', items)
-
   items.forEach((object) => {
     const option = buildFilterOptionsFromObject(object)
     if (option) options.push(option)
