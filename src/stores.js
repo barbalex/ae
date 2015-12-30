@@ -1306,10 +1306,10 @@ export default (Actions) => {
               const nextGroup = this.groupsLoading[this.groupsLoading.length - 1].group
               // load if
               loadGroupFromRemote(nextGroup)
-                .then(() => Actions.loadObjectStore.completed(nextGroup))
+                .then(() => Actions.loadObject.completed(nextGroup))
                 .catch((error) => {
-                  const errorMsg = 'Actions.loadObjectStore, error loading group ' + nextGroup + ': ' + error
-                  Actions.loadObjectStore.failed(errorMsg, nextGroup)
+                  const errorMsg = 'Actions.loadObject, error loading group ' + nextGroup + ': ' + error
+                  Actions.loadObject.failed(errorMsg, nextGroup)
                 })
             }
             // write change to groups loaded to localDb
@@ -1417,24 +1417,24 @@ export default (Actions) => {
       app.Actions.showError({title: 'objectStore: error loading objectStore from pouch:', msg: error})
     },
 
-    onLoadObjectStore (gruppe) {
+    onLoadObject (gruppe) {
       this.getHierarchy()
         // trigger change so components can set loading state
         .then((hierarchy) => this.trigger(hierarchy))
         .catch((error) =>
-          app.Actions.showError({title: 'objectStore, onLoadObjectStore, error getting data:', msg: error})
+          app.Actions.showError({title: 'objectStore, onLoadObject, error getting data:', msg: error})
         )
     },
 
-    onLoadObjectStoreCompleted (gruppe) {
+    onLoadObjectCompleted (gruppe) {
       this.getHierarchy()
         .then((hierarchy) => this.trigger(hierarchy))
         .catch((error) =>
-          app.Actions.showError({title: 'objectStore, onLoadObjectStore, error getting data:', msg: error})
+          app.Actions.showError({title: 'objectStore, onLoadObject, error getting data:', msg: error})
         )
     },
 
-    onLoadObjectStoreFailed (error, gruppe) {
+    onLoadObjectFailed (error, gruppe) {
       // remove loading indicator
       Actions.showGroupLoading({
         group: gruppe,

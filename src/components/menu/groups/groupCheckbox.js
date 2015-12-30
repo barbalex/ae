@@ -12,7 +12,7 @@ export default React.createClass({
   },
 
   onClickGruppe (group) {
-    app.Actions.loadObjectStore(group)
+    app.Actions.loadObject(group)
   },
 
   render () {

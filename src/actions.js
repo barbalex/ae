@@ -19,7 +19,7 @@ export default () => {
   let Actions = Reflux.createActions({
     loadPouchFromRemote: {children: ['completed', 'failed']},
     loadPouchFromLocal: {children: ['completed', 'failed']},
-    loadObjectStore: {children: ['completed', 'failed']},
+    loadObject: {children: ['completed', 'failed']},
     loadActiveObject: {children: ['completed', 'failed']},
     loadFilterOptionsStore: {children: ['completed', 'failed']},
     changeFilterOptionsForObject: {},
@@ -63,7 +63,7 @@ export default () => {
       .then((groupsLoaded) => {
         groupsLoading = difference(groups, groupsLoaded)
         // load all groups not yet loaded
-        groupsLoading.forEach((group) => Actions.loadObjectStore(group))
+        groupsLoading.forEach((group) => Actions.loadObject(group))
       })
       .catch((error) => Actions.loadPouchFromRemote.failed('Actions.loadPouchFromRemote, error loading groups:', error))
   })
@@ -72,13 +72,13 @@ export default () => {
 
   Actions.loadPouchFromLocal.listen((groupsLoadedInPouch) => Actions.loadPouchFromLocal.completed(groupsLoadedInPouch))
 
-  Actions.loadObjectStore.listen((gruppe) => {
+  Actions.loadObject.listen((gruppe) => {
     // make sure gruppe was passed
     if (!gruppe) return false
     // make sure a valid group was passed
     const gruppen = getGruppen()
     const validGroup = gruppen.includes(gruppe)
-    if (!validGroup) return Actions.loadObjectStore.failed('Actions.loadObjectStore: the group passed is not valid', gruppe)
+    if (!validGroup) return Actions.loadObject.failed('Actions.loadObject: the group passed is not valid', gruppe)
 
     // app.loadingGroupsStore.groupsLoading is a task list that is worked off one by one
     // if a loadGroupFromRemote call is started while the last is still active, bad things happen
@@ -93,10 +93,10 @@ export default () => {
     if (app.loadingGroupsStore.groupsLoading.length === 1) {
       // o.k., no other group is being loaded - go on
       loadGroupFromRemote(gruppe)
-        .then(() => Actions.loadObjectStore.completed(gruppe))
+        .then(() => Actions.loadObject.completed(gruppe))
         .catch((error) => {
-          const errorMsg = 'Actions.loadObjectStore, error loading group ' + gruppe + ': ' + error
-          Actions.loadObjectStore.failed(errorMsg, gruppe)
+          const errorMsg = 'Actions.loadObject, error loading group ' + gruppe + ': ' + error
+          Actions.loadObject.failed(errorMsg, gruppe)
         })
     }
   })
