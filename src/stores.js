@@ -1110,7 +1110,7 @@ export default (Actions) => {
       changePathOfObjectInLocalDb(object)
     },
 
-    onLoadPathStore (newItemsPassed) {
+    onLoadPaths (newItemsPassed) {
       // get existing paths
       addPathsFromItemsToLocalDb(newItemsPassed)
         .then(() => this.trigger(true))

@@ -72,7 +72,7 @@ export default (gruppe, callback) => {
                   const itemsOfGroup = filter(items, 'Gruppe', gruppe)
                   app.Actions.loadFilterOptions(itemsOfGroup)
                   // build path hash - it helps finding an item by path
-                  app.Actions.loadPathStore(itemsOfGroup)
+                  app.Actions.loadPaths(itemsOfGroup)
                   // build hierarchy and save to pouch
                   return app.localDb.get('_local/hierarchy')
                     .then((doc) => {

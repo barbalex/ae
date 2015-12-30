@@ -23,7 +23,7 @@ export default () => {
     loadActiveObject: {children: ['completed', 'failed']},
     loadFilterOptions: {children: ['completed', 'failed']},
     changeFilterOptionsForObject: {},
-    loadPathStore: {},
+    loadPaths: {},
     changePathForObject: {},
     loadActivePathStore: {},
     login: {},
