@@ -21,16 +21,13 @@ import EditButtonGroup from './editButtonGroup.js'
 
 function buildFieldForProperty (propertyCollection, object, value, key, pcType, collectionIsEditing) {
   const pcName = propertyCollection.Name.replace(/"/g, "'")
-  if (typeof value === 'string') {
-    // bad hack because jsx shows &#39; not as ' but as &#39;
-    value = value.replace('&#39;', '\'')
-  }
-
-  if (key === 'GUID') {
-    // don't show. _id is used instead
-    // this field was removed and should not exist any more
-    return null
-  }
+  // bad hack because jsx shows &#39; not as ' but as &#39;
+  if (typeof value === 'string') value = value.replace('&#39;', '\'')
+  // lr.Taxonomie is lr.Einheit of to level lr > never change lr.Taxonomie
+  if (key === 'Taxonomie' && object.Gruppe === 'Lebensräume') collectionIsEditing = false
+  // don't show 'GUID' - _id is used instead
+  // this field was removed and should not exist any more
+  if (key === 'GUID') return null
   if (((key === 'Offizielle Art' || key === 'Eingeschlossen in' || key === 'Synonym von') && object.Gruppe === 'Flora') || (key === 'Akzeptierte Referenz' && object.Gruppe === 'Moose')) {
     // build as single link
     // console.log('value', value)
