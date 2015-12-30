@@ -20,7 +20,7 @@ export default React.createClass({
   onClick (guid, event) {
     event.preventDefault()
     // console.log('FieldLinksToSameGroup guid', guid)
-    if (guid) app.Actions.loadActiveObjectStore(guid)
+    if (guid) app.Actions.loadActiveObject(guid)
   },
 
   render () {

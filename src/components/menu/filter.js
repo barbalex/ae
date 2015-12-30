@@ -30,7 +30,7 @@ export default React.createClass({
 
   onSelectObject (result) {
     const guid = result.value
-    app.Actions.loadActiveObjectStore(guid)
+    app.Actions.loadActiveObject(guid)
     this.emptyInTenSeconds()
   },
 

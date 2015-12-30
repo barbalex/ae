@@ -20,7 +20,7 @@ export default () => {
     loadPouchFromRemote: {children: ['completed', 'failed']},
     loadPouchFromLocal: {children: ['completed', 'failed']},
     loadObjectStore: {children: ['completed', 'failed']},
-    loadActiveObjectStore: {children: ['completed', 'failed']},
+    loadActiveObject: {children: ['completed', 'failed']},
     loadFilterOptionsStore: {children: ['completed', 'failed']},
     changeFilterOptionsForObject: {},
     loadPathStore: {},
@@ -101,22 +101,22 @@ export default () => {
     }
   })
 
-  Actions.loadActiveObjectStore.listen((guid) => {
+  Actions.loadActiveObject.listen((guid) => {
     // check if group is loaded > get object from objectStore
     if (!guid) {
-      Actions.loadActiveObjectStore.completed({})
+      Actions.loadActiveObject.completed({})
     } else {
       app.objectStore.getObject(guid)
         // group is already loaded
         // pass object to activeObjectStore by completing action
         // if object is empty, store will have no item
         // so there is never a failed action
-        .then((object) => Actions.loadActiveObjectStore.completed(object))
+        .then((object) => Actions.loadActiveObject.completed(object))
         .catch((error) => {  // eslint-disable-line handle-callback-err
           // this group is not loaded yet
           // get Object from couch
           app.remoteDb.get(guid, { include_docs: true })
-            .then((object) => Actions.loadActiveObjectStore.completed(object))
+            .then((object) => Actions.loadActiveObject.completed(object))
             .catch((error) => app.Actions.showError({
               title: 'error fetching doc from remoteDb with guid ' + guid + ':',
               msg: error

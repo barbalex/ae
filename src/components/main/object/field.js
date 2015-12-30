@@ -23,11 +23,12 @@ export default React.createClass({
     ]),
     pcType: React.PropTypes.string,
     pcName: React.PropTypes.string,
-    collectionIsEditing: React.PropTypes.bool
+    collectionIsEditing: React.PropTypes.bool,
+    onChangeObjectField: React.PropTypes.func
   },
 
   render () {
-    const { fieldName, pcType, pcName, collectionIsEditing } = this.props
+    const { fieldName, pcType, pcName, collectionIsEditing, onChangeObjectField } = this.props
     let { fieldValue } = this.props
 
     // console.log('field.js, collectionIsEditing', collectionIsEditing)
@@ -44,7 +45,8 @@ export default React.createClass({
           fieldValue={fieldValue}
           pcType={pcType}
           pcName={pcName}
-          collectionIsEditing={collectionIsEditing} />
+          collectionIsEditing={collectionIsEditing}
+          onChangeObjectField={onChangeObjectField} />
       )
     }
     if (typeof fieldValue === 'string' && fieldValue.length < 45) {
@@ -55,7 +57,8 @@ export default React.createClass({
           inputType='text'
           pcType={pcType}
           pcName={pcName}
-          collectionIsEditing={collectionIsEditing} />
+          collectionIsEditing={collectionIsEditing}
+          onChangeObjectField={onChangeObjectField} />
       )
     }
     if (typeof fieldValue === 'string' && fieldValue.length >= 45) {
@@ -65,7 +68,8 @@ export default React.createClass({
           fieldValue={fieldValue}
           pcType={pcType}
           pcName={pcName}
-          collectionIsEditing={collectionIsEditing} />
+          collectionIsEditing={collectionIsEditing}
+          onChangeObjectField={onChangeObjectField} />
       )
     }
     if (typeof fieldValue === 'number') {
@@ -76,7 +80,8 @@ export default React.createClass({
           inputType='number'
           pcType={pcType}
           pcName={pcName}
-          collectionIsEditing={collectionIsEditing} />
+          collectionIsEditing={collectionIsEditing}
+          onChangeObjectField={onChangeObjectField} />
       )
     }
     if (typeof fieldValue === 'boolean') {
@@ -86,7 +91,8 @@ export default React.createClass({
           fieldValue={fieldValue}
           pcType={pcType}
           pcName={pcName}
-          collectionIsEditing={collectionIsEditing} />
+          collectionIsEditing={collectionIsEditing}
+          onChangeObjectField={onChangeObjectField} />
       )
     }
     // fallback is text input
@@ -97,7 +103,8 @@ export default React.createClass({
         inputType='text'
         pcType={pcType}
         pcName={pcName}
-        collectionIsEditing={collectionIsEditing} />
+        collectionIsEditing={collectionIsEditing}
+        onChangeObjectField={onChangeObjectField} />
     )
   }
 })

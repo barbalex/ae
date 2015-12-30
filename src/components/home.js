@@ -236,6 +236,23 @@ export default React.createClass({
     this.setState({ editObjects: !editObjects })
   },
 
+  onChangeObjectField (pcType, pcName, fieldName, fieldValue) {
+    let { object } = this.state
+    const pcTypeHash = {
+      'Taxonomie': 'Taxonomien',
+      'Datensammlung': 'Eigenschaftensammlungen',
+      'Eigenschaftensammlung': 'Eigenschaftensammlungen',
+      'Beziehungssammlung': 'Beziehungssammlungen'
+    }
+    if (object) {
+      const collection = object[pcTypeHash[pcType]].find((pc) => pc.Name === pcName)
+      if (collection) {
+        collection.Eigenschaften[fieldName] = fieldValue
+      }
+      app.Actions.saveObject(object)
+    }
+  },
+
   render () {
     const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, mainComponent, logIn, email, userRoles, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, tcs, pcs, tcsQuerying, rcs, pcsQuerying, rcsQuerying, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, offlineIndexes, organizations, activeOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, tcsOfActiveOrganization, pcsOfActiveOrganization, rcsOfActiveOrganization, editObjects } = this.state
     const groupsNotLoaded = difference(gruppen, groupsLoadedOrLoading)
@@ -306,6 +323,7 @@ export default React.createClass({
         {showMain
           ? <Main
               object={object}
+              onChangeObjectField={this.onChangeObjectField}
               editObjects={editObjects}
               toggleEditObjects={this.toggleEditObjects}
               allGroupsLoaded={allGroupsLoaded}

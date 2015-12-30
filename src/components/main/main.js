@@ -25,6 +25,7 @@ export default React.createClass({
 
   propTypes: {
     object: React.PropTypes.object,
+    onChangeObjectField: React.PropTypes.func,
     editObjects: React.PropTypes.bool,
     toggleEditObjects: React.PropTypes.func,
     synonymObjects: React.PropTypes.array,
@@ -87,7 +88,7 @@ export default React.createClass({
   },
 
   render () {
-    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, editObjects, toggleEditObjects, synonymObjects, tcs, tcsQuerying, pcs, pcsQuerying, rcs, rcsQuerying, mainComponent, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, email, userRoles, replicatingToAe, replicatingToAeTime, offlineIndexes, organizations, activeOrganization, onChangeActiveOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, tcsOfActiveOrganization, pcsOfActiveOrganization, rcsOfActiveOrganization } = this.props
+    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, onChangeObjectField, editObjects, toggleEditObjects, synonymObjects, tcs, tcsQuerying, pcs, pcsQuerying, rcs, rcsQuerying, mainComponent, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, email, userRoles, replicatingToAe, replicatingToAeTime, offlineIndexes, organizations, activeOrganization, onChangeActiveOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, tcsOfActiveOrganization, pcsOfActiveOrganization, rcsOfActiveOrganization } = this.props
     const { formClassNames, errors } = this.state
     const showObject = object && Object.keys(object).length > 0 && !mainComponent
 
@@ -99,6 +100,7 @@ export default React.createClass({
             showObject
             ? <Objekt
                 object={object}
+                onChangeObjectField={onChangeObjectField}
                 synonymObjects={synonymObjects}
                 userRoles={userRoles}
                 editObjects={editObjects}

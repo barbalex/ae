@@ -21,7 +21,7 @@ export default React.createClass({
     event.preventDefault()
     const { guid } = this.props
     // console.log('linkToSameGroup.js, onClick, guid', guid)
-    if (guid) app.Actions.loadActiveObjectStore(guid)
+    if (guid) app.Actions.loadActiveObject(guid)
   },
 
   render () {

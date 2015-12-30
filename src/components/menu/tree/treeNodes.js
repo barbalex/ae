@@ -40,7 +40,7 @@ const Nodes = React.createClass({
         guidOfObjectToLoad = objectToLoad && objectToLoad._id ? objectToLoad._id : null
         // kick of actions
         app.Actions.loadActivePathStore(pathToLoad, guidOfObjectToLoad)
-        app.Actions.loadActiveObjectStore(guidOfObjectToLoad)
+        app.Actions.loadActiveObject(guidOfObjectToLoad)
       })
       .catch((error) =>
         app.Actions.showError({title: 'treeNodes.js: error getting object from path:', msg: error})

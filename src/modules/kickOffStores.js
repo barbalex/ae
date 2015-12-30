@@ -5,12 +5,12 @@ import getObjectFromPath from './getObjectFromPath.js'
 
 export default (path, gruppe, guid) => {
   if (guid) {
-    app.Actions.loadActiveObjectStore(guid)
+    app.Actions.loadActiveObject(guid)
   } else if (path && path.length > 0) {
     app.Actions.loadActivePathStore(path, guid)
     getObjectFromPath(path)
       .then((object) => {
-        if (object) app.Actions.loadActiveObjectStore(object._id)
+        if (object) app.Actions.loadActiveObject(object._id)
       })
       .catch((error) =>
         app.Actions.showError({title: 'kickOffStores.js: error loading active object store or getting path for path "' + path + '":', msg: error})

@@ -21,7 +21,14 @@ export default React.createClass({
     inputType: React.PropTypes.string,
     pcType: React.PropTypes.string,
     pcName: React.PropTypes.string,
-    collectionIsEditing: React.PropTypes.bool
+    collectionIsEditing: React.PropTypes.bool,
+    onChangeObjectField: React.PropTypes.func
+  },
+
+  onChange (event) {
+    const { fieldName, pcType, pcName, onChangeObjectField } = this.props
+    const fieldValue = event.target.value
+    onChangeObjectField(pcType, pcName, fieldName, fieldValue)
   },
 
   render () {
@@ -38,7 +45,8 @@ export default React.createClass({
         name={fieldName}
         value={fieldValue}
         readOnly={!collectionIsEditing}
-        className={'controls'} />
+        className='controls'
+        onChange={this.onChange} />
     )
   }
 })

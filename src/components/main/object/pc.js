@@ -19,7 +19,7 @@ import isUserOrgAdmin from '../../../modules/isUserOrgAdmin.js'
 import isUserLrWriter from '../../../modules/isUserLrWriter.js'
 import EditButtonGroup from './editButtonGroup.js'
 
-function buildFieldForProperty (propertyCollection, object, value, key, pcType, collectionIsEditing) {
+function buildFieldForProperty (propertyCollection, object, onChangeObjectField, value, key, pcType, collectionIsEditing) {
   const pcName = propertyCollection.Name.replace(/"/g, "'")
   // bad hack because jsx shows &#39; not as ' but as &#39;
   if (typeof value === 'string') value = value.replace('&#39;', '\'')
@@ -84,7 +84,8 @@ function buildFieldForProperty (propertyCollection, object, value, key, pcType, 
       fieldValue={value}
       pcType={pcType}
       pcName={pcName}
-      collectionIsEditing={collectionIsEditing} />
+      collectionIsEditing={collectionIsEditing}
+      onChangeObjectField={onChangeObjectField} />
   )
 }
 
@@ -94,6 +95,7 @@ export default React.createClass({
   propTypes: {
     pcType: React.PropTypes.string,
     object: React.PropTypes.object,
+    onChangeObjectField: React.PropTypes.func,
     editObjects: React.PropTypes.bool,
     toggleEditObjects: React.PropTypes.func,
     propertyCollection: React.PropTypes.object,
@@ -101,13 +103,13 @@ export default React.createClass({
   },
 
   render () {
-    const { propertyCollection, pcType, object, userRoles, editObjects, toggleEditObjects } = this.props
+    const { propertyCollection, pcType, object, onChangeObjectField, userRoles, editObjects, toggleEditObjects } = this.props
     const pcName = replaceInvalidCharactersInIdNames(propertyCollection.Name)
     const isLr = object.Gruppe === 'Lebensräume'
     const org = propertyCollection['Organisation mit Schreibrecht']
     const collectionIsEditable = isLr && (isUserLrWriter(userRoles, org) || isUserOrgAdmin(userRoles, org) || isUserServerAdmin(userRoles))
     const collectionIsEditing = collectionIsEditable && editObjects
-    const properties = map(propertyCollection.Eigenschaften, (value, key) => buildFieldForProperty(propertyCollection, object, value, key, pcType, collectionIsEditing))
+    const properties = map(propertyCollection.Eigenschaften, (value, key) => buildFieldForProperty(propertyCollection, object, onChangeObjectField, value, key, pcType, collectionIsEditing))
     const showPcDescription = object.Gruppe !== 'Lebensräume' || pcType !== 'Taxonomie'
 
     /*

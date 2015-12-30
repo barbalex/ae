@@ -22,7 +22,7 @@ export default React.createClass({
   onClickUrl (event) {
     event.preventDefault()
     const { guid } = this.props
-    if (guid) app.Actions.loadActiveObjectStore(guid)
+    if (guid) app.Actions.loadActiveObject(guid)
   },
 
   render () {

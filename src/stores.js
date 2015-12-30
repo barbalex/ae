@@ -120,8 +120,14 @@ export default (Actions) => {
     onReplicateToAe () {
       this.trigger('replicating')
       app.localDb.replicate.to(app.remoteDb)
-        .then((result) => this.trigger('success'))
-        .catch((error) => this.trigger('error'))  // eslint-disable-line handle-callback-err
+        .then((result) => {
+          console.log('replicateToAeStore, result', result)
+          this.trigger('success')
+        })
+        .catch((error) => {
+          console.log('replicateToAeStore, error', error)
+          this.trigger('error')
+        })  // eslint-disable-line handle-callback-err
     }
   })
 
@@ -1204,8 +1210,8 @@ export default (Actions) => {
 
     item: {},
 
-    onLoadActiveObjectStoreCompleted (item) {
-      // console.log('activeObjectStore, onLoadActiveObjectStoreCompleted, item', item)
+    onLoadActiveObjectCompleted (item) {
+      // console.log('activeObjectStore, onLoadActiveObjectCompleted, item', item)
       // only change if active item has changed
       if (!isEqual(item, this.item)) {
         // item can be an object or {}
@@ -1214,7 +1220,7 @@ export default (Actions) => {
         // tell views that data has changed
         this.trigger(item, [])
         // load path for this object...
-        // console.log('activeObjectStore, onLoadActiveObjectStoreCompleted,  will call getPathFromGuid with guid', item._id)
+        // console.log('activeObjectStore, onLoadActiveObjectCompleted,  will call getPathFromGuid with guid', item._id)
         if (item && item._id) {
           getPathFromGuid(item._id)
             .then(({ path, url }) => {
@@ -1360,7 +1366,7 @@ export default (Actions) => {
       })
     },
 
-    saveObject (object) {
+    onSaveObject (object) {
       /**
        * 1. if object is active: optimistically update activeObjectStore
        * 2. write object to localDb
@@ -1375,13 +1381,14 @@ export default (Actions) => {
       let oldActiveObject = null
       if (objectIsActive) {
         oldActiveObject = app.activeObjectStore.item
-        app.Actions.loadActiveObjectStore(object)
+        app.Actions.loadActiveObject(object)
       }
       // 2. write object to localDb
       app.localDb.put(object)
         .then((result) => {
           // 4. update active object rev
           object._rev = result.rev
+          app.Actions.loadActiveObject(object)
           // 5. replace path in pathStore
           app.Actions.changePathForObject(object)
           // 6. replace filter options in filterOptionsStore
@@ -1392,7 +1399,7 @@ export default (Actions) => {
         .catch((error) => {
           app.Actions.showError({ title: 'objectStore: error saving object:', msg: error })
           // 3. on error revert change to activeObjectStore
-          if (oldActiveObject) app.Actions.loadActiveObjectStore(oldActiveObject)
+          if (oldActiveObject) app.Actions.loadActiveObject(oldActiveObject)
         })
     },
 
