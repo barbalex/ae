@@ -14,7 +14,7 @@ export default (guid) => {
     app.objectStore.getObject(guid)
       .then((object) => {
         const path = getPathFromObject(object)
-        if (path) {
+        if (path.length > 0) {
           const url = '/' + path.join('/')
           resolve({ path, url })
         } else {

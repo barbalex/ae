@@ -1,5 +1,5 @@
 /*
- * gets new items passed
+ * gets new objects passed
  * generates their paths
  * and adds them to localDb
  */
@@ -7,34 +7,21 @@
 'use strict'
 
 import app from 'ampersand-app'
-import { get, pluck } from 'lodash'
-import replaceProblematicPathCharactersFromArray from './replaceProblematicPathCharactersFromArray.js'
+import getPathFromObject from './getPathFromObject.js'
 
-export default (items) => {
+export default (objects) => {
   return new Promise((resolve, reject) => {
-    // build paths of passed in items (usually: items of a group)
+    // build paths of passed in objects (usually: objects of a group)
     const pathsOfGruppe = {}
-    items.forEach((item) => {
+    objects.forEach((object) => {
       // get hierarchy from the Hierarchie field
       // default value (in case there is none) is []
-      const standardtaxonomie = item.Taxonomien.find((taxonomy) => taxonomy['Standardtaxonomie'])
-      const hierarchy = standardtaxonomie ? get(standardtaxonomie, 'Eigenschaften.Hierarchie', []) : []
-      let path = pluck(hierarchy, 'Name')
-      // if path is [] make shure no path is added
-      if (path.length > 0) {
-        /**
-         * I have no idea when Gruppe is included in path
-         * if I add it it is usually doubly included
-         * if I dont add it it usually isnt there
-         * so only add it if not already included
-         */
-        if (path[0] !== item.Gruppe) path.unshift(item.Gruppe)
-        path = replaceProblematicPathCharactersFromArray(path).join('/')
-        pathsOfGruppe[path] = item._id
-      }
+      const path = getPathFromObject(object)
+      // if path is [] make sure no path is added
+      if (path.length > 0) pathsOfGruppe[path] = object._id
     })
 
-    // console.log('addPathsFromItemsToLocalDb.js, paths of gruppe ' + items[0].Gruppe, pathsOfGruppe)
+    // console.log('addPathsFromItemsToLocalDb.js, paths of gruppe ' + objects[0].Gruppe, pathsOfGruppe)
 
     // combine these paths with those already in pathDb
     app.localDb.get('_local/paths', (error, doc) => {
