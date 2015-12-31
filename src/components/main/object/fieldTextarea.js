@@ -16,11 +16,29 @@ export default React.createClass({
     fieldValue: React.PropTypes.string,
     pcType: React.PropTypes.string,
     pcName: React.PropTypes.string,
-    collectionIsEditing: React.PropTypes.bool
+    collectionIsEditing: React.PropTypes.bool,
+    onChangeObjectField: React.PropTypes.func
+  },
+
+  getInitialState () {
+    const { fieldValue } = this.props
+    return { fieldValue }
+  },
+
+  onChange (event) {
+    const fieldValue = event.target.value
+    this.setState({ fieldValue })
+  },
+
+  onBlur (event) {
+    const { fieldName, pcType, pcName, onChangeObjectField } = this.props
+    const fieldValue = event.target.value
+    onChangeObjectField(pcType, pcName, fieldName, fieldValue)
   },
 
   render () {
-    const { fieldName, fieldValue, pcType, pcName, collectionIsEditing } = this.props
+    const { fieldName, pcType, pcName, collectionIsEditing } = this.props
+    const { fieldValue } = this.state
 
     return (
       <div className='form-group form-group-sm'>
@@ -38,7 +56,9 @@ export default React.createClass({
           name={fieldName}
           readOnly={!collectionIsEditing}
           className='controls form-control'
-          defaultValue={fieldValue} />
+          defaultValue={fieldValue}
+          onChange={this.onChange}
+          onBlur={this.onBlur} />
       </div>
     )
   }

@@ -6,6 +6,7 @@
 'use strict'
 
 import React from 'react'
+import { Input } from 'react-bootstrap'
 
 export default React.createClass({
   displayName: 'FieldLink',
@@ -15,11 +16,46 @@ export default React.createClass({
     fieldValue: React.PropTypes.string,
     pcType: React.PropTypes.string,
     pcName: React.PropTypes.string,
-    collectionIsEditing: React.PropTypes.bool
+    collectionIsEditing: React.PropTypes.bool,
+    onChangeObjectField: React.PropTypes.func
+  },
+
+  getInitialState () {
+    const { fieldValue } = this.props
+    return { fieldValue }
+  },
+
+  onChange (event) {
+    const fieldValue = event.target.value
+    this.setState({ fieldValue })
+  },
+
+  onBlur (event) {
+    const { fieldName, pcType, pcName, onChangeObjectField } = this.props
+    const fieldValue = event.target.value
+    onChangeObjectField(pcType, pcName, fieldName, fieldValue)
   },
 
   render () {
-    const { fieldName, fieldValue, pcType, pcName, collectionIsEditing } = this.props
+    const { fieldName, pcType, pcName, collectionIsEditing } = this.props
+    const { fieldValue } = this.state
+
+    if (collectionIsEditing) {
+      return (
+        <Input
+          type='text'
+          label={fieldName + ':'}
+          bsSize='small'
+          dsTyp={pcType}
+          dsName={pcName}
+          id={fieldName}
+          name={fieldName}
+          value={fieldValue}
+          className='controls'
+          onChange={this.onChange}
+          onBlur={this.onBlur} />
+      )
+    }
 
     return (
       <div className='form-group'>
@@ -40,7 +76,9 @@ export default React.createClass({
               type='text'
               value={fieldValue}
               readOnly={!collectionIsEditing}
-              style={{'cursor': 'pointer'}} />
+              style={{'cursor': 'pointer'}}
+              onChange={this.onChange}
+              onBlur={this.onBlur} />
           </a>
         </p>
       </div>
