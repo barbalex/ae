@@ -59,7 +59,7 @@ export default React.createClass({
     if (synonymObjects.length > 0) {
       synonymObjects.forEach((synonymObject) => {
         // property collections
-        if (synonymObject.Eigenschaftensammlungen && synonymObject.Eigenschaftensammlungen.length > 0) {
+        if (synonymObject && synonymObject.Eigenschaftensammlungen && synonymObject.Eigenschaftensammlungen.length > 0) {
           synonymObject.Eigenschaftensammlungen.forEach((pc) => {
             if (!namesOfPcsBuilt.includes(pc.Name)) {
               // this pc is not yet shown
@@ -73,7 +73,7 @@ export default React.createClass({
         /**
          * build rcsOfSynonyms
          */
-        if (synonymObject.Beziehungssammlungen && synonymObject.Beziehungssammlungen.length > 0) {
+        if (synonymObject && synonymObject.Beziehungssammlungen && synonymObject.Beziehungssammlungen.length > 0) {
           synonymObject.Beziehungssammlungen.forEach((rcOfSynonym) => {
             if (!namesOfRcsBuilt.includes(rcOfSynonym.Name) && rcOfSynonym['Art der Beziehungen'] !== 'synonym' && rcOfSynonym.Typ !== 'taxonomisch') {
               // this rc is not yet shown and is not taxonomic
