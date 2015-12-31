@@ -47,8 +47,9 @@
 
 // TODO: refactor to remove repeating code
 
-import { clone, get, has } from 'lodash'
+import { clone } from 'lodash'
 import replaceProblematicPathCharactersFromArray from './replaceProblematicPathCharactersFromArray.js'
+import getHierarchyFromObject from './getHierarchyFromObject.js'
 
 const buildEl = {
   1 (hierarchy, hArray) {
@@ -258,15 +259,8 @@ export default (objects) => {
   // used to use .map but that contained undefined elements because it always returns a value
   const hierarchiesArray = []
   objects.forEach((object) => {
-    if (object.Taxonomien) {
-      const standardtaxonomie = object.Taxonomien.find((taxonomy) => taxonomy['Standardtaxonomie'])
-      if (standardtaxonomie && has(standardtaxonomie, 'Eigenschaften.Hierarchie') && object.Gruppe) {
-        const hArray = get(standardtaxonomie, 'Eigenschaften.Hierarchie')
-        const gruppenObjekt = {'Name': object.Gruppe}
-        hArray.unshift(gruppenObjekt)
-        hierarchiesArray.push(hArray)
-      }
-    }
+    const hArray = getHierarchyFromObject(object)
+    if (hArray) hierarchiesArray.push(hArray)
   })
 
   hierarchiesArray.forEach((hArray) => {
