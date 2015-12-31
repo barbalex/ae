@@ -31,7 +31,7 @@
         }
       ]
     }
- * the function recieves objects
+ * the function receives objects
  * it builds hierarchy
  * building principle:
  * 0. use the array in Eigenschaften.Hierarchie of the desired taxonomy
@@ -39,7 +39,7 @@
  * 2. build the next level for each member of the passed in level
  * 3. repeat until there is no more hierarchy object
  *
- * later this function can be changed to build hierarchy objects for taxonomies
+ * later this function can be changed to build hierarchy objects for non standard taxonomies
  * in the meantime Standardtaxonomie is used
  */
 

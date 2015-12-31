@@ -1376,7 +1376,6 @@ export default (Actions) => {
        * 6. update hierarchy
        * 7. replicate changes to remoteDb
        */
-      console.log('hi, saving', object)
       
       // 1. write object to localDb
       app.localDb.put(object)
