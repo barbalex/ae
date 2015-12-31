@@ -1369,18 +1369,19 @@ export default (Actions) => {
     onSaveObject (object, oldObject) {
       /**
        * 1. write object to localDb
-       * 2. update active object rev
+       * 2. update object rev
        * 3. if object is active: update activeObjectStore
        * 4. replace path in pathStore
        * 5. replace filter options in filterOptionsStore
-       * 6. replicate changes to remoteDb
+       * 6. update hierarchy
+       * 7. replicate changes to remoteDb
        */
       console.log('hi, saving', object)
       
       // 1. write object to localDb
       app.localDb.put(object)
         .then((result) => {
-          // 2. update active object rev
+          // 2. update object rev
           object._rev = result.rev
           // 3. if object is active: update activeObjectStore
           const objectIsActive = app.activeObjectStore.item && app.activeObjectStore.item._id && app.activeObjectStore.item._id === object._id
@@ -1389,7 +1390,9 @@ export default (Actions) => {
           app.Actions.changePathForObject(object)
           // 5. replace filter options in filterOptionsStore
           app.Actions.changeFilterOptionsForObject(object)
-          // 6. replicate changes to remoteDb
+          // TODO: 6. update hierarchy
+
+          // 7. replicate changes to remoteDb
           app.Actions.replicateToRemoteDb()
         })
         .catch((error) => {
