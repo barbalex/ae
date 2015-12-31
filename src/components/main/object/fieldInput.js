@@ -25,14 +25,25 @@ export default React.createClass({
     onChangeObjectField: React.PropTypes.func
   },
 
+  getInitialState () {
+    const { fieldValue } = this.props
+    return { fieldValue }
+  },
+
   onChange (event) {
+    const fieldValue = event.target.value
+    this.setState({ fieldValue })
+  },
+
+  onBlur (event) {
     const { fieldName, pcType, pcName, onChangeObjectField } = this.props
     const fieldValue = event.target.value
     onChangeObjectField(pcType, pcName, fieldName, fieldValue)
   },
 
   render () {
-    const { fieldName, fieldValue, inputType, pcType, pcName, collectionIsEditing } = this.props
+    const { fieldName, inputType, pcType, pcName, collectionIsEditing } = this.props
+    const { fieldValue } = this.state
 
     return (
       <Input
@@ -46,7 +57,8 @@ export default React.createClass({
         value={fieldValue}
         readOnly={!collectionIsEditing}
         className='controls'
-        onChange={this.onChange} />
+        onChange={this.onChange}
+        onBlur={this.onBlur} />
     )
   }
 })

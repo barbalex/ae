@@ -3,7 +3,7 @@
 import app from 'ampersand-app'
 import { ListenerMixin } from 'reflux'
 import React from 'react'
-import { pluck, difference, union } from 'lodash'
+import { cloneDeep, pluck, difference, union } from 'lodash'
 import moment from 'moment'
 import MenuButton from './menu/menuButton/menuButton.js'
 import ResizeButton from './menu/resizeButton.js'
@@ -238,18 +238,25 @@ export default React.createClass({
 
   onChangeObjectField (pcType, pcName, fieldName, fieldValue) {
     let { object } = this.state
+    const oldObject = cloneDeep(object)
     const pcTypeHash = {
       'Taxonomie': 'Taxonomien',
       'Datensammlung': 'Eigenschaftensammlungen',
       'Eigenschaftensammlung': 'Eigenschaftensammlungen',
       'Beziehungssammlung': 'Beziehungssammlungen'
     }
+    console.log('home.js, object', object)
+    console.log('home.js, pcType', pcType)
+    console.log('home.js, pcName', pcName)
+    console.log('home.js, fieldName', fieldName)
+    console.log('home.js, fieldValue', fieldValue)
     if (object) {
       const collection = object[pcTypeHash[pcType]].find((pc) => pc.Name === pcName)
       if (collection) {
         collection.Eigenschaften[fieldName] = fieldValue
+        console.log('home.js, object to save', object)
+        app.Actions.saveObject(object, oldObject)
       }
-      app.Actions.saveObject(object)
     }
   },
 

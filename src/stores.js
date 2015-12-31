@@ -1236,7 +1236,7 @@ export default (Actions) => {
             .catch((error) =>
               app.Actions.showError({title: 'activeObjectStore: error fetching synonyms of object:', msg: error})
             )
-          }
+        }
       }
     }
   })
@@ -1366,7 +1366,7 @@ export default (Actions) => {
       })
     },
 
-    onSaveObject (object) {
+    onSaveObject (object, oldObject) {
       /**
        * 1. if object is active: optimistically update activeObjectStore
        * 2. write object to localDb
@@ -1376,19 +1376,16 @@ export default (Actions) => {
        * 6. replace filter options in filterOptionsStore
        * 7. replicate changes to remoteDb
        */
+      console.log('hi, saving', object)
       // 1. if object is active: optimistically update activeObjectStore
       const objectIsActive = app.activeObjectStore.item && app.activeObjectStore.item._id && app.activeObjectStore.item._id === object._id
-      let oldActiveObject = null
-      if (objectIsActive) {
-        oldActiveObject = app.activeObjectStore.item
-        app.Actions.loadActiveObject(object)
-      }
+      //if (objectIsActive) app.Actions.loadActiveObject(object)
       // 2. write object to localDb
       app.localDb.put(object)
         .then((result) => {
           // 4. update active object rev
           object._rev = result.rev
-          app.Actions.loadActiveObject(object)
+          if (objectIsActive) app.Actions.loadActiveObject(object._id)
           // 5. replace path in pathStore
           app.Actions.changePathForObject(object)
           // 6. replace filter options in filterOptionsStore
@@ -1399,7 +1396,7 @@ export default (Actions) => {
         .catch((error) => {
           app.Actions.showError({ title: 'objectStore: error saving object:', msg: error })
           // 3. on error revert change to activeObjectStore
-          if (oldActiveObject) app.Actions.loadActiveObject(oldActiveObject)
+          if (oldObject) app.Actions.loadActiveObject(oldObject)
         })
     },
 
