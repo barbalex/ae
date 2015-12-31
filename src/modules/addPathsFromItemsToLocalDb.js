@@ -18,7 +18,10 @@ export default (objects) => {
       // default value (in case there is none) is []
       const path = getPathFromObject(object)
       // if path is [] make sure no path is added
-      if (path.length > 0) pathsOfGruppe[path] = object._id
+      if (path.length > 0) {
+        const url = path.join('/')
+        pathsOfGruppe[url] = object._id
+      }
     })
 
     // console.log('addPathsFromItemsToLocalDb.js, paths of gruppe ' + objects[0].Gruppe, pathsOfGruppe)
