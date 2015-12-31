@@ -1,5 +1,5 @@
 /*
- * gets an item passed
+ * gets an object passed
  * generates its path
  * and updates it in localDb
  */
@@ -7,28 +7,26 @@
 'use strict'
 
 import app from 'ampersand-app'
-import { get, pluck } from 'lodash'
-import replaceProblematicPathCharactersFromArray from './replaceProblematicPathCharactersFromArray.js'
+import getPathFromObject from './getPathFromObject.js'
 
-export default (item) => {
+export default (object) => {
   return new Promise((resolve, reject) => {
-    const standardtaxonomie = item.Taxonomien.find((taxonomy) => taxonomy['Standardtaxonomie'])
-    const hierarchy = standardtaxonomie ? get(standardtaxonomie, 'Eigenschaften.Hierarchie', []) : []
-    let path = pluck(hierarchy, 'Name')
-    let paths = []
-    if (path.length > 0) path = replaceProblematicPathCharactersFromArray(path).join('/')
-    app.localDb.get('_local/paths')
-      .then((doc) => {
-        doc.paths[path] = item._id
-        paths = doc.paths
-        app.localDb.put(doc)
-          .then(() => resolve(paths))
-          .catch((error) =>
-            reject('addPathsFromItemsToLocalDb.js: error writing paths to localDb:', error)
-          )
-      })
-      .catch((error) =>
-        reject('addPathsFromItemsToLocalDb.js: error getting paths from localDb:', error)
-      )
+    const path = getPathFromObject(object)
+    if (path.length > 0) {
+      app.localDb.get('_local/paths')
+        .then((doc) => {
+          doc.paths[path] = object._id
+          app.localDb.put(doc)
+            .then(() => resolve(doc.paths))
+            .catch((error) =>
+              reject('changePathOfObjectInLocalDb.js: error writing paths to localDb:', error)
+            )
+        })
+        .catch((error) =>
+          reject('changePathOfObjectInLocalDb.js: error getting paths from localDb:', error)
+        )
+    } else {
+      reject('changePathOfObjectInLocalDb.js: object has no path')
+    }
   })
 }
