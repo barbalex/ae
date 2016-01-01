@@ -17,9 +17,8 @@ const Nodes = React.createClass({
     path: React.PropTypes.array
   },
 
-  onClickNode (params, event) {
+  onClickNode ({ hO, path }, event) {
     event.stopPropagation()
-    const { hO, path } = params
     let guidOfObjectToLoad = hO.GUID
 
     console.log('treeNodes.js, onClickNode, hO', hO)
