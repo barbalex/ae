@@ -8,7 +8,6 @@ export default (object) => {
     const standardtaxonomie = object.Taxonomien.find((taxonomy) => taxonomy['Standardtaxonomie'])
     if (standardtaxonomie && has(standardtaxonomie, 'Eigenschaften.Hierarchie')) {
       let path = pluck(standardtaxonomie.Eigenschaften.Hierarchie, 'Name')
-      path = replaceProblematicPathCharactersFromArray(path)
       /**
        * I have no idea when Gruppe is included in path
        * if I add it it is usually doubly included
@@ -16,6 +15,7 @@ export default (object) => {
        * so only add it if not already included
        */
       if (path[0] !== object.Gruppe) path.unshift(object.Gruppe)
+      path = replaceProblematicPathCharactersFromArray(path)
       return path
     }
   }
