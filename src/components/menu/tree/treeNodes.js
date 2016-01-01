@@ -17,20 +17,22 @@ const Nodes = React.createClass({
     path: React.PropTypes.array
   },
 
-  onClickNode ({ hO, path }, event) {
+  onClickNode ({ hO, path: previousPath }, event) {
     event.stopPropagation()
     let guidOfObjectToLoad = hO.GUID
 
     console.log('treeNodes.js, onClickNode, hO', hO)
-    console.log('treeNodes.js, onClickNode, path', path)
+    console.log('treeNodes.js, onClickNode, hO.path', hO.path)
+    console.log('treeNodes.js, onClickNode, previousPath', previousPath)
+    console.log('treeNodes.js, onClickNode, this.props.path', this.props.path)
     console.log('treeNodes.js, onClickNode, guidOfObjectToLoad', guidOfObjectToLoad)
     // check if clicked node was already active:
     // if path.length is same or shorter as before
     let pathToLoad = clone(hO.path)
-    if (path.length <= hO.path.length) {
+    if (previousPath.length <= hO.path.length) {
       // and last element is same as before
       const positionToCheck = hO.path.length - 1
-      if (path[positionToCheck] === hO.path[positionToCheck]) {
+      if (previousPath[positionToCheck] === hO.path[positionToCheck]) {
         // an already active node was clicked
         // so remove the last element
         pathToLoad.pop()
