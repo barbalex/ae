@@ -21,6 +21,10 @@ const Nodes = React.createClass({
     event.stopPropagation()
     const { hO, path } = params
     let guidOfObjectToLoad = hO.GUID
+
+    console.log('treeNodes.js, onClickNode, hO', hO)
+    console.log('treeNodes.js, onClickNode, path', path)
+    console.log('treeNodes.js, onClickNode, guidOfObjectToLoad', guidOfObjectToLoad)
     // check if clicked node was already active:
     // if path.length is same or shorter as before
     let pathToLoad = clone(hO.path)
@@ -57,7 +61,7 @@ const Nodes = React.createClass({
         const keyIsActive = replaceProblematicPathCharactersFromString(hO.Name) === path[level - 1]
         const keyIsObjectShown = object !== undefined && hO.GUID && object._id === hO.GUID
         const glyph = keyIsActive ? (keyIsObjectShown ? 'forward' : 'triangle-bottom') : (hO.children && hO.children.length > 0 ? 'play' : 'minus')
-        const onClickNode = this.onClickNode.bind(this, {'hO': hO, 'path': path})
+        const onClickNode = this.onClickNode.bind(this, { hO, path })
         const showNode = replaceProblematicPathCharactersFromString(hO.Name) === activeKey && hO.children
 
         return (
