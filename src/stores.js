@@ -1436,6 +1436,9 @@ export default (Actions) => {
       // then change _local/hierarchy AND the objects themselves
       const taxonomies = object.Taxonomien
       const group = object.Gruppe
+
+      console.log('updateHierarchyForObject, object', object)
+
       if (group && taxonomies) {
         const taxonomy = taxonomies.find((taxonomy) => taxonomy.Standardtaxonomie)
         if (taxonomy) {
@@ -1447,6 +1450,9 @@ export default (Actions) => {
               app.localDb.get('_local/hierarchy')
                 .then((doc) => {
                   globalHierarchy = doc.hierarchy
+
+                  console.log('updateHierarchyForObject, got hierarchy')
+
                   // drill down to this object's hierarchy
                   const gruppeHierarchy = globalHierarchy.find((h) => h.Name === group)
                   let hierarchyPart = gruppeHierarchy
