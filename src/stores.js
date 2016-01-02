@@ -2,7 +2,7 @@
 
 import app from 'ampersand-app'
 import Reflux from 'reflux'
-import { clone, forEach, get, groupBy, isEqual, pluck, reject, union, uniq, without } from 'lodash'
+import { clone, forEach, get, groupBy, has, isEqual, pluck, reject, union, uniq, without } from 'lodash'
 import getGroupsLoadedFromLocalDb from './modules/getGroupsLoadedFromLocalDb.js'
 import getItemsFromLocalDb from './modules/getItemsFromLocalDb.js'
 import getItemFromLocalDb from './modules/getItemFromLocalDb.js'
@@ -1373,7 +1373,7 @@ export default (Actions) => {
        * 6. update hierarchy
        * 7. replicate changes to remoteDb
        */
-      
+
       // 1. write object to localDb
       app.localDb.put(object)
         .then((result) => {
@@ -1386,11 +1386,8 @@ export default (Actions) => {
           app.Actions.changePathForObject(object)
           // 5. replace filter options in filterOptionsStore
           app.Actions.changeFilterOptionsForObject(object)
-          // TODO: 6. update hierarchy
-          // TODO: if lr need to update names in child lr's hierarchies
-          // idea: use _local/hierarchy and follow its hierarchy down
-          // then change _local/hierarchy AND the objects themselves
-
+          // 6. update hierarchy
+          this.updateHierarchyForObject(object)
           // 7. replicate changes to remoteDb
           app.Actions.replicateToRemoteDb()
         })
@@ -1403,26 +1400,77 @@ export default (Actions) => {
       return getHierarchyFromLocalDb()
     },
 
-    onUpdateHierarchyForObject (object) {
-      // TODO: if lr need to update names in child lr's hierarchies
+    updateHierarchieInChildObject (guid, index, name) {
+      this.getObject(guid)
+        .then((object) => {
+          const taxonomies = object.Taxonomien
+          if (taxonomies) {
+            const taxonomy = taxonomies.find((taxonomy) => taxonomy.Standardtaxonomie)
+            if (taxonomy) {
+              const hierarchy = get(taxonomy, 'Eigenschaften.Hierarchie')
+              if (hierarchy && hierarchy.length && hierarchy.length > 0 && hierarchy[index] && hierarchy[index].Name) {
+                hierarchy[index].Name = name
+                return app.localDb.put(object)
+              }
+            }
+          }
+        })
+        .catch((error) => app.Actions.showError({ title: 'objectStore: error updating hierarchy in child object:', msg: error }))
+    },
+
+    updateChildrensPath (child, index, name) {
+      // 1. update path of child
+      child.path[index] = name
+      // 2. update Hierarchie in child object
+      if (child.GUID) this.updateHierarchieInChildObject(child.GUID, index - 1, name)
+      // 3. update it's children
+      const children = child.children
+      if (children && children.length && children.length > 0) {
+        children.forEach((child) => this.updateChildrensPath(child, index, name))
+      }
+    },
+
+    updateHierarchyForObject (object) {
+      // if lr need to update names in child lr's hierarchies
       // idea: use _local/hierarchy and follow its hierarchy down
       // then change _local/hierarchy AND the objects themselves
       const taxonomies = object.Taxonomien
-      if (taxonomies) {
+      const group = object.Gruppe
+      if (group && taxonomies) {
         const taxonomy = taxonomies.find((taxonomy) => taxonomy.Standardtaxonomie)
         if (taxonomy) {
           const objectHierarchy = get(taxonomy, 'Eigenschaften.Hierarchie')
           if (objectHierarchy && objectHierarchy.length && objectHierarchy.length > 0) {
             const objectHierarchyObject = objectHierarchy[objectHierarchy.length - 1]
             if (objectHierarchyObject && objectHierarchyObject.Name && objectHierarchyObject.GUID) {
+              let globalHierarchy
               app.localDb.get('_local/hierarchy')
                 .then((doc) => {
-                  const globalHierarchy = doc.hierarchy
+                  globalHierarchy = doc.hierarchy
                   // drill down to this object's hierarchy
-                  const path = `${object.Gruppe}`
-
-
+                  const gruppeHierarchy = globalHierarchy.find((h) => h.Name === group)
+                  let hierarchyPart = gruppeHierarchy
+                  objectHierarchy.forEach((hO, index) => {
+                    if (hO.GUID) {
+                      hierarchyPart = hierarchyPart.children.find((child) => child.GUID === hO.GUID)
+                    } else {
+                      // non-LR: upper hierarchy levels have no guid
+                      hierarchyPart = hierarchyPart.children.find((child) => child.Name === hO.Name)
+                    }
+                  })
+                  // update Name
+                  hierarchyPart.Name = objectHierarchyObject.Name
+                  // now update path Name in all childrens hierarchy objects
+                  let children = hierarchyPart.children
+                  if (children && children.length && children.length > 0) {
+                    children.forEach((child) =>
+                      this.updateChildrensPath(child, objectHierarchy.length, objectHierarchyObject.Name)
+                    )
+                  }
+                  // save doc
+                  return app.localDb.put(doc)
                 })
+                .then(() => this.trigger(globalHierarchy))
                 .catch((error) =>
                   reject('objectStore: error updating hierarchy for object: ' + error)
                 )
