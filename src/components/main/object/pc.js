@@ -98,12 +98,14 @@ export default React.createClass({
     onChangeObjectField: React.PropTypes.func,
     editObjects: React.PropTypes.bool,
     toggleEditObjects: React.PropTypes.func,
+    addNewObject: React.PropTypes.func,
+    removeObject: React.PropTypes.func,
     propertyCollection: React.PropTypes.object,
     userRoles: React.PropTypes.array
   },
 
   render () {
-    const { propertyCollection, pcType, object, onChangeObjectField, userRoles, editObjects, toggleEditObjects } = this.props
+    const { propertyCollection, pcType, object, onChangeObjectField, userRoles, editObjects, toggleEditObjects, addNewObject, removeObject } = this.props
     const pcName = replaceInvalidCharactersInIdNames(propertyCollection.Name)
     const isLr = object.Gruppe === 'Lebensräume'
     const org = propertyCollection['Organisation mit Schreibrecht']
@@ -134,7 +136,9 @@ export default React.createClass({
             collectionIsEditable
             ? <EditButtonGroup
                 editObjects={editObjects}
-                toggleEditObjects={toggleEditObjects} />
+                toggleEditObjects={toggleEditObjects}
+                addNewObject={addNewObject}
+                removeObject={removeObject} />
             : null
           }
           {

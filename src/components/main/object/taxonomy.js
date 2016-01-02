@@ -11,11 +11,13 @@ export default React.createClass({
     onChangeObjectField: React.PropTypes.func,
     userRoles: React.PropTypes.array,
     editObjects: React.PropTypes.bool,
-    toggleEditObjects: React.PropTypes.func
+    toggleEditObjects: React.PropTypes.func,
+    addNewObject: React.PropTypes.func,
+    removeObject: React.PropTypes.func
   },
 
   render () {
-    const { object, onChangeObjectField, userRoles, editObjects, toggleEditObjects } = this.props
+    const { object, onChangeObjectField, userRoles, editObjects, toggleEditObjects, addNewObject, removeObject } = this.props
     const standardtaxonomie = object.Taxonomien.find((taxonomy) => taxonomy.Standardtaxonomie)
 
     return (
@@ -30,7 +32,9 @@ export default React.createClass({
           propertyCollection={standardtaxonomie}
           userRoles={userRoles}
           editObjects={editObjects}
-          toggleEditObjects={toggleEditObjects} />
+          toggleEditObjects={toggleEditObjects}
+          addNewObject={addNewObject}$
+          removeObject={removeObject} />
       </div>
     )
   }

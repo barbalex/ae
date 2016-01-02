@@ -24,11 +24,13 @@ export default React.createClass({
     synonymObjects: React.PropTypes.array,
     userRoles: React.PropTypes.array,
     editObjects: React.PropTypes.bool,
-    toggleEditObjects: React.PropTypes.func
+    toggleEditObjects: React.PropTypes.func,
+    addNewObject: React.PropTypes.func,
+    removeObject: React.PropTypes.func
   },
 
   render () {
-    const { object, onChangeObjectField, synonymObjects, userRoles, editObjects, toggleEditObjects } = this.props
+    const { object, onChangeObjectField, synonymObjects, userRoles, editObjects, toggleEditObjects, addNewObject, removeObject } = this.props
     let objectRcs = []
     let taxRcs = []
     let pcsOfSynonyms = []
@@ -116,7 +118,9 @@ export default React.createClass({
           onChangeObjectField={onChangeObjectField}
           userRoles={userRoles}
           editObjects={editObjects}
-          toggleEditObjects={toggleEditObjects} />
+          toggleEditObjects={toggleEditObjects}
+          addNewObject={addNewObject}
+          removeObject={removeObject} />
         {
           taxRcs.length > 0
           ? <TaxonomicRelationCollections

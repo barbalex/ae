@@ -14,6 +14,8 @@ export default React.createClass({
   propTypes: {
     editObjects: React.PropTypes.bool,
     toggleEditObjects: React.PropTypes.func,
+    addNewObject: React.PropTypes.func,
+    removeObject: React.PropTypes.func,
     showEditButtonOverlay: React.PropTypes.bool,
     showAddButtonOverlay: React.PropTypes.bool,
     showRemoveButtonOverlay: React.PropTypes.bool
@@ -36,12 +38,13 @@ export default React.createClass({
   },
 
   addButton () {
-    const { editObjects } = this.props
+    const { editObjects, addNewObject } = this.props
     return (
       <OverlayTrigger
         overlay={<Tooltip id='addButtonTooltip'>neu</Tooltip>}
         placement='top'>
         <Button
+          onClick={addNewObject}
           disabled={!editObjects}>
           <Glyphicon glyph='plus' />
         </Button>
@@ -50,12 +53,13 @@ export default React.createClass({
   },
 
   removeButton () {
-    const { editObjects } = this.props
+    const { editObjects, removeObject } = this.props
     return (
       <OverlayTrigger
         overlay={<Tooltip id='editingButtonTooltip'>löschen</Tooltip>}
         placement='top'>
         <Button
+          onClick={removeObject}
           disabled={!editObjects}>
           <Glyphicon glyph='trash' />
         </Button>

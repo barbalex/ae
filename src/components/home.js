@@ -237,6 +237,14 @@ export default React.createClass({
     this.setState({ editObjects: !editObjects })
   },
 
+  addNewObject () {
+    app.Actions.showError({title: 'Dieses Feature ist noch nicht implementiert'})
+  },
+
+  removeObject () {
+    app.Actions.showError({title: 'Dieses Feature ist noch nicht implementiert'})
+  },
+
   onChangeObjectField (pcType, pcName, fieldName, fieldValue) {
     let { object } = this.state
     const oldObject = cloneDeep(object)
@@ -337,6 +345,8 @@ export default React.createClass({
               onChangeObjectField={this.onChangeObjectField}
               editObjects={editObjects}
               toggleEditObjects={this.toggleEditObjects}
+              addNewObject={this.addNewObject}
+              removeObject={this.removeObject}
               allGroupsLoaded={allGroupsLoaded}
               groupsLoadedOrLoading={groupsLoadedOrLoading}
               groupsLoadingObjects={groupsLoadingObjects}
