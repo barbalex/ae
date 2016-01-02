@@ -251,24 +251,12 @@ export default React.createClass({
       if (collection) {
         collection.Eigenschaften[fieldName] = fieldValue
         // if this field is contained in Hierarchien, need to update that
-
-        console.log('onChangeObjectField, pcType', pcType)
-        console.log('onChangeObjectField, collection.Hierarchie', collection.Eigenschaften.Hierarchie)
-
         if (pcType === 'Taxonomie' && collection.Eigenschaften.Hierarchie) {
           const hO = buildHierarchyObjectFromObjectForTaxonomy(object, pcName)
-
-          console.log('onChangeObjectField, hierarchyObject', hO)
-
           if (hO) {
             let hierarchy = collection.Eigenschaften.Hierarchie
-
-            console.log('onChangeObjectField, hierarchy before changing', hierarchy)
-
             hierarchy.pop()
             hierarchy.push(hO)
-
-            console.log('onChangeObjectField, hierarchy after changing', hierarchy)
           }
         }
         app.Actions.saveObject(object, oldObject)
