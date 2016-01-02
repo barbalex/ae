@@ -35,6 +35,7 @@ import getRoleFromOrgField from './components/main/organizations/getRoleFromOrgF
 import refreshUserRoles from './modules/refreshUserRoles.js'
 import changePathOfObjectInLocalDb from './modules/changePathOfObjectInLocalDb.js'
 import buildFilterOptionsFromObject from './modules/buildFilterOptionsFromObject.js'
+import updateActivePathFromObject from './modules/updateActivePathFromObject.js'
 
 export default (Actions) => {
   app.exportDataStore = Reflux.createStore({
@@ -1103,10 +1104,6 @@ export default (Actions) => {
      */
     listenables: Actions,
 
-    onChangePathForObject (object) {
-      changePathOfObjectInLocalDb(object)
-    },
-
     onLoadPaths (newItemsPassed) {
       // get existing paths
       addPathsFromItemsToLocalDb(newItemsPassed)
@@ -1369,6 +1366,7 @@ export default (Actions) => {
        * 2. update object rev
        * 3. if object is active: update activeObjectStore
        * 4. replace path in pathStore
+       * 5. replace path in activePathStore
        * 5. replace filter options in filterOptionsStore
        * 6. update hierarchy
        * 7. replicate changes to remoteDb
@@ -1383,7 +1381,8 @@ export default (Actions) => {
           const objectIsActive = app.activeObjectStore.item && app.activeObjectStore.item._id && app.activeObjectStore.item._id === object._id
           if (objectIsActive) app.Actions.loadActiveObject(object._id)
           // 4. replace path in pathStore
-          app.Actions.changePathForObject(object)
+          changePathOfObjectInLocalDb(object)
+          updateActivePathFromObject(object)
           // 5. replace filter options in filterOptionsStore
           app.Actions.changeFilterOptionsForObject(object)
           // 6. update hierarchy
