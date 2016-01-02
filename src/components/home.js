@@ -16,6 +16,7 @@ import getGruppen from '../modules/gruppen.js'
 import NavHelper from '../components/navHelper.js'
 import kickOffStores from '../modules/kickOffStores.js'
 import Login from './main/login/login.js'
+import buildHierarchyObjectFromObjectForTaxonomy from '../modules/buildHierarchyObjectFromObjectForTaxonomy.js'
 
 const gruppen = getGruppen()
 
@@ -245,16 +246,19 @@ export default React.createClass({
       'Eigenschaftensammlung': 'Eigenschaftensammlungen',
       'Beziehungssammlung': 'Beziehungssammlungen'
     }
-    console.log('home.js, object', object)
-    console.log('home.js, pcType', pcType)
-    console.log('home.js, pcName', pcName)
-    console.log('home.js, fieldName', fieldName)
-    console.log('home.js, fieldValue', fieldValue)
     if (object) {
       const collection = object[pcTypeHash[pcType]].find((pc) => pc.Name === pcName)
       if (collection) {
         collection.Eigenschaften[fieldName] = fieldValue
-        console.log('home.js, object to save', object)
+        // if this field is contained in Hierarchien, need to update that
+        if (pcType === 'Taxonomie' && collection.Hierarchie) {
+          const hO = buildHierarchyObjectFromObjectForTaxonomy(object, pcName)
+          if (hO) {
+            let hierarchy = collection.Eigenschaften.Hierarchie
+            hierarchy.pop()
+            hierarchy.push(hO)
+          }
+        }
         app.Actions.saveObject(object, oldObject)
       }
     }

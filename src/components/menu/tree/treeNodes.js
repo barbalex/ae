@@ -20,12 +20,6 @@ const Nodes = React.createClass({
   onClickNode ({ hO, path: previousPath }, event) {
     event.stopPropagation()
     let guidOfObjectToLoad = hO.GUID
-
-    console.log('treeNodes.js, onClickNode, hO', hO)
-    console.log('treeNodes.js, onClickNode, hO.path', hO.path)
-    console.log('treeNodes.js, onClickNode, previousPath', previousPath)
-    console.log('treeNodes.js, onClickNode, this.props.path', this.props.path)
-    console.log('treeNodes.js, onClickNode, guidOfObjectToLoad', guidOfObjectToLoad)
     // check if clicked node was already active:
     // if path.length is same or shorter as before
     let pathToLoad = clone(hO.path)

@@ -52,7 +52,8 @@ export default () => {
     getTcsOfOrganization: {},
     saveObject: {},
     newObject: {},
-    deleteObject: {}
+    deleteObject: {},
+    updateHierarchyForObject: {}
   })
 
   Actions.loadPouchFromRemote.listen(() => {

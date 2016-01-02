@@ -14,6 +14,7 @@ export default React.createClass({
     const { object } = this.props
     const pcs = object.Eigenschaftensammlungen
     let pcComponent = null
+
     if (pcs && pcs.length > 0) {
       pcComponent = pcs.map((pc, index) => (
         <PropertyCollection

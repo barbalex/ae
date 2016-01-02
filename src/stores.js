@@ -2,7 +2,7 @@
 
 import app from 'ampersand-app'
 import Reflux from 'reflux'
-import { clone, forEach, groupBy, isEqual, pluck, reject, union, uniq, without } from 'lodash'
+import { clone, forEach, get, groupBy, isEqual, pluck, reject, union, uniq, without } from 'lodash'
 import getGroupsLoadedFromLocalDb from './modules/getGroupsLoadedFromLocalDb.js'
 import getItemsFromLocalDb from './modules/getItemsFromLocalDb.js'
 import getItemFromLocalDb from './modules/getItemFromLocalDb.js'
@@ -120,10 +120,7 @@ export default (Actions) => {
     onReplicateToRemoteDb () {
       this.trigger('replicating')
       app.localDb.replicate.to(app.remoteDb)
-        .then((result) => {
-          console.log('replicateToRemoteDbStore, result', result)
-          this.trigger('success')
-        })
+        .then((result) => this.trigger('success'))
         .catch((error) => {
           console.log('replicateToRemoteDbStore, error', error)
           this.trigger('error')
@@ -1390,6 +1387,9 @@ export default (Actions) => {
           // 5. replace filter options in filterOptionsStore
           app.Actions.changeFilterOptionsForObject(object)
           // TODO: 6. update hierarchy
+          // TODO: if lr need to update names in child lr's hierarchies
+          // idea: use _local/hierarchy and follow its hierarchy down
+          // then change _local/hierarchy AND the objects themselves
 
           // 7. replicate changes to remoteDb
           app.Actions.replicateToRemoteDb()
@@ -1401,6 +1401,35 @@ export default (Actions) => {
 
     getHierarchy () {
       return getHierarchyFromLocalDb()
+    },
+
+    onUpdateHierarchyForObject (object) {
+      // TODO: if lr need to update names in child lr's hierarchies
+      // idea: use _local/hierarchy and follow its hierarchy down
+      // then change _local/hierarchy AND the objects themselves
+      const taxonomies = object.Taxonomien
+      if (taxonomies) {
+        const taxonomy = taxonomies.find((taxonomy) => taxonomy.Standardtaxonomie)
+        if (taxonomy) {
+          const objectHierarchy = get(taxonomy, 'Eigenschaften.Hierarchie')
+          if (objectHierarchy && objectHierarchy.length && objectHierarchy.length > 0) {
+            const objectHierarchyObject = objectHierarchy[objectHierarchy.length - 1]
+            if (objectHierarchyObject && objectHierarchyObject.Name && objectHierarchyObject.GUID) {
+              app.localDb.get('_local/hierarchy')
+                .then((doc) => {
+                  const globalHierarchy = doc.hierarchy
+                  // drill down to this object's hierarchy
+                  const path = `${object.Gruppe}`
+
+
+                })
+                .catch((error) =>
+                  reject('objectStore: error updating hierarchy for object: ' + error)
+                )
+            }
+          }
+        }
+      }
     },
 
     onLoadPouchFromLocalCompleted (groupsLoadedInPouch) {
