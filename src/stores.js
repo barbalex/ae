@@ -1132,14 +1132,11 @@ export default (Actions) => {
       })
     },
 
-    onLoadFilterOptions () {
-      const filterOptions = null
+    onLoadFilterOptions (newItemsPassed) {
+      let filterOptions = null
       const loading = true
       this.trigger({ filterOptions, loading })
-    },
-
-    onLoadFilterOptionsCompleted (newItemsPassed) {
-      let filterOptions = []
+      filterOptions = []
       // get existing filterOptions
       this.getOptions()
         .then((optionsFromPouch) => {
