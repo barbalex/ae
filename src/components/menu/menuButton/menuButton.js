@@ -6,7 +6,7 @@ import { Button, ButtonGroup, DropdownButton, MenuItem } from 'react-bootstrap'
 import InputIndexes from './inputIndexes.js'
 import buildGoogleImageLink from '../../../modules/buildGoogleImageLink.js'
 import buildWikipediaLink from '../../../modules/buildWikipediaLink.js'
-import rebuildObjectDerivedData from '../../../modules/rebuildObjectDerivedData.js'
+import ObjectDerivedDataMenuItem from './objectDerivedDataMenuItem.js'
 
 export default React.createClass({
   displayName: 'MenuButton',
@@ -27,11 +27,6 @@ export default React.createClass({
 
   importRelationsCollection () {
     app.Actions.loadActivePath(['importieren', 'beziehungen'])
-  },
-
-  rebuildObjectDerivedData () {
-    app.Actions.showError({title: 'Sorry, dieses Feature ist noch nicht implementiert'})
-    rebuildObjectDerivedData()
   },
 
   openOrganisationen () {
@@ -129,10 +124,7 @@ export default React.createClass({
               <strong>Nach</strong> arteigenschaften.ch replizieren
             </MenuItem>
             <MenuItem divider/>
-            <MenuItem
-              onSelect={this.rebuildObjectDerivedData}>
-              Von den Objekten abhängige Daten neu aufbauen
-            </MenuItem>
+            <ObjectDerivedDataMenuItem />
             <MenuItem divider/>
             <MenuItem header>
               Indizes:

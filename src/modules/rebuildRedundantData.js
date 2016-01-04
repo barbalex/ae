@@ -13,6 +13,9 @@ export default () => {
   let objects = []
   let hierarchy
   // 1. get objects from localDb
+
+  console.log('rebuilding redundant data')
+
   app.objectStore.getObjects()
     .then((items) => {
       objects = items
@@ -23,7 +26,7 @@ export default () => {
     .then((doc) => {
       doc.hierarchy = buildHierarchy(objects)
       hierarchy = doc.hierarchy
-      console.log('rebuildObjectDerivedData.js, hierarchy', hierarchy)
+      console.log('rebuildRedundantData.js, hierarchy', hierarchy)
       return app.localDb.put(doc)
     })
     // 3. update groups loaded

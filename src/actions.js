@@ -28,6 +28,7 @@ export default () => {
     loadActivePath: {},
     login: {},
     showGroupLoading: {},
+    showReloadingObjectDerivedData: {},
     queryTaxonomyCollections: {},
     queryPropertyCollections: {},
     queryRelationCollections: {},
