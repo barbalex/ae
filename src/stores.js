@@ -2,7 +2,7 @@
 
 import app from 'ampersand-app'
 import Reflux from 'reflux'
-import { clone, difference, forEach, get, groupBy, isEqual, pluck, reject, union, uniq, without } from 'lodash'
+import { clone, difference, forEach, get, groupBy, isEqual, pluck, reject, reject as _reject, union, uniq, without } from 'lodash'
 import getGroupsLoadedFromLocalDb from './modules/getGroupsLoadedFromLocalDb.js'
 import getItemsFromLocalDb from './modules/getItemsFromLocalDb.js'
 import getItemFromLocalDb from './modules/getItemFromLocalDb.js'
@@ -674,7 +674,7 @@ export default (Actions) => {
         let allFields = []
         app.localDb.get('_local/fields')
           .then((doc) => {
-            if (doc.fields.length > 0) doc.fields = reject(doc.fields, (field) => field.group === group)
+            if (doc.fields.length > 0) doc.fields = _reject(doc.fields, (field) => field.group === group)
             doc.fields = doc.fields.concat(fields)
             allFields = doc.fields
             return app.localDb.put(doc)
@@ -749,7 +749,9 @@ export default (Actions) => {
     queryFieldsOfGroup ({ groupsToExport, group, combineTaxonomies, offlineIndexes }) {
       // fetch up to date fields for the requested group
       queryFieldsOfGroup(group, offlineIndexes)
-        .then((fieldsOfGroup) => this.saveFieldsOfGroup(fieldsOfGroup, group))
+        .then((fieldsOfGroup) => {
+          return this.saveFieldsOfGroup(fieldsOfGroup, group)
+        })
         .then((allFields) => {
           const taxonomyFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'taxonomy', combineTaxonomies)
           const pcFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'propertyCollection')
