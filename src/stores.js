@@ -1133,14 +1133,14 @@ export default (Actions) => {
     },
 
     onLoadFilterOptions (newItemsPassed) {
-      let filterOptions = null
-      const loading = true
-      this.trigger({ filterOptions, loading })
-      filterOptions = []
+      this.trigger({
+        filterOptions: null,
+        loading: true
+      })
       // get existing filterOptions
       this.getOptions()
         .then((optionsFromPouch) => {
-          filterOptions = filterOptions.concat(optionsFromPouch)
+          let filterOptions = optionsFromPouch
           if (newItemsPassed) filterOptions = filterOptions.concat(buildFilterOptions(newItemsPassed))
           const loading = false
           this.trigger({ filterOptions, loading })
@@ -1267,10 +1267,11 @@ export default (Actions) => {
       })
     },
 
-    onShowGroupLoading ({ group, allGroups, finishedLoading }) {
+    onShowGroupLoading (objectPassed) {
       // groups: after loading all groups in parallel from remoteDb
       // need to pass a single action for all
       // otherwise 5 addGroupsLoadedToLocalDb calls occur at the same moment...
+      const { group, allGroups, finishedLoading } = objectPassed
       const gruppen = getGruppen()
 
       getGroupsLoadedFromLocalDb()
@@ -1284,7 +1285,7 @@ export default (Actions) => {
           // add the passed object, if it is not yet loaded
           if (!finishedLoading) {
             // add it to the beginning of the array
-            this.groupsLoading.unshift({ group, allGroups, finishedLoading })
+            this.groupsLoading.unshift(objectPassed)
           }
           groupsLoaded = allGroups ? gruppen : union(groupsLoaded, [group])
           if (finishedLoading) {

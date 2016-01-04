@@ -219,8 +219,7 @@ export default React.createClass({
     this.setState({ object, guid, synonymObjects })
   },
 
-  onFilterOptionsStoreChange (payload) {
-    const { filterOptions, loading: loadingFilterOptions } = payload
+  onFilterOptionsStoreChange ({ filterOptions, loading: loadingFilterOptions }) {
     let state = { loadingFilterOptions }
     if (filterOptions) state = Object.assign(state, { filterOptions })
     this.setState(state)
