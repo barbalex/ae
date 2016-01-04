@@ -28,6 +28,10 @@ export default React.createClass({
     app.Actions.loadActivePath(['importieren', 'beziehungen'])
   },
 
+  rebuildHierarchy () {
+    console.log('should rebuild hierarchy')
+  },
+
   openOrganisationen () {
     app.Actions.loadActivePath(['organisationen'])
   },
@@ -121,6 +125,11 @@ export default React.createClass({
             <MenuItem
               onSelect={this.replicateToRemoteDb}>
               <strong>Nach</strong> arteigenschaften.ch replizieren
+            </MenuItem>
+            <MenuItem divider/>
+            <MenuItem
+              onSelect={this.rebuildHierarchy}>
+              Hierarchie neu aufbauen
             </MenuItem>
             <MenuItem divider/>
             <MenuItem header>
