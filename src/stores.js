@@ -2,7 +2,7 @@
 
 import app from 'ampersand-app'
 import Reflux from 'reflux'
-import { clone, forEach, get, groupBy, has, isEqual, pluck, reject, union, uniq, without } from 'lodash'
+import { clone, forEach, get, groupBy, isEqual, pluck, reject, union, uniq, without } from 'lodash'
 import getGroupsLoadedFromLocalDb from './modules/getGroupsLoadedFromLocalDb.js'
 import getItemsFromLocalDb from './modules/getItemsFromLocalDb.js'
 import getItemFromLocalDb from './modules/getItemFromLocalDb.js'
@@ -1270,11 +1270,10 @@ export default (Actions) => {
       })
     },
 
-    onShowGroupLoading (objectPassed) {
+    onShowGroupLoading ({ group, allGroups, finishedLoading }) {
       // groups: after loading all groups in parallel from remoteDb
       // need to pass a single action for all
       // otherwise 5 addGroupsLoadedToLocalDb calls occur at the same moment...
-      const { group, allGroups, finishedLoading } = objectPassed
       const gruppen = getGruppen()
 
       getGroupsLoadedFromLocalDb()
@@ -1288,7 +1287,7 @@ export default (Actions) => {
           // add the passed object, if it is not yet loaded
           if (!finishedLoading) {
             // add it to the beginning of the array
-            this.groupsLoading.unshift(objectPassed)
+            this.groupsLoading.unshift({ group, allGroups, finishedLoading })
           }
           groupsLoaded = allGroups ? gruppen : union(groupsLoaded, [group])
           if (finishedLoading) {
