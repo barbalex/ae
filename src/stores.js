@@ -2,7 +2,7 @@
 
 import app from 'ampersand-app'
 import Reflux from 'reflux'
-import { clone, forEach, get, groupBy, isEqual, pluck, reject, union, uniq, without } from 'lodash'
+import { clone, difference, forEach, get, groupBy, isEqual, pluck, reject, union, uniq, without } from 'lodash'
 import getGroupsLoadedFromLocalDb from './modules/getGroupsLoadedFromLocalDb.js'
 import getItemsFromLocalDb from './modules/getItemsFromLocalDb.js'
 import getItemFromLocalDb from './modules/getItemFromLocalDb.js'
@@ -1202,7 +1202,27 @@ export default (Actions) => {
     item: {},
 
     onLoadActiveObject (guid) {
-
+      // check if group is loaded > get object from objectStore
+      if (!guid) {
+        this.onLoadActiveObjectCompleted({})
+      } else {
+        app.objectStore.getObject(guid)
+          // group is already loaded
+          // pass object to activeObjectStore by completing action
+          // if object is empty, store will have no item
+          // so there is never a failed action
+          .then((object) => this.onLoadActiveObjectCompleted(object))
+          .catch((error) => {  // eslint-disable-line handle-callback-err
+            // this group is not loaded yet
+            // get Object from couch
+            app.remoteDb.get(guid, { include_docs: true })
+              .then((object) => this.onLoadActiveObjectCompleted(object))
+              .catch((error) => app.Actions.showError({
+                title: 'error fetching doc from remoteDb with guid ' + guid + ':',
+                msg: error
+              }))
+          })
+      }
     },
 
     onLoadActiveObjectCompleted (item) {
@@ -1488,6 +1508,22 @@ export default (Actions) => {
     onLoadPouchFromLocal (groupsLoadedInPouch) {
       Actions.loadFilterOptions()
       this.getHierarchy()
+    },
+
+    onLoadPouchFromRemote () {
+      const groups = getGruppen()
+      let groupsLoading = []
+      // get groups already loaded
+      app.loadingGroupsStore.groupsLoaded()
+        .then((groupsLoaded) => {
+          groupsLoading = difference(groups, groupsLoaded)
+          // load all groups not yet loaded
+          groupsLoading.forEach((group) => Actions.loadObject(group))
+        })
+        .catch((error) => app.Actions.showError({
+          title: 'Actions.loadPouchFromRemote, error loading groups:',
+          msg: error
+        }))
     },
 
     onLoadObject (gruppe) {
