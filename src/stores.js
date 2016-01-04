@@ -1201,6 +1201,10 @@ export default (Actions) => {
 
     item: {},
 
+    onLoadActiveObject (guid) {
+
+    },
+
     onLoadActiveObjectCompleted (item) {
       // console.log('activeObjectStore, onLoadActiveObjectCompleted, item', item)
       // only change if active item has changed
