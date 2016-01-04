@@ -6,6 +6,7 @@ import { Button, ButtonGroup, DropdownButton, MenuItem } from 'react-bootstrap'
 import InputIndexes from './inputIndexes.js'
 import buildGoogleImageLink from '../../../modules/buildGoogleImageLink.js'
 import buildWikipediaLink from '../../../modules/buildWikipediaLink.js'
+import rebuildHierarchy from '../../../modules/rebuildHierarchy.js'
 
 export default React.createClass({
   displayName: 'MenuButton',
@@ -30,11 +31,7 @@ export default React.createClass({
 
   rebuildHierarchy () {
     app.Actions.showError({title: 'Sorry, dieses Feature ist noch nicht implementiert'})
-    app.objectStore.getObjects()
-      .then((objects) => {
-        app.Actions.loadFilterOptions(objects)
-      })
-      .catch((error) => app.Actions.showError({title: 'Error rebuilding hierarhy:', msg: error}))
+    rebuildHierarchy()
   },
 
   openOrganisationen () {
