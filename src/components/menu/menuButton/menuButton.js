@@ -29,7 +29,7 @@ export default React.createClass({
   },
 
   rebuildHierarchy () {
-    console.log('should rebuild hierarchy')
+    app.Actions.showError({title: 'Sorry, dieses Feature ist noch nicht implementiert'})
   },
 
   openOrganisationen () {
