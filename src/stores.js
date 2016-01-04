@@ -663,7 +663,7 @@ export default (Actions) => {
 
     getFields () {
       return new Promise((resolve, reject) => {
-        app.localDb.get('_local/fields', { include_docs: true })
+        app.localDb.get('_local/fields')
           .then((doc) => resolve(doc.fields))
           .catch((error) => reject('Fehler in fieldsStore, getFields: ' + error))
       })
@@ -672,9 +672,9 @@ export default (Actions) => {
     saveFieldsOfGroup (fields, group) {
       return new Promise((resolve, reject) => {
         let allFields = []
-        app.localDb.get('_local/fields', { include_docs: true })
+        app.localDb.get('_local/fields')
           .then((doc) => {
-            doc.fields = reject(doc.fields, (field) => field.group === group)
+            if (doc.fields.length > 0) doc.fields = reject(doc.fields, (field) => field.group === group)
             doc.fields = doc.fields.concat(fields)
             allFields = doc.fields
             return app.localDb.put(doc)
@@ -697,7 +697,7 @@ export default (Actions) => {
 
     emptyFields () {
       return new Promise((resolve, reject) => {
-        app.localDb.get('_local/fields', { include_docs: true })
+        app.localDb.get('_local/fields')
           .then((doc) => {
             doc.fields = []
             return app.localDb.put(doc)
@@ -718,9 +718,11 @@ export default (Actions) => {
       this.trigger({ taxonomyFields, pcFields, relationFields, fieldsQuerying, fieldsQueryingError })
       this.getFields()
         .then((allFields) => {
-          taxonomyFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'taxonomy', combineTaxonomies)
-          pcFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'propertyCollection')
-          relationFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'relation')
+          if (allFields.length > 0) {
+            taxonomyFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'taxonomy', combineTaxonomies)
+            pcFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'propertyCollection')
+            relationFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'relation')
+          }
           if (!group) {
             // if no group was passed, the zusammenfassen option was changed
             fieldsQuerying = false
@@ -735,29 +737,35 @@ export default (Actions) => {
             this.trigger({ taxonomyFields, pcFields, relationFields, fieldsQuerying, fieldsQueryingError })
             if (!fieldsExistForRequestedGroup) {
               // fetch up to date fields for the requested group
-              queryFieldsOfGroup(group, offlineIndexes)
-                .then((fieldsOfGroup) => this.saveFieldsOfGroup(fieldsOfGroup, group))
-                .then((allFields) => {
-                  taxonomyFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'taxonomy', combineTaxonomies)
-                  pcFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'propertyCollection')
-                  relationFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'relation')
-                  fieldsQuerying = false
-                  return this.trigger({ taxonomyFields, pcFields, relationFields, fieldsQuerying, fieldsQueryingError })
-                })
-                .catch((error) => {
-                  taxonomyFields = {}
-                  pcFields = {}
-                  relationFields = {}
-                  fieldsQuerying = false
-                  fieldsQueryingError = error
-                  this.trigger({ taxonomyFields, pcFields, relationFields, fieldsQuerying, fieldsQueryingError })
-                })
+              this.queryFieldsOfGroup({ groupsToExport, group, combineTaxonomies, offlineIndexes })
             }
           }
         })
         .catch((error) =>
           app.Actions.showError({title: 'fieldsStore, error getting existing fields:', msg: error})
         )
+    },
+
+    queryFieldsOfGroup ({ groupsToExport, group, combineTaxonomies, offlineIndexes }) {
+      // fetch up to date fields for the requested group
+      queryFieldsOfGroup(group, offlineIndexes)
+        .then((fieldsOfGroup) => this.saveFieldsOfGroup(fieldsOfGroup, group))
+        .then((allFields) => {
+          const taxonomyFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'taxonomy', combineTaxonomies)
+          const pcFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'propertyCollection')
+          const relationFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'relation')
+          const fieldsQuerying = false
+          const fieldsQueryingError = null
+          return this.trigger({ taxonomyFields, pcFields, relationFields, fieldsQuerying, fieldsQueryingError })
+        })
+        .catch((error) => {
+          const taxonomyFields = {}
+          const pcFields = {}
+          const relationFields = {}
+          const fieldsQuerying = false
+          const fieldsQueryingError = error
+          this.trigger({ taxonomyFields, pcFields, relationFields, fieldsQuerying, fieldsQueryingError })
+        })
     }
   })
 
@@ -779,7 +787,7 @@ export default (Actions) => {
 
     getTcs () {
       return new Promise((resolve, reject) => {
-        app.localDb.get('_local/tcs', { include_docs: true })
+        app.localDb.get('_local/tcs')
           .then((doc) => resolve(doc.tcs))
           .catch((error) =>
             reject('Fehler in taxonomyCollectionsStore, getTcs: ' + error)
@@ -789,7 +797,7 @@ export default (Actions) => {
 
     saveTc (tc) {
       let tcs
-      app.localDb.get('_local/tcs', { include_docs: true })
+      app.localDb.get('_local/tcs')
         .then((doc) => {
           doc.tcs.push(tc)
           doc.tcs = doc.tcs.sort((tc) => tc.name)
@@ -803,7 +811,7 @@ export default (Actions) => {
     },
 
     saveTcs (tcs) {
-      app.localDb.get('_local/tcs', { include_docs: true })
+      app.localDb.get('_local/tcs')
         .then((doc) => {
           doc.tcs = tcs
           return app.localDb.put(doc)
@@ -815,7 +823,7 @@ export default (Actions) => {
 
     removeTcByName (name) {
       let tcs
-      app.localDb.get('_local/tcs', { include_docs: true })
+      app.localDb.get('_local/tcs')
         .then((doc) => {
           doc.tcs = reject(doc.tcs, (tc) => tc.name === name)
           tcs = doc.tcs
@@ -877,7 +885,7 @@ export default (Actions) => {
 
     getPcs () {
       return new Promise((resolve, reject) => {
-        app.localDb.get('_local/pcs', { include_docs: true })
+        app.localDb.get('_local/pcs')
           .then((doc) => resolve(doc.pcs))
           .catch((error) =>
             reject('Fehler in propertyCollectionsStore, getPcs: ' + error)
@@ -887,7 +895,7 @@ export default (Actions) => {
 
     savePc (pc) {
       let pcs
-      app.localDb.get('_local/pcs', { include_docs: true })
+      app.localDb.get('_local/pcs')
         .then((doc) => {
           doc.pcs.push(pc)
           doc.pcs = doc.pcs.sort((pc) => pc.name)
@@ -901,7 +909,7 @@ export default (Actions) => {
     },
 
     savePcs (pcs) {
-      app.localDb.get('_local/pcs', { include_docs: true })
+      app.localDb.get('_local/pcs')
         .then((doc) => {
           doc.pcs = pcs
           return app.localDb.put(doc)
@@ -913,7 +921,7 @@ export default (Actions) => {
 
     removePcByName (name) {
       let pcs
-      app.localDb.get('_local/pcs', { include_docs: true })
+      app.localDb.get('_local/pcs')
         .then((doc) => {
           doc.pcs = reject(doc.pcs, (pc) => pc.name === name)
           pcs = doc.pcs
@@ -975,7 +983,7 @@ export default (Actions) => {
 
     getRcs () {
       return new Promise((resolve, reject) => {
-        app.localDb.get('_local/rcs', { include_docs: true })
+        app.localDb.get('_local/rcs')
           .then((doc) => resolve(doc.rcs))
           .catch((error) =>
             reject('userStore: error getting relation collections from localDb: ' + error)
@@ -985,7 +993,7 @@ export default (Actions) => {
 
     saveRc (rc) {
       let rcs
-      app.localDb.get('_local/rcs', { include_docs: true })
+      app.localDb.get('_local/rcs')
         .then((doc) => {
           doc.rcs.push(rc)
           doc.rcs = doc.rcs.sort((rc) => rc.name)
@@ -999,7 +1007,7 @@ export default (Actions) => {
     },
 
     saveRcs (rcs) {
-      app.localDb.get('_local/rcs', { include_docs: true })
+      app.localDb.get('_local/rcs')
         .then((doc) => {
           doc.rcs = rcs
           return app.localDb.put(doc)
@@ -1011,7 +1019,7 @@ export default (Actions) => {
 
     removeRcByName (name) {
       let rcs
-      app.localDb.get('_local/rcs', { include_docs: true })
+      app.localDb.get('_local/rcs')
         .then((doc) => {
           doc.rcs = reject(doc.rcs, (rc) => rc.name === name)
           rcs = doc.rcs
@@ -1066,7 +1074,7 @@ export default (Actions) => {
 
     getLogin () {
       return new Promise((resolve, reject) => {
-        app.localDb.get('_local/login', { include_docs: true })
+        app.localDb.get('_local/login')
           .then((doc) => {
             refreshUserRoles(doc.email)
             resolve(doc)
@@ -1078,7 +1086,7 @@ export default (Actions) => {
     },
 
     onLogin ({ logIn, email, roles }) {
-      app.localDb.get('_local/login', { include_docs: true })
+      app.localDb.get('_local/login')
         .then((doc) => {
           doc.logIn = logIn
           doc.email = email || undefined
@@ -1215,7 +1223,7 @@ export default (Actions) => {
           .catch((error) => {  // eslint-disable-line handle-callback-err
             // this group is not loaded yet
             // get Object from couch
-            app.remoteDb.get(guid, { include_docs: true })
+            app.remoteDb.get(guid)
               .then((object) => this.onLoadActiveObjectCompleted(object))
               .catch((error) => app.Actions.showError({
                 title: 'error fetching doc from remoteDb with guid ' + guid + ':',
