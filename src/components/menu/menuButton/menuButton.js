@@ -30,6 +30,11 @@ export default React.createClass({
 
   rebuildHierarchy () {
     app.Actions.showError({title: 'Sorry, dieses Feature ist noch nicht implementiert'})
+    app.objectStore.getObjects()
+      .then((objects) => {
+        app.Actions.loadFilterOptions(objects)
+      })
+      .catch((error) => app.Actions.showError({title: 'Error rebuilding hierarhy:', msg: error}))
   },
 
   openOrganisationen () {
