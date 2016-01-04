@@ -6,9 +6,11 @@
 
 import app from 'ampersand-app'
 import PouchDB from 'pouchdb'
+import pouchdbLoad from 'pouchdb-load'
 import { filter } from 'lodash'
 import getCouchUrl from './getCouchUrl.js'
 import buildHierarchy from './buildHierarchy.js'
+PouchDB.plugin(pouchdbLoad)
 
 export default (gruppe, callback) => {
   return new Promise((resolve, reject) => {
@@ -90,19 +92,16 @@ export default (gruppe, callback) => {
                   if (callback) callback
                   resolve(true)
                 })
-                .catch((error) =>
-                  reject('loadGroupFromRemote.js: error loading group' + gruppe + 'from remoteDb:', error)
-                )
+                .catch((error) => reject('loadGroupFromRemote.js: error loading group' + gruppe + 'from remoteDb:', error)
+              )
             })
-            .catch((error) =>
-              reject('loadGroupFromRemote.js: error loading group' + gruppe + 'from remoteDb:', error)
-            )
+            .catch((error) => reject('loadGroupFromRemote.js: error loading group' + gruppe + 'from remoteDb:', error)
+          )
         } else {
           resolve(true)
         }
       })
-      .catch((error) =>
-        reject('loadGroupFromRemote.js, error getting isGroupLoaded for group ' + gruppe + ': ' + error)
-      )
+      .catch((error) => reject('loadGroupFromRemote.js, error getting isGroupLoaded for group ' + gruppe + ': ' + error)
+    )
   })
 }

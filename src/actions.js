@@ -1,11 +1,6 @@
 'use strict'
 
 import Reflux from 'reflux'
-import PouchDB from 'pouchdb'
-import pouchdbLoad from 'pouchdb-load'
-
-// initualize pouchdb-load
-PouchDB.plugin(pouchdbLoad)
 
 // Each action is like an event channel for one specific event. Actions are called by components.
 // The store is listening to all actions, and the components in turn are listening to the store.
