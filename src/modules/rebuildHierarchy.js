@@ -34,9 +34,17 @@ export default () => {
     })
     // 4. update filter options
     .then(() => app.localDb.get('_local/filterOptions'))
+    .then((doc) => {
+      doc.filterOptions = []
+      return app.localDb.put(doc)
+    })
     .then(() => app.Actions.loadFilterOptions(objects))
     // update paths
     .then(() => app.localDb.get('_local/paths'))
+    .then((doc) => {
+      doc.paths = {}
+      return app.localDb.put(doc)
+    })
     .then(() => app.Actions.loadPaths(objects))
     .catch((error) => app.Actions.showError({title: 'Error rebuilding hierarhy:', msg: error}))
 }
