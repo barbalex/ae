@@ -1477,14 +1477,13 @@ export default (Actions) => {
       }
     },
 
-    onLoadPouchFromLocalCompleted (groupsLoadedInPouch) {
+    onLoadPouchFromLocal (groupsLoadedInPouch) {
       Actions.loadFilterOptions()
       this.getHierarchy()
         .then((hierarchy) => this.trigger(hierarchy))
-    },
-
-    onLoadPouchFromLocalFailed (error) {
-      app.Actions.showError({title: 'objectStore: error loading objectStore from pouch:', msg: error})
+        .catch((error) =>
+          app.Actions.showError({title: 'objectStore: error loading objectStore from pouch:', msg: error})
+        )
     },
 
     onLoadObject (gruppe) {

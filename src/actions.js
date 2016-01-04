@@ -18,7 +18,7 @@ PouchDB.plugin(pouchdbLoad)
 export default () => {
   let Actions = Reflux.createActions({
     loadPouchFromRemote: {children: ['completed', 'failed']},
-    loadPouchFromLocal: {children: ['completed', 'failed']},
+    loadPouchFromLocal: {},
     loadObject: {children: ['completed', 'failed']},
     loadActiveObject: {children: ['completed', 'failed']},
     loadFilterOptions: {},
@@ -69,8 +69,6 @@ export default () => {
       })
       .catch((error) => Actions.loadPouchFromRemote.failed('Actions.loadPouchFromRemote, error loading groups:', error))
   })
-
-  Actions.loadPouchFromLocal.listen((groupsLoadedInPouch) => Actions.loadPouchFromLocal.completed(groupsLoadedInPouch))
 
   Actions.loadObject.listen((gruppe) => {
     // make sure gruppe was passed
