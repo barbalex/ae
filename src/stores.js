@@ -1297,10 +1297,10 @@ export default (Actions) => {
               const nextGroup = this.groupsLoading[this.groupsLoading.length - 1].group
               // load if
               loadGroupFromRemote(nextGroup)
-                .then(() => Actions.loadObject.completed(nextGroup))
+                .then(() => app.objectStore.getHierarchy())
                 .catch((error) => {
                   const errorMsg = 'Actions.loadObject, error loading group ' + nextGroup + ': ' + error
-                  Actions.loadObject.failed(errorMsg, nextGroup)
+                  app.objectStore.onLoadObjectFailed(errorMsg, nextGroup)
                 })
             }
             // write change to groups loaded to localDb
@@ -1393,7 +1393,11 @@ export default (Actions) => {
     },
 
     getHierarchy () {
-      return getHierarchyFromLocalDb()
+      getHierarchyFromLocalDb()
+        .then((hierarchy) => this.trigger(hierarchy))
+        .catch((error) =>
+          app.Actions.showError({title: 'objectStore, error getting hierarchy:', msg: error})
+        )
     },
 
     updateHierarchieInChildObject (guid, index, name) {
@@ -1480,27 +1484,35 @@ export default (Actions) => {
     onLoadPouchFromLocal (groupsLoadedInPouch) {
       Actions.loadFilterOptions()
       this.getHierarchy()
-        .then((hierarchy) => this.trigger(hierarchy))
-        .catch((error) =>
-          app.Actions.showError({title: 'objectStore: error loading objectStore from pouch:', msg: error})
-        )
     },
 
     onLoadObject (gruppe) {
-      this.getHierarchy()
-        // trigger change so components can set loading state
-        .then((hierarchy) => this.trigger(hierarchy))
-        .catch((error) =>
-          app.Actions.showError({title: 'objectStore, onLoadObject, error getting data:', msg: error})
-        )
-    },
+      // make sure gruppe was passed
+      if (!gruppe) return false
+      // make sure a valid group was passed
+      const gruppen = getGruppen()
+      const validGroup = gruppen.includes(gruppe)
+      if (!validGroup) return this.onLoadObjectFailed('Actions.loadObject: the group passed is not valid', gruppe)
 
-    onLoadObjectCompleted (gruppe) {
-      this.getHierarchy()
-        .then((hierarchy) => this.trigger(hierarchy))
-        .catch((error) =>
-          app.Actions.showError({title: 'objectStore, onLoadObject, error getting data:', msg: error})
-        )
+      // app.loadingGroupsStore.groupsLoading is a task list that is worked off one by one
+      // if a loadGroupFromRemote call is started while the last is still active, bad things happen
+      // > add this group to the tasklist
+      const groupsLoadingObject = {
+        group: gruppe,
+        message: 'Werde ' + gruppe + ' laden...'
+      }
+      app.loadingGroupsStore.groupsLoading.unshift(groupsLoadingObject)
+      // check if there are groups loading now
+      // if yes: when finished, loadGroupFromRemote will begin loading the next group in the queue
+      if (app.loadingGroupsStore.groupsLoading.length === 1) {
+        // o.k., no other group is being loaded - go on
+        loadGroupFromRemote(gruppe)
+          .then(() => this.getHierarchy())
+          .catch((error) => {
+            const errorMsg = 'Actions.loadObject, error loading group ' + gruppe + ': ' + error
+            this.onLoadObjectFailed(errorMsg, gruppe)
+          })
+      }
     },
 
     onLoadObjectFailed (error, gruppe) {

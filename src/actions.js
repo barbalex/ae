@@ -6,7 +6,6 @@ import PouchDB from 'pouchdb'
 import pouchdbLoad from 'pouchdb-load'
 import { difference } from 'lodash'
 import getGruppen from './modules/gruppen.js'
-import loadGroupFromRemote from './modules/loadGroupFromRemote.js'
 
 // initualize pouchdb-load
 PouchDB.plugin(pouchdbLoad)
@@ -19,7 +18,7 @@ export default () => {
   let Actions = Reflux.createActions({
     loadPouchFromRemote: {},
     loadPouchFromLocal: {},
-    loadObject: {children: ['completed', 'failed']},
+    loadObject: {},
     loadActiveObject: {children: ['completed', 'failed']},
     loadFilterOptions: {},
     changeFilterOptionsForObject: {},
@@ -70,35 +69,6 @@ export default () => {
         title: 'Actions.loadPouchFromRemote, error loading groups:',
         msg: error
       }))
-  })
-
-  Actions.loadObject.listen((gruppe) => {
-    // make sure gruppe was passed
-    if (!gruppe) return false
-    // make sure a valid group was passed
-    const gruppen = getGruppen()
-    const validGroup = gruppen.includes(gruppe)
-    if (!validGroup) return Actions.loadObject.failed('Actions.loadObject: the group passed is not valid', gruppe)
-
-    // app.loadingGroupsStore.groupsLoading is a task list that is worked off one by one
-    // if a loadGroupFromRemote call is started while the last is still active, bad things happen
-    // > add this group to the tasklist
-    const groupsLoadingObject = {
-      group: gruppe,
-      message: 'Werde ' + gruppe + ' laden...'
-    }
-    app.loadingGroupsStore.groupsLoading.unshift(groupsLoadingObject)
-    // check if there are groups loading now
-    // if yes: when finished, loadGroupFromRemote will begin loading the next group in the queue
-    if (app.loadingGroupsStore.groupsLoading.length === 1) {
-      // o.k., no other group is being loaded - go on
-      loadGroupFromRemote(gruppe)
-        .then(() => Actions.loadObject.completed(gruppe))
-        .catch((error) => {
-          const errorMsg = 'Actions.loadObject, error loading group ' + gruppe + ': ' + error
-          Actions.loadObject.failed(errorMsg, gruppe)
-        })
-    }
   })
 
   Actions.loadActiveObject.listen((guid) => {
