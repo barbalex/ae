@@ -23,7 +23,7 @@ export default () => {
     .then((doc) => {
       doc.hierarchy = buildHierarchy(objects)
       hierarchy = doc.hierarchy
-      console.log('rebuildHierarchy.js, hierarchy', hierarchy)
+      console.log('rebuildObjectDerivedData.js, hierarchy', hierarchy)
       return app.localDb.put(doc)
     })
     // 3. update groups loaded

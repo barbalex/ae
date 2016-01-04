@@ -6,7 +6,7 @@ import { Button, ButtonGroup, DropdownButton, MenuItem } from 'react-bootstrap'
 import InputIndexes from './inputIndexes.js'
 import buildGoogleImageLink from '../../../modules/buildGoogleImageLink.js'
 import buildWikipediaLink from '../../../modules/buildWikipediaLink.js'
-import rebuildHierarchy from '../../../modules/rebuildHierarchy.js'
+import rebuildObjectDerivedData from '../../../modules/rebuildObjectDerivedData.js'
 
 export default React.createClass({
   displayName: 'MenuButton',
@@ -29,9 +29,9 @@ export default React.createClass({
     app.Actions.loadActivePath(['importieren', 'beziehungen'])
   },
 
-  rebuildHierarchy () {
+  rebuildObjectDerivedData () {
     app.Actions.showError({title: 'Sorry, dieses Feature ist noch nicht implementiert'})
-    rebuildHierarchy()
+    rebuildObjectDerivedData()
   },
 
   openOrganisationen () {
@@ -130,8 +130,8 @@ export default React.createClass({
             </MenuItem>
             <MenuItem divider/>
             <MenuItem
-              onSelect={this.rebuildHierarchy}>
-              Hierarchie neu aufbauen
+              onSelect={this.rebuildObjectDerivedData}>
+              Von den Objekten abhängige Daten neu aufbauen
             </MenuItem>
             <MenuItem divider/>
             <MenuItem header>
