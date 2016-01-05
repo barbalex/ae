@@ -87,8 +87,14 @@ export default (gruppe, callback) => {
                     finishedLoading: true
                   })
                   if (callback) callback
+                  // let regular replication to remoteDb catch up
+                  app.localDb.replicate.to(app.remoteDb, {
+                    filter: (doc) => (doc.Gruppe && doc.Gruppe === gruppe),
+                    batch_size: 500
+                  })
                   resolve(true)
                 })
+                .then((hierarchy) => resolve(true))
                 .catch((error) => reject('loadGroupFromRemote.js: error loading group' + gruppe + 'from remoteDb:', error)
               )
             })
