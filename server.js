@@ -33,6 +33,30 @@ server.register(Inert, () => {
 
   server.route({
     method: 'GET',
+    path: '/artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen',
+    handler: function (request, reply) {
+      reply.redirect('http://' + request.headers.host + ':5984/artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen?include_docs=true')
+    }
+  })
+
+  server.route({
+    method: 'GET',
+    path: '/artendb/_design/artendb/_list/export_evab/evab_arten',
+    handler: function (request, reply) {
+      reply.redirect('http://' + request.headers.host + ':5984/artendb/_design/artendb/_list/export_evab/evab_arten?include_docs=true')
+    }
+  })
+
+  server.route({
+    method: 'GET',
+    path: '/artendb/_design/artendb/_list/export_apflora/flora',
+    handler: function (request, reply) {
+      reply.redirect('http://' + request.headers.host + ':5984/artendb/_design/artendb/_list/export_apflora/flora?include_docs=true')
+    }
+  })
+
+  server.route({
+    method: 'GET',
     path: '/',
     handler: function (request, reply) {
       reply.file('index.html')
