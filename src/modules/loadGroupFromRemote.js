@@ -39,17 +39,14 @@ export default (gruppe, callback) => {
                     progressPercent: progressPercent
                   })
                   const couchUrl = getCouchUrl()
-                  const loadUrl = couchUrl + '/ae-' + gruppeString + '/' + fileName
-                  if (index < attachments.length - 1) {
-                    // only write checkpoint when loading last dump
-                    return app.localDb.load(loadUrl)
-                  }
+                  const loadUrl = `${couchUrl}/ae-${gruppeString}/${fileName}`
+                  if (index < attachments.length - 1) return app.localDb.load(loadUrl)
+                  // only write checkpoint when loading last dump
                   return app.localDb.load(loadUrl, {proxy: couchUrl})
                 })
               })
               series
                 // turned off because on office computer this crashes!!!
-                /*
                 .then(() => {
                   // let regular replication catch up if objects have changed since dump was created
                   app.Actions.showGroupLoading({
@@ -57,11 +54,11 @@ export default (gruppe, callback) => {
                     message: 'Repliziere ' + gruppe + '...'
                   })
                   return app.localDb.replicate.from(app.remoteDb, {
-                    filter: (doc) => (doc.Gruppe && doc.Gruppe === gruppe),
+                    filter: 'groupFilter/groupFilter',
+                    query_params: { type: gruppe },
                     batch_size: 500
                   })
                 })
-                */
                 .then(() => {
                   app.Actions.showGroupLoading({
                     group: gruppe,
