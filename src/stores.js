@@ -1245,7 +1245,6 @@ export default (Actions) => {
     },
 
     onLoadActiveObjectCompleted (item) {
-      // console.log('activeObjectStore, onLoadActiveObjectCompleted, item', item)
       // only change if active item has changed
       if (!isEqual(item, this.item)) {
         // item can be an object or {}
@@ -1254,7 +1253,6 @@ export default (Actions) => {
         // tell views that data has changed
         this.trigger(item, [])
         // load path for this object...
-        // console.log('activeObjectStore, onLoadActiveObjectCompleted,  will call getPathFromGuid with guid', item._id)
         if (item && item._id) {
           getPathFromGuid(item._id)
             .then(({ path, url }) => {
