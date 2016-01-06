@@ -10,7 +10,7 @@
 import { clone, get, has, isArray, pluck, union, without } from 'lodash'
 
 export default (exportOptions, objects, combineTaxonomies, oneRowPerRelation, onlyObjectsWithCollectionData) => {
-  console.log('buildExportObjects.js, exportOptions', exportOptions)
+  // console.log('buildExportObjects.js, exportOptions', exportOptions)
   let exportObjects = []
   let fieldsToAddToAllExportObjects = []
   objects.forEach((object) => {
