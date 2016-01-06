@@ -5,7 +5,6 @@
 
 'use strict'
 
-import app from 'ampersand-app'
 import { debounce } from 'lodash'
 import { ListenerMixin } from 'reflux'
 import React from 'react'
@@ -64,23 +63,15 @@ export default React.createClass({
 
   getInitialState () {
     const formClassNames = window.innerWidth > 700 ? 'form form-horizontal' : 'form'
-    return {
-      formClassNames: formClassNames,
-      errors: []
-    }
+    return { formClassNames }
   },
 
   componentDidMount () {
     window.addEventListener('resize', debounce(this.onResize, 150))
-    this.listenTo(app.errorStore, this.onError)
   },
 
   componentWillUnmount () {
     window.removeEventListener('resize')
-  },
-
-  onError (errors) {
-    this.setState({ errors })
   },
 
   onResize () {
@@ -90,14 +81,15 @@ export default React.createClass({
   },
 
   render () {
-    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, onChangeObjectField, editObjects, toggleEditObjects, addNewObject, removeObject, synonymObjects, tcs, tcsQuerying, pcs, pcsQuerying, rcs, rcsQuerying, mainComponent, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, email, userRoles, replicatingToAe, replicatingToAeTime, offlineIndexes, organizations, activeOrganization, onChangeActiveOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, tcsOfActiveOrganization, pcsOfActiveOrganization, rcsOfActiveOrganization } = this.props
-    const { formClassNames, errors } = this.state
+    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, onChangeObjectField, editObjects, toggleEditObjects, addNewObject, removeObject, synonymObjects, tcs, tcsQuerying, pcs, pcsQuerying, rcs, rcsQuerying, mainComponent, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, email, userRoles, replicatingToAe, replicatingToAeTime, offlineIndexes, organizations, activeOrganization, onChangeActiveOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, tcsOfActiveOrganization, pcsOfActiveOrganization, rcsOfActiveOrganization, errors } = this.props
+    const { formClassNames } = this.state
     const showObject = object && Object.keys(object).length > 0 && !mainComponent
 
     return (
       <fieldset id='main'>
         <form className={formClassNames} autoComplete='off'>
-          <Errors errors={errors} />
+          <Errors
+            errors={errors} />
           {
             showObject
             ? <Objekt
