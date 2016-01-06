@@ -110,16 +110,15 @@ export default (Actions) => {
 
     onReplicateFromRemoteDb () {
       this.trigger('replicating')
-      const options = {
-        filter: (doc) => doc.Gruppe,
-        batch_size: 500
-      }
-      app.localDb.replicate.from(app.remoteDb, options)
+      app.localDb.replicate.from(app.remoteDb, { batch_size: 10 })
         .then((result) => {
           this.trigger('success')
           app.fieldsStore.emptyFields()
+          // TODO: need to rebuild redundant data
         })
-        .catch((error) => this.trigger('error')) // eslint-disable-line handle-callback-err
+        .catch((error) =>
+          app.Actions.showError({title: 'Fehler beim Replizieren:', msg: error})
+        )
     }
   })
 
@@ -129,12 +128,11 @@ export default (Actions) => {
 
     onReplicateToRemoteDb () {
       this.trigger('replicating')
-      app.localDb.replicate.to(app.remoteDb)
+      app.localDb.replicate.to(app.remoteDb, { batch_size: 500 })
         .then((result) => this.trigger('success'))
         .catch((error) => {
-          console.log('replicateToRemoteDbStore, error', error)
-          this.trigger('error')
-        })  // eslint-disable-line handle-callback-err
+          app.Actions.showError({title: 'Fehler beim Replizieren:', msg: error})
+        })
     }
   })
 
@@ -188,13 +186,14 @@ export default (Actions) => {
       if (this.userNames.length > 0) this.trigger(this.userNames)
       app.remoteUsersDb.allDocs({ include_docs: true })
         .then((result) => {
-          console.log('usersStore, onGetUsers, result', result)
           const users = result.rows.map((row) => row.doc)
           const userNames = pluck(users, 'name')
           this.userNames = userNames
           this.trigger(this.userNames)
         })
-        .catch((error) => app.Actions.showError({title: 'error fetching organizations from remoteDb:', msg: error}))
+        .catch((error) =>
+          app.Actions.showError({title: 'error fetching organizations from remoteDb:', msg: error})
+        )
     }
   })
 

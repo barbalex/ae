@@ -19,7 +19,7 @@ export default (gruppe, callback) => {
         if (!groupIsLoaded) {
           // this group does not exist yet in the store
           const gruppeString = gruppe === 'Lebensräume' ? 'lr' : (gruppe === 'Macromycetes' ? 'pilze' : gruppe.toLowerCase())
-          app.remoteDb.get('ae-' + gruppeString)
+          app.remoteDumpsDb.get('ae-' + gruppeString)
             .then((doc) => Object.keys(doc._attachments))
             .then((attachments) => {
               // sort attachments so the one with the last docs is loaded last
@@ -77,11 +77,11 @@ export default (gruppe, callback) => {
                   if (callback) callback
                   resolve(true)
                 })
-                .catch((error) => reject('loadGroupFromRemote.js: error loading group' + gruppe + 'from remoteDb:', error)
+                .catch((error) => reject('loadGroupFromRemote.js: error loading group' + gruppe + 'from remoteDumpsDb:', error)
               )
                 .catch((error) => console.log('replication error', error))
             })
-            .catch((error) => reject('loadGroupFromRemote.js: error loading group' + gruppe + 'from remoteDb:', error)
+            .catch((error) => reject('loadGroupFromRemote.js: error loading group' + gruppe + 'from remoteDumpsDb:', error)
           )
         } else {
           resolve(true)

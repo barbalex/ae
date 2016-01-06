@@ -11,6 +11,7 @@ import Router from './router.js'
 import actions from './actions.js'
 import stores from './stores'
 import pouchUrl from './modules/getCouchUrl.js'
+import pouchBaseUrl from './modules/getCouchBaseUrl.js'
 import getGroupsLoadedFromLocalDb from './modules/getGroupsLoadedFromLocalDb.js'
 // need this polyfill to transform promise.all
 // without it IE11 and lower bark
@@ -45,6 +46,7 @@ window.PouchDB = PouchDB
  * get path to remote _users db
  */
 const remoteDbUrl = pouchUrl()
+const remoteDumpsDbUrl = pouchBaseUrl() + 'ae_dumps'
 const remoteUsersDbUrl = remoteDbUrl.replace('/ae', '/_users').replace('/artendb', '/_users')
 
 /**
@@ -66,7 +68,8 @@ app.extend({
     Promise.all([
       this.localDb = new PouchDB('ae'),
       this.remoteDb = new PouchDB(pouchUrl()),
-      this.remoteUsersDb = new PouchDB(remoteUsersDbUrl)
+      this.remoteUsersDb = new PouchDB(remoteUsersDbUrl),
+      this.remoteDumpsDb = new PouchDB(remoteDumpsDbUrl())
     ])
     .then(() => Promise.all([
       /**
