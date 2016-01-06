@@ -1360,14 +1360,16 @@ export default (Actions) => {
           }
           this.trigger(payload)
         })
+        /*
         .then(() => {
           // if all groups are loaded, replicate
+          // uncommented because leaded to errors
           if (gruppen.length === groupsLoaded.length && finishedLoading) {
             app.localDb.replicate.from(app.remoteDb, { batch_size: 500 })
               .then(() => app.localDb.replicate.to(app.remoteDb, { batch_size: 500 }))
               .catch((error) => console.log('error replicating', error))
           }
-        })
+        })*/
         .catch((error) =>
           app.Actions.showError({title: 'loadingGroupsStore, onShowGroupLoading, error getting groups loaded from localDb:', msg: error})
         )
