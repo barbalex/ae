@@ -14,7 +14,6 @@ import getSynonymsOfObject from './modules/getSynonymsOfObject.js'
 import addGroupsLoadedToLocalDb from './modules/addGroupsLoadedToLocalDb.js'
 import getGruppen from './modules/gruppen.js'
 import loadGroupFromRemote from './modules/loadGroupFromRemote.js'
-import queryTcs from './queries/tcs.js'
 import queryPcs from './queries/pcs.js'
 import queryRcs from './queries/rcs.js'
 import getPathFromGuid from './modules/getPathFromGuid.js'
@@ -33,6 +32,8 @@ import usersStore from './stores/users.js'
 import objectsPcsStore from './stores/objectsPcs.js'
 import objectsRcsStore from './stores/objectsRcs.js'
 import fieldsStore from './stores/fields.js'
+import taxonomyCollectionsStore from './stores/taxonomyCollections.js'
+import propertyCollectionsStore from './stores/propertyCollections.js'
 
 export default (Actions) => {
   app.exportDataStore = exportDataStore(Actions)
@@ -55,201 +56,9 @@ export default (Actions) => {
 
   app.fieldsStore = fieldsStore(Actions)
 
-  app.taxonomyCollectionsStore = Reflux.createStore({
-    /*
-     * queries taxonomy collections
-     * keeps last query result in pouch (_local/tcs.tcs) for fast delivery
-     * app.js sets default _local/tcs.tcs = [] if not exists on app start
-     * tc's are arrays of the form:
-     * [group, standardtaxonomy, name, organization, {Beschreibung: xxx, Datenstand: xxx, Link: xxx, Nutzungsbedingungen: xxx}, count: xxx]
-     *
-     * when this store triggers it passes two variables:
-     * tcs: the propberty collections
-     * tcsQuerying: true/false: are tcs being queryied? if true: show warning in symbols
-     */
-    listenables: Actions,
+  app.taxonomyCollectionsStore = taxonomyCollectionsStore(Actions)
 
-    tcsQuerying: false,
-
-    getTcs () {
-      return new Promise((resolve, reject) => {
-        app.localDb.get('_local/tcs')
-          .then((doc) => resolve(doc.tcs))
-          .catch((error) =>
-            reject('Fehler in taxonomyCollectionsStore, getTcs: ' + error)
-          )
-      })
-    },
-
-    saveTc (tc) {
-      let tcs
-      app.localDb.get('_local/tcs')
-        .then((doc) => {
-          doc.tcs.push(tc)
-          doc.tcs = doc.tcs.sort((tc) => tc.name)
-          tcs = doc.tcs
-          return app.localDb.put(doc)
-        })
-        .then(() => this.trigger(tcs, this.tcsQuerying))
-        .catch((error) =>
-          app.Actions.showError({title: 'Fehler in taxonomyCollectionsStore, saveTc:', msg: error})
-        )
-    },
-
-    saveTcs (tcs) {
-      app.localDb.get('_local/tcs')
-        .then((doc) => {
-          doc.tcs = tcs
-          return app.localDb.put(doc)
-        })
-        .catch((error) =>
-          app.Actions.showError({title: 'Fehler in taxonomyCollectionsStore, saveTcs:', msg: error})
-        )
-    },
-
-    removeTcByName (name) {
-      let tcs
-      app.localDb.get('_local/tcs')
-        .then((doc) => {
-          doc.tcs = reject(doc.tcs, (tc) => tc.name === name)
-          tcs = doc.tcs
-          return app.localDb.put(doc)
-        })
-        .then(() => this.trigger(tcs, this.tcsQuerying))
-        .catch((error) =>
-          app.Actions.showError({title: 'Fehler in taxonomyCollectionsStore, removeTcByName:', msg: error})
-        )
-    },
-
-    getTcByName (name) {
-      return new Promise((resolve, reject) => {
-        this.getTcs()
-          .then((tcs) => {
-            const tc = tcs.find((tc) => tc.name === name)
-            resolve(tc)
-          })
-          .catch((error) => reject(error))
-      })
-    },
-
-    onQueryTaxonomyCollections (offlineIndexes) {
-      // if tc's exist, send them immediately
-      this.tcsQuerying = true
-      this.getTcs()
-        .then((tcs) => this.trigger(tcs, this.tcsQuerying))
-        .catch((error) =>
-          app.Actions.showError({title: 'taxonomyCollectionsStore, error getting existing tcs:', msg: error})
-        )
-      // now fetch up to date tc's
-      queryTcs(offlineIndexes)
-        .then((tcs) => {
-          this.tcsQuerying = false
-          this.trigger(tcs, this.tcsQuerying)
-          return this.saveTcs(tcs)
-        })
-        .catch((error) =>
-          app.Actions.showError({title: 'taxonomyCollectionsStore, error querying up to date tcs:', msg: error})
-        )
-    }
-  })
-
-  app.propertyCollectionsStore = Reflux.createStore({
-    /*
-     * queries property collections
-     * keeps last query result in pouch (_local/pcs.pcs) for fast delivery
-     * app.js sets default _local/pcs.pcs = [] if not exists on app start
-     * pc's are arrays of the form:
-     * [collectionType, pcName, combining, organization, {Beschreibung: xxx, Datenstand: xxx, Link: xxx, Nutzungsbedingungen: xxx}, count: xxx]
-     *
-     * when this store triggers it passes two variables:
-     * pcs: the propberty collections
-     * pcsQuerying: true/false: are pcs being queryied? if true: show warning in symbols
-     */
-    listenables: Actions,
-
-    pcsQuerying: false,
-
-    getPcs () {
-      return new Promise((resolve, reject) => {
-        app.localDb.get('_local/pcs')
-          .then((doc) => resolve(doc.pcs))
-          .catch((error) =>
-            reject('Fehler in propertyCollectionsStore, getPcs: ' + error)
-          )
-      })
-    },
-
-    savePc (pc) {
-      let pcs
-      app.localDb.get('_local/pcs')
-        .then((doc) => {
-          doc.pcs.push(pc)
-          doc.pcs = doc.pcs.sort((pc) => pc.name)
-          pcs = doc.pcs
-          return app.localDb.put(doc)
-        })
-        .then(() => this.trigger(pcs, this.pcsQuerying))
-        .catch((error) =>
-          app.Actions.showError({title: 'Fehler in propertyCollectionsStore, savePc:', msg: error})
-        )
-    },
-
-    savePcs (pcs) {
-      app.localDb.get('_local/pcs')
-        .then((doc) => {
-          doc.pcs = pcs
-          return app.localDb.put(doc)
-        })
-        .catch((error) =>
-          app.Actions.showError({title: 'Fehler in propertyCollectionsStore, savePcs:', msg: error})
-        )
-    },
-
-    removePcByName (name) {
-      let pcs
-      app.localDb.get('_local/pcs')
-        .then((doc) => {
-          doc.pcs = reject(doc.pcs, (pc) => pc.name === name)
-          pcs = doc.pcs
-          return app.localDb.put(doc)
-        })
-        .then(() => this.trigger(pcs, this.pcsQuerying))
-        .catch((error) =>
-          app.Actions.showError({title: 'Fehler in propertyCollectionsStore, removePcByName:', msg: error})
-        )
-    },
-
-    getPcByName (name) {
-      return new Promise((resolve, reject) => {
-        this.getPcs()
-          .then((pcs) => {
-            const pc = pcs.find((pc) => pc.name === name)
-            resolve(pc)
-          })
-          .catch((error) => reject(error))
-      })
-    },
-
-    onQueryPropertyCollections (offlineIndexes) {
-      // if pc's exist, send them immediately
-      this.pcsQuerying = true
-      this.getPcs()
-        .then((pcs) => this.trigger(pcs, this.pcsQuerying))
-        .catch((error) =>
-          app.Actions.showError({title: 'propertyCollectionsStore, error getting existing pcs:', msg: error})
-        )
-      // now fetch up to date pc's
-      queryPcs(offlineIndexes)
-        .then((pcs) => {
-          this.pcsQuerying = false
-          this.trigger(pcs, this.pcsQuerying)
-          return this.savePcs(pcs)
-        })
-        .catch((error) =>
-          app.Actions.showError({title: 'propertyCollectionsStore, error querying up to date pcs:', msg: error})
-        )
-    }
-  })
+  app.propertyCollectionsStore = propertyCollectionsStore(Actions)
 
   app.relationCollectionsStore = Reflux.createStore({
     /*
