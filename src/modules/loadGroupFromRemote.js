@@ -47,30 +47,12 @@ export default (gruppe, callback) => {
                 })
               })
               series
-                /* turned off because too slow
-                .then(() => {
-                  // let regular replication catch up if objects have changed since dump was created
-                  app.Actions.showGroupLoading({
-                    group: gruppe,
-                    message: 'Repliziere ' + gruppe + '...'
-                  })
-                  return app.localDb.replicate.from(app.remoteDb, {
-                    filter: 'groupFilter/groupFilter',
-                    query_params: { type: gruppe },
-                    batch_size: 500
-                  })
-                })*/
+                // replication would be nice but turned off because too slow
                 .then(() => {
                   app.Actions.showGroupLoading({
                     group: gruppe,
                     message: 'Baue Taxonomie für ' + gruppe + '...'
                   })
-                  /*
-                  app.localDb.replicate.from(app.remoteDb, {
-                    filter: 'groupFilter/groupFilter',
-                    query_params: { type: gruppe },
-                    batch_size: 500
-                  })*/
                   return app.objectStore.getObjects()
                 })
                 .then((items) => {
@@ -92,23 +74,11 @@ export default (gruppe, callback) => {
                     group: gruppe,
                     finishedLoading: true
                   })
-                  // let regular replication to remoteDb catch up
-                  // turned off because did not seem to work or help
-                  /*
-                  app.localDb.replicate.to(app.remoteDb, {
-                    filter: (doc) => (doc.Gruppe && doc.Gruppe === gruppe),
-                    batch_size: 500
-                  })*/
                   if (callback) callback
                   resolve(true)
                 })
                 .catch((error) => reject('loadGroupFromRemote.js: error loading group' + gruppe + 'from remoteDb:', error)
               )
-                // turned off because it starts too early
-                // let replication from remoteDb catch up
-                // .then(() => app.localDb.replicate.from(app.remoteDb, { batch_size: 500 }))
-                // let regular replication to remoteDb catch up
-                // .then(() => app.localDb.replicate.to(app.remoteDb, { batch_size: 500 }))
                 .catch((error) => console.log('replication error', error))
             })
             .catch((error) => reject('loadGroupFromRemote.js: error loading group' + gruppe + 'from remoteDb:', error)

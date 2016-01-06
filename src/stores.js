@@ -1316,9 +1316,11 @@ export default (Actions) => {
       // otherwise 5 addGroupsLoadedToLocalDb calls occur at the same moment...
       const { group, allGroups, finishedLoading } = objectPassed
       const gruppen = getGruppen()
+      let groupsLoaded
 
       getGroupsLoadedFromLocalDb()
-        .then((groupsLoaded) => {
+        .then((gl) => {
+          groupsLoaded = gl
           // if an object with this group is contained in groupsLoading, remove it
           if (allGroups) {
             this.groupsLoading = []
@@ -1359,6 +1361,14 @@ export default (Actions) => {
             groupsLoaded: groupsLoaded
           }
           this.trigger(payload)
+        })
+        .then(() => {
+          // if all groups are loaded, replicate
+          if (gruppen.length === groupsLoaded.length && finishedLoading) {
+            app.localDb.replicate.from(app.remoteDb, { batch_size: 500 })
+              .then(() => app.localDb.replicate.to(app.remoteDb, { batch_size: 500 }))
+              .catch((error) => console.log('error replicating', error))
+          }
         })
         .catch((error) =>
           app.Actions.showError({title: 'loadingGroupsStore, onShowGroupLoading, error getting groups loaded from localDb:', msg: error})
