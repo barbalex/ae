@@ -303,44 +303,39 @@ export default React.createClass({
     return (
       <NavHelper style={homeStyle}>
         {
-          showMenu
-          ? <MenuButton
-              object={object}
-              offlineIndexes={offlineIndexes}
-              onClickToggleOfflineIndexes={this.onClickToggleOfflineIndexes} />
-          : null
+          showMenu &&
+          <MenuButton
+            object={object}
+            offlineIndexes={offlineIndexes}
+            onClickToggleOfflineIndexes={this.onClickToggleOfflineIndexes} />
         }
         {
-          showMenu
-          ? <div id='menu' className='menu'>
-              <div id='menuLine'>
-                <ResizeButton />
-              </div>
-              {
-                showGruppen
-                ? <Groups
-                    groupsLoadedOrLoading={groupsLoadedOrLoading} />
-                : null
-              }
-              {
-                showFilter
-                ? <Filter
-                    filterOptions={filterOptions}
-                    loadingFilterOptions={loadingFilterOptions} />
-                : null
-              }
-              {
-                showTree
-                ? <Tree
-                    hierarchy={hierarchy}
-                    groupsLoadingObjects={groupsLoadingObjects}
-                    allGroupsLoaded={allGroupsLoaded}
-                    object={object}
-                    path={path} />
-                : null
-              }
+          showMenu &&
+          <div id='menu' className='menu'>
+            <div id='menuLine'>
+              <ResizeButton />
             </div>
-          : null
+            {
+              showGruppen &&
+              <Groups
+                groupsLoadedOrLoading={groupsLoadedOrLoading} />
+            }
+            {
+              showFilter &&
+              <Filter
+                filterOptions={filterOptions}
+                loadingFilterOptions={loadingFilterOptions} />
+            }
+            {
+              showTree &&
+              <Tree
+                hierarchy={hierarchy}
+                groupsLoadingObjects={groupsLoadingObjects}
+                allGroupsLoaded={allGroupsLoaded}
+                object={object}
+                path={path} />
+            }
+          </div>
         }
         <Symbols
           email={email}
@@ -354,50 +349,49 @@ export default React.createClass({
           replicatingFromAe={replicatingFromAe}
           replicatingFromAeTime={replicatingFromAeTime}
           rebuildingRedundantData={rebuildingRedundantData} />
-        {showMain
-          ? <Main
-              object={object}
-              onChangeObjectField={this.onChangeObjectField}
-              editObjects={editObjects}
-              toggleEditObjects={this.toggleEditObjects}
-              addNewObject={this.addNewObject}
-              removeObject={this.removeObject}
-              allGroupsLoaded={allGroupsLoaded}
-              groupsLoadedOrLoading={groupsLoadedOrLoading}
-              groupsLoadingObjects={groupsLoadingObjects}
-              synonymObjects={synonymObjects}
-              tcs={tcs}
-              pcs={pcs}
-              rcs={rcs}
-              tcsQuerying={tcsQuerying}
-              pcsQuerying={pcsQuerying}
-              rcsQuerying={rcsQuerying}
-              mainComponent={mainComponent}
-              fieldsQuerying={fieldsQuerying}
-              fieldsQueryingError={fieldsQueryingError}
-              taxonomyFields={taxonomyFields}
-              pcFields={pcFields}
-              relationFields={relationFields}
-              email={email}
-              userRoles={userRoles}
-              replicatingToAe={replicatingToAe}
-              replicatingToAeTime={replicatingToAeTime}
-              offlineIndexes={offlineIndexes}
-              organizations={organizations}
-              activeOrganization={activeOrganization}
-              tcsOfActiveOrganization={tcsOfActiveOrganization}
-              pcsOfActiveOrganization={pcsOfActiveOrganization}
-              rcsOfActiveOrganization={rcsOfActiveOrganization}
-              onChangeActiveOrganization={this.onChangeActiveOrganization}
-              userIsAdminInOrgs={userIsAdminInOrgs}
-              userIsEsWriterInOrgs={userIsEsWriterInOrgs}
-              errors={errors} />
-          : null
+        {
+          showMain &&
+          <Main
+            object={object}
+            onChangeObjectField={this.onChangeObjectField}
+            editObjects={editObjects}
+            toggleEditObjects={this.toggleEditObjects}
+            addNewObject={this.addNewObject}
+            removeObject={this.removeObject}
+            allGroupsLoaded={allGroupsLoaded}
+            groupsLoadedOrLoading={groupsLoadedOrLoading}
+            groupsLoadingObjects={groupsLoadingObjects}
+            synonymObjects={synonymObjects}
+            tcs={tcs}
+            pcs={pcs}
+            rcs={rcs}
+            tcsQuerying={tcsQuerying}
+            pcsQuerying={pcsQuerying}
+            rcsQuerying={rcsQuerying}
+            mainComponent={mainComponent}
+            fieldsQuerying={fieldsQuerying}
+            fieldsQueryingError={fieldsQueryingError}
+            taxonomyFields={taxonomyFields}
+            pcFields={pcFields}
+            relationFields={relationFields}
+            email={email}
+            userRoles={userRoles}
+            replicatingToAe={replicatingToAe}
+            replicatingToAeTime={replicatingToAeTime}
+            offlineIndexes={offlineIndexes}
+            organizations={organizations}
+            activeOrganization={activeOrganization}
+            tcsOfActiveOrganization={tcsOfActiveOrganization}
+            pcsOfActiveOrganization={pcsOfActiveOrganization}
+            rcsOfActiveOrganization={rcsOfActiveOrganization}
+            onChangeActiveOrganization={this.onChangeActiveOrganization}
+            userIsAdminInOrgs={userIsAdminInOrgs}
+            userIsEsWriterInOrgs={userIsEsWriterInOrgs}
+            errors={errors} />
         }
         {
-          showLogin
-          ? <Login />
-          : null
+          showLogin &&
+          <Login />
         }
       </NavHelper>
     )
