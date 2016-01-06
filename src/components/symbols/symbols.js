@@ -9,6 +9,7 @@ import TcsQuerying from './tcsQuerying.js'
 import PcsQuerying from './pcsQuerying.js'
 import RcsQuerying from './rcsQuerying.js'
 import FieldsQuerying from './fieldsQuerying.js'
+import RebuildingRedundantData from './rebuildingRedundantData.js'
 
 export default React.createClass({
   displayName: 'Symbols',
@@ -23,14 +24,16 @@ export default React.createClass({
     replicatingToAe: React.PropTypes.string,
     replicatingToAeTime: React.PropTypes.string,
     replicatingFromAe: React.PropTypes.string,
-    replicatingFromAeTime: React.PropTypes.string
+    replicatingFromAeTime: React.PropTypes.string,
+    rebuildingRedundantData: React.PropTypes.string
   },
 
   render () {
-    const { email, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, groupsLoadingObjects, tcsQuerying, pcsQuerying, rcsQuerying, fieldsQuerying } = this.props
+    const { email, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, groupsLoadingObjects, tcsQuerying, pcsQuerying, rcsQuerying, fieldsQuerying, rebuildingRedundantData } = this.props
     const showReplicatingToAe = replicatingToAe !== null
     const showReplicatingFromAe = replicatingFromAe !== null
     const showGroupsLoading = groupsLoadingObjects.length > 0
+    const showRebuildingRedundantData = rebuildingRedundantData !== null
 
     return (
       <div id='symbols'>
@@ -40,56 +43,56 @@ export default React.createClass({
           </div>
           <div className='symbol-div'>
             {
-              showReplicatingFromAe
-              ? <ReplicatingFromAe
-                  replicatingFromAe={replicatingFromAe}
-                  replicatingFromAeTime={replicatingFromAeTime} />
-              : null
+              showReplicatingFromAe &&
+              <ReplicatingFromAe
+                replicatingFromAe={replicatingFromAe}
+                replicatingFromAeTime={replicatingFromAeTime} />
             }
           </div>
           <div className='symbol-div'>
             {
-              showReplicatingToAe
-              ? <ReplicatingToAe
-                  replicatingToAe={replicatingToAe}
-                  replicatingToAeTime={replicatingToAeTime} />
-              : null
+              showReplicatingToAe &&
+              <ReplicatingToAe
+                replicatingToAe={replicatingToAe}
+                replicatingToAeTime={replicatingToAeTime} />
             }
           </div>
           <div className='symbol-div'>
             {
-              tcsQuerying
-              ? <TcsQuerying />
-              : null
+              tcsQuerying &&
+              <TcsQuerying />
             }
           </div>
           <div className='symbol-div'>
             {
-              pcsQuerying
-              ? <PcsQuerying />
-              : null
+              pcsQuerying &&
+              <PcsQuerying />
             }
           </div>
           <div className='symbol-div'>
             {
-              rcsQuerying
-              ? <RcsQuerying />
-              : null
+              rcsQuerying &&
+              <RcsQuerying />
             }
           </div>
           <div className='symbol-div'>
             {
-              fieldsQuerying
-              ? <FieldsQuerying />
-              : null
+              fieldsQuerying &&
+              <FieldsQuerying />
             }
           </div>
           <div className='symbol-div'>
             {
-              showGroupsLoading
-              ? <GroupsLoading
-                  groupsLoadingObjects={groupsLoadingObjects} />
-              : null
+              showGroupsLoading &&
+              <GroupsLoading
+                groupsLoadingObjects={groupsLoadingObjects} />
+            }
+          </div>
+          <div className='symbol-div'>
+            {
+              showRebuildingRedundantData &&
+              <RebuildingRedundantData
+                rebuildingRedundantData={rebuildingRedundantData} />
             }
           </div>
         </div>

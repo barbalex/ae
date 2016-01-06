@@ -44,7 +44,8 @@ export default () => {
     'saveObject',
     'newObject',
     'deleteObject',
-    'updateHierarchyForObject'
+    'updateHierarchyForObject',
+    'changeRebuildingRedundantData'
   ])
 
   return Actions

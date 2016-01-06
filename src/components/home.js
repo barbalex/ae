@@ -64,7 +64,8 @@ export default React.createClass({
     pcsOfActiveOrganization: React.PropTypes.array,
     rcsOfActiveOrganization: React.PropTypes.array,
     userIsAdminInOrgs: React.PropTypes.array,
-    userIsEsWriterInOrgs: React.PropTypes.array
+    userIsEsWriterInOrgs: React.PropTypes.array,
+    rebuildingRedundantData: React.PropTypes.string
   },
 
   getInitialState () {
@@ -120,7 +121,8 @@ export default React.createClass({
       pcsOfActiveOrganization: [],
       rcsOfActiveOrganization: [],
       userIsAdminInOrgs: [],
-      userIsEsWriterInOrgs: []
+      userIsEsWriterInOrgs: [],
+      rebuildingRedundantData: null
     }
   },
 
@@ -134,6 +136,7 @@ export default React.createClass({
     this.listenTo(app.loadingGroupsStore, this.onLoadingGroupsStoreChange)
     this.listenTo(app.replicateToRemoteDbStore, this.onReplicateToRemoteDbStoreChange)
     this.listenTo(app.replicateFromRemoteDbStore, this.onReplicateFromRemoteDbStoreChange)
+    this.listenTo(app.changeRebuildingRedundantDataStore, this.onRebuildingRedundantDataStoreChange)
     this.listenTo(app.objectsPcsStore, this.onChangeObjectsPcsStore)
     this.listenTo(app.taxonomyCollectionsStore, this.onChangeTaxonomyCollectionsStore)
     this.listenTo(app.propertyCollectionsStore, this.onChangePropertyCollectionsStore)
@@ -180,6 +183,10 @@ export default React.createClass({
   onReplicateFromRemoteDbStoreChange (replicatingFromAe) {
     const replicatingFromAeTime = moment().format('HH:mm')
     this.setState({ replicatingFromAe, replicatingFromAeTime })
+  },
+
+  onRebuildingRedundantDataStoreChange (message) {
+    this.setState({ rebuildingRedundantData: message })
   },
 
   onReplicateToRemoteDbStoreChange (replicatingToAe) {
@@ -272,7 +279,7 @@ export default React.createClass({
   },
 
   render () {
-    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, mainComponent, logIn, email, userRoles, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, tcs, pcs, tcsQuerying, rcs, pcsQuerying, rcsQuerying, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, offlineIndexes, organizations, activeOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, tcsOfActiveOrganization, pcsOfActiveOrganization, rcsOfActiveOrganization, editObjects } = this.state
+    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, mainComponent, logIn, email, userRoles, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, tcs, pcs, tcsQuerying, rcs, pcsQuerying, rcsQuerying, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, offlineIndexes, organizations, activeOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, tcsOfActiveOrganization, pcsOfActiveOrganization, rcsOfActiveOrganization, editObjects, rebuildingRedundantData } = this.state
     const groupsNotLoaded = difference(gruppen, groupsLoadedOrLoading)
     const showGruppen = groupsNotLoaded.length > 0
     const showFilter = filterOptions.length > 0 || loadingFilterOptions
@@ -337,7 +344,8 @@ export default React.createClass({
           replicatingToAe={replicatingToAe}
           replicatingToAeTime={replicatingToAeTime}
           replicatingFromAe={replicatingFromAe}
-          replicatingFromAeTime={replicatingFromAeTime} />
+          replicatingFromAeTime={replicatingFromAeTime}
+          rebuildingRedundantData={rebuildingRedundantData} />
         {showMain
           ? <Main
               object={object}

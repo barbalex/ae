@@ -1,7 +1,7 @@
 'use strict'
 
 import React from 'react'
-import { Input, OverlayTrigger, Popover } from 'react-bootstrap'
+import { Input, OverlayTrigger, Popover, Glyphicon } from 'react-bootstrap'
 
 export default React.createClass({
   displayName: 'InputIndexes',
@@ -38,18 +38,42 @@ export default React.createClass({
     const cbStyle = {
       marginLeft: -20 + 'px !important'
     }
+    const glyphiconStyle = {
+      paddingLeft: 5,
+      fontSize: 16,
+      top: 3
+    }
 
     return (
       <li style={liStyle}>
-        <Input type='checkbox' label='Von arteigenschaften.ch verwenden (empfohlen)' checked={!offlineIndexes} onChange={onClickToggleOfflineIndexes} style={cbStyle} />
-        <div className='checkbox'>
-          <label className='control-label'>
-            <input type='checkbox' checked={offlineIndexes} onChange={onClickToggleOfflineIndexes} style={cbStyle} />
-              lokale verwenden<br />(
-                <OverlayTrigger trigger={['hover', 'focus']} rootClose placement='right' overlay={this.popover()}>
-                  <span className='withPopover'>bitte vorher lesen</span>
-                </OverlayTrigger>
-              )
+        <Input
+          type='checkbox'
+          label='Von arteigenschaften.ch verwenden (empfohlen)'
+          checked={!offlineIndexes}
+          onChange={onClickToggleOfflineIndexes}
+          style={cbStyle} />
+        <div
+          className='checkbox'>
+          <label
+            className='control-label'>
+            <input
+              type='checkbox'
+              checked={offlineIndexes}
+              onChange={onClickToggleOfflineIndexes}
+              style={cbStyle} />
+              Lokale verwenden
+              <OverlayTrigger
+                trigger={['hover', 'focus']}
+                rootClose
+                placement='right'
+                overlay={this.popover()}>
+                <span
+                  className='withPopover'>
+                  <Glyphicon
+                    glyph='info-sign'
+                    style={glyphiconStyle} />
+                </span>
+              </OverlayTrigger>
           </label>
         </div>
       </li>

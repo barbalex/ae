@@ -1,8 +1,7 @@
 'use strict'
 
-import app from 'ampersand-app'
 import React from 'react'
-import { MenuItem, OverlayTrigger, Popover } from 'react-bootstrap'
+import { MenuItem, OverlayTrigger, Popover, Glyphicon } from 'react-bootstrap'
 import rebuildRedundantData from '../../../modules/rebuildRedundantData.js'
 
 export default React.createClass({
@@ -20,7 +19,8 @@ export default React.createClass({
   popover () {
     return (
       <Popover id='objectDerivedDataMenuItemPopover' title='Was heisst das?'>
-        <p>Basierend auf den geladenen Objekten baut die Anwendung redundante Daten auf:</p>
+        <p>Basierend auf den geladenen Objekten (Arten und Lebensräume)<br />
+          baut die Anwendung redundante Daten auf:</p>
         <ul>
           <li>Taxonomie-Baum</li>
           <li>Suchbegriffe</li>
@@ -35,11 +35,17 @@ export default React.createClass({
   },
 
   render () {
+    const glyphiconStyle = {
+      paddingLeft: 5,
+      fontSize: 16,
+      top: 3
+    }
     return (
       <MenuItem
         onClick={this.rebuildRedundantData}>
+        Redundante Daten neu aufbauen
         <OverlayTrigger trigger={['hover', 'focus']} rootClose placement='right' overlay={this.popover()}>
-          <span className='withPopover'>Redundante Daten neu aufbauen</span>
+          <span className='withPopover'><Glyphicon glyph='info-sign' style={glyphiconStyle} /></span>
         </OverlayTrigger>
       </MenuItem>
     )

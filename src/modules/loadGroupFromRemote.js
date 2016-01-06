@@ -27,6 +27,7 @@ export default (gruppe, callback) => {
               // use attachments.length to show progress bar
               attachments.sort()
               let series = PouchDB.utils.Promise.resolve()
+              let itemsOfGroup
               attachments.forEach((fileName, index) => {
                 series = series.then(() => {
                   // couchUrl is: http://localhost:5984/artendb      (local dev)
@@ -68,33 +69,32 @@ export default (gruppe, callback) => {
                 })
                 .then((items) => {
                   // need to build filter options, hierarchy and paths only for groups newly loaded
-                  const itemsOfGroup = filter(items, 'Gruppe', gruppe)
+                  itemsOfGroup = filter(items, 'Gruppe', gruppe)
                   app.Actions.loadFilterOptions(itemsOfGroup)
                   // build path hash - it helps finding an item by path
                   app.Actions.loadPaths(itemsOfGroup)
                   // build hierarchy and save to pouch
                   return app.localDb.get('_local/hierarchy')
-                    .then((doc) => {
-                      const hierarchyOfGroup = buildHierarchy(itemsOfGroup)
-                      doc.hierarchy.push(hierarchyOfGroup[0])
-                      app.localDb.put(doc)
-                    })
-                    .catch((error) => console.log('error putting hierarchy', error))
                 })
-                .then((hierarchy) => {
+                .then((doc) => {
+                  const hierarchyOfGroup = buildHierarchy(itemsOfGroup)
+                  doc.hierarchy.push(hierarchyOfGroup[0])
+                  return app.localDb.put(doc)
+                })
+                .then(() => {
                   app.Actions.showGroupLoading({
                     group: gruppe,
                     finishedLoading: true
                   })
-                  if (callback) callback
                   // let regular replication to remoteDb catch up
+                  // turned off because did not seem to work or help
                   app.localDb.replicate.to(app.remoteDb, {
                     filter: (doc) => (doc.Gruppe && doc.Gruppe === gruppe),
                     batch_size: 500
                   })
+                  if (callback) callback
                   resolve(true)
                 })
-                .then((hierarchy) => resolve(true))
                 .catch((error) => reject('loadGroupFromRemote.js: error loading group' + gruppe + 'from remoteDb:', error)
               )
             })

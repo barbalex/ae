@@ -95,6 +95,15 @@ export default (Actions) => {
 
   })
 
+  app.changeRebuildingRedundantDataStore = Reflux.createStore({
+
+    listenables: Actions,
+
+    onChangeRebuildingRedundantData (message) {
+      this.trigger(message)
+    }
+  })
+
   app.replicateFromRemoteDbStore = Reflux.createStore({
 
     listenables: Actions,

@@ -15,15 +15,17 @@ export default () => {
   // 1. get objects from localDb
 
   console.log('rebuilding redundant data')
+  app.Actions.changeRebuildingRedundantData('baue redundante Daten: lade Daten')
 
   app.objectStore.getObjects()
     .then((items) => {
+      console.log('got items')
       objects = items
-      return true
+      return app.localDb.get('_local/hierarchy')
     })
     // 2. update hierarchy
-    .then(() => app.localDb.get('_local/hierarchy'))
     .then((doc) => {
+      app.Actions.changeRebuildingRedundantData('baue redundante Daten: Taxonomie-Baum')
       doc.hierarchy = buildHierarchy(objects)
       hierarchy = doc.hierarchy
       console.log('rebuildRedundantData.js, hierarchy', hierarchy)
@@ -38,6 +40,7 @@ export default () => {
     // 4. update filter options
     .then(() => app.localDb.get('_local/filterOptions'))
     .then((doc) => {
+      app.Actions.changeRebuildingRedundantData('baue redundante Daten: Suchbegriffe')
       doc.filterOptions = []
       return app.localDb.put(doc)
     })
@@ -45,9 +48,11 @@ export default () => {
     // update paths
     .then(() => app.localDb.get('_local/paths'))
     .then((doc) => {
+      app.Actions.changeRebuildingRedundantData('baue redundante Daten: URL-Pfade')
       doc.paths = {}
       return app.localDb.put(doc)
     })
     .then(() => app.Actions.loadPaths(objects))
+    .then(() => app.Actions.changeRebuildingRedundantData(null))
     .catch((error) => app.Actions.showError({title: 'Error rebuilding hierarhy:', msg: error}))
 }

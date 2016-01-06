@@ -164,7 +164,7 @@ export default React.createClass({
             <MenuItem
               href='https://twitter.com/arteigenschaft'
               target='_blank'>
-              auf Twitter folgen
+              Auf Twitter folgen
             </MenuItem>
           </DropdownButton>
         </ButtonGroup>
