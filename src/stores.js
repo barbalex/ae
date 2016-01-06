@@ -8,19 +8,12 @@ import getItemsFromLocalDb from './modules/getItemsFromLocalDb.js'
 import getItemFromLocalDb from './modules/getItemFromLocalDb.js'
 import getItemFromRemoteDb from './modules/getItemFromRemoteDb.js'
 import getHierarchyFromLocalDb from './modules/getHierarchyFromLocalDb.js'
-import addPathsFromItemsToLocalDb from './modules/addPathsFromItemsToLocalDb.js'
-import buildFilterOptions from './modules/buildFilterOptions.js'
 import getSynonymsOfObject from './modules/getSynonymsOfObject.js'
 import addGroupsLoadedToLocalDb from './modules/addGroupsLoadedToLocalDb.js'
 import getGruppen from './modules/gruppen.js'
 import loadGroupFromRemote from './modules/loadGroupFromRemote.js'
-import queryPcs from './queries/pcs.js'
-import queryRcs from './queries/rcs.js'
 import getPathFromGuid from './modules/getPathFromGuid.js'
-import extractInfoFromPath from './modules/extractInfoFromPath.js'
-import refreshUserRoles from './modules/refreshUserRoles.js'
 import changePathOfObjectInLocalDb from './modules/changePathOfObjectInLocalDb.js'
-import buildFilterOptionsFromObject from './modules/buildFilterOptionsFromObject.js'
 import updateActivePathFromObject from './modules/updateActivePathFromObject.js'
 import exportDataStore from './stores/exportData.js'
 import changeRebuildingRedundantDataStore from './stores/changeRebuildingRedundantData.js'
@@ -34,6 +27,12 @@ import objectsRcsStore from './stores/objectsRcs.js'
 import fieldsStore from './stores/fields.js'
 import taxonomyCollectionsStore from './stores/taxonomyCollections.js'
 import propertyCollectionsStore from './stores/propertyCollections.js'
+import relationCollectionsStore from './stores/relationCollections.js'
+import userStore from './stores/user.js'
+import pathStore from './stores/path.js'
+import filterOptionsStore from './stores/filterOptions.js'
+import activePathStore from './stores/activePath.js'
+import activeObjectStore from './stores/activeObject.js'
 
 export default (Actions) => {
   app.exportDataStore = exportDataStore(Actions)
@@ -60,302 +59,17 @@ export default (Actions) => {
 
   app.propertyCollectionsStore = propertyCollectionsStore(Actions)
 
-  app.relationCollectionsStore = Reflux.createStore({
-    /*
-     * queries relation collections
-     * keeps last query result in pouch (_local/rcs.rcs) for fast delivery
-     * app.js sets default _local/rcs.rcs = [] if not exists on app start
-     * rc's are arrays of the form:
-     * [collectionType, rcName, combining, organization, {Beschreibung: xxx, Datenstand: xxx, Link: xxx, Nutzungsbedingungen: xxx}, count: xxx]
-     *
-     * when this store triggers it passes two variables:
-     * rcs: the relation collections
-     * rcsQuerying: true/false: are rcs being queryied? if true: show warning in symbols
-     */
-    listenables: Actions,
+  app.relationCollectionsStore = relationCollectionsStore(Actions)
 
-    rcsQuerying: false,
+  app.userStore = userStore(Actions)
 
-    getRcs () {
-      return new Promise((resolve, reject) => {
-        app.localDb.get('_local/rcs')
-          .then((doc) => resolve(doc.rcs))
-          .catch((error) =>
-            reject('userStore: error getting relation collections from localDb: ' + error)
-          )
-      })
-    },
+  app.pathStore = pathStore(Actions)
 
-    saveRc (rc) {
-      let rcs
-      app.localDb.get('_local/rcs')
-        .then((doc) => {
-          doc.rcs.push(rc)
-          doc.rcs = doc.rcs.sort((rc) => rc.name)
-          rcs = doc.rcs
-          return app.localDb.put(doc)
-        })
-        .then(() => this.trigger(rcs, this.rcsQuerying))
-        .catch((error) =>
-          app.Actions.showError({title: 'Fehler in relationCollectionsStore, saveRc:', msg: error})
-        )
-    },
+  app.filterOptionsStore = filterOptionsStore(Actions)
 
-    saveRcs (rcs) {
-      app.localDb.get('_local/rcs')
-        .then((doc) => {
-          doc.rcs = rcs
-          return app.localDb.put(doc)
-        })
-        .catch((error) =>
-          app.Actions.showError({title: 'Fehler in relationCollectionsStore, saveRcs:', msg: error})
-        )
-    },
+  app.activePathStore = activePathStore(Actions)
 
-    removeRcByName (name) {
-      let rcs
-      app.localDb.get('_local/rcs')
-        .then((doc) => {
-          doc.rcs = reject(doc.rcs, (rc) => rc.name === name)
-          rcs = doc.rcs
-          return app.localDb.put(doc)
-        })
-        .then(() => this.trigger(rcs, this.rcsQuerying))
-        .catch((error) =>
-          app.Actions.showError({title: 'Fehler in relationCollectionsStore, removeRcByName:', msg: error})
-        )
-    },
-
-    getRcByName (name) {
-      return new Promise((resolve, reject) => {
-        this.getRcs()
-          .then((rcs) => {
-            const rc = rcs.find((rc) => rc.name === name)
-            resolve(rc)
-          })
-          .catch((error) => reject(error))
-      })
-    },
-
-    onQueryRelationCollections (offlineIndexes) {
-      // if rc's exist, send them immediately
-      this.rcsQuerying = true
-      this.getRcs()
-        .then((rcs) => this.trigger(rcs, this.rcsQuerying))
-        .catch((error) =>
-          app.Actions.showError({title: 'relationCollectionsStore, error getting existing rcs:', msg: error})
-        )
-      // now fetch up to date rc's
-      queryRcs(offlineIndexes)
-        .then((rcs) => {
-          this.rcsQuerying = false
-          this.trigger(rcs, this.rcsQuerying)
-          return this.saveRcs(rcs)
-        })
-        .catch((error) =>
-          app.Actions.showError({title: 'relationCollectionsStore, error querying up to date rcs:', msg: error})
-        )
-    }
-  })
-
-  app.userStore = Reflux.createStore({
-    /*
-     * contains email and roles of logged in user
-     * well, it is saved in pouch as local doc _local/login
-     * and contains "logIn" bool which states if user needs to log in
-     * app.js sets default _local/login if not exists on app start
-     */
-    listenables: Actions,
-
-    getLogin () {
-      return new Promise((resolve, reject) => {
-        app.localDb.get('_local/login')
-          .then((doc) => {
-            refreshUserRoles(doc.email)
-            resolve(doc)
-          })
-          .catch((error) =>
-            reject('userStore: error getting login from localDb: ' + error)
-          )
-      })
-    },
-
-    onLogin ({ logIn, email, roles }) {
-      app.localDb.get('_local/login')
-        .then((doc) => {
-          doc.logIn = logIn
-          doc.email = email || undefined
-          doc.roles = roles || []
-          this.trigger({ logIn, email, roles })
-          /*
-           * need to requery organizations if they have been loaded
-           * because isUserAdmin needs to be updated
-           */
-          if (email && app.organizationsStore.organizations.length > 0) app.Actions.getOrganizations(email)
-          return app.localDb.put(doc)
-        })
-        .catch((error) =>
-          app.Actions.showError({title: 'userStore: error logging in:', msg: error})
-        )
-    }
-  })
-
-  app.pathStore = Reflux.createStore({
-    /*
-     * simple store that keeps a hash of paths as keys and guids as values
-     * well, they are kept in the pouch in localDb
-     */
-    listenables: Actions,
-
-    onLoadPaths (newItemsPassed) {
-      // get existing paths
-      addPathsFromItemsToLocalDb(newItemsPassed)
-        .then(() => this.trigger(true))
-        .catch((error) =>
-          app.Actions.showError({title: 'pathStore: error adding paths from passed items:', msg: error})
-        )
-    }
-  })
-
-  app.filterOptionsStore = Reflux.createStore({
-    /*
-     * simple store that keeps an array of filter options
-     * because creating them uses a lot of cpu
-     * well, they are kept in localDb in _local/filterOptions
-    */
-    listenables: Actions,
-
-    getOptions () {
-      return new Promise((resolve, reject) => {
-        app.localDb.get('_local/filterOptions')
-          .then((doc) => resolve(doc.filterOptions))
-          .catch((error) =>
-            reject('filterOptionsStore: error fetching filterOptions from localDb:', error)
-          )
-      })
-    },
-
-    onLoadFilterOptions (newItemsPassed) {
-      this.trigger({
-        filterOptions: null,
-        loading: true
-      })
-      // get existing filterOptions
-      this.getOptions()
-        .then((optionsFromPouch) => {
-          let filterOptions = optionsFromPouch
-          if (newItemsPassed) filterOptions = filterOptions.concat(buildFilterOptions(newItemsPassed))
-          const loading = false
-          this.trigger({ filterOptions, loading })
-        })
-        .catch((error) =>
-          app.Actions.showError({title: 'filterOptionsStore: error preparing trigger:', msg: error})
-        )
-    },
-
-    onChangeFilterOptionsForObject (object) {
-      const option = buildFilterOptionsFromObject(object)
-      let options = null
-      app.localDb.get('_local/filterOptions')
-        .then((doc) => {
-          // replace option with new
-          doc.filterOptions = doc.filterOptions.filter((op) => op.value !== object._id)
-          doc.filterOptions.push(option)
-          options = doc.filterOptions
-          return app.localDb.put(doc)
-        })
-        .then(() => this.trigger({ options: options, loading: false }))
-        .catch((error) =>
-          app.Actions.showError({title: 'filterOptionsStore: error preparing trigger:', msg: error})
-        )
-    }
-  })
-
-  app.activePathStore = Reflux.createStore({
-    /*
-     * simple store that keeps the path (=url) as an array
-     * components can listen to changes in order to update the path
-    */
-    listenables: Actions,
-
-    path: [],
-
-    guid: null,
-
-    onLoadActivePath (path, guid) {
-      // only change if something has changed
-      if (this.guid !== guid || !isEqual(this.path, path)) {
-        this.guid = guid
-        this.path = path
-        const { gruppe, mainComponent } = extractInfoFromPath(path)
-        this.trigger({ path, guid, gruppe, mainComponent })
-      }
-    }
-  })
-
-  app.activeObjectStore = Reflux.createStore({
-    /*
-     * keeps the active object (active = is shown)
-     * components can listen to changes in order to update it's data
-     */
-    listenables: Actions,
-
-    loaded: false,
-
-    item: {},
-
-    onLoadActiveObject (guid) {
-      // check if group is loaded > get object from objectStore
-      if (!guid) {
-        this.onLoadActiveObjectCompleted({})
-      } else {
-        app.objectStore.getObject(guid)
-          // group is already loaded
-          // pass object to activeObjectStore by completing action
-          // if object is empty, store will have no item
-          // so there is never a failed action
-          .then((object) => this.onLoadActiveObjectCompleted(object))
-          .catch((error) => {  // eslint-disable-line handle-callback-err
-            // this group is not loaded yet
-            // get Object from couch
-            app.remoteDb.get(guid)
-              .then((object) => this.onLoadActiveObjectCompleted(object))
-              .catch((error) => app.Actions.showError({
-                title: 'error fetching doc from remoteDb with guid ' + guid + ':',
-                msg: error
-              }))
-          })
-      }
-    },
-
-    onLoadActiveObjectCompleted (item) {
-      // only change if active item has changed
-      if (!isEqual(item, this.item)) {
-        // item can be an object or {}
-        this.item = item
-        this.loaded = Object.keys(item).length > 0
-        // tell views that data has changed
-        this.trigger(item, [])
-        // load path for this object...
-        if (item && item._id) {
-          getPathFromGuid(item._id)
-            .then(({ path, url }) => {
-              // ...if it differs from the loaded path
-              if (!isEqual(app.activePathStore.path, path)) app.Actions.loadActivePath(path, item._id)
-              // now check for synonym objects
-              return getSynonymsOfObject(item)
-            })
-            .then((synonymObjects) => {
-              // if they exist: trigger again and pass synonyms
-              if (synonymObjects.length > 0) this.trigger(item, synonymObjects)
-            })
-            .catch((error) =>
-              app.Actions.showError({title: 'activeObjectStore: error fetching synonyms of object:', msg: error})
-            )
-        }
-      }
-    }
-  })
+  app.activeObjectStore = activeObjectStore(Actions)
 
   app.loadingGroupsStore = Reflux.createStore({
     /*
