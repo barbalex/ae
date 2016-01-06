@@ -7,7 +7,7 @@ import removeRolesFromUser from '../components/main/organizations/removeRolesFro
 import getRoleFromOrgField from '../components/main/organizations/getRoleFromOrgField.js'
 
 export default (Actions) => {
-  app.organizationsStore = Reflux.createStore({
+  const organizationsStore = Reflux.createStore({
     /**
      * used to manage organizations or rather: writers and admins of organizations
      */
@@ -156,4 +156,6 @@ export default (Actions) => {
       this.trigger({ organizations, activeOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, tcsOfActiveOrganization, pcsOfActiveOrganization, rcsOfActiveOrganization })
     }
   })
+
+  return organizationsStore
 }
