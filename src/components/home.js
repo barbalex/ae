@@ -65,7 +65,8 @@ export default React.createClass({
     rcsOfActiveOrganization: React.PropTypes.array,
     userIsAdminInOrgs: React.PropTypes.array,
     userIsEsWriterInOrgs: React.PropTypes.array,
-    rebuildingRedundantData: React.PropTypes.string
+    rebuildingRedundantData: React.PropTypes.string,
+    errors: React.PropTypes.array
   },
 
   getInitialState () {
@@ -122,7 +123,8 @@ export default React.createClass({
       rcsOfActiveOrganization: [],
       userIsAdminInOrgs: [],
       userIsEsWriterInOrgs: [],
-      rebuildingRedundantData: null
+      rebuildingRedundantData: null,
+      errors: []
     }
   },
 
@@ -143,6 +145,12 @@ export default React.createClass({
     this.listenTo(app.relationCollectionsStore, this.onChangeRelationCollectionsStore)
     this.listenTo(app.fieldsStore, this.onChangeFieldsStore)
     this.listenTo(app.organizationsStore, this.onOrganizationsStoreChange)
+    this.listenTo(app.errorStore, this.onErrorStoreChange)
+  },
+
+  onErrorStoreChange (errors) {
+    console.log('home.js, onErrorStoreChange, errors', errors)
+    this.setState({ errors })
   },
 
   onOrganizationsStoreChange ({ organizations, activeOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, tcsOfActiveOrganization, pcsOfActiveOrganization, rcsOfActiveOrganization }) {
@@ -279,12 +287,12 @@ export default React.createClass({
   },
 
   render () {
-    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, mainComponent, logIn, email, userRoles, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, tcs, pcs, tcsQuerying, rcs, pcsQuerying, rcsQuerying, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, offlineIndexes, organizations, activeOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, tcsOfActiveOrganization, pcsOfActiveOrganization, rcsOfActiveOrganization, editObjects, rebuildingRedundantData } = this.state
+    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, mainComponent, logIn, email, userRoles, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, tcs, pcs, tcsQuerying, rcs, pcsQuerying, rcsQuerying, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, offlineIndexes, organizations, activeOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, tcsOfActiveOrganization, pcsOfActiveOrganization, rcsOfActiveOrganization, editObjects, rebuildingRedundantData, errors } = this.state
     const groupsNotLoaded = difference(gruppen, groupsLoadedOrLoading)
     const showGruppen = groupsNotLoaded.length > 0
     const showFilter = filterOptions.length > 0 || loadingFilterOptions
     const showTree = groupsLoadedOrLoading.length > 0
-    const showMain = object !== undefined || !!mainComponent
+    const showMain = object !== undefined || !!mainComponent || errors && errors.length > 0
     const showLogin = logIn && !email
     let homeStyle = {}
     if (pcsQuerying || rcsQuerying || fieldsQuerying) homeStyle.cursor = 'progress'
@@ -382,7 +390,8 @@ export default React.createClass({
               rcsOfActiveOrganization={rcsOfActiveOrganization}
               onChangeActiveOrganization={this.onChangeActiveOrganization}
               userIsAdminInOrgs={userIsAdminInOrgs}
-              userIsEsWriterInOrgs={userIsEsWriterInOrgs} />
+              userIsEsWriterInOrgs={userIsEsWriterInOrgs}
+              errors={errors} />
           : null
         }
         {
