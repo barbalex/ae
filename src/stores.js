@@ -2,7 +2,7 @@
 
 import app from 'ampersand-app'
 import Reflux from 'reflux'
-import { clone, difference, forEach, get, groupBy, isEqual, pluck, reject, reject as _reject, union, uniq, without } from 'lodash'
+import { difference, forEach, get, groupBy, isEqual, pluck, reject, reject as _reject, union, uniq, without } from 'lodash'
 import getGroupsLoadedFromLocalDb from './modules/getGroupsLoadedFromLocalDb.js'
 import getItemsFromLocalDb from './modules/getItemsFromLocalDb.js'
 import getItemFromLocalDb from './modules/getItemFromLocalDb.js'
@@ -24,10 +24,6 @@ import convertValue from './modules/convertValue.js'
 import sortObjectArrayByName from './modules/sortObjectArrayByName.js'
 import buildRcFirstLevel from './modules/buildRcFirstLevel.js'
 import getFieldsForGroupsToExportByCollectionType from './modules/getFieldsForGroupsToExportByCollectionType.js'
-import filterCollections from './components/main/export/panel4/filterCollections.js'
-import addCollectionsOfSynonyms from './components/main/export/panel4/addCollectionsOfSynonyms.js'
-import buildExportObjects from './components/main/export/panel4/buildExportObjects.js'
-import removeCollectionsNotFulfilling from './components/main/export/panel4/removeCollectionsNotFulfilling.js'
 import getPathFromGuid from './modules/getPathFromGuid.js'
 import extractInfoFromPath from './modules/extractInfoFromPath.js'
 import refreshUserRoles from './modules/refreshUserRoles.js'
@@ -35,74 +31,22 @@ import changePathOfObjectInLocalDb from './modules/changePathOfObjectInLocalDb.j
 import buildFilterOptionsFromObject from './modules/buildFilterOptionsFromObject.js'
 import updateActivePathFromObject from './modules/updateActivePathFromObject.js'
 import exportDataStore from './stores/exportData.js'
+import changeRebuildingRedundantDataStore from './stores/changeRebuildingRedundantData.js'
 import replicateFromRemoteDbStore from './stores/replicateFromRemoteDb.js'
+import replicateToRemoteDbStore from './stores/replicateToRemoteDb.js'
+import errorStore from './stores/error.js'
 import organizationsStore from './stores/organizations.js'
 
 export default (Actions) => {
   app.exportDataStore = exportDataStore(Actions)
 
-  app.changeRebuildingRedundantDataStore = Reflux.createStore({
-
-    listenables: Actions,
-
-    onChangeRebuildingRedundantData (message) {
-      this.trigger(message)
-    }
-  })
+  app.changeRebuildingRedundantDataStore = changeRebuildingRedundantDataStore(Actions)
 
   app.replicateFromRemoteDbStore = replicateFromRemoteDbStore(Actions)
 
-  app.replicateToRemoteDbStore = Reflux.createStore({
+  app.replicateToRemoteDbStore = replicateToRemoteDbStore(Actions)
 
-    listenables: Actions,
-
-    onReplicateToRemoteDb () {
-      this.trigger('replicating')
-      app.localDb.replicate.to(app.remoteDb)
-        .then((result) => this.trigger('success'))
-        .catch((error) => {
-          app.Actions.showError({title: 'Fehler beim Replizieren:', msg: error})
-        })
-    }
-  })
-
-  app.errorStore = Reflux.createStore({
-    /*
-     * receives an error object with two keys: title, msg
-     * keeps error objects in the array errors
-     * deletes errors after a defined time - the time while the error will be shown to the user
-     *
-     * if a view wants to inform of an error it
-     * calls action showError and passes the object
-     *
-     * the errorStore triggers, passing the errors array
-     * ...then triggers again after removing the last error some time later
-     *
-     * Test: app.Actions.showError({title: 'testTitle', msg: 'testMessage'})
-     * template: app.Actions.showError({title: 'title', msg: error})
-     */
-    listenables: Actions,
-
-    errors: [],
-
-    // this is how long the error will be shown
-    duration: 10000,
-
-    onShowError (error) {
-      if (!error) {
-        // user wants to remove error messages
-        this.errors = []
-        this.trigger(this.errors)
-      } else {
-        this.errors.unshift(error)
-        this.trigger(this.errors)
-        setTimeout(() => {
-          this.errors.pop()
-          this.trigger(this.errors)
-        }, this.duration)
-      }
-    }
-  })
+  app.errorStore = errorStore(Actions)
 
   app.usersStore = Reflux.createStore({
     /**
