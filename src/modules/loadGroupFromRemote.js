@@ -104,6 +104,7 @@ export default (gruppe, callback) => {
                 })
                 .catch((error) => reject('loadGroupFromRemote.js: error loading group' + gruppe + 'from remoteDb:', error)
               )
+                // turned off because it starts too early
                 // let replication from remoteDb catch up
                 // .then(() => app.localDb.replicate.from(app.remoteDb, { batch_size: 500 }))
                 // let regular replication to remoteDb catch up
