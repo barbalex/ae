@@ -108,13 +108,14 @@ export default (Actions) => {
 
     listenables: Actions,
 
-    onReplicateFromRemoteDb () {
+    onReplicateFromRemoteDb (thenToRemoteDb) {
       this.trigger('replicating')
-      app.localDb.replicate.from(app.remoteDb, { batch_size: 10 })
+      app.localDb.replicate.from(app.remoteDb)
         .then((result) => {
           this.trigger('success')
+          if (thenToRemoteDb) app.Actions.replicateToRemoteDb()
           app.fieldsStore.emptyFields()
-          // TODO: need to rebuild redundant data
+          // TODO: need to rebuild redundant data > listen to change stream?
         })
         .catch((error) =>
           app.Actions.showError({title: 'Fehler beim Replizieren:', msg: error})
@@ -128,7 +129,7 @@ export default (Actions) => {
 
     onReplicateToRemoteDb () {
       this.trigger('replicating')
-      app.localDb.replicate.to(app.remoteDb, { batch_size: 500 })
+      app.localDb.replicate.to(app.remoteDb)
         .then((result) => this.trigger('success'))
         .catch((error) => {
           app.Actions.showError({title: 'Fehler beim Replizieren:', msg: error})
@@ -1359,16 +1360,18 @@ export default (Actions) => {
           }
           this.trigger(payload)
         })
-        /*
         .then(() => {
           // if all groups are loaded, replicate
           // uncommented because leaded to errors
+          // TODO: use action
           if (gruppen.length === groupsLoaded.length && finishedLoading) {
+            app.Actions.replicateFromRemoteDb('thenToRemoteDb')
+            /*
             app.localDb.replicate.from(app.remoteDb, { batch_size: 500 })
               .then(() => app.localDb.replicate.to(app.remoteDb, { batch_size: 500 }))
-              .catch((error) => console.log('error replicating', error))
+              .catch((error) => console.log('error replicating', error))*/
           }
-        })*/
+        })
         .catch((error) =>
           app.Actions.showError({title: 'loadingGroupsStore, onShowGroupLoading, error getting groups loaded from localDb:', msg: error})
         )
