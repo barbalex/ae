@@ -69,7 +69,7 @@ app.extend({
       this.localDb = new PouchDB('ae'),
       this.remoteDb = new PouchDB(pouchUrl()),
       this.remoteUsersDb = new PouchDB(remoteUsersDbUrl),
-      this.remoteDumpsDb = new PouchDB(remoteDumpsDbUrl())
+      this.remoteDumpsDb = new PouchDB(remoteDumpsDbUrl)
     ])
     .then(() => Promise.all([
       /**

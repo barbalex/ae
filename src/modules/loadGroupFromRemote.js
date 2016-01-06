@@ -9,6 +9,7 @@ import PouchDB from 'pouchdb'
 import pouchdbLoad from 'pouchdb-load'
 import { filter } from 'lodash'
 import getCouchUrl from './getCouchUrl.js'
+import getCouchBaseUrl from './getCouchBaseUrl.js'
 import buildHierarchy from './buildHierarchy.js'
 PouchDB.plugin(pouchdbLoad)
 
@@ -40,7 +41,8 @@ export default (gruppe, callback) => {
                     progressPercent: progressPercent
                   })
                   const couchUrl = getCouchUrl()
-                  const loadUrl = `${couchUrl}/ae-${gruppeString}/${fileName}`
+                  const couchDumpsUrl = getCouchBaseUrl() + 'ae_dumps'
+                  const loadUrl = `${couchDumpsUrl}/ae-${gruppeString}/${fileName}`
                   if (index < attachments.length - 1) return app.localDb.load(loadUrl)
                   // only write checkpoint when loading last dump
                   return app.localDb.load(loadUrl, {proxy: couchUrl})
