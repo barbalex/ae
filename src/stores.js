@@ -36,6 +36,7 @@ import refreshUserRoles from './modules/refreshUserRoles.js'
 import changePathOfObjectInLocalDb from './modules/changePathOfObjectInLocalDb.js'
 import buildFilterOptionsFromObject from './modules/buildFilterOptionsFromObject.js'
 import updateActivePathFromObject from './modules/updateActivePathFromObject.js'
+import createOrganizationsStore from './stores/organizations.js'
 
 export default (Actions) => {
   app.exportDataStore = Reflux.createStore({
@@ -198,11 +199,14 @@ export default (Actions) => {
     }
   })
 
+  createOrganizationsStore(Actions)
+
+  /*
   app.organizationsStore = Reflux.createStore({
     /**
      * used to manage organizations or rather: writers and admins of organizations
      */
-    listenables: Actions,
+    /*listenables: Actions,
 
     organizations: [],
 
@@ -346,7 +350,7 @@ export default (Actions) => {
       const rcsOfActiveOrganization = this.rcsOfActiveOrganization
       this.trigger({ organizations, activeOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, tcsOfActiveOrganization, pcsOfActiveOrganization, rcsOfActiveOrganization })
     }
-  })
+  })*/
 
   app.objectsPcsStore = Reflux.createStore({
     /**
