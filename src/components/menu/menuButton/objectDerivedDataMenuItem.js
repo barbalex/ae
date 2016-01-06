@@ -44,8 +44,17 @@ export default React.createClass({
       <MenuItem
         onClick={this.rebuildRedundantData}>
         Redundante Daten neu aufbauen
-        <OverlayTrigger trigger={['hover', 'focus']} rootClose placement='right' overlay={this.popover()}>
-          <span className='withPopover'><Glyphicon glyph='info-sign' style={glyphiconStyle} /></span>
+        <OverlayTrigger
+          trigger={['hover', 'focus']}
+          rootClose
+          placement='right'
+          overlay={this.popover()}>
+          <span
+            className='withPopover'>
+            <Glyphicon
+              glyph='info-sign'
+              style={glyphiconStyle} />
+          </span>
         </OverlayTrigger>
       </MenuItem>
     )
