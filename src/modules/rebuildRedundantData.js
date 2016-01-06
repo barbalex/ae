@@ -19,7 +19,6 @@ export default () => {
 
   app.objectStore.getObjects()
     .then((items) => {
-      console.log('got items')
       objects = items
       return app.localDb.get('_local/hierarchy')
     })
@@ -35,6 +34,7 @@ export default () => {
     .then(() => app.localDb.get('_local/groupsLoaded'))
     .then((doc) => {
       doc.groupsLoaded = pluck(hierarchy, 'Name')
+      console.log('rebuildRedundantData.js, groupsLoaded', doc.groupsLoaded)
       return app.localDb.put(doc)
     })
     // 4. update filter options
@@ -48,6 +48,7 @@ export default () => {
     // update paths
     .then(() => app.localDb.get('_local/paths'))
     .then((doc) => {
+      console.log('rebuildRedundantData.js, loading paths')
       app.Actions.changeRebuildingRedundantData('baue redundante Daten: URL-Pfade')
       doc.paths = {}
       return app.localDb.put(doc)
