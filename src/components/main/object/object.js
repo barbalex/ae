@@ -122,35 +122,30 @@ export default React.createClass({
           addNewObject={addNewObject}
           removeObject={removeObject} />
         {
-          taxRcs.length > 0
-          ? <TaxonomicRelationCollections
-              taxRcs={taxRcs} />
-          : null
+          taxRcs.length > 0 &&
+          <TaxonomicRelationCollections
+            taxRcs={taxRcs} />
         }
         {
-          pcs.length > 0
-          ? <PropertyCollections
-              object={object} />
-          : null
+          pcs.length > 0 &&
+          <PropertyCollections
+            object={object} />
         }
         {
-          objectRcs.length > 0
-          ? <RelationCollections
-              objectRcs={objectRcs} />
-          : null
+          objectRcs.length > 0 &&
+          <RelationCollections
+            objectRcs={objectRcs} />
         }
         {
-          pcsOfSynonyms.length > 0
-          ? <PcsOfSynonyms
-              pcsOfSynonyms={pcsOfSynonyms}
-              object={object} />
-          : null
+          pcsOfSynonyms.length > 0 &&
+          <PcsOfSynonyms
+            pcsOfSynonyms={pcsOfSynonyms}
+            object={object} />
         }
         {
-          rcsOfSynonyms.length > 0
-          ? <RcsOfSynonyms
-              rcsOfSynonyms={rcsOfSynonyms} />
-          : null
+          rcsOfSynonyms.length > 0 &&
+          <RcsOfSynonyms
+            rcsOfSynonyms={rcsOfSynonyms} />
         }
       </div>
     )

@@ -133,29 +133,27 @@ export default React.createClass({
           header={propertyCollection.Name}
           eventKey='1'>
           {
-            collectionIsEditable
-            ? <EditButtonGroup
-                editObjects={editObjects}
-                toggleEditObjects={toggleEditObjects}
-                addNewObject={addNewObject}
-                removeObject={removeObject} />
-            : null
+            collectionIsEditable &&
+            <EditButtonGroup
+              editObjects={editObjects}
+              toggleEditObjects={toggleEditObjects}
+              addNewObject={addNewObject}
+              removeObject={removeObject} />
           }
           {
-            showPcDescription
-            ? <PcDescription pc={propertyCollection} />
-            : null
+            showPcDescription &&
+            <PcDescription
+              pc={propertyCollection} />
           }
           <div>
             {
-              pcType === 'Taxonomie'
-              ? <Field
-                  fieldName='GUID'
-                  fieldValue={object._id}
-                  pcType={pcType}
-                  pcName={pcName}
-                  collectionIsEditing={false} />
-              : null
+              pcType === 'Taxonomie' &&
+              <Field
+                fieldName='GUID'
+                fieldValue={object._id}
+                pcType={pcType}
+                pcName={pcName}
+                collectionIsEditing={false} />
             }
             {properties}
           </div>
