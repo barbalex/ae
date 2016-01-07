@@ -48,9 +48,21 @@ export default React.createClass({
     }
 
     return (
-      <div style={divStyle}>
-        <Button bsStyle='danger' onClick={this.onClickDeleteRcInstances} disabled={rcsRemoved}><Glyphicon glyph='trash'/> Beziehungssammlung "{name}" aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen</Button>
-        {showConfirmModal ? <ModalDeleteRcInstances name={name} onClickRemoveRcInstances={this.onClickRemove} closeModal={this.closeModal} /> : null}
+      <div
+        style={divStyle}>
+        <Button
+          bsStyle='danger'
+          onClick={this.onClickDeleteRcInstances}
+          disabled={rcsRemoved}>
+          <Glyphicon glyph='trash'/> Beziehungssammlung "{name}" aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen
+        </Button>
+        {
+          showConfirmModal &&
+          <ModalDeleteRcInstances
+            name={name}
+            onClickRemoveRcInstances={this.onClickRemove}
+            closeModal={this.closeModal} />
+        }
       </div>
     )
   }

@@ -30,31 +30,29 @@ export default React.createClass({
     return (
       <div>
         {
-          rcsToImport.length > 0
-          ? <InputImportFields
-              idsImportIdField={idsImportIdField}
-              rcsToImport={rcsToImport}
-              onChangeImportId={onChangeImportId} />
-          : null
+          rcsToImport.length > 0 &&
+          <InputImportFields
+            idsImportIdField={idsImportIdField}
+            rcsToImport={rcsToImport}
+            onChangeImportId={onChangeImportId} />
         }
         <InputAeId
           idsAeIdField={idsAeIdField}
           onChangeAeId={onChangeAeId} />
         {
-          idsImportIdField && idsAeIdField
-          ? <AlertIdsAnalysisResult
-              idsImportIdField={idsImportIdField}
-              idsAeIdField={idsAeIdField}
-              rcsToImport={rcsToImport}
-              idsNumberOfRecordsWithIdValue={idsNumberOfRecordsWithIdValue}
-              idsNumberImportable={idsNumberImportable}
-              idsNotImportable={idsNotImportable}
-              idsAnalysisComplete={idsAnalysisComplete}
-              idsNotANumber={idsNotANumber}
-              idsWithoutPartner={idsWithoutPartner}
-              rPartnerIdsToImport={rPartnerIdsToImport}
-              rPartnerIdsImportable={rPartnerIdsImportable} />
-          : null
+          idsImportIdField && idsAeIdField &&
+          <AlertIdsAnalysisResult
+            idsImportIdField={idsImportIdField}
+            idsAeIdField={idsAeIdField}
+            rcsToImport={rcsToImport}
+            idsNumberOfRecordsWithIdValue={idsNumberOfRecordsWithIdValue}
+            idsNumberImportable={idsNumberImportable}
+            idsNotImportable={idsNotImportable}
+            idsAnalysisComplete={idsAnalysisComplete}
+            idsNotANumber={idsNotANumber}
+            idsWithoutPartner={idsWithoutPartner}
+            rPartnerIdsToImport={rPartnerIdsToImport}
+            rPartnerIdsImportable={rPartnerIdsImportable} />
         }
       </div>
     )
