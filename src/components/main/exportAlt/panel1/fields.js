@@ -59,28 +59,28 @@ export default React.createClass({
     const taxonomyHeader = Object.keys(taxonomyFields).length > 1 ? 'Taxonomien' : 'Taxonomie'
 
     return (
-      <Accordion activeKey={activePanel}>
+      <Accordion
+        activeKey={activePanel}>
         <Panel
           collapsible
           header='Art / Lebensraum'
           eventKey={1}
           onClick={this.onClickPanel.bind(this, 1)}>
           {
-            activePanel === 1
-            ? <div
-                className='felderspalte'
-                style={{marginBottom: -8}}>
-                <Input
-                  type='checkbox'
-                  label='GUID'
-                  onChange={this.onChangeMyExportData.bind(this, 'object', '_id')}
-                  checked={guidChecked} />
-                <Input
-                  type='checkbox'
-                  label='Gruppe'
-                  onChange={this.onChangeMyExportData.bind(this, 'object', 'Gruppe')} />
-              </div>
-            : null
+            activePanel === 1 &&
+            <div
+              className='felderspalte'
+              style={{marginBottom: -8}}>
+              <Input
+                type='checkbox'
+                label='GUID'
+                onChange={this.onChangeMyExportData.bind(this, 'object', '_id')}
+                checked={guidChecked} />
+              <Input
+                type='checkbox'
+                label='Gruppe'
+                onChange={this.onChangeMyExportData.bind(this, 'object', 'Gruppe')} />
+            </div>
           }
         </Panel>
         <Panel
@@ -90,14 +90,13 @@ export default React.createClass({
           eventKey={2}
           onClick={this.onClickPanel.bind(this, 2)}>
           {
-            activePanel === 2
-            ? <FieldsTaxonomy
-                urlOptions={urlOptions}
-                taxonomyFields={taxonomyFields}
-                collectionsWithAllChoosen={collectionsWithAllChoosen}
-                onChooseField={onChooseField}
-                onChooseAllOfCollection={onChooseAllOfCollection} />
-            : null
+            activePanel === 2 &&
+            <FieldsTaxonomy
+              urlOptions={urlOptions}
+              taxonomyFields={taxonomyFields}
+              collectionsWithAllChoosen={collectionsWithAllChoosen}
+              onChooseField={onChooseField}
+              onChooseAllOfCollection={onChooseAllOfCollection} />
           }
         </Panel>
         <Panel
@@ -107,15 +106,14 @@ export default React.createClass({
           eventKey={3}
           onClick={this.onClickPanel.bind(this, 3)}>
           {
-            activePanel === 3
-            ? <FieldsPCs
-                urlOptions={urlOptions}
-                pcFields={pcFields}
-                pcs={pcs}
-                collectionsWithAllChoosen={collectionsWithAllChoosen}
-                onChooseField={onChooseField}
-                onChooseAllOfCollection={onChooseAllOfCollection} />
-            : null
+            activePanel === 3 &&
+            <FieldsPCs
+              urlOptions={urlOptions}
+              pcFields={pcFields}
+              pcs={pcs}
+              collectionsWithAllChoosen={collectionsWithAllChoosen}
+              onChooseField={onChooseField}
+              onChooseAllOfCollection={onChooseAllOfCollection} />
           }
         </Panel>
         <Panel
@@ -125,17 +123,16 @@ export default React.createClass({
           eventKey={4}
           onClick={this.onClickPanel.bind(this, 4)}>
           {
-            activePanel === 4
-            ? <FieldsRCs
-                urlOptions={urlOptions}
-                relationFields={relationFields}
-                rcs={rcs}
-                collectionsWithAllChoosen={collectionsWithAllChoosen}
-                oneRowPerRelation={oneRowPerRelation}
-                onChooseField={onChooseField}
-                onChooseAllOfCollection={onChooseAllOfCollection}
-                onChangeOneRowPerRelation={onChangeOneRowPerRelation} />
-            : null
+            activePanel === 4 &&
+            <FieldsRCs
+              urlOptions={urlOptions}
+              relationFields={relationFields}
+              rcs={rcs}
+              collectionsWithAllChoosen={collectionsWithAllChoosen}
+              oneRowPerRelation={oneRowPerRelation}
+              onChooseField={onChooseField}
+              onChooseAllOfCollection={onChooseAllOfCollection}
+              onChangeOneRowPerRelation={onChangeOneRowPerRelation} />
           }
         </Panel>
       </Accordion>

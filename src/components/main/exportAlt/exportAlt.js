@@ -326,53 +326,63 @@ export default React.createClass({
     const { activePanel, urlOptions, includeDataFromSynonyms, tooManyFieldsChoosen, tooManyRcsChoosen, collectionsWithAllChoosen, oneRowPerRelation, urlCopied } = this.state
 
     return (
-      <div id='export' className='formContent'>
+      <div
+        id='export'
+        className='formContent'>
         {
-          tooManyFieldsChoosen
-          ? <ModalTooManyFieldsChoosen
-              resetTooManyFieldsChoosen={this.resetTooManyFieldsChoosen} />
-          : null
+          tooManyFieldsChoosen &&
+          <ModalTooManyFieldsChoosen
+            resetTooManyFieldsChoosen={this.resetTooManyFieldsChoosen} />
         }
         {
-          tooManyRcsChoosen
-          ? <ModalTooManyRcsChoosen
-              resetTooManyRcsChoosen={this.resetTooManyRcsChoosen} />
-          : null
+          tooManyRcsChoosen &&
+          <ModalTooManyRcsChoosen
+            resetTooManyRcsChoosen={this.resetTooManyRcsChoosen} />
         }
-        <h4>Eigenschaften für das Artenlistentool wählen</h4>
-        <Accordion activeKey={activePanel} onSelect={this.handleOnSelectPanel}>
+        <h4>
+          Eigenschaften für das Artenlistentool wählen
+        </h4>
+        <Accordion
+          activeKey={activePanel}
+          onSelect={this.handleOnSelectPanel}>
 
-          <Panel collapsible header='1. Eigenschaften wählen' eventKey={1} onClick={this.onClickPanel.bind(this, 1)}>
+          <Panel
+            collapsible
+            header='1. Eigenschaften wählen'
+            eventKey={1}
+            onClick={this.onClickPanel.bind(this, 1)}>
             {
-              activePanel === 1
-              ? <Panel1
-                  taxonomyFields={taxonomyFields}
-                  pcFields={pcFields}
-                  relationFields={relationFields}
-                  urlOptions={urlOptions}
-                  pcs={pcs}
-                  rcs={rcs}
-                  includeDataFromSynonyms={includeDataFromSynonyms}
-                  collectionsWithAllChoosen={collectionsWithAllChoosen}
-                  oneRowPerRelation={oneRowPerRelation}
-                  onChangeIncludeDataFromSynonyms={this.onChangeIncludeDataFromSynonyms}
-                  onChooseField={this.onChooseField}
-                  onChooseAllOfCollection={this.onChooseAllOfCollection}
-                  onChangeOneRowPerRelation={this.onChangeOneRowPerRelation} />
-              : null
+              activePanel === 1 &&
+              <Panel1
+                taxonomyFields={taxonomyFields}
+                pcFields={pcFields}
+                relationFields={relationFields}
+                urlOptions={urlOptions}
+                pcs={pcs}
+                rcs={rcs}
+                includeDataFromSynonyms={includeDataFromSynonyms}
+                collectionsWithAllChoosen={collectionsWithAllChoosen}
+                oneRowPerRelation={oneRowPerRelation}
+                onChangeIncludeDataFromSynonyms={this.onChangeIncludeDataFromSynonyms}
+                onChooseField={this.onChooseField}
+                onChooseAllOfCollection={this.onChooseAllOfCollection}
+                onChangeOneRowPerRelation={this.onChangeOneRowPerRelation} />
             }
           </Panel>
 
-          <Panel collapsible header='2. URL generieren' eventKey={2} onClick={this.onClickPanel.bind(this, 2)}>
+          <Panel
+            collapsible
+            header='2. URL generieren'
+            eventKey={2}
+            onClick={this.onClickPanel.bind(this, 2)}>
             {
-              activePanel === 2
-              ? <Panel2
-                  urlOptions={urlOptions}
-                  includeDataFromSynonyms={includeDataFromSynonyms}
-                  oneRowPerRelation={oneRowPerRelation}
-                  onCopyUrl={this.onCopyUrl}
-                  urlCopied={urlCopied} />
-              : null
+              activePanel === 2 &&
+              <Panel2
+                urlOptions={urlOptions}
+                includeDataFromSynonyms={includeDataFromSynonyms}
+                oneRowPerRelation={oneRowPerRelation}
+                onCopyUrl={this.onCopyUrl}
+                urlCopied={urlCopied} />
             }
           </Panel>
 
