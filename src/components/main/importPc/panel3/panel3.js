@@ -28,29 +28,27 @@ export default React.createClass({
     return (
       <div>
         {
-          pcsToImport.length > 0
-          ? <InputImportFields
-              idsImportIdField={idsImportIdField}
-              pcsToImport={pcsToImport}
-              onChangeImportId={onChangeImportId} />
-          : null
+          pcsToImport.length > 0 &&
+          <InputImportFields
+            idsImportIdField={idsImportIdField}
+            pcsToImport={pcsToImport}
+            onChangeImportId={onChangeImportId} />
         }
         <InputAeId
           idsAeIdField={idsAeIdField}
           onChangeAeId={onChangeAeId} />
         {
-          idsImportIdField && idsAeIdField
-          ? <AlertIdsAnalysisResult
-              idsImportIdField={idsImportIdField}
-              idsAeIdField={idsAeIdField}
-              pcsToImport={pcsToImport}
-              idsNumberOfRecordsWithIdValue={idsNumberOfRecordsWithIdValue}
-              idsDuplicate={idsDuplicate}
-              idsNumberImportable={idsNumberImportable}
-              idsNotImportable={idsNotImportable}
-              idsAnalysisComplete={idsAnalysisComplete}
-              idsNotANumber={idsNotANumber} />
-          : null
+          idsImportIdField && idsAeIdField &&
+          <AlertIdsAnalysisResult
+            idsImportIdField={idsImportIdField}
+            idsAeIdField={idsAeIdField}
+            pcsToImport={pcsToImport}
+            idsNumberOfRecordsWithIdValue={idsNumberOfRecordsWithIdValue}
+            idsDuplicate={idsDuplicate}
+            idsNumberImportable={idsNumberImportable}
+            idsNotImportable={idsNotImportable}
+            idsAnalysisComplete={idsAnalysisComplete}
+            idsNotANumber={idsNotANumber} />
         }
       </div>
     )
