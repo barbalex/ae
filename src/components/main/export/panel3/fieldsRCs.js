@@ -79,15 +79,14 @@ export default React.createClass({
           eventKey={cIndex}
           onClick={this.onClickPanel.bind(this, cIndex)}>
           {
-            activePanelOpeningWhenOnlyOneCollection === cIndex
-            ? <FieldsRCsPanel
-                cNameKey={cNameKey}
-                relationFields={relationFields}
-                exportOptions={exportOptions}
-                collectionsWithAllChoosen={collectionsWithAllChoosen}
-                onChooseField={onChooseField}
-                onChooseAllOfCollection={onChooseAllOfCollection} />
-            : null
+            activePanelOpeningWhenOnlyOneCollection === cIndex &&
+            <FieldsRCsPanel
+              cNameKey={cNameKey}
+              relationFields={relationFields}
+              exportOptions={exportOptions}
+              collectionsWithAllChoosen={collectionsWithAllChoosen}
+              onChooseField={onChooseField}
+              onChooseAllOfCollection={onChooseAllOfCollection} />
           }
         </Panel>
       )
@@ -96,7 +95,9 @@ export default React.createClass({
     return (
       <div>
         <WellRelationsOptions />
-        <div id='rcOptions' style={divStyle}>
+        <div
+          id='rcOptions'
+          style={divStyle}>
           <Input
             type='checkbox'
             label='Pro Beziehung eine Zeile'

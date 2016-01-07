@@ -46,35 +46,30 @@ export default React.createClass({
           oneRowPerRelation={oneRowPerRelation}
           combineTaxonomies={combineTaxonomies} />
         {
-          exportObjects.length > 0
-          ? <TablePreview
-              exportObjects={exportObjects} />
-          : null
+          exportObjects.length > 0 &&
+          <TablePreview
+            exportObjects={exportObjects} />
         }
         {
-          showAlertBuildingData
-          ? <AlertBuildingExportData />
-          : null
+          showAlertBuildingData &&
+          <AlertBuildingExportData />
         }
         {
-          errorBuildingExportData
-          ? <AlertErrorBuildingExportData
-              errorBuildingExportData={errorBuildingExportData} />
-          : null
+          errorBuildingExportData &&
+          <AlertErrorBuildingExportData
+            errorBuildingExportData={errorBuildingExportData} />
         }
         {
-          showExportComponents
-          ? <WellFormat
-              format={format}
-              onChangeFormat={onChangeFormat} />
-          : null
+          showExportComponents &&
+          <WellFormat
+            format={format}
+            onChangeFormat={onChangeFormat} />
         }
         {
-          showExportComponents
-          ? <ButtonExport
-              exportObjects={exportObjects}
-              format={format} />
-          : null
+          showExportComponents &&
+          <ButtonExport
+            exportObjects={exportObjects}
+            format={format} />
         }
       </div>
     )
