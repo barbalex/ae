@@ -66,22 +66,22 @@ export default React.createClass({
           eventKey={cIndex}
           onClick={this.onClickPanel.bind(this, cIndex)}>
           {
-            openPanel
-            ? <FieldsPCsPanel
-                cNameKey={cNameKey}
-                pcs={pcs}
-                exportOptions={exportOptions}
-                pcFields={pcFields}
-                onChangeFilterField={onChangeFilterField}
-                onChangeCoSelect={onChangeCoSelect} />
-            : null
+            openPanel &&
+            <FieldsPCsPanel
+              cNameKey={cNameKey}
+              pcs={pcs}
+              exportOptions={exportOptions}
+              pcFields={pcFields}
+              onChangeFilterField={onChangeFilterField}
+              onChangeCoSelect={onChangeCoSelect} />
           }
         </Panel>
       )
     })
 
     return (
-      <Accordion activeKey={activePanelOpeningWhenOnlyOneCollection}>
+      <Accordion
+        activeKey={activePanelOpeningWhenOnlyOneCollection}>
         {collections}
       </Accordion>
     )
