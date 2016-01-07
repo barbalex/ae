@@ -13,7 +13,6 @@ export default () => {
   let objects = []
   let hierarchy
   // 1. get objects from localDb
-
   console.log('rebuilding redundant data')
   app.Actions.changeRebuildingRedundantData('baue redundante Daten: lade Daten')
 
