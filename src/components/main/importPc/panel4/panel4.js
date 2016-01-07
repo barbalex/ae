@@ -41,36 +41,32 @@ export default React.createClass({
           deletingPcInstancesProgress={deletingPcInstancesProgress}
           onClickRemovePcInstances={onClickRemovePcInstances} />
         {
-          showProgressbarImport
-          ? <ProgressbarImport
-              importingProgress={importingProgress} />
-          : null
+          showProgressbarImport &&
+          <ProgressbarImport
+            importingProgress={importingProgress} />
         }
         {
-          showAlertFirst5Imported
-          ? <AlertFirst5Imported
-              idsOfAeObjects={idsOfAeObjects}
-              idsNotImportable={idsNotImportable}
-              replicatingToAe={replicatingToAe}
-              replicatingToAeTime={replicatingToAeTime} />
-          : null
+          showAlertFirst5Imported &&
+          <AlertFirst5Imported
+            idsOfAeObjects={idsOfAeObjects}
+            idsNotImportable={idsNotImportable}
+            replicatingToAe={replicatingToAe}
+            replicatingToAeTime={replicatingToAeTime} />
         }
         {
-          deletingPcInstancesProgress !== null
-          ? <ProgressBar
-              bsStyle='success'
-              now={deletingPcInstancesProgress}
-              label={`${deletingPcInstancesProgress}% entfernt`} />
-          : null
+          deletingPcInstancesProgress !== null &&
+          <ProgressBar
+            bsStyle='success'
+            now={deletingPcInstancesProgress}
+            label={`${deletingPcInstancesProgress}% entfernt`} />
         }
         {
-          deletingPcInstancesProgress === 100
-          ? <AlertFirst5Deleted
-              idsOfAeObjects={idsOfAeObjects}
-              nameBestehend={name}
-              replicatingToAe={replicatingToAe}
-              replicatingToAeTime={replicatingToAeTime} />
-          : null
+          deletingPcInstancesProgress === 100 &&
+          <AlertFirst5Deleted
+            idsOfAeObjects={idsOfAeObjects}
+            nameBestehend={name}
+            replicatingToAe={replicatingToAe}
+            replicatingToAeTime={replicatingToAeTime} />
         }
       </div>
     )

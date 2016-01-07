@@ -56,12 +56,11 @@ export default React.createClass({
           <Glyphicon glyph='trash'/> Eigenschaftensammlung "{name}" aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen
         </Button>
         {
-          showConfirmModal
-          ? <ModalDeletePcInstances
-              name={name}
-              onClickRemovePcInstances={this.onClickRemove}
-              closeModal={this.closeModal} />
-          : null
+          showConfirmModal &&
+          <ModalDeletePcInstances
+            name={name}
+            onClickRemovePcInstances={this.onClickRemove}
+            closeModal={this.closeModal} />
         }
       </div>
     )
