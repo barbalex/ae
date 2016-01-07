@@ -63,22 +63,22 @@ export default React.createClass({
           eventKey={cIndex}
           onClick={this.onClickPanel.bind(this, cIndex)}>
           {
-            activePanelOpeningWhenOnlyOneCollection === cIndex
-            ? <FieldsTaxonomyPanel
-                cNameKey={cNameKey}
-                taxonomyFields={taxonomyFields}
-                urlOptions={urlOptions}
-                collectionsWithAllChoosen={collectionsWithAllChoosen}
-                onChooseField={onChooseField}
-                onChooseAllOfCollection={onChooseAllOfCollection} />
-            : null
+            activePanelOpeningWhenOnlyOneCollection === cIndex &&
+            <FieldsTaxonomyPanel
+              cNameKey={cNameKey}
+              taxonomyFields={taxonomyFields}
+              urlOptions={urlOptions}
+              collectionsWithAllChoosen={collectionsWithAllChoosen}
+              onChooseField={onChooseField}
+              onChooseAllOfCollection={onChooseAllOfCollection} />
           }
         </Panel>
       )
     })
 
     return (
-      <Accordion activeKey={activePanelOpeningWhenOnlyOneCollection}>
+      <Accordion
+        activeKey={activePanelOpeningWhenOnlyOneCollection}>
         {collections}
       </Accordion>
     )

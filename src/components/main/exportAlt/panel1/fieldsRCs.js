@@ -78,15 +78,14 @@ export default React.createClass({
           eventKey={cIndex}
           onClick={this.onClickPanel.bind(this, cIndex)}>
           {
-            activePanelOpeningWhenOnlyOneCollection === cIndex
-            ? <FieldsRCsPanel
-                cNameKey={cNameKey}
-                relationFields={relationFields}
-                urlOptions={urlOptions}
-                collectionsWithAllChoosen={collectionsWithAllChoosen}
-                onChooseField={onChooseField}
-                onChooseAllOfCollection={onChooseAllOfCollection} />
-            : null
+            activePanelOpeningWhenOnlyOneCollection === cIndex &&
+            <FieldsRCsPanel
+              cNameKey={cNameKey}
+              relationFields={relationFields}
+              urlOptions={urlOptions}
+              collectionsWithAllChoosen={collectionsWithAllChoosen}
+              onChooseField={onChooseField}
+              onChooseAllOfCollection={onChooseAllOfCollection} />
           }
         </Panel>
       )
@@ -94,7 +93,9 @@ export default React.createClass({
 
     return (
       <div>
-        <div id='rcOptions' style={divStyle}>
+        <div
+          id='rcOptions'
+          style={divStyle}>
           <Input
             type='checkbox'
             label='Pro Beziehung eine Zeile'
