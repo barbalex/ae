@@ -41,10 +41,19 @@ export default React.createClass({
     }
     const showFirstTime = fieldsQuerying && bsStyle === 'info'
     return (
-      <Alert bsStyle={bsStyle} style={style}>
-        <p>{resultText}</p>
-        {showFirstTime ? <p>Das kann ein paar Minuten dauern, wenn der Index aufgebaut werden muss.</p> : null}
-        <p>{taxonomienZusammenfassenText}</p>
+      <Alert
+        bsStyle={bsStyle}
+        style={style}>
+        <p>
+          {resultText}
+        </p>
+        {
+          showFirstTime &&
+          <p>Das kann ein paar Minuten dauern, wenn der Index aufgebaut werden muss.</p>
+        }
+        <p>
+          {taxonomienZusammenfassenText}
+        </p>
       </Alert>
     )
   }
