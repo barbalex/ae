@@ -81,7 +81,10 @@ export default React.createClass({
 
     return (
       <div>
-        <p style={this.titelStyle()}>Benutzerrechte</p>
+        <p
+          style={this.titelStyle()}>
+          Benutzerrechte
+        </p>
         <UsersList
           activeOrganization={activeOrganization}
           userFieldName='esWriters' />
@@ -92,37 +95,35 @@ export default React.createClass({
           activeOrganization={activeOrganization}
           userFieldName='orgAdmins' />
         {
-          showDatenTitel
-          ? <p style={this.titelStyle()}>Daten, bei denen {activeOrganization.Name} "Organisation mit Schreibrecht" ist</p>
-          : null
+          showDatenTitel &&
+          <p
+            style={this.titelStyle()}>
+            Daten, bei denen {activeOrganization.Name} "Organisation mit Schreibrecht" ist
+          </p>
         }
         {
-          nonLrTcs.length > 0
-          ? <CollectionList
+          nonLrTcs.length > 0 &&
+          <CollectionList
             collections={nonLrTcs}
             cType='Taxonomiensammlungen' />
-          : null
         }
         {
-          lr.length > 0
-          ? <CollectionList
+          lr.length > 0 &&
+          <CollectionList
             collections={lr}
             cType='Lebensräume' />
-          : null
         }
         {
-          pcsOfActiveOrganization.length > 0
-          ? <CollectionList
+          pcsOfActiveOrganization.length > 0 &&
+          <CollectionList
             collections={pcsOfActiveOrganization}
             cType='Eigenschaftensammlungen' />
-          : null
         }
         {
-          rcsOfActiveOrganization.length > 0
-          ? <CollectionList
+          rcsOfActiveOrganization.length > 0 &&
+          <CollectionList
             collections={rcsOfActiveOrganization}
             cType='Beziehungssammlungen' />
-          : null
         }
       </div>
     )
@@ -153,12 +154,7 @@ export default React.createClass({
             {
               showLowerPart
               ? this.lowerPart()
-              : null
-            }
-            {
-              !showLowerPart
-              ? this.userIsNotOrgAdminAlert()
-              : null
+              : this.userIsNotOrgAdminAlert()
             }
           </Panel>
           <Panel
