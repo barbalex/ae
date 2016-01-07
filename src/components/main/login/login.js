@@ -228,12 +228,11 @@ export default React.createClass({
           onKeyDown={this.onKeyDownPassword2}
           required />
         {
-          invalidPassword2
-          ? <div
-              className='validateDivAfterRBC'>
-              Passwort stimmt nicht überein
-            </div>
-          : null
+          invalidPassword2 &&
+          <div
+            className='validateDivAfterRBC'>
+            Passwort stimmt nicht überein
+          </div>
         }
       </div>
     )
@@ -267,13 +266,10 @@ export default React.createClass({
               className={'form'}
               autoComplete='off'>
               {
-                !signUp
-                ? (
-                    <p className='anmelden'>
-                      Für diese Funktion müssen Sie angemeldet sein
-                    </p>
-                  )
-                : null
+                !signUp &&
+                <p className='anmelden'>
+                  Für diese Funktion müssen Sie angemeldet sein
+                </p>
               }
               <div
                 className='formGroup'>
@@ -292,12 +288,11 @@ export default React.createClass({
                   required
                   autoFocus />
                 {
-                  invalidEmail
-                  ? <div
-                      className='validateDivAfterRBC'>
-                      Bitte Email prüfen
-                    </div>
-                  : null
+                  invalidEmail &&
+                  <div
+                    className='validateDivAfterRBC'>
+                    Bitte Email prüfen
+                  </div>
                 }
               </div>
               <div
@@ -315,53 +310,46 @@ export default React.createClass({
                   onKeyDown={this.onKeyDownPassword}
                   required />
                 {
-                  invalidPassword
-                  ? <div
-                      className='validateDivAfterRBC'>
-                      Bitte Passwort prüfen
-                    </div>
-                  : null
+                  invalidPassword &&
+                  <div
+                    className='validateDivAfterRBC'>
+                    Bitte Passwort prüfen
+                  </div>
                 }
               </div>
               {
-                loginErrorMessage && !signUp
-                ? <Alert
-                    bsStyle='danger'
-                    onDismiss={this.onAlertDismiss}
-                    style={styleAlert}>
-                    Fehler beim Anmelden: {loginErrorMessage}<br/>
-                    Müssen Sie <a href='#' onClick={this.onClickWantToSignup}>ein Konto erstellen?</a>
-                  </Alert>
-                : null
+                loginErrorMessage && !signUp &&
+                <Alert
+                  bsStyle='danger'
+                  onDismiss={this.onAlertDismiss}
+                  style={styleAlert}>
+                  Fehler beim Anmelden: {loginErrorMessage}<br/>
+                  Müssen Sie <a href='#' onClick={this.onClickWantToSignup}>ein Konto erstellen?</a>
+                </Alert>
               }
               {
-                !signUp
-                ? this.forgotPasswordComponent()
-                : null
+                !signUp &&
+                this.forgotPasswordComponent()
               }
               {
-                signUp
-                ? this.password2Component()
-                : null
+                signUp &&
+                this.password2Component()
               }
             </form>
           </Modal.Body>
 
           <Modal.Footer>
             {
-              !signUp
-              ? this.signinButtonComponent()
-              : null
+              !signUp &&
+              this.signinButtonComponent()
             }
             {
-              !signUp
-              ? this.wantToSignupButtonComponent()
-              : null
+              !signUp &&
+              this.wantToSignupButtonComponent()
             }
             {
-              signUp
-              ? this.signupButtonComponent()
-              : null
+              signUp &&
+              this.signupButtonComponent()
             }
             <Button
               onClick={this.schliessen}>

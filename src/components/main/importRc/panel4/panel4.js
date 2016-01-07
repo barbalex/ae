@@ -33,54 +33,48 @@ export default React.createClass({
     return (
       <div>
         {
-          panel3Done
-          ? <Button
-              className='btn-primary'
-              onClick={onClickImportieren}>
-              <Glyphicon glyph='download-alt'/> Eigenschaftensammlung "{name}" importieren
-            </Button>
-          : null
+          panel3Done &&
+          <Button
+            className='btn-primary'
+            onClick={onClickImportieren}>
+            <Glyphicon glyph='download-alt'/> Eigenschaftensammlung "{name}" importieren
+          </Button>
         }
         {
-          showDeleteRcInstancesButton
-          ? <ButtonDeleteRcInstances
-              name={name}
-              rcsRemoved={rcsRemoved}
-              deletingRcInstancesProgress={deletingRcInstancesProgress}
-              onClickRemoveRcInstances={onClickRemoveRcInstances} />
-          : null
+          showDeleteRcInstancesButton &&
+          <ButtonDeleteRcInstances
+            name={name}
+            rcsRemoved={rcsRemoved}
+            deletingRcInstancesProgress={deletingRcInstancesProgress}
+            onClickRemoveRcInstances={onClickRemoveRcInstances} />
         }
         {
-          showProgressbarImport
-          ? <ProgressbarImport
-              importingProgress={importingProgress} />
-          : null
+          showProgressbarImport &&
+          <ProgressbarImport
+            importingProgress={importingProgress} />
         }
         {
-          showAlertFirst5Imported
-          ? <AlertFirst5Imported
-              idsOfAeObjects={idsOfAeObjects}
-              idsNotImportable={idsNotImportable}
-              replicatingToAe={replicatingToAe}
-              replicatingToAeTime={replicatingToAeTime} />
-          : null
+          showAlertFirst5Imported &&
+          <AlertFirst5Imported
+            idsOfAeObjects={idsOfAeObjects}
+            idsNotImportable={idsNotImportable}
+            replicatingToAe={replicatingToAe}
+            replicatingToAeTime={replicatingToAeTime} />
         }
         {
-          deletingRcInstancesProgress !== null
-          ? <ProgressBar
-              bsStyle='success'
-              now={deletingRcInstancesProgress}
-              label={`${deletingRcInstancesProgress}% entfernt`} />
-          : null
+          deletingRcInstancesProgress !== null &&
+          <ProgressBar
+            bsStyle='success'
+            now={deletingRcInstancesProgress}
+            label={`${deletingRcInstancesProgress}% entfernt`} />
         }
         {
-          deletingRcInstancesProgress === 100
-          ? <AlertFirst5Deleted
-              idsOfAeObjects={idsOfAeObjects}
-              nameBestehend={name}
-              replicatingToAe={replicatingToAe}
-              replicatingToAeTime={replicatingToAeTime} />
-          : null
+          deletingRcInstancesProgress === 100 &&
+          <AlertFirst5Deleted
+            idsOfAeObjects={idsOfAeObjects}
+            nameBestehend={name}
+            replicatingToAe={replicatingToAe}
+            replicatingToAeTime={replicatingToAeTime} />
         }
       </div>
     )
