@@ -64,20 +64,18 @@ export default React.createClass({
           id='tree'
           style={treeStyle}>
           {
-            hierarchy
-            ? <div>
-                <Nodes
-                  hierarchy={hierarchy}
-                  object={object}
-                  path={path} />
-              </div>
-            : null
+            hierarchy &&
+            <div>
+              <Nodes
+                hierarchy={hierarchy}
+                object={object}
+                path={path} />
+            </div>
           }
         </div>
         {
-          loading
-          ? loadingMessages
-          : null
+          loading &&
+          loadingMessages
         }
       </div>
     )
