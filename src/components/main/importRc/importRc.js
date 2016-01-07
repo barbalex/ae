@@ -599,116 +599,116 @@ export default React.createClass({
         <Accordion
           activeKey={activePanel}>
           <Panel
-            collapsible header='1. Beziehungssammlung beschreiben'
+            collapsible
+            header='1. Beziehungssammlung beschreiben'
             eventKey={1}
             onClick={this.onClickPanel.bind(this, 1)}>
             {
-              activePanel === 1
-              ? <Panel1
-                  groupsLoadingObjects={groupsLoadingObjects}
-                  allGroupsLoaded={allGroupsLoaded}
-                  groupsLoadedOrLoading={groupsLoadedOrLoading}
-                  nameBestehend={nameBestehend}
-                  name={name}
-                  beschreibung={beschreibung}
-                  datenstand={datenstand}
-                  nutzungsbedingungen={nutzungsbedingungen}
-                  link={link}
-                  importiertVon={importiertVon}
-                  zusammenfassend={zusammenfassend}
-                  nameUrsprungsBs={nameUrsprungsBs}
-                  email={email}
-                  userRoles={userRoles}
-                  rcs={rcs}
-                  idsOfAeObjects={idsOfAeObjects}
-                  deletingRcProgress={deletingRcProgress}
-                  bsBearbeitenErlaubt={bsBearbeitenErlaubt}
-                  ultimatelyAlertLoadAllGroups={ultimatelyAlertLoadAllGroups}
-                  validName={validName}
-                  validBeschreibung={validBeschreibung}
-                  validDatenstand={validDatenstand}
-                  validNutzungsbedingungen={validNutzungsbedingungen}
-                  validLink={validLink}
-                  validOrgMitSchreibrecht={validOrgMitSchreibrecht}
-                  validUrsprungsBs={validUrsprungsBs}
-                  replicatingToAe={replicatingToAe}
-                  replicatingToAeTime={replicatingToAeTime}
-                  organizations={organizations}
-                  onClickDeleteRc={this.onClickDeleteRc}
-                  isUrsprungsBsValid={this.isUrsprungsBsValid}
-                  onChangeNameBestehend={this.onChangeNameBestehend}
-                  onChangeOrgMitSchreibrecht={this.onChangeOrgMitSchreibrecht}
-                  onChangeNameUrsprungsBs={this.onChangeNameUrsprungsBs}
-                  onChangeZusammenfassend={this.onChangeZusammenfassend}
-                  onChangeLink={this.onChangeLink}
-                  onChangeNutzungsbedingungen={this.onChangeNutzungsbedingungen}
-                  onChangeDatenstand={this.onChangeDatenstand}
-                  onChangeBeschreibung={this.onChangeBeschreibung}
-                  onChangeName={this.onChangeName}
-                  isLinkValid={this.isLinkValid}
-                  isEditingRcAllowed={this.isEditingRcAllowed}
-                  userIsEsWriterInOrgs={userIsEsWriterInOrgs} />
-              : null
+              activePanel === 1 &&
+              <Panel1
+                groupsLoadingObjects={groupsLoadingObjects}
+                allGroupsLoaded={allGroupsLoaded}
+                groupsLoadedOrLoading={groupsLoadedOrLoading}
+                nameBestehend={nameBestehend}
+                name={name}
+                beschreibung={beschreibung}
+                datenstand={datenstand}
+                nutzungsbedingungen={nutzungsbedingungen}
+                link={link}
+                importiertVon={importiertVon}
+                zusammenfassend={zusammenfassend}
+                nameUrsprungsBs={nameUrsprungsBs}
+                email={email}
+                userRoles={userRoles}
+                rcs={rcs}
+                idsOfAeObjects={idsOfAeObjects}
+                deletingRcProgress={deletingRcProgress}
+                bsBearbeitenErlaubt={bsBearbeitenErlaubt}
+                ultimatelyAlertLoadAllGroups={ultimatelyAlertLoadAllGroups}
+                validName={validName}
+                validBeschreibung={validBeschreibung}
+                validDatenstand={validDatenstand}
+                validNutzungsbedingungen={validNutzungsbedingungen}
+                validLink={validLink}
+                validOrgMitSchreibrecht={validOrgMitSchreibrecht}
+                validUrsprungsBs={validUrsprungsBs}
+                replicatingToAe={replicatingToAe}
+                replicatingToAeTime={replicatingToAeTime}
+                organizations={organizations}
+                onClickDeleteRc={this.onClickDeleteRc}
+                isUrsprungsBsValid={this.isUrsprungsBsValid}
+                onChangeNameBestehend={this.onChangeNameBestehend}
+                onChangeOrgMitSchreibrecht={this.onChangeOrgMitSchreibrecht}
+                onChangeNameUrsprungsBs={this.onChangeNameUrsprungsBs}
+                onChangeZusammenfassend={this.onChangeZusammenfassend}
+                onChangeLink={this.onChangeLink}
+                onChangeNutzungsbedingungen={this.onChangeNutzungsbedingungen}
+                onChangeDatenstand={this.onChangeDatenstand}
+                onChangeBeschreibung={this.onChangeBeschreibung}
+                onChangeName={this.onChangeName}
+                isLinkValid={this.isLinkValid}
+                isEditingRcAllowed={this.isEditingRcAllowed}
+                userIsEsWriterInOrgs={userIsEsWriterInOrgs} />
             }
           </Panel>
 
           <Panel
-            collapsible header='2. Beziehungen laden'
+            collapsible
+            header='2. Beziehungen laden'
             eventKey={2}
             onClick={this.onClickPanel.bind(this, 2)}>
             {
-              activePanel === 2
-              ? <Panel2
-                  rcsToImport={rcsToImport}
-                  validRcsToImport={validRcsToImport}
-                  onChangeFile={this.onChangeFile} />
-              : null
+              activePanel === 2 &&
+              <Panel2
+                rcsToImport={rcsToImport}
+                validRcsToImport={validRcsToImport}
+                onChangeFile={this.onChangeFile} />
             }
           </Panel>
 
           <Panel
-            collapsible header="3. ID's identifizieren"
+            collapsible
+            header="3. ID's identifizieren"
             eventKey={3}
             onClick={this.onClickPanel.bind(this, 3)}>
             {
-              activePanel === 3
-              ? <Panel3
-                  rcsToImport={rcsToImport}
-                  idsImportIdField={idsImportIdField}
-                  idsAeIdField={idsAeIdField}
-                  idsAnalysisComplete={idsAnalysisComplete}
-                  idsNumberOfRecordsWithIdValue={idsNumberOfRecordsWithIdValue}
-                  idsNumberImportable={idsNumberImportable}
-                  idsNotImportable={idsNotImportable}
-                  idsNotANumber={idsNotANumber}
-                  idsWithoutPartner={idsWithoutPartner}
-                  rPartnerIdsToImport={rPartnerIdsToImport}
-                  rPartnerIdsImportable={rPartnerIdsImportable}
-                  onChangeAeId={this.onChangeAeId}
-                  onChangeImportId={this.onChangeImportId} />
-              : null
+              activePanel === 3 &&
+              <Panel3
+                rcsToImport={rcsToImport}
+                idsImportIdField={idsImportIdField}
+                idsAeIdField={idsAeIdField}
+                idsAnalysisComplete={idsAnalysisComplete}
+                idsNumberOfRecordsWithIdValue={idsNumberOfRecordsWithIdValue}
+                idsNumberImportable={idsNumberImportable}
+                idsNotImportable={idsNotImportable}
+                idsNotANumber={idsNotANumber}
+                idsWithoutPartner={idsWithoutPartner}
+                rPartnerIdsToImport={rPartnerIdsToImport}
+                rPartnerIdsImportable={rPartnerIdsImportable}
+                onChangeAeId={this.onChangeAeId}
+                onChangeImportId={this.onChangeImportId} />
             }
           </Panel>
 
           <Panel
-            collapsible header='4. importieren'
+            collapsible
+            header='4. importieren'
             eventKey={4}
             onClick={this.onClickPanel.bind(this, 4)}>
             {
-              activePanel === 4
-              ? <Panel4
-                  name={name}
-                  rcsRemoved={rcsRemoved}
-                  idsOfAeObjects={idsOfAeObjects}
-                  idsNotImportable={idsNotImportable}
-                  importingProgress={importingProgress}
-                  deletingRcInstancesProgress={deletingRcInstancesProgress}
-                  panel3Done={panel3Done}
-                  replicatingToAe={replicatingToAe}
-                  replicatingToAeTime={replicatingToAeTime}
-                  onClickImportieren={this.onClickImportieren}
-                  onClickRemoveRcInstances={this.onClickRemoveRcInstances} />
-              : null
+              activePanel === 4 &&
+              <Panel4
+                name={name}
+                rcsRemoved={rcsRemoved}
+                idsOfAeObjects={idsOfAeObjects}
+                idsNotImportable={idsNotImportable}
+                importingProgress={importingProgress}
+                deletingRcInstancesProgress={deletingRcInstancesProgress}
+                panel3Done={panel3Done}
+                replicatingToAe={replicatingToAe}
+                replicatingToAeTime={replicatingToAeTime}
+                onClickImportieren={this.onClickImportieren}
+                onClickRemoveRcInstances={this.onClickRemoveRcInstances} />
             }
           </Panel>
 

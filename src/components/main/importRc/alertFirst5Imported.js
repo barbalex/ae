@@ -63,18 +63,16 @@ export default React.createClass({
           Beispiele zur Kontrolle:
         </p>
         {
-          paths
-          ? <ul>
-              {examples}
-            </ul>
-          : null
+          paths &&
+          <ul>
+            {examples}
+          </ul>
         }
         {
-          paths
-          ? <ReplicationNotice
-              replicatingToAe={replicatingToAe}
-              replicatingToAeTime={replicatingToAeTime} />
-          : null
+          paths &&
+          <ReplicationNotice
+            replicatingToAe={replicatingToAe}
+            replicatingToAeTime={replicatingToAeTime} />
         }
       </Alert>
     )
