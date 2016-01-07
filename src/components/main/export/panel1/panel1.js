@@ -40,46 +40,40 @@ export default React.createClass({
     return (
       <div>
         {
-          showAlertLoadGroups
-          ? <AlertLoadGroups />
-          : null
+          showAlertLoadGroups &&
+          <AlertLoadGroups />
         }
         {
-          !showAlertLoadGroups
-          ? <WellSoGehts />
-          : null
+          !showAlertLoadGroups &&
+          <WellSoGehts />
         }
         {
-          !showAlertLoadGroups
-          ? <GroupsToExport
-              groupsLoaded={groupsLoaded}
-              groupsToExport={groupsToExport}
-              onChangeGroupsToExport={onChangeGroupsToExport} />
-          : null
+          !showAlertLoadGroups &&
+          <GroupsToExport
+            groupsLoaded={groupsLoaded}
+            groupsToExport={groupsToExport}
+            onChangeGroupsToExport={onChangeGroupsToExport} />
         }
         {
-          !showAlertLoadGroups
-          ? <WellCombineTaxonomies
-              combineTaxonomies={combineTaxonomies}
-              onChangeCombineTaxonomies={onChangeCombineTaxonomies} />
-          : null
+          !showAlertLoadGroups &&
+          <WellCombineTaxonomies
+            combineTaxonomies={combineTaxonomies}
+            onChangeCombineTaxonomies={onChangeCombineTaxonomies} />
         }
         {
-          showAlertChooseGroup
-          ? <AlertChooseGroup />
-          : null
+          showAlertChooseGroup &&
+          <AlertChooseGroup />
         }
         {
-          showAlertGroups
-          ? <AlertGroups
-              pcsQuerying={pcsQuerying}
-              rcsQuerying={rcsQuerying}
-              fieldsQuerying={fieldsQuerying}
-              fieldsQueryingError={fieldsQueryingError}
-              taxonomyFields={taxonomyFields}
-              errorBuildingExportOptions={errorBuildingExportOptions}
-              combineTaxonomies={combineTaxonomies} />
-          : null
+          showAlertGroups &&
+          <AlertGroups
+            pcsQuerying={pcsQuerying}
+            rcsQuerying={rcsQuerying}
+            fieldsQuerying={fieldsQuerying}
+            fieldsQueryingError={fieldsQueryingError}
+            taxonomyFields={taxonomyFields}
+            errorBuildingExportOptions={errorBuildingExportOptions}
+            combineTaxonomies={combineTaxonomies} />
         }
       </div>
     )
