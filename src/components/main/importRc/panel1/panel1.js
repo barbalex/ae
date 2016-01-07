@@ -84,7 +84,7 @@ export default React.createClass({
   },
 
   render () {
-    const { groupsLoadedOrLoading, email, userRoles, rcs, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime, organizations, onClickDeleteRc, onChangeNameUrsprungsBs, onChangeZusammenfassend, onChangeLink, onChangeNutzungsbedingungen, onChangeDatenstand, onChangeBeschreibung, onChangeName, onChangeNameBestehend, bsBearbeitenErlaubt, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validOrgMitSchreibrecht, validUrsprungsBs, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsBs, name, nameBestehend, ultimatelyAlertLoadAllGroups, deletingRcProgress, onChangeOrgMitSchreibrecht, userIsEsWriterInOrgs } = this.props
+    const { groupsLoadedOrLoading, email, userRoles, rcs, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime, onClickDeleteRc, onChangeNameUrsprungsBs, onChangeZusammenfassend, onChangeLink, onChangeNutzungsbedingungen, onChangeDatenstand, onChangeBeschreibung, onChangeName, onChangeNameBestehend, bsBearbeitenErlaubt, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validOrgMitSchreibrecht, validUrsprungsBs, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsBs, name, nameBestehend, ultimatelyAlertLoadAllGroups, deletingRcProgress, onChangeOrgMitSchreibrecht, userIsEsWriterInOrgs } = this.props
     const showLoadAllGroups = email && !allGroupsLoaded
     const showAlertDeleteRcBuildingIndex = deletingRcProgress && deletingRcProgress < 100
     const alertAllGroupsBsStyle = ultimatelyAlertLoadAllGroups ? 'danger' : 'info'
@@ -94,12 +94,11 @@ export default React.createClass({
     return (
       <div>
         {
-          showLoadAllGroups
-          ? <AlertLoadAllGroups
-              open='true'
-              groupsLoadingObjects={groupsLoadingObjects}
-              alertAllGroupsBsStyle={alertAllGroupsBsStyle} />
-          : null
+          showLoadAllGroups &&
+          <AlertLoadAllGroups
+            open='true'
+            groupsLoadingObjects={groupsLoadingObjects}
+            alertAllGroupsBsStyle={alertAllGroupsBsStyle} />
         }
         <WellTippsUndTricks />
         <WellAutorenrechte />
@@ -118,9 +117,8 @@ export default React.createClass({
           onChangeNameBestehend={onChangeNameBestehend}
           userIsEsWriterInOrgs={userIsEsWriterInOrgs} />
         {
-          alertNotEsWriter
-          ? <AlertNotEsWriter />
-          : null
+          alertNotEsWriter &&
+          <AlertNotEsWriter />
         }
         <ButtonDeleteRc
           nameBestehend={nameBestehend}
@@ -128,27 +126,24 @@ export default React.createClass({
           deletingRcProgress={deletingRcProgress}
           onClickDeleteRc={onClickDeleteRc} />
         {
-          showAlertDeleteRcBuildingIndex
-          ? <AlertDeleteRcBuildingIndex />
-          : null
+          showAlertDeleteRcBuildingIndex &&
+          <AlertDeleteRcBuildingIndex />
         }
         {
-          deletingRcProgress !== null
-          ? <ProgressbarDeleteRc
-              progress={deletingRcProgress} />
-          : null
+          deletingRcProgress !== null &&
+          <ProgressbarDeleteRc
+            progress={deletingRcProgress} />
         }
         {
-          deletingRcProgress === 100
-          ? <div
-              className='feld'>
-              <AlertFirst5Deleted
-                idsOfAeObjects={idsOfAeObjects}
-                nameBestehend={nameBestehend}
-                replicatingToAe={replicatingToAe}
-                replicatingToAeTime={replicatingToAeTime} />
-            </div>
-          : null
+          deletingRcProgress === 100 &&
+          <div
+            className='feld'>
+            <AlertFirst5Deleted
+              idsOfAeObjects={idsOfAeObjects}
+              nameBestehend={nameBestehend}
+              replicatingToAe={replicatingToAe}
+              replicatingToAeTime={replicatingToAeTime} />
+          </div>
         }
 
         <hr />
@@ -159,9 +154,8 @@ export default React.createClass({
           onChangeName={onChangeName}
           onBlurName={this.onBlurName} />
         {
-          bsBearbeitenErlaubt
-          ? null
-          : <AlertEditingRcDisallowed />
+          !bsBearbeitenErlaubt &&
+          <AlertEditingRcDisallowed />
         }
         <InputBeschreibung
           beschreibung={beschreibung}
@@ -190,13 +184,12 @@ export default React.createClass({
           zusammenfassend={zusammenfassend}
           onChangeZusammenfassend={onChangeZusammenfassend} />
         {
-          zusammenfassend
-          ? <InputUrsprungsBs
-              nameUrsprungsBs={nameUrsprungsBs}
-              rcs={rcs}
-              validUrsprungsBs={validUrsprungsBs}
-              onChangeNameUrsprungsBs={onChangeNameUrsprungsBs} />
-          : null
+          zusammenfassend &&
+          <InputUrsprungsBs
+            nameUrsprungsBs={nameUrsprungsBs}
+            rcs={rcs}
+            validUrsprungsBs={validUrsprungsBs}
+            onChangeNameUrsprungsBs={onChangeNameUrsprungsBs} />
         }
       </div>
     )

@@ -47,25 +47,24 @@ export default React.createClass({
     return (
       <div>
         {
-          nameBestehend
-          ? <div className='form-group'>
-            <Button
-              bsStyle='danger'
-              className='feld'
-              onClick={this.onClickDeleteRc}
-              disabled={!enableDeleteRcButton}>
-              <Glyphicon glyph='trash'/> Beziehungssammlung "{nameBestehend}" aus allen Arten/Lebensräumen entfernen
-            </Button>
-            </div>
-          : null
+          nameBestehend &&
+          <div
+            className='form-group'>
+          <Button
+            bsStyle='danger'
+            className='feld'
+            onClick={this.onClickDeleteRc}
+            disabled={!enableDeleteRcButton}>
+            <Glyphicon glyph='trash'/> Beziehungssammlung "{nameBestehend}" aus allen Arten/Lebensräumen entfernen
+          </Button>
+          </div>
         }
         {
-          showConfirmModal
-          ? <ModalDeleteRc
-              nameBestehend={nameBestehend}
-              onClickDeleteRc={this.onClickDelete}
-              closeModal={this.closeModal} />
-          : null
+          showConfirmModal &&
+          <ModalDeleteRc
+            nameBestehend={nameBestehend}
+            onClickDeleteRc={this.onClickDelete}
+            closeModal={this.closeModal} />
         }
       </div>
     )
