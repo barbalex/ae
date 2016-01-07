@@ -66,15 +66,14 @@ export default React.createClass({
           eventKey={cIndex}
           onClick={this.onClickPanel.bind(this, cIndex)}>
           {
-            openPanel
-            ? <FieldsRCsPanel
-                cNameKey={cNameKey}
-                relationFields={relationFields}
-                onChangeFilterField={onChangeFilterField}
-                onChangeCoSelect={onChangeCoSelect}
-                rcs={rcs}
-                exportOptions={exportOptions} />
-            : null
+            openPanel &&
+            <FieldsRCsPanel
+              cNameKey={cNameKey}
+              relationFields={relationFields}
+              onChangeFilterField={onChangeFilterField}
+              onChangeCoSelect={onChangeCoSelect}
+              rcs={rcs}
+              exportOptions={exportOptions} />
           }
         </Panel>
       )
