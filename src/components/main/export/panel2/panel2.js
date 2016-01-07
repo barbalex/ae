@@ -36,19 +36,18 @@ export default React.createClass({
           onlyObjectsWithCollectionData={onlyObjectsWithCollectionData}
           onChangeOnlyObjectsWithCollectionData={onChangeOnlyObjectsWithCollectionData} />
         {
-          showFields
-          ? <Fields
-              taxonomyFields={taxonomyFields}
-              pcFields={pcFields}
-              pcs={pcs}
-              relationFields={relationFields}
-              rcs={rcs}
-              exportOptions={exportOptions}
-              groupsLoadedOrLoading={groupsLoadedOrLoading}
-              groupsLoadingObjects={groupsLoadingObjects}
-              onChangeFilterField={onChangeFilterField}
-              onChangeCoSelect={onChangeCoSelect} />
-          : null
+          showFields &&
+          <Fields
+            taxonomyFields={taxonomyFields}
+            pcFields={pcFields}
+            pcs={pcs}
+            relationFields={relationFields}
+            rcs={rcs}
+            exportOptions={exportOptions}
+            groupsLoadedOrLoading={groupsLoadedOrLoading}
+            groupsLoadingObjects={groupsLoadingObjects}
+            onChangeFilterField={onChangeFilterField}
+            onChangeCoSelect={onChangeCoSelect} />
         }
       </div>
     )
