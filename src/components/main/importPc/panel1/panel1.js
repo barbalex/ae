@@ -83,12 +83,12 @@ export default React.createClass({
 
     return (
       <div>
-        {showLoadAllGroups
-          ? <AlertLoadAllGroups
-              open='true'
-              groupsLoadingObjects={groupsLoadingObjects}
-              alertAllGroupsBsStyle={alertAllGroupsBsStyle} />
-          : null
+        {
+          showLoadAllGroups &&
+          <AlertLoadAllGroups
+            open='true'
+            groupsLoadingObjects={groupsLoadingObjects}
+            alertAllGroupsBsStyle={alertAllGroupsBsStyle} />
         }
         <WellTippsUndTricks />
         <WellAutorenrechte />
@@ -106,9 +106,8 @@ export default React.createClass({
           onChangeNameBestehend={onChangeNameBestehend}
           userIsEsWriterInOrgs={userIsEsWriterInOrgs} />
         {
-          alertNotEsWriter
-          ? <AlertNotEsWriter />
-          : null
+          alertNotEsWriter &&
+          <AlertNotEsWriter />
         }
         <ButtonDeletePc
           nameBestehend={nameBestehend}
@@ -116,26 +115,23 @@ export default React.createClass({
           deletingPcProgress={deletingPcProgress}
           onClickDeletePc={onClickDeletePc} />
         {
-          showAlertDeletePcBuildingIndex
-          ? <AlertDeletePcBuildingIndex />
-          : null
+          showAlertDeletePcBuildingIndex &&
+          <AlertDeletePcBuildingIndex />
         }
         {
-          deletingPcProgress !== null
-          ? <ProgressbarDeletePc
-              progress={deletingPcProgress} />
-          : null
+          deletingPcProgress !== null &&
+          <ProgressbarDeletePc
+            progress={deletingPcProgress} />
         }
         {
-          deletingPcProgress === 100
-          ? <div className='feld'>
-              <AlertFirst5Deleted
-                idsOfAeObjects={idsOfAeObjects}
-                nameBestehend={nameBestehend}
-                replicatingToAe={replicatingToAe}
-                replicatingToAeTime={replicatingToAeTime} />
-            </div>
-          : null
+          deletingPcProgress === 100 &&
+          <div className='feld'>
+            <AlertFirst5Deleted
+              idsOfAeObjects={idsOfAeObjects}
+              nameBestehend={nameBestehend}
+              replicatingToAe={replicatingToAe}
+              replicatingToAeTime={replicatingToAeTime} />
+          </div>
         }
         <hr />
         <InputName
@@ -144,9 +140,8 @@ export default React.createClass({
           onChangeName={onChangeName}
           onBlurName={onBlurName} />
         {
-          esBearbeitenErlaubt
-          ? null
-          : <AlertEditingPcDisallowed />
+          !esBearbeitenErlaubt &&
+          <AlertEditingPcDisallowed />
         }
         <InputBeschreibung
           beschreibung={beschreibung}
@@ -176,13 +171,12 @@ export default React.createClass({
           zusammenfassend={zusammenfassend}
           onChangeZusammenfassend={onChangeZusammenfassend} />
         {
-          zusammenfassend
-          ? <InputUrsprungsEs
-              nameUrsprungsEs={nameUrsprungsEs}
-              pcs={pcs}
-              validUrsprungsEs={validUrsprungsEs}
-              onChangeNameUrsprungsEs={onChangeNameUrsprungsEs} />
-          : null
+          zusammenfassend &&
+          <InputUrsprungsEs
+            nameUrsprungsEs={nameUrsprungsEs}
+            pcs={pcs}
+            validUrsprungsEs={validUrsprungsEs}
+            onChangeNameUrsprungsEs={onChangeNameUrsprungsEs} />
         }
       </div>
     )

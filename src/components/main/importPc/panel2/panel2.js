@@ -27,17 +27,15 @@ export default React.createClass({
           className='form-control'
           onChange={onChangeFile} />
         {
-          validPcsToImport
-          ? null
-          : <div className='validateDiv'>
-              Bitte wählen Sie eine Datei
-            </div>
+          !validPcsToImport &&
+          <div className='validateDiv'>
+            Bitte wählen Sie eine Datei
+          </div>
         }
         {
-          pcsToImport.length > 0
-          ? <TablePreview
-              pcsToImport={pcsToImport} />
-          : null
+          pcsToImport.length > 0 &&
+          <TablePreview
+            pcsToImport={pcsToImport} />
         }
       </div>
     )
