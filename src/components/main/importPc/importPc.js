@@ -544,52 +544,51 @@ export default React.createClass({
             eventKey={1}
             onClick={this.onClickPanel.bind(this, 1)}>
             {
-              activePanel === 1
-              ? <Panel1
-                  groupsLoadingObjects={groupsLoadingObjects}
-                  allGroupsLoaded={allGroupsLoaded}
-                  groupsLoadedOrLoading={groupsLoadedOrLoading}
-                  nameBestehend={nameBestehend}
-                  name={name}
-                  beschreibung={beschreibung}
-                  datenstand={datenstand}
-                  nutzungsbedingungen={nutzungsbedingungen}
-                  link={link}
-                  orgMitSchreibrecht={orgMitSchreibrecht}
-                  importiertVon={importiertVon}
-                  zusammenfassend={zusammenfassend}
-                  nameUrsprungsEs={nameUrsprungsEs}
-                  email={email}
-                  userRoles={userRoles}
-                  pcs={pcs}
-                  idsOfAeObjects={idsOfAeObjects}
-                  deletingPcProgress={deletingPcProgress}
-                  esBearbeitenErlaubt={esBearbeitenErlaubt}
-                  ultimatelyAlertLoadAllGroups={ultimatelyAlertLoadAllGroups}
-                  validName={validName}
-                  validBeschreibung={validBeschreibung}
-                  validDatenstand={validDatenstand}
-                  validNutzungsbedingungen={validNutzungsbedingungen}
-                  validLink={validLink}
-                  validOrgMitSchreibrecht={validOrgMitSchreibrecht}
-                  validUrsprungsEs={validUrsprungsEs}
-                  replicatingToAe={replicatingToAe}
-                  replicatingToAeTime={replicatingToAeTime}
-                  onClickDeletePc={this.onClickDeletePc}
-                  onChangeNameUrsprungsEs={this.onChangeNameUrsprungsEs}
-                  onChangeZusammenfassend={this.onChangeZusammenfassend}
-                  onBlurLink={this.onBlurLink}
-                  onChangeLink={this.onChangeLink}
-                  onChangeNutzungsbedingungen={this.onChangeNutzungsbedingungen}
-                  onChangeDatenstand={this.onChangeDatenstand}
-                  onChangeBeschreibung={this.onChangeBeschreibung}
-                  onBlurName={this.onBlurName}
-                  onChangeName={this.onChangeName}
-                  onChangeNameBestehend={this.onChangeNameBestehend}
-                  onChangeOrgMitSchreibrecht={this.onChangeOrgMitSchreibrecht}
-                  organizations={organizations}
-                  userIsEsWriterInOrgs={userIsEsWriterInOrgs} />
-              : null
+              activePanel === 1 &&
+              <Panel1
+                groupsLoadingObjects={groupsLoadingObjects}
+                allGroupsLoaded={allGroupsLoaded}
+                groupsLoadedOrLoading={groupsLoadedOrLoading}
+                nameBestehend={nameBestehend}
+                name={name}
+                beschreibung={beschreibung}
+                datenstand={datenstand}
+                nutzungsbedingungen={nutzungsbedingungen}
+                link={link}
+                orgMitSchreibrecht={orgMitSchreibrecht}
+                importiertVon={importiertVon}
+                zusammenfassend={zusammenfassend}
+                nameUrsprungsEs={nameUrsprungsEs}
+                email={email}
+                userRoles={userRoles}
+                pcs={pcs}
+                idsOfAeObjects={idsOfAeObjects}
+                deletingPcProgress={deletingPcProgress}
+                esBearbeitenErlaubt={esBearbeitenErlaubt}
+                ultimatelyAlertLoadAllGroups={ultimatelyAlertLoadAllGroups}
+                validName={validName}
+                validBeschreibung={validBeschreibung}
+                validDatenstand={validDatenstand}
+                validNutzungsbedingungen={validNutzungsbedingungen}
+                validLink={validLink}
+                validOrgMitSchreibrecht={validOrgMitSchreibrecht}
+                validUrsprungsEs={validUrsprungsEs}
+                replicatingToAe={replicatingToAe}
+                replicatingToAeTime={replicatingToAeTime}
+                onClickDeletePc={this.onClickDeletePc}
+                onChangeNameUrsprungsEs={this.onChangeNameUrsprungsEs}
+                onChangeZusammenfassend={this.onChangeZusammenfassend}
+                onBlurLink={this.onBlurLink}
+                onChangeLink={this.onChangeLink}
+                onChangeNutzungsbedingungen={this.onChangeNutzungsbedingungen}
+                onChangeDatenstand={this.onChangeDatenstand}
+                onChangeBeschreibung={this.onChangeBeschreibung}
+                onBlurName={this.onBlurName}
+                onChangeName={this.onChangeName}
+                onChangeNameBestehend={this.onChangeNameBestehend}
+                onChangeOrgMitSchreibrecht={this.onChangeOrgMitSchreibrecht}
+                organizations={organizations}
+                userIsEsWriterInOrgs={userIsEsWriterInOrgs} />
             }
           </Panel>
 
@@ -599,12 +598,11 @@ export default React.createClass({
             eventKey={2}
             onClick={this.onClickPanel.bind(this, 2)}>
             {
-              activePanel === 2
-              ? <Panel2
-                  pcsToImport={pcsToImport}
-                  validPcsToImport={validPcsToImport}
-                  onChangeFile={this.onChangeFile} />
-              : null
+              activePanel === 2 &&
+              <Panel2
+                pcsToImport={pcsToImport}
+                validPcsToImport={validPcsToImport}
+                onChangeFile={this.onChangeFile} />
             }
           </Panel>
 
@@ -614,20 +612,19 @@ export default React.createClass({
             eventKey={3}
             onClick={this.onClickPanel.bind(this, 3)}>
             {
-              activePanel === 3
-              ? <Panel3
-                  pcsToImport={pcsToImport}
-                  idsImportIdField={idsImportIdField}
-                  idsAeIdField={idsAeIdField}
-                  idsAnalysisComplete={idsAnalysisComplete}
-                  idsNumberOfRecordsWithIdValue={idsNumberOfRecordsWithIdValue}
-                  idsDuplicate={idsDuplicate}
-                  idsNumberImportable={idsNumberImportable}
-                  idsNotImportable={idsNotImportable}
-                  idsNotANumber={idsNotANumber}
-                  onChangeAeId={this.onChangeAeId}
-                  onChangeImportId={this.onChangeImportId} />
-              : null
+              activePanel === 3 &&
+              <Panel3
+                pcsToImport={pcsToImport}
+                idsImportIdField={idsImportIdField}
+                idsAeIdField={idsAeIdField}
+                idsAnalysisComplete={idsAnalysisComplete}
+                idsNumberOfRecordsWithIdValue={idsNumberOfRecordsWithIdValue}
+                idsDuplicate={idsDuplicate}
+                idsNumberImportable={idsNumberImportable}
+                idsNotImportable={idsNotImportable}
+                idsNotANumber={idsNotANumber}
+                onChangeAeId={this.onChangeAeId}
+                onChangeImportId={this.onChangeImportId} />
             }
           </Panel>
 
@@ -637,19 +634,18 @@ export default React.createClass({
             eventKey={4}
             onClick={this.onClickPanel.bind(this, 4)}>
             {
-              activePanel === 4
-              ? <Panel4
-                  name={name}
-                  pcsRemoved={pcsRemoved}
-                  idsOfAeObjects={idsOfAeObjects}
-                  idsNotImportable={idsNotImportable}
-                  importingProgress={importingProgress}
-                  deletingPcInstancesProgress={deletingPcInstancesProgress}
-                  replicatingToAe={replicatingToAe}
-                  replicatingToAeTime={replicatingToAeTime}
-                  onClickRemovePcInstances={this.onClickRemovePcInstances}
-                  onClickImportieren={this.onClickImportieren} />
-              : null
+              activePanel === 4 &&
+              <Panel4
+                name={name}
+                pcsRemoved={pcsRemoved}
+                idsOfAeObjects={idsOfAeObjects}
+                idsNotImportable={idsNotImportable}
+                importingProgress={importingProgress}
+                deletingPcInstancesProgress={deletingPcInstancesProgress}
+                replicatingToAe={replicatingToAe}
+                replicatingToAeTime={replicatingToAeTime}
+                onClickRemovePcInstances={this.onClickRemovePcInstances}
+                onClickImportieren={this.onClickImportieren} />
             }
           </Panel>
 
