@@ -69,8 +69,8 @@
     "stylus-loader": "1.4.3",
     "surge": "0.17.4",
     "url-loader": "0.5.7",
-    "webpack": "1.12.10",
-    "webpack-dev-server": "1.14.0",
+    "webpack": "1.12.11",
+    "webpack-dev-server": "1.14.1",
     "xlsx": "0.8.0",
     "yeticss": "7.0.5"
   },
