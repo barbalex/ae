@@ -24,42 +24,23 @@ import objectStore from './stores/object.js'
 
 export default (Actions) => {
   app.exportDataStore = exportDataStore(Actions)
-
   app.changeRebuildingRedundantDataStore = changeRebuildingRedundantDataStore(Actions)
-
   app.replicateFromRemoteDbStore = replicateFromRemoteDbStore(Actions)
-
   app.replicateToRemoteDbStore = replicateToRemoteDbStore(Actions)
-
   app.errorStore = errorStore(Actions)
-
   app.usersStore = usersStore(Actions)
-
   app.organizationsStore = organizationsStore(Actions)
-
   app.objectsPcsStore = objectsPcsStore(Actions)
-
   app.objectsRcsStore = objectsRcsStore(Actions)
-
   app.fieldsStore = fieldsStore(Actions)
-
   app.taxonomyCollectionsStore = taxonomyCollectionsStore(Actions)
-
   app.propertyCollectionsStore = propertyCollectionsStore(Actions)
-
   app.relationCollectionsStore = relationCollectionsStore(Actions)
-
   app.userStore = userStore(Actions)
-
   app.pathStore = pathStore(Actions)
-
   app.filterOptionsStore = filterOptionsStore(Actions)
-
   app.activePathStore = activePathStore(Actions)
-
   app.activeObjectStore = activeObjectStore(Actions)
-
   app.loadingGroupsStore = loadingGroupsStore(Actions)
-
   app.objectStore = objectStore(Actions)
 }
