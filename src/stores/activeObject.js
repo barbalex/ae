@@ -44,30 +44,31 @@ export default (Actions) => {
 
     onLoadActiveObjectCompleted (item) {
       // only change if active item has changed
-      if (!isEqual(item, this.item)) {
-        // item can be an object or {}
-        this.item = item
-        this.loaded = Object.keys(item).length > 0
-        // tell views that data has changed
-        this.trigger(item, [])
-        // load path for this object...
-        if (item && item._id) {
-          getPathFromGuid(item._id)
-            .then(({ path, url }) => {
-              // ...if it differs from the loaded path
-              if (!isEqual(app.activePathStore.path, path)) app.Actions.loadActivePath(path, item._id)
-              // now check for synonym objects
-              return getSynonymsOfObject(item)
-            })
-            .then((synonymObjects) => {
-              // if they exist: trigger again and pass synonyms
-              if (synonymObjects.length > 0) this.trigger(item, synonymObjects)
-            })
-            .catch((error) =>
-              app.Actions.showError({title: 'activeObjectStore: error fetching synonyms of object:', msg: error})
-            )
-        }
+      // turned off because changing lr did not work
+      // if (!isEqual(item, this.item)) {
+      // item can be an object or {}
+      this.item = item
+      this.loaded = Object.keys(item).length > 0
+      // tell views that data has changed
+      this.trigger(item, [])
+      // load path for this object...
+      if (item && item._id) {
+        getPathFromGuid(item._id)
+          .then(({ path, url }) => {
+            // ...if it differs from the loaded path
+            if (!isEqual(app.activePathStore.path, path)) app.Actions.loadActivePath(path, item._id)
+            // now check for synonym objects
+            return getSynonymsOfObject(item)
+          })
+          .then((synonymObjects) => {
+            // if they exist: trigger again and pass synonyms
+            if (synonymObjects.length > 0) this.trigger(item, synonymObjects)
+          })
+          .catch((error) =>
+            app.Actions.showError({title: 'activeObjectStore: error fetching synonyms of object:', msg: error})
+          )
       }
+      // }
     }
   })
   return activeObjectStore

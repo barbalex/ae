@@ -20,7 +20,7 @@ export default React.createClass({
 
   propTypes: {
     object: React.PropTypes.object,
-    onChangeObjectField: React.PropTypes.func,
+    onSaveObjectField: React.PropTypes.func,
     synonymObjects: React.PropTypes.array,
     userRoles: React.PropTypes.array,
     editObjects: React.PropTypes.bool,
@@ -30,7 +30,7 @@ export default React.createClass({
   },
 
   render () {
-    const { object, onChangeObjectField, synonymObjects, userRoles, editObjects, toggleEditObjects, addNewObject, removeObject } = this.props
+    const { object, onSaveObjectField, synonymObjects, userRoles, editObjects, toggleEditObjects, addNewObject, removeObject } = this.props
     let objectRcs = []
     let taxRcs = []
     let pcsOfSynonyms = []
@@ -115,7 +115,7 @@ export default React.createClass({
         className='formContent'>
         <Taxonomy
           object={object}
-          onChangeObjectField={onChangeObjectField}
+          onSaveObjectField={onSaveObjectField}
           userRoles={userRoles}
           editObjects={editObjects}
           toggleEditObjects={toggleEditObjects}

@@ -8,7 +8,7 @@ export default React.createClass({
 
   propTypes: {
     object: React.PropTypes.object,
-    onChangeObjectField: React.PropTypes.func,
+    onSaveObjectField: React.PropTypes.func,
     userRoles: React.PropTypes.array,
     editObjects: React.PropTypes.bool,
     toggleEditObjects: React.PropTypes.func,
@@ -17,7 +17,7 @@ export default React.createClass({
   },
 
   render () {
-    const { object, onChangeObjectField, userRoles, editObjects, toggleEditObjects, addNewObject, removeObject } = this.props
+    const { object, onSaveObjectField, userRoles, editObjects, toggleEditObjects, addNewObject, removeObject } = this.props
     const standardtaxonomie = object.Taxonomien.find((taxonomy) => taxonomy.Standardtaxonomie)
 
     return (
@@ -28,7 +28,7 @@ export default React.createClass({
         <PropertyCollection
           pcType='Taxonomie'
           object={object}
-          onChangeObjectField={onChangeObjectField}
+          onSaveObjectField={onSaveObjectField}
           propertyCollection={standardtaxonomie}
           userRoles={userRoles}
           editObjects={editObjects}

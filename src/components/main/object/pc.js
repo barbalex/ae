@@ -19,7 +19,7 @@ import isUserOrgAdmin from '../../../modules/isUserOrgAdmin.js'
 import isUserLrWriter from '../../../modules/isUserLrWriter.js'
 import EditButtonGroup from './editButtonGroup.js'
 
-function buildFieldForProperty (propertyCollection, object, onChangeObjectField, value, key, pcType, collectionIsEditing) {
+function buildFieldForProperty (propertyCollection, object, onSaveObjectField, value, key, pcType, collectionIsEditing) {
   const pcName = propertyCollection.Name.replace(/"/g, "'")
   // bad hack because jsx shows &#39; not as ' but as &#39;
   if (typeof value === 'string') value = value.replace('&#39;', '\'')
@@ -44,7 +44,8 @@ function buildFieldForProperty (propertyCollection, object, onChangeObjectField,
               fieldName={key}
               guid={linkedObjectId}
               objectName={linkedObjectName}
-              collectionIsEditing={collectionIsEditing} />
+              collectionIsEditing={collectionIsEditing}
+              onSaveObjectField={onSaveObjectField} />
           )
         }
       })
@@ -57,7 +58,8 @@ function buildFieldForProperty (propertyCollection, object, onChangeObjectField,
         key={key}
         fieldName={key}
         objects={value}
-        collectionIsEditing={collectionIsEditing} />
+        collectionIsEditing={collectionIsEditing}
+        onSaveObjectField={onSaveObjectField} />
     )
   }
   if (((key === 'Artname' || key === 'Synonyme') && object.Gruppe === 'Flora') || (key === 'Parent' && object.Gruppe === 'Lebensräume') || (key === 'Hierarchie' && isArray(value))) {
@@ -74,7 +76,8 @@ function buildFieldForProperty (propertyCollection, object, onChangeObjectField,
         inputType='textarea'
         pcType={pcType}
         pcName={pcName}
-        collectionIsEditing={collectionIsEditing} />
+        collectionIsEditing={collectionIsEditing}
+        onSaveObjectField={onSaveObjectField} />
     )
   }
   return (
@@ -85,7 +88,7 @@ function buildFieldForProperty (propertyCollection, object, onChangeObjectField,
       pcType={pcType}
       pcName={pcName}
       collectionIsEditing={collectionIsEditing}
-      onChangeObjectField={onChangeObjectField} />
+      onSaveObjectField={onSaveObjectField} />
   )
 }
 
@@ -95,7 +98,7 @@ export default React.createClass({
   propTypes: {
     pcType: React.PropTypes.string,
     object: React.PropTypes.object,
-    onChangeObjectField: React.PropTypes.func,
+    onSaveObjectField: React.PropTypes.func,
     editObjects: React.PropTypes.bool,
     toggleEditObjects: React.PropTypes.func,
     addNewObject: React.PropTypes.func,
@@ -105,13 +108,13 @@ export default React.createClass({
   },
 
   render () {
-    const { propertyCollection, pcType, object, onChangeObjectField, userRoles, editObjects, toggleEditObjects, addNewObject, removeObject } = this.props
+    const { propertyCollection, pcType, object, onSaveObjectField, userRoles, editObjects, toggleEditObjects, addNewObject, removeObject } = this.props
     const pcName = replaceInvalidCharactersInIdNames(propertyCollection.Name)
     const isLr = object.Gruppe === 'Lebensräume'
     const org = propertyCollection['Organisation mit Schreibrecht']
     const collectionIsEditable = isLr && (isUserLrWriter(userRoles, org) || isUserOrgAdmin(userRoles, org) || isUserServerAdmin(userRoles))
     const collectionIsEditing = collectionIsEditable && editObjects
-    const properties = map(propertyCollection.Eigenschaften, (value, key) => buildFieldForProperty(propertyCollection, object, onChangeObjectField, value, key, pcType, collectionIsEditing))
+    const properties = map(propertyCollection.Eigenschaften, (value, key) => buildFieldForProperty(propertyCollection, object, onSaveObjectField, value, key, pcType, collectionIsEditing))
     const showPcDescription = object.Gruppe !== 'Lebensräume' || pcType !== 'Taxonomie'
 
     /*

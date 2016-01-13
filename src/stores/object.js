@@ -47,11 +47,12 @@ export default (Actions) => {
       })
     },
 
-    onSaveObject (object, oldObject) {
+    onSaveObject (object, save) {
       /**
        * 1. write object to localDb
        * 2. update object rev
        * 3. if object is active: update activeObjectStore
+       * if object shall be saved to db:
        * 4. replace path in pathStore
        * 5. replace path in activePathStore
        * 5. replace filter options in filterOptionsStore
@@ -67,18 +68,20 @@ export default (Actions) => {
           // 3. if object is active: update activeObjectStore
           const objectIsActive = app.activeObjectStore.item && app.activeObjectStore.item._id && app.activeObjectStore.item._id === object._id
           if (objectIsActive) app.Actions.loadActiveObject(object._id)
-          // 4. replace path in pathStore
-          changePathOfObjectInLocalDb(object)
-          updateActivePathFromObject(object)
-          // 5. replace filter options in filterOptionsStore
-          app.Actions.changeFilterOptionsForObject(object)
-          // 6. update hierarchy
-          this.updateHierarchyForObject(object)
-          // 7. replicate changes to remoteDb
-          app.Actions.replicateToRemoteDb()
+          if (save) {
+            // 4. replace path in pathStore
+            changePathOfObjectInLocalDb(object)
+            updateActivePathFromObject(object)
+            // 5. replace filter options in filterOptionsStore
+            app.Actions.changeFilterOptionsForObject(object)
+            // 6. update hierarchy
+            this.updateHierarchyForObject(object)
+            // 7. replicate changes to remoteDb
+            app.Actions.replicateToRemoteDb()
+          }
         })
         .catch((error) => {
-          app.Actions.showError({ title: 'objectStore: error saving object:', msg: error })
+          app.Actions.showError({ title: 'objectStore, onSaveObject: error saving object:', msg: error })
         })
     },
 
@@ -86,7 +89,7 @@ export default (Actions) => {
       getHierarchyFromLocalDb()
         .then((hierarchy) => this.trigger(hierarchy))
         .catch((error) =>
-          app.Actions.showError({title: 'objectStore, error getting hierarchy:', msg: error})
+          app.Actions.showError({title: 'objectStore, onSaveObject, error getting hierarchy:', msg: error})
         )
     },
 

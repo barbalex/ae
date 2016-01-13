@@ -24,7 +24,7 @@ export default React.createClass({
 
   propTypes: {
     object: React.PropTypes.object,
-    onChangeObjectField: React.PropTypes.func,
+    onSaveObjectField: React.PropTypes.func,
     editObjects: React.PropTypes.bool,
     toggleEditObjects: React.PropTypes.func,
     addNewObject: React.PropTypes.func,
@@ -81,7 +81,7 @@ export default React.createClass({
   },
 
   render () {
-    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, onChangeObjectField, editObjects, toggleEditObjects, addNewObject, removeObject, synonymObjects, tcs, tcsQuerying, pcs, pcsQuerying, rcs, rcsQuerying, mainComponent, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, email, userRoles, replicatingToAe, replicatingToAeTime, offlineIndexes, organizations, activeOrganization, onChangeActiveOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, tcsOfActiveOrganization, pcsOfActiveOrganization, rcsOfActiveOrganization, errors } = this.props
+    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, onSaveObjectField, editObjects, toggleEditObjects, addNewObject, removeObject, synonymObjects, tcs, tcsQuerying, pcs, pcsQuerying, rcs, rcsQuerying, mainComponent, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, email, userRoles, replicatingToAe, replicatingToAeTime, offlineIndexes, organizations, activeOrganization, onChangeActiveOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, tcsOfActiveOrganization, pcsOfActiveOrganization, rcsOfActiveOrganization, errors } = this.props
     const { formClassNames } = this.state
     const showObject = object && Object.keys(object).length > 0 && !mainComponent
 
@@ -94,7 +94,7 @@ export default React.createClass({
             showObject &&
             <Objekt
               object={object}
-              onChangeObjectField={onChangeObjectField}
+              onSaveObjectField={onSaveObjectField}
               synonymObjects={synonymObjects}
               userRoles={userRoles}
               editObjects={editObjects}

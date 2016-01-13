@@ -3,7 +3,7 @@
 import app from 'ampersand-app'
 import { ListenerMixin } from 'reflux'
 import React from 'react'
-import { cloneDeep, pluck, difference, union } from 'lodash'
+import { cloneDeep, difference, get, pluck, set, union } from 'lodash'
 import moment from 'moment'
 import MenuButton from './menu/menuButton/menuButton.js'
 import ResizeButton from './menu/resizeButton.js'
@@ -259,9 +259,8 @@ export default React.createClass({
     app.Actions.showError({title: 'Dieses Feature ist noch nicht implementiert'})
   },
 
-  onChangeObjectField (pcType, pcName, fieldName, fieldValue) {
+  onSaveObjectField (pcType, pcName, fieldName, fieldValue, save) {
     let { object } = this.state
-    const oldObject = cloneDeep(object)
     const pcTypeHash = {
       'Taxonomie': 'Taxonomien',
       'Datensammlung': 'Eigenschaftensammlungen',
@@ -270,18 +269,23 @@ export default React.createClass({
     }
     if (object) {
       const collection = object[pcTypeHash[pcType]].find((pc) => pc.Name === pcName)
-      if (collection) {
-        collection.Eigenschaften[fieldName] = fieldValue
+      if (collection && collection.Eigenschaften) {
+        // update eigenschaften
+        const eigenschaften = collection.Eigenschaften
+        eigenschaften[fieldName] = fieldValue
         // if this field is contained in Hierarchien, need to update that
-        if (pcType === 'Taxonomie' && collection.Eigenschaften.Hierarchie) {
+        if (save && pcType === 'Taxonomie' && eigenschaften.Hierarchie) {
           const hO = buildHierarchyObjectFromObjectForTaxonomy(object, pcName)
           if (hO) {
-            let hierarchy = collection.Eigenschaften.Hierarchie
+            let hierarchy = eigenschaften.Hierarchie
             hierarchy.pop()
             hierarchy.push(hO)
           }
         }
-        app.Actions.saveObject(object, oldObject)
+        // o.k., now update object
+        const collectionIndex = object[pcTypeHash[pcType]].findIndex((pc) => pc.Name === pcName)
+        object[pcTypeHash[pcType]][collectionIndex].Eigenschaften = eigenschaften
+        app.Actions.saveObject(object, save)
       }
     }
   },
@@ -353,7 +357,7 @@ export default React.createClass({
           showMain &&
           <Main
             object={object}
-            onChangeObjectField={this.onChangeObjectField}
+            onSaveObjectField={this.onSaveObjectField}
             editObjects={editObjects}
             toggleEditObjects={this.toggleEditObjects}
             addNewObject={this.addNewObject}

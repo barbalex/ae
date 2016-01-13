@@ -6,7 +6,6 @@
 'use strict'
 
 import React from 'react'
-import { Input } from 'react-bootstrap'
 
 export default React.createClass({
   displayName: 'FieldLink',
@@ -17,43 +16,47 @@ export default React.createClass({
     pcType: React.PropTypes.string,
     pcName: React.PropTypes.string,
     collectionIsEditing: React.PropTypes.bool,
-    onChangeObjectField: React.PropTypes.func
+    onSaveObjectField: React.PropTypes.func
   },
 
-  getInitialState () {
-    const { fieldValue } = this.props
-    return { fieldValue }
+  onChange () {
+    const { fieldName, pcType, pcName, onSaveObjectField } = this.props
+    const fieldValue = this.myInput.value
+    const save = false
+    onSaveObjectField(pcType, pcName, fieldName, fieldValue, save)
   },
 
-  onChange (event) {
-    const fieldValue = event.target.value
-    this.setState({ fieldValue })
-  },
-
-  onBlur (event) {
-    const { fieldName, pcType, pcName, onChangeObjectField } = this.props
-    const fieldValue = event.target.value
-    onChangeObjectField(pcType, pcName, fieldName, fieldValue)
+  onBlur () {
+    const { fieldName, pcType, pcName, onSaveObjectField } = this.props
+    const fieldValue = this.myInput.value
+    const save = true
+    onSaveObjectField(pcType, pcName, fieldName, fieldValue, save)
   },
 
   render () {
-    const { fieldName, pcType, pcName, collectionIsEditing } = this.props
-    const { fieldValue } = this.state
+    const { fieldName, fieldValue, pcType, pcName, collectionIsEditing } = this.props
 
     if (collectionIsEditing) {
       return (
-        <Input
-          type='text'
-          label={fieldName + ':'}
-          bsSize='small'
-          dsTyp={pcType}
-          dsName={pcName}
-          id={fieldName}
-          name={fieldName}
-          value={fieldValue}
-          className='controls'
-          onChange={this.onChange}
-          onBlur={this.onBlur} />
+        <div className={'form-group'}>
+          <label
+            className={'control-label'}
+            htmlFor={fieldName}
+          >
+            {fieldName + ':'}
+          </label>
+          <input
+            ref={(c) => this.myInput = c}
+            type='text'
+            dsTyp={pcType}
+            dsName={pcName}
+            id={fieldName}
+            name={fieldName}
+            value={fieldValue}
+            className='controls form-control input-sm'
+            onChange={this.onChange}
+            onBlur={this.onBlur} />
+        </div>
       )
     }
 
@@ -68,7 +71,7 @@ export default React.createClass({
         <p>
           <a href={fieldValue}>
             <input
-              className='controls form-control input-sm'
+              ref={(c) => this.myInput = c}
               dsTyp={pcType}
               dsName={pcName}
               id={fieldName}
@@ -76,6 +79,7 @@ export default React.createClass({
               type='text'
               value={fieldValue}
               readOnly={!collectionIsEditing}
+              className='controls form-control input-sm'
               style={{'cursor': 'pointer'}}
               onChange={this.onChange}
               onBlur={this.onBlur} />

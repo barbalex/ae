@@ -24,11 +24,11 @@ export default React.createClass({
     pcType: React.PropTypes.string,
     pcName: React.PropTypes.string,
     collectionIsEditing: React.PropTypes.bool,
-    onChangeObjectField: React.PropTypes.func
+    onSaveObjectField: React.PropTypes.func
   },
 
   render () {
-    const { fieldName, pcType, pcName, collectionIsEditing, onChangeObjectField } = this.props
+    const { fieldName, pcType, pcName, collectionIsEditing, onSaveObjectField } = this.props
     let { fieldValue } = this.props
 
     // console.log('field.js, collectionIsEditing', collectionIsEditing)
@@ -46,7 +46,7 @@ export default React.createClass({
           pcType={pcType}
           pcName={pcName}
           collectionIsEditing={collectionIsEditing}
-          onChangeObjectField={onChangeObjectField} />
+          onSaveObjectField={onSaveObjectField} />
       )
     }
     if (typeof fieldValue === 'string' && fieldValue.length < 45) {
@@ -58,7 +58,7 @@ export default React.createClass({
           pcType={pcType}
           pcName={pcName}
           collectionIsEditing={collectionIsEditing}
-          onChangeObjectField={onChangeObjectField} />
+          onSaveObjectField={onSaveObjectField} />
       )
     }
     if (typeof fieldValue === 'string' && fieldValue.length >= 45) {
@@ -69,7 +69,7 @@ export default React.createClass({
           pcType={pcType}
           pcName={pcName}
           collectionIsEditing={collectionIsEditing}
-          onChangeObjectField={onChangeObjectField} />
+          onSaveObjectField={onSaveObjectField} />
       )
     }
     if (typeof fieldValue === 'number') {
@@ -81,7 +81,7 @@ export default React.createClass({
           pcType={pcType}
           pcName={pcName}
           collectionIsEditing={collectionIsEditing}
-          onChangeObjectField={onChangeObjectField} />
+          onSaveObjectField={onSaveObjectField} />
       )
     }
     if (typeof fieldValue === 'boolean') {
@@ -92,7 +92,7 @@ export default React.createClass({
           pcType={pcType}
           pcName={pcName}
           collectionIsEditing={collectionIsEditing}
-          onChangeObjectField={onChangeObjectField} />
+          onSaveObjectField={onSaveObjectField} />
       )
     }
     // fallback is text input
@@ -104,7 +104,7 @@ export default React.createClass({
         pcType={pcType}
         pcName={pcName}
         collectionIsEditing={collectionIsEditing}
-        onChangeObjectField={onChangeObjectField} />
+        onSaveObjectField={onSaveObjectField} />
     )
   }
 })

@@ -22,13 +22,21 @@ export default React.createClass({
     pcType: React.PropTypes.string,
     pcName: React.PropTypes.string,
     collectionIsEditing: React.PropTypes.bool,
-    onChangeObjectField: React.PropTypes.func
+    onSaveObjectField: React.PropTypes.func
   },
 
-  onChange (event) {
-    const { fieldName, pcType, pcName, onChangeObjectField } = this.props
-    const fieldValue = event.target.value
-    onChangeObjectField(pcType, pcName, fieldName, fieldValue)
+  onChange () {
+    const { fieldName, pcType, pcName, onSaveObjectField } = this.props
+    const fieldValue = this.myInput.getValue()
+    const save = false
+    onSaveObjectField(pcType, pcName, fieldName, fieldValue, save)
+  },
+
+  onBlur () {
+    const { fieldName, pcType, pcName, onSaveObjectField } = this.props
+    const fieldValue = this.myInput.getValue()
+    const save = true
+    onSaveObjectField(pcType, pcName, fieldName, fieldValue, save)
   },
 
   render () {
@@ -36,6 +44,7 @@ export default React.createClass({
 
     return (
       <Input
+        ref={(c) => this.myInput = c}
         type={inputType}
         label={fieldName + ':'}
         bsSize='small'
