@@ -38,24 +38,28 @@ export default (Actions) => {
           this.trigger({ filterOptions, loading })
         })
         .catch((error) =>
-          app.Actions.showError({title: 'filterOptionsStore: error preparing trigger:', msg: error})
+          app.Actions.showError({title: 'filterOptionsStore, onLoadFilterOptions: error preparing trigger:', msg: error})
         )
     },
 
     onChangeFilterOptionsForObject (object) {
+      console.log('filterOptions.js, object', object)
       const option = buildFilterOptionsFromObject(object)
       let options = null
+      console.log('filterOptions.js, option', option)
       app.localDb.get('_local/filterOptions')
         .then((doc) => {
+          console.log('filterOptions.js, doc', doc)
           // replace option with new
           doc.filterOptions = doc.filterOptions.filter((op) => op.value !== object._id)
           doc.filterOptions.push(option)
           options = doc.filterOptions
+          console.log('filterOptions.js, options', options)
           return app.localDb.put(doc)
         })
         .then(() => this.trigger({ options: options, loading: false }))
         .catch((error) =>
-          app.Actions.showError({title: 'filterOptionsStore: error preparing trigger:', msg: error})
+          app.Actions.showError({title: 'filterOptionsStore, onChangeFilterOptionsForObject: error preparing trigger:', msg: error})
         )
     }
   })

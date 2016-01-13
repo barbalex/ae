@@ -33,10 +33,12 @@ export default React.createClass({
   },
 
   onBlur () {
-    const { fieldName, pcType, pcName, onSaveObjectField } = this.props
-    const fieldValue = this.myInput.getValue()
-    const save = true
-    onSaveObjectField(pcType, pcName, fieldName, fieldValue, save)
+    const { fieldName, fieldValue, pcType, pcName, onSaveObjectField } = this.props
+    const newFieldValue = this.myInput.getValue()
+    if (newFieldValue !== fieldValue) {
+      const save = true
+      onSaveObjectField(pcType, pcName, fieldName, newFieldValue, save)
+    }
   },
 
   render () {

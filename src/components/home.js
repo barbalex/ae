@@ -3,7 +3,7 @@
 import app from 'ampersand-app'
 import { ListenerMixin } from 'reflux'
 import React from 'react'
-import { cloneDeep, difference, get, pluck, set, union } from 'lodash'
+import { difference, pluck, union } from 'lodash'
 import moment from 'moment'
 import MenuButton from './menu/menuButton/menuButton.js'
 import ResizeButton from './menu/resizeButton.js'
