@@ -6,7 +6,7 @@
  */
 
 import app from 'ampersand-app'
-import { pluck } from 'lodash'
+import { map } from 'lodash'
 import buildHierarchy from './buildHierarchy.js'
 
 export default () => {
@@ -32,7 +32,7 @@ export default () => {
     // 3. update groups loaded
     .then(() => app.localDb.get('_local/groupsLoaded'))
     .then((doc) => {
-      doc.groupsLoaded = pluck(hierarchy, 'Name')
+      doc.groupsLoaded = map(hierarchy, 'Name')
       console.log('rebuildRedundantData.js, groupsLoaded', doc.groupsLoaded)
       return app.localDb.put(doc)
     })

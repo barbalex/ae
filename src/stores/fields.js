@@ -2,7 +2,7 @@
 
 import app from 'ampersand-app'
 import Reflux from 'reflux'
-import { pluck, reject as _reject, uniq } from 'lodash'
+import { map, reject as _reject, uniq } from 'lodash'
 import queryFieldsOfGroup from '../queries/fieldsOfGroup.js'
 import getFieldsForGroupsToExportByCollectionType from '../modules/getFieldsForGroupsToExportByCollectionType.js'
 
@@ -92,7 +92,7 @@ export default (Actions) => {
             // check if group is not in allFields
             // if so: queryFieldsOfGroup
             // only do this if group was passed
-            const groupsInAllFields = uniq(pluck(allFields, 'group'))
+            const groupsInAllFields = uniq(map(allFields, 'group'))
             const fieldsExistForRequestedGroup = groupsInAllFields.includes(group)
             fieldsQuerying = !fieldsExistForRequestedGroup
             this.trigger({ taxonomyFields, pcFields, relationFields, fieldsQuerying, fieldsQueryingError })

@@ -1,7 +1,7 @@
 'use strict'
 
 import React from 'react'
-import { pluck, difference } from 'lodash'
+import { map, difference } from 'lodash'
 import WellSoGehts from './wellSoGehts.js'
 import GroupsToExport from './groupsToExport.js'
 import WellCombineTaxonomies from './wellCombineTaxonomies.js'
@@ -34,7 +34,7 @@ export default React.createClass({
     const groupsToExport = exportOptions.object.Gruppen.value
     const showAlertGroups = groupsToExport.length > 0 && !showAlertLoadGroups
     const showAlertChooseGroup = panel1Done === false
-    const groupsLoading = pluck(groupsLoadingObjects, 'group')
+    const groupsLoading = map(groupsLoadingObjects, 'group')
     const groupsLoaded = difference(groupsLoadedOrLoading, groupsLoading)
 
     return (

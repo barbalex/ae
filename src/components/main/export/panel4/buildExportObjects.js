@@ -7,7 +7,7 @@
 
 'use strict'
 
-import { clone, get, has, isArray, pluck, union, without } from 'lodash'
+import { clone, get, has, isArray, map, union, without } from 'lodash'
 
 export default (exportOptions, objects, combineTaxonomies, oneRowPerRelation, onlyObjectsWithCollectionData) => {
   // console.log('buildExportObjects.js, exportOptions', exportOptions)
@@ -97,7 +97,7 @@ export default (exportOptions, objects, combineTaxonomies, oneRowPerRelation, on
                           const key = `${cName}: ${fName}`
                           newExportObject[key] = rPartners
                           // build Beziehungspartner GUID
-                          const guidArray = pluck(rPartners, `GUID`)
+                          const guidArray = map(rPartners, `GUID`)
                           const key2 = `${cName}: ${fName} GUID`
                           newExportObject[key2] = guidArray
                         }
@@ -145,7 +145,7 @@ export default (exportOptions, objects, combineTaxonomies, oneRowPerRelation, on
                            * Beziehungspartner is an array of objects
                            */
                           // build Beziehungspartner GUID
-                          const guidArray = pluck(rPartners, 'GUID')
+                          const guidArray = map(rPartners, 'GUID')
                           const key2 = `${cName}: ${fName} GUIDs`
                           if (has(exportObject, key2)) {
                             exportObject[key2] = union(exportObject[key2], guidArray)

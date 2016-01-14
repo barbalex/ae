@@ -7,7 +7,7 @@
 'use strict'
 
 import React from 'react'
-import { pluck, reject } from 'lodash'
+import { map, reject } from 'lodash'
 import Taxonomy from './taxonomy.js'
 import PropertyCollections from './pcs.js'
 import RelationCollections from './rcs.js'
@@ -48,12 +48,12 @@ export default React.createClass({
       taxRcs = rcs.filter((rc) => rc.Typ && rc.Typ === 'taxonomisch')
       // list of names of relation collections
       // needed to choose which relation collections of synonym objects need to be built
-      namesOfRcsBuilt = pluck(rcs, 'Name')
+      namesOfRcsBuilt = map(rcs, 'Name')
     }
 
     // list names of property collections
     // needed to choose which property collections of synonym objects need to be built
-    if (pcs && pcs.length > 0) namesOfPcsBuilt = pluck(pcs, 'Name')
+    if (pcs && pcs.length > 0) namesOfPcsBuilt = map(pcs, 'Name')
 
     /**
      * build pcsOfSynonyms

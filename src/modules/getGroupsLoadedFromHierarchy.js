@@ -5,16 +5,14 @@
 'use strict'
 
 import app from 'ampersand-app'
-import { pluck } from 'lodash'
+import { map } from 'lodash'
 
 export default () => {
   return new Promise((resolve, reject) => {
     app.localDb.get('_local/hierarchy')
-      .then((doc) =>
-        resolve(pluck(doc.hierarchy, 'Name'))
-      )
-      .catch((error) =>
-        reject('getGroupsLoadedFromHierarchy: error getting items from localDb:', error)
-      )
+      .then((doc) => resolve(map(doc.hierarchy, 'Name'))
+    )
+      .catch((error) => reject('getGroupsLoadedFromHierarchy: error getting items from localDb:', error)
+    )
   })
 }

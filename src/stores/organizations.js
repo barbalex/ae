@@ -2,7 +2,7 @@
 
 import app from 'ampersand-app'
 import Reflux from 'reflux'
-import { pluck, union } from 'lodash'
+import { map, union } from 'lodash'
 import removeRolesFromUser from '../components/main/organizations/removeRolesFromUser.js'
 import getRoleFromOrgField from '../components/main/organizations/getRoleFromOrgField.js'
 
@@ -64,7 +64,7 @@ export default (Actions) => {
           this.organizations = organizations
           // is user admin in orgs?
           const orgsWhereUserIsAdmin = organizations.filter((org) => org.orgAdmins.includes(email))
-          this.userIsAdminInOrgs = pluck(orgsWhereUserIsAdmin, 'Name')
+          this.userIsAdminInOrgs = map(orgsWhereUserIsAdmin, 'Name')
           // set activeOrganization if user is logged in and only admin in one organization
           if (this.userIsAdminInOrgs.length === 1) {
             this.activeOrganizationName = this.userIsAdminInOrgs[0]
@@ -75,7 +75,7 @@ export default (Actions) => {
           // is user es-writer in orgs?
           let orgsWhereUserIsEsWriter = organizations.filter((org) => org.esWriters.includes(email))
           orgsWhereUserIsEsWriter = union(orgsWhereUserIsEsWriter, orgsWhereUserIsAdmin)
-          this.userIsEsWriterInOrgs = pluck(orgsWhereUserIsEsWriter, 'Name')
+          this.userIsEsWriterInOrgs = map(orgsWhereUserIsEsWriter, 'Name')
           // is user lr-writer in orgs?
           let orgsWhereUserLrEsWriter = organizations.filter((org) => org.lrWriters.includes(email))
           orgsWhereUserLrEsWriter = union(orgsWhereUserLrEsWriter, orgsWhereUserIsAdmin)

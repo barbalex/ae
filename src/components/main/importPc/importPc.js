@@ -3,7 +3,7 @@
 import app from 'ampersand-app'
 import React from 'react'
 import { Accordion, Panel } from 'react-bootstrap'
-import { difference, pluck, omit, unique, values } from 'lodash'
+import { difference, map, omitBy, unique, values } from 'lodash'
 import { ListenerMixin } from 'reflux'
 import Panel1 from './panel1/panel1.js'
 import Panel2 from './panel2/panel2.js'
@@ -303,7 +303,7 @@ export default React.createClass({
           }
         })
       }
-      const ids = pluck(pcsToImport, idsImportIdField)
+      const ids = map(pcsToImport, idsImportIdField)
       // if ids should be numbers but some are not, an error can occur when fetching from the database
       // so dont fetch
       if (idsNotANumber.length > 0) return this.setState({ idsAnalysisComplete: true, idsNotANumber: idsNotANumber })
@@ -314,7 +314,7 @@ export default React.createClass({
             const importId = pc[idsImportIdField]
             pc._id = idGuidObject[importId]
           })
-          let idsToImportWithDuplicates = pluck(pcsToImport, idsImportIdField)
+          let idsToImportWithDuplicates = map(pcsToImport, idsImportIdField)
           // remove emtpy values
           idsToImportWithDuplicates = idsToImportWithDuplicates.filter((id) => !!id)
           // remove duplicates
@@ -324,7 +324,7 @@ export default React.createClass({
           // go on with analysis
           const idsOfAeObjects = values(idGuidObject)
 
-          const idGuidImportable = omit(idGuidObject, (guid, id) => !guid)
+          const idGuidImportable = omitBy(idGuidObject, (guid, id) => !guid)
           const idsImportable = Object.keys(idGuidImportable)
           // extracting from keys converts numbers to strings! Convert back
           idsImportable.forEach((id, index) => {

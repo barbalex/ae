@@ -2,7 +2,7 @@
 
 import app from 'ampersand-app'
 import Reflux from 'reflux'
-import { pluck } from 'lodash'
+import { map } from 'lodash'
 
 export default (Actions) => {
   const usersStore = Reflux.createStore({
@@ -18,7 +18,7 @@ export default (Actions) => {
       app.remoteUsersDb.allDocs({ include_docs: true })
         .then((result) => {
           const users = result.rows.map((row) => row.doc)
-          const userNames = pluck(users, 'name')
+          const userNames = map(users, 'name')
           this.userNames = userNames
           this.trigger(this.userNames)
         })

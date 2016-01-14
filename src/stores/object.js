@@ -52,7 +52,7 @@ export default (Actions) => {
        * 1. write object to localDb
        * 2. update object rev
        * 3. if object is active: update activeObjectStore
-       * if object shall be saved to db:
+       * if save was passed i.e. field was blured:
        * 4. replace path in pathStore
        * 5. replace path in activePathStore
        * 5. replace filter options in filterOptionsStore

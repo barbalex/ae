@@ -1,13 +1,13 @@
 'use strict'
 
-import { has, pluck } from 'lodash'
+import { has, map } from 'lodash'
 import replaceProblematicPathCharactersFromArray from './replaceProblematicPathCharactersFromArray.js'
 
 export default (object) => {
   if (object.Taxonomien) {
     const standardtaxonomie = object.Taxonomien.find((taxonomy) => taxonomy['Standardtaxonomie'])
     if (standardtaxonomie && has(standardtaxonomie, 'Eigenschaften.Hierarchie')) {
-      let path = pluck(standardtaxonomie.Eigenschaften.Hierarchie, 'Name')
+      let path = map(standardtaxonomie.Eigenschaften.Hierarchie, 'Name')
       /**
        * I have no idea when Gruppe is included in path
        * if I add it it is usually doubly included
@@ -21,4 +21,3 @@ export default (object) => {
   }
   return []
 }
-

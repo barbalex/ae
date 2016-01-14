@@ -10,7 +10,7 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import { pluck, uniq } from 'lodash'
+import { map, uniq } from 'lodash'
 import { PanelGroup, Panel, Input, Alert } from 'react-bootstrap'
 import UsersList from './usersList.js'
 import CollectionList from './collectionList.js'
@@ -46,7 +46,7 @@ export default React.createClass({
   orgValues () {
     const { organizations, email } = this.props
     const orgWhereUserIsAdmin = organizations.filter((org) => org.orgAdmins.includes(email))
-    const orgNamesWhereUserIsAdmin = pluck(orgWhereUserIsAdmin, 'Name')
+    const orgNamesWhereUserIsAdmin = map(orgWhereUserIsAdmin, 'Name')
     // orgNamesWhereUserIsAdmin.unshift(null)
     return orgNamesWhereUserIsAdmin.map((name, index) => (
       <option

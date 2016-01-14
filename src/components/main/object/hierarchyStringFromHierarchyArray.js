@@ -6,11 +6,11 @@
 
 'use strict'
 
-import { isArray, pluck } from 'lodash'
+import { isArray, map } from 'lodash'
 
 export default (hierarchyArray) => {
   if (!isArray(hierarchyArray)) return ''
 
-  const names = pluck(hierarchyArray, 'Name')
+  const names = map(hierarchyArray, 'Name')
   return names.join('\n')
 }

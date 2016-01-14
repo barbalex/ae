@@ -3,7 +3,7 @@
 import app from 'ampersand-app'
 import { ListenerMixin } from 'reflux'
 import React from 'react'
-import { difference, pluck, union } from 'lodash'
+import { difference, map, union } from 'lodash'
 import moment from 'moment'
 import MenuButton from './menu/menuButton/menuButton.js'
 import ResizeButton from './menu/resizeButton.js'
@@ -204,7 +204,7 @@ export default React.createClass({
 
   onLoadingGroupsStoreChange (payload) {
     const { groupsLoadingObjects, groupsLoaded } = payload
-    const groupsLoading = pluck(groupsLoadingObjects, 'group')
+    const groupsLoading = map(groupsLoadingObjects, 'group')
     // add groups loading to groups loaded to hide the group checkbox of the loading group
     const groupsLoadedOrLoading = union(groupsLoaded, groupsLoading)
     const groupsNotLoaded = difference(gruppen, groupsLoadedOrLoading)

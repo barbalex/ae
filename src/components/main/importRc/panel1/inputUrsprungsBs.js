@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { OverlayTrigger, Popover } from 'react-bootstrap'
-import { pluck } from 'lodash'
+import { map } from 'lodash'
 
 export default React.createClass({
   displayName: 'InputUrsprungsBs',
@@ -24,7 +24,7 @@ export default React.createClass({
     const { rcs } = this.props
     // don't want combining rcs
     let options = rcs.filter((rc) => !rc.combining)
-    options = pluck(options, 'name')
+    options = map(options, 'name')
     options = options.map((name, index) => <option key={index} value={name}>{name}</option>)
     // add an empty option at the beginning
     options.unshift(<option key='noValue' value=''></option>)

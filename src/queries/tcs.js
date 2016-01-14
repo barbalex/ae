@@ -11,7 +11,7 @@
 'use strict'
 
 import app from 'ampersand-app'
-import { uniq } from 'lodash'
+import { uniqBy } from 'lodash'
 
 const ddoc = {
   _id: '_design/tcs',
@@ -75,7 +75,7 @@ export default (offlineIndexes) => {
     query[db]()
       .then((result) => {
         const rows = result.rows
-        const uniqueRows = uniq(rows, (row) => [row.key[0], row.key[1], row.key[2]])
+        const uniqueRows = uniqBy(rows, (row) => [row.key[0], row.key[1], row.key[2]])
         let tcs = uniqueRows.map((row) => ({
           group: row.key[0],
           standard: row.key[1],
