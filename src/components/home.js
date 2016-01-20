@@ -283,7 +283,7 @@ export default React.createClass({
           }
         }
         // o.k., now update object
-        const collectionIndex = object[pcTypeHash[pcType]].findIndex((pc) => pc.Name === pcName)
+        const collectionIndex = object[pcTypeHash[pcType]].findIndex(pc => pc.Name === pcName)
         object[pcTypeHash[pcType]][collectionIndex].Eigenschaften = eigenschaften
         app.Actions.saveObject(object, save)
       }
