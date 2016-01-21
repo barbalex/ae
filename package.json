@@ -35,7 +35,7 @@
     "browser-filesaver": "1.1.0",
     "classnames": "2.2.3",
     "css-loader": "0.23.1",
-    "d3": "3.5.12",
+    "d3": "3.5.13",
     "del": "2.2.0",
     "file-loader": "0.8.5",
     "gulp": "3.9.0",
