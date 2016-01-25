@@ -4,7 +4,7 @@
   "description": "arteigenschaften.ch",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server",
+    "start": "hjs-dev-server",
     "clean": "gulp cleanPublic",
     "prebuild": "npm run clean",
     "build": "set NODE_ENV=production&& webpack",
@@ -41,7 +41,7 @@
     "gulp": "3.9.0",
     "gulp-sftp": "0.1.5",
     "hapi": "12.1.0",
-    "hjs-webpack": "6.1.0",
+    "hjs-webpack": "7.0.0",
     "inert": "3.2.0",
     "json-loader": "0.5.4",
     "local-links": "1.4.0",
@@ -70,7 +70,6 @@
     "surge": "0.17.7",
     "url-loader": "0.5.7",
     "webpack": "1.12.12",
-    "webpack-dev-server": "1.14.1",
     "xlsx": "0.8.0",
     "yeticss": "7.0.5"
   },
@@ -79,5 +78,8 @@
       "public/*",
       "node_modules"
     ]
+  },
+  "devDependencies": {
+    "babel-preset-react-hmre": "^1.0.1"
   }
 }
