@@ -1,7 +1,7 @@
 'use strict'
 
 import React from 'react'
-import { Input, Button, Well } from 'react-bootstrap'
+import { Button, Well } from 'react-bootstrap'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import Textarea from 'react-textarea-autosize'
 import WellOptionsChoosen from './wellOptionsChoosen.js'
