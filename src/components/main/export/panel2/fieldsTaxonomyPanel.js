@@ -1,7 +1,7 @@
 'use strict'
 
 import React from 'react'
-import { Input } from 'react-bootstrap'
+import { FormGroup, InputGroup, FormControl, ControlLabel } from 'react-bootstrap'
 import { get } from 'lodash'
 import SelectComparisonOperator from './selectComparisonOperator.js'
 import InfoButtonAfter from './infoButtonAfter.js'
@@ -37,32 +37,42 @@ export default React.createClass({
       const buttonAfter = <InfoButtonAfter fNameObject={fNameObject} />
       if (fNameObject.fType !== 'boolean') {
         return (
-          <Input
-            key={fieldKey}
-            type={fNameObject.fType}
-            label={fNameKey}
-            bsSize='small'
-            className={'controls'}
-            value={value}
-            onChange={this.onChange.bind(this, cNameKey, fNameKey)}
-            buttonBefore={selectComparisonOperator}
-            buttonAfter={buttonAfter} />
+          <FormGroup>
+            <ControlLabel>{fNameKey}</ControlLabel>
+            <InputGroup>
+              <InputGroup.Addon>{selectComparisonOperator}</InputGroup.Addon>
+              <FormControl
+                key={fieldKey}
+                type={fNameObject.fType}
+                bsSize='small'
+                className='controls'
+                value={value}
+                onChange={this.onChange.bind(this, cNameKey, fNameKey)}
+              />
+              <InputGroup.Addon>{buttonAfter}</InputGroup.Addon>
+            </InputGroup>
+          </FormGroup>
         )
       }
       return (
-        <Input
-          key={fieldKey}
-          type='select'
-          label={fNameKey}
-          bsSize='small'
-          className={'controls'}
-          value={value}
-          onChange={this.onChange.bind(this, cNameKey, fNameKey)}
-          buttonAfter={buttonAfter} >
-          <option value={null}></option>
-          <option value>ja</option>
-          <option value={false}>nein</option>
-        </Input>
+        <FormGroup>
+          <ControlLabel>{fNameKey}</ControlLabel>
+          <InputGroup>
+            <FormControl
+              key={fieldKey}
+              componentClass="select"
+              bsSize='small'
+              className='controls'
+              value={value}
+              onChange={this.onChange.bind(this, cNameKey, fNameKey)}
+            >
+              <option key='1' value={null}></option>
+              <option key='2' value>ja</option>
+              <option key='3' value={false}>nein</option>
+            </FormControl>
+            <InputGroup.Addon>{buttonAfter}</InputGroup.Addon>
+          </InputGroup>
+        </FormGroup>
       )
     })
     return (
