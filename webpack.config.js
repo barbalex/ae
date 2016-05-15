@@ -1,6 +1,7 @@
 'use strict'
 
 var getConfig = require('hjs-webpack')
+var webpack = require('webpack')
 
 var config = getConfig({
   in: 'src/app.js',
@@ -18,6 +19,12 @@ config.module.loaders.push(
     exclude: /(node_modules)/,
     loader: 'babel'
   }
+)
+
+config.plugins.push(
+  new webpack.ProvidePlugin({
+    'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
+  })
 )
 
 // need to add this so request can load

@@ -16,6 +16,12 @@ import getGroupsLoadedFromLocalDb from './modules/getGroupsLoadedFromLocalDb.js'
 // need this polyfill to transform promise.all
 // without it IE11 and lower bark
 import 'babel-polyfill'
+/**
+ * need this polyfill to use fetch in IE
+ * https://github.com/github/fetch
+ * http://caniuse.com/#feat=promises
+ */
+import 'es6-promise'
 // make webpack import styles
 import './styles/main.styl'
 // make webpack import server.js
