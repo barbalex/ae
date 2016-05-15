@@ -13,7 +13,7 @@ export default React.createClass({
 
   popover() {
     return (
-      <Popover id='inputIndexesPopover' title='Wozu lokale Indizes verwenden?'>
+      <Popover id="inputIndexesPopover" title="Wozu lokale Indizes verwenden?">
         <p>Lokale Indizes sind mühsam:</p>
         <ul>
           <li>Browser und PC werden stark gefordert, um die Indizes aufzubauen</li>
@@ -47,33 +47,40 @@ export default React.createClass({
     return (
       <li style={liStyle}>
         <Input
-          type='checkbox'
-          label='Von arteigenschaften.ch verwenden (empfohlen)'
+          type="checkbox"
+          label="Von arteigenschaften.ch verwenden (empfohlen)"
           checked={!offlineIndexes}
           onChange={onClickToggleOfflineIndexes}
-          style={cbStyle} />
+          style={cbStyle}
+        />
         <div
-          className='checkbox'>
+          className="checkbox"
+        >
           <label
-            className='control-label'>
+            className="control-label"
+          >
             <input
-              type='checkbox'
+              type="checkbox"
               checked={offlineIndexes}
               onChange={onClickToggleOfflineIndexes}
-              style={cbStyle} />
+              style={cbStyle}
+            />
               Lokale verwenden
-              <OverlayTrigger
-                trigger={['hover', 'focus']}
-                rootClose
-                placement='right'
-                overlay={this.popover()}>
-                <span
-                  className='withPopover'>
-                  <Glyphicon
-                    glyph='info-sign'
-                    style={glyphiconStyle} />
-                </span>
-              </OverlayTrigger>
+            <OverlayTrigger
+              trigger={['hover', 'focus']}
+              rootClose
+              placement="right"
+              overlay={this.popover()}
+            >
+              <span
+                className="withPopover"
+              >
+                <Glyphicon
+                  glyph="info-sign"
+                  style={glyphiconStyle}
+                />
+              </span>
+            </OverlayTrigger>
           </label>
         </div>
       </li>

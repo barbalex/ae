@@ -18,7 +18,7 @@ export default React.createClass({
     loadingFilterOptions: React.PropTypes.bool
   },
 
-  onClickEmptyFilterField () {
+  onClickEmptyFilterField() {
     this.refs.typeahead.focus()
     this.refs.typeahead.setState({
       entryValue: '',
@@ -28,13 +28,13 @@ export default React.createClass({
     })
   },
 
-  onSelectObject (result) {
+  onSelectObject(result) {
     const guid = result.value
     app.Actions.loadActiveObject(guid)
     this.emptyInTenSeconds()
   },
 
-  emptyInTenSeconds () {
+  emptyInTenSeconds() {
     setTimeout(() => {
       this.refs.typeahead.setState({
         entryValue: '',
@@ -59,14 +59,15 @@ export default React.createClass({
     }
 
     const filterField = (
-      <div id='filter'>
-        <div style={{position: 'relative'}}>
+      <div id="filter">
+        <div style={{ position: 'relative' }}>
           <Glyphicon
-            glyph={'remove'}
+            glyph="remove"
             style={removeGlyphStyle}
-            onClick={this.onClickEmptyFilterField}/>
+            onClick={this.onClickEmptyFilterField}
+          />
           <Typeahead
-            ref='typeahead'
+            ref="typeahead"
             placeholder={loadingFilterOptions ? 'Ergänze Suchindex...' : 'suchen'}
             maxVisible={10}
             options={filterOptions}
@@ -74,10 +75,11 @@ export default React.createClass({
             displayOption={'label'}
             onOptionSelected={this.onSelectObject}
             customClasses={{
-              'input': ['form-control'],
-              'results': ['list-group'],
-              'listItem': ['list-group-item']
-            }}/>
+              input: ['form-control'],
+              results: ['list-group'],
+              listItem: ['list-group-item']
+            }}
+          />
         </div>
       </div>
     )

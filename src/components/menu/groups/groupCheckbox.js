@@ -11,7 +11,7 @@ export default React.createClass({
     group: React.PropTypes.string
   },
 
-  onClickGruppe (group) {
+  onClickGruppe(group) {
     app.Actions.loadObject(group)
   },
 
@@ -19,7 +19,11 @@ export default React.createClass({
     const { group } = this.props
     const label = group.replace('Macromycetes', 'Pilze')
     return (
-      <Input type='checkbox' label={label} onClick={this.onClickGruppe.bind(this, group)} />
+      <Input
+        type="checkbox"
+        label={label}
+        onClick={this.onClickGruppe.bind(this, group)}
+      />
     )
   }
 })
