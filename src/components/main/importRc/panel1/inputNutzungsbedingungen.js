@@ -30,7 +30,7 @@ export default React.createClass({
     )
   },
 
-  render () {
+  render() {
     const { nutzungsbedingungen, validNutzungsbedingungen } = this.props
 
     return (

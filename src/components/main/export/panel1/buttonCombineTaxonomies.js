@@ -16,7 +16,7 @@ export default React.createClass({
     onChangeCombineTaxonomies(!combineTaxonomies)
   },
 
-  render () {
+  render() {
     const { combineTaxonomies } = this.props
 
     const buttonText = combineTaxonomies ? 'Felder der gewählten Taxonomien einzeln behandeln' : 'Felder der gewählten Taxonomien zusammenfassen'

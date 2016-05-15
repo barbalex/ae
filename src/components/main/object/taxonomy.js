@@ -16,7 +16,7 @@ export default React.createClass({
     removeObject: React.PropTypes.func
   },
 
-  render () {
+  render() {
     const { object, onSaveObjectField, userRoles, editObjects, toggleEditObjects, addNewObject, removeObject } = this.props
     const standardtaxonomie = object.Taxonomien.find((taxonomy) => taxonomy.Standardtaxonomie)
 

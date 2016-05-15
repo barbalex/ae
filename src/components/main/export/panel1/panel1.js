@@ -28,7 +28,7 @@ export default React.createClass({
     onChangeGroupsToExport: React.PropTypes.func
   },
 
-  render () {
+  render() {
     const { groupsLoadedOrLoading, groupsLoadingObjects, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcsQuerying, rcsQuerying, onChangeCombineTaxonomies, onChangeGroupsToExport, panel1Done, exportOptions, combineTaxonomies, errorBuildingExportOptions } = this.props
     const showAlertLoadGroups = groupsLoadedOrLoading.length === 0
     const groupsToExport = exportOptions.object.Gruppen.value

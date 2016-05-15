@@ -25,7 +25,7 @@ export default React.createClass({
 
   },
 
-  render () {
+  render() {
     const { pcsToImport, idsImportIdField, idsAeIdField, idsAnalysisComplete, idsNumberOfRecordsWithIdValue, idsNumberImportable, idsDuplicate, idsNotANumber } = this.props
     let { idsNotImportable } = this.props
 

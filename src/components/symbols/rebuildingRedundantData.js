@@ -11,7 +11,7 @@ export default React.createClass({
     rebuildingRedundantData: React.PropTypes.string
   },
 
-  render () {
+  render() {
     const { rebuildingRedundantData } = this.props
     const tooltip = <Tooltip id='rebuildingRedundantDataTooltip' bsStyle='info'>Bitte Geduld: Die App kann zeitweise einfrieren!</Tooltip>
     const pStyle = {

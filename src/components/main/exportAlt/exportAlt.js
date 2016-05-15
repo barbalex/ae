@@ -321,7 +321,7 @@ export default React.createClass({
     this.setState({ exportObjects, oneRowPerRelation, urlOptions, urlCopied })
   },
 
-  render () {
+  render() {
     const { taxonomyFields, pcFields, relationFields, pcs, rcs } = this.props
     const { activePanel, urlOptions, includeDataFromSynonyms, tooManyFieldsChoosen, tooManyRcsChoosen, collectionsWithAllChoosen, oneRowPerRelation, urlCopied } = this.state
 

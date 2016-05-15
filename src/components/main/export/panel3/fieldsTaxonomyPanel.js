@@ -26,7 +26,7 @@ export default React.createClass({
     onChooseAllOfCollection(cName, 'taxonomy', event)
   },
 
-  render () {
+  render() {
     const { taxonomyFields, exportOptions, cNameKey, collectionsWithAllChoosen } = this.props
 
     const cNameObject = taxonomyFields[cNameKey]

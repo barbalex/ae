@@ -10,7 +10,7 @@ export default React.createClass({
     rcsOfSynonyms: React.PropTypes.array
   },
 
-  render () {
+  render() {
     const { rcsOfSynonyms } = this.props
     let rcsComponent = null
 

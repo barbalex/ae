@@ -67,7 +67,7 @@ export default React.createClass({
     )
   },
 
-  render () {
+  render() {
     const bgStyle = {
       float: 'right',
       marginTop: -55 + 'px'

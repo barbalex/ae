@@ -26,7 +26,7 @@ export default React.createClass({
     closeModal()
   },
 
-  render () {
+  render() {
     const { nameBestehend } = this.props
 
     return (

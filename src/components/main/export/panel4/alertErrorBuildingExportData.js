@@ -10,7 +10,7 @@ export default React.createClass({
     errorBuildingExportData: React.PropTypes.object
   },
 
-  render () {
+  render() {
     const { errorBuildingExportData } = this.props
     const style = {
       marginTop: 6,

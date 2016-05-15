@@ -16,7 +16,7 @@ export default React.createClass({
     app.Actions.replicateToRemoteDb()
   },
 
-  render () {
+  render() {
     const { replicatingToAe, replicatingToAeTime } = this.props
     let style = {
       marginTop: 8

@@ -18,7 +18,7 @@ export default React.createClass({
     onChangeCoSelect(cName, fName, event)
   },
 
-  render () {
+  render() {
     const { cNameKey, fNameKey, value } = this.props
     const coSelectStyle = {
       width: 45,

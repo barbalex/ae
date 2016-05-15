@@ -16,7 +16,7 @@ export default React.createClass({
     this.props.onChangeAeId(idsAeIdField)
   },
 
-  render () {
+  render() {
     const { idsAeIdField } = this.props
 
     return (

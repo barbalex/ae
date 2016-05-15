@@ -21,7 +21,7 @@ export default React.createClass({
     resetTooManyRcsChoosen()
   },
 
-  render () {
+  render() {
     return (
       <Modal show onHide={this.close}>
         <Modal.Header>

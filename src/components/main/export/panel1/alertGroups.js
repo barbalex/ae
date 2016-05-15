@@ -15,7 +15,7 @@ export default React.createClass({
     rcsQuerying: React.PropTypes.bool
   },
 
-  render () {
+  render() {
     const { combineTaxonomies, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcsQuerying, rcsQuerying } = this.props
     // fieldsQuerying && taxonomyFields.length === 0
     let resultText = 'Die Eigenschaften werden aufgebaut...'

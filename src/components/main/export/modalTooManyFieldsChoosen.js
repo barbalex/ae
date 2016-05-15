@@ -21,7 +21,7 @@ export default React.createClass({
     resetTooManyFieldsChoosen()
   },
 
-  render () {
+  render() {
     return (
       <Modal show onHide={this.close}>
         <Modal.Header>

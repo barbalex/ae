@@ -27,7 +27,7 @@ export default React.createClass({
     onSaveObjectField: React.PropTypes.func
   },
 
-  render () {
+  render() {
     const { fieldName, pcType, pcName, collectionIsEditing, onSaveObjectField } = this.props
     let { fieldValue } = this.props
 

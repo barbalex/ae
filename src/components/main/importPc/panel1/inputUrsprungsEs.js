@@ -59,7 +59,7 @@ export default React.createClass({
     )
   },
 
-  render () {
+  render() {
     const { nameUrsprungsEs, validUrsprungsEs } = this.props
 
     return (

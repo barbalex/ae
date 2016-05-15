@@ -18,7 +18,7 @@ export default React.createClass({
     relationCollection: React.PropTypes.object
   },
 
-  render () {
+  render() {
     const rc = this.props.relationCollection
     if (!rc.Beziehungen || rc.Beziehungen.length === 0) return null
 

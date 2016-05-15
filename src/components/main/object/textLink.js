@@ -25,7 +25,7 @@ export default React.createClass({
     if (guid) app.Actions.loadActiveObject(guid)
   },
 
-  render () {
+  render() {
     const { label, value, guid } = this.props
     const url = `/${guid}`
     // can't use getPathFromGuid because it is possible that the relation partner's group was not loaded yet

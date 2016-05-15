@@ -39,7 +39,7 @@ export default React.createClass({
     onClickDeleteRc()
   },
 
-  render () {
+  render() {
     const { nameBestehend, enableDeleteRcButton, deletingRcProgress } = this.props
     const { show } = this.state
     const showConfirmModal = show && deletingRcProgress === null

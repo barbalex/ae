@@ -129,7 +129,7 @@ export default React.createClass({
     )
   },
 
-  render () {
+  render() {
     const { onChangeActiveOrganization, userIsAdminInOrgs, email, activeOrganization } = this.props
     const showLowerPart = email && activeOrganization && userIsAdminInOrgs.includes(activeOrganization.Name)
 

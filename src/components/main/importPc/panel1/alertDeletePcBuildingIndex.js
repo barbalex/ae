@@ -6,7 +6,7 @@ import { Alert } from 'react-bootstrap'
 export default React.createClass({
   displayName: 'AlertDeletePcBuildingIndex',
 
-  render () {
+  render() {
     const style = {
       marginBottom: 5,
       marginTop: 11

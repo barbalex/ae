@@ -23,7 +23,7 @@ export default React.createClass({
     if (guid) app.Actions.loadActiveObject(guid)
   },
 
-  render () {
+  render() {
     const { objects, fieldName } = this.props
     const linkArray = objects.map((object, index) => {
       getPathFromGuid(object.guid)

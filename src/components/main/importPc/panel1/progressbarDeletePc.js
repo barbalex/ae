@@ -10,7 +10,7 @@ export default React.createClass({
     progress: React.PropTypes.number
   },
 
-  render () {
+  render() {
     const { progress } = this.props
     const label = progress + '% gelöscht'
     return (

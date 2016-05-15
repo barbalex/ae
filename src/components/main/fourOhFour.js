@@ -5,7 +5,7 @@ import React from 'react'
 export default React.createClass({
   displayName: 'fourOhFourPage',
 
-  render () {
+  render() {
     return (
       <fieldset id='main'>
         <h1>Sorry: Für diese URL existiert keine Seite</h1>

@@ -15,7 +15,7 @@ export default React.createClass({
     onChangeFile: React.PropTypes.func
   },
 
-  render () {
+  render() {
     const { rcsToImport, validRcsToImport, onChangeFile } = this.props
 
     return (

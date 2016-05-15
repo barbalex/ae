@@ -6,7 +6,7 @@ import { Alert } from 'react-bootstrap'
 export default React.createClass({
   displayName: 'AlertBuildingExportData',
 
-  render () {
+  render() {
     const style = {
       marginTop: 6,
       marginBottom: 0

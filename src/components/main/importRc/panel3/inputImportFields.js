@@ -18,7 +18,7 @@ export default React.createClass({
     this.props.onChangeImportId(idsImportIdField)
   },
 
-  render () {
+  render() {
     const { rcsToImport, idsImportIdField } = this.props
 
      // get a list of all keys

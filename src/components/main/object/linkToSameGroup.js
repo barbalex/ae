@@ -24,7 +24,7 @@ export default React.createClass({
     if (guid) app.Actions.loadActiveObject(guid)
   },
 
-  render () {
+  render() {
     const { fieldName, guid, objectName } = this.props
     const url = `/${guid}`
     return (

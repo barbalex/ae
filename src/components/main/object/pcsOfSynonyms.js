@@ -11,7 +11,7 @@ export default React.createClass({
     pcsOfSynonyms: React.PropTypes.array
   },
 
-  render () {
+  render() {
     const { pcsOfSynonyms, object } = this.props
     let pcsComponent = null
 

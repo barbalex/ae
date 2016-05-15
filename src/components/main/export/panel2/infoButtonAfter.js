@@ -10,7 +10,7 @@ export default React.createClass({
     fNameObject: React.PropTypes.object
   },
 
-  render () {
+  render() {
     const { fNameObject } = this.props
     const id = `${fNameObject.cName}-${fNameObject.fName}-info`
     const tooltip = (

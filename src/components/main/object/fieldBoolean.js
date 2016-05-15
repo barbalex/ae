@@ -35,7 +35,7 @@ export default React.createClass({
     }
   },
 
-  render () {
+  render() {
     const { fieldName, fieldValue, pcType, pcName, collectionIsEditing } = this.props
 
     // need to place checkboxes next to labels, not inside

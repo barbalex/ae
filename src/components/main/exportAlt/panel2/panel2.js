@@ -36,7 +36,7 @@ export default React.createClass({
     onCopyUrl(url)
   },
 
-  render () {
+  render() {
     const { urlOptions, includeDataFromSynonyms, oneRowPerRelation, urlCopied } = this.props
     const url = this.buildUrl()
     const urlCopiedButtonBsStyle = urlCopied === url ? 'success' : 'default'

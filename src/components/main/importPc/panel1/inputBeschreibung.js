@@ -32,7 +32,7 @@ export default React.createClass({
     )
   },
 
-  render () {
+  render() {
     const { beschreibung, validBeschreibung } = this.props
 
     return (

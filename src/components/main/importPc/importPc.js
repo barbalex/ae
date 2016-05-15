@@ -525,7 +525,7 @@ export default React.createClass({
     return validPcsToImport
   },
 
-  render () {
+  render() {
     const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, pcsToImport, pcsRemoved, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validOrgMitSchreibrecht, validUrsprungsEs, validPcsToImport, activePanel, idsAeIdField, idsImportIdField, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, importingProgress, deletingPcInstancesProgress, deletingPcProgress, orgMitSchreibrecht } = this.state
     const { groupsLoadedOrLoading, email, userRoles, pcs, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime, organizations, userIsEsWriterInOrgs } = this.props
 

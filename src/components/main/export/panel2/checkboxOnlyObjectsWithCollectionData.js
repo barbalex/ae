@@ -15,7 +15,7 @@ export default React.createClass({
     onChangeOnlyObjectsWithCollectionData(checked)
   },
 
-  render () {
+  render() {
     const { onlyObjectsWithCollectionData } = this.props
     const inputStyle = {
       top: 5

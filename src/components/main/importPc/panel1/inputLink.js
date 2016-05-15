@@ -33,7 +33,7 @@ export default React.createClass({
     )
   },
 
-  render () {
+  render() {
     const { link, validLink } = this.props
 
     return (

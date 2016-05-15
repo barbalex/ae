@@ -29,7 +29,7 @@ export default React.createClass({
     )
   },
 
-  render () {
+  render() {
     const { offlineIndexes, onClickToggleOfflineIndexes } = this.props
     const liStyle = {
       paddingLeft: 20,

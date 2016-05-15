@@ -10,7 +10,7 @@ export default React.createClass({
     taxRcs: React.PropTypes.array
   },
 
-  render () {
+  render() {
     const { taxRcs } = this.props
     let taxRcComponent = null
 

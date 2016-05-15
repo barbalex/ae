@@ -83,7 +83,7 @@ export default React.createClass({
     isLinkValid()
   },
 
-  render () {
+  render() {
     const { groupsLoadedOrLoading, email, userRoles, rcs, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime, onClickDeleteRc, onChangeNameUrsprungsBs, onChangeZusammenfassend, onChangeLink, onChangeNutzungsbedingungen, onChangeDatenstand, onChangeBeschreibung, onChangeName, onChangeNameBestehend, bsBearbeitenErlaubt, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validOrgMitSchreibrecht, validUrsprungsBs, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsBs, name, nameBestehend, ultimatelyAlertLoadAllGroups, deletingRcProgress, onChangeOrgMitSchreibrecht, userIsEsWriterInOrgs } = this.props
     const showLoadAllGroups = email && !allGroupsLoaded
     const showAlertDeleteRcBuildingIndex = deletingRcProgress && deletingRcProgress < 100

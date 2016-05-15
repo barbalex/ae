@@ -46,7 +46,7 @@ export default React.createClass({
     }
   },
 
-  render () {
+  render() {
     const { taxonomyFields, pcFields, relationFields, onChangeFilterField, onChangeCoSelect, pcs, rcs, exportOptions } = this.props
     const { activePanel } = this.state
     const taxonomyHeader = Object.keys(taxonomyFields).length > 1 ? 'Taxonomien' : 'Taxonomie'

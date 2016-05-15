@@ -11,7 +11,7 @@ export default React.createClass({
     replicatingToAeTime: React.PropTypes.string
   },
 
-  render () {
+  render() {
     const { replicatingToAe, replicatingToAeTime } = this.props
 
     let style = {}

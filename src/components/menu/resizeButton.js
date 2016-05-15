@@ -24,7 +24,7 @@ export default React.createClass({
     )
   },
 
-  render () {
+  render() {
     return (
       <OverlayTrigger
         placement='left'

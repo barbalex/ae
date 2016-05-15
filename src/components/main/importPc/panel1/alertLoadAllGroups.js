@@ -26,7 +26,7 @@ export default React.createClass({
     this.onDismiss()
   },
 
-  render () {
+  render() {
     const { show } = this.state
     const { groupsLoadingObjects, alertAllGroupsBsStyle } = this.props
     const btnText = groupsLoadingObjects.length > 0 ? 'Lade Gruppen...' : 'Fehlende Gruppen laden'

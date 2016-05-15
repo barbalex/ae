@@ -10,7 +10,7 @@ export default React.createClass({
     includeDataFromSynonyms: React.PropTypes.bool
   },
 
-  render () {
+  render() {
     const { onChangeIncludeDataFromSynonyms, includeDataFromSynonyms } = this.props
     const inputStyle = {
       top: 5

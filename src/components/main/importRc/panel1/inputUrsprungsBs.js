@@ -45,7 +45,7 @@ export default React.createClass({
     )
   },
 
-  render () {
+  render() {
     const { nameUrsprungsBs, validUrsprungsBs } = this.props
 
     return (

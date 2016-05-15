@@ -47,7 +47,7 @@ export default React.createClass({
     }
   },
 
-  render () {
+  render() {
     const { pcFields, pcs, urlOptions, collectionsWithAllChoosen, onChooseAllOfCollection, onChooseField } = this.props
     const { activePanel } = this.state
     // open panel if there is only one

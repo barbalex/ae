@@ -414,7 +414,7 @@ export default React.createClass({
     this.setState({ format })
   },
 
-  render () {
+  render() {
     const { groupsLoadedOrLoading, groupsLoadingObjects, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, pcs, pcsQuerying, rcs, rcsQuerying } = this.props
     const { combineTaxonomies, errorBuildingExportOptions, activePanel, panel1Done, exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, tooManyFieldsChoosen, tooManyRcsChoosen, collectionsWithAllChoosen, oneRowPerRelation, format, exportObjects, errorBuildingExportData } = this.state
 

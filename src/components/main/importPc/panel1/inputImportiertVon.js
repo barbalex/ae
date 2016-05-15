@@ -19,7 +19,7 @@ export default React.createClass({
     )
   },
 
-  render () {
+  render() {
     const { importiertVon } = this.props
 
     return (

@@ -24,7 +24,7 @@ export default React.createClass({
     }
   },
 
-  render () {
+  render() {
     const { idsOfAeObjects, idsNotImportable, replicatingToAe, replicatingToAeTime } = this.props
     const { paths } = this.state
     const idsImported = difference(idsOfAeObjects, idsNotImportable)

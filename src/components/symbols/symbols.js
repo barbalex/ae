@@ -28,7 +28,7 @@ export default React.createClass({
     rebuildingRedundantData: React.PropTypes.string
   },
 
-  render () {
+  render() {
     const { email, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, groupsLoadingObjects, tcsQuerying, pcsQuerying, rcsQuerying, fieldsQuerying, rebuildingRedundantData } = this.props
     const showReplicatingToAe = replicatingToAe !== null
     const showReplicatingFromAe = replicatingFromAe !== null

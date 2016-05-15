@@ -52,7 +52,7 @@ export default React.createClass({
     onChooseField(cName, fName, 'cType', event)
   },
 
-  render () {
+  render() {
     const { taxonomyFields, pcFields, relationFields, onChooseField, onChooseAllOfCollection, pcs, rcs, exportOptions, collectionsWithAllChoosen, oneRowPerRelation, onChangeOneRowPerRelation } = this.props
     const { activePanel } = this.state
     const guidChecked = get(exportOptions, 'object._id.export')

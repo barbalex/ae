@@ -22,7 +22,7 @@ export default React.createClass({
     onChangeFilterField(cName, fName, 'taxonomy', event)
   },
 
-  render () {
+  render() {
     const { taxonomyFields, exportOptions, onChangeCoSelect, cNameKey } = this.props
     const cNameObject = taxonomyFields[cNameKey]
     // we do not want the taxonomy field 'Hierarchie'

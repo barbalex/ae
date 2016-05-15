@@ -73,7 +73,7 @@ export default React.createClass({
     }
   },
 
-  render () {
+  render() {
     const { nameBestehend } = this.props
 
     return (

@@ -24,7 +24,7 @@ export default React.createClass({
     }
   },
 
-  render () {
+  render() {
     const { idsOfAeObjects, nameBestehend, replicatingToAe, replicatingToAeTime } = this.props
     const { paths } = this.state
     const first5Ids = idsOfAeObjects.slice(0, 5)

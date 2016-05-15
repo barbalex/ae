@@ -6,7 +6,7 @@ import { Alert } from 'react-bootstrap'
 export default React.createClass({
   displayName: 'AlertChooseGroup',
 
-  render () {
+  render() {
     const style = {
       marginTop: 8,
       marginBottom: 0

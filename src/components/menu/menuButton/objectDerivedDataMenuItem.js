@@ -34,7 +34,7 @@ export default React.createClass({
     )
   },
 
-  render () {
+  render() {
     const glyphiconStyle = {
       paddingLeft: 5,
       fontSize: 16,

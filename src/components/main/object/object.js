@@ -29,7 +29,7 @@ export default React.createClass({
     removeObject: React.PropTypes.func
   },
 
-  render () {
+  render() {
     const { object, onSaveObjectField, synonymObjects, userRoles, editObjects, toggleEditObjects, addNewObject, removeObject } = this.props
     let objectRcs = []
     let taxRcs = []

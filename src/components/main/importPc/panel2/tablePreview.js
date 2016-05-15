@@ -11,7 +11,7 @@ export default React.createClass({
     pcsToImport: React.PropTypes.array
   },
 
-  render () {
+  render() {
     const { pcsToImport } = this.props
     const legendStyle = { marginBottom: 2 + 'px', paddingLeft: 5 + 'px' }
     const tablePreviewStyle = { marginTop: 10 + 'px' }

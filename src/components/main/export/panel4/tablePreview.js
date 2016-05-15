@@ -11,7 +11,7 @@ export default React.createClass({
     exportObjects: React.PropTypes.array
   },
 
-  render () {
+  render() {
     const { exportObjects } = this.props
     const legendStyle = {
       marginBottom: 2,

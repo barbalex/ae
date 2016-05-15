@@ -24,7 +24,7 @@ export default React.createClass({
     onChangeOneRowPerRelation: React.PropTypes.func
   },
 
-  render () {
+  render() {
     const { taxonomyFields, pcFields, relationFields, pcs, rcs, urlOptions, includeDataFromSynonyms, onChangeIncludeDataFromSynonyms, onChooseField, onChooseAllOfCollection, collectionsWithAllChoosen, oneRowPerRelation, onChangeOneRowPerRelation } = this.props
 
     return (

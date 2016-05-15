@@ -26,7 +26,7 @@ export default React.createClass({
     onChooseAllOfCollection(cName, 'pc', event)
   },
 
-  render () {
+  render() {
     const { pcFields, exportOptions, cNameKey, collectionsWithAllChoosen } = this.props
 
     const cNameObject = pcFields[cNameKey]

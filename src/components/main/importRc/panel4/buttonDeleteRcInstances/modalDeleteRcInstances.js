@@ -30,7 +30,7 @@ export default React.createClass({
     closeModal()
   },
 
-  render () {
+  render() {
     const { name } = this.props
 
     return (

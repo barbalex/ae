@@ -16,7 +16,7 @@ export default React.createClass({
     onChangeFormat(format)
   },
 
-  render () {
+  render() {
     const { format } = this.props
     return (
       <Well bsSize='small'>

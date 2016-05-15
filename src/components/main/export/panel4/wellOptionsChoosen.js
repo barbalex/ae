@@ -99,7 +99,7 @@ export default React.createClass({
     return <li>Keine Eigenschaft gewählt</li>
   },
 
-  render () {
+  render() {
     const pStyle = {
       marginBottom: 0,
       fontWeight: 'bold'

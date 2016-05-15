@@ -36,7 +36,7 @@ export default React.createClass({
     }
   },
 
-  render () {
+  render() {
     const { fieldName, fieldValue, pcType, pcName, collectionIsEditing } = this.props
 
     return (

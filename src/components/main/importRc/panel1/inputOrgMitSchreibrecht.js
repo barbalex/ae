@@ -54,7 +54,7 @@ export default React.createClass({
     }
   },
 
-  render () {
+  render() {
     const { onChangeOrgMitSchreibrecht, userIsEsWriterInOrgs, validOrgMitSchreibrecht } = this.props
     const selected = userIsEsWriterInOrgs && userIsEsWriterInOrgs.length === 1 ? userIsEsWriterInOrgs[0] : null
 

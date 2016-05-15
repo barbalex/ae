@@ -39,7 +39,7 @@ export default React.createClass({
     this.setState({ windowHeight, windowWidth })
   },
 
-  render () {
+  render() {
     const { hierarchy, object, path, groupsLoadingObjects, allGroupsLoaded } = this.props
     const { windowHeight, windowWidth } = this.state
     const loading = groupsLoadingObjects && groupsLoadingObjects.length > 0

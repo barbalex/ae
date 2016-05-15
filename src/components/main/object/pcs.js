@@ -10,7 +10,7 @@ export default React.createClass({
     object: React.PropTypes.object
   },
 
-  render () {
+  render() {
     const { object } = this.props
     const pcs = object.Eigenschaftensammlungen
     let pcComponent = null

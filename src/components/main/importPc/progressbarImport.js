@@ -10,7 +10,7 @@ export default React.createClass({
     importingProgress: React.PropTypes.number
   },
 
-  render () {
+  render() {
     const { importingProgress } = this.props
     const label = importingProgress + '% importiert'
     return (

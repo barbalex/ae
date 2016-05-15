@@ -25,7 +25,7 @@ export default React.createClass({
     rPartnerIdsImportable: React.PropTypes.array
   },
 
-  render () {
+  render() {
     const { rcsToImport, idsImportIdField, idsAeIdField, idsAnalysisComplete, idsNumberOfRecordsWithIdValue, idsNumberImportable, idsNotANumber, idsWithoutPartner, rPartnerIdsToImport, rPartnerIdsImportable, idsNotImportable } = this.props
 
     if (!idsAnalysisComplete) {

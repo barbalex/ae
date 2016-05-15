@@ -10,7 +10,7 @@ export default React.createClass({
     groupLoadingObject: React.PropTypes.object
   },
 
-  render () {
+  render() {
     const { groupLoadingObject } = this.props
 
     let { message, progressPercent } = groupLoadingObject

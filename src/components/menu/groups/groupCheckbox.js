@@ -15,7 +15,7 @@ export default React.createClass({
     app.Actions.loadObject(group)
   },
 
-  render () {
+  render() {
     const { group } = this.props
     const label = group.replace('Macromycetes', 'Pilze')
     return (

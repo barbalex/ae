@@ -31,7 +31,7 @@ export default React.createClass({
     app.Actions.buildExportData({ exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, oneRowPerRelation, combineTaxonomies })
   },
 
-  render () {
+  render() {
     const { exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, oneRowPerRelation, combineTaxonomies, format, onChangeFormat, exportObjects, errorBuildingExportData } = this.props
     const showAlertBuildingData = exportObjects.length === 0 && !errorBuildingExportData
     const showExportComponents = exportObjects.length > 0

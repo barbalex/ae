@@ -73,7 +73,7 @@ export default React.createClass({
     userIsEsWriterInOrgs: React.PropTypes.array
   },
 
-  render () {
+  render() {
     const { onClickDeletePc, onChangeNameUrsprungsEs, onChangeZusammenfassend, onBlurLink, onChangeLink, onChangeNutzungsbedingungen, onChangeDatenstand, onChangeBeschreibung, onBlurName, onChangeName, onChangeNameBestehend, nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validOrgMitSchreibrecht, validUrsprungsEs, ultimatelyAlertLoadAllGroups, deletingPcProgress, groupsLoadedOrLoading, email, userRoles, pcs, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime, onChangeOrgMitSchreibrecht, userIsEsWriterInOrgs, orgMitSchreibrecht } = this.props
     const showLoadAllGroups = email && !allGroupsLoaded
     const showAlertDeletePcBuildingIndex = deletingPcProgress && deletingPcProgress < 100

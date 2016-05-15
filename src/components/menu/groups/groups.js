@@ -14,7 +14,7 @@ export default React.createClass({
     groupsLoadedOrLoading: React.PropTypes.array
   },
 
-  render () {
+  render() {
     const { groupsLoadedOrLoading } = this.props
     const groupsNotLoaded = difference(gruppen, groupsLoadedOrLoading)
     const groupCheckboxes = groupsNotLoaded.map((group, index) => <GroupCheckbox key={group} group={group} />)

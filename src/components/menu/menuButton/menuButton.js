@@ -53,7 +53,7 @@ export default React.createClass({
     */
   },
 
-  render () {
+  render() {
     const { object, offlineIndexes, onClickToggleOfflineIndexes } = this.props
     const isObject = object && Object.keys(object).length > 0
     const googleLink = isObject ? buildGoogleImageLink(object) : '#'

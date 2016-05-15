@@ -55,7 +55,7 @@ export default React.createClass({
     onChangeOneRowPerRelation(oneRowPerRelation)
   },
 
-  render () {
+  render() {
     const { relationFields, rcs, exportOptions, onChooseField, onChooseAllOfCollection, collectionsWithAllChoosen, oneRowPerRelation } = this.props
     const { activePanel } = this.state
     // open panel if there is only one

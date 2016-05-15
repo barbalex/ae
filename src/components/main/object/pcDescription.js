@@ -29,7 +29,7 @@ export default React.createClass({
     this.setState({ isVisible })
   },
 
-  render () {
+  render() {
     const { pc } = this.props
     const { isVisible } = this.state
     let mehr = null

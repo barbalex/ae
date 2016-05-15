@@ -17,7 +17,7 @@ export default React.createClass({
     download(exportObjects, format)
   },
 
-  render () {
+  render() {
     return (
       <Button bsStyle='primary' onClick={this.onClick}>
         herunterladen

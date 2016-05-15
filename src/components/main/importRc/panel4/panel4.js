@@ -24,7 +24,7 @@ export default React.createClass({
     onClickRemoveRcInstances: React.PropTypes.func
   },
 
-  render () {
+  render() {
     const { name, rcsRemoved, idsOfAeObjects, idsNotImportable, panel3Done, importingProgress, deletingRcInstancesProgress, replicatingToAe, replicatingToAeTime, onClickImportieren, onClickRemoveRcInstances } = this.props
     const showDeleteRcInstancesButton = panel3Done
     const showProgressbarImport = importingProgress !== null && !rcsRemoved

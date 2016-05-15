@@ -6,7 +6,7 @@ import { Alert } from 'react-bootstrap'
 export default React.createClass({
   displayName: 'AlertLoadGroups',
 
-  render () {
+  render() {
     return (
       <Alert bsStyle='info'>
         <p>Bitte Laden Sie mindestens eine Gruppe</p>

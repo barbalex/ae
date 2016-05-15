@@ -45,7 +45,7 @@ export default React.createClass({
     }, 10000)
   },
 
-  render () {
+  render() {
     const { filterOptions, loadingFilterOptions } = this.props
 
     const removeGlyphStyle = {

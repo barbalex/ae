@@ -24,7 +24,7 @@ export default React.createClass({
     ))
   },
 
-  render () {
+  render() {
     const { cType } = this.props
     const title = cType
     const titleStyle = {

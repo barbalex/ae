@@ -26,7 +26,7 @@ export default React.createClass({
     )
   },
 
-  render () {
+  render() {
     const { datenstand, validDatenstand } = this.props
 
     return (

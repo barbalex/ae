@@ -25,7 +25,7 @@ export default React.createClass({
     app.Actions.showError()
   },
 
-  render () {
+  render() {
     const { errors } = this.props
     const show = errors.length > 0
     const errorMessages = errors.map((error, index) => (

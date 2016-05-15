@@ -24,7 +24,7 @@ export default React.createClass({
     onChangeImportId: React.PropTypes.func
   },
 
-  render () {
+  render() {
     const { idsAeIdField, idsNumberOfRecordsWithIdValue, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, idsWithoutPartner, rPartnerIdsToImport, rPartnerIdsImportable, idsImportIdField, rcsToImport, onChangeAeId, onChangeImportId } = this.props
 
     return (

@@ -6,7 +6,7 @@ import { Alert } from 'react-bootstrap'
 export default React.createClass({
   displayName: 'AlertEditingRcDisallowed',
 
-  render () {
+  render() {
     const style = {
       marginBottom: 5
     }

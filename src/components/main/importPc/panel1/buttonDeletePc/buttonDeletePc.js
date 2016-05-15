@@ -39,7 +39,7 @@ export default React.createClass({
     onClickDeletePc()
   },
 
-  render () {
+  render() {
     const { nameBestehend, enableDeletePcButton, deletingPcProgress } = this.props
     const { show } = this.state
     const showConfirmModal = show && deletingPcProgress === null

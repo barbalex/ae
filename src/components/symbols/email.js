@@ -65,7 +65,7 @@ export default React.createClass({
     // react-bootstrap wants this to exist...
   },
 
-  render () {
+  render() {
     const { email } = this.props
     const { open } = this.state
 

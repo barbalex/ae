@@ -14,7 +14,7 @@ export default React.createClass({
     relation: React.PropTypes.object
   },
 
-  render () {
+  render() {
     const { relation } = this.props
     let relationPartners = []
 

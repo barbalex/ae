@@ -18,7 +18,7 @@ export default React.createClass({
     onChangeGroupsToExport(group, checked)
   },
 
-  render () {
+  render() {
     const { groupsToExport } = this.props
     let { groupsLoaded } = this.props
 

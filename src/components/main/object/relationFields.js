@@ -17,7 +17,7 @@ export default React.createClass({
     relationCollection: React.PropTypes.object
   },
 
-  render () {
+  render() {
     const { relation, relationCollection } = this.props
 
     const relationFields = map(relation, (fieldValue, fieldName) => {

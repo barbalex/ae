@@ -46,7 +46,7 @@ const Nodes = React.createClass({
       )
   },
 
-  render () {
+  render() {
     const { hierarchy, object, path } = this.props
     let nodes = chain(hierarchy)
       .sortBy((hO) => hO.Name)

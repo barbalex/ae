@@ -80,7 +80,7 @@ export default React.createClass({
     this.setState({ formClassNames })
   },
 
-  render () {
+  render() {
     const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, onSaveObjectField, editObjects, toggleEditObjects, addNewObject, removeObject, synonymObjects, tcs, tcsQuerying, pcs, pcsQuerying, rcs, rcsQuerying, mainComponent, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, email, userRoles, replicatingToAe, replicatingToAeTime, offlineIndexes, organizations, activeOrganization, onChangeActiveOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, tcsOfActiveOrganization, pcsOfActiveOrganization, rcsOfActiveOrganization, errors } = this.props
     const { formClassNames } = this.state
     const showObject = object && Object.keys(object).length > 0 && !mainComponent

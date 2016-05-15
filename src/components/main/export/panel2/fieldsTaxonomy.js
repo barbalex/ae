@@ -49,7 +49,7 @@ export default React.createClass({
     }
   },
 
-  render () {
+  render() {
     const { taxonomyFields, exportOptions, onChangeCoSelect, onChangeFilterField } = this.props
     const { activePanel } = this.state
     // open panel if there is only one

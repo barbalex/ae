@@ -107,7 +107,7 @@ export default React.createClass({
     userRoles: React.PropTypes.array
   },
 
-  render () {
+  render() {
     const { propertyCollection, pcType, object, onSaveObjectField, userRoles, editObjects, toggleEditObjects, addNewObject, removeObject } = this.props
     const pcName = replaceInvalidCharactersInIdNames(propertyCollection.Name)
     const isLr = object.Gruppe === 'Lebensräume'

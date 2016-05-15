@@ -6,7 +6,7 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap'
 export default React.createClass({
   displayName: 'TcsQuerying',
 
-  render () {
+  render() {
     const tooltip = <Tooltip id='tcsQueryingTooltip' bsStyle='info'>Bitte Geduld: Die App kann zeitweise einfrieren!</Tooltip>
     const pStyle = {
       color: 'red',

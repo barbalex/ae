@@ -89,7 +89,7 @@ export default React.createClass({
     )
   },
 
-  render () {
+  render() {
     const { invalidGuids } = this.state
     const showInvalidGuids = invalidGuids.length > 0
     // necessary to align guid with other fields

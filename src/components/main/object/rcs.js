@@ -10,7 +10,7 @@ export default React.createClass({
     objectRcs: React.PropTypes.array
   },
 
-  render () {
+  render() {
     const { objectRcs } = this.props
     let rcsComponent = null
     if (objectRcs.length > 0) {

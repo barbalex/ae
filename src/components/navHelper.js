@@ -17,7 +17,7 @@ export default React.createClass({
     children: React.PropTypes.node
   },
 
-  onClick (event) {
+  onClick(event) {
     const pathname = localLinks.getLocalPathname(event)
     if (pathname) {
       event.preventDefault()
@@ -25,7 +25,7 @@ export default React.createClass({
     }
   },
 
-  render () {
+  render() {
     return (
       <div {...this.props} onClick={this.onClick}>
         {this.props.children}

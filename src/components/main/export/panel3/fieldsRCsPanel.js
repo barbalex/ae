@@ -26,7 +26,7 @@ export default React.createClass({
     onChooseAllOfCollection(cName, 'rc', event)
   },
 
-  render () {
+  render() {
     const { relationFields, exportOptions, cNameKey, collectionsWithAllChoosen } = this.props
 
     const cNameObject = relationFields[cNameKey]

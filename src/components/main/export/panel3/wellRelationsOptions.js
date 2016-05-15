@@ -21,7 +21,7 @@ export default React.createClass({
     this.setState({ visible: !this.state.visible })
   },
 
-  render () {
+  render() {
     const { visible } = this.state
     const wellStyle = {
       margin: 10 + 'px !important'

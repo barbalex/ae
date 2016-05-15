@@ -24,7 +24,7 @@ export default React.createClass({
     onlyObjectsWithCollectionData: React.PropTypes.bool
   },
 
-  render () {
+  render() {
     const { groupsLoadedOrLoading, groupsLoadingObjects, taxonomyFields, pcFields, relationFields, pcs, rcs, exportOptions, onChangeFilterField, onChangeCoSelect, onlyObjectsWithCollectionData, onChangeOnlyObjectsWithCollectionData } = this.props
     const showFields = Object.keys(taxonomyFields).length > 0 || Object.keys(pcFields).length > 0 || Object.keys(relationFields).length > 0
 

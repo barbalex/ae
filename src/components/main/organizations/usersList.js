@@ -141,7 +141,7 @@ export default React.createClass({
     )
   },
 
-  render () {
+  render() {
     const { userFieldName } = this.props
     const { newUser, newUserAlert } = this.state
     const newWriterBsStyle = newUserAlert ? 'error' : null

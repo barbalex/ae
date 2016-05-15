@@ -27,7 +27,7 @@ export default React.createClass({
     )
   },
 
-  render () {
+  render() {
     const { zusammenfassend } = this.props
 
     return (

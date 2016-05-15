@@ -23,7 +23,7 @@ export default React.createClass({
     onClickImportieren: React.PropTypes.func
   },
 
-  render () {
+  render() {
     const { replicatingToAe, replicatingToAeTime, onClickRemovePcInstances, onClickImportieren, name, pcsRemoved, idsOfAeObjects, idsNotImportable, importingProgress, deletingPcInstancesProgress } = this.props
     const showProgressbarImport = importingProgress !== null && !pcsRemoved
     const showAlertFirst5Imported = importingProgress === 100 && !pcsRemoved

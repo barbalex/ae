@@ -39,7 +39,7 @@ export default React.createClass({
     this.setState({ show: false })
   },
 
-  render () {
+  render() {
     const { name, rcsRemoved, deletingRcInstancesProgress } = this.props
     const { show } = this.state
     const showConfirmModal = show && !deletingRcInstancesProgress

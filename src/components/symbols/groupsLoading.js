@@ -10,7 +10,7 @@ export default React.createClass({
     groupsLoadingObjects: React.PropTypes.array
   },
 
-  render () {
+  render() {
     const { groupsLoadingObjects } = this.props
     const tooltip = <Tooltip id='groupsLoadingTooltip' bsStyle='info'>Bitte Geduld: Die App kann zeitweise einfrieren!</Tooltip>
     const text = groupsLoadingObjects.length > 1 ? 'Lade Gruppen...' : 'Lade Gruppe...'
