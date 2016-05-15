@@ -68,7 +68,7 @@
     "script-loader": "0.7.0",
     "standard": "7.0.1",
     "style-loader": "0.13.1",
-    "stylus-loader": "1.5.1",
+    "stylus-loader": "2.0.0",
     "surge": "0.18.0",
     "url-loader": "0.5.7",
     "webpack": "1.13.0",
