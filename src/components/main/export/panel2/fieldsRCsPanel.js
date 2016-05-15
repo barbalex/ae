@@ -1,7 +1,7 @@
 'use strict'
 
 import React from 'react'
-import { Input } from 'react-bootstrap'
+import { FormGroup, InputGroup, FormControl, ControlLabel } from 'react-bootstrap'
 import { get } from 'lodash'
 import SelectComparisonOperator from './selectComparisonOperator.js'
 import InfoButtonAfter from './infoButtonAfter.js'
@@ -29,47 +29,57 @@ export default React.createClass({
     const cNameObject = relationFields[cNameKey]
     const rc = rcs.find((rc) => rc.name === cNameKey)
     const fieldsSorted = Object.keys(cNameObject).sort((fNameKey) => fNameKey.toLowerCase())
-    const fields = fieldsSorted.map((fNameKey) => {
+    const fields = fieldsSorted.map((fNameKey, index) => {
       const fieldKey = fNameKey.toLowerCase()
       const fNameObject = cNameObject[fNameKey]
       const value = get(exportOptions, `${cNameKey}.${fNameKey}.value`, null)
       const co = get(exportOptions, `${cNameKey}.${fNameKey}.co`, null)
-      const selectComparisonOperator = (
-        <SelectComparisonOperator
-          cNameKey={cNameKey}
-          fNameKey={fNameKey}
-          value={co}
-          onChangeCoSelect={onChangeCoSelect} />
-      )
       const buttonAfter = <InfoButtonAfter fNameObject={fNameObject} />
       if (fNameObject.fType !== 'boolean') {
         return (
-          <Input
-            key={fieldKey}
-            type={fNameObject.fType}
-            label={fNameKey}
-            bsSize='small'
-            className={'controls'}
-            value={value}
-            onChange={this.onChange.bind(this, cNameKey, fNameKey)}
-            buttonBefore={selectComparisonOperator}
-            buttonAfter={buttonAfter} />
+          <FormGroup key={index}>
+            <ControlLabel>{fNameKey}</ControlLabel>
+            <InputGroup>
+              <InputGroup.Addon>
+                <SelectComparisonOperator
+                  cNameKey={cNameKey}
+                  fNameKey={fNameKey}
+                  value={co}
+                  onChangeCoSelect={onChangeCoSelect}
+                />
+              </InputGroup.Addon>
+              <FormControl
+                key={fieldKey}
+                type={fNameObject.fType}
+                bsSize='small'
+                className='controls'
+                value={value}
+                onChange={this.onChange.bind(this, cNameKey, fNameKey)}
+              />
+              <InputGroup.Addon>{buttonAfter}</InputGroup.Addon>
+            </InputGroup>
+          </FormGroup>
         )
       }
       return (
-        <Input
-          key={fieldKey}
-          type='select'
-          label={fNameKey}
-          bsSize='small'
-          className={'controls'}
-          value={value}
-          onChange={this.onChange.bind(this, cNameKey, fNameKey)}
-          buttonAfter={buttonAfter} >
-          <option value=''></option>
-          <option value='true'>ja</option>
-          <option value='false'>nein</option>
-        </Input>
+        <FormGroup>
+          <ControlLabel>{fNameKey}</ControlLabel>
+          <InputGroup>
+            <FormControl
+              key={fieldKey}
+              componentClass="select"
+              bsSize='small'
+              className='controls'
+              value={value}
+              onChange={this.onChange.bind(this, cNameKey, fNameKey)}
+            >
+              <option value={null}></option>
+              <option value>ja</option>
+              <option value={false}>nein</option>
+            </FormControl>
+            <InputGroup.Addon>{buttonAfter}</InputGroup.Addon>
+          </InputGroup>
+        </FormGroup>
       )
     })
     return (

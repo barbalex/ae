@@ -72,9 +72,9 @@ export default React.createClass({
               value={value}
               onChange={this.onChange.bind(this, cNameKey, fNameKey)}
             >
-              <option key='1' value={null}></option>
-              <option key='2' value>ja</option>
-              <option key='3' value={false}>nein</option>
+              <option value={null}></option>
+              <option value>ja</option>
+              <option value={false}>nein</option>
             </FormControl>
             <InputGroup.Addon>{buttonAfter}</InputGroup.Addon>
           </InputGroup>
