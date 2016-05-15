@@ -32,7 +32,7 @@ export default React.createClass({
   },
 
   componentDidMount() {
-    let { email, offlineIndexes } = this.props
+    const { email, offlineIndexes } = this.props
     if (!email) {
       const logIn = true
       app.Actions.login({ logIn })
@@ -43,7 +43,7 @@ export default React.createClass({
     app.Actions.queryRelationCollections(offlineIndexes)
   },
 
-  orgValues () {
+  orgValues() {
     const { organizations, email } = this.props
     const orgWhereUserIsAdmin = organizations.filter((org) => org.orgAdmins.includes(email))
     const orgNamesWhereUserIsAdmin = map(orgWhereUserIsAdmin, 'Name')
@@ -51,21 +51,25 @@ export default React.createClass({
     return orgNamesWhereUserIsAdmin.map((name, index) => (
       <option
         key={index}
-        value={name}>
+        value={name}
+      >
         {name}
       </option>
     ))
   },
 
-  userIsNotOrgAdminAlert () {
+  userIsNotOrgAdminAlert() {
     return (
-      <Alert bsStyle='danger'>
-        <strong>Sie sind in keiner Organisation Administrator.<br/>Daher wird auch keine angezeigt.</strong>
+      <Alert bsStyle="danger">
+        <strong>
+          Sie sind in keiner Organisation Administrator.<br />
+          Daher wird auch keine angezeigt.
+        </strong>
       </Alert>
     )
   },
 
-  titelStyle () {
+  titelStyle() {
     return {
       marginTop: 20,
       fontWeight: 600,
@@ -73,7 +77,7 @@ export default React.createClass({
     }
   },
 
-  lowerPart () {
+  lowerPart() {
     const { activeOrganization, tcsOfActiveOrganization, pcsOfActiveOrganization, rcsOfActiveOrganization } = this.props
     const lr = uniq(tcsOfActiveOrganization.filter((tcs) => tcs.group === 'Lebensräume'), (tc) => tc.name)
     const nonLrTcs = uniq(tcsOfActiveOrganization.filter((tcs) => tcs.group !== 'Lebensräume'), (tc) => tc.name)
@@ -82,48 +86,55 @@ export default React.createClass({
     return (
       <div>
         <p
-          style={this.titelStyle()}>
+          style={this.titelStyle()}
+        >
           Benutzerrechte
         </p>
         <UsersList
           activeOrganization={activeOrganization}
-          userFieldName='esWriters' />
+          userFieldName="esWriters"
+        />
         <UsersList
           activeOrganization={activeOrganization}
-          userFieldName='lrWriters' />
+          userFieldName="lrWriters"
+        />
         <UsersList
           activeOrganization={activeOrganization}
-          userFieldName='orgAdmins' />
+          userFieldName="orgAdmins"
+        />
         {
           showDatenTitel &&
-          <p
-            style={this.titelStyle()}>
-            Daten, bei denen {activeOrganization.Name} "Organisation mit Schreibrecht" ist
-          </p>
+            <p style={this.titelStyle()}>
+              Daten, bei denen {activeOrganization.Name} "Organisation mit Schreibrecht" ist
+            </p>
         }
         {
           nonLrTcs.length > 0 &&
-          <CollectionList
-            collections={nonLrTcs}
-            cType='Taxonomiensammlungen' />
+            <CollectionList
+              collections={nonLrTcs}
+              cType="Taxonomiensammlungen"
+            />
         }
         {
           lr.length > 0 &&
-          <CollectionList
-            collections={lr}
-            cType='Lebensräume' />
+            <CollectionList
+              collections={lr}
+              cType="Lebensräume"
+            />
         }
         {
           pcsOfActiveOrganization.length > 0 &&
-          <CollectionList
-            collections={pcsOfActiveOrganization}
-            cType='Eigenschaftensammlungen' />
+            <CollectionList
+              collections={pcsOfActiveOrganization}
+              cType="Eigenschaftensammlungen"
+            />
         }
         {
           rcsOfActiveOrganization.length > 0 &&
-          <CollectionList
-            collections={rcsOfActiveOrganization}
-            cType='Beziehungssammlungen' />
+            <CollectionList
+              collections={rcsOfActiveOrganization}
+              cType="Beziehungssammlungen"
+            />
         }
       </div>
     )
@@ -134,22 +145,25 @@ export default React.createClass({
     const showLowerPart = email && activeOrganization && userIsAdminInOrgs.includes(activeOrganization.Name)
 
     return (
-      <div className='formContent'>
+      <div className="formContent">
         <h4>
           Organisationen
         </h4>
         <PanelGroup
-          defaultActiveKey='1'
-          accordion>
+          defaultActiveKey="1"
+          accordion
+        >
           <Panel
-            header='Organisation bearbeiten'
-            eventKey='1'>
+            header="Organisation bearbeiten"
+            eventKey="1"
+          >
             <Input
-              type='select'
-              label='Organisation'
-              placeholder='bitte eine Organisation wählen'
-              onChange={onChangeActiveOrganization}>
-              { this.orgValues() }
+              type="select"
+              label="Organisation"
+              placeholder="bitte eine Organisation wählen"
+              onChange={onChangeActiveOrganization}
+            >
+              {this.orgValues()}
             </Input>
             {
               showLowerPart
@@ -158,8 +172,9 @@ export default React.createClass({
             }
           </Panel>
           <Panel
-            header='Organisation hinzufügen oder entfernen'
-            eventKey='2'>
+            header="Organisation hinzufügen oder entfernen"
+            eventKey="2"
+          >
             Diese Funktion ist (noch) nicht realisiert
           </Panel>
         </PanelGroup>

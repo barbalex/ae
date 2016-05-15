@@ -31,56 +31,12 @@ export default React.createClass({
     }
   },
 
-  removeUser (user) {
-    const { userFieldName } = this.props
-    app.Actions.removeUserFromActiveOrganization(user, userFieldName)
-  },
-
-  removeUserTooltip () {
-    return <Tooltip id='removeThisUser'>entfernen</Tooltip>
-  },
-
-  removeUserGlyph (user) {
-    const glyphStyle = {
-      position: 'absolute',
-      right: 10,
-      top: 8,
-      fontSize: 1.5 + 'em',
-      color: 'red',
-      cursor: 'pointer'
-    }
-    return (
-      <OverlayTrigger
-        placement='top'
-        overlay={this.removeUserTooltip()}>
-        <Glyphicon
-          glyph='remove-circle'
-          style={glyphStyle}
-          onClick={this.removeUser.bind(this, user)} />
-      </OverlayTrigger>
-    )
-  },
-
-  users () {
-    const { activeOrganization, userFieldName } = this.props
-
-    if (activeOrganization && activeOrganization[userFieldName] && activeOrganization[userFieldName].length > 0) {
-      return activeOrganization[userFieldName].map((user, index) => (
-        <ListGroupItem key={index}>
-          {user}
-          {this.removeUserGlyph(user)}
-        </ListGroupItem>
-      ))
-    }
-    return <p>(Noch) keine</p>
-  },
-
-  onChangeNewWriter (event) {
+  onChangeNewWriter(event) {
     const newUser = event.target.value
     this.setState({ newUser })
   },
 
-  onBlurNewWriter () {
+  onBlurNewWriter() {
     let { newUser, newUserAlert } = this.state
     const { activeOrganization, userFieldName } = this.props
 
@@ -99,7 +55,7 @@ export default React.createClass({
         .then((exists) => {
           if (exists && activeOrganization[userFieldName]) {
             // Update user roles
-            let roles = []
+            const roles = []
             const role = getRoleFromOrgField(activeOrganization, userFieldName)
             roles.push(role)
             addRolesToUser(newUser, roles)
@@ -114,28 +70,73 @@ export default React.createClass({
               })
               .catch((error) => {
                 newUser = null
-                newUserAlert = 'Fehler: ' + error.message
+                newUserAlert = `Fehler: ${error.message}`
                 this.setState({ newUserAlert, newUser })
               })
           } else {
-            newUserAlert = 'Es gibt keinen Benutzer mit email ' + newUser
+            newUserAlert = `Es gibt keinen Benutzer mit email ${newUser}`
             newUser = null
             return this.setState({ newUserAlert, newUser })
           }
         })
         .catch((error) => {
-          console.log('error from doesUserExist', error)
           newUser = null
-          newUserAlert = 'Fehler: ' + error.message
+          newUserAlert = `Fehler: ${error.message}`
           this.setState({ newUserAlert, newUser })
         })
     }
   },
 
-  newUserAlert () {
+  removeUser(user) {
+    const { userFieldName } = this.props
+    app.Actions.removeUserFromActiveOrganization(user, userFieldName)
+  },
+
+  removeUserTooltip() {
+    return <Tooltip id="removeThisUser">entfernen</Tooltip>
+  },
+
+  removeUserGlyph(user) {
+    const glyphStyle = {
+      position: 'absolute',
+      right: 10,
+      top: 8,
+      fontSize: `${1.5}em`,
+      color: 'red',
+      cursor: 'pointer'
+    }
+    return (
+      <OverlayTrigger
+        placement="top"
+        overlay={this.removeUserTooltip()}
+      >
+        <Glyphicon
+          glyph="remove-circle"
+          style={glyphStyle}
+          onClick={this.removeUser.bind(this, user)}
+        />
+      </OverlayTrigger>
+    )
+  },
+
+  users() {
+    const { activeOrganization, userFieldName } = this.props
+
+    if (activeOrganization && activeOrganization[userFieldName] && activeOrganization[userFieldName].length > 0) {
+      return activeOrganization[userFieldName].map((user, index) => (
+        <ListGroupItem key={index}>
+          {user}
+          {this.removeUserGlyph(user)}
+        </ListGroupItem>
+      ))
+    }
+    return <p>(Noch) keine</p>
+  },
+
+  newUserAlert() {
     const { newUserAlert } = this.state
     return (
-      <Alert bsStyle='danger'>
+      <Alert bsStyle="danger">
         <strong>{newUserAlert}</strong>
       </Alert>
     )
@@ -164,12 +165,13 @@ export default React.createClass({
           {this.users()}
         </ListGroup>
         <Input
-          type='email'
-          label='Benutzer hinzufügen'
+          type="email"
+          label="Benutzer hinzufügen"
           value={newUser}
           onChange={this.onChangeNewWriter}
           onBlur={this.onBlurNewWriter}
-          bsStyle={newWriterBsStyle} />
+          bsStyle={newWriterBsStyle}
+        />
         {
           newUserAlert
           ? this.newUserAlert()
