@@ -10,15 +10,16 @@ const bodyElement = document.body
 export default React.createClass({
   displayName: 'ResizeButton',
 
-  resize () {
+  resize() {
     toggleClass(bodyElement, 'force-mobile')
     this.forceUpdate()
   },
 
-  tooltip () {
+  tooltip() {
     return (
       <Tooltip
-        id='btnResizeTooltip'>
+        id="btnResizeTooltip"
+      >
         {hasClass(bodyElement, 'force-mobile') ? 'in zwei Spalten anzeigen' : 'ganze Breite nutzen'}
       </Tooltip>
     )
@@ -27,15 +28,16 @@ export default React.createClass({
   render() {
     return (
       <OverlayTrigger
-        placement='left'
+        placement="left"
         overlay={this.tooltip()}
       >
         <Button
-          id='btnResize'
-          className='pull-right'
-          bsSize='small'
-          onClick={this.resize}>
-          <Glyphicon glyph='resize-horizontal' />
+          id="btnResize"
+          className="pull-right"
+          bsSize="small"
+          onClick={this.resize}
+        >
+          <Glyphicon glyph="resize-horizontal" />
         </Button>
       </OverlayTrigger>
     )

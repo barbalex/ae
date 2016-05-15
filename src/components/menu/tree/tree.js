@@ -28,11 +28,11 @@ export default React.createClass({
     window.addEventListener('resize', debounce(this.onResize, 150))
   },
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     window.removeEventListener('resize')
   },
 
-  onResize () {
+  onResize() {
     // calculate max height of tree
     const windowHeight = window.innerHeight
     const windowWidth = window.innerWidth
@@ -55,22 +55,25 @@ export default React.createClass({
     const loadingMessages = groupsLoadingObjects.map((groupLoadingObject, index) => (
       <LoadingMessage
         key={index}
-        groupLoadingObject={groupLoadingObject} />
+        groupLoadingObject={groupLoadingObject}
+      />
     ))
 
     return (
       <div>
         <div
-          id='tree'
-          style={treeStyle}>
+          id="tree"
+          style={treeStyle}
+        >
           {
             hierarchy &&
-            <div>
-              <Nodes
-                hierarchy={hierarchy}
-                object={object}
-                path={path} />
-            </div>
+              <div>
+                <Nodes
+                  hierarchy={hierarchy}
+                  object={object}
+                  path={path}
+                />
+              </div>
           }
         </div>
         {
