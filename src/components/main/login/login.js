@@ -36,7 +36,7 @@ export default React.createClass({
     }
   },
 
-  onHide () {
+  onHide() {
     // weird things happen if this is not here ???!!!
     // console.log('onHide')
   },

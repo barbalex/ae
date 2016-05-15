@@ -14,7 +14,7 @@ export default React.createClass({
     this.onHide()
   },
 
-  onHide () {
+  onHide() {
     const { resetTooManyRcsChoosen } = this.props
     const show = false
     this.setState({ show })

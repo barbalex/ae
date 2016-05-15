@@ -16,7 +16,7 @@ export default React.createClass({
     closeModal: React.PropTypes.func
   },
 
-  onHide () {
+  onHide() {
     console.log('onHide')
   },
 

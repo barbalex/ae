@@ -14,7 +14,7 @@ export default React.createClass({
     this.onHide()
   },
 
-  onHide () {
+  onHide() {
     const { resetTooManyFieldsChoosen } = this.props
     const show = false
     this.setState({ show })
