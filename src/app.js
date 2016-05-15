@@ -13,8 +13,10 @@ import stores from './stores'
 import pouchUrl from './modules/getCouchUrl.js'
 import pouchBaseUrl from './modules/getCouchBaseUrl.js'
 import getGroupsLoadedFromLocalDb from './modules/getGroupsLoadedFromLocalDb.js'
-// need this polyfill to transform promise.all
-// without it IE11 and lower bark
+/**
+ * need this polyfill to transform promise.all
+ * without it IE11 and lower bark
+ */
 import 'babel-polyfill'
 /**
  * need this polyfill to use fetch in IE
