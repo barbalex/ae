@@ -129,7 +129,7 @@ export default React.createClass({
     }
   },
 
-  componentDidMount () {
+  componentDidMount() {
     const { offlineIndexes } = this.props
     const { urlOptions, combineTaxonomies } = this.state
     const bodyElement = document.body

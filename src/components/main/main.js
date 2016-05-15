@@ -66,7 +66,7 @@ export default React.createClass({
     return { formClassNames }
   },
 
-  componentDidMount () {
+  componentDidMount() {
     window.addEventListener('resize', debounce(this.onResize, 150))
   },
 

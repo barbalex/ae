@@ -128,7 +128,7 @@ export default React.createClass({
     }
   },
 
-  componentDidMount () {
+  componentDidMount() {
     // listen to stores
     this.listenTo(app.userStore, this.onLoginStoreChange)
     this.listenTo(app.activePathStore, this.onActivePathStoreChange)

@@ -135,7 +135,7 @@ export default React.createClass({
     }
   },
 
-  componentDidMount () {
+  componentDidMount() {
     const { offlineIndexes } = this.props
     // make sure, pcs are queried
     // app.Actions.queryTaxonomyCollections(offlineIndexes)

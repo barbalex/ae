@@ -25,7 +25,7 @@ export default React.createClass({
     errorBuildingExportData: React.PropTypes.object
   },
 
-  componentDidMount () {
+  componentDidMount() {
     const { exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, oneRowPerRelation, combineTaxonomies } = this.props
     // make sure, pcs are queried
     app.Actions.buildExportData({ exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, oneRowPerRelation, combineTaxonomies })

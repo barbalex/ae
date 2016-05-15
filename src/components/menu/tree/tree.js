@@ -24,7 +24,7 @@ export default React.createClass({
     return { windowHeight, windowWidth }
   },
 
-  componentDidMount () {
+  componentDidMount() {
     window.addEventListener('resize', debounce(this.onResize, 150))
   },
 

@@ -125,7 +125,7 @@ export default React.createClass({
     }
   },
 
-  componentDidMount () {
+  componentDidMount() {
     this.listenTo(app.objectsRcsStore, this.onChangeObjectsRcsStore)
     // show login of not logged in
     const { offlineIndexes } = this.props

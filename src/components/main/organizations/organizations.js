@@ -31,7 +31,7 @@ export default React.createClass({
     rcsOfActiveOrganization: React.PropTypes.array
   },
 
-  componentDidMount () {
+  componentDidMount() {
     let { email, offlineIndexes } = this.props
     if (!email) {
       const logIn = true
