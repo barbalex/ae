@@ -23,7 +23,7 @@ export default React.createClass({
     this.props.onBlurName(name)
   },
 
-  popover () {
+  popover() {
     return (
       <Popover id='inputNamePopover' title='So wählen Sie einen guten Namen:'>
         <p>Er sollte ungefähr dem ersten Teil eines Literaturzitats entsprechen. Beispiel: "Delarze (2008)".</p>

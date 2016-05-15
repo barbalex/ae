@@ -22,7 +22,7 @@ export default React.createClass({
     this.props.onBlurLink()
   },
 
-  popover () {
+  popover() {
     return (
       <Popover id='InputLinkPopiver' title='Wozu ein Link?'>
         <p>Kann die Originalpublikation verlinkt werden?</p>

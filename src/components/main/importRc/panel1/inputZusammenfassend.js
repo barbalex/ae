@@ -16,7 +16,7 @@ export default React.createClass({
     this.props.onChangeZusammenfassend(zusammenfassend)
   },
 
-  popover () {
+  popover() {
     return (
       <Popover id='InputZusammenfassendPopover' title='Was heisst "zusammenfassend"?'>
         <p>Die Informationen in einer zusammenfassenden Beziehungssammlung wurden aus mehreren eigenständigen Beziehungssammlungen zusammegefasst.</p>

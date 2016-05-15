@@ -70,11 +70,11 @@ export default React.createClass({
     window.addEventListener('resize', debounce(this.onResize, 150))
   },
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     window.removeEventListener('resize')
   },
 
-  onResize () {
+  onResize() {
     const thisWidth = ReactDOM.findDOMNode(this).offsetWidth
     const formClassNames = thisWidth > 700 ? 'form form-horizontal' : 'form'
     this.setState({ formClassNames })

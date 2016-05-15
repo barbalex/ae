@@ -31,7 +31,7 @@ export default React.createClass({
     return options
   },
 
-  popover () {
+  popover() {
     return (
       <Popover id='InputUrsprungsBsPopover' trigger={['click', 'focus']} title='Was heisst "eigenständig"?'>
         <p>Eine zusammenfassende Beziehungssammlung wird zwei mal importiert:</p>

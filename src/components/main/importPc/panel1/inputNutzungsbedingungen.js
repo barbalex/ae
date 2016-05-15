@@ -17,7 +17,7 @@ export default React.createClass({
     this.props.onChangeNutzungsbedingungen(nutzungsbedingungen)
   },
 
-  popover () {
+  popover() {
     return (
       <Popover
         id='InputNutzungsbedingungenPopover'

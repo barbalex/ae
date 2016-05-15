@@ -10,7 +10,7 @@ export default React.createClass({
     importiertVon: React.PropTypes.string
   },
 
-  popover () {
+  popover() {
     return (
       <Popover id='InputImportiertVonPopover'>
         <p>Das ist immer die Email des angemeldeten Benutzers</p>

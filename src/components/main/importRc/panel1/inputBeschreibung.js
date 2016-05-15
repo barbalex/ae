@@ -18,7 +18,7 @@ export default React.createClass({
     this.props.onChangeBeschreibung(beschreibung)
   },
 
-  popover () {
+  popover() {
     return (
       <Popover id='InputBeschreibungPopover' title='So beschreiben Sie die Sammlung:'>
         <p>Die Beschreibung sollte im ersten Teil etwa einem klassischen Literaturzitat entsprechen.<br/>

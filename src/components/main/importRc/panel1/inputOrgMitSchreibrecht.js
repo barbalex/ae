@@ -12,7 +12,7 @@ export default React.createClass({
     userIsEsWriterInOrgs: React.PropTypes.array
   },
 
-  popover () {
+  popover() {
     return (
       <Popover
         id='inputOrganisationMitSchreibrechtPopover'

@@ -43,7 +43,7 @@ export default React.createClass({
     return options
   },
 
-  popover () {
+  popover() {
     return (
       <Popover
         id='InputUrsprungsEsPopover'

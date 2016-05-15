@@ -17,35 +17,35 @@ export default React.createClass({
     onClickToggleOfflineIndexes: React.PropTypes.func
   },
 
-  exportProperties () {
+  exportProperties() {
     app.Actions.loadActivePath(['exportieren'])
   },
 
-  importPropertyCollection () {
+  importPropertyCollection() {
     app.Actions.loadActivePath(['importieren', 'eigenschaften'])
   },
 
-  importRelationsCollection () {
+  importRelationsCollection() {
     app.Actions.loadActivePath(['importieren', 'beziehungen'])
   },
 
-  openOrganisationen () {
+  openOrganisationen() {
     app.Actions.loadActivePath(['organisationen'])
   },
 
-  replicateToRemoteDb () {
+  replicateToRemoteDb() {
     app.Actions.replicateToRemoteDb()
   },
 
-  replicateFromRemoteDb () {
+  replicateFromRemoteDb() {
     app.Actions.replicateFromRemoteDb()
   },
 
-  loadPouchFromRemote () {
+  loadPouchFromRemote() {
     app.Actions.loadPouchFromRemote()
   },
 
-  openAdminPage () {
+  openAdminPage() {
     console.log('openAdminPage was clicked')
     // TODO
     /* previously:
@@ -60,110 +60,128 @@ export default React.createClass({
     const wikipediaLink = isObject ? buildWikipediaLink(object) : '#'
 
     return (
-      <div id='menuBtn' className='btn-group menu'>
+      <div id="menuBtn" className="btn-group menu">
         <ButtonGroup>
           <Button
             onClick={this.searchGoogleImages}
-            bsSize='small'
+            bsSize="small"
             disabled={!isObject}
             href={googleLink}
-            target='_blank'>
+            target="_blank"
+          >
             Bilder
           </Button>
           <Button
             onClick={this.searchWikipediaArticle}
-            bsSize='small'
+            bsSize="small"
             disabled={!isObject}
             href={wikipediaLink}
-            target='_blank'>
+            target="_blank"
+          >
             Wikipedia
           </Button>
           <Button
             onClick={this.exportProperties}
-            bsSize='small'>
+            bsSize="small"
+          >
             Export
           </Button>
           <DropdownButton
-            id='importDropdown'
-            title='Import'
-            bsSize='small'>
+            id="importDropdown"
+            title="Import"
+            bsSize="small"
+          >
             <MenuItem header>
               Importieren oder löschen:
             </MenuItem>
             <MenuItem
-              onSelect={this.importPropertyCollection}>
+              onSelect={this.importPropertyCollection}
+            >
               Eigenschaften
             </MenuItem>
             <MenuItem
-              onSelect={this.importRelationsCollection}>
+              onSelect={this.importRelationsCollection}
+            >
               Beziehungen
             </MenuItem>
           </DropdownButton>
           <DropdownButton
-            id='moreDropdown'
-            title='Mehr...'
-            bsSize='small'>
+            id="moreDropdown"
+            title="Mehr..."
+            bsSize="small"
+          >
             <MenuItem
-              onSelect={this.openOrganisationen}>
+              onSelect={this.openOrganisationen}
+            >
               Organisationen
             </MenuItem>
-            <MenuItem divider/>
+            <MenuItem divider />
             <MenuItem header>
               Daten:
             </MenuItem>
             <MenuItem
-              onSelect={this.loadPouchFromRemote}>
+              onSelect={this.loadPouchFromRemote}
+            >
               Fehlende Gruppen laden
             </MenuItem>
             <MenuItem
-              onSelect={this.replicateFromRemoteDb}>
+              onSelect={this.replicateFromRemoteDb}
+            >
               <strong>Von</strong> arteigenschaften.ch replizieren
             </MenuItem>
             <MenuItem
-              onSelect={this.replicateToRemoteDb}>
+              onSelect={this.replicateToRemoteDb}
+            >
               <strong>Nach</strong> arteigenschaften.ch replizieren
             </MenuItem>
-            <MenuItem divider/>
+            <MenuItem divider />
             <ObjectDerivedDataMenuItem />
-            <MenuItem divider/>
+            <MenuItem divider />
             <MenuItem header>
               Indizes:
             </MenuItem>
             <InputIndexes
               offlineIndexes={offlineIndexes}
-              onClickToggleOfflineIndexes={onClickToggleOfflineIndexes} />
-            <MenuItem divider/>
+              onClickToggleOfflineIndexes={onClickToggleOfflineIndexes}
+            />
+            <MenuItem divider />
             <MenuItem
               onSelect={this.openAdminPage}
-              disabled>
+              disabled
+            >
               Administration
             </MenuItem>
-            <MenuItem divider/>
+            <MenuItem divider />
             <MenuItem header>
               Über arteigenschaften.ch:
             </MenuItem>
             <MenuItem
-              href='//github.com/FNSKtZH/artendb/blob/master/README.md'
-              target='_blank'>
+              href="//github.com/FNSKtZH/artendb/blob/master/README.md"
+              target="_blank"
+            >
               Projekt-Beschreibung
             </MenuItem>
             <MenuItem
-              href='//github.com/FNSKtZH/artendb'
-              target='_blank'>
+              href="//github.com/FNSKtZH/artendb"
+              target="_blank"
+            >
               Code
             </MenuItem>
             <MenuItem
-              href='//github.com/FNSKtZH/artendb/commits/master'
-              target='_blank'>
+              href="//github.com/FNSKtZH/artendb/commits/master"
+              target="_blank"
+            >
               Letzte Änderungen
             </MenuItem>
             <MenuItem
-              href='mailto:alex@gabriel-software.ch'>
+              href="mailto:alex@gabriel-software.ch"
+            >
               Email an Autor
             </MenuItem>
             <MenuItem
-              href='https://twitter.com/arteigenschaft'
-              target='_blank'>
+              href="https://twitter.com/arteigenschaft"
+              target="_blank"
+            >
               Auf Twitter folgen
             </MenuItem>
           </DropdownButton>

@@ -18,7 +18,7 @@ export default React.createClass({
     this.props.onChangeDatenstand(datenstand)
   },
 
-  popover () {
+  popover() {
     return (
       <Popover
         id='InputDatenstandPopover'

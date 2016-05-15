@@ -23,7 +23,7 @@ export default React.createClass({
     this.props.onBlurName(name)
   },
 
-  popover () {
+  popover() {
     return (
       <Popover
         id='inputNamePopover'

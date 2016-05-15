@@ -18,7 +18,7 @@ export default React.createClass({
     this.props.onChangeDatenstand(datenstand)
   },
 
-  popover () {
+  popover() {
     return (
       <Popover id='InputDatenstandPopover' title='Wozu ein Datenstand?'>
         <p>Hier sieht der Nutzer, wann die Eigenschaftensammlung zuletzt aktualisiert wurde.</p>

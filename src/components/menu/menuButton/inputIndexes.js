@@ -11,7 +11,7 @@ export default React.createClass({
     onClickToggleOfflineIndexes: React.PropTypes.func
   },
 
-  popover () {
+  popover() {
     return (
       <Popover id='inputIndexesPopover' title='Wozu lokale Indizes verwenden?'>
         <p>Lokale Indizes sind mühsam:</p>

@@ -18,7 +18,7 @@ export default React.createClass({
     this.props.onChangeBeschreibung(beschreibung)
   },
 
-  popover () {
+  popover() {
     return (
       <Popover
         id='InputBeschreibungPopover'
