@@ -1,9 +1,9 @@
 'use strict'
 
-var getConfig = require('hjs-webpack')
-var webpack = require('webpack')
+const getConfig = require('hjs-webpack')
+const webpack = require('webpack')
 
-var config = getConfig({
+const config = getConfig({
   in: 'src/app.js',
   out: 'public',
   isDev: process.env.NODE_ENV !== 'production' /*,
@@ -23,7 +23,7 @@ config.module.loaders.push(
 
 config.plugins.push(
   new webpack.ProvidePlugin({
-    'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
+    fetch: 'imports?this=>global!exports?global.fetch!whatwg-fetch'
   })
 )
 

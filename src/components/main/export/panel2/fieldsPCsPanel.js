@@ -19,15 +19,15 @@ export default React.createClass({
     pcs: React.PropTypes.array
   },
 
-  onChange (cName, fName, event) {
+  onChange(cName, fName, event) {
     const { onChangeFilterField } = this.props
     onChangeFilterField(cName, fName, 'pc', event)
   },
 
-  render () {
+  render() {
     const { pcFields, onChangeCoSelect, pcs, exportOptions, cNameKey } = this.props
     const cNameObject = pcFields[cNameKey]
-    const pc = pcs.find((pc) => pc.name === cNameKey)
+    const pc = pcs.find((p) => p.name === cNameKey)
     const fieldsSorted = Object.keys(cNameObject).sort((fNameKey) => fNameKey.toLowerCase())
     const fields = fieldsSorted.map((fNameKey, index) => {
       const fieldKey = fNameKey.toLowerCase()
@@ -51,8 +51,8 @@ export default React.createClass({
               <FormControl
                 key={fieldKey}
                 type={fNameObject.fType}
-                bsSize='small'
-                className='controls'
+                bsSize="small"
+                className="controls"
                 value={value}
                 onChange={this.onChange.bind(this, cNameKey, fNameKey)}
               />
@@ -68,8 +68,8 @@ export default React.createClass({
             <FormControl
               key={fieldKey}
               componentClass="select"
-              bsSize='small'
-              className='controls'
+              bsSize="small"
+              className="controls"
               value={value}
               onChange={this.onChange.bind(this, cNameKey, fNameKey)}
             >
@@ -85,7 +85,7 @@ export default React.createClass({
     return (
       <div>
         <PcDescription pc={pc} />
-        <div className='felderspalte'>
+        <div className="felderspalte">
           {fields}
         </div>
       </div>

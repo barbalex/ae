@@ -1,0 +1,16 @@
+{
+    "extends": "airbnb",
+    "plugins": [
+        "react"
+    ],
+    "rules": {
+      "react/jsx-no-bind": 0,
+      "comma-dangle": 0,
+      "no-use-before-define": 0,
+      "consistent-return": 0,
+      "semi": [2, "never"],
+      "quotes": [2, "single"],
+      "strict": 0,
+      "max-len": ["error", 140, 4, {"ignoreUrls": true}]
+    }
+}
