@@ -28,19 +28,25 @@ export default React.createClass({
     // we do not want the taxonomy field 'Hierarchie'
     delete cNameObject.Hierarchie
     const fieldsSorted = Object.keys(cNameObject).sort((fNameKey) => fNameKey.toLowerCase())
-    const fields = fieldsSorted.map((fNameKey) => {
+    const fields = fieldsSorted.map((fNameKey, index) => {
       const fieldKey = fNameKey.toLowerCase()
       const fNameObject = cNameObject[fNameKey]
       const value = get(exportOptions, `${cNameKey}.${fNameKey}.value`, null)
       const co = get(exportOptions, `${cNameKey}.${fNameKey}.co`, null)
-      const selectComparisonOperator = <SelectComparisonOperator cNameKey={cNameKey} fNameKey={fNameKey} value={co} onChangeCoSelect={onChangeCoSelect} />
       const buttonAfter = <InfoButtonAfter fNameObject={fNameObject} />
       if (fNameObject.fType !== 'boolean') {
         return (
-          <FormGroup>
+          <FormGroup key={index}>
             <ControlLabel>{fNameKey}</ControlLabel>
             <InputGroup>
-              <InputGroup.Addon>{selectComparisonOperator}</InputGroup.Addon>
+              <InputGroup.Addon>
+                <SelectComparisonOperator
+                  cNameKey={cNameKey}
+                  fNameKey={fNameKey}
+                  value={co}
+                  onChangeCoSelect={onChangeCoSelect}
+                />
+              </InputGroup.Addon>
               <FormControl
                 key={fieldKey}
                 type={fNameObject.fType}

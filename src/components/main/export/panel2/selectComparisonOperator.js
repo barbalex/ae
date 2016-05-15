@@ -1,7 +1,7 @@
 'use strict'
 
 import React from 'react'
-import { Input } from 'react-bootstrap'
+import { FormControl } from 'react-bootstrap'
 
 export default React.createClass({
   displayName: 'SelectComparisonOperator',
@@ -29,9 +29,9 @@ export default React.createClass({
     }
 
     return (
-      <select
+      <FormControl
         bsSize='small'
-        type='select'
+        componentClass="select"
         style={coSelectStyle}
         value={value}
         onChange={this.onChange.bind(this, cNameKey, fNameKey)}
@@ -42,7 +42,7 @@ export default React.createClass({
         <option key='4' value='>='>&#62;&#61;</option>
         <option key='5' value='<'>&#60;</option>
         <option key='6' value='<='>&#60;&#61;</option>
-      </select>
+      </FormControl>
     )
   }
 })

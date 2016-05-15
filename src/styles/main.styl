@@ -576,7 +576,11 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 input[type=file]
   margin-left: 0 !important
 
-.input-group-xs > .input-group-addon
+.input-group > .input-group-addon
+  padding: 0
+  border: none
+
+.input-group-xs .input-group-addon
   /* aus unbekanntem Grund stimmt die Höhe nicht */
   height: 20px
 
@@ -906,6 +910,11 @@ option
   margin-right 0
 .form-horizontal button
   margin-right: 8px
+// but not an input-group-addon
+.form-horizontal .input-group-addon button
+  margin-right: 0
+  border-top-left-radius: 0
+  border-bottom-left-radius: 0
 
 .progress
   margin-top: 10px
