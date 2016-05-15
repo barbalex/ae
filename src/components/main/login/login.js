@@ -23,7 +23,7 @@ export default React.createClass({
     signUp: React.PropTypes.bool
   },
 
-  getInitialState () {
+  getInitialState() {
     return {
       invalidEmail: false,
       invalidPassword: false,

@@ -15,7 +15,7 @@ export default React.createClass({
     activePanel: React.PropTypes.number
   },
 
-  getInitialState () {
+  getInitialState() {
     return {
       // don't set this to null - chrome will crash!!??
       activePanel: ''

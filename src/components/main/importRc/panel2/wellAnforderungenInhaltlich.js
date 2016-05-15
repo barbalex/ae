@@ -10,7 +10,7 @@ export default React.createClass({
     visible: React.PropTypes.bool
   },
 
-  getInitialState () {
+  getInitialState() {
     return {
       visible: false
     }

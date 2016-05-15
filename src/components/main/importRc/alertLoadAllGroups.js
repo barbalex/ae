@@ -13,7 +13,7 @@ export default React.createClass({
     alertAllGroupsBsStyle: React.PropTypes.string
   },
 
-  getInitialState () {
+  getInitialState() {
     return { show: true }
   },
 

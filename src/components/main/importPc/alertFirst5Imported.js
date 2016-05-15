@@ -18,7 +18,7 @@ export default React.createClass({
     replicatingToAeTime: React.PropTypes.string
   },
 
-  getInitialState () {
+  getInitialState() {
     return {
       paths: null
     }

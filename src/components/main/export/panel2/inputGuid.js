@@ -12,7 +12,7 @@ export default React.createClass({
     invalidGuids: React.PropTypes.array
   },
 
-  getInitialState () {
+  getInitialState() {
     return {
       invalidGuids: []
     }

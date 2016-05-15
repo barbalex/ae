@@ -13,7 +13,7 @@ export default React.createClass({
     onChangeCombineTaxonomies: React.PropTypes.func
   },
 
-  getInitialState () {
+  getInitialState() {
     return {
       visible: false
     }

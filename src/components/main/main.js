@@ -61,7 +61,7 @@ export default React.createClass({
     userIsEsWriterInOrgs: React.PropTypes.array
   },
 
-  getInitialState () {
+  getInitialState() {
     const formClassNames = window.innerWidth > 700 ? 'form form-horizontal' : 'form'
     return { formClassNames }
   },

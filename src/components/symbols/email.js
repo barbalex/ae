@@ -13,7 +13,7 @@ export default React.createClass({
     open: React.PropTypes.bool
   },
 
-  getInitialState () {
+  getInitialState() {
     return {
       open: false
     }

@@ -24,7 +24,7 @@ export default React.createClass({
     userFieldName: React.PropTypes.string
   },
 
-  getInitialState () {
+  getInitialState() {
     return {
       newUser: null,
       newUserAlert: null

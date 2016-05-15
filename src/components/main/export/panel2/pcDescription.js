@@ -17,7 +17,7 @@ export default React.createClass({
     isVisible: React.PropTypes.bool
   },
 
-  getInitialState () {
+  getInitialState() {
     return {
       isVisible: false
     }

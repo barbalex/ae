@@ -15,7 +15,7 @@ export default React.createClass({
     onClickRemoveRcInstances: React.PropTypes.func
   },
 
-  getInitialState () {
+  getInitialState() {
     return {
       show: false
     }

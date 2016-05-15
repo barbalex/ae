@@ -19,7 +19,7 @@ export default React.createClass({
     onChangeOneRowPerRelation: React.PropTypes.func
   },
 
-  getInitialState () {
+  getInitialState() {
     return {
       activePanel: ''
     }

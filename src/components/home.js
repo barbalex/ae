@@ -69,7 +69,7 @@ export default React.createClass({
     errors: React.PropTypes.array
   },
 
-  getInitialState () {
+  getInitialState() {
     const { gruppe, guid, path, mainComponent, email } = this.props
     const groupsLoadedOrLoading = gruppe ? [gruppe] : []
 

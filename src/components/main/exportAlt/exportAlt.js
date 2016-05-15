@@ -73,7 +73,7 @@ export default React.createClass({
    *   ...
    * }
    */
-  getInitialState () {
+  getInitialState() {
     const urlOptions = {
       object: {
         _id: {

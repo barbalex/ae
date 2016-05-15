@@ -16,7 +16,7 @@ export default React.createClass({
     activePanel: React.PropTypes.number
   },
 
-  getInitialState () {
+  getInitialState() {
     return {
       activePanel: ''
     }

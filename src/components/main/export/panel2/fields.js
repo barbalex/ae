@@ -24,7 +24,7 @@ export default React.createClass({
     groupsLoadingObjects: React.PropTypes.array
   },
 
-  getInitialState () {
+  getInitialState() {
     return {
       activePanel: ''
     }

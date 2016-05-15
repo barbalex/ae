@@ -17,7 +17,7 @@ export default React.createClass({
     collectionsWithAllChoosen: React.PropTypes.array
   },
 
-  getInitialState () {
+  getInitialState() {
     return {
       activePanel: ''
     }

@@ -80,7 +80,7 @@ export default React.createClass({
   // idsAnalysisComplete ... idsNotANumber: for analysing import file and id fields
   // panel1Done, panel2Done, panel3Done: to guide inputting
   // validXxx: to check validity of these fields
-  getInitialState () {
+  getInitialState() {
     return {
       nameBestehend: null,
       name: null,

@@ -15,7 +15,7 @@ export default React.createClass({
     deletingRcProgress: React.PropTypes.number
   },
 
-  getInitialState () {
+  getInitialState() {
     return {
       show: false
     }

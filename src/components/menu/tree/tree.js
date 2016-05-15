@@ -18,7 +18,7 @@ export default React.createClass({
     windowWidth: React.PropTypes.number
   },
 
-  getInitialState () {
+  getInitialState() {
     const windowHeight = window.innerHeight
     const windowWidth = window.innerWidth
     return { windowHeight, windowWidth }

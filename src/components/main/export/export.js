@@ -75,7 +75,7 @@ export default React.createClass({
    *   ...
    * }
    */
-  getInitialState () {
+  getInitialState() {
     const exportOptions = {
       object: {
         _id: {
