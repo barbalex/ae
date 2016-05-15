@@ -18,7 +18,8 @@ export default React.createClass({
       taxRcComponent = taxRcs.map((rc, index) => (
         <RelationCollection
           key={index}
-          relationCollection={rc} />
+          relationCollection={rc}
+        />
       ))
     }
 

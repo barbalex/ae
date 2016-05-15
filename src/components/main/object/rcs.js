@@ -17,7 +17,8 @@ export default React.createClass({
       rcsComponent = objectRcs.map((rc, index) => (
         <RelationCollection
           key={index}
-          relationCollection={rc} />
+          relationCollection={rc}
+        />
       ))
     }
 

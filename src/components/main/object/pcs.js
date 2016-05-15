@@ -19,9 +19,10 @@ export default React.createClass({
       pcComponent = pcs.map((pc, index) => (
         <PropertyCollection
           key={index}
-          pcType='Datensammlung'
+          pcType="Datensammlung"
           object={object}
-          propertyCollection={pc} />
+          propertyCollection={pc}
+        />
       ))
     }
 

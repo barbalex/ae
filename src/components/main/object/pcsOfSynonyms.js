@@ -19,9 +19,10 @@ export default React.createClass({
       pcsComponent = pcsOfSynonyms.map((pc, index) => (
         <PropertyCollection
           key={index}
-          pcType='Datensammlung'
+          pcType="Datensammlung"
           object={object}
-          propertyCollection={pc}/>
+          propertyCollection={pc}
+        />
       ))
     }
 

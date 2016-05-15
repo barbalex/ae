@@ -23,7 +23,7 @@ export default React.createClass({
     }
   },
 
-  onClick (event) {
+  onClick(event) {
     event.preventDefault()
     const isVisible = !this.state.isVisible
     this.setState({ isVisible })
@@ -35,8 +35,7 @@ export default React.createClass({
     let mehr = null
 
     const datenstand = (
-      <div
-        className='dsBeschreibungZeile'>
+      <div className="dsBeschreibungZeile">
         <div>
           Stand:
         </div>
@@ -47,8 +46,7 @@ export default React.createClass({
     )
 
     const nutzunbsbedingungen = (
-      <div
-        className='dsBeschreibungZeile'>
+      <div className="dsBeschreibungZeile">
         <div>
           Nutzungsbedingungen:
         </div>
@@ -61,14 +59,15 @@ export default React.createClass({
     let link = null
     if (pc.Link) {
       link = (
-        <div className='dsBeschreibungZeile'>
+        <div className="dsBeschreibungZeile">
           <div>
             Link:
           </div>
           <div>
             <a
               href={pc.Link}
-              target={'_blank'}>
+              target="_blank"
+            >
               {pc.Link}
             </a>
           </div>
@@ -79,8 +78,7 @@ export default React.createClass({
     let organization = null
     if (pc['Organisation mit Schreibrecht']) {
       organization = (
-        <div
-          className='dsBeschreibungZeile'>
+        <div className="dsBeschreibungZeile">
           <div>
             Organisation mit Schreibrecht:
           </div>
@@ -94,14 +92,15 @@ export default React.createClass({
     let importiertVon = null
     if (pc['importiert von']) {
       importiertVon = (
-        <div className='dsBeschreibungZeile'>
+        <div className="dsBeschreibungZeile">
           <div>
             Importiert von:
           </div>
           <div>
             <a
-              href={'mailto:' + pc['importiert von']}
-              target={'_blank'}>
+              href={`mailto:${pc['importiert von']}`}
+              target={'_blank'}
+            >
               {pc['importiert von']}
             </a>
           </div>
@@ -112,26 +111,24 @@ export default React.createClass({
     let ursprungsEs = null
     if (pc.Ursprungsdatensammlung) {
       ursprungsEs = (
-        <div
-          className='dsBeschreibungZeile'>
+        <div className="dsBeschreibungZeile">
           <div>
             Zus.-fassend:
           </div>
           <div>
-            Diese Eigenschaftensammlung fasst die Daten mehrerer Eigenschaftensammlungen in einer zusammen.<br/>
-            Die angezeigten Informationen stammen aus {'"' + pc.Ursprungsdatensammlung + '"'}
+            Diese Eigenschaftensammlung fasst die Daten mehrerer Eigenschaftensammlungen in einer zusammen.<br />
+            Die angezeigten Informationen stammen aus {`"${pc.Ursprungsdatensammlung}"`}
           </div>
         </div>
       )
     } else {
       ursprungsEs = (
-        <div
-          className='dsBeschreibungZeile'>
+        <div className="dsBeschreibungZeile">
           <div>
             Zus.-fassend:
           </div>
           <div>
-            Diese Eigenschaftensammlung fasst die Daten mehrerer Eigenschaftensammlungen in einer zusammen.<br/>
+            Diese Eigenschaftensammlung fasst die Daten mehrerer Eigenschaftensammlungen in einer zusammen.<br />
             Leider ist die Ursprungs-Eigenschaftensammlung nicht beschrieben
           </div>
         </div>
@@ -142,13 +139,13 @@ export default React.createClass({
       mehr = (
         <span>
           <a
-            href='#'
+            href="#"
             onClick={this.onClick}
-            className='showNextHidden'>
+            className="showNextHidden"
+          >
             {pc.Beschreibung ? (isVisible ? '...weniger' : '...mehr') : 'Beschreibung der Datensammlung anzeigen'}
           </a>
-          <div
-            style={{display: isVisible ? 'block' : 'none'}}>
+          <div style={{ display: isVisible ? 'block' : 'none' }}>
             {
               pc.Datenstand
               ? datenstand
@@ -182,10 +179,8 @@ export default React.createClass({
 
     return (
       <div>
-        <div
-          className='Datensammlung beschreibungDatensammlung'>
-          <span
-            style={{marginRight: 3}}>
+        <div className="Datensammlung beschreibungDatensammlung">
+          <span style={{ marginRight: 3 }}>
             {pc.Beschreibung}
           </span>
           {mehr}

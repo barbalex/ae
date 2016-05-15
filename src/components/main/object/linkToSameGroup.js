@@ -17,7 +17,7 @@ export default React.createClass({
     objectName: React.PropTypes.string
   },
 
-  onClick (event) {
+  onClick(event) {
     event.preventDefault()
     const { guid } = this.props
     // console.log('linkToSameGroup.js, onClick, guid', guid)

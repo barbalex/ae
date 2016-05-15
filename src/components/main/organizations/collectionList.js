@@ -11,8 +11,8 @@ export default React.createClass({
     orgName: React.PropTypes.string
   },
 
-  collections () {
-    let { collections } = this.props
+  collections() {
+    const { collections } = this.props
     collections.sort((a, b) => {
       if (a.name > b.name) return 1
       return -1
@@ -36,7 +36,7 @@ export default React.createClass({
     return (
       <div>
         <p style={titleStyle}>{title}</p>
-        <div className='orgCollectionList'>
+        <div className="orgCollectionList">
           <ul>
             {this.collections()}
           </ul>

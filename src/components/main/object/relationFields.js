@@ -29,8 +29,9 @@ export default React.createClass({
             key={fieldName}
             fieldName={fieldName}
             fieldValue={fieldValue}
-            pcType='Beziehungssammlung'
-            pcName={rcName} />
+            pcType="Beziehungssammlung"
+            pcName={rcName}
+          />
         )
       }
     })

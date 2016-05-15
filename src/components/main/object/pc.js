@@ -19,7 +19,7 @@ import isUserOrgAdmin from '../../../modules/isUserOrgAdmin.js'
 import isUserLrWriter from '../../../modules/isUserLrWriter.js'
 import EditButtonGroup from './editButtonGroup.js'
 
-function buildFieldForProperty (propertyCollection, object, onSaveObjectField, value, key, pcType, collectionIsEditing) {
+function buildFieldForProperty(propertyCollection, object, onSaveObjectField, value, key, pcType, collectionIsEditing) {
   const pcName = propertyCollection.Name.replace(/"/g, "'")
   // bad hack because jsx shows &#39; not as ' but as &#39;
   if (typeof value === 'string') value = value.replace('&#39;', '\'')
@@ -28,7 +28,17 @@ function buildFieldForProperty (propertyCollection, object, onSaveObjectField, v
   // don't show 'GUID' - _id is used instead
   // this field was removed and should not exist any more
   if (key === 'GUID') return null
-  if (((key === 'Offizielle Art' || key === 'Eingeschlossen in' || key === 'Synonym von') && object.Gruppe === 'Flora') || (key === 'Akzeptierte Referenz' && object.Gruppe === 'Moose')) {
+  const buildAsSingleLink = (
+    (
+      object.Gruppe === 'Flora' &&
+      (key === 'Offizielle Art' || key === 'Eingeschlossen in' || key === 'Synonym von')
+    ) ||
+    (
+      object.Gruppe === 'Moose' &&
+      key === 'Akzeptierte Referenz'
+    )
+  )
+  if (buildAsSingleLink) {
     // build as single link
     // console.log('value', value)
     // get name from guid
@@ -45,11 +55,12 @@ function buildFieldForProperty (propertyCollection, object, onSaveObjectField, v
               guid={linkedObjectId}
               objectName={linkedObjectName}
               collectionIsEditing={collectionIsEditing}
-              onSaveObjectField={onSaveObjectField} />
+              onSaveObjectField={onSaveObjectField}
+            />
           )
         }
       })
-      .catch((error) => app.Actions.showError({title: 'pc.js: error getting item from objectStore:', msg: error}))
+      .catch((error) => app.Actions.showError({ title: 'pc.js: error getting item from objectStore:', msg: error }))
   }
   if ((key === 'Gültige Namen' || key === 'Eingeschlossene Arten') && object.Gruppe === 'Flora') {
     // build array of links
@@ -59,13 +70,15 @@ function buildFieldForProperty (propertyCollection, object, onSaveObjectField, v
         fieldName={key}
         objects={value}
         collectionIsEditing={collectionIsEditing}
-        onSaveObjectField={onSaveObjectField} />
+        onSaveObjectField={onSaveObjectField}
+      />
     )
   }
-  if (((key === 'Artname' || key === 'Synonyme') && object.Gruppe === 'Flora') || (key === 'Parent' && object.Gruppe === 'Lebensräume') || (key === 'Hierarchie' && isArray(value))) {
-    // don't show this field
-    return null
-  }
+  const dontShowThisField = (
+    (object.Gruppe === 'Flora' && ['Artname', 'Synonyme'].includes(key)) ||
+    (key === 'Parent' && object.Gruppe === 'Lebensräume') || (key === 'Hierarchie' && isArray(value))
+  )
+  if (dontShowThisField) return null
   if (isArray(value)) {
     // this field contains an array of values
     return (

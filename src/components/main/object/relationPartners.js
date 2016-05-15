@@ -24,7 +24,7 @@ export default React.createClass({
         let label = bezPartner.Rolle ? bezPartner.Rolle : 'Beziehungspartner'
         // give only the first bezPartner a label
         label = index > 0 ? null : label
-        const value = bezPartner.Gruppe + ': ' + (bezPartner.Taxonomie ? bezPartner.Taxonomie + ' > ' : '') + bezPartner.Name
+        const value = `${bezPartner.Gruppe}: ${bezPartner.Taxonomie ? `${bezPartner.Taxonomie} > ` : ''}${bezPartner.Name}`
 
         const textLink = (
           <TextLink
@@ -32,7 +32,8 @@ export default React.createClass({
             label={label}
             value={value}
             gruppe={bezPartner.Gruppe}
-            guid={bezPartner.GUID} />
+            guid={bezPartner.GUID}
+          />
         )
         relationPartners.push(textLink)
       })

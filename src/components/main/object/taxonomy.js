@@ -26,15 +26,16 @@ export default React.createClass({
           Taxonomie:
         </h4>
         <PropertyCollection
-          pcType='Taxonomie'
+          pcType="Taxonomie"
           object={object}
           onSaveObjectField={onSaveObjectField}
           propertyCollection={standardtaxonomie}
           userRoles={userRoles}
           editObjects={editObjects}
           toggleEditObjects={toggleEditObjects}
-          addNewObject={addNewObject}$
-          removeObject={removeObject} />
+          addNewObject={addNewObject}
+          removeObject={removeObject}
+        />
       </div>
     )
   }
