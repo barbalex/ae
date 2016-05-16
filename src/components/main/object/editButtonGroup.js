@@ -6,7 +6,13 @@
 'use strict'
 
 import React from 'react'
-import { ButtonGroup, Button, Glyphicon, OverlayTrigger, Tooltip } from 'react-bootstrap'
+import {
+  ButtonGroup,
+  Button,
+  Glyphicon,
+  OverlayTrigger,
+  Tooltip
+} from 'react-bootstrap'
 
 export default React.createClass({
   displayName: 'EditButtonGroup',
@@ -27,8 +33,8 @@ export default React.createClass({
     const editText = editObjects ? 'schützen' : 'bearbeiten'
     return (
       <OverlayTrigger
-        overlay={<Tooltip id='editButtonTooltip'>{editText}</Tooltip>}
-        placement='top'
+        overlay={<Tooltip id="editButtonTooltip">{editText}</Tooltip>}
+        placement="top"
       >
         <Button onClick={toggleEditObjects}>
           <Glyphicon glyph={editGlyph} />
@@ -41,14 +47,14 @@ export default React.createClass({
     const { editObjects, addNewObject } = this.props
     return (
       <OverlayTrigger
-        overlay={<Tooltip id='addButtonTooltip'>neu</Tooltip>}
-        placement='top'
+        overlay={<Tooltip id="addButtonTooltip">neu</Tooltip>}
+        placement="top"
       >
         <Button
           onClick={addNewObject}
           disabled={!editObjects}
         >
-          <Glyphicon glyph='plus' />
+          <Glyphicon glyph="plus" />
         </Button>
       </OverlayTrigger>
     )
@@ -58,14 +64,14 @@ export default React.createClass({
     const { editObjects, removeObject } = this.props
     return (
       <OverlayTrigger
-        overlay={<Tooltip id='editingButtonTooltip'>löschen</Tooltip>}
-        placement='top'
+        overlay={<Tooltip id="editingButtonTooltip">löschen</Tooltip>}
+        placement="top"
       >
         <Button
           onClick={removeObject}
           disabled={!editObjects}
         >
-          <Glyphicon glyph='trash' />
+          <Glyphicon glyph="trash" />
         </Button>
       </OverlayTrigger>
     )
@@ -74,7 +80,7 @@ export default React.createClass({
   render() {
     const bgStyle = {
       float: 'right',
-      marginTop: -55 + 'px'
+      marginTop: `${-55}px`
     }
 
     return (

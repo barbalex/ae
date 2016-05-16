@@ -21,7 +21,7 @@ export default React.createClass({
     errors: React.PropTypes.array
   },
 
-  onClickRemove () {
+  onClickRemove() {
     app.Actions.showError()
   },
 

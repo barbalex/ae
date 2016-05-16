@@ -29,7 +29,7 @@ export default React.createClass({
     this.setState({ show: true })
   },
 
-  onClickRemove () {
+  onClickRemove() {
     /**
      * need this extra callback because the modal has to have state 'show: false'
      * otherwise when after deleting is reimported, the modal opens

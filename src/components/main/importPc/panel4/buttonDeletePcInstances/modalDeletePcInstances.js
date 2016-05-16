@@ -20,12 +20,12 @@ export default React.createClass({
     console.log('onHide')
   },
 
-  onClickRemove () {
+  onClickRemove() {
     const { onClickRemovePcInstances } = this.props
     onClickRemovePcInstances()
   },
 
-  schliessen () {
+  schliessen() {
     const { closeModal } = this.props
     closeModal()
   },

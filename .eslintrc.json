@@ -12,6 +12,7 @@
       "quotes": [2, "single"],
       "strict": 0,
       "max-len": ["error", 140, 4, {"ignoreUrls": true}],
-      "no-underscore-dangle": ["error", { "allow": ["_id", "_rev"] }]
+      "no-underscore-dangle": ["error", { "allow": ["_id", "_rev"] }],
+      "react/prefer-es6-class": 0
     }
 }

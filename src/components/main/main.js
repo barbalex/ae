@@ -20,8 +20,6 @@ import Errors from './errors.js'
 export default React.createClass({
   displayName: 'Main',
 
-  mixins: [ListenerMixin],
-
   propTypes: {
     object: React.PropTypes.object,
     onSaveObjectField: React.PropTypes.func,
@@ -61,6 +59,8 @@ export default React.createClass({
     userIsEsWriterInOrgs: React.PropTypes.array
   },
 
+  mixins: [ListenerMixin],
+
   getInitialState() {
     const formClassNames = window.innerWidth > 700 ? 'form form-horizontal' : 'form'
     return { formClassNames }
@@ -81,15 +81,51 @@ export default React.createClass({
   },
 
   render() {
-    const { allGroupsLoaded, groupsLoadedOrLoading, groupsLoadingObjects, object, onSaveObjectField, editObjects, toggleEditObjects, addNewObject, removeObject, synonymObjects, tcs, tcsQuerying, pcs, pcsQuerying, rcs, rcsQuerying, mainComponent, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, email, userRoles, replicatingToAe, replicatingToAeTime, offlineIndexes, organizations, activeOrganization, onChangeActiveOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, tcsOfActiveOrganization, pcsOfActiveOrganization, rcsOfActiveOrganization, errors } = this.props
+    const {
+      allGroupsLoaded,
+      groupsLoadedOrLoading,
+      groupsLoadingObjects,
+      object,
+      onSaveObjectField,
+      editObjects,
+      toggleEditObjects,
+      addNewObject,
+      removeObject,
+      synonymObjects,
+      tcs,
+      tcsQuerying,
+      pcs,
+      pcsQuerying,
+      rcs,
+      rcsQuerying,
+      mainComponent,
+      fieldsQuerying,
+      fieldsQueryingError,
+      taxonomyFields,
+      pcFields,
+      relationFields,
+      email,
+      userRoles,
+      replicatingToAe,
+      replicatingToAeTime,
+      offlineIndexes,
+      organizations,
+      activeOrganization,
+      onChangeActiveOrganization,
+      userIsAdminInOrgs,
+      userIsEsWriterInOrgs,
+      tcsOfActiveOrganization,
+      pcsOfActiveOrganization,
+      rcsOfActiveOrganization,
+      errors
+    } = this.props
     const { formClassNames } = this.state
     const showObject = object && Object.keys(object).length > 0 && !mainComponent
 
     return (
-      <fieldset id='main'>
-        <form className={formClassNames} autoComplete='off'>
-          <Errors
-            errors={errors} />
+      <fieldset id="main">
+        <form className={formClassNames} autoComplete="off">
+          <Errors errors={errors} />
           {
             showObject &&
             <Objekt
@@ -100,7 +136,8 @@ export default React.createClass({
               editObjects={editObjects}
               toggleEditObjects={toggleEditObjects}
               addNewObject={addNewObject}
-              removeObject={removeObject} />
+              removeObject={removeObject}
+            />
           }
           {
             mainComponent === 'importPc' &&
@@ -115,7 +152,8 @@ export default React.createClass({
               replicatingToAe={replicatingToAe}
               replicatingToAeTime={replicatingToAeTime}
               organizations={organizations}
-              userIsEsWriterInOrgs={userIsEsWriterInOrgs} />
+              userIsEsWriterInOrgs={userIsEsWriterInOrgs}
+            />
           }
           {
             mainComponent === 'importRc' &&
@@ -130,7 +168,8 @@ export default React.createClass({
               replicatingToAe={replicatingToAe}
               replicatingToAeTime={replicatingToAeTime}
               organizations={organizations}
-              userIsEsWriterInOrgs={userIsEsWriterInOrgs} />
+              userIsEsWriterInOrgs={userIsEsWriterInOrgs}
+            />
           }
           {
             mainComponent === 'exportieren' &&
@@ -146,7 +185,8 @@ export default React.createClass({
               rcs={rcs}
               pcsQuerying={pcsQuerying}
               rcsQuerying={rcsQuerying}
-              offlineIndexes={offlineIndexes} />
+              offlineIndexes={offlineIndexes}
+            />
           }
           {
             mainComponent === 'exportierenAlt' &&
@@ -162,7 +202,8 @@ export default React.createClass({
               rcs={rcs}
               pcsQuerying={pcsQuerying}
               rcsQuerying={rcsQuerying}
-              offlineIndexes={offlineIndexes} />
+              offlineIndexes={offlineIndexes}
+            />
           }
           {
             mainComponent === 'organizations' &&
@@ -178,7 +219,8 @@ export default React.createClass({
               rcsOfActiveOrganization={rcsOfActiveOrganization}
               onChangeActiveOrganization={onChangeActiveOrganization}
               userIsAdminInOrgs={userIsAdminInOrgs}
-              offlineIndexes={offlineIndexes} />
+              offlineIndexes={offlineIndexes}
+            />
           }
         </form>
       </fieldset>

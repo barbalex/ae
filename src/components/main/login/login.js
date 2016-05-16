@@ -41,7 +41,7 @@ export default React.createClass({
     // console.log('onHide')
   },
 
-  onKeyDownEmail (event) {
+  onKeyDownEmail(event) {
     const { password } = this.state
     const enter = 13
     if (event.keyCode === enter) {
@@ -52,7 +52,7 @@ export default React.createClass({
     }
   },
 
-  onKeyDownPassword (event) {
+  onKeyDownPassword(event) {
     const { email } = this.state
     const enter = 13
     if (event.keyCode === enter) {
@@ -63,92 +63,92 @@ export default React.createClass({
     }
   },
 
-  onKeyDownPassword2 (event) {
+  onKeyDownPassword2(event) {
     const enter = 13
     if (event.keyCode === enter) this.onClickSignup()
   },
 
-  logIn (email, password) {
+  onClickWantToSignup(event) {
+    if (event && event.preventDefault) event.preventDefault()
+    this.setState({ signUp: true })
+  },
+
+  onClickSignup() {
+    const { email, password, password2 } = this.state
+    if (this.isSigninValid(email, password, password2)) {
+      app.remoteDb.signup(email, password)
+        .then(() => this.logIn(email, password))
+        .catch((error) => this.setState({ email: null, loginError: error }))
+    }
+  },
+
+  onClickLogin() {
+    const { email, password } = this.state
+    this.checkSignin(email, password)
+  },
+
+  onChangeEmail(event) {
+    const email = event.target.value
+    this.setState({ email })
+  },
+
+  onBlurEmail(event) {
+    const email = event.target.value
+    this.isEmailValid(email)
+  },
+
+  onChangePassword(event) {
+    const password = event.target.value
+    this.setState({ password })
+  },
+
+  onChangePassword2(event) {
+    const password2 = event.target.value
+    this.setState({ password2 })
+  },
+
+  onBlurPassword2(event) {
+    const password2 = event.target.value
+    this.isPassword2Valid(password2)
+  },
+
+  onAlertDismiss() {
+    this.setState({ loginError: null })
+  },
+
+  logIn(email, password) {
     app.remoteDb.login(email, password)
       .then((response) => app.Actions.login({
         logIn: false,
-        email: email,
+        email,
         roles: response.roles
       }))
       .catch((error) => this.setState({ loginError: error }))
   },
 
-  checkSignin (email, password) {
+  checkSignin(email, password) {
     if (this.isSigninValid(email, password)) this.logIn(email, password)
   },
 
-  onClickWantToSignup (event) {
-    if (event && event.preventDefault) event.preventDefault()
-    this.setState({ signUp: true })
-  },
-
-  onClickSignup () {
-    const { email, password, password2 } = this.state
-    if (this.isSigninValid(email, password, password2)) {
-      app.remoteDb.signup(email, password)
-        .then((response) => this.logIn(email, password))
-        .catch((error) => this.setState({ email: null, loginError: error }))
-    }
-  },
-
-  onClickLogin () {
-    const { email, password } = this.state
-    this.checkSignin(email, password)
-  },
-
-  onChangeEmail (event) {
-    const email = event.target.value
-    this.setState({ email })
-  },
-
-  onBlurEmail (event) {
-    const email = event.target.value
-    this.isEmailValid(email)
-  },
-
-  onChangePassword (event) {
-    const password = event.target.value
-    this.setState({ password })
-  },
-
-  onChangePassword2 (event) {
-    const password2 = event.target.value
-    this.setState({ password2 })
-  },
-
-  onBlurPassword2 (event) {
-    const password2 = event.target.value
-    this.isPassword2Valid(password2)
-  },
-
-  onAlertDismiss () {
-    this.setState({ loginError: null })
-  },
-
-  schliessen () {
+  schliessen() {
     app.Actions.login({ logIn: false })
   },
 
-  isEmailValid (email) {
+  isEmailValid(email) {
     const validEmail = email && validateEmail(email)
     const invalidEmail = !validEmail
     this.setState({ invalidEmail })
     return validEmail
   },
 
-  isPasswordValid (password) {
+  isPasswordValid(password) {
     const validPassword = !!password
     const invalidPassword = !validPassword
     this.setState({ invalidPassword })
     return validPassword
   },
 
-  isPassword2Valid (password2) {
+  isPassword2Valid(password2) {
     const { password } = this.state
     const validPassword2 = password === password2
     const invalidPassword2 = !validPassword2
@@ -156,7 +156,7 @@ export default React.createClass({
     return validPassword2
   },
 
-  isSigninValid (email, password, password2) {
+  isSigninValid(email, password, password2) {
     const { signUp } = this.state
     const validEmail = this.isEmailValid(email)
     const validPassword = this.isPasswordValid(password)
@@ -168,69 +168,72 @@ export default React.createClass({
     return validSignin
   },
 
-  wantToSignupButtonComponent () {
+  wantToSignupButtonComponent() {
     return (
-      <Button
-        onClick={this.onClickWantToSignup}>
+      <Button onClick={this.onClickWantToSignup}>
         neues Konto erstellen
       </Button>
     )
   },
 
-  signupButtonComponent () {
+  signupButtonComponent() {
     return (
       <Button
-        className='btn-primary'
-        onClick={this.onClickSignup}>
+        className="btn-primary"
+        onClick={this.onClickSignup}
+      >
         Konto erstellen
       </Button>
     )
   },
 
-  signinButtonComponent () {
+  signinButtonComponent() {
     return (
       <Button
-        ref='anmeldenButton'
-        className='btn-primary'
-        onClick={this.onClickLogin}>
+        ref="anmeldenButton"
+        className="btn-primary"
+        onClick={this.onClickLogin}
+      >
         anmelden
       </Button>
     )
   },
 
-  forgotPasswordComponent () {
+  forgotPasswordComponent() {
     return (
       <p
-        className='Passwort'
-        style={{'marginBottom': -5 + 'px'}}>
-        Passwort vergessen?<br/>
-        <a href='mailto:alex@gabriel-software.ch'>Mailen Sie mir</a>, möglichst mit derselben email-Adresse, die Sie für das Konto verwenden.
+        className="Passwort"
+        style={{ marginBottom: `${-5}px` }}
+      >
+        Passwort vergessen?<br />
+        <a href="mailto:alex@gabriel-software.ch">
+          Mailen Sie mir
+        </a>, möglichst mit derselben email-Adresse, die Sie für das Konto verwenden.
       </p>
     )
   },
 
-  password2Component () {
+  password2Component() {
     const { invalidPassword2, password2 } = this.state
     const password2InputBsStyle = invalidPassword2 ? 'error' : null
     return (
-      <div
-        className='formGroup'>
+      <div className="formGroup">
         <Input
-          type='password'
-          id='password2'
-          label={'Passwort bestätigen'}
-          className={'controls'}
-          placeholder='Passwort bestätigen'
+          type="password"
+          id="password2"
+          label="Passwort bestätigen"
+          className="controls"
+          placeholder="Passwort bestätigen"
           value={password2}
           bsStyle={password2InputBsStyle}
           onChange={this.onChangePassword2}
           onBlur={this.onBlurPassword2}
           onKeyDown={this.onKeyDownPassword2}
-          required />
+          required
+        />
         {
           invalidPassword2 &&
-          <div
-            className='validateDivAfterRBC'>
+          <div className="validateDivAfterRBC">
             Passwort stimmt nicht überein
           </div>
         }
@@ -248,9 +251,8 @@ export default React.createClass({
     }
 
     return (
-      <div className='static-modal'>
-        <Modal.Dialog
-          onHide={this.onHide}>
+      <div className="static-modal">
+        <Modal.Dialog onHide={this.onHide}>
           <Modal.Header>
             <Modal.Title>
               {
@@ -263,56 +265,55 @@ export default React.createClass({
 
           <Modal.Body>
             <form
-              className={'form'}
-              autoComplete='off'>
+              className="form"
+              autoComplete="off"
+            >
               {
                 !signUp &&
-                <p className='anmelden'>
+                <p className="anmelden">
                   Für diese Funktion müssen Sie angemeldet sein
                 </p>
               }
-              <div
-                className='formGroup'>
+              <div className="formGroup">
                 <Input
-                  type='email'
-                  id='email'
-                  label={'Email'}
-                  bsSize='small'
-                  className={'controls'}
-                  placeholder='Email'
+                  type="email"
+                  id="email"
+                  label="Email"
+                  bsSize="small"
+                  className="controls"
+                  placeholder="Email"
                   value={email}
                   bsStyle={emailInputBsStyle}
                   onChange={this.onChangeEmail}
                   onBlur={this.onBlurEmail}
                   onKeyDown={this.onKeyDownEmail}
                   required
-                  autoFocus />
+                  autoFocus
+                />
                 {
                   invalidEmail &&
-                  <div
-                    className='validateDivAfterRBC'>
+                  <div className="validateDivAfterRBC">
                     Bitte Email prüfen
                   </div>
                 }
               </div>
-              <div
-                className='formGroup'>
+              <div className="formGroup">
                 <Input
-                  type='password'
-                  id='password'
-                  label={'Passwort'}
-                  className={'controls'}
-                  placeholder='Passwort'
+                  type="password"
+                  id="password"
+                  label="Passwort"
+                  className="controls"
+                  placeholder="Passwort"
                   value={password}
                   bsStyle={passwordInputBsStyle}
                   onChange={this.onChangePassword}
                   onBlur={this.onBlurPassword}
                   onKeyDown={this.onKeyDownPassword}
-                  required />
+                  required
+                />
                 {
                   invalidPassword &&
-                  <div
-                    className='validateDivAfterRBC'>
+                  <div className="validateDivAfterRBC">
                     Bitte Passwort prüfen
                   </div>
                 }
@@ -320,11 +321,12 @@ export default React.createClass({
               {
                 loginErrorMessage && !signUp &&
                 <Alert
-                  bsStyle='danger'
+                  bsStyle="danger"
                   onDismiss={this.onAlertDismiss}
-                  style={styleAlert}>
-                  Fehler beim Anmelden: {loginErrorMessage}<br/>
-                  Müssen Sie <a href='#' onClick={this.onClickWantToSignup}>ein Konto erstellen?</a>
+                  style={styleAlert}
+                >
+                  Fehler beim Anmelden: {loginErrorMessage}<br />
+                  Müssen Sie <a href="#" onClick={this.onClickWantToSignup}>ein Konto erstellen?</a>
                 </Alert>
               }
               {
@@ -351,8 +353,7 @@ export default React.createClass({
               signUp &&
               this.signupButtonComponent()
             }
-            <Button
-              onClick={this.schliessen}>
+            <Button onClick={this.schliessen}>
               schliessen
             </Button>
           </Modal.Footer>

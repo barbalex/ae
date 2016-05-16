@@ -21,7 +21,7 @@ export default React.createClass({
     onClickDeleteRc()
   },
 
-  schliessen () {
+  schliessen() {
     const { closeModal } = this.props
     closeModal()
   },

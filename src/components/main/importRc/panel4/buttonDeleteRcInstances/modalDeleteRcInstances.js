@@ -20,12 +20,12 @@ export default React.createClass({
     console.log('onHide')
   },
 
-  onClickRemove () {
+  onClickRemove() {
     const { onClickRemoveRcInstances } = this.props
     onClickRemoveRcInstances()
   },
 
-  schliessen () {
+  schliessen() {
     const { closeModal } = this.props
     closeModal()
   },
@@ -34,17 +34,26 @@ export default React.createClass({
     const { name } = this.props
 
     return (
-      <div className='static-modal'>
+      <div className="static-modal">
         <Modal.Dialog onHide={this.onHide}>
           <Modal.Header>
             <Modal.Title>Beziehungssammlung "{name}" entfernen</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <p>Sie möchten die Beziehungssammlung "{name}" und alle ihre Eigenschaften endgültig aus allen in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen?</p>
+            <p>
+              Sie möchten die Beziehungssammlung "{name}" und alle ihre Eigenschaften endgültig aus allen in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen?
+            </p>
           </Modal.Body>
           <Modal.Footer>
-            <Button bsStyle='danger' onClick={this.onClickRemove}>ja, entfernen!</Button>
-            <Button onClick={this.schliessen}>schliessen</Button>
+            <Button
+              bsStyle="danger"
+              onClick={this.onClickRemove}
+            >
+              ja, entfernen!
+            </Button>
+            <Button onClick={this.schliessen}>
+              schliessen
+            </Button>
           </Modal.Footer>
         </Modal.Dialog>
       </div>

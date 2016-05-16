@@ -25,7 +25,19 @@ export default React.createClass({
   },
 
   render() {
-    const { name, rcsRemoved, idsOfAeObjects, idsNotImportable, panel3Done, importingProgress, deletingRcInstancesProgress, replicatingToAe, replicatingToAeTime, onClickImportieren, onClickRemoveRcInstances } = this.props
+    const {
+      name,
+      rcsRemoved,
+      idsOfAeObjects,
+      idsNotImportable,
+      panel3Done,
+      importingProgress,
+      deletingRcInstancesProgress,
+      replicatingToAe,
+      replicatingToAeTime,
+      onClickImportieren,
+      onClickRemoveRcInstances
+    } = this.props
     const showDeleteRcInstancesButton = panel3Done
     const showProgressbarImport = importingProgress !== null && !rcsRemoved
     const showAlertFirst5Imported = importingProgress === 100 && !rcsRemoved
@@ -35,9 +47,10 @@ export default React.createClass({
         {
           panel3Done &&
           <Button
-            className='btn-primary'
-            onClick={onClickImportieren}>
-            <Glyphicon glyph='download-alt'/> Eigenschaftensammlung "{name}" importieren
+            className="btn-primary"
+            onClick={onClickImportieren}
+          >
+            <Glyphicon glyph="download-alt" /> Eigenschaftensammlung "{name}" importieren
           </Button>
         }
         {
@@ -46,12 +59,12 @@ export default React.createClass({
             name={name}
             rcsRemoved={rcsRemoved}
             deletingRcInstancesProgress={deletingRcInstancesProgress}
-            onClickRemoveRcInstances={onClickRemoveRcInstances} />
+            onClickRemoveRcInstances={onClickRemoveRcInstances}
+          />
         }
         {
           showProgressbarImport &&
-          <ProgressbarImport
-            importingProgress={importingProgress} />
+          <ProgressbarImport importingProgress={importingProgress} />
         }
         {
           showAlertFirst5Imported &&
@@ -59,14 +72,16 @@ export default React.createClass({
             idsOfAeObjects={idsOfAeObjects}
             idsNotImportable={idsNotImportable}
             replicatingToAe={replicatingToAe}
-            replicatingToAeTime={replicatingToAeTime} />
+            replicatingToAeTime={replicatingToAeTime}
+          />
         }
         {
           deletingRcInstancesProgress !== null &&
           <ProgressBar
-            bsStyle='success'
+            bsStyle="success"
             now={deletingRcInstancesProgress}
-            label={`${deletingRcInstancesProgress}% entfernt`} />
+            label={`${deletingRcInstancesProgress}% entfernt`}
+          />
         }
         {
           deletingRcInstancesProgress === 100 &&
@@ -74,7 +89,8 @@ export default React.createClass({
             idsOfAeObjects={idsOfAeObjects}
             nameBestehend={name}
             replicatingToAe={replicatingToAe}
-            replicatingToAeTime={replicatingToAeTime} />
+            replicatingToAeTime={replicatingToAeTime}
+          />
         }
       </div>
     )
