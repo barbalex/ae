@@ -26,13 +26,35 @@ export default React.createClass({
   },
 
   componentDidMount() {
-    const { exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, oneRowPerRelation, combineTaxonomies } = this.props
+    const {
+      exportOptions,
+      onlyObjectsWithCollectionData,
+      includeDataFromSynonyms,
+      oneRowPerRelation,
+      combineTaxonomies
+    } = this.props
     // make sure, pcs are queried
-    app.Actions.buildExportData({ exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, oneRowPerRelation, combineTaxonomies })
+    app.Actions.buildExportData({
+      exportOptions,
+      onlyObjectsWithCollectionData,
+      includeDataFromSynonyms,
+      oneRowPerRelation,
+      combineTaxonomies
+    })
   },
 
   render() {
-    const { exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, oneRowPerRelation, combineTaxonomies, format, onChangeFormat, exportObjects, errorBuildingExportData } = this.props
+    const {
+      exportOptions,
+      onlyObjectsWithCollectionData,
+      includeDataFromSynonyms,
+      oneRowPerRelation,
+      combineTaxonomies,
+      format,
+      onChangeFormat,
+      exportObjects,
+      errorBuildingExportData
+    } = this.props
     const showAlertBuildingData = exportObjects.length === 0 && !errorBuildingExportData
     const showExportComponents = exportObjects.length > 0
 
@@ -44,11 +66,13 @@ export default React.createClass({
           onlyObjectsWithCollectionData={onlyObjectsWithCollectionData}
           includeDataFromSynonyms={includeDataFromSynonyms}
           oneRowPerRelation={oneRowPerRelation}
-          combineTaxonomies={combineTaxonomies} />
+          combineTaxonomies={combineTaxonomies}
+        />
         {
           exportObjects.length > 0 &&
           <TablePreview
-            exportObjects={exportObjects} />
+            exportObjects={exportObjects}
+          />
         }
         {
           showAlertBuildingData &&
@@ -57,19 +81,22 @@ export default React.createClass({
         {
           errorBuildingExportData &&
           <AlertErrorBuildingExportData
-            errorBuildingExportData={errorBuildingExportData} />
+            errorBuildingExportData={errorBuildingExportData}
+          />
         }
         {
           showExportComponents &&
           <WellFormat
             format={format}
-            onChangeFormat={onChangeFormat} />
+            onChangeFormat={onChangeFormat}
+          />
         }
         {
           showExportComponents &&
           <ButtonExport
             exportObjects={exportObjects}
-            format={format} />
+            format={format}
+          />
         }
       </div>
     )

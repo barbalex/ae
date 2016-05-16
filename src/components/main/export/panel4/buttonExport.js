@@ -12,14 +12,17 @@ export default React.createClass({
     format: React.PropTypes.string
   },
 
-  onClick () {
+  onClick() {
     const { exportObjects, format } = this.props
     download(exportObjects, format)
   },
 
   render() {
     return (
-      <Button bsStyle='primary' onClick={this.onClick}>
+      <Button
+        bsStyle="primary"
+        onClick={this.onClick}
+      >
         herunterladen
       </Button>
     )
