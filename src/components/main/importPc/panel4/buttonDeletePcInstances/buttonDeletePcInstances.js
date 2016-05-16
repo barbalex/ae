@@ -21,11 +21,7 @@ export default React.createClass({
     }
   },
 
-  closeModal () {
-    this.setState({ show: false })
-  },
-
-  onClickDeletePcInstances () {
+  onClickDeletePcInstances() {
     this.setState({ show: true })
   },
 
@@ -36,6 +32,10 @@ export default React.createClass({
      */
     const { onClickRemovePcInstances } = this.props
     onClickRemovePcInstances()
+    this.setState({ show: false })
+  },
+
+  closeModal() {
     this.setState({ show: false })
   },
 
@@ -50,17 +50,21 @@ export default React.createClass({
     return (
       <div style={divStyle}>
         <Button
-          bsStyle='danger'
+          bsStyle="danger"
           onClick={this.onClickDeletePcInstances}
-          disabled={pcsRemoved}>
-          <Glyphicon glyph='trash'/> Eigenschaftensammlung "{name}" aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen
+          disabled={pcsRemoved}
+        >
+          <Glyphicon glyph="trash" />
+          &nbsp;
+          Eigenschaftensammlung "{name}" aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen
         </Button>
         {
           showConfirmModal &&
           <ModalDeletePcInstances
             name={name}
             onClickRemovePcInstances={this.onClickRemove}
-            closeModal={this.closeModal} />
+            closeModal={this.closeModal}
+          />
         }
       </div>
     )
