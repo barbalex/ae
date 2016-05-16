@@ -432,7 +432,7 @@ export default React.createClass({
     this.setState({ importingProgress, rcsRemoved }, () => app.Actions.deleteRcInstances(name, idsOfAeObjects))
   },
 
-  onClickPanel (number, event) {
+  onClickPanel(number, event) {
     let { activePanel } = this.state
     const { allGroupsLoaded } = this.props
 

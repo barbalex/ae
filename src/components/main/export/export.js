@@ -154,7 +154,7 @@ export default React.createClass({
     // console.log('handleOnSelectPanel, activeKey', activeKey)
   },
 
-  onClickPanel (number, event) {
+  onClickPanel(number, event) {
     let { activePanel } = this.state
     // make sure the heading was clicked
     const parent = event.target.parentElement

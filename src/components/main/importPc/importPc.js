@@ -373,7 +373,7 @@ export default React.createClass({
     this.setState({ importingProgress, pcsRemoved }, () => app.Actions.deletePcInstances(name, idsOfAeObjects))
   },
 
-  onClickPanel (number, event) {
+  onClickPanel(number, event) {
     let { activePanel } = this.state
     const { allGroupsLoaded } = this.props
 

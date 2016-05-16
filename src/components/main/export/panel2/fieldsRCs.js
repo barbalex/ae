@@ -30,8 +30,8 @@ export default React.createClass({
     if (numberOfCollections === 1 && activePanel !== 0) this.setState({ activePanel: 0 })
   },
 
-  onClickPanel (number, event) {
-    let { activePanel } = this.state
+  onClickPanel(number, event) {
+    const { activePanel } = this.state
     // prevent higher level panels from reacting
     event.stopPropagation()
 
@@ -57,14 +57,15 @@ export default React.createClass({
     const collections = collectionKeysSorted.map((cNameKey, cIndex) => {
       const collectionKey = cNameKey.toLowerCase()
       const openPanel = activePanelOpeningWhenOnlyOneCollection === cIndex
-      const rc = rcs.find((rc) => rc.name === cNameKey)
+      const rc = rcs.find((c) => c.name === cNameKey)
       return (
         <Panel
           key={collectionKey}
           collapsible
           header={rc.name}
           eventKey={cIndex}
-          onClick={this.onClickPanel.bind(this, cIndex)}>
+          onClick={this.onClickPanel.bind(this, cIndex)}
+        >
           {
             openPanel &&
             <FieldsRCsPanel
@@ -73,7 +74,8 @@ export default React.createClass({
               onChangeFilterField={onChangeFilterField}
               onChangeCoSelect={onChangeCoSelect}
               rcs={rcs}
-              exportOptions={exportOptions} />
+              exportOptions={exportOptions}
+            />
           }
         </Panel>
       )
@@ -81,7 +83,8 @@ export default React.createClass({
 
     return (
       <Accordion
-        activeKey={activePanelOpeningWhenOnlyOneCollection}>
+        activeKey={activePanelOpeningWhenOnlyOneCollection}
+      >
         {collections}
       </Accordion>
     )

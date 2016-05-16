@@ -30,7 +30,7 @@ export default React.createClass({
     }
   },
 
-  onClickPanel (number, event) {
+  onClickPanel(number, event) {
     let { activePanel } = this.state
     // prevent higher level panels from reacting
     event.stopPropagation()

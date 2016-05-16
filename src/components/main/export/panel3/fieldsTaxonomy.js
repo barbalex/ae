@@ -30,7 +30,7 @@ export default React.createClass({
     if (numberOfCollections === 1 && activePanel !== 0) this.setState({ activePanel: 0 })
   },
 
-  onClickPanel (number, event) {
+  onClickPanel(number, event) {
     let { activePanel } = this.state
     // prevent higher level panels from reacting
     event.stopPropagation()
