@@ -20,14 +20,14 @@ export default React.createClass({
     onSaveObjectField: React.PropTypes.func
   },
 
-  onChange () {
+  onChange() {
     const { fieldName, pcType, pcName, onSaveObjectField } = this.props
     const fieldValue = this.myInput.value
     const save = false
     onSaveObjectField(pcType, pcName, fieldName, fieldValue, save)
   },
 
-  onBlur () {
+  onBlur() {
     const { fieldName, fieldValue, pcType, pcName, onSaveObjectField } = this.props
     const newFieldValue = this.myInput.value
     if (newFieldValue !== fieldValue) {

@@ -18,7 +18,7 @@ export default React.createClass({
     this.props.onChangeLink(link)
   },
 
-  onBlur () {
+  onBlur() {
     this.props.onBlurLink()
   },
 
