@@ -4,28 +4,19 @@ import React from 'react'
 import { Button } from 'react-bootstrap'
 import download from './download.js'
 
-export default React.createClass({
-  displayName: 'ButtonExport',
+const ButtonExport = ({ exportObjects, format }) =>
+  <Button
+    bsStyle="primary"
+    onClick={() => download(exportObjects, format)}
+  >
+    herunterladen
+  </Button>
 
-  propTypes: {
-    exportObjects: React.PropTypes.array,
-    format: React.PropTypes.string
-  },
+ButtonExport.displayName = 'ButtonExport'
 
-  onClick() {
-    const { exportObjects, format } = this.props
-    download(exportObjects, format)
-  },
+ButtonExport.propTypes = {
+  exportObjects: React.PropTypes.array,
+  format: React.PropTypes.string
+}
 
-  render() {
-    return (
-      <Button
-        bsStyle="primary"
-        onClick={this.onClick}
-      >
-        herunterladen
-      </Button>
-    )
-  }
-
-})
+export default ButtonExport
