@@ -23,8 +23,6 @@ const gruppen = getGruppen()
 export default React.createClass({
   displayName: 'Home',
 
-  mixins: [ListenerMixin],
-
   propTypes: {
     hierarchy: React.PropTypes.object,
     gruppe: React.PropTypes.string,
@@ -69,32 +67,38 @@ export default React.createClass({
     errors: React.PropTypes.array
   },
 
+  mixins: [ListenerMixin],
+
   getInitialState() {
     const { gruppe, guid, path, mainComponent, email } = this.props
     const groupsLoadedOrLoading = gruppe ? [gruppe] : []
 
-    // this happens on first load
-    // need to kick off stores
-    if (!(path.length === 2 && path[0] === 'importieren') && !(path.length === 1 && path[0] === 'organisationen') && !(path.length === 1 && path[0] === 'exportieren') && path[0]) {
+    const isFirstLoad = (
+      !(path.length === 2 && path[0] === 'importieren') &&
+      !(path.length === 1 && path[0] === 'organisationen') &&
+      !(path.length === 1 && path[0] === 'exportieren') && path[0]
+    )
+    if (isFirstLoad) {
+      // need to kick off stores
       // this would be an object url
       kickOffStores(path, gruppe, guid)
     }
 
     return {
       hierarchy: [],
-      groupsLoadedOrLoading: groupsLoadedOrLoading,
+      groupsLoadedOrLoading,
       groupsLoadingObjects: [],
       allGroupsLoaded: false,
-      path: path,
+      path,
       synonymObjects: [],
       object: undefined,
       editObjects: false,
-      guid: guid,
+      guid,
       filterOptions: [],
       loadingFilterOptions: false,
-      mainComponent: mainComponent,
+      mainComponent,
       logIn: false,
-      email: email,
+      email,
       userRoles: [],
       replicatingToAe: null,
       replicatingToAeTime: null,
@@ -148,16 +152,32 @@ export default React.createClass({
     this.listenTo(app.errorStore, this.onErrorStoreChange)
   },
 
-  onErrorStoreChange (errors) {
+  onErrorStoreChange(errors) {
     console.log('home.js, onErrorStoreChange, errors', errors)
     this.setState({ errors })
   },
 
-  onOrganizationsStoreChange ({ organizations, activeOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, tcsOfActiveOrganization, pcsOfActiveOrganization, rcsOfActiveOrganization }) {
-    this.setState({ organizations, activeOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, tcsOfActiveOrganization, pcsOfActiveOrganization, rcsOfActiveOrganization })
+  onOrganizationsStoreChange({
+    organizations,
+    activeOrganization,
+    userIsAdminInOrgs,
+    userIsEsWriterInOrgs,
+    tcsOfActiveOrganization,
+    pcsOfActiveOrganization,
+    rcsOfActiveOrganization
+  }) {
+    this.setState({
+      organizations,
+      activeOrganization,
+      userIsAdminInOrgs,
+      userIsEsWriterInOrgs,
+      tcsOfActiveOrganization,
+      pcsOfActiveOrganization,
+      rcsOfActiveOrganization
+    })
   },
 
-  onChangeActiveOrganization (event) {
+  onChangeActiveOrganization(event) {
     const activeOrganizationName = event.target.value
     app.Actions.setActiveOrganization(activeOrganizationName)
     app.Actions.getTcsOfOrganization(activeOrganizationName)
@@ -165,44 +185,44 @@ export default React.createClass({
     app.Actions.getRcsOfOrganization(activeOrganizationName)
   },
 
-  onChangeTaxonomyCollectionsStore (tcs, tcsQuerying) {
+  onChangeTaxonomyCollectionsStore(tcs, tcsQuerying) {
     this.setState({ tcs, tcsQuerying })
   },
 
-  onChangePropertyCollectionsStore (pcs, pcsQuerying) {
+  onChangePropertyCollectionsStore(pcs, pcsQuerying) {
     this.setState({ pcs, pcsQuerying })
   },
 
-  onChangeRelationCollectionsStore (rcs, rcsQuerying) {
+  onChangeRelationCollectionsStore(rcs, rcsQuerying) {
     this.setState({ rcs, rcsQuerying })
   },
 
-  onChangeFieldsStore (state) {
+  onChangeFieldsStore(state) {
     this.setState(state)
   },
 
-  onChangeObjectsPcsStore () {
+  onChangeObjectsPcsStore() {
     // set back replication to ae state
     const replicatingToAe = null
     const replicatingToAeTime = null
     this.setState({ replicatingToAe, replicatingToAeTime })
   },
 
-  onReplicateFromRemoteDbStoreChange (replicatingFromAe) {
+  onReplicateFromRemoteDbStoreChange(replicatingFromAe) {
     const replicatingFromAeTime = moment().format('HH:mm')
     this.setState({ replicatingFromAe, replicatingFromAeTime })
   },
 
-  onRebuildingRedundantDataStoreChange (message) {
+  onRebuildingRedundantDataStoreChange(message) {
     this.setState({ rebuildingRedundantData: message })
   },
 
-  onReplicateToRemoteDbStoreChange (replicatingToAe) {
+  onReplicateToRemoteDbStoreChange(replicatingToAe) {
     const replicatingToAeTime = moment().format('HH:mm')
     this.setState({ replicatingToAe, replicatingToAeTime })
   },
 
-  onLoadingGroupsStoreChange (payload) {
+  onLoadingGroupsStoreChange(payload) {
     const { groupsLoadingObjects, groupsLoaded } = payload
     const groupsLoading = map(groupsLoadingObjects, 'group')
     // add groups loading to groups loaded to hide the group checkbox of the loading group
@@ -213,59 +233,46 @@ export default React.createClass({
     this.setState({ groupsLoadingObjects, groupsLoadedOrLoading, allGroupsLoaded })
   },
 
-  onLoginStoreChange ({ logIn, email, roles: userRoles }) {
+  onLoginStoreChange({ logIn, email, roles: userRoles }) {
     this.setState({ logIn, email, userRoles })
   },
 
-  onActivePathStoreChange ({ path, guid, gruppe, mainComponent }) {
+  onActivePathStoreChange({ path, guid, gruppe, mainComponent }) {
     this.setState({ path, guid, gruppe, mainComponent })
     // navigate
-    const url = '/' + path.join('/') + (guid ? '?id=' + guid : '')
+    const url = `/${path.join('/')}${guid ? `?id=${guid}` : ''}`
     app.router.navigate(url)
   },
 
-  onObjectStoreChange (hierarchy) {
-    hierarchy = hierarchy || this.state.hierarchy
+  onObjectStoreChange(hierarchyPassed) {
+    const hierarchy = hierarchyPassed || this.state.hierarchy
     this.setState({ hierarchy })
   },
 
-  onActiveObjectStoreChange (object, synonymObjects) {
+  onActiveObjectStoreChange(object, synonymObjects) {
     const guid = object._id
     this.setState({ object, guid, synonymObjects })
   },
 
-  onFilterOptionsStoreChange ({ filterOptions, loading: loadingFilterOptions }) {
+  onFilterOptionsStoreChange({ filterOptions, loading: loadingFilterOptions }) {
     let state = { loadingFilterOptions }
     if (filterOptions) state = Object.assign(state, { filterOptions })
     this.setState(state)
   },
 
-  onClickToggleOfflineIndexes () {
+  onClickToggleOfflineIndexes() {
     let { offlineIndexes } = this.state
     offlineIndexes = !offlineIndexes
     this.setState({ offlineIndexes })
   },
 
-  toggleEditObjects () {
-    const { editObjects } = this.state
-    this.setState({ editObjects: !editObjects })
-  },
-
-  addNewObject () {
-    app.Actions.showError({title: 'Dieses Feature ist noch nicht implementiert'})
-  },
-
-  removeObject () {
-    app.Actions.showError({title: 'Dieses Feature ist noch nicht implementiert'})
-  },
-
-  onSaveObjectField (pcType, pcName, fieldName, fieldValue, save) {
-    let { object } = this.state
+  onSaveObjectField(pcType, pcName, fieldName, fieldValue, save) {
+    const { object } = this.state
     const pcTypeHash = {
-      'Taxonomie': 'Taxonomien',
-      'Datensammlung': 'Eigenschaftensammlungen',
-      'Eigenschaftensammlung': 'Eigenschaftensammlungen',
-      'Beziehungssammlung': 'Beziehungssammlungen'
+      Taxonomie: 'Taxonomien',
+      Datensammlung: 'Eigenschaftensammlungen',
+      Eigenschaftensammlung: 'Eigenschaftensammlungen',
+      Beziehungssammlung: 'Beziehungssammlungen'
     }
     if (object) {
       const collection = object[pcTypeHash[pcType]].find((pc) => pc.Name === pcName)
@@ -277,7 +284,7 @@ export default React.createClass({
         if (save && pcType === 'Taxonomie' && eigenschaften.Hierarchie) {
           const hO = buildHierarchyObjectFromObjectForTaxonomy(object, pcName)
           if (hO) {
-            let hierarchy = eigenschaften.Hierarchie
+            const hierarchy = eigenschaften.Hierarchie
             hierarchy.pop()
             hierarchy.push(hO)
           }
@@ -290,8 +297,61 @@ export default React.createClass({
     }
   },
 
+  toggleEditObjects() {
+    const { editObjects } = this.state
+    this.setState({ editObjects: !editObjects })
+  },
+
+  addNewObject() {
+    app.Actions.showError({ title: 'Dieses Feature ist noch nicht implementiert' })
+  },
+
+  removeObject() {
+    app.Actions.showError({ title: 'Dieses Feature ist noch nicht implementiert' })
+  },
+
   render() {
-    const { hierarchy, path, synonymObjects, object, groupsLoadingObjects, allGroupsLoaded, filterOptions, loadingFilterOptions, mainComponent, logIn, email, userRoles, groupsLoadedOrLoading, replicatingToAe, replicatingToAeTime, replicatingFromAe, replicatingFromAeTime, tcs, pcs, tcsQuerying, rcs, pcsQuerying, rcsQuerying, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, offlineIndexes, organizations, activeOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, tcsOfActiveOrganization, pcsOfActiveOrganization, rcsOfActiveOrganization, editObjects, rebuildingRedundantData, errors } = this.state
+    const {
+      hierarchy,
+      path,
+      synonymObjects,
+      object,
+      groupsLoadingObjects,
+      allGroupsLoaded,
+      filterOptions,
+      loadingFilterOptions,
+      mainComponent,
+      logIn,
+      email,
+      userRoles,
+      groupsLoadedOrLoading,
+      replicatingToAe,
+      replicatingToAeTime,
+      replicatingFromAe,
+      replicatingFromAeTime,
+      tcs,
+      pcs,
+      tcsQuerying,
+      rcs,
+      pcsQuerying,
+      rcsQuerying,
+      fieldsQuerying,
+      fieldsQueryingError,
+      taxonomyFields,
+      pcFields,
+      relationFields,
+      offlineIndexes,
+      organizations,
+      activeOrganization,
+      userIsAdminInOrgs,
+      userIsEsWriterInOrgs,
+      tcsOfActiveOrganization,
+      pcsOfActiveOrganization,
+      rcsOfActiveOrganization,
+      editObjects,
+      rebuildingRedundantData,
+      errors
+    } = this.state
     const groupsNotLoaded = difference(gruppen, groupsLoadedOrLoading)
     const showGruppen = groupsNotLoaded.length > 0
     const showFilter = filterOptions.length > 0 || loadingFilterOptions
@@ -311,24 +371,28 @@ export default React.createClass({
           <MenuButton
             object={object}
             offlineIndexes={offlineIndexes}
-            onClickToggleOfflineIndexes={this.onClickToggleOfflineIndexes} />
+            onClickToggleOfflineIndexes={this.onClickToggleOfflineIndexes}
+          />
         }
         {
           showMenu &&
-          <div id='menu' className='menu'>
-            <div id='menuLine'>
+          <div
+            id="menu"
+            className="menu"
+          >
+            <div id="menuLine">
               <ResizeButton />
             </div>
             {
               showGruppen &&
-              <Groups
-                groupsLoadedOrLoading={groupsLoadedOrLoading} />
+              <Groups groupsLoadedOrLoading={groupsLoadedOrLoading} />
             }
             {
               showFilter &&
               <Filter
                 filterOptions={filterOptions}
-                loadingFilterOptions={loadingFilterOptions} />
+                loadingFilterOptions={loadingFilterOptions}
+              />
             }
             {
               showTree &&
@@ -337,7 +401,8 @@ export default React.createClass({
                 groupsLoadingObjects={groupsLoadingObjects}
                 allGroupsLoaded={allGroupsLoaded}
                 object={object}
-                path={path} />
+                path={path}
+              />
             }
           </div>
         }
@@ -352,7 +417,8 @@ export default React.createClass({
           replicatingToAeTime={replicatingToAeTime}
           replicatingFromAe={replicatingFromAe}
           replicatingFromAeTime={replicatingFromAeTime}
-          rebuildingRedundantData={rebuildingRedundantData} />
+          rebuildingRedundantData={rebuildingRedundantData}
+        />
         {
           showMain &&
           <Main
@@ -391,7 +457,8 @@ export default React.createClass({
             onChangeActiveOrganization={this.onChangeActiveOrganization}
             userIsAdminInOrgs={userIsAdminInOrgs}
             userIsEsWriterInOrgs={userIsEsWriterInOrgs}
-            errors={errors} />
+            errors={errors}
+          />
         }
         {
           showLogin &&

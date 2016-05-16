@@ -11,8 +11,9 @@
       "semi": [2, "never"],
       "quotes": [2, "single"],
       "strict": 0,
-      "max-len": ["error", 140, 4, {"ignoreUrls": true}],
+      "max-len": ["error", 120, 2, {"ignoreUrls": true}],
       "no-underscore-dangle": ["error", { "allow": ["_id", "_rev"] }],
+      // accept createClass because all are done that way...
       "react/prefer-es6-class": 0
     }
 }

@@ -25,7 +25,21 @@ export default React.createClass({
   },
 
   render() {
-    const { idsAeIdField, idsNumberOfRecordsWithIdValue, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, idsWithoutPartner, rPartnerIdsToImport, rPartnerIdsImportable, idsImportIdField, rcsToImport, onChangeAeId, onChangeImportId } = this.props
+    const {
+      idsAeIdField,
+      idsNumberOfRecordsWithIdValue,
+      idsNumberImportable,
+      idsNotImportable,
+      idsNotANumber,
+      idsAnalysisComplete,
+      idsWithoutPartner,
+      rPartnerIdsToImport,
+      rPartnerIdsImportable,
+      idsImportIdField,
+      rcsToImport,
+      onChangeAeId,
+      onChangeImportId
+    } = this.props
 
     return (
       <div>
@@ -34,11 +48,13 @@ export default React.createClass({
           <InputImportFields
             idsImportIdField={idsImportIdField}
             rcsToImport={rcsToImport}
-            onChangeImportId={onChangeImportId} />
+            onChangeImportId={onChangeImportId}
+          />
         }
         <InputAeId
           idsAeIdField={idsAeIdField}
-          onChangeAeId={onChangeAeId} />
+          onChangeAeId={onChangeAeId}
+        />
         {
           idsImportIdField && idsAeIdField &&
           <AlertIdsAnalysisResult
@@ -52,7 +68,8 @@ export default React.createClass({
             idsNotANumber={idsNotANumber}
             idsWithoutPartner={idsWithoutPartner}
             rPartnerIdsToImport={rPartnerIdsToImport}
-            rPartnerIdsImportable={rPartnerIdsImportable} />
+            rPartnerIdsImportable={rPartnerIdsImportable}
+          />
         }
       </div>
     )
