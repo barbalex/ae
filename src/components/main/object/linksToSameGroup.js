@@ -17,7 +17,7 @@ export default React.createClass({
     objects: React.PropTypes.arrayOf(React.PropTypes.object)
   },
 
-  onClick (guid, event) {
+  onClick(guid, event) {
     event.preventDefault()
     // console.log('FieldLinksToSameGroup guid', guid)
     if (guid) app.Actions.loadActiveObject(guid)
@@ -25,37 +25,36 @@ export default React.createClass({
 
   render() {
     const { objects, fieldName } = this.props
-    const linkArray = objects.map((object, index) => {
+    const linkArray = objects.map((object, index) =>
       getPathFromGuid(object.guid)
         .then((result) => {
           const url = result.url
           return (
             <p
               key={index}
-              className='controls feldtext'>
+              className="controls feldtext"
+            >
               <a
                 href={url}
-                className='form-control-static linkZuArtGleicherGruppe'
-                onClick={this.onClick.bind(this, object._id)}>
+                className="form-control-static linkZuArtGleicherGruppe"
+                onClick={this.onClick.bind(this, object._id)}
+              >
                 {object.Name}
               </a>
             </p>
           )
         })
         .catch((error) =>
-          app.Actions.showError({title: 'linksToSameGroup.js: error getting path for guid ' + object.guid + ':', msg: error})
+          app.Actions.showError({ title: `linksToSameGroup.js: error getting path for guid ${object.guid}:`, msg: error })
         )
-    })
+    )
 
     return (
-      <div
-        className='form-group'>
-        <label
-          className='control-label'>
-          {fieldName + ':'}
+      <div className="form-group">
+        <label className="control-label">
+          {`${fieldName}:`}
         </label>
-        <span
-          className='feldtext controls'>
+        <span className="feldtext controls">
           {linkArray}
         </span>
       </div>

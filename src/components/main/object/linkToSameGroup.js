@@ -28,18 +28,16 @@ export default React.createClass({
     const { fieldName, guid, objectName } = this.props
     const url = `/${guid}`
     return (
-      <div
-        className='form-group'>
-        <label
-          className='control-label'>
-          {fieldName + ':'}
+      <div className="form-group">
+        <label className="control-label">
+          {`${fieldName}:`}
         </label>
-        <p
-          className='form-control-static controls feldtext'>
+        <p className="form-control-static controls feldtext">
           <a
             href={url}
-            className='linkZuArtGleicherGruppe'
-            onClick={this.onClick} >
+            className="linkZuArtGleicherGruppe"
+            onClick={this.onClick}
+          >
             {objectName}
           </a>
         </p>

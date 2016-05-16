@@ -86,11 +86,12 @@ function buildFieldForProperty(propertyCollection, object, onSaveObjectField, va
         key={key}
         fieldName={key}
         fieldValue={value.toString()}
-        inputType='textarea'
+        inputType="textarea"
         pcType={pcType}
         pcName={pcName}
         collectionIsEditing={collectionIsEditing}
-        onSaveObjectField={onSaveObjectField} />
+        onSaveObjectField={onSaveObjectField}
+      />
     )
   }
   return (
@@ -101,7 +102,8 @@ function buildFieldForProperty(propertyCollection, object, onSaveObjectField, va
       pcType={pcType}
       pcName={pcName}
       collectionIsEditing={collectionIsEditing}
-      onSaveObjectField={onSaveObjectField} />
+      onSaveObjectField={onSaveObjectField}
+    />
   )
 }
 
@@ -121,13 +123,25 @@ export default React.createClass({
   },
 
   render() {
-    const { propertyCollection, pcType, object, onSaveObjectField, userRoles, editObjects, toggleEditObjects, addNewObject, removeObject } = this.props
+    const {
+      propertyCollection,
+      pcType,
+      object,
+      onSaveObjectField,
+      userRoles,
+      editObjects,
+      toggleEditObjects,
+      addNewObject,
+      removeObject
+    } = this.props
     const pcName = replaceInvalidCharactersInIdNames(propertyCollection.Name)
     const isLr = object.Gruppe === 'Lebensräume'
     const org = propertyCollection['Organisation mit Schreibrecht']
     const collectionIsEditable = isLr && (isUserLrWriter(userRoles, org) || isUserOrgAdmin(userRoles, org) || isUserServerAdmin(userRoles))
     const collectionIsEditing = collectionIsEditable && editObjects
-    const properties = map(propertyCollection.Eigenschaften, (value, key) => buildFieldForProperty(propertyCollection, object, onSaveObjectField, value, key, pcType, collectionIsEditing))
+    const properties = map(propertyCollection.Eigenschaften, (value, key) =>
+      buildFieldForProperty(propertyCollection, object, onSaveObjectField, value, key, pcType, collectionIsEditing)
+    )
     const showPcDescription = object.Gruppe !== 'Lebensräume' || pcType !== 'Taxonomie'
 
     /*
@@ -147,29 +161,31 @@ export default React.createClass({
       <Accordion>
         <Panel
           header={propertyCollection.Name}
-          eventKey='1'>
+          eventKey={1}
+        >
           {
             collectionIsEditable &&
-            <EditButtonGroup
-              editObjects={editObjects}
-              toggleEditObjects={toggleEditObjects}
-              addNewObject={addNewObject}
-              removeObject={removeObject} />
+              <EditButtonGroup
+                editObjects={editObjects}
+                toggleEditObjects={toggleEditObjects}
+                addNewObject={addNewObject}
+                removeObject={removeObject}
+              />
           }
           {
             showPcDescription &&
-            <PcDescription
-              pc={propertyCollection} />
+              <PcDescription pc={propertyCollection} />
           }
           <div>
             {
               pcType === 'Taxonomie' &&
-              <Field
-                fieldName='GUID'
-                fieldValue={object._id}
-                pcType={pcType}
-                pcName={pcName}
-                collectionIsEditing={false} />
+                <Field
+                  fieldName="GUID"
+                  fieldValue={object._id}
+                  pcType={pcType}
+                  pcName={pcName}
+                  collectionIsEditing={false}
+                />
             }
             {properties}
           </div>
