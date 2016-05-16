@@ -3,7 +3,7 @@
 import app from 'ampersand-app'
 import React from 'react'
 import { Accordion, Panel } from 'react-bootstrap'
-import { difference, get, map, omitBy, values} from 'lodash'
+import { difference, get, map, omitBy, values } from 'lodash'
 import { ListenerMixin } from 'reflux'
 import getObjectsFromFile from './getObjectsFromFile.js'
 import isValidUrl from '../../../modules/isValidUrl.js'
@@ -19,8 +19,6 @@ import isUserEsWriter from '../../../modules/isUserEsWriter.js'
 
 export default React.createClass({
   displayName: 'ImportRelationCollections',
-
-  mixins: [ListenerMixin],
 
   propTypes: {
     groupsLoadingObjects: React.PropTypes.array,
@@ -76,6 +74,8 @@ export default React.createClass({
     userIsEsWriterInOrgs: React.PropTypes.array
   },
 
+  mixins: [ListenerMixin],
+
   // nameBestehend ... nameUrsprungsBs: input fields
   // idsAnalysisComplete ... idsNotANumber: for analysing import file and id fields
   // panel1Done, panel2Done, panel3Done: to guide inputting
@@ -128,8 +128,7 @@ export default React.createClass({
   componentDidMount() {
     this.listenTo(app.objectsRcsStore, this.onChangeObjectsRcsStore)
     // show login of not logged in
-    const { offlineIndexes } = this.props
-    let { email } = this.props
+    const { offlineIndexes, email } = this.props
     if (!email) {
       const logIn = true
       app.Actions.login({ logIn })
@@ -138,11 +137,11 @@ export default React.createClass({
     app.Actions.queryRelationCollections(offlineIndexes)
   },
 
-  onChangeObjectsRcsStore (state) {
+  onChangeObjectsRcsStore(state) {
     this.setState(state)
   },
 
-  onChangeNameBestehend (nameBestehend) {
+  onChangeNameBestehend(nameBestehend) {
     const editingRcIsAllowed = this.isEditingRcAllowed(nameBestehend)
 
     if (nameBestehend) {
@@ -162,75 +161,56 @@ export default React.createClass({
             this.setState(state)
           }
         })
-        .catch((error) => app.Actions.showError({msg: error}))
+        .catch((error) => app.Actions.showError({ msg: error }))
     } else {
       this.setState({ nameBestehend: null })
     }
   },
 
-  onChangeOrgMitSchreibrecht (event) {
+  onChangeOrgMitSchreibrecht(event) {
     const orgMitSchreibrecht = event.target.value
     this.setState({ orgMitSchreibrecht })
   },
 
-  stateFollowingPanel1Reset () {
-    return {
-      rcsToImport: [],
-      idsOfAeObjects: [],
-      idsImportIdField: null,
-      idsAeIdField: null,
-      idsAnalysisComplete: false,
-      idsNumberOfRecordsWithIdValue: 0,
-      idsNumberImportable: 0,
-      idsNotImportable: [],
-      idsNotANumber: [],
-      importingProgress: null,
-      deletingRcInstancesProgress: null,
-      deletingRcProgress: null,
-      panel2Done: false,
-      panel3Done: false
-    }
-  },
-
-  onChangeName (name) {
+  onChangeName(name) {
     this.setState({ name })
   },
 
-  onBlurName (name) {
+  onBlurName(name) {
     this.isEditingRcAllowed(name)
   },
 
-  onChangeBeschreibung (beschreibung) {
+  onChangeBeschreibung(beschreibung) {
     this.setState({ beschreibung })
   },
 
-  onChangeDatenstand (datenstand) {
+  onChangeDatenstand(datenstand) {
     this.setState({ datenstand })
   },
 
-  onChangeNutzungsbedingungen (nutzungsbedingungen) {
+  onChangeNutzungsbedingungen(nutzungsbedingungen) {
     this.setState({ nutzungsbedingungen })
   },
 
-  onChangeLink (link) {
+  onChangeLink(link) {
     this.setState({ link })
   },
 
-  onBlurLink () {
+  onBlurLink() {
     this.isLinkValid()
   },
 
-  onChangeZusammenfassend (zusammenfassend) {
+  onChangeZusammenfassend(zusammenfassend) {
     const nameUrsprungsBs = null
     this.setState({ zusammenfassend, nameUrsprungsBs })
   },
 
-  onChangeNameUrsprungsBs (nameUrsprungsBs) {
+  onChangeNameUrsprungsBs(nameUrsprungsBs) {
     this.setState({ nameUrsprungsBs })
     this.isUrsprungsBsValid(nameUrsprungsBs)
   },
 
-  onChangeFile (event) {
+  onChangeFile(event) {
     // always empty rcsToImport first
     // otherwise weird things happen
     // also reset analysis
@@ -249,69 +229,35 @@ export default React.createClass({
           this.setState({ rcsToImport })
           this.isRcsToImportValid()
         })
-        .catch((error) => app.Actions.showError({title: 'Fehler beim Lesen der Datei:', msg: error}))
+        .catch((error) => app.Actions.showError({ title: 'Fehler beim Lesen der Datei:', msg: error }))
     }
   },
 
-  stateFollowingPanel2Reset () {
-    return {
-      idsOfAeObjects: [],
-      idsNumberOfRecordsWithIdValue: 0,
-      idsNumberImportable: 0,
-      idsNotImportable: [],
-      idsNotANumber: [],
-      importingProgress: null,
-      deletingRcInstancesProgress: null,
-      deletingRcProgress: null,
-      panel3Done: false
-    }
-  },
-
-  onChangeAeId (idsAeIdField) {
+  onChangeAeId(idsAeIdField) {
     const idsAnalysisComplete = false
     let state = { idsAeIdField, idsAnalysisComplete }
     state = Object.assign(state, this.stateFollowingPanel3Reset())
     this.setState(state, this.onChangeId)
   },
 
-  onChangeImportId (idsImportIdField) {
+  onChangeImportId(idsImportIdField) {
     const idsAnalysisComplete = false
     let state = { idsImportIdField, idsAnalysisComplete }
     state = Object.assign(state, this.stateFollowingPanel3Reset())
     this.setState(state, this.onChangeId)
   },
 
-  buildPartnerFromObject (object) {
-    const standardtaxonomie = object.Taxonomien.find((taxonomy) => taxonomy.Standardtaxonomie)
-    let partner = {}
-    partner.Gruppe = object.Gruppe
-    if (object.Gruppe === 'Lebensräume') {
-      partner.Taxonomie = get(standardtaxonomie, 'Name')
-      const label = get(standardtaxonomie, 'Eigenschaften.Label')
-      const einheit = get(standardtaxonomie, 'Eigenschaften.Einheit')
-      if (label) {
-        partner.Name = label + ': ' + einheit
-      } else {
-        partner.Name = einheit
-      }
-    } else {
-      partner.Name = standardtaxonomie.Eigenschaften['Artname vollständig']
-    }
-    partner.GUID = object._id
-    return partner
-  },
-
-  onChangeId () {
+  onChangeId() {
     const { idsAeIdField, idsImportIdField, rcsToImport } = this.state
     const { offlineIndexes } = this.props
 
     if (idsAeIdField && idsImportIdField) {
       // start analysis
       // make sure data in idsImportIdField is a number, if idsAeIdField is not a GUID
-      let idsNotANumber = []
+      const idsNotANumber = []
       if (idsAeIdField !== 'GUID') {
         // the id field in the import data should be a number
-        rcsToImport.forEach((rc, index) => {
+        rcsToImport.forEach((rc) => {
           if (!isNaN(rc[idsImportIdField])) {
             // the data in the field is a number
             // force it to be one
@@ -327,23 +273,23 @@ export default React.createClass({
       // - idsWithoutPartner
       // - rPartnerIdsToImport
       // - rPartnerIdsImportable
-      let idsWithoutPartner = []
-      let rPartnerIdsToImport = []
-      let rPartnerIdsImportable = []
+      const idsWithoutPartner = []
+      const rPartnerIdsToImport = []
+      const rPartnerIdsImportable = []
 
-      rcsToImport.forEach((rc, index) => {
+      rcsToImport.forEach((rc) => {
         // Beziehungspartner in import data can be a single guid or a list of guids split by ', '
         // in ae it needs to be an array of objects
-        let rPartnerIds = rc.Beziehungspartner.split(', ')
+        const rPartnerIds = rc.Beziehungspartner.split(', ')
         // analyse
         if (rPartnerIds.length === 0) idsWithoutPartner.push(rc[idsImportIdField])
         rPartnerIdsToImport.push(rPartnerIds)
         // build rc.Beziehungspartner
-        let rPartners = []
+        const rPartners = []
         // get an array of all partner objects
-        Promise.all(rPartnerIds.map((id) => {
-          return app.objectStore.getObject(id)
-        }))
+        Promise.all(rPartnerIds.map((id) =>
+          app.objectStore.getObject(id)
+        ))
         .then((objects) => {
           // now build rPartner for each rPartnerId
           objects.forEach((object) => {
@@ -355,7 +301,7 @@ export default React.createClass({
           rc.rPartners = rPartners
         })
         // ignore error - can simply be that no object was found for id
-        .catch((error) => {})  // eslint-disable-line handle-callback-err
+        .catch(() => {})
       })
       const rcPartnerState = { idsWithoutPartner, rPartnerIdsToImport, rPartnerIdsImportable }
 
@@ -393,38 +339,66 @@ export default React.createClass({
           // get ids not fetched
           const idsNotImportable = difference(idsToImportWithDuplicates, idsImportable)
           // finished? render...
-          const relationState = { rcsToImport, idsNumberImportable, idsNotImportable, idsAnalysisComplete, idsOfAeObjects, idsNumberOfRecordsWithIdValue, idsNotANumber }
+          const relationState = {
+            rcsToImport,
+            idsNumberImportable,
+            idsNotImportable,
+            idsAnalysisComplete,
+            idsOfAeObjects,
+            idsNumberOfRecordsWithIdValue,
+            idsNotANumber
+          }
           const state = Object.assign(rcPartnerState, relationState)
           this.setState(state)
         })
-        .catch((error) => app.Actions.showError({msg: error}))
+        .catch((error) => app.Actions.showError({ msg: error }))
     }
   },
 
-  stateFollowingPanel3Reset () {
-    return {
-      importingProgress: null,
-      deletingRcInstancesProgress: null,
-      deletingRcProgress: null
-    }
+  onClickImportieren() {
+    const {
+      rcsToImport,
+      idsImportIdField,
+      name,
+      beschreibung,
+      datenstand,
+      nutzungsbedingungen,
+      link,
+      importiertVon,
+      orgMitSchreibrecht,
+      zusammenfassend,
+      nameUrsprungsBs
+    } = this.state
+    app.Actions.importRcs({
+      rcsToImport,
+      idsImportIdField,
+      name,
+      beschreibung,
+      datenstand,
+      nutzungsbedingungen,
+      link,
+      importiertVon,
+      orgMitSchreibrecht,
+      zusammenfassend,
+      nameUrsprungsBs
+    })
   },
 
-  onClickImportieren () {
-    const { rcsToImport, idsImportIdField, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, orgMitSchreibrecht, zusammenfassend, nameUrsprungsBs } = this.state
-    app.Actions.importRcs({ rcsToImport, idsImportIdField, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, orgMitSchreibrecht, zusammenfassend, nameUrsprungsBs })
-  },
-
-  onClickDeleteRc () {
+  onClickDeleteRc() {
     const { name } = this.state
     const { offlineIndexes } = this.props
     // first remove progressbar and alert from last import
     const importingProgress = null
     const rcsRemoved = false
     const deletingRcProgress = 0
-    this.setState({ importingProgress, rcsRemoved, deletingRcProgress }, () => app.Actions.deleteRcByName(name, offlineIndexes))
+    this.setState({
+      importingProgress,
+      rcsRemoved,
+      deletingRcProgress
+    }, () => app.Actions.deleteRcByName(name, offlineIndexes))
   },
 
-  onClickRemoveRcInstances () {
+  onClickRemoveRcInstances() {
     const { name, idsOfAeObjects } = this.state
     // first remove progressbar and alert from last import
     const importingProgress = null
@@ -433,7 +407,7 @@ export default React.createClass({
   },
 
   onClickPanel(number, event) {
-    let { activePanel } = this.state
+    const { activePanel } = this.state
     const { allGroupsLoaded } = this.props
 
     // make sure the heading was clicked
@@ -447,26 +421,92 @@ export default React.createClass({
         case 1:
           this.setState({ activePanel: 1 })
           break
-        case 2:
+        case 2: {
           if (!allGroupsLoaded) this.setState({ ultimatelyAlertLoadAllGroups: true })
           const isPanel1Done = this.isPanel1Done()
           if (isPanel1Done && allGroupsLoaded) this.setState({ activePanel: 2 })
           break
-        case 3:
+        }
+        case 3: {
           const isPanel2Done = this.isPanel2Done()
           if (isPanel2Done) this.setState({ activePanel: 3 })
           break
-        case 4:
+        }
+        case 4: {
           const isPanel3Done = this.isPanel3Done()
           if (isPanel3Done) this.setState({ activePanel: 4 })
           break
+        }
+        default:
+          this.setState({ activePanel: 1 })
       }
     } else {
       event.stopPropagation()
     }
   },
 
-  isPanel1Done () {
+  stateFollowingPanel1Reset() {
+    return {
+      rcsToImport: [],
+      idsOfAeObjects: [],
+      idsImportIdField: null,
+      idsAeIdField: null,
+      idsAnalysisComplete: false,
+      idsNumberOfRecordsWithIdValue: 0,
+      idsNumberImportable: 0,
+      idsNotImportable: [],
+      idsNotANumber: [],
+      importingProgress: null,
+      deletingRcInstancesProgress: null,
+      deletingRcProgress: null,
+      panel2Done: false,
+      panel3Done: false
+    }
+  },
+
+  stateFollowingPanel2Reset() {
+    return {
+      idsOfAeObjects: [],
+      idsNumberOfRecordsWithIdValue: 0,
+      idsNumberImportable: 0,
+      idsNotImportable: [],
+      idsNotANumber: [],
+      importingProgress: null,
+      deletingRcInstancesProgress: null,
+      deletingRcProgress: null,
+      panel3Done: false
+    }
+  },
+
+  buildPartnerFromObject(object) {
+    const standardtaxonomie = object.Taxonomien.find((taxonomy) => taxonomy.Standardtaxonomie)
+    const partner = {}
+    partner.Gruppe = object.Gruppe
+    if (object.Gruppe === 'Lebensräume') {
+      partner.Taxonomie = get(standardtaxonomie, 'Name')
+      const label = get(standardtaxonomie, 'Eigenschaften.Label')
+      const einheit = get(standardtaxonomie, 'Eigenschaften.Einheit')
+      if (label) {
+        partner.Name = `${label}: ${einheit}`
+      } else {
+        partner.Name = einheit
+      }
+    } else {
+      partner.Name = standardtaxonomie.Eigenschaften['Artname vollständig']
+    }
+    partner.GUID = object._id
+    return partner
+  },
+
+  stateFollowingPanel3Reset() {
+    return {
+      importingProgress: null,
+      deletingRcInstancesProgress: null,
+      deletingRcProgress: null
+    }
+  },
+
+  isPanel1Done() {
     const { email } = this.props
     // run all validation
     const validName = this.isNameValid()
@@ -478,14 +518,23 @@ export default React.createClass({
     const validOrgMitSchreibrecht = this.validOrgMitSchreibrecht()
     const validEmail = !!email
     // check if panel 1 is done
-    const panel1Done = validName && validBeschreibung && validDatenstand && validNutzungsbedingungen && validLink && validUrsprungsBs && validOrgMitSchreibrecht && validEmail
+    const panel1Done = (
+      validName &&
+      validBeschreibung &&
+      validDatenstand &&
+      validNutzungsbedingungen &&
+      validLink &&
+      validUrsprungsBs &&
+      validOrgMitSchreibrecht &&
+      validEmail
+    )
     let state = { panel1Done }
     if (!panel1Done) state = Object.assign(state, { activePanel: 1 })
     this.setState(state)
     return panel1Done
   },
 
-  isPanel2Done () {
+  isPanel2Done() {
     const validRcsToImport = this.isRcsToImportValid()
     const panel1Done = this.isPanel1Done()
     const panel2Done = panel1Done && validRcsToImport
@@ -495,10 +544,21 @@ export default React.createClass({
     return panel2Done
   },
 
-  isPanel3Done () {
-    const { idsOfAeObjects, rcsToImport, idsNumberImportable, idsNotImportable, idsNotANumber } = this.state
+  isPanel3Done() {
+    const {
+      idsOfAeObjects,
+      rcsToImport,
+      idsNumberImportable,
+      idsNotImportable,
+      idsNotANumber
+    } = this.state
     const isPanel2Done = this.isPanel2Done()
-    const variablesToPass = { rcsToImport, idsNumberImportable, idsNotImportable, idsNotANumber }
+    const variablesToPass = {
+      rcsToImport,
+      idsNumberImportable,
+      idsNotImportable,
+      idsNotANumber
+    }
     const idsAnalysisResultType = getSuccessTypeFromAnalysis(variablesToPass)
     const panel3Done = idsAnalysisResultType !== 'danger' && idsOfAeObjects.length > 0
     let state = { panel3Done }
@@ -507,7 +567,7 @@ export default React.createClass({
     return panel3Done
   },
 
-  isEditingRcAllowed (name) {
+  isEditingRcAllowed(name) {
     const { userRoles, rcs } = this.props
     // set editing allowed to true
     // reason: close alert if it is still shown from last select
@@ -516,7 +576,18 @@ export default React.createClass({
     // if so and it is not combining: check if it was imported by the user
     const sameRc = rcs.find((rc) => rc.name === name)
     const organization = sameRc ? sameRc.organization : null
-    const bsBearbeitenErlaubt = !sameRc || (sameRc && (sameRc.combining || isUserServerAdmin(userRoles) || isUserOrgAdmin(userRoles, organization) || isUserEsWriter(userRoles, organization)))
+    const bsBearbeitenErlaubt = (
+      !sameRc ||
+      (
+        sameRc &&
+        (
+          sameRc.combining ||
+          isUserServerAdmin(userRoles) ||
+          isUserOrgAdmin(userRoles, organization) ||
+          isUserEsWriter(userRoles, organization)
+        )
+      )
+    )
     if (!bsBearbeitenErlaubt) {
       this.setState({ bsBearbeitenErlaubt: false })
       // delete text after a second
@@ -530,47 +601,50 @@ export default React.createClass({
     return bsBearbeitenErlaubt
   },
 
-  isNameValid () {
+  isNameValid() {
     const validName = !!this.state.name
     this.setState({ validName })
     return validName
   },
 
-  isBeschreibungValid () {
+  isBeschreibungValid() {
     const validBeschreibung = !!this.state.beschreibung
     this.setState({ validBeschreibung })
     return validBeschreibung
   },
 
-  isDatenstandValid () {
+  isDatenstandValid() {
     const validDatenstand = !!this.state.datenstand
     this.setState({ validDatenstand })
     return validDatenstand
   },
 
-  isNutzungsbedingungenValid () {
+  isNutzungsbedingungenValid() {
     const validNutzungsbedingungen = !!this.state.nutzungsbedingungen
     this.setState({ validNutzungsbedingungen })
     return validNutzungsbedingungen
   },
 
-  isLinkValid () {
+  isLinkValid() {
     const link = this.state.link
     const validLink = !link || isValidUrl(link)
     this.setState({ validLink })
     return validLink
   },
 
-  validOrgMitSchreibrecht () {
+  validOrgMitSchreibrecht() {
     const orgMitSchreibrecht = this.state.orgMitSchreibrecht
     const validOrgMitSchreibrecht = !!orgMitSchreibrecht
     this.setState({ validOrgMitSchreibrecht })
     return validOrgMitSchreibrecht
   },
 
-  isUrsprungsBsValid (nameUrsprungsBs) {
-    // when nameUrsprungsBs is passed back from child component, this function is called right after setting state of nameUrsprungsBs
-    // so state would not yet be updated! > needs to be passed directly
+  isUrsprungsBsValid(nameUrsprungsBs) {
+    /**
+     * when nameUrsprungsBs is passed back from child component,
+     * this function is called right after setting state of nameUrsprungsBs
+     * so state would not yet be updated! > needs to be passed directly
+     */
     const { zusammenfassend } = this.state
     if (!nameUrsprungsBs) nameUrsprungsBs = this.state.nameUrsprungsBs
     let validUrsprungsBs = true
@@ -579,30 +653,82 @@ export default React.createClass({
     return validUrsprungsBs
   },
 
-  isRcsToImportValid () {
+  isRcsToImportValid() {
     const validRcsToImport = this.state.rcsToImport.length > 0
     this.setState({ validRcsToImport })
     return validRcsToImport
   },
 
   render() {
-    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsBs, bsBearbeitenErlaubt, rcsToImport, rcsRemoved, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validOrgMitSchreibrecht, validUrsprungsBs, validRcsToImport, activePanel, idsAeIdField, idsImportIdField, idsNumberOfRecordsWithIdValue, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, panel3Done, importingProgress, deletingRcInstancesProgress, deletingRcProgress, idsWithoutPartner, rPartnerIdsToImport, rPartnerIdsImportable } = this.state
-    const { groupsLoadedOrLoading, email, userRoles, rcs, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime, organizations, userIsEsWriterInOrgs } = this.props
+    const {
+      nameBestehend,
+      name,
+      beschreibung,
+      datenstand,
+      nutzungsbedingungen,
+      link,
+      importiertVon,
+      zusammenfassend,
+      nameUrsprungsBs,
+      bsBearbeitenErlaubt,
+      rcsToImport,
+      rcsRemoved,
+      idsOfAeObjects,
+      validName,
+      validBeschreibung,
+      validDatenstand,
+      validNutzungsbedingungen,
+      validLink,
+      validOrgMitSchreibrecht,
+      validUrsprungsBs,
+      validRcsToImport,
+      activePanel,
+      idsAeIdField,
+      idsImportIdField,
+      idsNumberOfRecordsWithIdValue,
+      idsNumberImportable,
+      idsNotImportable,
+      idsNotANumber,
+      idsAnalysisComplete,
+      ultimatelyAlertLoadAllGroups,
+      panel3Done,
+      importingProgress,
+      deletingRcInstancesProgress,
+      deletingRcProgress,
+      idsWithoutPartner,
+      rPartnerIdsToImport,
+      rPartnerIdsImportable
+    } = this.state
+    const {
+      groupsLoadedOrLoading,
+      email,
+      userRoles,
+      rcs,
+      allGroupsLoaded,
+      groupsLoadingObjects,
+      replicatingToAe,
+      replicatingToAeTime,
+      organizations,
+      userIsEsWriterInOrgs
+    } = this.props
 
     return (
       <div
-        id='importieren'
-        className='formContent'>
+        id="importieren"
+        className="formContent"
+      >
         <h4>
           Beziehungen importieren
         </h4>
         <Accordion
-          activeKey={activePanel}>
+          activeKey={activePanel}
+        >
           <Panel
             collapsible
-            header='1. Beziehungssammlung beschreiben'
+            header="1. Beziehungssammlung beschreiben"
             eventKey={1}
-            onClick={this.onClickPanel.bind(this, 1)}>
+            onClick={this.onClickPanel.bind(this, 1)}
+          >
             {
               activePanel === 1 &&
               <Panel1
@@ -648,21 +774,24 @@ export default React.createClass({
                 onChangeName={this.onChangeName}
                 isLinkValid={this.isLinkValid}
                 isEditingRcAllowed={this.isEditingRcAllowed}
-                userIsEsWriterInOrgs={userIsEsWriterInOrgs} />
+                userIsEsWriterInOrgs={userIsEsWriterInOrgs}
+              />
             }
           </Panel>
 
           <Panel
             collapsible
-            header='2. Beziehungen laden'
+            header="2. Beziehungen laden"
             eventKey={2}
-            onClick={this.onClickPanel.bind(this, 2)}>
+            onClick={this.onClickPanel.bind(this, 2)}
+          >
             {
               activePanel === 2 &&
               <Panel2
                 rcsToImport={rcsToImport}
                 validRcsToImport={validRcsToImport}
-                onChangeFile={this.onChangeFile} />
+                onChangeFile={this.onChangeFile}
+              />
             }
           </Panel>
 
@@ -670,7 +799,8 @@ export default React.createClass({
             collapsible
             header="3. ID's identifizieren"
             eventKey={3}
-            onClick={this.onClickPanel.bind(this, 3)}>
+            onClick={this.onClickPanel.bind(this, 3)}
+          >
             {
               activePanel === 3 &&
               <Panel3
@@ -686,15 +816,17 @@ export default React.createClass({
                 rPartnerIdsToImport={rPartnerIdsToImport}
                 rPartnerIdsImportable={rPartnerIdsImportable}
                 onChangeAeId={this.onChangeAeId}
-                onChangeImportId={this.onChangeImportId} />
+                onChangeImportId={this.onChangeImportId}
+              />
             }
           </Panel>
 
           <Panel
             collapsible
-            header='4. importieren'
+            header="4. importieren"
             eventKey={4}
-            onClick={this.onClickPanel.bind(this, 4)}>
+            onClick={this.onClickPanel.bind(this, 4)}
+          >
             {
               activePanel === 4 &&
               <Panel4
@@ -708,7 +840,8 @@ export default React.createClass({
                 replicatingToAe={replicatingToAe}
                 replicatingToAeTime={replicatingToAeTime}
                 onClickImportieren={this.onClickImportieren}
-                onClickRemoveRcInstances={this.onClickRemoveRcInstances} />
+                onClickRemoveRcInstances={this.onClickRemoveRcInstances}
+              />
             }
           </Panel>
 
