@@ -271,7 +271,12 @@ export default React.createClass({
     this.setState({ exportObjects, exportOptions })
   },
 
-  onChooseAllOfCollection (cName, cType, event) {
+  onChooseAllOfCollection(cName, cType, event) {
+
+    // console.log('onChooseAllOfCollection, cName', cName)
+    // console.log('onChooseAllOfCollection, cType', cType)
+    // console.log('onChooseAllOfCollection, event', event)
+
     let { exportOptions, collectionsWithAllChoosen } = this.state
     const { taxonomyFields, pcFields, relationFields } = this.props
     const choosen = event.target.checked
