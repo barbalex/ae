@@ -3,18 +3,21 @@
 import React from 'react'
 import { Alert } from 'react-bootstrap'
 
-export default React.createClass({
-  displayName: 'AlertChooseGroup',
+const style = {
+  marginTop: 8,
+  marginBottom: 0
+}
 
-  render() {
-    const style = {
-      marginTop: 8,
-      marginBottom: 0
-    }
-    return (
-      <Alert bsStyle='info' style={style}>
-        <p>Bitte wählen Sie mindestens eine Gruppe</p>
-      </Alert>
-    )
-  }
-})
+const AlertChooseGroup = () =>
+  <Alert
+    bsStyle="info"
+    style={style}
+  >
+    <p>
+      Bitte wählen Sie mindestens eine Gruppe
+    </p>
+  </Alert>
+
+AlertChooseGroup.displayName = 'AlertChooseGroup'
+
+export default AlertChooseGroup

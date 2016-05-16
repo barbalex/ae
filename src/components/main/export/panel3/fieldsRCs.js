@@ -26,7 +26,7 @@ export default React.createClass({
     }
   },
 
-  componentWillUpdate () {
+  componentWillUpdate() {
     const { relationFields } = this.props
     const { activePanel } = this.state
     // open collection panel if there is only one

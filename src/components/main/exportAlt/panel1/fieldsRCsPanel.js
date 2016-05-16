@@ -16,12 +16,12 @@ export default React.createClass({
     onChooseAllOfCollection: React.PropTypes.func
   },
 
-  onChooseField (cName, fName, event) {
+  onChooseField(cName, fName, event) {
     const { onChooseField } = this.props
     onChooseField(cName, fName, 'rc', event)
   },
 
-  onChooseAllOfCollection (cName, event) {
+  onChooseAllOfCollection(cName, event) {
     const { onChooseAllOfCollection } = this.props
     onChooseAllOfCollection(cName, 'rc', event)
   },
@@ -39,29 +39,37 @@ export default React.createClass({
       return (
         <Input
           key={fieldKey}
-          type='checkbox'
+          type="checkbox"
           label={fNameKey}
           checked={checked}
-          onChange={this.onChooseField.bind(this, cNameKey, fNameKey)} />
+          onChange={this.onChooseField.bind(this, cNameKey, fNameKey)}
+        />
       )
     })
     let alleField = null
     if (fields.length > 1) {
       const checked = collectionsWithAllChoosen.includes(cNameKey)
       alleField = (
-        <div className='felderspalte alleWaehlenCheckbox' style={{marginBottom: 5}}>
+        <div
+          className="felderspalte alleWaehlenCheckbox"
+          style={{ marginBottom: 5 }}
+        >
           <Input
-            type='checkbox'
-            label='alle'
+            type="checkbox"
+            label="alle"
             checked={checked}
-            onChange={this.onChooseAllOfCollection.bind(this, cNameKey)} />
+            onChange={this.onChooseAllOfCollection.bind(this, cNameKey)}
+          />
         </div>
       )
     }
     return (
       <div>
         {alleField}
-        <div className='felderspalte' style={{marginBottom: -8}}>
+        <div
+          className="felderspalte"
+          style={{ marginBottom: -8 }}
+        >
           {fields}
         </div>
       </div>

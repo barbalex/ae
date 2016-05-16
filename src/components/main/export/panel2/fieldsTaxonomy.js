@@ -23,7 +23,7 @@ export default React.createClass({
   },
 
   /*
-  componentWillUpdate () {
+  componentWillUpdate() {
     const { taxonomyFields } = this.props
     const { activePanel } = this.state
     // open collection panel if there is only one
@@ -33,8 +33,8 @@ export default React.createClass({
   },
   */
 
-  onClickPanel (number, event) {
-    let { activePanel } = this.state
+  onClickPanel(number, event) {
+    const { activePanel } = this.state
     // prevent higher level panels from reacting
     event.stopPropagation()
 
@@ -50,7 +50,12 @@ export default React.createClass({
   },
 
   render() {
-    const { taxonomyFields, exportOptions, onChangeCoSelect, onChangeFilterField } = this.props
+    const {
+      taxonomyFields,
+      exportOptions,
+      onChangeCoSelect,
+      onChangeFilterField
+    } = this.props
     const { activePanel } = this.state
     // open panel if there is only one
     const numberOfCollections = Object.keys(taxonomyFields).length
@@ -66,7 +71,8 @@ export default React.createClass({
           collapsible
           header={cNameKey}
           eventKey={cIndex}
-          onClick={this.onClickPanel.bind(this, cIndex)}>
+          onClick={this.onClickPanel.bind(this, cIndex)}
+        >
           {
             openPanel &&
             <FieldsTaxonomyPanel
@@ -74,15 +80,15 @@ export default React.createClass({
               taxonomyFields={taxonomyFields}
               exportOptions={exportOptions}
               onChangeCoSelect={onChangeCoSelect}
-              onChangeFilterField={onChangeFilterField} />
+              onChangeFilterField={onChangeFilterField}
+            />
           }
         </Panel>
       )
     })
 
     return (
-      <Accordion
-        activeKey={activePanelOpeningWhenOnlyOneCollection}>
+      <Accordion activeKey={activePanelOpeningWhenOnlyOneCollection}>
         {collections}
       </Accordion>
     )

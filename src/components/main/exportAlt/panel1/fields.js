@@ -31,8 +31,8 @@ export default React.createClass({
     }
   },
 
-  onClickPanel (number, event) {
-    let { activePanel } = this.state
+  onClickPanel(number, event) {
+    const { activePanel } = this.state
     // prevent higher level panels from reacting
     event.stopPropagation()
 
@@ -47,48 +47,66 @@ export default React.createClass({
     }
   },
 
-  onChangeMyExportData (cName, fName, event) {
+  onChangeMyExportData(cName, fName, event) {
     const { onChooseField } = this.props
     onChooseField(cName, fName, 'cType', event)
   },
 
   render() {
-    const { taxonomyFields, pcFields, relationFields, onChooseField, onChooseAllOfCollection, pcs, rcs, urlOptions, collectionsWithAllChoosen, oneRowPerRelation, onChangeOneRowPerRelation } = this.props
+    const {
+      taxonomyFields,
+      pcFields,
+      relationFields,
+      onChooseField,
+      onChooseAllOfCollection,
+      pcs,
+      rcs,
+      urlOptions,
+      collectionsWithAllChoosen,
+      oneRowPerRelation,
+      onChangeOneRowPerRelation
+    } = this.props
     const { activePanel } = this.state
     const guidChecked = get(urlOptions, 'object._id.export')
     const taxonomyHeader = Object.keys(taxonomyFields).length > 1 ? 'Taxonomien' : 'Taxonomie'
 
     return (
       <Accordion
-        activeKey={activePanel}>
+        activeKey={activePanel}
+      >
         <Panel
           collapsible
-          header='Art / Lebensraum'
+          header="Art / Lebensraum"
           eventKey={1}
-          onClick={this.onClickPanel.bind(this, 1)}>
+          onClick={this.onClickPanel.bind(this, 1)}
+        >
           {
             activePanel === 1 &&
             <div
-              className='felderspalte'
-              style={{marginBottom: -8}}>
+              className="felderspalte"
+              style={{ marginBottom: -8 }}
+            >
               <Input
-                type='checkbox'
-                label='GUID'
+                type="checkbox"
+                label="GUID"
                 onChange={this.onChangeMyExportData.bind(this, 'object', '_id')}
-                checked={guidChecked} />
+                checked={guidChecked}
+              />
               <Input
-                type='checkbox'
-                label='Gruppe'
-                onChange={this.onChangeMyExportData.bind(this, 'object', 'Gruppe')} />
+                type="checkbox"
+                label="Gruppe"
+                onChange={this.onChangeMyExportData.bind(this, 'object', 'Gruppe')}
+              />
             </div>
           }
         </Panel>
         <Panel
-          className='collectionPanel'
+          className="collectionPanel"
           collapsible
           header={taxonomyHeader}
           eventKey={2}
-          onClick={this.onClickPanel.bind(this, 2)}>
+          onClick={this.onClickPanel.bind(this, 2)}
+        >
           {
             activePanel === 2 &&
             <FieldsTaxonomy
@@ -96,15 +114,17 @@ export default React.createClass({
               taxonomyFields={taxonomyFields}
               collectionsWithAllChoosen={collectionsWithAllChoosen}
               onChooseField={onChooseField}
-              onChooseAllOfCollection={onChooseAllOfCollection} />
+              onChooseAllOfCollection={onChooseAllOfCollection}
+            />
           }
         </Panel>
         <Panel
-          className='collectionPanel'
+          className="collectionPanel"
           collapsible
-          header='Eigenschaftensammlungen'
+          header="Eigenschaftensammlungen"
           eventKey={3}
-          onClick={this.onClickPanel.bind(this, 3)}>
+          onClick={this.onClickPanel.bind(this, 3)}
+        >
           {
             activePanel === 3 &&
             <FieldsPCs
@@ -113,15 +133,17 @@ export default React.createClass({
               pcs={pcs}
               collectionsWithAllChoosen={collectionsWithAllChoosen}
               onChooseField={onChooseField}
-              onChooseAllOfCollection={onChooseAllOfCollection} />
+              onChooseAllOfCollection={onChooseAllOfCollection}
+            />
           }
         </Panel>
         <Panel
-          className='collectionPanel'
+          className="collectionPanel"
           collapsible
-          header='Beziehungssammlungen'
+          header="Beziehungssammlungen"
           eventKey={4}
-          onClick={this.onClickPanel.bind(this, 4)}>
+          onClick={this.onClickPanel.bind(this, 4)}
+        >
           {
             activePanel === 4 &&
             <FieldsRCs
@@ -132,7 +154,8 @@ export default React.createClass({
               oneRowPerRelation={oneRowPerRelation}
               onChooseField={onChooseField}
               onChooseAllOfCollection={onChooseAllOfCollection}
-              onChangeOneRowPerRelation={onChangeOneRowPerRelation} />
+              onChangeOneRowPerRelation={onChangeOneRowPerRelation}
+            />
           }
         </Panel>
       </Accordion>

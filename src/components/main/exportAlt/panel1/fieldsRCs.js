@@ -25,7 +25,7 @@ export default React.createClass({
     }
   },
 
-  componentWillUpdate () {
+  componentWillUpdate() {
     const { relationFields } = this.props
     const { activePanel } = this.state
     // open collection panel if there is only one
@@ -33,8 +33,8 @@ export default React.createClass({
     if (numberOfCollections === 1 && activePanel !== 0) this.setState({ activePanel: 0 })
   },
 
-  onClickPanel (number, event) {
-    let { activePanel } = this.state
+  onClickPanel(number, event) {
+    const { activePanel } = this.state
     // prevent higher level panels from reacting
     event.stopPropagation()
 
@@ -49,13 +49,21 @@ export default React.createClass({
     }
   },
 
-  onChangeOneRowPerRelation (oneRowPerRelation) {
+  onChangeOneRowPerRelation(oneRowPerRelation) {
     const { onChangeOneRowPerRelation } = this.props
     onChangeOneRowPerRelation(oneRowPerRelation)
   },
 
   render() {
-    const { relationFields, rcs, urlOptions, onChooseField, onChooseAllOfCollection, collectionsWithAllChoosen, oneRowPerRelation } = this.props
+    const {
+      relationFields,
+      rcs,
+      urlOptions,
+      onChooseField,
+      onChooseAllOfCollection,
+      collectionsWithAllChoosen,
+      oneRowPerRelation
+    } = this.props
     const { activePanel } = this.state
     // open panel if there is only one
     const numberOfCollections = Object.keys(relationFields).length
@@ -69,14 +77,15 @@ export default React.createClass({
     const collectionKeysSorted = Object.keys(relationFields).sort((cNameKey) => cNameKey.toLowerCase())
     const collections = collectionKeysSorted.map((cNameKey, cIndex) => {
       const collectionKey = cNameKey.toLowerCase()
-      const rc = rcs.find((rc) => rc.name === cNameKey)
+      const rc = rcs.find((c) => c.name === cNameKey)
       return (
         <Panel
           key={collectionKey}
           collapsible
           header={rc.name}
           eventKey={cIndex}
-          onClick={this.onClickPanel.bind(this, cIndex)}>
+          onClick={this.onClickPanel.bind(this, cIndex)}
+        >
           {
             activePanelOpeningWhenOnlyOneCollection === cIndex &&
             <FieldsRCsPanel
@@ -85,7 +94,8 @@ export default React.createClass({
               urlOptions={urlOptions}
               collectionsWithAllChoosen={collectionsWithAllChoosen}
               onChooseField={onChooseField}
-              onChooseAllOfCollection={onChooseAllOfCollection} />
+              onChooseAllOfCollection={onChooseAllOfCollection}
+            />
           }
         </Panel>
       )
@@ -94,22 +104,26 @@ export default React.createClass({
     return (
       <div>
         <div
-          id='rcOptions'
-          style={divStyle}>
+          id="rcOptions"
+          style={divStyle}
+        >
           <Input
-            type='checkbox'
-            label='Pro Beziehung eine Zeile'
+            type="checkbox"
+            label="Pro Beziehung eine Zeile"
             checked={oneRowPerRelation}
             onChange={this.onChangeOneRowPerRelation.bind(this, true)}
-            style={{marginBottom: 0}} />
+            style={{ marginBottom: 0 }}
+          />
           <Input
-            type='checkbox'
-            label='Pro Art/Lebensraum eine Zeile und alle Beziehungen kommagetrennt in einem Feld'
+            type="checkbox"
+            label="Pro Art/Lebensraum eine Zeile und alle Beziehungen kommagetrennt in einem Feld"
             checked={!oneRowPerRelation}
-            onChange={this.onChangeOneRowPerRelation.bind(this, false)} />
+            onChange={this.onChangeOneRowPerRelation.bind(this, false)}
+          />
         </div>
         <Accordion
-          activeKey={activePanelOpeningWhenOnlyOneCollection}>
+          activeKey={activePanelOpeningWhenOnlyOneCollection}
+        >
           {collections}
         </Accordion>
       </div>

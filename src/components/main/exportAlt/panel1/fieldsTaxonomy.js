@@ -22,7 +22,7 @@ export default React.createClass({
     }
   },
 
-  componentWillUpdate () {
+  componentWillUpdate() {
     const { taxonomyFields } = this.props
     const { activePanel } = this.state
     // open collection panel if there is only one
@@ -30,8 +30,8 @@ export default React.createClass({
     if (numberOfCollections === 1 && activePanel !== 0) this.setState({ activePanel: 0 })
   },
 
-  onClickPanel (number, event) {
-    let { activePanel } = this.state
+  onClickPanel(number, event) {
+    const { activePanel } = this.state
     // prevent higher level panels from reacting
     event.stopPropagation()
 
@@ -47,7 +47,13 @@ export default React.createClass({
   },
 
   render() {
-    const { taxonomyFields, urlOptions, onChooseField, onChooseAllOfCollection, collectionsWithAllChoosen } = this.props
+    const {
+      taxonomyFields,
+      urlOptions,
+      onChooseField,
+      onChooseAllOfCollection,
+      collectionsWithAllChoosen
+    } = this.props
     const { activePanel } = this.state
     // open panel if there is only one
     const numberOfCollections = Object.keys(taxonomyFields).length
@@ -61,7 +67,8 @@ export default React.createClass({
           collapsible
           header={cNameKey}
           eventKey={cIndex}
-          onClick={this.onClickPanel.bind(this, cIndex)}>
+          onClick={this.onClickPanel.bind(this, cIndex)}
+        >
           {
             activePanelOpeningWhenOnlyOneCollection === cIndex &&
             <FieldsTaxonomyPanel
@@ -70,15 +77,15 @@ export default React.createClass({
               urlOptions={urlOptions}
               collectionsWithAllChoosen={collectionsWithAllChoosen}
               onChooseField={onChooseField}
-              onChooseAllOfCollection={onChooseAllOfCollection} />
+              onChooseAllOfCollection={onChooseAllOfCollection}
+            />
           }
         </Panel>
       )
     })
 
     return (
-      <Accordion
-        activeKey={activePanelOpeningWhenOnlyOneCollection}>
+      <Accordion activeKey={activePanelOpeningWhenOnlyOneCollection}>
         {collections}
       </Accordion>
     )

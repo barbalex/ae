@@ -10,7 +10,7 @@ export default React.createClass({
     resetTooManyFieldsChoosen: React.PropTypes.func
   },
 
-  close () {
+  close() {
     this.onHide()
   },
 

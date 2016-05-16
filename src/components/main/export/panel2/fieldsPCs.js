@@ -22,7 +22,7 @@ export default React.createClass({
     }
   },
 
-  componentWillUpdate () {
+  componentWillUpdate() {
     const { pcFields } = this.props
     const { activePanel } = this.state
     // open collection panel if there is only one
