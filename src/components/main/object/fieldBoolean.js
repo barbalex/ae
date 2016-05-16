@@ -27,7 +27,13 @@ export default React.createClass({
   },
 
   onBlur() {
-    const { fieldName, fieldValue, pcType, pcName, onSaveObjectField } = this.props
+    const {
+      fieldName,
+      fieldValue,
+      pcType,
+      pcName,
+      onSaveObjectField
+    } = this.props
     const newFieldValue = this.myInput.value
     if (newFieldValue !== fieldValue) {
       const save = true
@@ -36,7 +42,13 @@ export default React.createClass({
   },
 
   render() {
-    const { fieldName, fieldValue, pcType, pcName, collectionIsEditing } = this.props
+    const {
+      fieldName,
+      fieldValue,
+      pcType,
+      pcName,
+      collectionIsEditing
+    } = this.props
 
     // need to place checkboxes next to labels, not inside
     // makes styling MUCH easier
@@ -46,11 +58,11 @@ export default React.createClass({
           className={'control-label'}
           htmlFor={fieldName}
         >
-          {fieldName + ':'}
+          {`${fieldName}:`}
         </label>
         <input
-          ref={(c) => this.myInput = c}
-          type='checkbox'
+          ref={(c) => { this.myInput = c }}
+          type="checkbox"
           dsTyp={pcType}
           dsName={pcName}
           id={fieldName}
@@ -58,7 +70,8 @@ export default React.createClass({
           checked={fieldValue}
           readOnly={!collectionIsEditing}
           onChange={this.onChange}
-          onBlur={this.onBlur} />
+          onBlur={this.onBlur}
+        />
       </div>
     )
   }

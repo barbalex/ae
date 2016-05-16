@@ -45,46 +45,48 @@ export default React.createClass({
             className={'control-label'}
             htmlFor={fieldName}
           >
-            {fieldName + ':'}
+            {`${fieldName}:`}
           </label>
           <input
-            ref={(c) => this.myInput = c}
-            type='text'
+            ref={(c) => { this.myInput = c }}
+            type="text"
             dsTyp={pcType}
             dsName={pcName}
             id={fieldName}
             name={fieldName}
             value={fieldValue}
-            className='controls form-control input-sm'
+            className="controls form-control input-sm"
             onChange={this.onChange}
-            onBlur={this.onBlur} />
+            onBlur={this.onBlur}
+          />
         </div>
       )
     }
 
     return (
-      <div className='form-group'>
+      <div className="form-group">
         <label
-          className='control-label'
+          className="control-label"
           htmlFor={fieldName}
         >
-          {fieldName + ':'}
+          {`${fieldName}:`}
         </label>
         <p>
           <a href={fieldValue}>
             <input
-              ref={(c) => this.myInput = c}
+              ref={(c) => { this.myInput = c }}
               dsTyp={pcType}
               dsName={pcName}
               id={fieldName}
               name={fieldName}
-              type='text'
+              type="text"
               value={fieldValue}
               readOnly={!collectionIsEditing}
-              className='controls form-control input-sm'
-              style={{'cursor': 'pointer'}}
+              className="controls form-control input-sm"
+              style={{ cursor: 'pointer' }}
               onChange={this.onChange}
-              onBlur={this.onBlur} />
+              onBlur={this.onBlur}
+            />
           </a>
         </p>
       </div>

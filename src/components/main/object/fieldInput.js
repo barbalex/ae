@@ -26,14 +26,25 @@ export default React.createClass({
   },
 
   onChange() {
-    const { fieldName, pcType, pcName, onSaveObjectField } = this.props
+    const {
+      fieldName,
+      pcType,
+      pcName,
+      onSaveObjectField
+    } = this.props
     const fieldValue = this.myInput.getValue()
     const save = false
     onSaveObjectField(pcType, pcName, fieldName, fieldValue, save)
   },
 
   onBlur() {
-    const { fieldName, fieldValue, pcType, pcName, onSaveObjectField } = this.props
+    const {
+      fieldName,
+      fieldValue,
+      pcType,
+      pcName,
+      onSaveObjectField
+    } = this.props
     const newFieldValue = this.myInput.getValue()
     if (newFieldValue !== fieldValue) {
       const save = true
@@ -42,23 +53,31 @@ export default React.createClass({
   },
 
   render() {
-    const { fieldName, fieldValue, inputType, pcType, pcName, collectionIsEditing } = this.props
+    const {
+      fieldName,
+      fieldValue,
+      inputType,
+      pcType,
+      pcName,
+      collectionIsEditing
+    } = this.props
 
     return (
       <Input
-        ref={(c) => this.myInput = c}
+        ref={(c) => { this.myInput = c }}
         type={inputType}
-        label={fieldName + ':'}
-        bsSize='small'
+        label={`${fieldName}:`}
+        bsSize="small"
         dsTyp={pcType}
         dsName={pcName}
         id={fieldName}
         name={fieldName}
         value={fieldValue}
         readOnly={!collectionIsEditing}
-        className='controls'
+        className="controls"
         onChange={this.onChange}
-        onBlur={this.onBlur} />
+        onBlur={this.onBlur}
+      />
     )
   }
 })

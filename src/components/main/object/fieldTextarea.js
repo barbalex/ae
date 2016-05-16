@@ -40,25 +40,27 @@ export default React.createClass({
     const { fieldName, fieldValue, pcType, pcName, collectionIsEditing } = this.props
 
     return (
-      <div className='form-group form-group-sm'>
+      <div className="form-group form-group-sm">
         <label
           htmlFor={fieldName}
-          className='control-label'>
+          className="control-label"
+        >
           <span>
-            {fieldName + ':'}
+            {`${fieldName}:`}
           </span>
         </label>
         <Textarea
-          ref={(c) => this.myInput = c}
+          ref={(c) => { this.myInput = c }}
           dsTyp={pcType}
           dsName={pcName}
           id={fieldName}
           name={fieldName}
           readOnly={!collectionIsEditing}
-          className='controls form-control'
+          className="controls form-control"
           defaultValue={fieldValue}
           onChange={this.onChange}
-          onBlur={this.onBlur} />
+          onBlur={this.onBlur}
+        />
       </div>
     )
   }

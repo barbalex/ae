@@ -21,46 +21,50 @@ export default React.createClass({
     showRemoveButtonOverlay: React.PropTypes.bool
   },
 
-  editButton () {
+  editButton() {
     const { editObjects, toggleEditObjects } = this.props
     const editGlyph = editObjects ? 'ban-circle' : 'pencil'
     const editText = editObjects ? 'schützen' : 'bearbeiten'
     return (
       <OverlayTrigger
         overlay={<Tooltip id='editButtonTooltip'>{editText}</Tooltip>}
-        placement='top'>
-        <Button
-          onClick={toggleEditObjects}>
+        placement='top'
+      >
+        <Button onClick={toggleEditObjects}>
           <Glyphicon glyph={editGlyph} />
         </Button>
       </OverlayTrigger>
     )
   },
 
-  addButton () {
+  addButton() {
     const { editObjects, addNewObject } = this.props
     return (
       <OverlayTrigger
         overlay={<Tooltip id='addButtonTooltip'>neu</Tooltip>}
-        placement='top'>
+        placement='top'
+      >
         <Button
           onClick={addNewObject}
-          disabled={!editObjects}>
+          disabled={!editObjects}
+        >
           <Glyphicon glyph='plus' />
         </Button>
       </OverlayTrigger>
     )
   },
 
-  removeButton () {
+  removeButton() {
     const { editObjects, removeObject } = this.props
     return (
       <OverlayTrigger
         overlay={<Tooltip id='editingButtonTooltip'>löschen</Tooltip>}
-        placement='top'>
+        placement='top'
+      >
         <Button
           onClick={removeObject}
-          disabled={!editObjects}>
+          disabled={!editObjects}
+        >
           <Glyphicon glyph='trash' />
         </Button>
       </OverlayTrigger>

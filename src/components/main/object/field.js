@@ -46,7 +46,8 @@ export default React.createClass({
           pcType={pcType}
           pcName={pcName}
           collectionIsEditing={collectionIsEditing}
-          onSaveObjectField={onSaveObjectField} />
+          onSaveObjectField={onSaveObjectField}
+        />
       )
     }
     if (typeof fieldValue === 'string' && fieldValue.length < 45) {
@@ -54,11 +55,12 @@ export default React.createClass({
         <FieldInput
           fieldName={fieldName}
           fieldValue={fieldValue}
-          inputType='text'
+          inputType="text"
           pcType={pcType}
           pcName={pcName}
           collectionIsEditing={collectionIsEditing}
-          onSaveObjectField={onSaveObjectField} />
+          onSaveObjectField={onSaveObjectField}
+        />
       )
     }
     if (typeof fieldValue === 'string' && fieldValue.length >= 45) {
@@ -69,7 +71,8 @@ export default React.createClass({
           pcType={pcType}
           pcName={pcName}
           collectionIsEditing={collectionIsEditing}
-          onSaveObjectField={onSaveObjectField} />
+          onSaveObjectField={onSaveObjectField}
+        />
       )
     }
     if (typeof fieldValue === 'number') {
@@ -77,11 +80,12 @@ export default React.createClass({
         <FieldInput
           fieldName={fieldName}
           fieldValue={fieldValue}
-          inputType='number'
+          inputType="number"
           pcType={pcType}
           pcName={pcName}
           collectionIsEditing={collectionIsEditing}
-          onSaveObjectField={onSaveObjectField} />
+          onSaveObjectField={onSaveObjectField}
+        />
       )
     }
     if (typeof fieldValue === 'boolean') {
@@ -92,7 +96,8 @@ export default React.createClass({
           pcType={pcType}
           pcName={pcName}
           collectionIsEditing={collectionIsEditing}
-          onSaveObjectField={onSaveObjectField} />
+          onSaveObjectField={onSaveObjectField}
+        />
       )
     }
     // fallback is text input
@@ -100,11 +105,12 @@ export default React.createClass({
       <FieldInput
         fieldName={fieldName}
         fieldValue={fieldValue}
-        inputType='text'
+        inputType="text"
         pcType={pcType}
         pcName={pcName}
         collectionIsEditing={collectionIsEditing}
-        onSaveObjectField={onSaveObjectField} />
+        onSaveObjectField={onSaveObjectField}
+      />
     )
   }
 })
