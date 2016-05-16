@@ -16,7 +16,7 @@ export default React.createClass({
     }
   },
 
-  onClickToggle (event) {
+  onClickToggle(event) {
     event.preventDefault()
     this.setState({ visible: !this.state.visible })
   },
@@ -25,8 +25,20 @@ export default React.createClass({
     const { visible } = this.state
 
     return (
-      <Well bsSize='small'><b>So geht`s</b> <a href='#' onClick={this.onClickToggle} className='showNextHidden'>{visible ? '...weniger' : '...mehr'}</a>
-        <ul className='adb-hidden' style={{'display': visible ? 'block' : 'none'}}>
+      <Well bsSize="small">
+        <b>So geht`s</b>
+        &nbsp;
+        <a
+          href="#"
+          onClick={this.onClickToggle}
+          className="showNextHidden"
+        >
+          {visible ? '...weniger' : '...mehr'}
+        </a>
+        <ul
+          className="adb-hidden"
+          style={{ display: visible ? 'block' : 'none' }}
+        >
           <li>Aus den Rohdaten werden die Exportdaten extrahiert...</li>
           <li><strong>...das dauert eine ganze Weile. Geduld bringt Daten!</strong></li>
           <li>Danach wird eine Vorschau der ersten 10 Datensätze angezeigt...</li>

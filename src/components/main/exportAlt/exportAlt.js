@@ -14,8 +14,6 @@ import ModalTooManyRcsChoosen from './modalTooManyRcsChoosen.js'
 export default React.createClass({
   displayName: 'Export',
 
-  mixins: [ListenerMixin],
-
   propTypes: {
     groupsLoadingObjects: React.PropTypes.array,
     fieldsQuerying: React.PropTypes.bool,
@@ -48,6 +46,8 @@ export default React.createClass({
     errorBuildingExportData: React.PropTypes.object,
     urlCopied: React.PropTypes.string
   },
+
+  mixins: [ListenerMixin],
 
   /**
    * urlOptions object:
@@ -108,7 +108,7 @@ export default React.createClass({
       /**
        * now follow the options needed to build the export data
        */
-      urlOptions: urlOptions,
+      urlOptions,
       onlyObjectsWithCollectionData: true,
       includeDataFromSynonyms: true,
       /**
@@ -145,22 +145,22 @@ export default React.createClass({
     app.Actions.queryFields(urlOptions.object.Gruppen.value, 'Fauna', combineTaxonomies, offlineIndexes)
   },
 
-  onChangeExportDataStore ({ exportObjects, errorBuildingExportData }) {
+  onChangeExportDataStore({ exportObjects, errorBuildingExportData }) {
     this.setState({ exportObjects, errorBuildingExportData })
   },
 
-  handleOnSelectPanel (activeKey) {
+  handleOnSelectPanel(activeKey) {
     // this is the clean way to handle choosing a panel heading
     // but it only works when the user clicks the link in the panel heading
     // console.log('handleOnSelectPanel, activeKey', activeKey)
   },
 
-  onCopyUrl (urlCopied) {
+  onCopyUrl(urlCopied) {
     this.setState({ urlCopied })
   },
 
-  onClickPanel (number, event) {
-    let { activePanel } = this.state
+  onClickPanel(number, event) {
+    const { activePanel } = this.state
     // make sure the heading was clicked
     const parent = event.target.parentElement
     const headingWasClicked = parent.className.includes('panel-title') || parent.className.includes('panel-heading')
@@ -175,21 +175,24 @@ export default React.createClass({
         case 2:
           this.setState({ activePanel: 2 })
           break
+        default:
+          this.setState({ activePanel: 1 })
       }
     } else {
       event.stopPropagation()
     }
   },
 
-  onChooseAllOfCollection (cName, cType, event) {
-    let { urlOptions, collectionsWithAllChoosen } = this.state
+  onChooseAllOfCollection(cName, cType, event) {
+    let { collectionsWithAllChoosen } = this.state
+    const { urlOptions } = this.state
     const { taxonomyFields, pcFields, relationFields } = this.props
     const choosen = event.target.checked
     // set exportObjects back
     const exportObjects = []
     // set urlCopied back
     const urlCopied = null
-    let state = { exportObjects, urlCopied }
+    const state = { exportObjects, urlCopied }
     let fields = taxonomyFields
     if (cType === 'pc') fields = pcFields
     if (cType === 'rc') fields = relationFields
@@ -224,14 +227,15 @@ export default React.createClass({
     this.setState(state)
   },
 
-  onChooseField (cName, fName, cType, event) {
-    let { urlOptions, collectionsWithAllChoosen } = this.state
-    let choosen = event.target.checked
+  onChooseField(cName, fName, cType, event) {
+    let { collectionsWithAllChoosen } = this.state
+    const { urlOptions } = this.state
+    const choosen = event.target.checked
     // set exportObjects back
     const exportObjects = []
     // set urlCopied back
     const urlCopied = null
-    let state = { exportObjects, urlCopied }
+    const state = { exportObjects, urlCopied }
     const fieldNewlyChoosen = `${cName}${fName}`
     if (choosen && this.tooManyFieldsChoosen([fieldNewlyChoosen])) {
       event.preventDefault()
@@ -255,12 +259,12 @@ export default React.createClass({
     this.setState(state)
   },
 
-  resetTooManyFieldsChoosen () {
+  resetTooManyFieldsChoosen() {
     const tooManyFieldsChoosen = false
     this.setState({ tooManyFieldsChoosen })
   },
 
-  tooManyFieldsChoosen (fieldsNewlyChoosen) {
+  tooManyFieldsChoosen(fieldsNewlyChoosen) {
     const { urlOptions, maxNumberOfFieldsToChoose } = this.state
     let fieldsChoosen = fieldsNewlyChoosen
     Object.keys(urlOptions).forEach((cName) => {
@@ -274,12 +278,12 @@ export default React.createClass({
     return fieldsChoosen.length > maxNumberOfFieldsToChoose
   },
 
-  resetTooManyRcsChoosen () {
+  resetTooManyRcsChoosen() {
     const tooManyRcsChoosen = false
     this.setState({ tooManyRcsChoosen })
   },
 
-  tooManyRcsChoosen (cNameNew, oneRowPerRelationPassed) {
+  tooManyRcsChoosen(cNameNew, oneRowPerRelationPassed) {
     const { urlOptions } = this.state
     const oneRowPerRelation = oneRowPerRelationPassed || this.state.oneRowPerRelation
     let rcsChoosen = cNameNew ? [cNameNew] : []
@@ -295,7 +299,7 @@ export default React.createClass({
     return oneRowPerRelation && rcsChoosen.length > 1
   },
 
-  onChangeIncludeDataFromSynonyms (event) {
+  onChangeIncludeDataFromSynonyms(event) {
     const includeDataFromSynonyms = event.target.checked
     const exportObjects = []
     // set urlCopied back
@@ -303,7 +307,7 @@ export default React.createClass({
     this.setState({ exportObjects, includeDataFromSynonyms, urlCopied })
   },
 
-  onChangeOneRowPerRelation (oneRowPerRelation) {
+  onChangeOneRowPerRelation(oneRowPerRelation) {
     const { urlOptions } = this.state
     const exportObjects = []
     /**
@@ -322,35 +326,55 @@ export default React.createClass({
   },
 
   render() {
-    const { taxonomyFields, pcFields, relationFields, pcs, rcs } = this.props
-    const { activePanel, urlOptions, includeDataFromSynonyms, tooManyFieldsChoosen, tooManyRcsChoosen, collectionsWithAllChoosen, oneRowPerRelation, urlCopied } = this.state
+    const {
+      taxonomyFields,
+      pcFields,
+      relationFields,
+      pcs,
+      rcs
+    } = this.props
+    const {
+      activePanel,
+      urlOptions,
+      includeDataFromSynonyms,
+      tooManyFieldsChoosen,
+      tooManyRcsChoosen,
+      collectionsWithAllChoosen,
+      oneRowPerRelation,
+      urlCopied
+    } = this.state
 
     return (
       <div
-        id='export'
-        className='formContent'>
+        id="export"
+        className="formContent"
+      >
         {
           tooManyFieldsChoosen &&
           <ModalTooManyFieldsChoosen
-            resetTooManyFieldsChoosen={this.resetTooManyFieldsChoosen} />
+            resetTooManyFieldsChoosen={this.resetTooManyFieldsChoosen}
+          />
         }
         {
           tooManyRcsChoosen &&
           <ModalTooManyRcsChoosen
-            resetTooManyRcsChoosen={this.resetTooManyRcsChoosen} />
+            resetTooManyRcsChoosen={this.resetTooManyRcsChoosen}
+          />
         }
         <h4>
           Eigenschaften für das Artenlistentool wählen
         </h4>
         <Accordion
           activeKey={activePanel}
-          onSelect={this.handleOnSelectPanel}>
+          onSelect={this.handleOnSelectPanel}
+        >
 
           <Panel
             collapsible
-            header='1. Eigenschaften wählen'
+            header="1. Eigenschaften wählen"
             eventKey={1}
-            onClick={this.onClickPanel.bind(this, 1)}>
+            onClick={this.onClickPanel.bind(this, 1)}
+          >
             {
               activePanel === 1 &&
               <Panel1
@@ -366,15 +390,17 @@ export default React.createClass({
                 onChangeIncludeDataFromSynonyms={this.onChangeIncludeDataFromSynonyms}
                 onChooseField={this.onChooseField}
                 onChooseAllOfCollection={this.onChooseAllOfCollection}
-                onChangeOneRowPerRelation={this.onChangeOneRowPerRelation} />
+                onChangeOneRowPerRelation={this.onChangeOneRowPerRelation}
+              />
             }
           </Panel>
 
           <Panel
             collapsible
-            header='2. URL generieren'
+            header="2. URL generieren"
             eventKey={2}
-            onClick={this.onClickPanel.bind(this, 2)}>
+            onClick={this.onClickPanel.bind(this, 2)}
+          >
             {
               activePanel === 2 &&
               <Panel2
@@ -382,7 +408,8 @@ export default React.createClass({
                 includeDataFromSynonyms={includeDataFromSynonyms}
                 oneRowPerRelation={oneRowPerRelation}
                 onCopyUrl={this.onCopyUrl}
-                urlCopied={urlCopied} />
+                urlCopied={urlCopied}
+              />
             }
           </Panel>
 

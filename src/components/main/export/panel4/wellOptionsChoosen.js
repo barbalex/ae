@@ -20,37 +20,53 @@ export default React.createClass({
     combineTaxonomies: React.PropTypes.bool
   },
 
-  groupsText () {
+  groupsText() {
     const { exportOptions } = this.props
     const groups = exportOptions.object.Gruppen.value
     const prefix = groups.length > 1 ? 'Gruppen: ' : 'Gruppe: '
     return prefix + groups.join(', ')
   },
 
-  taxonomienZusammenfassenText () {
+  taxonomienZusammenfassenText() {
     const { combineTaxonomies } = this.props
-    return combineTaxonomies ? 'Die Felder der Taxonomien werden zusammengefasst' : 'Die Felder der Taxonomien werden einzeln dargestellt'
+    return (
+      combineTaxonomies ?
+      'Die Felder der Taxonomien werden zusammengefasst' :
+      'Die Felder der Taxonomien werden einzeln dargestellt'
+    )
   },
 
-  dataFromSynonymsText () {
+  dataFromSynonymsText() {
     const { includeDataFromSynonyms } = this.props
-    return includeDataFromSynonyms ? 'Informationen von Synonymen werden berücksichtigt' : 'Informationen von Synonymen werden ignoriert'
+    return (
+      includeDataFromSynonyms ?
+      'Informationen von Synonymen werden berücksichtigt' :
+      'Informationen von Synonymen werden ignoriert'
+    )
   },
 
-  onlyObjectsWithCollectionDataText () {
+  onlyObjectsWithCollectionDataText() {
     const { onlyObjectsWithCollectionData } = this.props
-    return onlyObjectsWithCollectionData ? 'Filterkriterien in Eigenschaften- und Beziehungssammlungen filtern Arten bzw. Lebensräume' : 'Filterkriterien in Eigenschaften- und Beziehungssammlungen filtern Eigenschaften- bzw. Beziehungssammlungen'
+    return (
+      onlyObjectsWithCollectionData ?
+      'Filterkriterien in Eigenschaften- und Beziehungssammlungen filtern Arten bzw. Lebensräume' :
+      'Filterkriterien in Eigenschaften- und Beziehungssammlungen filtern Eigenschaften- bzw. Beziehungssammlungen'
+    )
   },
 
-  oneRowPerRelationText () {
+  oneRowPerRelationText() {
     const { oneRowPerRelation } = this.props
-    return oneRowPerRelation ? 'Pro Beziehung eine Zeile' : 'Pro Art/Lebensraum eine Zeile, alle Beziehungen kommagetrennt in einem Feld'
+    return (
+      oneRowPerRelation ?
+      'Pro Beziehung eine Zeile' :
+      'Pro Art/Lebensraum eine Zeile, alle Beziehungen kommagetrennt in einem Feld'
+    )
   },
 
-  filtersAndFields () {
+  filtersAndFields() {
     const { exportOptions } = this.props
-    let filters = []
-    let fields = []
+    const filters = []
+    const fields = []
     Object.keys(exportOptions).forEach((cName) => {
       Object.keys(exportOptions[cName]).forEach((fName) => {
         const field = exportOptions[cName][fName]
@@ -64,7 +80,7 @@ export default React.createClass({
     return ({ filters, fields })
   },
 
-  filtersList () {
+  filtersList() {
     const spanStyle = {
       backgroundColor: '#DADADA',
       padding: '1px 8px',
@@ -79,14 +95,30 @@ export default React.createClass({
         const fName = filter.fName
         const cName = filter.cName
         const filterValue = filter.filterValue
-        if (cName === 'object') return <li key={index}>{fName === '_id' ? 'GUID' : fName} <span style={spanStyle}>{filterValue}</span></li>
-        return <li key={index}>{cName}: {fName} <span style={spanStyle}>{filterValue}</span></li>
+        if (cName === 'object') {
+          return (
+            <li key={index}>
+              {fName === '_id' ? 'GUID' : fName}&nbsp;
+              <span style={spanStyle}>
+                {filterValue}
+              </span>
+            </li>
+          )
+        }
+        return (
+          <li key={index}>
+            {cName}: {fName}&nbsp;
+            <span style={spanStyle}>
+              {filterValue}
+            </span>
+          </li>
+        )
       })
     }
     return <li>Kein Filter gewählt</li>
   },
 
-  fieldsList () {
+  fieldsList() {
     const { fields } = this.filtersAndFields()
     if (fields.length > 0) {
       return fields.map((field, index) => {
@@ -105,7 +137,7 @@ export default React.createClass({
       fontWeight: 'bold'
     }
     return (
-      <Well bsSize='small'>
+      <Well bsSize="small">
         <p style={pStyle}>Gewählte Optionen:</p>
         <ul style={ulStyle}>
           <li>{this.groupsText()}</li>
