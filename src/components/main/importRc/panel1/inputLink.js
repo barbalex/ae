@@ -13,7 +13,7 @@ export default React.createClass({
     onBlurLink: React.PropTypes.func
   },
 
-  onChange (event) {
+  onChange(event) {
     const link = event.target.value
     this.props.onChangeLink(link)
   },

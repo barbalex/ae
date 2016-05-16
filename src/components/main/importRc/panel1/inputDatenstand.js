@@ -12,7 +12,7 @@ export default React.createClass({
     onChangeDatenstand: React.PropTypes.func
   },
 
-  onChange (event) {
+  onChange(event) {
     const datenstand = event.target.value
     // inform parent component
     this.props.onChangeDatenstand(datenstand)

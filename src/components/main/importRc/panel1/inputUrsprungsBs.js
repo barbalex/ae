@@ -14,7 +14,7 @@ export default React.createClass({
     onChangeNameUrsprungsBs: React.PropTypes.func
   },
 
-  onChange (event) {
+  onChange(event) {
     const nameUrsprungsBs = event.target.value
     // tell parent component
     this.props.onChangeNameUrsprungsBs(nameUrsprungsBs)

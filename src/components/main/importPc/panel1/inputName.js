@@ -13,7 +13,7 @@ export default React.createClass({
     onBlurName: React.PropTypes.func
   },
 
-  onChange (event) {
+  onChange(event) {
     const name = event.target.value
     this.props.onChangeName(name)
   },

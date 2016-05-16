@@ -12,7 +12,7 @@ export default React.createClass({
     onChangeNutzungsbedingungen: React.PropTypes.func
   },
 
-  onChange (event) {
+  onChange(event) {
     const nutzungsbedingungen = event.target.value
     this.props.onChangeNutzungsbedingungen(nutzungsbedingungen)
   },

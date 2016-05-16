@@ -13,7 +13,7 @@ export default React.createClass({
     onChangeImportId: React.PropTypes.func
   },
 
-  onChange (event) {
+  onChange(event) {
     const idsImportIdField = event.target.value
     this.props.onChangeImportId(idsImportIdField)
   },

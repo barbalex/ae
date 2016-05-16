@@ -22,7 +22,7 @@ export default React.createClass({
     console.log('coSelect for ' + fName + ':', event.target.value)
   },
 
-  onChange (event) {
+  onChange(event) {
     const nameBestehend = event.target.value
     // pass variables to parent component
     this.props.onChangeNameBestehend(nameBestehend)

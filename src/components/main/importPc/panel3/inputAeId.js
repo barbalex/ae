@@ -11,7 +11,7 @@ export default React.createClass({
     onChangeAeId: React.PropTypes.func
   },
 
-  onChange (event) {
+  onChange(event) {
     const idsAeIdField = event.target.value
     this.props.onChangeAeId(idsAeIdField)
   },

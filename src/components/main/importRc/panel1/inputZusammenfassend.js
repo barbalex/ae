@@ -11,7 +11,7 @@ export default React.createClass({
     onChangeZusammenfassend: React.PropTypes.func
   },
 
-  onChange (event) {
+  onChange(event) {
     const zusammenfassend = event.target.checked
     this.props.onChangeZusammenfassend(zusammenfassend)
   },

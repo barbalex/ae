@@ -12,7 +12,7 @@ export default React.createClass({
     onChangeBeschreibung: React.PropTypes.func
   },
 
-  onChange (event) {
+  onChange(event) {
     const beschreibung = event.target.value
     // inform parent component
     this.props.onChangeBeschreibung(beschreibung)

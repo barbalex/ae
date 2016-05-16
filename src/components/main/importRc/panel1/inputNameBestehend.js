@@ -18,7 +18,7 @@ export default React.createClass({
     userIsEsWriterInOrgs: React.PropTypes.array
   },
 
-  onChange (event) {
+  onChange(event) {
     const nameBestehend = event.target.value
     // pass variables to parent component
     this.props.onChangeNameBestehend(nameBestehend)
