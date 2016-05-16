@@ -25,14 +25,29 @@ export default React.createClass({
   },
 
   render() {
-    const { taxonomyFields, pcFields, relationFields, pcs, rcs, exportOptions, includeDataFromSynonyms, onChangeIncludeDataFromSynonyms, onChooseField, onChooseAllOfCollection, collectionsWithAllChoosen, oneRowPerRelation, onChangeOneRowPerRelation } = this.props
+    const {
+      taxonomyFields,
+      pcFields,
+      relationFields,
+      pcs,
+      rcs,
+      exportOptions,
+      includeDataFromSynonyms,
+      onChangeIncludeDataFromSynonyms,
+      onChooseField,
+      onChooseAllOfCollection,
+      collectionsWithAllChoosen,
+      oneRowPerRelation,
+      onChangeOneRowPerRelation
+    } = this.props
 
     return (
       <div>
         <WellSoGehts />
         <CheckboxIncludeDataFromSynonyms
           includeDataFromSynonyms={includeDataFromSynonyms}
-          onChangeIncludeDataFromSynonyms={onChangeIncludeDataFromSynonyms} />
+          onChangeIncludeDataFromSynonyms={onChangeIncludeDataFromSynonyms}
+        />
         <Fields
           exportOptions={exportOptions}
           taxonomyFields={taxonomyFields}
@@ -45,7 +60,8 @@ export default React.createClass({
           onChooseField={onChooseField}
           onChooseAllOfCollection={onChooseAllOfCollection}
           onClickPanel={this.onClickPanel}
-          onChangeOneRowPerRelation={onChangeOneRowPerRelation} />
+          onChangeOneRowPerRelation={onChangeOneRowPerRelation}
+        />
       </div>
     )
   }
