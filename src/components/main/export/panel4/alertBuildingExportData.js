@@ -3,18 +3,19 @@
 import React from 'react'
 import { Alert } from 'react-bootstrap'
 
-export default React.createClass({
-  displayName: 'AlertBuildingExportData',
+const style = {
+  marginTop: 6,
+  marginBottom: 0
+}
 
-  render() {
-    const style = {
-      marginTop: 6,
-      marginBottom: 0
-    }
-    return (
-      <Alert bsStyle='info' style={style}>
-        <p>Die Exportdaten werden aufgebaut...</p>
-      </Alert>
-    )
-  }
-})
+const AlertBuildingExportData = () =>
+  <Alert
+    bsStyle="info"
+    style={style}
+  >
+    <p>Die Exportdaten werden aufgebaut...</p>
+  </Alert>
+
+AlertBuildingExportData.displayName = 'AlertBuildingExportData'
+
+export default AlertBuildingExportData

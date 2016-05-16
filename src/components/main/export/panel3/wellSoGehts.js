@@ -16,7 +16,7 @@ export default React.createClass({
     }
   },
 
-  onClickToggle (event) {
+  onClickToggle(event) {
     event.preventDefault()
     this.setState({ visible: !this.state.visible })
   },
@@ -24,13 +24,27 @@ export default React.createClass({
   render() {
     const { visible } = this.state
     const wellStyle = {
-      marginBottom: 5 + 'px !important'
+      marginBottom: `${5}px !important`
     }
 
     return (
-      <Well bsSize='small' style={wellStyle}>
-        <b>So geht`s</b> <a href='#' onClick={this.onClickToggle} className='showNextHidden'>{visible ? '...weniger' : '...mehr'}</a>
-        <ul className='adb-hidden' style={{'display': visible ? 'block' : 'none'}}>
+      <Well
+        bsSize="small"
+        style={wellStyle}
+      >
+        <b>So geht`s</b>
+        &nbsp;
+        <a
+          href="#"
+          onClick={this.onClickToggle}
+          className="showNextHidden"
+        >
+          {visible ? '...weniger' : '...mehr'}
+        </a>
+        <ul
+          className="adb-hidden"
+          style={{ display: visible ? 'block' : 'none' }}
+        >
           <li>Nachfolgend sind alle Eigenschaften aufgelistet, die in den gewählten Gruppen vorkommen</li>
           <li>Markieren Sie die Eigenschaften, die Sie exportieren möchten...</li>
           <li>...und fahren Sie danach mit "4. exportieren" weiter</li>
