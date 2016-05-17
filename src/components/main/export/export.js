@@ -15,8 +15,6 @@ import ModalTooManyRcsChoosen from './modalTooManyRcsChoosen.js'
 export default React.createClass({
   displayName: 'Export',
 
-  mixins: [ListenerMixin],
-
   propTypes: {
     groupsLoadingObjects: React.PropTypes.array,
     fieldsQuerying: React.PropTypes.bool,
@@ -48,6 +46,8 @@ export default React.createClass({
     exportObjects: React.PropTypes.array,
     errorBuildingExportData: React.PropTypes.object
   },
+
+  mixins: [ListenerMixin],
 
   /**
    * exportOptions object:
@@ -113,7 +113,7 @@ export default React.createClass({
       /**
        * now follow the options needed to build the export data
        */
-      exportOptions: exportOptions,
+      exportOptions,
       onlyObjectsWithCollectionData: true,
       includeDataFromSynonyms: true,
       /**
@@ -144,18 +144,18 @@ export default React.createClass({
     this.listenTo(app.exportDataStore, this.onChangeExportDataStore)
   },
 
-  onChangeExportDataStore ({ exportObjects, errorBuildingExportData }) {
+  onChangeExportDataStore({ exportObjects, errorBuildingExportData }) {
     this.setState({ exportObjects, errorBuildingExportData })
   },
 
-  handleOnSelectPanel (activeKey) {
+  handleOnSelectPanel(activeKey) {
     // this is the clean way to handle choosing a panel heading
     // but it only works when the user clicks the link in the panel heading
     // console.log('handleOnSelectPanel, activeKey', activeKey)
   },
 
   onClickPanel(number, event) {
-    let { activePanel } = this.state
+    const { activePanel } = this.state
     // make sure the heading was clicked
     const parent = event.target.parentElement
     const headingWasClicked = parent.className.includes('panel-title') || parent.className.includes('panel-heading')
@@ -167,25 +167,30 @@ export default React.createClass({
         case 1:
           this.setState({ activePanel: 1 })
           break
-        case 2:
+        case 2: {
           const isPanel1Done = this.isPanel1Done()
           if (isPanel1Done) this.setState({ activePanel: 2 })
           break
-        case 3:
+        }
+        case 3: {
           const isPanel2Done = this.isPanel2Done()
           if (isPanel2Done) this.setState({ activePanel: 3 })
           break
-        case 4:
+        }
+        case 4: {
           const isPanel3Done = this.isPanel3Done() || this.isPanel2Done()
           if (isPanel3Done) this.setState({ activePanel: 4 })
           break
+        }
+        default:
+          this.setState({ activePanel: 1 })
       }
     } else {
       event.stopPropagation()
     }
   },
 
-  isPanel1Done () {
+  isPanel1Done() {
     const { exportOptions } = this.state
     const groupsToExport = exportOptions.object.Gruppen.value
     const panel1Done = groupsToExport.length > 0
@@ -195,7 +200,7 @@ export default React.createClass({
     return panel1Done
   },
 
-  isPanel2Done () {
+  isPanel2Done() {
     const panel1Done = this.isPanel1Done()
     const panel2Done = panel1Done
     let state = { panel2Done }
@@ -204,7 +209,7 @@ export default React.createClass({
     return panel2Done
   },
 
-  isPanel3Done () {
+  isPanel3Done() {
     const panel1Done = this.isPanel1Done()
     const panel3Done = panel1Done
     let state = { panel3Done }
@@ -213,9 +218,8 @@ export default React.createClass({
     return panel3Done
   },
 
-  onChangeGroupsToExport (group, checked) {
-    let { exportOptions } = this.state
-    const { combineTaxonomies } = this.state
+  onChangeGroupsToExport(group, checked) {
+    const { combineTaxonomies, exportOptions } = this.state
     const { offlineIndexes } = this.props
     if (checked) exportOptions.object.Gruppen.value.push(group)
     if (!checked) exportOptions.object.Gruppen.value = without(exportOptions.object.Gruppen.value, group)
@@ -224,10 +228,9 @@ export default React.createClass({
     const exportObjects = []
     this.setState({ exportObjects, exportOptions, panel1Done, panel2Done })
     app.Actions.queryFields(exportOptions.object.Gruppen.value, group, combineTaxonomies, offlineIndexes)
-    // console.log('exportOptions', exportOptions)
   },
 
-  onChangeCombineTaxonomies (combineTaxonomies) {
+  onChangeCombineTaxonomies(combineTaxonomies) {
     const { exportOptions } = this.state
     const { offlineIndexes } = this.props
     const group = null
@@ -246,18 +249,17 @@ export default React.createClass({
     app.Actions.queryFields(groupsToExport, group, combineTaxonomies, offlineIndexes)
   },
 
-  onChangeCoSelect (cName, fName, event) {
+  onChangeCoSelect(cName, fName, event) {
     const { exportOptions } = this.state
     const co = event.target.value
     const coPath = `${cName}.${fName}.co`
     set(exportOptions, coPath, co)
     const exportObjects = []
     this.setState({ exportObjects, exportOptions })
-    // console.log('exportOptions', exportOptions)
   },
 
-  onChangeFilterField (cName, fName, cType, event) {
-    let { exportOptions } = this.state
+  onChangeFilterField(cName, fName, cType, event) {
+    const { exportOptions } = this.state
     let value = event.target.value
     const valuePath = `${cName}.${fName}.value`
     // correct a few misleading values
@@ -272,17 +274,13 @@ export default React.createClass({
   },
 
   onChooseAllOfCollection(cName, cType, event) {
-
-    // console.log('onChooseAllOfCollection, cName', cName)
-    // console.log('onChooseAllOfCollection, cType', cType)
-    // console.log('onChooseAllOfCollection, event', event)
-
-    let { exportOptions, collectionsWithAllChoosen } = this.state
+    let { collectionsWithAllChoosen } = this.state
+    const { exportOptions } = this.state
     const { taxonomyFields, pcFields, relationFields } = this.props
     const choosen = event.target.checked
     // set exportObjects back
     const exportObjects = []
-    let state = { exportObjects }
+    const state = { exportObjects }
     let fields = taxonomyFields
     if (cType === 'pc') fields = pcFields
     if (cType === 'rc') fields = relationFields
@@ -315,15 +313,15 @@ export default React.createClass({
       }
     }
     this.setState(state)
-    // console.log('exportOptions', exportOptions)
   },
 
-  onChooseField (cName, fName, cType, event) {
-    let { exportOptions, collectionsWithAllChoosen } = this.state
-    let choosen = event.target.checked
+  onChooseField(cName, fName, cType, event) {
+    let { collectionsWithAllChoosen } = this.state
+    const { exportOptions } = this.state
+    const choosen = event.target.checked
     // set exportObjects back
     const exportObjects = []
-    let state = { exportObjects }
+    const state = { exportObjects }
     const fieldNewlyChoosen = `${cName}${fName}`
     if (choosen && this.tooManyFieldsChoosen([fieldNewlyChoosen])) {
       event.preventDefault()
@@ -345,15 +343,14 @@ export default React.createClass({
       }
     }
     this.setState(state)
-    // console.log('exportOptions', exportOptions)
   },
 
-  resetTooManyFieldsChoosen () {
+  resetTooManyFieldsChoosen() {
     const tooManyFieldsChoosen = false
     this.setState({ tooManyFieldsChoosen })
   },
 
-  tooManyFieldsChoosen (fieldsNewlyChoosen) {
+  tooManyFieldsChoosen(fieldsNewlyChoosen) {
     const { exportOptions, maxNumberOfFieldsToChoose } = this.state
     let fieldsChoosen = fieldsNewlyChoosen
     Object.keys(exportOptions).forEach((cName) => {
@@ -367,12 +364,12 @@ export default React.createClass({
     return fieldsChoosen.length > maxNumberOfFieldsToChoose
   },
 
-  resetTooManyRcsChoosen () {
+  resetTooManyRcsChoosen() {
     const tooManyRcsChoosen = false
     this.setState({ tooManyRcsChoosen })
   },
 
-  tooManyRcsChoosen (cNameNew, oneRowPerRelationPassed) {
+  tooManyRcsChoosen(cNameNew, oneRowPerRelationPassed) {
     const { exportOptions } = this.state
     const oneRowPerRelation = oneRowPerRelationPassed || this.state.oneRowPerRelation
     let rcsChoosen = cNameNew ? [cNameNew] : []
@@ -388,18 +385,18 @@ export default React.createClass({
     return oneRowPerRelation && rcsChoosen.length > 1
   },
 
-  onChangeOnlyObjectsWithCollectionData (onlyObjectsWithCollectionData) {
+  onChangeOnlyObjectsWithCollectionData(onlyObjectsWithCollectionData) {
     const exportObjects = []
     this.setState({ exportObjects, onlyObjectsWithCollectionData })
   },
 
-  onChangeIncludeDataFromSynonyms (event) {
+  onChangeIncludeDataFromSynonyms(event) {
     const includeDataFromSynonyms = event.target.checked
     const exportObjects = []
     this.setState({ exportObjects, includeDataFromSynonyms })
   },
 
-  onChangeOneRowPerRelation (oneRowPerRelation) {
+  onChangeOneRowPerRelation(oneRowPerRelation) {
     const { exportOptions } = this.state
     const exportObjects = []
     /**
@@ -415,34 +412,69 @@ export default React.createClass({
     this.setState({ exportObjects, oneRowPerRelation, exportOptions })
   },
 
-  onChangeFormat (format) {
+  onChangeFormat(format) {
     this.setState({ format })
   },
 
   render() {
-    const { groupsLoadedOrLoading, groupsLoadingObjects, fieldsQuerying, fieldsQueryingError, taxonomyFields, pcFields, relationFields, pcs, pcsQuerying, rcs, rcsQuerying } = this.props
-    const { combineTaxonomies, errorBuildingExportOptions, activePanel, panel1Done, exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, tooManyFieldsChoosen, tooManyRcsChoosen, collectionsWithAllChoosen, oneRowPerRelation, format, exportObjects, errorBuildingExportData } = this.state
+    const {
+      groupsLoadedOrLoading,
+      groupsLoadingObjects,
+      fieldsQuerying,
+      fieldsQueryingError,
+      taxonomyFields,
+      pcFields,
+      relationFields,
+      pcs,
+      pcsQuerying,
+      rcs,
+      rcsQuerying
+    } = this.props
+    const {
+      combineTaxonomies,
+      errorBuildingExportOptions,
+      activePanel,
+      panel1Done,
+      exportOptions,
+      onlyObjectsWithCollectionData,
+      includeDataFromSynonyms,
+      tooManyFieldsChoosen,
+      tooManyRcsChoosen,
+      collectionsWithAllChoosen,
+      oneRowPerRelation,
+      format,
+      exportObjects,
+      errorBuildingExportData
+    } = this.state
 
     return (
-      <div id='export' className='formContent'>
+      <div
+        id="export"
+        className="formContent"
+      >
         {
           tooManyFieldsChoosen &&
           <ModalTooManyFieldsChoosen
-            resetTooManyFieldsChoosen={this.resetTooManyFieldsChoosen} />
+            resetTooManyFieldsChoosen={this.resetTooManyFieldsChoosen}
+          />
         }
         {
           tooManyRcsChoosen &&
           <ModalTooManyRcsChoosen
-            resetTooManyRcsChoosen={this.resetTooManyRcsChoosen} />
+            resetTooManyRcsChoosen={this.resetTooManyRcsChoosen}
+          />
         }
         <h4>Eigenschaften exportieren</h4>
         <Accordion
           activeKey={activePanel}
-          onSelect={this.handleOnSelectPanel}>
+          onSelect={this.handleOnSelectPanel}
+        >
           <Panel
-            collapsible header='1. Gruppe(n) wählen'
+            collapsible
+            header="1. Gruppe(n) wählen"
             eventKey={1}
-            onClick={this.onClickPanel.bind(this, 1)}>
+            onClick={this.onClickPanel.bind(this, 1)}
+          >
             {
               activePanel === 1 &&
               <Panel1
@@ -458,16 +490,18 @@ export default React.createClass({
                 pcsQuerying={pcsQuerying}
                 rcsQuerying={rcsQuerying}
                 onChangeCombineTaxonomies={this.onChangeCombineTaxonomies}
-                onChangeGroupsToExport={this.onChangeGroupsToExport} />
+                onChangeGroupsToExport={this.onChangeGroupsToExport}
+              />
             }
           </Panel>
 
           <Panel
-            className='exportFields'
+            className="exportFields"
             collapsible
-            header='2. filtern'
+            header="2. filtern"
             eventKey={2}
-            onClick={this.onClickPanel.bind(this, 2)}>
+            onClick={this.onClickPanel.bind(this, 2)}
+          >
             {
               activePanel === 2 &&
               <Panel2
@@ -482,15 +516,17 @@ export default React.createClass({
                 onlyObjectsWithCollectionData={onlyObjectsWithCollectionData}
                 onChangeFilterField={this.onChangeFilterField}
                 onChangeCoSelect={this.onChangeCoSelect}
-                onChangeOnlyObjectsWithCollectionData={this.onChangeOnlyObjectsWithCollectionData} />
+                onChangeOnlyObjectsWithCollectionData={this.onChangeOnlyObjectsWithCollectionData}
+              />
             }
           </Panel>
 
           <Panel
             collapsible
-            header='3. Eigenschaften wählen'
+            header="3. Eigenschaften wählen"
             eventKey={3}
-            onClick={this.onClickPanel.bind(this, 3)}>
+            onClick={this.onClickPanel.bind(this, 3)}
+          >
             {
               activePanel === 3 &&
               <Panel3
@@ -506,15 +542,17 @@ export default React.createClass({
                 onChangeIncludeDataFromSynonyms={this.onChangeIncludeDataFromSynonyms}
                 onChooseField={this.onChooseField}
                 onChooseAllOfCollection={this.onChooseAllOfCollection}
-                onChangeOneRowPerRelation={this.onChangeOneRowPerRelation} />
+                onChangeOneRowPerRelation={this.onChangeOneRowPerRelation}
+              />
             }
           </Panel>
 
           <Panel
             collapsible
-            header='4. exportieren'
+            header="4. exportieren"
             eventKey={4}
-            onClick={this.onClickPanel.bind(this, 4)}>
+            onClick={this.onClickPanel.bind(this, 4)}
+          >
             {
               activePanel === 4 &&
               <Panel4
@@ -526,7 +564,8 @@ export default React.createClass({
                 format={format}
                 onChangeFormat={this.onChangeFormat}
                 exportObjects={exportObjects}
-                errorBuildingExportData={errorBuildingExportData} />
+                errorBuildingExportData={errorBuildingExportData}
+              />
             }
           </Panel>
 
