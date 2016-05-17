@@ -368,7 +368,6 @@ export default React.createClass({
           activeKey={activePanel}
           onSelect={this.handleOnSelectPanel}
         >
-
           <Panel
             collapsible
             header="1. Eigenschaften wählen"
@@ -394,7 +393,6 @@ export default React.createClass({
               />
             }
           </Panel>
-
           <Panel
             collapsible
             header="2. URL generieren"
@@ -412,7 +410,6 @@ export default React.createClass({
               />
             }
           </Panel>
-
         </Accordion>
       </div>
     )
