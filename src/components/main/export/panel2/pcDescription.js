@@ -35,7 +35,9 @@ export default React.createClass({
     let mehr = ''
 
     const datenstand = (
-      <div className='dsBeschreibungZeile'>
+      <div
+        className='dsBeschreibungZeile'
+      >
         <div>Stand:</div>
         <div>{pc.fields.Datenstand}</div>
       </div>
@@ -43,7 +45,7 @@ export default React.createClass({
 
     const nutzunbsbedingungen = (
       <div className='dsBeschreibungZeile'>
-        <div>Nutzungs-<br/>bedingungen:</div>
+        <div>Nutzungs-<br />bedingungen:</div>
         <div>{pc.fields.Nutzungsbedingungen}</div>
       </div>
     )
@@ -63,7 +65,14 @@ export default React.createClass({
       importiertVon = (
         <div className='dsBeschreibungZeile'>
           <div>Importiert von:</div>
-          <div><a href={'mailto:' + pc.fields['importiert von']} target={'_blank'}>{pc.fields['importiert von']}</a></div>
+          <div>
+            <a
+              href={`mailto:${pc.fields['importiert von']}`}
+              target={'_blank'}
+            >
+              {pc.fields['importiert von']}
+            </a>
+          </div>
         </div>
       )
     }
@@ -73,7 +82,10 @@ export default React.createClass({
       ursprungsEs = (
         <div className='dsBeschreibungZeile'>
           <div>Zus.-fassend:</div>
-          <div>Diese Eigenschaftensammlung fasst die Daten mehrerer Eigenschaftensammlungen in einer zusammen.<br/>Die angezeigten Informationen stammen aus der Eigenschaftensammlung {'"' + pc.fields.Ursprungsdatensammlung + '"'}</div>
+          <div>
+            Diese Eigenschaftensammlung fasst die Daten mehrerer Eigenschaftensammlungen in einer zusammen.<br />
+            Die angezeigten Informationen stammen aus der Eigenschaftensammlung {`"${pc.fields.Ursprungsdatensammlung}"`}
+          </div>
         </div>
       )
     } else {
