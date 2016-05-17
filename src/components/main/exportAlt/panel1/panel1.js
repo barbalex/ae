@@ -37,7 +37,6 @@ const Panel1 = ({
       oneRowPerRelation={oneRowPerRelation}
       onChooseField={onChooseField}
       onChooseAllOfCollection={onChooseAllOfCollection}
-      onClickPanel={this.onClickPanel}
       onChangeOneRowPerRelation={onChangeOneRowPerRelation}
     />
   </div>

@@ -7,7 +7,7 @@ import Reflux from 'reflux'
 // Thus the flow is: User interaction -> component calls action -> store reacts and triggers -> components update
 
 export default () => {
-  let Actions = Reflux.createActions([
+  const Actions = Reflux.createActions([
     'loadPouchFromRemote',
     'loadPouchFromLocal',
     'loadObject',

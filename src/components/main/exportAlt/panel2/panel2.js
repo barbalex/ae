@@ -19,7 +19,7 @@ export default React.createClass({
     onCopyUrl: React.PropTypes.func
   },
 
-  buildUrl () {
+  buildUrl() {
     const { urlOptions, includeDataFromSynonyms, oneRowPerRelation } = this.props
     const exportFields = JSON.stringify(buildExportFields(urlOptions))
     const couchUrl = getCouchUrl()
@@ -29,19 +29,12 @@ export default React.createClass({
     return url
   },
 
-  copyUrl (url, event) {
-    const { onCopyUrl } = this.props
-    // an event is only passed if this function is called from the link
-    if (event && event.preventDefault) event.preventDefault()
-    onCopyUrl(url)
-  },
-
   render() {
-    const { urlOptions, includeDataFromSynonyms, oneRowPerRelation, urlCopied } = this.props
+    const { urlOptions, includeDataFromSynonyms, oneRowPerRelation, urlCopied, onCopyUrl } = this.props
     const url = this.buildUrl()
     const urlCopiedButtonBsStyle = urlCopied === url ? 'success' : 'default'
     const textareaStyle = {
-      width: 100 + '%',
+      width: `${100}%`,
       borderRadius: 3,
       marginBottom: 5
     }
@@ -54,9 +47,9 @@ export default React.createClass({
         <WellOptionsChoosen
           urlOptions={urlOptions}
           includeDataFromSynonyms={includeDataFromSynonyms}
-          oneRowPerRelation={oneRowPerRelation} />
-        <Well
-          bsSize='small'>
+          oneRowPerRelation={oneRowPerRelation}
+        />
+        <Well bsSize="small">
           <b>
             So geht`s
           </b>
@@ -64,8 +57,13 @@ export default React.createClass({
             <li>Die URL wurde generiert.</li>
             <li>
               <strong>
-                <a href='#'
-                  onClick={this.copyUrl.bind(this, url)}>
+                <a
+                  href="#"
+                  onClick={(event) => {
+                    event.preventDefault()
+                    onCopyUrl(url)
+                  }}
+                >
                   Kopieren Sie sie...
                 </a>
               </strong>
@@ -78,21 +76,23 @@ export default React.createClass({
           </ul>
         </Well>
         <div>
-          <p
-            style={textareaLabelStyle}>
+          <p style={textareaLabelStyle}>
             <strong>
               URL
             </strong>
           </p>
           <Textarea
             defaultValue={url}
-            style={textareaStyle} />
+            style={textareaStyle}
+          />
         </div>
         <CopyToClipboard
           text={url}
-          onCopy={this.copyUrl.bind(this, url)}>
+          onCopy={() => onCopyUrl(url)}
+        >
           <Button
-            bsStyle={urlCopiedButtonBsStyle}>
+            bsStyle={urlCopiedButtonBsStyle}
+          >
             {
               urlCopied === url
               ? 'URL kopiert'

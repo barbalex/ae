@@ -35,10 +35,12 @@ export default React.createClass({
     const { activePanel } = this.state
     // prevent higher level panels from reacting
     event.stopPropagation()
-
     // make sure the heading was clicked
     const parent = event.target.parentElement
-    const headingWasClicked = parent.className.includes('panel-title') || parent.className.includes('panel-heading')
+    const headingWasClicked = (
+      parent.className.includes('panel-title') ||
+      parent.className.includes('panel-heading')
+    )
     if (headingWasClicked) {
       // always close panel if it is open
       if (activePanel === number) return this.setState({ activePanel: '' })
@@ -67,6 +69,7 @@ export default React.createClass({
       onChangeOneRowPerRelation
     } = this.props
     const { activePanel } = this.state
+    console.log('fields, render, activePanel', activePanel)
     const guidChecked = get(urlOptions, 'object._id.export')
     const taxonomyHeader = Object.keys(taxonomyFields).length > 1 ? 'Taxonomien' : 'Taxonomie'
 
