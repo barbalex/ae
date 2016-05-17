@@ -36,7 +36,7 @@ export default React.createClass({
 
     const datenstand = (
       <div
-        className='dsBeschreibungZeile'
+        className="dsBeschreibungZeile"
       >
         <div>Stand:</div>
         <div>{pc.fields.Datenstand}</div>
@@ -44,7 +44,7 @@ export default React.createClass({
     )
 
     const nutzunbsbedingungen = (
-      <div className='dsBeschreibungZeile'>
+      <div className="dsBeschreibungZeile">
         <div>Nutzungs-<br />bedingungen:</div>
         <div>{pc.fields.Nutzungsbedingungen}</div>
       </div>
@@ -53,9 +53,16 @@ export default React.createClass({
     let link = ''
     if (pc.fields.Link) {
       link = (
-        <div className='dsBeschreibungZeile'>
+        <div className="dsBeschreibungZeile">
           <div>Link:</div>
-          <div><a href={pc.fields.Link} target={'_blank'}>{pc.fields.Link}</a></div>
+          <div>
+            <a
+              href={pc.fields.Link}
+              target="_blank"
+            >
+              {pc.fields.Link}
+            </a>
+          </div>
         </div>
       )
     }
@@ -63,12 +70,12 @@ export default React.createClass({
     let importiertVon = ''
     if (pc.fields['importiert von']) {
       importiertVon = (
-        <div className='dsBeschreibungZeile'>
+        <div className="dsBeschreibungZeile">
           <div>Importiert von:</div>
           <div>
             <a
               href={`mailto:${pc.fields['importiert von']}`}
-              target={'_blank'}
+              target="_blank"
             >
               {pc.fields['importiert von']}
             </a>
@@ -80,28 +87,43 @@ export default React.createClass({
     let ursprungsEs = ''
     if (pc.fields.Ursprungsdatensammlung) {
       ursprungsEs = (
-        <div className='dsBeschreibungZeile'>
+        <div className="dsBeschreibungZeile">
           <div>Zus.-fassend:</div>
           <div>
             Diese Eigenschaftensammlung fasst die Daten mehrerer Eigenschaftensammlungen in einer zusammen.<br />
-            Die angezeigten Informationen stammen aus der Eigenschaftensammlung {`"${pc.fields.Ursprungsdatensammlung}"`}
+            Die angezeigten Informationen stammen aus der
+            Eigenschaftensammlung {`"${pc.fields.Ursprungsdatensammlung}"`}
           </div>
         </div>
       )
     } else {
       ursprungsEs = (
-        <div className='dsBeschreibungZeile'>
+        <div className="dsBeschreibungZeile">
           <div>Zus.-fassend:</div>
-          <div>Diese Eigenschaftensammlung fasst die Daten mehrerer Eigenschaftensammlungen in einer zusammen.<br/>Bei den angezeigten Informationen ist die Ursprungs-Eigenschaftensammlung leider nicht beschrieben</div>
+          <div>Diese Eigenschaftensammlung fasst die Daten mehrerer Eigenschaftensammlungen in einer zusammen.<br />
+          Bei den angezeigten Informationen ist die Ursprungs-Eigenschaftensammlung leider nicht beschrieben</div>
         </div>
       )
     }
 
-    if (pc.fields.Datenstand || pc.fields.Nutzungsbedingungen || pc.fields.Link || (pc.combining && pc.fields.Ursprungsdatensammlung)) {
+    if (
+      pc.fields.Datenstand ||
+      pc.fields.Nutzungsbedingungen ||
+      pc.fields.Link ||
+      (pc.combining && pc.fields.Ursprungsdatensammlung)
+    ) {
       mehr = (
         <span>
-          <a href='#' onClick={this.onClick} className='showNextHidden'>{isVisible ? '...weniger' : '...mehr'}</a>
-          <div style={{display: isVisible ? 'block' : 'none'}}>
+          <a
+            href="#"
+            onClick={this.onClick}
+            className="showNextHidden"
+          >
+            {isVisible ? '...weniger' : '...mehr'}
+          </a>
+          <div
+            style={{ display: isVisible ? 'block' : 'none' }}
+          >
             {pc.fields.Datenstand ? datenstand : null}
             {pc.fields.Nutzungsbedingungen ? nutzunbsbedingungen : null}
             {pc.fields.Link ? link : null}
@@ -114,8 +136,12 @@ export default React.createClass({
 
     return (
       <div>
-        <div className='Datensammlung beschreibungDatensammlung'>
-          <span style={{marginRight: 3}}>{pc.fields.Beschreibung}</span>
+        <div
+          className="Datensammlung beschreibungDatensammlung"
+        >
+          <span style={{ marginRight: 3 }}>
+            {pc.fields.Beschreibung}
+          </span>
           {mehr}
         </div>
       </div>
