@@ -15,7 +15,10 @@ const FieldsTaxonomyPanel = ({
   const cNameObject = taxonomyFields[cNameKey]
   // we do not want the taxonomy field 'Hierarchie'
   delete cNameObject.Hierarchie
-  const fieldsSorted = Object.keys(cNameObject).sort((fNameKey) => fNameKey.toLowerCase())
+  const fieldsSorted = (
+    Object.keys(cNameObject)
+      .sort((fNameKey) => fNameKey.toLowerCase())
+  )
   const fields = fieldsSorted.map((fNameKey) => {
     const fieldKey = fNameKey.toLowerCase()
     let checked = false

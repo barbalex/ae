@@ -37,7 +37,10 @@ export default React.createClass({
 
     // make sure the heading was clicked
     const parent = event.target.parentElement
-    const headingWasClicked = parent.className.includes('panel-title') || parent.className.includes('panel-heading')
+    const headingWasClicked = (
+      parent.className.includes('panel-title') ||
+      parent.className.includes('panel-heading')
+    )
     if (headingWasClicked) {
       // always close panel if it is open
       if (activePanel === number) return this.setState({ activePanel: '' })
@@ -47,12 +50,21 @@ export default React.createClass({
   },
 
   render() {
-    const { taxonomyFields, exportOptions, onChooseField, onChooseAllOfCollection, collectionsWithAllChoosen } = this.props
+    const {
+      taxonomyFields,
+      exportOptions,
+      onChooseField,
+      onChooseAllOfCollection,
+      collectionsWithAllChoosen
+    } = this.props
     const { activePanel } = this.state
     // open panel if there is only one
     const numberOfCollections = Object.keys(taxonomyFields).length
     const activePanelOpeningWhenOnlyOneCollection = numberOfCollections === 1 ? 0 : activePanel
-    const collectionKeysSorted = Object.keys(taxonomyFields).sort((cNameKey) => cNameKey.toLowerCase())
+    const collectionKeysSorted = (
+      Object.keys(taxonomyFields)
+        .sort((cNameKey) => cNameKey.toLowerCase())
+    )
     const collections = collectionKeysSorted.map((cNameKey, cIndex) => {
       const collectionKey = cNameKey.toLowerCase()
       return (
@@ -61,7 +73,8 @@ export default React.createClass({
           collapsible
           header={cNameKey}
           eventKey={cIndex}
-          onClick={this.onClickPanel.bind(this, cIndex)}>
+          onClick={this.onClickPanel.bind(this, cIndex)}
+        >
           {
             activePanelOpeningWhenOnlyOneCollection === cIndex &&
             <FieldsTaxonomyPanel
@@ -70,7 +83,8 @@ export default React.createClass({
               exportOptions={exportOptions}
               collectionsWithAllChoosen={collectionsWithAllChoosen}
               onChooseField={onChooseField}
-              onChooseAllOfCollection={onChooseAllOfCollection} />
+              onChooseAllOfCollection={onChooseAllOfCollection}
+            />
           }
         </Panel>
       )
@@ -78,7 +92,8 @@ export default React.createClass({
 
     return (
       <Accordion
-        activeKey={activePanelOpeningWhenOnlyOneCollection}>
+        activeKey={activePanelOpeningWhenOnlyOneCollection}
+      >
         {collections}
       </Accordion>
     )
