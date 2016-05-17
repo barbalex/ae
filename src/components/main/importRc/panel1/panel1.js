@@ -73,32 +73,77 @@ export default React.createClass({
     userIsEsWriterInOrgs: React.PropTypes.array
   },
 
-  onBlurName (name) {
+  onBlurName(name) {
     const { isEditingRcAllowed } = this.props
     isEditingRcAllowed(name)
   },
 
-  onBlurLink () {
+  onBlurLink() {
     const { isLinkValid } = this.props
     isLinkValid()
   },
 
   render() {
-    const { groupsLoadedOrLoading, email, userRoles, rcs, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime, onClickDeleteRc, onChangeNameUrsprungsBs, onChangeZusammenfassend, onChangeLink, onChangeNutzungsbedingungen, onChangeDatenstand, onChangeBeschreibung, onChangeName, onChangeNameBestehend, bsBearbeitenErlaubt, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validOrgMitSchreibrecht, validUrsprungsBs, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsBs, name, nameBestehend, ultimatelyAlertLoadAllGroups, deletingRcProgress, onChangeOrgMitSchreibrecht, userIsEsWriterInOrgs } = this.props
+    const {
+      groupsLoadedOrLoading,
+      email,
+      userRoles,
+      rcs,
+      allGroupsLoaded,
+      groupsLoadingObjects,
+      replicatingToAe,
+      replicatingToAeTime,
+      onClickDeleteRc,
+      onChangeNameUrsprungsBs,
+      onChangeZusammenfassend,
+      onChangeLink,
+      onChangeNutzungsbedingungen,
+      onChangeDatenstand,
+      onChangeBeschreibung,
+      onChangeName,
+      onChangeNameBestehend,
+      bsBearbeitenErlaubt,
+      idsOfAeObjects,
+      validName,
+      validBeschreibung,
+      validDatenstand,
+      validNutzungsbedingungen,
+      validLink,
+      validOrgMitSchreibrecht,
+      validUrsprungsBs,
+      beschreibung,
+      datenstand,
+      nutzungsbedingungen,
+      link,
+      importiertVon,
+      zusammenfassend,
+      nameUrsprungsBs,
+      name,
+      nameBestehend,
+      ultimatelyAlertLoadAllGroups,
+      deletingRcProgress,
+      onChangeOrgMitSchreibrecht,
+      userIsEsWriterInOrgs
+    } = this.props
     const showLoadAllGroups = email && !allGroupsLoaded
     const showAlertDeleteRcBuildingIndex = deletingRcProgress && deletingRcProgress < 100
     const alertAllGroupsBsStyle = ultimatelyAlertLoadAllGroups ? 'danger' : 'info'
     const enableDeleteRcButton = !!nameBestehend
-    const alertNotEsWriter = isUserServerAdmin(userRoles) || isUserOrgAdminAnywhere(userRoles) || isUserEsWriterAnywhere(userRoles)
+    const alertNotEsWriter = (
+      isUserServerAdmin(userRoles) ||
+      isUserOrgAdminAnywhere(userRoles) ||
+      isUserEsWriterAnywhere(userRoles)
+    )
 
     return (
       <div>
         {
           showLoadAllGroups &&
           <AlertLoadAllGroups
-            open='true'
+            open="true"
             groupsLoadingObjects={groupsLoadingObjects}
-            alertAllGroupsBsStyle={alertAllGroupsBsStyle} />
+            alertAllGroupsBsStyle={alertAllGroupsBsStyle}
+          />
         }
         <WellTippsUndTricks />
         <WellAutorenrechte />
@@ -115,7 +160,8 @@ export default React.createClass({
           rcs={rcs}
           groupsLoadedOrLoading={groupsLoadedOrLoading}
           onChangeNameBestehend={onChangeNameBestehend}
-          userIsEsWriterInOrgs={userIsEsWriterInOrgs} />
+          userIsEsWriterInOrgs={userIsEsWriterInOrgs}
+        />
         {
           alertNotEsWriter &&
           <AlertNotEsWriter />
@@ -124,7 +170,8 @@ export default React.createClass({
           nameBestehend={nameBestehend}
           enableDeleteRcButton={enableDeleteRcButton}
           deletingRcProgress={deletingRcProgress}
-          onClickDeleteRc={onClickDeleteRc} />
+          onClickDeleteRc={onClickDeleteRc}
+        />
         {
           showAlertDeleteRcBuildingIndex &&
           <AlertDeleteRcBuildingIndex />
@@ -132,17 +179,20 @@ export default React.createClass({
         {
           deletingRcProgress !== null &&
           <ProgressbarDeleteRc
-            progress={deletingRcProgress} />
+            progress={deletingRcProgress}
+          />
         }
         {
           deletingRcProgress === 100 &&
           <div
-            className='feld'>
+            className="feld"
+          >
             <AlertFirst5Deleted
               idsOfAeObjects={idsOfAeObjects}
               nameBestehend={nameBestehend}
               replicatingToAe={replicatingToAe}
-              replicatingToAeTime={replicatingToAeTime} />
+              replicatingToAeTime={replicatingToAeTime}
+            />
           </div>
         }
 
@@ -152,7 +202,8 @@ export default React.createClass({
           name={name}
           validName={validName}
           onChangeName={onChangeName}
-          onBlurName={this.onBlurName} />
+          onBlurName={this.onBlurName}
+        />
         {
           !bsBearbeitenErlaubt &&
           <AlertEditingRcDisallowed />
@@ -160,36 +211,44 @@ export default React.createClass({
         <InputBeschreibung
           beschreibung={beschreibung}
           validBeschreibung={validBeschreibung}
-          onChangeBeschreibung={onChangeBeschreibung} />
+          onChangeBeschreibung={onChangeBeschreibung}
+        />
         <InputDatenstand
           datenstand={datenstand}
           validDatenstand={validDatenstand}
-          onChangeDatenstand={onChangeDatenstand} />
+          onChangeDatenstand={onChangeDatenstand}
+        />
         <InputNutzungsbedingungen
           nutzungsbedingungen={nutzungsbedingungen}
           validNutzungsbedingungen={validNutzungsbedingungen}
-          onChangeNutzungsbedingungen={onChangeNutzungsbedingungen} />
+          onChangeNutzungsbedingungen={onChangeNutzungsbedingungen}
+        />
         <InputLink
           link={link}
           validLink={validLink}
           onChangeLink={onChangeLink}
-          onBlurLink={this.onBlurLink} />
+          onBlurLink={this.onBlurLink}
+        />
         <InputOrgMitSchreibrecht
           validOrgMitSchreibrecht={validOrgMitSchreibrecht}
           onChangeOrgMitSchreibrecht={onChangeOrgMitSchreibrecht}
-          userIsEsWriterInOrgs={userIsEsWriterInOrgs} />
+          userIsEsWriterInOrgs={userIsEsWriterInOrgs}
+        />
         <InputImportiertVon
-          importiertVon={importiertVon} />
+          importiertVon={importiertVon}
+        />
         <InputZusammenfassend
           zusammenfassend={zusammenfassend}
-          onChangeZusammenfassend={onChangeZusammenfassend} />
+          onChangeZusammenfassend={onChangeZusammenfassend}
+        />
         {
           zusammenfassend &&
           <InputUrsprungsBs
             nameUrsprungsBs={nameUrsprungsBs}
             rcs={rcs}
             validUrsprungsBs={validUrsprungsBs}
-            onChangeNameUrsprungsBs={onChangeNameUrsprungsBs} />
+            onChangeNameUrsprungsBs={onChangeNameUrsprungsBs}
+          />
         }
       </div>
     )

@@ -3,16 +3,19 @@
 import React from 'react'
 import { ProgressBar } from 'react-bootstrap'
 
-export default React.createClass({
-  displayName: 'ProgressbarDeleteRc',
+const ProgressbarDeleteRc = ({ progress }) =>
+  <div className="feld">
+    <ProgressBar
+      bsStyle="success"
+      now={progress}
+      label={`${progress}% gelöscht`}
+    />
+  </div>
 
-  propTypes: {
-    progress: React.PropTypes.number
-  },
+ProgressbarDeleteRc.displayName = 'ProgressbarDeleteRc'
 
-  render() {
-    const { progress } = this.props
-    const label = progress + '% gelöscht'
-    return <div className='feld'><ProgressBar bsStyle='success' now={progress} label={label} /></div>
-  }
-})
+ProgressbarDeleteRc.propTypes = {
+  progress: React.PropTypes.number
+}
+
+export default ProgressbarDeleteRc
