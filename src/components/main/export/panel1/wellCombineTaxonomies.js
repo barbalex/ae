@@ -36,28 +36,63 @@ export default React.createClass({
     }
 
     return (
-      <Well id='wellCombineTaxonomies' className='well-sm last-well' style={wellStyle}>
-        <b>Felder der gewählten Taxonomien zusammenfassen?</b> <a href='#' onClick={this.onClickToggle} className='showNextHidden'>{visible ? '...weniger' : '...mehr'}</a>
-        <div className='adb-hidden' style={{'display': visible ? 'block' : 'none'}}>
+      <Well
+        id="wellCombineTaxonomies"
+        className="well-sm last-well"
+        style={wellStyle}
+      >
+        <b>Felder der gewählten Taxonomien zusammenfassen?</b>
+        &nbsp;
+        <a
+          href="#"
+          onClick={this.onClickToggle}
+          className="showNextHidden"
+        >
+          {visible ? '...weniger' : '...mehr'}
+        </a>
+        <div
+          className="adb-hidden"
+          style={{ display: visible ? 'block' : 'none' }}
+        >
           <ul>
-            <li>Wählen Sie diese Option, werden die Taxonomien der gewählten Gruppen unter dem Titel "Taxonomie(n)" zusammegefasst...<br/>
-              ...und darunter alle in diesen Taxonomien vorkommenden Felder aufgelistet</li>
-            <li>Dabei werden die Daten gleich lautender Felder ins selbe Feld geschrieben ("zusammegefasst"), und zwar:
+            <li>
+              Wählen Sie diese Option, werden die Taxonomien der gewählten Gruppen
+              unter dem Titel "Taxonomie(n)" zusammegefasst...<br />
+              ...und darunter alle in diesen Taxonomien vorkommenden Felder aufgelistet
+            </li>
+            <li>
+              Dabei werden die Daten gleich lautender Felder ins selbe
+              Feld geschrieben ("zusammegefasst"), und zwar:
               <ul>
-                <li>schon beim filtern und Eigenschaften wählen</li>
-                <li>...und natürlich beim exportieren</li>
+                <li>
+                  schon beim filtern und Eigenschaften wählen
+                </li>
+                <li>
+                  ...und natürlich beim exportieren
+                </li>
               </ul>
             </li>
-            <li>Nicht beeinflusst werden Felder aus Eigenschaften- oder Beziehungssammlungen</li>
+            <li>
+              Nicht beeinflusst werden Felder aus Eigenschaften- oder Beziehungssammlungen
+            </li>
           </ul>
-          <p style={pStyle}><strong>Was nützt das?</strong> Sie können zum Beispiel:</p>
+          <p style={pStyle}>
+            <strong>Was nützt das?</strong> Sie können zum Beispiel:
+          </p>
           <ul>
-            <li>...bei Lebensräumen im Feld "Taxonomie" nach "Delarze" filtern um alle Taxonomien von Delarze gleichzeitig zu exportieren</li>
-            <li>...Arten aus Flora und Fauna gleichzeitig exportieren und dabei den vollständigen Artnamen ins selbe Feld ("Artname vollständig") schreiben</li>
+            <li>
+              ...bei Lebensräumen im Feld "Taxonomie" nach "Delarze" filtern
+              um alle Taxonomien von Delarze gleichzeitig zu exportieren
+            </li>
+            <li>
+              ...Arten aus Flora und Fauna gleichzeitig exportieren und dabei
+              den vollständigen Artnamen ins selbe Feld ("Artname vollständig") schreiben
+            </li>
           </ul>
           <ButtonCombineTaxonomies
-              combineTaxonomies={combineTaxonomies}
-              onChangeCombineTaxonomies={onChangeCombineTaxonomies} />
+            combineTaxonomies={combineTaxonomies}
+            onChangeCombineTaxonomies={onChangeCombineTaxonomies}
+          />
         </div>
       </Well>
     )
