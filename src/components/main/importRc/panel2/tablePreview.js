@@ -13,16 +13,16 @@ export default React.createClass({
 
   render() {
     const { rcsToImport } = this.props
-    const legendStyle = { marginBottom: 2 + 'px', paddingLeft: 5 + 'px' }
-    const tablePreviewStyle = { marginTop: 10 + 'px' }
+    const legendStyle = { marginBottom: `${2}px`, paddingLeft: `${5}px` }
+    const tablePreviewStyle = { marginTop: `${10}px` }
     let legend = ''
 
     if (rcsToImport.length > 10) {
-      legend = 'Vorschau der ersten 10 von ' + rcsToImport.length + ' Datensätzen:'
+      legend = `Vorschau der ersten 10 von ${rcsToImport.length} Datensätzen:`
     } else if (rcsToImport.length > 1) {
-      legend = 'Vorschau der ' + rcsToImport.length + ' Datensätze:'
+      legend = `Vorschau der ${rcsToImport.length} Datensätze:`
     } else if (rcsToImport.length === 1) {
-      legend = 'Vorschau der ' + rcsToImport.length + ' Datensätze:'
+      legend = 'Vorschau des einzigen Datensatzes:'
     } else {
       legend = 'Vorschau:'
     }
@@ -51,6 +51,7 @@ export default React.createClass({
           </tr>
         )
       }
+      return null
     })
 
     return (
@@ -62,7 +63,10 @@ export default React.createClass({
          * source: http://stackoverflow.com/questions/18729638/rounded-tables-in-twitter-bootstrap-3
          */
         }
-        <div className='panel panel-default' style={{backgroundColor: '#fffff0'}}>
+        <div
+          className="panel panel-default"
+          style={{ backgroundColor: '#fffff0' }}
+        >
           <Table responsive bordered striped condensed hover>
             <thead>
               <tr>
