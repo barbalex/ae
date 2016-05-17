@@ -18,9 +18,9 @@ export default React.createClass({
     }
   },
 
-  onBlur (cName, fName, event) {
+  onBlur(cName, fName, event) {
     const { onChangeFilterField } = this.props
-    let invalidGuids = []
+    const invalidGuids = []
     let value = event.target.value
     // one or more guids were entered
     if (value) {
@@ -47,40 +47,46 @@ export default React.createClass({
     this.setState({ invalidGuids })
     // build a event object that passes the array as an array - event.target.value passes it as string
     const eventToPass = {
-      target: {
-        value: value
-      }
+      target: { value }
     }
     if (invalidGuids.length === 0) onChangeFilterField(cName, fName, 'object', eventToPass)
   },
 
   popover() {
     return (
-      <Popover id='inputFilterGuidPopover'>
+      <Popover
+        id="inputFilterGuidPopover"
+      >
         <p>
-          Sie können hier einen einzelnen GUID einsetzen, z.B.:<br/>
+          Sie können hier einen einzelnen GUID einsetzen, z.B.:<br />
           <em>
             c9cfe3e0-e298-7a36-9c88-7c2acf143bab
           </em>
         </p>
         <p>
-          Oder eine Liste von GUID`s, die Sie mit einem Komma und (fakultativ) einem Leerschlag trennen, z.B.:<br/>
+          Oder eine Liste von GUID`s, die Sie mit einem Komma und (fakultativ) einem Leerschlag trennen, z.B.:<br />
           <em>
-            c9cfe3e0-e298-7a36-9c88-7c2acf143bab<strong>, </strong>001FCF2F-9833-4B52-9201-B4B04C9A05BA<strong>, </strong>004A12F2-C881-4CA4-8C7E-F4444A8F08F0
+            c9cfe3e0-e298-7a36-9c88-7c2acf143bab<strong>,&nbsp;
+            </strong>001FCF2F-9833-4B52-9201-B4B04C9A05BA<strong>,&nbsp;
+            </strong>004A12F2-C881-4CA4-8C7E-F4444A8F08F0
           </em>
         </p>
       </Popover>
     )
   },
 
-  invalidGuids () {
+  invalidGuids() {
     const { invalidGuids } = this.state
     const alertStyle = {
       marginTop: 8
     }
     const list = invalidGuids.map((guid, index) => <li key={index}>{guid}</li>)
     return (
-      <Alert bsStyle='danger' className='controls feld' style={alertStyle}>
+      <Alert
+        bsStyle="danger"
+        className="controls feld"
+        style={alertStyle}
+      >
         <p>Bitte prüfen Sie die folgenden GUID`s:</p>
         <ul>
           {list}
@@ -100,10 +106,23 @@ export default React.createClass({
     return (
       <div>
         <div className={formGroupClass} style={divStyle}>
-          <OverlayTrigger trigger={['click', 'focus']} rootClose placement='right' overlay={this.popover()}>
-            <label className='control-label withPopover'>GUID</label>
+          <OverlayTrigger
+            trigger={['click', 'focus']}
+            rootClose
+            placement="right"
+            overlay={this.popover()}
+          >
+            <label
+              className="control-label withPopover"
+            >
+              GUID
+            </label>
           </OverlayTrigger>
-          <textarea className='controls input-sm form-control' onBlur={this.onBlur.bind(this, 'object', '_id')} spellCheck={false} />
+          <textarea
+            className="controls input-sm form-control"
+            onBlur={this.onBlur.bind(this, 'object', '_id')}
+            spellCheck={false}
+          />
           {showInvalidGuids ? this.invalidGuids() : null}
         </div>
       </div>
