@@ -16,7 +16,7 @@ export default React.createClass({
     }
   },
 
-  onClickToggle (event) {
+  onClickToggle(event) {
     event.preventDefault()
     this.setState({ visible: !this.state.visible })
   },

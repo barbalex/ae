@@ -195,7 +195,7 @@ export default React.createClass({
     this.setState({ name })
   },
 
-  onBlurName (name) {
+  onBlurName(name) {
     this.isEditingPcAllowed(name)
   },
 
@@ -215,7 +215,7 @@ export default React.createClass({
     this.setState({ link })
   },
 
-  onBlurLink () {
+  onBlurLink() {
     this.validLink()
   },
 
@@ -405,7 +405,7 @@ export default React.createClass({
     }
   },
 
-  isPanel1Done () {
+  isPanel1Done() {
     const { email } = this.props
     // run all validation
     const validName = this.validName()
@@ -424,7 +424,7 @@ export default React.createClass({
     return panel1Done
   },
 
-  isPanel2Done () {
+  isPanel2Done() {
     const validPcsToImport = this.validPcsToImport()
     const panel1Done = this.isPanel1Done()
     const panel2Done = panel1Done && validPcsToImport
@@ -434,7 +434,7 @@ export default React.createClass({
     return panel2Done
   },
 
-  isPanel3Done () {
+  isPanel3Done() {
     const { idsOfAeObjects, pcsToImport, idsNumberImportable, idsNotImportable, idsNotANumber, idsDuplicate } = this.state
     const isPanel2Done = this.isPanel2Done()
     const variablesToPass = {pcsToImport, idsNumberImportable, idsNotImportable, idsNotANumber, idsDuplicate}
