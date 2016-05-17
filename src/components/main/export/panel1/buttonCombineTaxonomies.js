@@ -3,29 +3,25 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
 
-export default React.createClass({
-  displayName: 'GroupsToExport',
+const ButtonCombineTaxonomies = ({ combineTaxonomies, onChangeCombineTaxonomies }) => {
+  const buttonText = (
+    combineTaxonomies ?
+    'Felder der gewählten Taxonomien einzeln behandeln' :
+    'Felder der gewählten Taxonomien zusammenfassen'
+  )
 
-  propTypes: {
-    combineTaxonomies: React.PropTypes.bool,
-    onChangeCombineTaxonomies: React.PropTypes.func
-  },
+  return (
+    <Button onClick={() => onChangeCombineTaxonomies(!combineTaxonomies)}>
+      {buttonText}
+    </Button>
+  )
+}
 
-  onClick () {
-    const { onChangeCombineTaxonomies, combineTaxonomies } = this.props
-    onChangeCombineTaxonomies(!combineTaxonomies)
-  },
+ButtonCombineTaxonomies.displayName = 'ButtonCombineTaxonomies'
 
-  render() {
-    const { combineTaxonomies } = this.props
+ButtonCombineTaxonomies.propTypes = {
+  combineTaxonomies: React.PropTypes.bool,
+  onChangeCombineTaxonomies: React.PropTypes.func
+}
 
-    const buttonText = combineTaxonomies ? 'Felder der gewählten Taxonomien einzeln behandeln' : 'Felder der gewählten Taxonomien zusammenfassen'
-
-    return (
-      <Button onClick={this.onClick}>
-        {buttonText}
-      </Button>
-    )
-  }
-
-})
+export default ButtonCombineTaxonomies

@@ -22,7 +22,11 @@ const AlertGroups = ({
   if (!somethingQuerying && Object.keys(taxonomyFields).length > 0) {
     bsStyle = 'success'
     resultText = 'Die Eigenschaften wurden aufgebaut.'
-    taxonomienZusammenfassenText = combineTaxonomies ? 'Taxonomien werden zusammengefasst.' : 'Taxonomien werden einzeln dargestellt.'
+    taxonomienZusammenfassenText = (
+      combineTaxonomies ?
+      'Taxonomien werden zusammengefasst.' :
+      'Taxonomien werden einzeln dargestellt.'
+    )
   }
   if (fieldsQueryingError) {
     bsStyle = 'danger'

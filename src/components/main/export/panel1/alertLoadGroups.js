@@ -3,14 +3,11 @@
 import React from 'react'
 import { Alert } from 'react-bootstrap'
 
-export default React.createClass({
-  displayName: 'AlertLoadGroups',
+const AlertLoadGroups = () =>
+  <Alert bsStyle="info">
+    <p>Bitte Laden Sie mindestens eine Gruppe</p>
+  </Alert>
 
-  render() {
-    return (
-      <Alert bsStyle='info'>
-        <p>Bitte Laden Sie mindestens eine Gruppe</p>
-      </Alert>
-    )
-  }
-})
+AlertLoadGroups.displayName = 'AlertLoadGroups'
+
+export default AlertLoadGroups
