@@ -18,11 +18,11 @@ export default (exportObjects, format) => {
   let blob
   if (format === 'csv') {
     const csvData = d3.csv.format(exportObjects)
-    blob = new window.Blob([csvData], {type: 'text/plain;charset=utf-8;'})
+    blob = new window.Blob([csvData], { type: 'text/plain;charset=utf-8;' })
   }
   if (format === 'xlsx') {
     const blobData = createBlobXlsx(exportObjects)
-    blob = new window.Blob([blobData], {type: 'application/octet-stream;charset=utf-8;'})
+    blob = new window.Blob([blobData], { type: 'application/octet-stream;charset=utf-8;' })
   }
   FileSaver.saveAs(blob, filename)
 }
