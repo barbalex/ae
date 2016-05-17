@@ -9,7 +9,12 @@
 
 import isFilterFulfilled from './isFilterFulfilled.js'
 
-export default (urlOptions, objects, combineTaxonomies, onlyObjectsWithCollectionData) => {
+export default (
+  urlOptions,
+  objects,
+  combineTaxonomies,
+  onlyObjectsWithCollectionData
+) => {
   Object.keys(urlOptions).forEach((cName) => {
     const cType = urlOptions[cName].cType
     /**
@@ -36,7 +41,7 @@ export default (urlOptions, objects, combineTaxonomies, onlyObjectsWithCollectio
               let collection = collections.find((c) => c.Name === cName)
               if (cType === 'taxonomy' && !combineTaxonomies && object.Taxonomien) {
                 collections = object.Taxonomien
-                const standardtaxonomie = object.Taxonomien.find((taxonomy) => taxonomy['Standardtaxonomie'])
+                const standardtaxonomie = object.Taxonomien.find((taxonomy) => taxonomy.Standardtaxonomie)
                 // TODO: later loop all taxonomies and return if any fulfills
                 collection = standardtaxonomie
               }
@@ -45,7 +50,9 @@ export default (urlOptions, objects, combineTaxonomies, onlyObjectsWithCollectio
                 const isFulfilled = isFilterFulfilled(collection.Eigenschaften[fName], filterValue, co)
                 if (cType === 'pc' && !onlyObjectsWithCollectionData && !isFulfilled) {
                   // this data should not be delivered > empty all fields
-                  Object.keys(collection).forEach((key) => collection[key] = null)
+                  Object.keys(collection).forEach((key) => {
+                    collection[key] = null
+                  })
                 }
                 return isFulfilled
               }
