@@ -8,7 +8,7 @@
     "clean": "gulp cleanPublic",
     "prebuild": "npm run clean",
     "build": "set NODE_ENV=production&& webpack",
-    "test": "standard",
+    "test": "eslint src/**",
     "deploy": "gulp sftp",
     "yolo": "npm run build && npm run deploy && npm run clean"
   },
