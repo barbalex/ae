@@ -374,7 +374,7 @@ export default React.createClass({
   },
 
   onClickPanel(number, event) {
-    let { activePanel } = this.state
+    const { activePanel } = this.state
     const { allGroupsLoaded } = this.props
 
     // make sure the heading was clicked
