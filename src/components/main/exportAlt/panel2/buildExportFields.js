@@ -8,11 +8,11 @@
 import { get } from 'lodash'
 
 export default (urlOptions) => {
-  let felder = []
+  const felder = []
 
   // 1. add _id if applicable
   if (get(urlOptions, 'object._id.export')) {
-    let feld = {}
+    const feld = {}
     feld.DsName = 'Objekt'
     feld.Feldname = 'GUID'
     felder.push(feld)
@@ -20,7 +20,7 @@ export default (urlOptions) => {
 
   // 2. add Gruppen if applicable
   if (get(urlOptions, 'object.Gruppe.export')) {
-    let feld = {}
+    const feld = {}
     feld.DsName = 'Objekt'
     feld.Feldname = 'Gruppe'
     felder.push(feld)
@@ -32,14 +32,17 @@ export default (urlOptions) => {
     if (cType) {
       // o.k., this is not object. Must be taxonomy, pc or rc
       Object.keys(urlOptions[cName]).forEach((fName) => {
-        if (get(urlOptions, `${cName}.${fName}.export`) && fName !== '_id' && fName !== 'Gruppe') {
+        if (
+          get(urlOptions, `${cName}.${fName}.export`) &&
+          fName !== '_id' && fName !== 'Gruppe'
+        ) {
           const dsTypeNames = {
             taxonomy: 'Taxonomie',
             pc: 'Datensammlung',
             rc: 'Beziehung'
           }
           const dsType = dsTypeNames[cType]
-          let feld = {}
+          const feld = {}
           feld.DsTyp = dsType
           feld.DsName = cName
           feld.Feldname = fName
