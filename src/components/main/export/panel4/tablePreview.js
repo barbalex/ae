@@ -28,7 +28,9 @@ const TablePreview = ({ exportObjects }) => {
   // get a list of all keys
   const keys = Object.keys(exportObjects[0])
 
-  const thead = keys.map((key, index) => <th key={index}>{key}</th>)
+  const thead = keys.map((key, index) =>
+    <th key={index}>{key}</th>
+  )
   const tbody = exportObjects.map((pc, index) => {
     // need only the first 10
     if (index < 10) {
@@ -80,7 +82,14 @@ const TablePreview = ({ exportObjects }) => {
         className="panel panel-default"
         style={{ backgroundColor: '#fffff0' }}
       >
-        <Table responsive bordered striped condensed hover style={{ borderRadius: 3 }}>
+        <Table
+          responsive
+          bordered
+          striped
+          condensed
+          hover
+          style={{ borderRadius: 3 }}
+        >
           <thead>
             <tr>
               {thead}
