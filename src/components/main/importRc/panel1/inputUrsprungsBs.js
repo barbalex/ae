@@ -1,7 +1,7 @@
 'use strict'
 
 import React from 'react'
-import { OverlayTrigger, Popover } from 'react-bootstrap'
+import { OverlayTrigger } from 'react-bootstrap'
 import { map } from 'lodash'
 import inputUrsprungsBsPopover from './inputUrsprungsBsPopover'
 
