@@ -8,19 +8,19 @@
 
 'use strict'
 
-function datenum (v, date1904) {
+function datenum(v, date1904) {
   if (date1904) v += 1462
   const epoch = Date.parse(v)
   return (epoch - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000)
 }
 
-function sheetFromArrayOfArrays (dataArray) {
-  let ws = {}
-  let range = {s: {c: 10000000, r: 10000000}, e: { c: 0, r: 0 }}
+function sheetFromArrayOfArrays(dataArray) {
+  const ws = {}
+  const range = { s: { c: 10000000, r: 10000000 }, e: { c: 0, r: 0 } }
   let R
   let C
   let cell
-  let cell_ref
+  let cellRef
 
   for (R = 0; R !== dataArray.length; ++R) {
     for (C = 0; C !== dataArray[R].length; ++C) {
@@ -32,7 +32,7 @@ function sheetFromArrayOfArrays (dataArray) {
       if (cell.v === null) {
         continue
       }
-      cell_ref = window.XLSX.utils.encode_cell({c: C, r: R})
+      cellRef = window.XLSX.utils.encode_cell({ c: C, r: R })
 
       if (typeof cell.v === 'number') {
         cell.t = 'n'
@@ -46,7 +46,7 @@ function sheetFromArrayOfArrays (dataArray) {
         cell.t = 's'
       }
 
-      ws[cell_ref] = cell
+      ws[cellRef] = cell
     }
   }
   if (range.s.c < 10000000) {
@@ -55,9 +55,9 @@ function sheetFromArrayOfArrays (dataArray) {
   return ws
 }
 
-var wsName = 'arteigenschaften'
+const wsName = 'arteigenschaften'
 
-function Workbook () {
+function Workbook() {
   if (!(this instanceof Workbook)) {
     return new Workbook()
   }
@@ -65,9 +65,9 @@ function Workbook () {
   this.Sheets = {}
 }
 
-function s2ab (s) {
+function s2ab(s) {
   const buf = new ArrayBuffer(s.length)
-  let view = new Uint8Array(buf)
+  const view = new Uint8Array(buf)
   let i
 
   for (i = 0; i !== s.length; ++i) {
@@ -76,28 +76,30 @@ function s2ab (s) {
   return buf
 }
 
-function getDataArrayFromExportObjects (exportObjects) {
-  let dataArray = []
+function getDataArrayFromExportObjects(exportObjects) {
+  const dataArray = []
 
   // first the field names:
   dataArray.push(Object.keys(exportObjects[0]))
   // then the field values
-  exportObjects.forEach((object) => dataArray.push(Object.keys(object).map((key) => object[key])))
-
-  // console.log('dataArray: ', dataArray)
+  exportObjects.forEach((object) =>
+    dataArray.push(
+      Object.keys(object).map((key) => object[key])
+    )
+  )
 
   return dataArray
 }
 
 export default (exportObjects) => {
-  let wb = new Workbook()
+  const wb = new Workbook()
   const dataArray = getDataArrayFromExportObjects(exportObjects)
-  let ws = sheetFromArrayOfArrays(dataArray)
+  const ws = sheetFromArrayOfArrays(dataArray)
 
   // add worksheet to workbook
   wb.SheetNames.push(wsName)
   wb.Sheets[wsName] = ws
-  const wbout = window.XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'binary'})
+  const wbout = window.XLSX.write(wb, { bookType: 'xlsx', bookSST: true, type: 'binary' })
 
   return s2ab(wbout)
 }
