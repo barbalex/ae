@@ -38,7 +38,10 @@ export default React.createClass({
 
     // make sure the heading was clicked
     const parent = event.target.parentElement
-    const headingWasClicked = parent.className.includes('panel-title') || parent.className.includes('panel-heading')
+    const headingWasClicked = (
+      parent.className.includes('panel-title') ||
+      parent.className.includes('panel-heading')
+    )
     if (headingWasClicked) {
       // always close panel if it is open
       if (activePanel === number) return this.setState({ activePanel: '' })
@@ -61,7 +64,10 @@ export default React.createClass({
     const numberOfCollections = Object.keys(pcFields).length
     const activePanelOpeningWhenOnlyOneCollection = numberOfCollections === 1 ? 0 : activePanel
 
-    const collectionKeysSorted = Object.keys(pcFields).sort((cNameKey) => cNameKey.toLowerCase())
+    const collectionKeysSorted = (
+      Object.keys(pcFields)
+        .sort((cNameKey) => cNameKey.toLowerCase())
+    )
     const collections = collectionKeysSorted.map((cNameKey, cIndex) => {
       const collectionKey = cNameKey.toLowerCase()
       const pc = pcs.find((c) => c.name === cNameKey)
