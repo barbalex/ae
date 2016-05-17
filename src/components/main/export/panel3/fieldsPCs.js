@@ -48,23 +48,34 @@ export default React.createClass({
   },
 
   render() {
-    const { pcFields, pcs, exportOptions, collectionsWithAllChoosen, onChooseAllOfCollection, onChooseField } = this.props
+    const {
+      pcFields,
+      pcs,
+      exportOptions,
+      collectionsWithAllChoosen,
+      onChooseAllOfCollection,
+      onChooseField
+    } = this.props
     const { activePanel } = this.state
     // open panel if there is only one
     const numberOfCollections = Object.keys(pcFields).length
     const activePanelOpeningWhenOnlyOneCollection = numberOfCollections === 1 ? 0 : activePanel
 
-    const collectionKeysSorted = Object.keys(pcFields).sort((cNameKey) => cNameKey.toLowerCase())
+    const collectionKeysSorted = (
+      Object.keys(pcFields)
+        .sort((cNameKey) => cNameKey.toLowerCase())
+    )
     const collections = collectionKeysSorted.map((cNameKey, cIndex) => {
       const collectionKey = cNameKey.toLowerCase()
-      const pc = pcs.find((pc) => pc.name === cNameKey)
+      const pc = pcs.find((c) => c.name === cNameKey)
       return (
         <Panel
           key={collectionKey}
           collapsible
           header={pc.name}
           eventKey={cIndex}
-          onClick={this.onClickPanel.bind(this, cIndex)}>
+          onClick={this.onClickPanel.bind(this, cIndex)}
+        >
           {
             activePanelOpeningWhenOnlyOneCollection === cIndex &&
             <FieldsPCsPanel
@@ -73,7 +84,8 @@ export default React.createClass({
               exportOptions={exportOptions}
               collectionsWithAllChoosen={collectionsWithAllChoosen}
               onChooseField={onChooseField}
-              onChooseAllOfCollection={onChooseAllOfCollection} />
+              onChooseAllOfCollection={onChooseAllOfCollection}
+            />
           }
         </Panel>
       )
@@ -81,7 +93,8 @@ export default React.createClass({
 
     return (
       <Accordion
-        activeKey={activePanelOpeningWhenOnlyOneCollection}>
+        activeKey={activePanelOpeningWhenOnlyOneCollection}
+      >
         {collections}
       </Accordion>
     )
