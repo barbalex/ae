@@ -33,7 +33,7 @@ export default (exportOptions, objects) => {
              * now loop all objects
              * and remove collections not fulfilling
              */
-            objects.forEach((object, oIndex) => {
+            objects.forEach((object) => {
               if (cType === 'pc') {
                 object.Eigenschaftensammlungen.forEach((pc, pcIndex) => {
                   if (pc.Name === cName) {
@@ -58,7 +58,11 @@ export default (exportOptions, objects) => {
                         if (fName !== 'Beziehungspartner') {
                           fulfilled = isFilterFulfilled(relations[relIndex][fName], filterValue, co)
                         } else {
-                          const rPartnersFulfilling = isFilterFulfilledForBeziehungspartner(relations[relIndex][fName], filterValue, co)
+                          const rPartnersFulfilling = isFilterFulfilledForBeziehungspartner(
+                            relations[relIndex][fName],
+                            filterValue,
+                            co
+                          )
                           if (rPartnersFulfilling.length > 0) {
                             relations[relIndex][fName] = rPartnersFulfilling
                             fulfilled = true

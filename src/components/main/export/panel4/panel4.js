@@ -55,7 +55,10 @@ export default React.createClass({
       exportObjects,
       errorBuildingExportData
     } = this.props
-    const showAlertBuildingData = exportObjects.length === 0 && !errorBuildingExportData
+    const showAlertBuildingData = (
+      exportObjects.length === 0 &&
+      !errorBuildingExportData
+    )
     const showExportComponents = exportObjects.length > 0
 
     return (
