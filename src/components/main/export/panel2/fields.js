@@ -31,7 +31,7 @@ export default React.createClass({
   },
 
   onClickPanel(number, event) {
-    let { activePanel } = this.state
+    const { activePanel } = this.state
     // prevent higher level panels from reacting
     event.stopPropagation()
 
@@ -47,45 +47,60 @@ export default React.createClass({
   },
 
   render() {
-    const { taxonomyFields, pcFields, relationFields, onChangeFilterField, onChangeCoSelect, pcs, rcs, exportOptions } = this.props
+    const {
+      taxonomyFields,
+      pcFields,
+      relationFields,
+      onChangeFilterField,
+      onChangeCoSelect,
+      pcs,
+      rcs,
+      exportOptions
+    } = this.props
     const { activePanel } = this.state
     const taxonomyHeader = Object.keys(taxonomyFields).length > 1 ? 'Taxonomien' : 'Taxonomie'
 
     return (
       <Accordion
-        activeKey={activePanel}>
+        activeKey={activePanel}
+      >
         <Panel
           collapsible
-          header='Art / Lebensraum'
+          header="Art / Lebensraum"
           eventKey={1}
-          onClick={this.onClickPanel.bind(this, 1)}>
+          onClick={this.onClickPanel.bind(this, 1)}
+        >
           {
             activePanel === 1 &&
             <InputFilterGuid
-              onChangeFilterField={onChangeFilterField} />
+              onChangeFilterField={onChangeFilterField}
+            />
           }
         </Panel>
         <Panel
-          className='collectionPanel'
+          className="collectionPanel"
           collapsible
           header={taxonomyHeader}
           eventKey={2}
-          onClick={this.onClickPanel.bind(this, 2)}>
+          onClick={this.onClickPanel.bind(this, 2)}
+        >
           {
             activePanel === 2 &&
             <FieldsTaxonomy
               taxonomyFields={taxonomyFields}
               exportOptions={exportOptions}
               onChangeFilterField={onChangeFilterField}
-              onChangeCoSelect={onChangeCoSelect} />
+              onChangeCoSelect={onChangeCoSelect}
+            />
           }
         </Panel>
         <Panel
-          className='collectionPanel'
+          className="collectionPanel"
           collapsible
-          header='Eigenschaftensammlungen'
+          header="Eigenschaftensammlungen"
           eventKey={3}
-          onClick={this.onClickPanel.bind(this, 3)}>
+          onClick={this.onClickPanel.bind(this, 3)}
+        >
           {
             activePanel === 3 &&
             <FieldsPCs
@@ -93,15 +108,17 @@ export default React.createClass({
               pcs={pcs}
               exportOptions={exportOptions}
               onChangeFilterField={onChangeFilterField}
-              onChangeCoSelect={onChangeCoSelect} />
+              onChangeCoSelect={onChangeCoSelect}
+            />
           }
         </Panel>
         <Panel
-          className='collectionPanel'
+          className="collectionPanel"
           collapsible
-          header='Beziehungssammlungen'
+          header="Beziehungssammlungen"
           eventKey={4}
-          onClick={this.onClickPanel.bind(this, 4)}>
+          onClick={this.onClickPanel.bind(this, 4)}
+        >
           {
             activePanel === 4 &&
             <FieldsRCs
@@ -109,7 +126,8 @@ export default React.createClass({
               rcs={rcs}
               exportOptions={exportOptions}
               onChangeFilterField={onChangeFilterField}
-              onChangeCoSelect={onChangeCoSelect} />
+              onChangeCoSelect={onChangeCoSelect}
+            />
           }
         </Panel>
       </Accordion>
