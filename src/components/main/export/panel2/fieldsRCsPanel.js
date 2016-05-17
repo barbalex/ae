@@ -28,13 +28,17 @@ export default React.createClass({
     const { relationFields, onChangeCoSelect, rcs, exportOptions, cNameKey } = this.props
     const cNameObject = relationFields[cNameKey]
     const rc = rcs.find((r) => r.name === cNameKey)
-    const fieldsSorted = Object.keys(cNameObject).sort((fNameKey) => fNameKey.toLowerCase())
+    const fieldsSorted = (
+      Object.keys(cNameObject)
+        .sort((fNameKey) => fNameKey.toLowerCase())
+    )
     const fields = fieldsSorted.map((fNameKey, index) => {
       const fieldKey = fNameKey.toLowerCase()
       const fNameObject = cNameObject[fNameKey]
       const value = get(exportOptions, `${cNameKey}.${fNameKey}.value`, null)
       const co = get(exportOptions, `${cNameKey}.${fNameKey}.co`, null)
       const buttonAfter = <InfoButtonAfter fNameObject={fNameObject} />
+
       if (fNameObject.fType !== 'boolean') {
         return (
           <FormGroup key={index}>

@@ -57,14 +57,15 @@ export default React.createClass({
     const collections = collectionKeysSorted.map((cNameKey, cIndex) => {
       const collectionKey = cNameKey.toLowerCase()
       const openPanel = activePanelOpeningWhenOnlyOneCollection === cIndex
-      const pc = pcs.find((pc) => pc.name === cNameKey)
+      const pc = pcs.find((c) => c.name === cNameKey)
       return (
         <Panel
           key={collectionKey}
           collapsible
           header={pc.name}
           eventKey={cIndex}
-          onClick={this.onClickPanel.bind(this, cIndex)}>
+          onClick={this.onClickPanel.bind(this, cIndex)}
+        >
           {
             openPanel &&
             <FieldsPCsPanel
@@ -73,7 +74,8 @@ export default React.createClass({
               exportOptions={exportOptions}
               pcFields={pcFields}
               onChangeFilterField={onChangeFilterField}
-              onChangeCoSelect={onChangeCoSelect} />
+              onChangeCoSelect={onChangeCoSelect}
+            />
           }
         </Panel>
       )
@@ -81,7 +83,8 @@ export default React.createClass({
 
     return (
       <Accordion
-        activeKey={activePanelOpeningWhenOnlyOneCollection}>
+        activeKey={activePanelOpeningWhenOnlyOneCollection}
+      >
         {collections}
       </Accordion>
     )
