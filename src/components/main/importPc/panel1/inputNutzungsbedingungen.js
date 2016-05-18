@@ -30,7 +30,11 @@ const popover = (
   </Popover>
 )
 
-const InputNutzungsbedingungen = ({ nutzungsbedingungen, validNutzungsbedingungen, onChangeNutzungsbedingungen }) => (
+const InputNutzungsbedingungen = ({
+  nutzungsbedingungen,
+  validNutzungsbedingungen,
+  onChangeNutzungsbedingungen
+}) => (
   <div
     className={validNutzungsbedingungen ? 'form-group' : 'form-group has-error'}
   >

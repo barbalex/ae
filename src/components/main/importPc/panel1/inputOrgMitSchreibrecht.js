@@ -17,34 +17,34 @@ export default React.createClass({
     return (
       <Popover
         id='inputOrganisationMitSchreibrechtPopover'
-        title='Was heisst das?'>
+        title='Was heisst das?'
+      >
         <p>Diese Organisation verwaltet die Eigenschaftensammlung.</p>
         <p>Sie bestimmt, wer sie verändern kann, bzw. wer importieren kann.</p>
       </Popover>
     )
   },
 
-  options () {
+  options() {
     const { userIsEsWriterInOrgs } = this.props
 
     if (userIsEsWriterInOrgs && userIsEsWriterInOrgs.length > 0) {
-      let options = userIsEsWriterInOrgs.map((org, index) => {
-        return (
-          <option
-            key={index}
-            value={org}>
-            {org}
-          </option>
-        )
-      })
+      const myOptions = userIsEsWriterInOrgs.map((org, index) => (
+        <option
+          key={index}
+          value={org}
+        >
+          {org}
+        </option>
+      ))
       // add an empty option at the beginning
-      options.unshift(
+      myOptions.unshift(
         <option
           key='noValue'
           value={null}>
         </option>
       )
-      return options
+      return myOptions
     } else {
       return (
         <option
