@@ -17,11 +17,11 @@ export default React.createClass({
     return { show: true }
   },
 
-  onDismiss () {
+  onDismiss() {
     this.setState({ show: false })
   },
 
-  onClickreplicate () {
+  onClickreplicate() {
     app.Actions.loadPouchFromRemote()
     this.onDismiss()
   },
@@ -34,13 +34,15 @@ export default React.createClass({
     if (show) {
       return (
         <Alert
-          id='allGroupsAlert'
-          bsStyle={alertAllGroupsBsStyle}>
+          id="allGroupsAlert"
+          bsStyle={alertAllGroupsBsStyle}
+        >
           <p>
             Um Daten zu importieren, müssen alle Gruppen geladen sein
           </p>
           <Button
-            onClick={this.onClickreplicate}>
+            onClick={this.onClickreplicate}
+          >
             {btnText}
           </Button>
         </Alert>
