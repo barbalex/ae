@@ -20,8 +20,6 @@ import isUserEsWriter from '../../../modules/isUserEsWriter.js'
 export default React.createClass({
   displayName: 'ImportPropertyCollections',
 
-  mixins: [ListenerMixin],
-
   propTypes: {
     groupsLoadingObjects: React.PropTypes.array,
     allGroupsLoaded: React.PropTypes.bool,
@@ -74,13 +72,13 @@ export default React.createClass({
     userIsEsWriterInOrgs: React.PropTypes.array
   },
 
+  mixins: [ListenerMixin],
+
   // nameBestehend ... nameUrsprungsEs: input fields
   // idsAnalysisComplete ... idsNotANumber: for analysing import file and id fields
   // panel1Done, panel2Done, panel3Done: to guide inputting
   // validXxx: to check validity of these fields
   getInitialState() {
-    // const { userIsEsWriterInOrgs } = this.props
-    // const orgMitSchreibrecht = userIsEsWriterInOrgs && userIsEsWriterInOrgs.length === 1 ? userIsEsWriterInOrgs[0] : null
     return {
       nameBestehend: null,
       name: null,
@@ -126,8 +124,7 @@ export default React.createClass({
   componentDidMount() {
     this.listenTo(app.objectsPcsStore, this.onChangeObjectsPcsStore)
     // show login of not logged in
-    const { offlineIndexes } = this.props
-    let { email } = this.props
+    const { offlineIndexes, email } = this.props
     if (!email) {
       const logIn = true
       app.Actions.login({ logIn })
@@ -137,11 +134,11 @@ export default React.createClass({
     app.Actions.getOrganizations(email)
   },
 
-  onChangeObjectsPcsStore (state) {
+  onChangeObjectsPcsStore(state) {
     this.setState(state)
   },
 
-  onChangeNameBestehend (nameBestehend) {
+  onChangeNameBestehend(nameBestehend) {
     const editingPcIsAllowed = this.isEditingPcAllowed(nameBestehend)
     if (nameBestehend) {
       app.propertyCollectionsStore.getPcByName(nameBestehend)
@@ -160,18 +157,259 @@ export default React.createClass({
             this.setState(state)
           }
         })
-        .catch((error) => app.Actions.showError({msg: error}))
+        .catch((error) => app.Actions.showError({ msg: error }))
     } else {
       this.setState({ nameBestehend: null })
     }
   },
 
-  onChangeOrgMitSchreibrecht (event) {
+  onChangeOrgMitSchreibrecht(event) {
     const orgMitSchreibrecht = event.target.value
     this.setState({ orgMitSchreibrecht })
   },
 
-  stateFollowingPanel1Reset () {
+  onChangeName(name) {
+    this.setState({ name })
+  },
+
+  onBlurName(name) {
+    this.isEditingPcAllowed(name)
+  },
+
+  onChangeBeschreibung(beschreibung) {
+    this.setState({ beschreibung })
+  },
+
+  onChangeDatenstand(datenstand) {
+    this.setState({ datenstand })
+  },
+
+  onChangeNutzungsbedingungen(nutzungsbedingungen) {
+    this.setState({ nutzungsbedingungen })
+  },
+
+  onChangeLink(link) {
+    this.setState({ link })
+  },
+
+  onBlurLink() {
+    this.validLink()
+  },
+
+  onChangeZusammenfassend(zusammenfassend) {
+    const nameUrsprungsEs = null
+    this.setState({ zusammenfassend, nameUrsprungsEs })
+  },
+
+  onChangeNameUrsprungsEs(nameUrsprungsEs) {
+    this.setState({ nameUrsprungsEs })
+    this.validUrsprungsEs(nameUrsprungsEs)
+  },
+
+  onChangeFile(event) {
+    // always empty pcsToImport first
+    // otherwise weird things happen
+    // also reset analysis
+    let state = {
+      pcsToImport: [],
+      idsAnalysisComplete: false,
+      idsAeIdField: null,
+      idsImportIdField: null
+    }
+    state = Object.assign(state, this.stateFollowingPanel2Reset())
+    this.setState(state)
+    if (event.target.files[0] !== undefined) {
+      const file = event.target.files[0]
+      getObjectsFromFile(file)
+        .then((pcsToImport) => {
+          this.setState({ pcsToImport })
+          this.validPcsToImport()
+        })
+        .catch((error) =>
+          app.Actions.showError({ title: 'error reading file:', msg: error })
+        )
+    }
+  },
+
+  onChangeAeId(idsAeIdField) {
+    const idsAnalysisComplete = false
+    let state = { idsAeIdField, idsAnalysisComplete }
+    state = Object.assign(state, this.stateFollowingPanel3Reset())
+    this.setState(state, this.onChangeId)
+  },
+
+  onChangeImportId(idsImportIdField) {
+    const idsAnalysisComplete = false
+    let state = { idsImportIdField, idsAnalysisComplete }
+    state = Object.assign(state, this.stateFollowingPanel3Reset())
+    this.setState(state, this.onChangeId)
+  },
+
+  onChangeId() {
+    const { idsAeIdField, idsImportIdField, pcsToImport } = this.state
+    const { offlineIndexes } = this.props
+
+    if (idsAeIdField && idsImportIdField) {
+      // start analysis
+
+      // make sure data in idsImportIdField is a number, if idsAeIdField is not a GUID
+      const idsNotANumber = []
+      if (idsAeIdField !== 'GUID') {
+        // the id field in the import data should be a number
+        pcsToImport.forEach((pc) => {
+          if (!isNaN(pc[idsImportIdField])) {
+            // the data in the field is a number
+            // force it to be one
+            pc[idsImportIdField] = parseInt(pc[idsImportIdField], 10)
+          } else {
+            // the data in the field is not a number!
+            idsNotANumber.push(pc[idsImportIdField])
+          }
+        })
+      }
+      const ids = map(pcsToImport, idsImportIdField)
+      // if ids should be numbers but some are not, an error can occur when fetching from the database
+      // so dont fetch
+      if (idsNotANumber.length > 0) return this.setState({ idsAnalysisComplete: true, idsNotANumber })
+      getGuidsById(idsAeIdField, ids, offlineIndexes)
+        .then((idGuidObject) => {
+          // now add guids to pcsToImport
+          pcsToImport.forEach((pc) => {
+            const importId = pc[idsImportIdField]
+            pc._id = idGuidObject[importId]
+          })
+          let idsToImportWithDuplicates = map(pcsToImport, idsImportIdField)
+          // remove emtpy values
+          idsToImportWithDuplicates = idsToImportWithDuplicates.filter((id) => !!id)
+          // remove duplicates
+          const idsToImport = unique(idsToImportWithDuplicates)
+          const idsNumberOfRecordsWithIdValue = idsToImportWithDuplicates.length
+          const idsDuplicate = difference(idsToImportWithDuplicates, idsToImport)
+          // go on with analysis
+          const idsOfAeObjects = values(idGuidObject)
+
+          const idGuidImportable = omitBy(idGuidObject, (guid) => !guid)
+          const idsImportable = Object.keys(idGuidImportable)
+          // extracting from keys converts numbers to strings! Convert back
+          idsImportable.forEach((id, index) => {
+            if (!isNaN(id)) idsImportable[index] = parseInt(id, 10)
+          })
+
+          const idsNumberImportable = idsImportable.length
+          // get ids not fetched
+          const idsNotImportable = difference(idsToImport, idsImportable)
+          const idsAnalysisComplete = true
+          // finished? render...
+          this.setState({
+            idsNumberImportable,
+            idsNotImportable,
+            idsAnalysisComplete,
+            idsOfAeObjects,
+            idsNumberOfRecordsWithIdValue,
+            idsDuplicate,
+            idsNotANumber
+          })
+        })
+        .catch((error) => app.Actions.showError({ msg: error }))
+    }
+  },
+
+  onClickImportieren() {
+    const {
+      pcsToImport,
+      idsImportIdField,
+      name,
+      beschreibung,
+      datenstand,
+      nutzungsbedingungen,
+      link,
+      orgMitSchreibrecht,
+      importiertVon,
+      zusammenfassend,
+      nameUrsprungsEs
+    } = this.state
+    app.Actions.importPcs({
+      pcsToImport,
+      idsImportIdField,
+      name,
+      beschreibung,
+      datenstand,
+      nutzungsbedingungen,
+      link,
+      orgMitSchreibrecht,
+      importiertVon,
+      zusammenfassend,
+      nameUrsprungsEs
+    })
+  },
+
+  onClickDeletePc() {
+    const { name } = this.state
+    const { offlineIndexes } = this.props
+    // first remove progressbar and alert from last import
+    const importingProgress = null
+    const pcsRemoved = false
+    const deletingPcProgress = 0
+    this.setState({
+      importingProgress,
+      pcsRemoved,
+      deletingPcProgress
+    }, () =>
+      app.Actions.deletePcByName(name, offlineIndexes)
+    )
+  },
+
+  onClickRemovePcInstances() {
+    const { name, idsOfAeObjects } = this.state
+    // first remove progressbar and alert from last import
+    const importingProgress = null
+    const pcsRemoved = false
+    this.setState({ importingProgress, pcsRemoved }, () =>
+      app.Actions.deletePcInstances(name, idsOfAeObjects)
+    )
+  },
+
+  onClickPanel(number, event) {
+    const { activePanel } = this.state
+    const { allGroupsLoaded } = this.props
+
+    // make sure the heading was clicked
+    const parent = event.target.parentElement
+    const headingWasClicked = (
+      parent.className.includes('panel-title') ||
+      parent.className.includes('panel-heading')
+    )
+    if (headingWasClicked) {
+      // always close panel if it is open
+      if (activePanel === number) return this.setState({ activePanel: '' })
+
+      switch (number) {
+        case 1:
+          this.setState({ activePanel: 1 })
+          break
+        case 2: {
+          if (!allGroupsLoaded) this.setState({ ultimatelyAlertLoadAllGroups: true })
+          const isPanel1Done = this.isPanel1Done()
+          if (isPanel1Done && allGroupsLoaded) this.setState({ activePanel: 2 })
+          break
+        }
+        case 3: {
+          const isPanel2Done = this.isPanel2Done()
+          if (isPanel2Done) this.setState({ activePanel: 3 })
+          break
+        }
+        case 4: {
+          const isPanel3Done = this.isPanel3Done()
+          if (isPanel3Done) this.setState({ activePanel: 4 })
+          break
+        }
+        default:
+          this.setState({ activePanel: 1 })
+      }
+    }
+  },
+
+  stateFollowingPanel1Reset() {
     return {
       pcsToImport: [],
       idsOfAeObjects: [],
@@ -191,68 +429,7 @@ export default React.createClass({
     }
   },
 
-  onChangeName (name) {
-    this.setState({ name })
-  },
-
-  onBlurName(name) {
-    this.isEditingPcAllowed(name)
-  },
-
-  onChangeBeschreibung (beschreibung) {
-    this.setState({ beschreibung })
-  },
-
-  onChangeDatenstand (datenstand) {
-    this.setState({ datenstand })
-  },
-
-  onChangeNutzungsbedingungen (nutzungsbedingungen) {
-    this.setState({ nutzungsbedingungen })
-  },
-
-  onChangeLink (link) {
-    this.setState({ link })
-  },
-
-  onBlurLink() {
-    this.validLink()
-  },
-
-  onChangeZusammenfassend (zusammenfassend) {
-    const nameUrsprungsEs = null
-    this.setState({ zusammenfassend, nameUrsprungsEs })
-  },
-
-  onChangeNameUrsprungsEs (nameUrsprungsEs) {
-    this.setState({ nameUrsprungsEs })
-    this.validUrsprungsEs(nameUrsprungsEs)
-  },
-
-  onChangeFile (event) {
-    // always empty pcsToImport first
-    // otherwise weird things happen
-    // also reset analysis
-    let state = {
-      pcsToImport: [],
-      idsAnalysisComplete: false,
-      idsAeIdField: null,
-      idsImportIdField: null
-    }
-    state = Object.assign(state, this.stateFollowingPanel2Reset())
-    this.setState(state)
-    if (event.target.files[0] !== undefined) {
-      const file = event.target.files[0]
-      getObjectsFromFile(file)
-        .then((pcsToImport) => {
-          this.setState({ pcsToImport })
-          this.validPcsToImport()
-        })
-        .catch((error) => app.Actions.showError({title: 'error reading file:', msg: error}))
-    }
-  },
-
-  stateFollowingPanel2Reset () {
+  stateFollowingPanel2Reset() {
     return {
       idsOfAeObjects: [],
       idsNumberOfRecordsWithIdValue: 0,
@@ -267,141 +444,11 @@ export default React.createClass({
     }
   },
 
-  onChangeAeId (idsAeIdField) {
-    const idsAnalysisComplete = false
-    let state = { idsAeIdField, idsAnalysisComplete }
-    state = Object.assign(state, this.stateFollowingPanel3Reset())
-    this.setState(state, this.onChangeId)
-  },
-
-  onChangeImportId (idsImportIdField) {
-    const idsAnalysisComplete = false
-    let state = { idsImportIdField, idsAnalysisComplete }
-    state = Object.assign(state, this.stateFollowingPanel3Reset())
-    this.setState(state, this.onChangeId)
-  },
-
-  onChangeId () {
-    const { idsAeIdField, idsImportIdField, pcsToImport } = this.state
-    const { offlineIndexes } = this.props
-
-    if (idsAeIdField && idsImportIdField) {
-      // start analysis
-
-      // make sure data in idsImportIdField is a number, if idsAeIdField is not a GUID
-      let idsNotANumber = []
-      if (idsAeIdField !== 'GUID') {
-        // the id field in the import data should be a number
-        pcsToImport.forEach((pc, index) => {
-          if (!isNaN(pc[idsImportIdField])) {
-            // the data in the field is a number
-            // force it to be one
-            pc[idsImportIdField] = parseInt(pc[idsImportIdField], 10)
-          } else {
-            // the data in the field is not a number!
-            idsNotANumber.push(pc[idsImportIdField])
-          }
-        })
-      }
-      const ids = map(pcsToImport, idsImportIdField)
-      // if ids should be numbers but some are not, an error can occur when fetching from the database
-      // so dont fetch
-      if (idsNotANumber.length > 0) return this.setState({ idsAnalysisComplete: true, idsNotANumber: idsNotANumber })
-      getGuidsById(idsAeIdField, ids, offlineIndexes)
-        .then((idGuidObject) => {
-          // now add guids to pcsToImport
-          pcsToImport.forEach((pc) => {
-            const importId = pc[idsImportIdField]
-            pc._id = idGuidObject[importId]
-          })
-          let idsToImportWithDuplicates = map(pcsToImport, idsImportIdField)
-          // remove emtpy values
-          idsToImportWithDuplicates = idsToImportWithDuplicates.filter((id) => !!id)
-          // remove duplicates
-          const idsToImport = unique(idsToImportWithDuplicates)
-          const idsNumberOfRecordsWithIdValue = idsToImportWithDuplicates.length
-          const idsDuplicate = difference(idsToImportWithDuplicates, idsToImport)
-          // go on with analysis
-          const idsOfAeObjects = values(idGuidObject)
-
-          const idGuidImportable = omitBy(idGuidObject, (guid, id) => !guid)
-          const idsImportable = Object.keys(idGuidImportable)
-          // extracting from keys converts numbers to strings! Convert back
-          idsImportable.forEach((id, index) => {
-            if (!isNaN(id)) idsImportable[index] = parseInt(id, 10)
-          })
-
-          const idsNumberImportable = idsImportable.length
-          // get ids not fetched
-          const idsNotImportable = difference(idsToImport, idsImportable)
-          const idsAnalysisComplete = true
-          // finished? render...
-          this.setState({ idsNumberImportable, idsNotImportable, idsAnalysisComplete, idsOfAeObjects, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNotANumber })
-        })
-        .catch((error) => app.Actions.showError({msg: error}))
-    }
-  },
-
-  stateFollowingPanel3Reset () {
+  stateFollowingPanel3Reset() {
     return {
       importingProgress: null,
       deletingPcInstancesProgress: null,
       deletingPcProgress: null
-    }
-  },
-
-  onClickImportieren () {
-    const { pcsToImport, idsImportIdField, name, beschreibung, datenstand, nutzungsbedingungen, link, orgMitSchreibrecht, importiertVon, zusammenfassend, nameUrsprungsEs } = this.state
-    app.Actions.importPcs({ pcsToImport, idsImportIdField, name, beschreibung, datenstand, nutzungsbedingungen, link, orgMitSchreibrecht, importiertVon, zusammenfassend, nameUrsprungsEs })
-  },
-
-  onClickDeletePc () {
-    const { name } = this.state
-    const { offlineIndexes } = this.props
-    // first remove progressbar and alert from last import
-    const importingProgress = null
-    const pcsRemoved = false
-    const deletingPcProgress = 0
-    this.setState({ importingProgress, pcsRemoved, deletingPcProgress }, () => app.Actions.deletePcByName(name, offlineIndexes))
-  },
-
-  onClickRemovePcInstances () {
-    const { name, idsOfAeObjects } = this.state
-    // first remove progressbar and alert from last import
-    const importingProgress = null
-    const pcsRemoved = false
-    this.setState({ importingProgress, pcsRemoved }, () => app.Actions.deletePcInstances(name, idsOfAeObjects))
-  },
-
-  onClickPanel(number, event) {
-    const { activePanel } = this.state
-    const { allGroupsLoaded } = this.props
-
-    // make sure the heading was clicked
-    const parent = event.target.parentElement
-    const headingWasClicked = parent.className.includes('panel-title') || parent.className.includes('panel-heading')
-    if (headingWasClicked) {
-      // always close panel if it is open
-      if (activePanel === number) return this.setState({ activePanel: '' })
-
-      switch (number) {
-        case 1:
-          this.setState({ activePanel: 1 })
-          break
-        case 2:
-          if (!allGroupsLoaded) this.setState({ ultimatelyAlertLoadAllGroups: true })
-          const isPanel1Done = this.isPanel1Done()
-          if (isPanel1Done && allGroupsLoaded) this.setState({ activePanel: 2 })
-          break
-        case 3:
-          const isPanel2Done = this.isPanel2Done()
-          if (isPanel2Done) this.setState({ activePanel: 3 })
-          break
-        case 4:
-          const isPanel3Done = this.isPanel3Done()
-          if (isPanel3Done) this.setState({ activePanel: 4 })
-          break
-      }
     }
   },
 
@@ -417,7 +464,16 @@ export default React.createClass({
     const validOrgMitSchreibrecht = this.validOrgMitSchreibrecht()
     const validEmail = !!email
     // check if panel 1 is done
-    const panel1Done = validName && validBeschreibung && validDatenstand && validNutzungsbedingungen && validLink && validUrsprungsEs && validOrgMitSchreibrecht && validEmail
+    const panel1Done = (
+      validName &&
+      validBeschreibung &&
+      validDatenstand &&
+      validNutzungsbedingungen &&
+      validLink &&
+      validUrsprungsEs &&
+      validOrgMitSchreibrecht &&
+      validEmail
+    )
     let state = { panel1Done }
     if (!panel1Done) state = Object.assign(state, { activePanel: 1 })
     this.setState(state)
@@ -435,9 +491,22 @@ export default React.createClass({
   },
 
   isPanel3Done() {
-    const { idsOfAeObjects, pcsToImport, idsNumberImportable, idsNotImportable, idsNotANumber, idsDuplicate } = this.state
+    const {
+      idsOfAeObjects,
+      pcsToImport,
+      idsNumberImportable,
+      idsNotImportable,
+      idsNotANumber,
+      idsDuplicate
+    } = this.state
     const isPanel2Done = this.isPanel2Done()
-    const variablesToPass = {pcsToImport, idsNumberImportable, idsNotImportable, idsNotANumber, idsDuplicate}
+    const variablesToPass = {
+      pcsToImport,
+      idsNumberImportable,
+      idsNotImportable,
+      idsNotANumber,
+      idsDuplicate
+    }
     const idsAnalysisResultType = getSuccessTypeFromAnalysis(variablesToPass)
     const panel3Done = idsAnalysisResultType !== 'danger' && idsOfAeObjects.length > 0
     let state = { panel3Done }
@@ -446,7 +515,7 @@ export default React.createClass({
     return panel3Done
   },
 
-  isEditingPcAllowed (name) {
+  isEditingPcAllowed(name) {
     const { userRoles, pcs } = this.props
     // set editing allowed to true
     // reason: close alert if it is still shown from last select
@@ -455,7 +524,18 @@ export default React.createClass({
     // if so and it is not combining: check if it was imported by the user
     const samePc = pcs.find((pc) => pc.name === name)
     const organization = !!samePc ? samePc.organization : null
-    const esBearbeitenErlaubt = !samePc || (samePc && (samePc.combining || isUserServerAdmin(userRoles) || isUserOrgAdmin(userRoles, organization) || isUserEsWriter(userRoles, organization)))
+    const esBearbeitenErlaubt = (
+      !samePc ||
+      (
+        samePc &&
+        (
+          samePc.combining ||
+          isUserServerAdmin(userRoles) ||
+          isUserOrgAdmin(userRoles, organization) ||
+          isUserEsWriter(userRoles, organization)
+        )
+      )
+    )
 
     if (!esBearbeitenErlaubt) {
       this.setState({ esBearbeitenErlaubt: false })
@@ -470,45 +550,45 @@ export default React.createClass({
     return esBearbeitenErlaubt
   },
 
-  validName () {
+  validName() {
     const validName = !!this.state.name
     this.setState({ validName })
     return validName
   },
 
-  validBeschreibung () {
+  validBeschreibung() {
     const validBeschreibung = !!this.state.beschreibung
     this.setState({ validBeschreibung })
     return validBeschreibung
   },
 
-  validDatenstand () {
+  validDatenstand() {
     const validDatenstand = !!this.state.datenstand
     this.setState({ validDatenstand })
     return validDatenstand
   },
 
-  validNutzungsbedingungen () {
+  validNutzungsbedingungen() {
     const validNutzungsbedingungen = !!this.state.nutzungsbedingungen
     this.setState({ validNutzungsbedingungen })
     return validNutzungsbedingungen
   },
 
-  validLink () {
+  validLink() {
     const link = this.state.link
     const validLink = !link || isValidUrl(link)
     this.setState({ validLink })
     return validLink
   },
 
-  validOrgMitSchreibrecht () {
+  validOrgMitSchreibrecht() {
     const { orgMitSchreibrecht } = this.state
     const validOrgMitSchreibrecht = !!orgMitSchreibrecht
     this.setState({ validOrgMitSchreibrecht })
     return validOrgMitSchreibrecht
   },
 
-  validUrsprungsEs (nameUrsprungsEs) {
+  validUrsprungsEs(nameUrsprungsEs) {
     // when nameUrsprungsEs is passed back from child component, this function is called right after setting state of nameUrsprungsEs
     // so state would not yet be updated! > needs to be passed directly
     const { zusammenfassend } = this.state
@@ -519,30 +599,78 @@ export default React.createClass({
     return validUrsprungsEs
   },
 
-  validPcsToImport () {
+  validPcsToImport() {
     const validPcsToImport = this.state.pcsToImport.length > 0
     this.setState({ validPcsToImport })
     return validPcsToImport
   },
 
   render() {
-    const { nameBestehend, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs, esBearbeitenErlaubt, pcsToImport, pcsRemoved, idsOfAeObjects, validName, validBeschreibung, validDatenstand, validNutzungsbedingungen, validLink, validOrgMitSchreibrecht, validUrsprungsEs, validPcsToImport, activePanel, idsAeIdField, idsImportIdField, idsNumberOfRecordsWithIdValue, idsDuplicate, idsNumberImportable, idsNotImportable, idsNotANumber, idsAnalysisComplete, ultimatelyAlertLoadAllGroups, importingProgress, deletingPcInstancesProgress, deletingPcProgress, orgMitSchreibrecht } = this.state
-    const { groupsLoadedOrLoading, email, userRoles, pcs, allGroupsLoaded, groupsLoadingObjects, replicatingToAe, replicatingToAeTime, organizations, userIsEsWriterInOrgs } = this.props
+    const {
+      nameBestehend,
+      name,
+      beschreibung,
+      datenstand,
+      nutzungsbedingungen,
+      link,
+      importiertVon,
+      zusammenfassend,
+      nameUrsprungsEs,
+      esBearbeitenErlaubt,
+      pcsToImport,
+      pcsRemoved,
+      idsOfAeObjects,
+      validName,
+      validBeschreibung,
+      validDatenstand,
+      validNutzungsbedingungen,
+      validLink,
+      validOrgMitSchreibrecht,
+      validUrsprungsEs,
+      validPcsToImport,
+      activePanel,
+      idsAeIdField,
+      idsImportIdField,
+      idsNumberOfRecordsWithIdValue,
+      idsDuplicate,
+      idsNumberImportable,
+      idsNotImportable,
+      idsNotANumber,
+      idsAnalysisComplete,
+      ultimatelyAlertLoadAllGroups,
+      importingProgress,
+      deletingPcInstancesProgress,
+      deletingPcProgress,
+      orgMitSchreibrecht
+    } = this.state
+    const {
+      groupsLoadedOrLoading,
+      email,
+      userRoles,
+      pcs,
+      allGroupsLoaded,
+      groupsLoadingObjects,
+      replicatingToAe,
+      replicatingToAeTime,
+      organizations,
+      userIsEsWriterInOrgs
+    } = this.props
 
     return (
       <div
         id='importieren'
-        className='formContent'>
+        className='formContent'
+      >
         <h4>
           Eigenschaften importieren
         </h4>
-        <Accordion
-          activeKey={activePanel}>
+        <Accordion activeKey={activePanel}>
           <Panel
             collapsible
             header='1. Eigenschaftensammlung beschreiben'
             eventKey={1}
-            onClick={this.onClickPanel.bind(this, 1)}>
+            onClick={this.onClickPanel.bind(this, 1)}
+          >
             {
               activePanel === 1 &&
               <Panel1

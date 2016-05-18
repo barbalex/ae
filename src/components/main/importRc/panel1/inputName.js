@@ -18,7 +18,7 @@ export default React.createClass({
     this.props.onChangeName(name)
   },
 
-  onBlur (event) {
+  onBlur(event) {
     const name = event.target.value
     this.props.onBlurName(name)
   },
