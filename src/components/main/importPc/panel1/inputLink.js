@@ -36,7 +36,7 @@ const InputLink = ({ link, validLink, onChangeLink, onBlurLink }) => (
       rows={1}
     />
     {
-      validLink &&
+      !validLink &&
       <div className="validateDiv feld">
         Bitte prüfen Sie den Link. Es muss einge gültige URL sein
       </div>

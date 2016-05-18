@@ -34,7 +34,7 @@ const InputDatenstand = ({ datenstand, validDatenstand, onChangeDatenstand }) =>
       onChange={(event) => onChangeDatenstand(event.target.value)}
     />
     {
-      validDatenstand &&
+      !validDatenstand &&
       <div className="validateDiv feld">
         Ein Datenstand ist erforderlich
       </div>

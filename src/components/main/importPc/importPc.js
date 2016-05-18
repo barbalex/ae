@@ -589,8 +589,11 @@ export default React.createClass({
   },
 
   validUrsprungsEs(nameUrsprungsEs) {
-    // when nameUrsprungsEs is passed back from child component, this function is called right after setting state of nameUrsprungsEs
-    // so state would not yet be updated! > needs to be passed directly
+    /**
+     * when nameUrsprungsEs is passed back from child component,
+     * this function is called right after setting state of nameUrsprungsEs
+     * so state would not yet be updated! > needs to be passed directly
+     */
     const { zusammenfassend } = this.state
     if (!nameUrsprungsEs) nameUrsprungsEs = this.state.nameUrsprungsEs
     let validUrsprungsEs = true
@@ -658,8 +661,8 @@ export default React.createClass({
 
     return (
       <div
-        id='importieren'
-        className='formContent'
+        id="importieren"
+        className="formContent"
       >
         <h4>
           Eigenschaften importieren
@@ -667,7 +670,7 @@ export default React.createClass({
         <Accordion activeKey={activePanel}>
           <Panel
             collapsible
-            header='1. Eigenschaftensammlung beschreiben'
+            header="1. Eigenschaftensammlung beschreiben"
             eventKey={1}
             onClick={this.onClickPanel.bind(this, 1)}
           >
@@ -716,21 +719,24 @@ export default React.createClass({
                 onChangeNameBestehend={this.onChangeNameBestehend}
                 onChangeOrgMitSchreibrecht={this.onChangeOrgMitSchreibrecht}
                 organizations={organizations}
-                userIsEsWriterInOrgs={userIsEsWriterInOrgs} />
+                userIsEsWriterInOrgs={userIsEsWriterInOrgs}
+              />
             }
           </Panel>
 
           <Panel
             collapsible
-            header='2. Eigenschaften laden'
+            header="2. Eigenschaften laden"
             eventKey={2}
-            onClick={this.onClickPanel.bind(this, 2)}>
+            onClick={this.onClickPanel.bind(this, 2)}
+          >
             {
               activePanel === 2 &&
               <Panel2
                 pcsToImport={pcsToImport}
                 validPcsToImport={validPcsToImport}
-                onChangeFile={this.onChangeFile} />
+                onChangeFile={this.onChangeFile}
+              />
             }
           </Panel>
 
@@ -738,7 +744,8 @@ export default React.createClass({
             collapsible
             header="3. ID's identifizieren"
             eventKey={3}
-            onClick={this.onClickPanel.bind(this, 3)}>
+            onClick={this.onClickPanel.bind(this, 3)}
+          >
             {
               activePanel === 3 &&
               <Panel3
@@ -752,15 +759,17 @@ export default React.createClass({
                 idsNotImportable={idsNotImportable}
                 idsNotANumber={idsNotANumber}
                 onChangeAeId={this.onChangeAeId}
-                onChangeImportId={this.onChangeImportId} />
+                onChangeImportId={this.onChangeImportId}
+              />
             }
           </Panel>
 
           <Panel
             collapsible
-            header='4. importieren'
+            header="4. importieren"
             eventKey={4}
-            onClick={this.onClickPanel.bind(this, 4)}>
+            onClick={this.onClickPanel.bind(this, 4)}
+          >
             {
               activePanel === 4 &&
               <Panel4
@@ -773,7 +782,8 @@ export default React.createClass({
                 replicatingToAe={replicatingToAe}
                 replicatingToAeTime={replicatingToAeTime}
                 onClickRemovePcInstances={this.onClickRemovePcInstances}
-                onClickImportieren={this.onClickImportieren} />
+                onClickImportieren={this.onClickImportieren}
+              />
             }
           </Panel>
 
