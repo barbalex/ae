@@ -40,7 +40,7 @@ const InputName = ({ name, validName, onChangeName, onBlurName }) => (
       onBlur={(event) => onBlurName(event.target.value)}
     />
     {
-      validName &&
+      !validName &&
       <div className="validateDiv feld">
         Ein Name ist erforderlich
       </div>
