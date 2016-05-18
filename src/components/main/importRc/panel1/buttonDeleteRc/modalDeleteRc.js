@@ -16,7 +16,7 @@ export default React.createClass({
     console.log('onHide')
   },
 
-  onClickDelete () {
+  onClickDelete() {
     const { onClickDeleteRc } = this.props
     onClickDeleteRc()
   },

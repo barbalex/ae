@@ -20,22 +20,13 @@ export default React.createClass({
     console.log('onHide')
   },
 
-  onClickDelete () {
-    const { onClickDeletePc } = this.props
-    onClickDeletePc()
-  },
-
-  schliessen() {
-    const { closeModal } = this.props
-    closeModal()
-  },
-
   render() {
-    const { nameBestehend } = this.props
+    const { nameBestehend, onClickDeletePc, closeModal } = this.props
 
     return (
       <div
-        className='static-modal'>
+        className="static-modal"
+      >
         <Modal.Dialog onHide={this.onHide}>
           <Modal.Header>
             <Modal.Title>
@@ -44,17 +35,20 @@ export default React.createClass({
           </Modal.Header>
           <Modal.Body>
             <p>
-              Sie möchten die Eigenschaftensammlung "{nameBestehend}" und alle ihre Eigenschaften endgültig aus allen Arten und/oder Lebensräumen entfernen?
+              Sie möchten die Eigenschaftensammlung "{nameBestehend}" und alle ihre Eigenschaften
+              endgültig aus allen Arten und/oder Lebensräumen entfernen?
             </p>
           </Modal.Body>
           <Modal.Footer>
             <Button
-              bsStyle='danger'
-              onClick={this.onClickDelete}>
+              bsStyle="danger"
+              onClick={() => onClickDeletePc()}
+            >
               ja, löschen!
             </Button>
             <Button
-              onClick={this.schliessen}>
+              onClick={() => closeModal()}
+            >
               schliessen
             </Button>
           </Modal.Footer>

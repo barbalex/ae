@@ -21,15 +21,11 @@ export default React.createClass({
     }
   },
 
-  closeModal () {
-    this.setState({ show: false })
-  },
-
-  onClickDeletePc () {
+  onClickDeletePc() {
     this.setState({ show: true })
   },
 
-  onClickDelete () {
+  onClickDelete() {
     /**
      * need this extra callback because the modal has to have state 'show: false'
      * otherwise when after deleting is reimported, the modal opens
@@ -37,6 +33,10 @@ export default React.createClass({
     const { onClickDeletePc } = this.props
     this.setState({ show: false })
     onClickDeletePc()
+  },
+
+  closeModal() {
+    this.setState({ show: false })
   },
 
   render() {
@@ -48,13 +48,16 @@ export default React.createClass({
       <div>
         {
           nameBestehend &&
-          <div className='form-group'>
+          <div className="form-group">
             <Button
-              bsStyle='danger'
-              className='feld'
+              bsStyle="danger"
+              className="feld"
               onClick={this.onClickDeletePc}
-              disabled={!enableDeletePcButton}>
-              <Glyphicon glyph='trash'/> Eigenschaftensammlung "{nameBestehend}" aus allen Arten/Lebensräumen entfernen
+              disabled={!enableDeletePcButton}
+            >
+              <Glyphicon glyph="trash" />
+              &nbsp;
+              Eigenschaftensammlung "{nameBestehend}" aus allen Arten/Lebensräumen entfernen
             </Button>
           </div>
         }
@@ -63,7 +66,8 @@ export default React.createClass({
           <ModalDeletePc
             nameBestehend={nameBestehend}
             onClickDeletePc={this.onClickDelete}
-            closeModal={this.closeModal} />
+            closeModal={this.closeModal}
+          />
         }
       </div>
     )

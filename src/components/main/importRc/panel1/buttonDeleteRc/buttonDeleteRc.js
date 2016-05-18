@@ -21,15 +21,11 @@ export default React.createClass({
     }
   },
 
-  closeModal () {
-    this.setState({ show: false })
-  },
-
-  onClickDeleteRc () {
+  onClickDeleteRc() {
     this.setState({ show: true })
   },
 
-  onClickDelete () {
+  onClickDelete() {
     /**
      * need this extra callback because the modal has to have state 'show: false'
      * otherwise when after deleting is reimported, the modal opens
@@ -37,6 +33,10 @@ export default React.createClass({
     const { onClickDeleteRc } = this.props
     this.setState({ show: false })
     onClickDeleteRc()
+  },
+
+  closeModal() {
+    this.setState({ show: false })
   },
 
   render() {
@@ -49,14 +49,18 @@ export default React.createClass({
         {
           nameBestehend &&
           <div
-            className='form-group'>
-          <Button
-            bsStyle='danger'
-            className='feld'
-            onClick={this.onClickDeleteRc}
-            disabled={!enableDeleteRcButton}>
-            <Glyphicon glyph='trash'/> Beziehungssammlung "{nameBestehend}" aus allen Arten/Lebensräumen entfernen
-          </Button>
+            className="form-group"
+          >
+            <Button
+              bsStyle="danger"
+              className="feld"
+              onClick={this.onClickDeleteRc}
+              disabled={!enableDeleteRcButton}
+            >
+              <Glyphicon glyph="trash" />
+              &nbsp;
+              Beziehungssammlung "{nameBestehend}" aus allen Arten/Lebensräumen entfernen
+            </Button>
           </div>
         }
         {
@@ -64,7 +68,8 @@ export default React.createClass({
           <ModalDeleteRc
             nameBestehend={nameBestehend}
             onClickDeleteRc={this.onClickDelete}
-            closeModal={this.closeModal} />
+            closeModal={this.closeModal}
+          />
         }
       </div>
     )
