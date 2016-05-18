@@ -3,44 +3,39 @@
 import React from 'react'
 import { OverlayTrigger, Popover } from 'react-bootstrap'
 
-export default React.createClass({
-  displayName: 'InputImportiertVon',
+const popover = (
+  <Popover
+    id="InputImportiertVonPopover"
+  >
+    <p>Das ist immer die Email des angemeldeten Benutzers</p>
+  </Popover>
+)
 
-  propTypes: {
-    importiertVon: React.PropTypes.string
-  },
+const InputImportiertVon = ({ importiertVon }) => (
+  <div className="form-group">
+    <OverlayTrigger
+      trigger={['click', 'focus']}
+      rootClose
+      placement="right"
+      overlay={popover}
+    >
+      <label className="control-label withPopover">
+        importiert von
+      </label>
+    </OverlayTrigger>
+    <input
+      type="text"
+      className="form-control controls"
+      value={importiertVon}
+      disabled
+    />
+  </div>
+)
 
-  popover() {
-    return (
-      <Popover
-        id='InputImportiertVonPopover'>
-        <p>Das ist immer die Email des angemeldeten Benutzers</p>
-      </Popover>
-    )
-  },
+InputImportiertVon.displayName = 'InputImportiertVon'
 
-  render() {
-    const { importiertVon } = this.props
+InputImportiertVon.propTypes = {
+  importiertVon: React.PropTypes.string
+}
 
-    return (
-      <div
-        className='form-group'>
-        <OverlayTrigger
-          trigger={['click', 'focus']}
-          rootClose
-          placement='right'
-          overlay={this.popover()}>
-          <label
-            className='control-label withPopover'>
-            importiert von
-          </label>
-        </OverlayTrigger>
-        <input
-          type='text'
-          className='form-control controls'
-          value={importiertVon}
-          disabled />
-      </div>
-    )
-  }
-})
+export default InputImportiertVon
