@@ -4,6 +4,10 @@ import React from 'react'
 import { union } from 'lodash'
 import { Input } from 'react-bootstrap'
 
+const style = {
+  height: `${(keys.length * 18) + 9}px`
+}
+
 export default React.createClass({
   displayName: 'InputImportFields',
 
@@ -13,13 +17,8 @@ export default React.createClass({
     onChangeImportId: React.PropTypes.func
   },
 
-  onChange(event) {
-    const idsImportIdField = event.target.value
-    this.props.onChangeImportId(idsImportIdField)
-  },
-
   render() {
-    const { pcsToImport, idsImportIdField } = this.props
+    const { pcsToImport, idsImportIdField, onChangeImportId } = this.props
 
      // get a list of all keys
     let keys = []
@@ -27,28 +26,26 @@ export default React.createClass({
       keys = union(keys, Object.keys(pc))
     })
 
-    const style = {
-      height: ((keys.length * 18) + 9) + 'px'
-    }
     const options = keys.map((key, index) => (
-        <option
-          key={index}
-          value={key}>
-          {key}
-        </option>
-      )
-    )
+      <option
+        key={index}
+        value={key}
+      >
+        {key}
+      </option>
+    ))
 
     return (
       <Input
-        type='select'
-        label={'Feld mit eindeutiger ID in den Importdaten'}
+        type="select"
+        label='Feld mit eindeutiger ID in den Importdaten'
         multiple
         className='form-control controls'
         style={style}
         bsSize='small'
         value={[idsImportIdField]}
-        onChange={this.onChange}>
+        onChange={(event) => onChangeImportId(event.target.value)}
+      >
         {options}
       </Input>
     )
