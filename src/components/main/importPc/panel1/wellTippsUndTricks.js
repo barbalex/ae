@@ -40,10 +40,14 @@ export default React.createClass({
           style={{ display: visible ? 'block' : 'none' }}
         >
           <li>
-            Klicken Sie auf unterstrichene Feldnamen, um zu erfahren, wie das jeweilige Feld beschrieben werden sollte.
+            Klicken Sie auf unterstrichene Feldnamen, um zu erfahren,
+            wie das jeweilige Feld beschrieben werden sollte.
           </li>
           <li>
-            <a href="//youtu.be/nqd-v6YxkOY" target="_blank">
+            <a
+              href="//youtu.be/nqd-v6YxkOY"
+              target="_blank"
+            >
               <b>Auf Youtube sehen, wie es geht</b>
             </a>
           </li>
