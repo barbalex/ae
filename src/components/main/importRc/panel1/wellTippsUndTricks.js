@@ -39,7 +39,10 @@ export default React.createClass({
           className="adb-hidden"
           style={{ display: visible ? 'block' : 'none' }}
         >
-          <li>Klicken Sie auf unterstrichene Feldnamen, um zu erfahren, wie das jeweilige Feld beschrieben werden sollte</li>
+          <li>
+            Klicken Sie auf unterstrichene Feldnamen, um zu erfahren,
+            wie das jeweilige Feld beschrieben werden sollte
+          </li>
         </ul>
       </Well>
     )

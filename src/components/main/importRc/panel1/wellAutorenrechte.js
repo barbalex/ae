@@ -31,7 +31,8 @@ export default React.createClass({
         <a
           href="#"
           onClick={this.onClickToggle}
-          className="showNextHidden">
+          className="showNextHidden"
+        >
           {visible ? '...weniger' : '...mehr'}
         </a>
         <ul
