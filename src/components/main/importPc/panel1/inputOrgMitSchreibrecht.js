@@ -3,6 +3,43 @@
 import React from 'react'
 import { OverlayTrigger, Popover } from 'react-bootstrap'
 
+const popover = (
+  <Popover
+    id='inputOrganisationMitSchreibrechtPopover'
+    title='Was heisst das?'
+  >
+    <p>Diese Organisation verwaltet die Eigenschaftensammlung.</p>
+    <p>Sie bestimmt, wer sie verändern kann, bzw. wer importieren kann.</p>
+  </Popover>
+)
+
+const options = (userIsEsWriterInOrgs) => {
+  if (userIsEsWriterInOrgs && userIsEsWriterInOrgs.length > 0) {
+    const myOptions = userIsEsWriterInOrgs.map((org, index) => (
+      <option
+        key={index}
+        value={org}
+      >
+        {org}
+      </option>
+    ))
+    // add an empty option at the beginning
+    myOptions.unshift(
+      <option
+        key='noValue'
+        value={null}
+      >
+      </option>
+    )
+    return myOptions
+  }
+  return (
+    <option value={null}>
+      Keine Organisation geladen
+    </option>
+  )
+}
+
 export default React.createClass({
   displayName: 'InputOrganisationMitSchreibrecht',
 
@@ -11,48 +48,6 @@ export default React.createClass({
     validOrgMitSchreibrecht: React.PropTypes.bool,
     onChangeOrgMitSchreibrecht: React.PropTypes.func,
     userIsEsWriterInOrgs: React.PropTypes.array
-  },
-
-  popover() {
-    return (
-      <Popover
-        id='inputOrganisationMitSchreibrechtPopover'
-        title='Was heisst das?'
-      >
-        <p>Diese Organisation verwaltet die Eigenschaftensammlung.</p>
-        <p>Sie bestimmt, wer sie verändern kann, bzw. wer importieren kann.</p>
-      </Popover>
-    )
-  },
-
-  options() {
-    const { userIsEsWriterInOrgs } = this.props
-
-    if (userIsEsWriterInOrgs && userIsEsWriterInOrgs.length > 0) {
-      const myOptions = userIsEsWriterInOrgs.map((org, index) => (
-        <option
-          key={index}
-          value={org}
-        >
-          {org}
-        </option>
-      ))
-      // add an empty option at the beginning
-      myOptions.unshift(
-        <option
-          key='noValue'
-          value={null}>
-        </option>
-      )
-      return myOptions
-    } else {
-      return (
-        <option
-          value={null}>
-          Keine Organisation geladen
-        </option>
-      )
-    }
   },
 
   render() {
@@ -66,7 +61,7 @@ export default React.createClass({
           trigger={['click', 'focus']}
           rootClose
           placement='right'
-          overlay={this.popover()}>
+          overlay={popover}>
           <label
             className='control-label withPopover'>
             Organisation mit Schreibrecht
@@ -75,8 +70,9 @@ export default React.createClass({
         <select
           className='form-control controls'
           value={orgMitSchreibrecht}
-          onChange={onChangeOrgMitSchreibrecht}>
-          {this.options()}
+          onChange={onChangeOrgMitSchreibrecht}
+        >
+          {options(userIsEsWriterInOrgs)}
         </select>
         {
           validOrgMitSchreibrecht
