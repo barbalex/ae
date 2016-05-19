@@ -3,11 +3,10 @@
 import React from 'react'
 import { OverlayTrigger, Popover } from 'react-bootstrap'
 
-const popover = () => (
+const popover = () =>
   <Popover id="InputImportiertVonPopover">
     <p>Das ist immer die Email des angemeldeten Benutzers</p>
   </Popover>
-)
 
 const InputImportiertVon = ({ importiertVon }) =>
   <div className="form-group">
