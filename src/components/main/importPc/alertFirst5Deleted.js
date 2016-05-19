@@ -34,7 +34,7 @@ export default React.createClass({
     if (!paths) {
       getPathsFromLocalDb()
         .then((paths) => this.setState({ paths }))
-        .catch((error) => app.Actions.showError({title: 'Fehler beim Aufbauen der Beispiele:', msg: error}))
+        .catch((error) => app.Actions.showError({ title: 'Fehler beim Aufbauen der Beispiele:', msg: error }))
     }
 
     const examples = first5Ids.map((id, index) => {
@@ -42,23 +42,26 @@ export default React.createClass({
       if (path) {
         const href = `${window.location.protocol}//${window.location.host}/${path}?id=${id}`
         return (
-          <li
-            key={index}>
+          <li key={index}>
             <a
               href={href}
-              target='_blank'>
+              target="_blank"
+            >
               {path.replace(/\//g, ' > ')}
             </a>
           </li>
           )
       }
+      return null
     })
 
     return (
       <Alert
-        bsStyle='info'
-        style={alertStyle}>
-        <p>Aus {idsOfAeObjects.length} Datensätzen wurde die Eigenschaftensammlung "{nameBestehend}" entfernt.<br/>
+        bsStyle="info"
+        style={alertStyle}
+      >
+        <p>
+          Aus {idsOfAeObjects.length} Datensätzen wurde die Eigenschaftensammlung "{nameBestehend}" entfernt.<br />
           Beispiele zur Kontrolle:
         </p>
         {
@@ -71,7 +74,8 @@ export default React.createClass({
           paths &&
           <ReplicationNotice
             replicatingToAe={replicatingToAe}
-            replicatingToAeTime={replicatingToAeTime} />
+            replicatingToAeTime={replicatingToAeTime}
+          />
         }
       </Alert>
     )
