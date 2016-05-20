@@ -67,13 +67,13 @@ export default React.createClass({
         >
           {
             hierarchy &&
-              <div>
-                <Nodes
-                  hierarchy={hierarchy}
-                  object={object}
-                  path={path}
-                />
-              </div>
+            <div>
+              <Nodes
+                hierarchy={hierarchy}
+                object={object}
+                path={path}
+              />
+            </div>
           }
         </div>
         {
