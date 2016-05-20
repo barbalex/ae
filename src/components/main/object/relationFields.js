@@ -9,37 +9,35 @@ import React from 'react'
 import { map } from 'lodash'
 import Field from './field.js'
 
-export default React.createClass({
-  displayName: 'RelationFields',
+const RelationFields = ({ relation, relationCollection }) => {
+  const relationFields = map(relation, (fieldValue, fieldName) => {
+    if (typeof fieldValue === 'string') fieldValue = fieldValue.replace('&#39;', '\'')
+    if (fieldName !== 'Beziehungspartner') {
+      const rcName = relationCollection.Name.replace(/"/g, "'")
+      return (
+        <Field
+          key={fieldName}
+          fieldName={fieldName}
+          fieldValue={fieldValue}
+          pcType="Beziehungssammlung"
+          pcName={rcName}
+        />
+      )
+    }
+  })
 
-  propTypes: {
-    relation: React.PropTypes.object,
-    relationCollection: React.PropTypes.object
-  },
+  return (
+    <div>
+      {relationFields}
+    </div>
+  )
+}
 
-  render() {
-    const { relation, relationCollection } = this.props
+RelationFields.displayName = 'RelationFields'
 
-    const relationFields = map(relation, (fieldValue, fieldName) => {
-      if (typeof fieldValue === 'string') fieldValue = fieldValue.replace('&#39;', '\'')
-      if (fieldName !== 'Beziehungspartner') {
-        const rcName = relationCollection.Name.replace(/"/g, "'")
-        return (
-          <Field
-            key={fieldName}
-            fieldName={fieldName}
-            fieldValue={fieldValue}
-            pcType="Beziehungssammlung"
-            pcName={rcName}
-          />
-        )
-      }
-    })
+RelationFields.propTypes = {
+  relation: React.PropTypes.object,
+  relationCollection: React.PropTypes.object
+}
 
-    return (
-      <div>
-        {relationFields}
-      </div>
-    )
-  }
-})
+export default RelationFields

@@ -3,33 +3,32 @@
 import React from 'react'
 import RelationCollection from './rc.js'
 
-export default React.createClass({
-  displayName: 'RcsOfSynonyms',
+const RcsOfSynonyms = ({ rcsOfSynonyms }) => {
+  let rcsComponent = null
 
-  propTypes: {
-    rcsOfSynonyms: React.PropTypes.array
-  },
-
-  render() {
-    const { rcsOfSynonyms } = this.props
-    let rcsComponent = null
-
-    if (rcsOfSynonyms.length > 0) {
-      rcsComponent = rcsOfSynonyms.map((rc, index) => (
-        <RelationCollection
-          key={index}
-          relationCollection={rc}
-        />
-      ))
-    }
-
-    return (
-      <div>
-        <h4>
-          Beziehungen von Synonymen:
-        </h4>
-        {rcsComponent}
-      </div>
-    )
+  if (rcsOfSynonyms.length > 0) {
+    rcsComponent = rcsOfSynonyms.map((rc, index) => (
+      <RelationCollection
+        key={index}
+        relationCollection={rc}
+      />
+    ))
   }
-})
+
+  return (
+    <div>
+      <h4>
+        Beziehungen von Synonymen:
+      </h4>
+      {rcsComponent}
+    </div>
+  )
+}
+
+RcsOfSynonyms.displayName = 'RcsOfSynonyms'
+
+RcsOfSynonyms.propTypes = {
+  rcsOfSynonyms: React.PropTypes.array
+}
+
+export default RcsOfSynonyms
