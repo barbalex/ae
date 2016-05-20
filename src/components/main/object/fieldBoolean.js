@@ -20,7 +20,12 @@ export default React.createClass({
   },
 
   onChange() {
-    const { fieldName, pcType, pcName, onSaveObjectField } = this.props
+    const {
+      fieldName,
+      pcType,
+      pcName,
+      onSaveObjectField
+    } = this.props
     const fieldValue = this.myInput.value
     const save = false
     onSaveObjectField(pcType, pcName, fieldName, fieldValue, save)
