@@ -17,10 +17,10 @@ import { map } from 'lodash'
 const ddoc = {
   _id: '_design/objectsIdsByPcsName',
   views: {
-    'objectsIdsByPcsName': {
-      map: function (doc) {
+    objectsIdsByPcsName: {
+      map: function(doc) {
         if (doc.Typ && doc.Typ === 'Objekt' && doc.Eigenschaftensammlungen) {
-          doc.Eigenschaftensammlungen.forEach(function (es) {
+          doc.Eigenschaftensammlungen.forEach(function(es) {
             emit(es.Name, doc._id)
           })
         }
@@ -35,19 +35,19 @@ export default (name, offlineIndexes) => {
     key: name
   }
   const query = {
-    local () {
+    local() {
       return new Promise((resolve, reject) => {
         app.localDb.put(ddoc)
           .catch((error) => {
             // ignore if doc already exists
             if (error.status !== 409) reject(error)
           })
-          .then((response) => app.localDb.query('objectsIdsByPcsName', queryOptions))
+          .then(() => app.localDb.query('objectsIdsByPcsName', queryOptions))
           .then((result) => resolve(result))
           .catch((error) => reject(error))
       })
     },
-    remote () {
+    remote() {
       return new Promise((resolve, reject) => {
         app.remoteDb.query('objectsIdsByPcsName', queryOptions)
           .then((result) => resolve(result))
