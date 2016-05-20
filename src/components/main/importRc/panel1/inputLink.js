@@ -42,7 +42,7 @@ const InputLink = ({
       type="textarea"
       className="form-control controls"
       value={link}
-      onBlur={onBlurLink()}
+      onBlur={() => onBlurLink()}
       onChange={(event) => onChangeLink(event.target.value)}
       rows={1}
     />
