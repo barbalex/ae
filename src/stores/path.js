@@ -12,12 +12,15 @@ export default (Actions) => {
      */
     listenables: Actions,
 
-    onLoadPaths (newItemsPassed) {
+    onLoadPaths(newItemsPassed) {
       // get existing paths
       addPathsFromItemsToLocalDb(newItemsPassed)
         .then(() => this.trigger(true))
         .catch((error) =>
-          app.Actions.showError({title: 'pathStore: error adding paths from passed items:', msg: error})
+          app.Actions.showError({
+            title: 'pathStore: error adding paths from passed items:',
+            msg: error
+          })
         )
     }
   })
