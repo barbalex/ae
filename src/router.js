@@ -15,21 +15,22 @@ export default Router.extend({
     '*path': 'home'
   },
 
-  exportAlt () {
+  exportAlt() {
     ReactDOM.render(
       <Home
         gruppe={null}
         guid={null}
         path={['exportieren', 'artenlistentool']}
         mainComponent={'exportAlt'}
-        email={null} />,
+        email={null}
+      />,
       document.getElementById('root')
     )
   },
 
   // all object paths depend on data i.e. are unpredictable
   // that is why there is only one route and it is analysed with a series of if's
-  home (pathName) {
+  home(pathName) {
     // this is the entry point of the application
     // > read props from url
     let path = pathName ? pathName.split('/') : []
@@ -46,10 +47,16 @@ export default Router.extend({
             guid={guid}
             path={path}
             mainComponent={mainComponent}
-            email={email} />,
+            email={email}
+          />,
           document.getElementById('root')
         )
       })
-      .catch((error) => app.Actions.showError({title: 'router.js: error during routing:', msg: error}))
+      .catch((error) =>
+        app.Actions.showError({
+          title: 'router.js: error during routing:',
+          msg: error
+        })
+      )
   }
 })

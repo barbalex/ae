@@ -13,10 +13,10 @@ export default (object) => {
       }
       break
     case 'Fauna':
-      wikipediaLink += standardtaxonomie.Eigenschaften.Gattung + '_' + standardtaxonomie.Eigenschaften.Art
+      wikipediaLink += `${standardtaxonomie.Eigenschaften.Gattung}_${standardtaxonomie.Eigenschaften.Art}`
       break
     case 'Moose':
-      wikipediaLink += standardtaxonomie.Eigenschaften.Gattung + '_' + standardtaxonomie.Eigenschaften.Art
+      wikipediaLink += `${standardtaxonomie.Eigenschaften.Gattung}_${standardtaxonomie.Eigenschaften.Art}`
       break
     case 'Macromycetes':
       wikipediaLink += standardtaxonomie.Eigenschaften.Name
