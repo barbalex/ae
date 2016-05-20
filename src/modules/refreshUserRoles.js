@@ -10,8 +10,8 @@ export default (email) => {
         if (roles) {
           app.Actions.login({
             logIn: false,
-            email: email,
-            roles: roles
+            email,
+            roles
           })
         }
       })
