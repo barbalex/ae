@@ -67,10 +67,9 @@ const InputOrganisationMitSchreibrecht = ({
     <select
       className="form-control controls"
       value={orgMitSchreibrecht}
-      onChange={(event) => {
-        console.log('InputOrgMitSchreibrecht, event.target.value', event.target.value)
-        return onChangeOrgMitSchreibrecht(event)
-      }}
+      onChange={(event) =>
+        onChangeOrgMitSchreibrecht(event)
+      }
     >
       {options(userIsEsWriterInOrgs)}
     </select>

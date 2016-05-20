@@ -170,7 +170,6 @@ export default React.createClass({
 
   onChangeOrgMitSchreibrecht(event) {
     const orgMitSchreibrecht = event.target.value
-    console.log('ImportRc, onChangeOrgMitSchreibrecht, orgMitSchreibrecht', orgMitSchreibrecht)
     this.setState({ orgMitSchreibrecht })
   },
 
