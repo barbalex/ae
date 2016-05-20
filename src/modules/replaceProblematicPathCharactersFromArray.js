@@ -10,7 +10,7 @@
 import replaceProblematicPathCharactersFromString from './replaceProblematicPathCharactersFromString.js'
 
 export default (elArray) => {
-  let newElArray = []
+  const newElArray = []
   elArray.forEach((el) => {
     if (el !== undefined && el !== null) {
       let newEl = el
