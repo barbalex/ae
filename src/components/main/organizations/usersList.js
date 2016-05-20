@@ -122,7 +122,11 @@ export default React.createClass({
   users() {
     const { activeOrganization, userFieldName } = this.props
 
-    if (activeOrganization && activeOrganization[userFieldName] && activeOrganization[userFieldName].length > 0) {
+    if (
+      activeOrganization &&
+      activeOrganization[userFieldName] &&
+      activeOrganization[userFieldName].length > 0
+    ) {
       return activeOrganization[userFieldName].map((user, index) => (
         <ListGroupItem key={index}>
           {user}
@@ -173,9 +177,8 @@ export default React.createClass({
           bsStyle={newWriterBsStyle}
         />
         {
-          newUserAlert
-          ? this.newUserAlert()
-          : null
+          newUserAlert &&
+          this.newUserAlert()
         }
       </div>
     )
