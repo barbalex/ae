@@ -36,11 +36,15 @@ export default (Actions) => {
 
           // 1. filter ids
           if (exportOptions.object._id.value) {
-            objects = objects.filter((object) => exportOptions.object._id.value.includes(object._id))
+            objects = objects.filter((object) =>
+              exportOptions.object._id.value.includes(object._id)
+            )
           }
           // 2. filter groups
           const groups = exportOptions.object.Gruppen.value
-          objects = objects.filter((object) => groups.includes(object.Gruppe))
+          objects = objects.filter((object) =>
+            groups.includes(object.Gruppe)
+          )
           // console.log('objects.length after filtering for group', objects.length)
 
           // 3. add missing pc's and rc's of synonyms if applicable

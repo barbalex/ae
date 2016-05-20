@@ -51,7 +51,9 @@ export default (Actions) => {
       return new Promise((resolve, reject) => {
         this.getFields()
           .then((fields) => {
-            const groupsFields = fields.filter((field) => groups.includes(field.group))
+            const groupsFields = fields.filter((field) =>
+              groups.includes(field.group)
+            )
             resolve(groupsFields)
           })
           .catch((error) => reject(error))
@@ -70,7 +72,12 @@ export default (Actions) => {
       })
     },
 
-    onQueryFields(groupsToExport, group, combineTaxonomies, offlineIndexes) {
+    onQueryFields(
+      groupsToExport,
+      group,
+      combineTaxonomies,
+      offlineIndexes
+    ) {
       // if fields exist, send them immediately
       let taxonomyFields = {}
       let pcFields = {}
@@ -108,7 +115,13 @@ export default (Actions) => {
           if (!group) {
             // if no group was passed, the zusammenfassen option was changed
             fieldsQuerying = false
-            this.trigger({ taxonomyFields, pcFields, relationFields, fieldsQuerying, fieldsQueryingError })
+            this.trigger({
+              taxonomyFields,
+              pcFields,
+              relationFields,
+              fieldsQuerying,
+              fieldsQueryingError
+            })
           } else {
             // check if group is not in allFields
             // if so: queryFieldsOfGroup
@@ -116,31 +129,69 @@ export default (Actions) => {
             const groupsInAllFields = uniq(map(allFields, 'group'))
             const fieldsExistForRequestedGroup = groupsInAllFields.includes(group)
             fieldsQuerying = !fieldsExistForRequestedGroup
-            this.trigger({ taxonomyFields, pcFields, relationFields, fieldsQuerying, fieldsQueryingError })
+            this.trigger({
+              taxonomyFields,
+              pcFields,
+              relationFields,
+              fieldsQuerying,
+              fieldsQueryingError
+            })
             if (!fieldsExistForRequestedGroup) {
               // fetch up to date fields for the requested group
-              this.queryFieldsOfGroup({ groupsToExport, group, combineTaxonomies, offlineIndexes })
+              this.queryFieldsOfGroup({
+                groupsToExport,
+                group,
+                combineTaxonomies,
+                offlineIndexes
+              })
             }
           }
         })
         .catch((error) =>
-          app.Actions.showError({title: 'fieldsStore, error getting existing fields:', msg: error})
+          app.Actions.showError({
+            title: 'fieldsStore, error getting existing fields:',
+            msg: error
+          })
         )
     },
 
-    queryFieldsOfGroup ({ groupsToExport, group, combineTaxonomies, offlineIndexes }) {
+    queryFieldsOfGroup({
+      groupsToExport,
+      group,
+      combineTaxonomies,
+      offlineIndexes
+    }) {
       // fetch up to date fields for the requested group
       queryFieldsOfGroup(group, offlineIndexes)
-        .then((fieldsOfGroup) => {
-          return this.saveFieldsOfGroup(fieldsOfGroup, group)
-        })
+        .then((fieldsOfGroup) =>
+          this.saveFieldsOfGroup(fieldsOfGroup, group)
+        )
         .then((allFields) => {
-          const taxonomyFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'taxonomy', combineTaxonomies)
-          const pcFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'propertyCollection')
-          const relationFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'relation')
+          const taxonomyFields = getFieldsForGroupsToExportByCollectionType(
+            allFields,
+            groupsToExport,
+            'taxonomy',
+            combineTaxonomies
+          )
+          const pcFields = getFieldsForGroupsToExportByCollectionType(
+            allFields,
+            groupsToExport,
+            'propertyCollection'
+          )
+          const relationFields = getFieldsForGroupsToExportByCollectionType(
+            allFields,
+            groupsToExport,
+            'relation'
+          )
           const fieldsQuerying = false
           const fieldsQueryingError = null
-          return this.trigger({ taxonomyFields, pcFields, relationFields, fieldsQuerying, fieldsQueryingError })
+          return this.trigger({
+            taxonomyFields,
+            pcFields,
+            relationFields,
+            fieldsQuerying,
+            fieldsQueryingError
+          })
         })
         .catch((error) => {
           const taxonomyFields = {}
@@ -148,7 +199,13 @@ export default (Actions) => {
           const relationFields = {}
           const fieldsQuerying = false
           const fieldsQueryingError = error
-          this.trigger({ taxonomyFields, pcFields, relationFields, fieldsQuerying, fieldsQueryingError })
+          this.trigger({
+            taxonomyFields,
+            pcFields,
+            relationFields,
+            fieldsQuerying,
+            fieldsQueryingError
+          })
         })
     }
   })
