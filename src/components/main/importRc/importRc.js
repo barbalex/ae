@@ -230,7 +230,9 @@ export default React.createClass({
           this.setState({ rcsToImport })
           this.isRcsToImportValid()
         })
-        .catch((error) => app.Actions.showError({ title: 'Fehler beim Lesen der Datei:', msg: error }))
+        .catch((error) =>
+          app.Actions.showError({ title: 'Fehler beim Lesen der Datei:', msg: error })
+        )
     }
   },
 
@@ -326,7 +328,7 @@ export default React.createClass({
           idsToImportWithDuplicates = idsToImportWithDuplicates.filter((id) => !!id)
           const idsNumberOfRecordsWithIdValue = idsToImportWithDuplicates.length
           const idsOfAeObjects = values(idGuidObject)
-          const idGuidImportable = omitBy(idGuidObject, (guid, id) => !guid)
+          const idGuidImportable = omitBy(idGuidObject, (guid) => !guid)
           const idsImportable = Object.keys(idGuidImportable)
           // extracting from keys converts numbers to strings! Convert back
           idsImportable.forEach((id, index) => {
@@ -396,7 +398,9 @@ export default React.createClass({
       importingProgress,
       rcsRemoved,
       deletingRcProgress
-    }, () => app.Actions.deleteRcByName(name, offlineIndexes))
+    }, () =>
+      app.Actions.deleteRcByName(name, offlineIndexes)
+    )
   },
 
   onClickRemoveRcInstances() {
@@ -404,7 +408,9 @@ export default React.createClass({
     // first remove progressbar and alert from last import
     const importingProgress = null
     const rcsRemoved = false
-    this.setState({ importingProgress, rcsRemoved }, () => app.Actions.deleteRcInstances(name, idsOfAeObjects))
+    this.setState({ importingProgress, rcsRemoved }, () =>
+      app.Actions.deleteRcInstances(name, idsOfAeObjects)
+    )
   },
 
   onClickPanel(number, event) {
@@ -413,7 +419,10 @@ export default React.createClass({
 
     // make sure the heading was clicked
     const parent = event.target.parentElement
-    const headingWasClicked = parent.className.includes('panel-title') || parent.className.includes('panel-heading')
+    const headingWasClicked = (
+      parent.className.includes('panel-title') ||
+      parent.className.includes('panel-heading')
+    )
     if (headingWasClicked) {
       // always close panel if it is open
       if (activePanel === number) return this.setState({ activePanel: '' })
