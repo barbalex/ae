@@ -16,14 +16,14 @@ import { uniqBy } from 'lodash'
 const ddoc = {
   _id: '_design/pcs',
   views: {
-    'pcs': {
-      map: function (doc) {
+    pcs: {
+      map: function(doc) {
         if (doc.Typ && doc.Typ === 'Objekt' && doc.Eigenschaftensammlungen) {
-          doc.Eigenschaftensammlungen.forEach(function (pc) {
+          doc.Eigenschaftensammlungen.forEach(function(pc) {
             // add pcZusammenfassend
             var pcZusammenfassend = !!pc.zusammenfassend
             var felder = {}
-            Object.keys(pc).forEach(function (key) {
+            Object.keys(pc).forEach(function(key) {
               if (key !== 'Typ' && key !== 'Name' && key !== 'Eigenschaften') {
                 felder[key] = pc[key]
               }
@@ -48,19 +48,19 @@ const queryOptionsCouch = {
 }
 
 const query = {
-  local () {
+  local() {
     return new Promise((resolve, reject) => {
       app.localDb.put(ddoc)
         .catch((error) => {
           // ignore if doc already exists
           if (error.status !== 409) reject(error)
         })
-        .then((response) => app.localDb.query('pcs', queryOptionsPouch))
+        .then(() => app.localDb.query('pcs', queryOptionsPouch))
         .then((result) => resolve(result))
         .catch((error) => reject(error))
     })
   },
-  remote () {
+  remote() {
     return new Promise((resolve, reject) => {
       app.remoteDb.query('pcs', queryOptionsCouch)
         .then((result) => resolve(result))
@@ -69,24 +69,22 @@ const query = {
   }
 }
 
-export default (offlineIndexes) => {
+export default (offlineIndexes) => new Promise((resolve, reject) => {
   const db = offlineIndexes ? 'local' : 'remote'
-  return new Promise((resolve, reject) => {
-    query[db]()
-      .then((result) => {
-        const rows = result.rows
-        const uniqueRows = uniqBy(rows, (row) => row.key[0])
-        let pcs = uniqueRows.map((row) => ({
-          name: row.key[0],
-          combining: row.key[1],
-          organization: row.key[2],
-          fields: row.key[3],
-          count: row.value
-        }))
-        // sort by pcName
-        pcs = pcs.sort((pc) => pc.name)
-        resolve(pcs)
-      })
-      .catch((error) => reject(error))
-  })
-}
+  query[db]()
+    .then((result) => {
+      const rows = result.rows
+      const uniqueRows = uniqBy(rows, (row) => row.key[0])
+      let pcs = uniqueRows.map((row) => ({
+        name: row.key[0],
+        combining: row.key[1],
+        organization: row.key[2],
+        fields: row.key[3],
+        count: row.value
+      }))
+      // sort by pcName
+      pcs = pcs.sort((pc) => pc.name)
+      resolve(pcs)
+    })
+    .catch((error) => reject(error))
+})

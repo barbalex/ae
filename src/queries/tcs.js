@@ -16,14 +16,14 @@ import { uniqBy } from 'lodash'
 const ddoc = {
   _id: '_design/tcs',
   views: {
-    'tcs': {
-      map: function (doc) {
+    tcs: {
+      map: function(doc) {
         if (doc.Typ && doc.Typ === 'Objekt' && doc.Gruppe && doc.Taxonomien) {
-          doc.Taxonomien.forEach(function (tc) {
+          doc.Taxonomien.forEach(function(tc) {
             // add pcZusammenfassend
             var standard = !!tc.Standardtaxonomie
             var felder = {}
-            Object.keys(tc).forEach(function (key) {
+            Object.keys(tc).forEach(function(key) {
               if (key !== 'Name' && key !== 'Eigenschaften') {
                 felder[key] = tc[key]
               }
@@ -48,19 +48,19 @@ const queryOptionsCouch = {
 }
 
 const query = {
-  local () {
+  local() {
     return new Promise((resolve, reject) => {
       app.localDb.put(ddoc)
         .catch((error) => {
           // ignore if doc already exists
           if (error.status !== 409) reject(error)
         })
-        .then((response) => app.localDb.query('tcs', queryOptionsPouch))
+        .then(() => app.localDb.query('tcs', queryOptionsPouch))
         .then((result) => resolve(result))
         .catch((error) => reject(error))
     })
   },
-  remote () {
+  remote() {
     return new Promise((resolve, reject) => {
       app.remoteDb.query('tcs', queryOptionsCouch)
         .then((result) => resolve(result))
@@ -69,25 +69,23 @@ const query = {
   }
 }
 
-export default (offlineIndexes) => {
+export default (offlineIndexes) => new Promise((resolve, reject) => {
   const db = offlineIndexes ? 'local' : 'remote'
-  return new Promise((resolve, reject) => {
-    query[db]()
-      .then((result) => {
-        const rows = result.rows
-        const uniqueRows = uniqBy(rows, (row) => [row.key[0], row.key[1], row.key[2]])
-        let tcs = uniqueRows.map((row) => ({
-          group: row.key[0],
-          standard: row.key[1],
-          name: row.key[2],
-          organization: row.key[3],
-          fields: row.key[4],
-          count: row.value
-        }))
-        // sort by pcName
-        tcs = tcs.sort((tc) => tc.name)
-        resolve(tcs)
-      })
-      .catch((error) => reject(error))
-  })
-}
+  query[db]()
+    .then((result) => {
+      const rows = result.rows
+      const uniqueRows = uniqBy(rows, (row) => [row.key[0], row.key[1], row.key[2]])
+      let tcs = uniqueRows.map((row) => ({
+        group: row.key[0],
+        standard: row.key[1],
+        name: row.key[2],
+        organization: row.key[3],
+        fields: row.key[4],
+        count: row.value
+      }))
+      // sort by pcName
+      tcs = tcs.sort((tc) => tc.name)
+      resolve(tcs)
+    })
+    .catch((error) => reject(error))
+})
