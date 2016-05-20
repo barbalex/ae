@@ -1,7 +1,16 @@
 'use strict'
 
-export default ({ id, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs }) => {
-  let rc = {}
+export default ({
+  id, name,
+  beschreibung,
+  datenstand,
+  nutzungsbedingungen,
+  link,
+  importiertVon,
+  zusammenfassend,
+  nameUrsprungsEs
+}) => {
+  const rc = {}
   rc._id = id
   rc.Name = name
   rc.Beschreibung = beschreibung

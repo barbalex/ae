@@ -19,7 +19,7 @@ export default (object) => {
           break
         case 'Fauna':
         case 'Moose':
-          link += Gattung + '_' + Art
+          link += `${Gattung}_${Art}`
           break
         case 'Macromycetes':
           link += Name
