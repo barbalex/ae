@@ -29,12 +29,16 @@ export default (Actions) => {
 
     userIsEsWriterInOrgs: [],
 
-    getActiveOrganization () {
-      return this.organizations.find((org) => org.Name === this.activeOrganizationName)
+    getActiveOrganization() {
+      return this.organizations.find((org) =>
+        org.Name === this.activeOrganizationName
+      )
     },
 
-    updateOrganizationByName (name, organization) {
-      const index = this.organizations.findIndex((org) => org.Name === name)
+    updateOrganizationByName(name, organization) {
+      const index = this.organizations.findIndex((org) =>
+        org.Name === name
+      )
       this.lastOrganizations = this.organizations
       this.organizations[index] = organization
       // optimistically update ui
@@ -47,13 +51,16 @@ export default (Actions) => {
           this.triggerMe()
         })
         .catch((error) => {
-          app.Actions.showError({title: 'error updating esWriter in remoteDb:', msg: error.message})
+          app.Actions.showError({
+            title: 'error updating esWriter in remoteDb:',
+            msg: error.message
+          })
           // roll back change in cache
           this.organizations = this.lastOrganizations
         })
     },
 
-    onGetOrganizations (email) {
+    onGetOrganizations(email) {
       // send cached organizations first
       if (this.organizations.length > 0) this.triggerMe()
       app.remoteDb.query('organizations', { include_docs: true })
@@ -81,22 +88,27 @@ export default (Actions) => {
           orgsWhereUserLrEsWriter = union(orgsWhereUserLrEsWriter, orgsWhereUserIsAdmin)
           this.triggerMe()
         })
-        .catch((error) => app.Actions.showError({title: 'error fetching organizations from remoteDb:', msg: error}))
+        .catch((error) =>
+          app.Actions.showError({
+            title: 'error fetching organizations from remoteDb:',
+            msg: error
+          })
+        )
     },
 
-    onUpdateActiveOrganization (name, organization) {
+    onUpdateActiveOrganization(name, organization) {
       this.updateOrganizationByName(name, organization)
     },
 
-    onSetActiveOrganization (name) {
+    onSetActiveOrganization(name) {
       this.activeOrganizationName = name
       this.triggerMe()
     },
 
-    onRemoveUserFromActiveOrganization (user, userFieldName) {
-      let activeOrganization = this.getActiveOrganization()
+    onRemoveUserFromActiveOrganization(user, userFieldName) {
+      const activeOrganization = this.getActiveOrganization()
       if (activeOrganization[userFieldName]) {
-        let roles = []
+        const roles = []
         const role = getRoleFromOrgField(activeOrganization, userFieldName)
         roles.push(role)
         removeRolesFromUser(user, roles)
@@ -104,7 +116,7 @@ export default (Actions) => {
             activeOrganization[userFieldName] = activeOrganization[userFieldName].filter((esW) => esW !== user)
             this.updateOrganizationByName(activeOrganization.Name, activeOrganization)
           })
-          .catch((error) => {
+          .catch(() => {
             // TODO
           })
       } else {
@@ -112,40 +124,53 @@ export default (Actions) => {
       }
     },
 
-    onGetTcsOfOrganization (orgName) {
+    onGetTcsOfOrganization(orgName) {
       app.taxonomyCollectionsStore.getTcs()
         .then((tcs) => {
           this.tcsOfActiveOrganization = tcs.filter((tc) => tc.organization === orgName)
           this.triggerMe()
         })
         .catch((error) =>
-          app.Actions.showError({title: 'organizationsStore, error getting existing tcs of ' + orgName + ':', msg: error})
+          app.Actions.showError({
+            title: `organizationsStore, error getting existing tcs of ${orgName}:`,
+            msg: error
+          })
         )
     },
 
-    onGetPcsOfOrganization (orgName) {
+    onGetPcsOfOrganization(orgName) {
       app.propertyCollectionsStore.getPcs()
         .then((pcs) => {
-          this.pcsOfActiveOrganization = pcs.filter((pc) => pc.organization === orgName)
+          this.pcsOfActiveOrganization = pcs.filter((pc) =>
+            pc.organization === orgName
+          )
           this.triggerMe()
         })
         .catch((error) =>
-          app.Actions.showError({title: 'organizationsStore, error getting existing pcs of ' + orgName + ':', msg: error})
+          app.Actions.showError({
+            title: `organizationsStore, error getting existing pcs of ${orgName}:`,
+            msg: error
+          })
         )
     },
 
-    onGetRcsOfOrganization (orgName) {
+    onGetRcsOfOrganization(orgName) {
       app.relationCollectionsStore.getRcs()
         .then((rcs) => {
-          this.rcsOfActiveOrganization = rcs.filter((pc) => pc.organization === orgName)
+          this.rcsOfActiveOrganization = rcs.filter((pc) =>
+            pc.organization === orgName
+          )
           this.triggerMe()
         })
         .catch((error) =>
-          app.Actions.showError({title: 'organizationsStore, error getting existing rcs of ' + orgName + ':', msg: error})
+          app.Actions.showError({
+            title: `organizationsStore, error getting existing rcs of ${orgName}:`,
+            msg: error
+          })
         )
     },
 
-    triggerMe () {
+    triggerMe() {
       const organizations = this.organizations
       const activeOrganization = this.getActiveOrganization()
       const userIsAdminInOrgs = this.userIsAdminInOrgs
@@ -153,7 +178,15 @@ export default (Actions) => {
       const tcsOfActiveOrganization = this.tcsOfActiveOrganization
       const pcsOfActiveOrganization = this.pcsOfActiveOrganization
       const rcsOfActiveOrganization = this.rcsOfActiveOrganization
-      this.trigger({ organizations, activeOrganization, userIsAdminInOrgs, userIsEsWriterInOrgs, tcsOfActiveOrganization, pcsOfActiveOrganization, rcsOfActiveOrganization })
+      this.trigger({
+        organizations,
+        activeOrganization,
+        userIsAdminInOrgs,
+        userIsEsWriterInOrgs,
+        tcsOfActiveOrganization,
+        pcsOfActiveOrganization,
+        rcsOfActiveOrganization
+      })
     }
   })
 

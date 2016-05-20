@@ -2,7 +2,7 @@
 
 import app from 'ampersand-app'
 import Reflux from 'reflux'
-import { forEach, reject } from 'lodash'
+import { forEach, reject as _reject } from 'lodash'
 import objectsIdsByPcsName from '../queries/objectsIdsByPcsName.js'
 import convertValue from '../modules/convertValue.js'
 import sortObjectArrayByName from '../modules/sortObjectArrayByName.js'
@@ -15,15 +15,31 @@ export default (Actions) => {
      */
     listenables: Actions,
 
-    onImportPcs (state) {
-      const { pcsToImport, idsImportIdField, name, beschreibung, datenstand, nutzungsbedingungen, link, orgMitSchreibrecht, importiertVon, zusammenfassend, nameUrsprungsEs } = state
+    onImportPcs(state) {
+      const {
+        pcsToImport,
+        idsImportIdField,
+        name,
+        beschreibung,
+        datenstand,
+        nutzungsbedingungen,
+        link,
+        orgMitSchreibrecht,
+        importiertVon,
+        zusammenfassend,
+        nameUrsprungsEs
+      } = state
 
       let importingProgress = 0
       // set back deleting progress to close progressbar and deletion examples
       const deletingPcInstancesProgress = null
       const deletingPcProgress = null
       // alert say "Daten werden vorbereitet..."
-      this.trigger({ importingProgress, deletingPcInstancesProgress, deletingPcProgress })
+      this.trigger({
+        importingProgress,
+        deletingPcInstancesProgress,
+        deletingPcProgress
+      })
 
       // loop pcsToImport
       pcsToImport.forEach((pcToImport, index) => {
@@ -33,7 +49,7 @@ export default (Actions) => {
           app.objectStore.getObject(guid)
             .then((objectToImportPcInTo) => {
               // build pc
-              let pc = {}
+              const pc = {}
               pc.Name = name
               pc.Beschreibung = beschreibung
               pc.Datenstand = datenstand
@@ -47,7 +63,12 @@ export default (Actions) => {
               // now add fields of pc
               forEach(pcToImport, (value, field) => {
                 // dont import _id, idField or empty fields
-                if (field !== '_id' && field !== idsImportIdField && value !== '' && value !== null) {
+                if (
+                  field !== '_id' &&
+                  field !== idsImportIdField &&
+                  value !== '' &&
+                  value !== null
+                ) {
                   // convert values / types if necessary
                   pc.Eigenschaften[field] = convertValue(value)
                 }
@@ -55,7 +76,10 @@ export default (Actions) => {
               // make sure, Eigenschaftensammlungen exists
               if (!objectToImportPcInTo.Eigenschaftensammlungen) objectToImportPcInTo.Eigenschaftensammlungen = []
               // if a pc with this name existed already, remove it
-              objectToImportPcInTo.Eigenschaftensammlungen = reject(objectToImportPcInTo.Eigenschaftensammlungen, (es) => es.name === name)
+              objectToImportPcInTo.Eigenschaftensammlungen = _reject(
+                objectToImportPcInTo.Eigenschaftensammlungen,
+                (es) => es.name === name
+              )
               objectToImportPcInTo.Eigenschaftensammlungen.push(pc)
               objectToImportPcInTo.Eigenschaftensammlungen = sortObjectArrayByName(objectToImportPcInTo.Eigenschaftensammlungen)
               // write to db
@@ -78,7 +102,7 @@ export default (Actions) => {
                  * propertyCollectionsStore triggers new pcs and lists get refreshed
                  */
                 const pc = {
-                  name: name,
+                  name,
                   combining: zusammenfassend,
                   organization: orgMitSchreibrecht,
                   fields: {
@@ -95,13 +119,18 @@ export default (Actions) => {
               }
               this.trigger(state)
             })
-            .catch((error) => app.Actions.showError({title: 'Fehler beim Importieren:', msg: error}))
+            .catch((error) =>
+              app.Actions.showError({
+                title: 'Fehler beim Importieren:',
+                msg: error
+              })
+            )
         }
       })
       app.fieldsStore.emptyFields()
     },
 
-    onDeletePcByName (name, offlineIndexes) {
+    onDeletePcByName(name, offlineIndexes) {
       /**
        * gets name of pc
        * removes pc's with this name from all objects
@@ -111,34 +140,56 @@ export default (Actions) => {
        */
       let idsOfAeObjects = []
       let deletingPcProgress = null
-      let nameBestehend = name
-      this.trigger({ idsOfAeObjects, deletingPcProgress, nameBestehend })
+      const nameBestehend = name
+      this.trigger({
+        idsOfAeObjects,
+        deletingPcProgress,
+        nameBestehend
+      })
       objectsIdsByPcsName(name, offlineIndexes)
         .then((ids) => {
           idsOfAeObjects = ids
           ids.forEach((id, index) => {
             app.objectStore.getObject(id)
               .then((doc) => {
-                doc.Eigenschaftensammlungen = reject(doc.Eigenschaftensammlungen, (es) => es.Name === name)
+                doc.Eigenschaftensammlungen = _reject(
+                  doc.Eigenschaftensammlungen,
+                  (es) => es.Name === name
+                )
                 return app.localDb.put(doc)
               })
               .then(() => {
                 deletingPcProgress = Math.round((index + 1) / ids.length * 100)
-                if (deletingPcProgress === 100) app.propertyCollectionsStore.removePcByName(name)
+                if (deletingPcProgress === 100) {
+                  app.propertyCollectionsStore.removePcByName(name)
+                }
                 this.trigger({ idsOfAeObjects, deletingPcProgress })
               })
-              .catch((error) => app.Actions.showError({title: `Fehler: Das Objekt mit der ID ${id} wurde nicht aktualisiert:`, msg: error}))
+              .catch((error) =>
+                app.Actions.showError({
+                  title: `Fehler: Das Objekt mit der ID ${id} wurde nicht aktualisiert:`,
+                  msg: error
+                })
+              )
           })
           app.fieldsStore.emptyFields()
         })
-        .catch((error) => app.Actions.showError({title: 'Fehler beim Versuch, die Eigenschaften zu löschen:', msg: error}))
+        .catch((error) =>
+          app.Actions.showError({
+            title: 'Fehler beim Versuch, die Eigenschaften zu löschen:',
+            msg: error
+          })
+        )
     },
 
-    onDeletePcInstances (name, idsOfAeObjects) {
+    onDeletePcInstances(name, idsOfAeObjects) {
       idsOfAeObjects.forEach((guid, index) => {
         app.objectStore.getObject(guid)
           .then((doc) => {
-            doc.Eigenschaftensammlungen = reject(doc.Eigenschaftensammlungen, (es) => es.Name === name)
+            doc.Eigenschaftensammlungen = _reject(
+              doc.Eigenschaftensammlungen,
+              (es) => es.Name === name
+            )
             return app.localDb.put(doc)
           })
           .then(() => {
@@ -147,7 +198,12 @@ export default (Actions) => {
             if (deletingPcInstancesProgress === 100) pcsRemoved = true
             this.trigger({ deletingPcInstancesProgress, pcsRemoved })
           })
-          .catch((error) => app.Actions.showError({title: `Fehler: Das Objekt mit der GUID ${guid} wurde nicht aktualisiert:`, msg: error}))
+          .catch((error) =>
+            app.Actions.showError({
+              title: `Fehler: Das Objekt mit der GUID ${guid} wurde nicht aktualisiert:`,
+              msg: error
+            })
+          )
       })
       app.fieldsStore.emptyFields()
     }

@@ -16,8 +16,19 @@ export default (Actions) => {
      */
     listenables: Actions,
 
-    onImportRcs (state) {
-      const { idsImportIdField, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, orgMitSchreibrecht, zusammenfassend, nameUrsprungsEs } = state
+    onImportRcs(state) {
+      const {
+        idsImportIdField,
+        name,
+        beschreibung,
+        datenstand,
+        nutzungsbedingungen,
+        link,
+        importiertVon,
+        orgMitSchreibrecht,
+        zusammenfassend,
+        nameUrsprungsEs
+      } = state
       let { rcsToImport } = state
 
       let importingProgress = 0
@@ -25,7 +36,11 @@ export default (Actions) => {
       const deletingRcInstancesProgress = null
       const deletingRcProgress = null
       // alert say "Daten werden vorbereitet..."
-      this.trigger({ importingProgress, deletingRcInstancesProgress, deletingRcProgress })
+      this.trigger({
+        importingProgress,
+        deletingRcInstancesProgress,
+        deletingRcProgress
+      })
       // make sure there are no rcsToImport without _id
       rcsToImport = rcsToImport.filter((rcToImport) => !!rcToImport._id)
       /**
@@ -37,22 +52,39 @@ export default (Actions) => {
        * 2.2: combine relation partners of all objects in field Beziehungen
        * 2.3: use other properties from any
        */
-      let rcs = []
+      const rcs = []
       // 1. build an object with keys = _id's, values = array of all import-objects with this _id
-      let rcsToImportObjects = groupBy(rcsToImport, '_id')
+      const rcsToImportObjects = groupBy(rcsToImport, '_id')
       // 2. loop the keys of this object and combine the import-objects
       forEach(rcsToImportObjects, (rcToImportArray, id) => {
         const rcstoImportObject = rcToImportArray[0]
         // use relation description from state
-        let rc = buildRcFirstLevel({ id, name, beschreibung, datenstand, nutzungsbedingungen, link, importiertVon, zusammenfassend, nameUrsprungsEs })
+        const rc = buildRcFirstLevel({
+          id,
+          name,
+          beschreibung,
+          datenstand,
+          nutzungsbedingungen,
+          link,
+          importiertVon,
+          zusammenfassend,
+          nameUrsprungsEs
+        })
         // combine relation partners of all objects in field Beziehungen
         rcToImportArray.forEach((rcToImport, index) => {
-          let relation = {}
+          const relation = {}
           forEach(rcstoImportObject, (value, field) => {
             if (field === 'rPartners') {
               relation.Beziehungspartner = value
             }
-            if (field !== '_id' && field !== 'rPartners' && field !== 'Beziehungspartner' && field !== idsImportIdField && value !== '' && value !== null) {
+            if (
+              field !== '_id' &&
+              field !== 'rPartners' &&
+              field !== 'Beziehungspartner' &&
+              field !== idsImportIdField &&
+              value !== '' &&
+              value !== null
+            ) {
               // use other properties from any
               // this is a property of the relation
               relation[field] = convertValue(value)
@@ -95,7 +127,7 @@ export default (Actions) => {
                * relationCollectionsStore triggers new rcs and lists get refreshed
                */
               const rc = {
-                name: name,
+                name,
                 combining: zusammenfassend,
                 organization: orgMitSchreibrecht,
                 fields: {
@@ -112,12 +144,17 @@ export default (Actions) => {
             }
             this.trigger(state)
           })
-          .catch((error) => app.Actions.showError({title: 'Fehler beim Importieren:', msg: error}))
+          .catch((error) =>
+            app.Actions.showError({
+              title: 'Fehler beim Importieren:',
+              msg: error
+            })
+          )
       })
       app.fieldsStore.emptyFields()
     },
 
-    onDeleteRcByName (name, offlineIndexes) {
+    onDeleteRcByName(name, offlineIndexes) {
       /**
        * gets name of rc
        * removes rc's with this name from all objects
@@ -127,7 +164,7 @@ export default (Actions) => {
        */
       let idsOfAeObjects = []
       let deletingRcProgress = null
-      let nameBestehend = name
+      const nameBestehend = name
       this.trigger({ idsOfAeObjects, deletingRcProgress, nameBestehend })
       objectsIdsByRcsName(name, offlineIndexes)
         .then((ids) => {
@@ -143,14 +180,24 @@ export default (Actions) => {
                 if (deletingRcProgress === 100) app.relationCollectionsStore.removeRcByName(name)
                 this.trigger({ idsOfAeObjects, deletingRcProgress })
               })
-              .catch((error) => app.Actions.showError({title: `Fehler: Das Objekt mit der ID ${id} wurde nicht aktualisiert:`, msg: error}))
+              .catch((error) =>
+                app.Actions.showError({
+                  title: `Fehler: Das Objekt mit der ID ${id} wurde nicht aktualisiert:`,
+                  msg: error
+                })
+              )
           })
           app.fieldsStore.emptyFields()
         })
-        .catch((error) => app.Actions.showError({title: 'Fehler beim Versuch, die Eigenschaften zu löschen:', msg: error}))
+        .catch((error) =>
+          app.Actions.showError({
+            title: 'Fehler beim Versuch, die Eigenschaften zu löschen:',
+            msg: error
+          })
+        )
     },
 
-    onDeleteRcInstances (name, idsOfAeObjects) {
+    onDeleteRcInstances(name, idsOfAeObjects) {
       idsOfAeObjects.forEach((guid, index) => {
         app.objectStore.getObject(guid)
           .then((doc) => {
@@ -163,7 +210,12 @@ export default (Actions) => {
             if (deletingRcInstancesProgress === 100) rcsRemoved = true
             this.trigger({ deletingRcInstancesProgress, rcsRemoved })
           })
-          .catch((error) => app.Actions.showError({title: `Fehler: Das Objekt mit der GUID ${guid} wurde nicht aktualisiert:`, msg: error}))
+          .catch((error) =>
+            app.Actions.showError({
+              title: `Fehler: Das Objekt mit der GUID ${guid} wurde nicht aktualisiert:`,
+              msg: error
+            })
+          )
       })
       app.fieldsStore.emptyFields()
     }
