@@ -143,9 +143,15 @@ export default React.createClass({
             onClick={this.onClick}
             className="showNextHidden"
           >
-            {pc.Beschreibung ? (isVisible ? '...weniger' : '...mehr') : 'Beschreibung der Datensammlung anzeigen'}
+            {
+              pc.Beschreibung ?
+              (isVisible ? '...weniger' : '...mehr') :
+              'Beschreibung der Datensammlung anzeigen'
+            }
           </a>
-          <div style={{ display: isVisible ? 'block' : 'none' }}>
+          <div
+            style={{ display: isVisible ? 'block' : 'none' }}
+          >
             {
               pc.Datenstand
               ? datenstand

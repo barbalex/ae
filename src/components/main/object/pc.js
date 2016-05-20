@@ -19,7 +19,15 @@ import isUserOrgAdmin from '../../../modules/isUserOrgAdmin.js'
 import isUserLrWriter from '../../../modules/isUserLrWriter.js'
 import EditButtonGroup from './editButtonGroup.js'
 
-function buildFieldForProperty(propertyCollection, object, onSaveObjectField, value, key, pcType, collectionIsEditing) {
+function buildFieldForProperty(
+  propertyCollection,
+  object,
+  onSaveObjectField,
+  value,
+  key,
+  pcType,
+  collectionIsEditing
+) {
   const pcName = propertyCollection.Name.replace(/"/g, "'")
   // bad hack because jsx shows &#39; not as ' but as &#39;
   if (typeof value === 'string') value = value.replace('&#39;', '\'')
@@ -60,7 +68,9 @@ function buildFieldForProperty(propertyCollection, object, onSaveObjectField, va
           )
         }
       })
-      .catch((error) => app.Actions.showError({ title: 'pc.js: error getting item from objectStore:', msg: error }))
+      .catch((error) =>
+        app.Actions.showError({ title: 'pc.js: error getting item from objectStore:', msg: error })
+      )
   }
   if ((key === 'Gültige Namen' || key === 'Eingeschlossene Arten') && object.Gruppe === 'Flora') {
     // build array of links
@@ -107,90 +117,94 @@ function buildFieldForProperty(propertyCollection, object, onSaveObjectField, va
   )
 }
 
-export default React.createClass({
-  displayName: 'PropertyCollection',
-
-  propTypes: {
-    pcType: React.PropTypes.string,
-    object: React.PropTypes.object,
-    onSaveObjectField: React.PropTypes.func,
-    editObjects: React.PropTypes.bool,
-    toggleEditObjects: React.PropTypes.func,
-    addNewObject: React.PropTypes.func,
-    removeObject: React.PropTypes.func,
-    propertyCollection: React.PropTypes.object,
-    userRoles: React.PropTypes.array
-  },
-
-  render() {
-    const {
+const PropertyCollection = ({
+  propertyCollection,
+  pcType,
+  object,
+  onSaveObjectField,
+  userRoles,
+  editObjects,
+  toggleEditObjects,
+  addNewObject,
+  removeObject
+}) => {
+  const pcName = replaceInvalidCharactersInIdNames(propertyCollection.Name)
+  const isLr = object.Gruppe === 'Lebensräume'
+  const org = propertyCollection['Organisation mit Schreibrecht']
+  const collectionIsEditable = (
+    isLr &&
+    (
+      isUserLrWriter(userRoles, org) ||
+      isUserOrgAdmin(userRoles, org) ||
+      isUserServerAdmin(userRoles)
+    )
+  )
+  const collectionIsEditing = collectionIsEditable && editObjects
+  const properties = map(propertyCollection.Eigenschaften, (value, key) =>
+    buildFieldForProperty(
       propertyCollection,
-      pcType,
       object,
       onSaveObjectField,
-      userRoles,
-      editObjects,
-      toggleEditObjects,
-      addNewObject,
-      removeObject
-    } = this.props
-    const pcName = replaceInvalidCharactersInIdNames(propertyCollection.Name)
-    const isLr = object.Gruppe === 'Lebensräume'
-    const org = propertyCollection['Organisation mit Schreibrecht']
-    const collectionIsEditable = isLr && (isUserLrWriter(userRoles, org) || isUserOrgAdmin(userRoles, org) || isUserServerAdmin(userRoles))
-    const collectionIsEditing = collectionIsEditable && editObjects
-    const properties = map(propertyCollection.Eigenschaften, (value, key) =>
-      buildFieldForProperty(propertyCollection, object, onSaveObjectField, value, key, pcType, collectionIsEditing)
+      value,
+      key,
+      pcType,
+      collectionIsEditing
     )
-    const showPcDescription = object.Gruppe !== 'Lebensräume' || pcType !== 'Taxonomie'
+  )
+  const showPcDescription = (
+    object.Gruppe !== 'Lebensräume' ||
+    pcType !== 'Taxonomie'
+  )
 
-    /*
-    console.log('pc.js, collectionIsEditable', collectionIsEditable)
-    console.log('pc.js, editObjects', editObjects)
-    console.log('pc.js, collectionIsEditing', collectionIsEditing)
-    */
-
-    /*
-    console.log('propertyCollection', propertyCollection)
-    console.log('org', org)
-    console.log('userRoles', userRoles)
-    console.log('collectionIsEditable', collectionIsEditable)
-    */
-
-    return (
-      <Accordion>
-        <Panel
-          header={propertyCollection.Name}
-          eventKey={1}
-        >
+  return (
+    <Accordion>
+      <Panel
+        header={propertyCollection.Name}
+        eventKey={1}
+      >
+        {
+          collectionIsEditable &&
+            <EditButtonGroup
+              editObjects={editObjects}
+              toggleEditObjects={toggleEditObjects}
+              addNewObject={addNewObject}
+              removeObject={removeObject}
+            />
+        }
+        {
+          showPcDescription &&
+            <PcDescription pc={propertyCollection} />
+        }
+        <div>
           {
-            collectionIsEditable &&
-              <EditButtonGroup
-                editObjects={editObjects}
-                toggleEditObjects={toggleEditObjects}
-                addNewObject={addNewObject}
-                removeObject={removeObject}
+            pcType === 'Taxonomie' &&
+              <Field
+                fieldName="GUID"
+                fieldValue={object._id}
+                pcType={pcType}
+                pcName={pcName}
+                collectionIsEditing={false}
               />
           }
-          {
-            showPcDescription &&
-              <PcDescription pc={propertyCollection} />
-          }
-          <div>
-            {
-              pcType === 'Taxonomie' &&
-                <Field
-                  fieldName="GUID"
-                  fieldValue={object._id}
-                  pcType={pcType}
-                  pcName={pcName}
-                  collectionIsEditing={false}
-                />
-            }
-            {properties}
-          </div>
-        </Panel>
-      </Accordion>
-    )
-  }
-})
+          {properties}
+        </div>
+      </Panel>
+    </Accordion>
+  )
+}
+
+PropertyCollection.displayName = 'PropertyCollection'
+
+PropertyCollection.propTypes = {
+  pcType: React.PropTypes.string,
+  object: React.PropTypes.object,
+  onSaveObjectField: React.PropTypes.func,
+  editObjects: React.PropTypes.bool,
+  toggleEditObjects: React.PropTypes.func,
+  addNewObject: React.PropTypes.func,
+  removeObject: React.PropTypes.func,
+  propertyCollection: React.PropTypes.object,
+  userRoles: React.PropTypes.array
+}
+
+export default PropertyCollection
