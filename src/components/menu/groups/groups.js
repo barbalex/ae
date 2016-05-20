@@ -7,27 +7,31 @@ import getGruppen from '../../../modules/gruppen.js'
 
 const gruppen = getGruppen()
 
-export default React.createClass({
-  displayName: 'Groups',
+const Groups = ({ groupsLoadedOrLoading }) => {
+  const groupsNotLoaded = difference(gruppen, groupsLoadedOrLoading)
+  const groupCheckboxes = groupsNotLoaded.map((group, index) =>
+    <GroupCheckbox
+      key={index}
+      group={group}
+    />
+  )
 
-  propTypes: {
-    groupsLoadedOrLoading: React.PropTypes.array
-  },
-
-  render() {
-    const { groupsLoadedOrLoading } = this.props
-    const groupsNotLoaded = difference(gruppen, groupsLoadedOrLoading)
-    const groupCheckboxes = groupsNotLoaded.map((group, index) => <GroupCheckbox key={index} group={group} />)
-
-    return (
-      <div id="groups">
-        <div id="groupCheckboxesTitle">
-          Gruppen laden:
-        </div>
-        <div id="groupCheckboxes">
-          {groupCheckboxes}
-        </div>
+  return (
+    <div id="groups">
+      <div id="groupCheckboxesTitle">
+        Gruppen laden:
       </div>
-    )
-  }
-})
+      <div id="groupCheckboxes">
+        {groupCheckboxes}
+      </div>
+    </div>
+  )
+}
+
+Groups.displayName = 'Groups'
+
+Groups.propTypes = {
+  groupsLoadedOrLoading: React.PropTypes.array
+}
+
+export default Groups
