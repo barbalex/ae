@@ -7,11 +7,11 @@
 
 'use strict'
 
-function escapeRegExp (string) {
+function escapeRegExp(string) {
   return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1')
 }
 
-function replaceAll (string, find, replace) {
+function replaceAll(string, find, replace) {
   if (string && string.length > 0) return string.replace(new RegExp(escapeRegExp(find), 'g'), replace)
   return null
 }
