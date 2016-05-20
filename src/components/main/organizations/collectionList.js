@@ -2,46 +2,42 @@
 
 import React from 'react'
 
-export default React.createClass({
-  displayName: 'UsersList',
+const collectionsList = (collections) => {
+  collections.sort((a, b) => {
+    if (a.name > b.name) return 1
+    return -1
+  })
+  return collections.map((collection, index) => (
+    <li key={index}>
+      <p>{collection.name}</p>
+    </li>
+  ))
+}
 
-  propTypes: {
-    collections: React.PropTypes.array,
-    cType: React.PropTypes.string,
-    orgName: React.PropTypes.string
-  },
+const titleStyle = {
+  marginBottom: 0,
+  marginTop: 15,
+  fontWeight: 700
+}
 
-  collections() {
-    const { collections } = this.props
-    collections.sort((a, b) => {
-      if (a.name > b.name) return 1
-      return -1
-    })
-    return collections.map((collection, index) => (
-      <li key={index}>
-        <p>{collection.name}</p>
-      </li>
-    ))
-  },
+const CollectionList = ({ cType, collections }) =>
+  <div>
+    <p style={titleStyle}>
+      {cType}
+    </p>
+    <div className="orgCollectionList">
+      <ul>
+        {collectionsList(collections)}
+      </ul>
+    </div>
+  </div>
 
-  render() {
-    const { cType } = this.props
-    const title = cType
-    const titleStyle = {
-      marginBottom: 0,
-      marginTop: 15,
-      fontWeight: 700
-    }
+CollectionList.displayName = 'CollectionList'
 
-    return (
-      <div>
-        <p style={titleStyle}>{title}</p>
-        <div className="orgCollectionList">
-          <ul>
-            {this.collections()}
-          </ul>
-        </div>
-      </div>
-    )
-  }
-})
+CollectionList.propTypes = {
+  collections: React.PropTypes.array,
+  cType: React.PropTypes.string,
+  orgName: React.PropTypes.string
+}
+
+export default CollectionList
