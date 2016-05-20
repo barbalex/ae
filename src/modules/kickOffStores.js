@@ -13,7 +13,10 @@ export default (path, gruppe, guid) => {
         if (object) app.Actions.loadActiveObject(object._id)
       })
       .catch((error) =>
-        app.Actions.showError({title: 'kickOffStores.js: error loading active object store or getting path for path "' + path + '":', msg: error})
+        app.Actions.showError({
+          title: `kickOffStores.js: error loading active object store or getting path for path "${path}":`,
+          msg: error
+        })
       )
   }
   app.loadingGroupsStore.isGroupLoaded(gruppe)
@@ -21,6 +24,9 @@ export default (path, gruppe, guid) => {
       if (!groupIsLoaded) app.Actions.loadObject(gruppe)
     })
     .catch((error) =>
-      app.Actions.showError({title: 'kickOffStores.js: error getting groups from localDb:', msg: error})
+      app.Actions.showError({
+        title: 'kickOffStores.js: error getting groups from localDb:',
+        msg: error
+      })
     )
 }
