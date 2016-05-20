@@ -44,56 +44,52 @@ const popover = () =>
   </Popover>
 
 const InputOrganisationMitSchreibrecht = ({
+  orgMitSchreibrecht,
   onChangeOrgMitSchreibrecht,
   userIsEsWriterInOrgs,
   validOrgMitSchreibrecht
-}) => {
-  const selected = (
-    userIsEsWriterInOrgs &&
-    userIsEsWriterInOrgs.length === 1 ?
-    userIsEsWriterInOrgs[0] :
-    null
-  )
-
-  return (
-    <div
-      className={validOrgMitSchreibrecht ? 'form-group' : 'form-group has-error'}
+}) => (
+  <div
+    className={validOrgMitSchreibrecht ? 'form-group' : 'form-group has-error'}
+  >
+    <OverlayTrigger
+      trigger={['click', 'focus']}
+      rootClose
+      placement="right"
+      overlay={popover()}
     >
-      <OverlayTrigger
-        trigger={['click', 'focus']}
-        rootClose
-        placement="right"
-        overlay={popover()}
+      <label
+        className="control-label withPopover"
       >
-        <label
-          className="control-label withPopover"
-        >
-          Organisation mit Schreibrecht
-        </label>
-      </OverlayTrigger>
-      <select
-        className="form-control controls"
-        value={selected}
-        onChange={(event) => onChangeOrgMitSchreibrecht(event)}
+        Organisation mit Schreibrecht
+      </label>
+    </OverlayTrigger>
+    <select
+      className="form-control controls"
+      value={orgMitSchreibrecht}
+      onChange={(event) => {
+        console.log('InputOrgMitSchreibrecht, event.target.value', event.target.value)
+        return onChangeOrgMitSchreibrecht(event)
+      }}
+    >
+      {options(userIsEsWriterInOrgs)}
+    </select>
+    {
+      !validOrgMitSchreibrecht &&
+      <div
+        className="validateDiv feld"
       >
-        {options(userIsEsWriterInOrgs)}
-      </select>
-      {
-        !validOrgMitSchreibrecht &&
-        <div
-          className="validateDiv feld"
-        >
-          Es muss eine Organisation mit Schreibrecht gewählt sein
-        </div>
-      }
-    </div>
-  )
-}
+        Es muss eine Organisation mit Schreibrecht gewählt sein
+      </div>
+    }
+  </div>
+)
 
 
 InputOrganisationMitSchreibrecht.displayName = 'InputOrganisationMitSchreibrecht'
 
 InputOrganisationMitSchreibrecht.propTypes = {
+  orgMitSchreibrecht: React.PropTypes.string,
   validOrgMitSchreibrecht: React.PropTypes.bool,
   onChangeOrgMitSchreibrecht: React.PropTypes.func,
   userIsEsWriterInOrgs: React.PropTypes.array

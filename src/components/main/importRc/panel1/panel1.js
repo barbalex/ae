@@ -37,6 +37,7 @@ export default React.createClass({
     datenstand: React.PropTypes.string,
     nutzungsbedingungen: React.PropTypes.string,
     link: React.PropTypes.string,
+    orgMitSchreibrecht: React.PropTypes.string,
     importiertVon: React.PropTypes.string,
     zusammenfassend: React.PropTypes.bool,
     nameUrsprungsBs: React.PropTypes.string,
@@ -123,7 +124,8 @@ export default React.createClass({
       ultimatelyAlertLoadAllGroups,
       deletingRcProgress,
       onChangeOrgMitSchreibrecht,
-      userIsEsWriterInOrgs
+      userIsEsWriterInOrgs,
+      orgMitSchreibrecht
     } = this.props
     const showLoadAllGroups = email && !allGroupsLoaded
     const showAlertDeleteRcBuildingIndex = deletingRcProgress && deletingRcProgress < 100
@@ -230,6 +232,7 @@ export default React.createClass({
           onBlurLink={this.onBlurLink}
         />
         <InputOrgMitSchreibrecht
+          orgMitSchreibrecht={orgMitSchreibrecht}
           validOrgMitSchreibrecht={validOrgMitSchreibrecht}
           onChangeOrgMitSchreibrecht={onChangeOrgMitSchreibrecht}
           userIsEsWriterInOrgs={userIsEsWriterInOrgs}

@@ -135,6 +135,7 @@ export default React.createClass({
     }
     // get relation collections
     app.Actions.queryRelationCollections(offlineIndexes)
+    app.Actions.getOrganizations(email)
   },
 
   onChangeObjectsRcsStore(state) {
@@ -169,6 +170,7 @@ export default React.createClass({
 
   onChangeOrgMitSchreibrecht(event) {
     const orgMitSchreibrecht = event.target.value
+    console.log('ImportRc, onChangeOrgMitSchreibrecht, orgMitSchreibrecht', orgMitSchreibrecht)
     this.setState({ orgMitSchreibrecht })
   },
 
@@ -697,7 +699,8 @@ export default React.createClass({
       deletingRcProgress,
       idsWithoutPartner,
       rPartnerIdsToImport,
-      rPartnerIdsImportable
+      rPartnerIdsImportable,
+      orgMitSchreibrecht
     } = this.state
     const {
       groupsLoadedOrLoading,
@@ -741,6 +744,7 @@ export default React.createClass({
                 datenstand={datenstand}
                 nutzungsbedingungen={nutzungsbedingungen}
                 link={link}
+                orgMitSchreibrecht={orgMitSchreibrecht}
                 importiertVon={importiertVon}
                 zusammenfassend={zusammenfassend}
                 nameUrsprungsBs={nameUrsprungsBs}
