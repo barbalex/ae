@@ -3,16 +3,17 @@
 import React from 'react'
 import { ProgressBar } from 'react-bootstrap'
 
-export default React.createClass({
-  displayName: 'ProgressbarImport',
+const ProgressbarImport = ({ importingProgress }) =>
+  <ProgressBar
+    bsStyle="success"
+    now={importingProgress}
+    label={`${importingProgress}% importiert`}
+  />
 
-  propTypes: {
-    importingProgress: React.PropTypes.number
-  },
+ProgressbarImport.displayName = 'ProgressbarImport'
 
-  render() {
-    const { importingProgress } = this.props
-    const label = `${importingProgress}% importiert`
-    return <ProgressBar bsStyle="success" now={importingProgress} label={label} />
-  }
-})
+ProgressbarImport.propTypes = {
+  importingProgress: React.PropTypes.number
+}
+
+export default ProgressbarImport
