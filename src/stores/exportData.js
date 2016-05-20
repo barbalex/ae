@@ -21,7 +21,13 @@ export default (Actions) => {
 
     listenables: Actions,
 
-    onBuildExportData ({ exportOptions, onlyObjectsWithCollectionData, includeDataFromSynonyms, oneRowPerRelation, combineTaxonomies }) {
+    onBuildExportData({
+      exportOptions,
+      onlyObjectsWithCollectionData,
+      includeDataFromSynonyms,
+      oneRowPerRelation,
+      combineTaxonomies
+    }) {
       app.objectStore.getObjects()
         .then((objects) => {
           // console.log('objects.length', objects.length)
@@ -51,7 +57,13 @@ export default (Actions) => {
           }
 
           // 5. build fields
-          const exportObjects = buildExportObjects(exportOptions, objects, combineTaxonomies, oneRowPerRelation, onlyObjectsWithCollectionData)
+          const exportObjects = buildExportObjects(
+            exportOptions,
+            objects,
+            combineTaxonomies,
+            oneRowPerRelation,
+            onlyObjectsWithCollectionData
+          )
           // console.log('exportDataStore, onBuildExportData: exportObjects', exportObjects)
 
           // 6. tell the view

@@ -25,7 +25,7 @@ export default (Actions) => {
     // this is how long the error will be shown
     duration: 10000,
 
-    onShowError (error) {
+    onShowError(error) {
       if (!error) {
         // user wants to remove error messages
         this.errors = []

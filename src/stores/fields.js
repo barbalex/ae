@@ -22,20 +22,22 @@ export default (Actions) => {
      */
     listenables: Actions,
 
-    getFields () {
+    getFields() {
       return new Promise((resolve, reject) => {
         app.localDb.get('_local/fields')
           .then((doc) => resolve(doc.fields))
-          .catch((error) => reject('Fehler in fieldsStore, getFields: ' + error))
+          .catch((error) => reject(`Fehler in fieldsStore, getFields: ${error}`))
       })
     },
 
-    saveFieldsOfGroup (fields, group) {
+    saveFieldsOfGroup(fields, group) {
       return new Promise((resolve, reject) => {
         let allFields = []
         app.localDb.get('_local/fields')
           .then((doc) => {
-            if (doc.fields.length > 0) doc.fields = _reject(doc.fields, (field) => field.group === group)
+            if (doc.fields.length > 0) {
+              doc.fields = _reject(doc.fields, (field) => field.group === group)
+            }
             doc.fields = doc.fields.concat(fields)
             allFields = doc.fields
             return app.localDb.put(doc)
@@ -45,7 +47,7 @@ export default (Actions) => {
       })
     },
 
-    getFieldsOfGroups (groups) {
+    getFieldsOfGroups(groups) {
       return new Promise((resolve, reject) => {
         this.getFields()
           .then((fields) => {
@@ -56,7 +58,7 @@ export default (Actions) => {
       })
     },
 
-    emptyFields () {
+    emptyFields() {
       return new Promise((resolve, reject) => {
         app.localDb.get('_local/fields')
           .then((doc) => {
@@ -68,21 +70,40 @@ export default (Actions) => {
       })
     },
 
-    onQueryFields (groupsToExport, group, combineTaxonomies, offlineIndexes) {
+    onQueryFields(groupsToExport, group, combineTaxonomies, offlineIndexes) {
       // if fields exist, send them immediately
       let taxonomyFields = {}
       let pcFields = {}
       let relationFields = {}
       let fieldsQuerying = true
-      let fieldsQueryingError = null
+      const fieldsQueryingError = null
       // trigger empty fields to make react rebuild panels from scratch so they are correctly sorted
-      this.trigger({ taxonomyFields, pcFields, relationFields, fieldsQuerying, fieldsQueryingError })
+      this.trigger({
+        taxonomyFields,
+        pcFields,
+        relationFields,
+        fieldsQuerying,
+        fieldsQueryingError
+      })
       this.getFields()
         .then((allFields) => {
           if (allFields.length > 0) {
-            taxonomyFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'taxonomy', combineTaxonomies)
-            pcFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'propertyCollection')
-            relationFields = getFieldsForGroupsToExportByCollectionType(allFields, groupsToExport, 'relation')
+            taxonomyFields = getFieldsForGroupsToExportByCollectionType(
+              allFields,
+              groupsToExport,
+              'taxonomy',
+              combineTaxonomies
+            )
+            pcFields = getFieldsForGroupsToExportByCollectionType(
+              allFields,
+              groupsToExport,
+              'propertyCollection'
+            )
+            relationFields = getFieldsForGroupsToExportByCollectionType(
+              allFields,
+              groupsToExport,
+              'relation'
+            )
           }
           if (!group) {
             // if no group was passed, the zusammenfassen option was changed
