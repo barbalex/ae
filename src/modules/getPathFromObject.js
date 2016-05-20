@@ -5,8 +5,11 @@ import replaceProblematicPathCharactersFromArray from './replaceProblematicPathC
 
 export default (object) => {
   if (object.Taxonomien) {
-    const standardtaxonomie = object.Taxonomien.find((taxonomy) => taxonomy['Standardtaxonomie'])
-    if (standardtaxonomie && has(standardtaxonomie, 'Eigenschaften.Hierarchie')) {
+    const standardtaxonomie = object.Taxonomien.find((taxonomy) => taxonomy.Standardtaxonomie)
+    if (
+      standardtaxonomie &&
+      has(standardtaxonomie, 'Eigenschaften.Hierarchie')
+    ) {
       let path = map(standardtaxonomie.Eigenschaften.Hierarchie, 'Name')
       /**
        * I have no idea when Gruppe is included in path
