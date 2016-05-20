@@ -45,7 +45,9 @@ export default React.createClass({
 
   orgValues() {
     const { organizations, email } = this.props
-    const orgWhereUserIsAdmin = organizations.filter((org) => org.orgAdmins.includes(email))
+    const orgWhereUserIsAdmin = organizations.filter((org) =>
+      org.orgAdmins.includes(email)
+    )
     const orgNamesWhereUserIsAdmin = map(orgWhereUserIsAdmin, 'Name')
     // orgNamesWhereUserIsAdmin.unshift(null)
     return orgNamesWhereUserIsAdmin.map((name, index) => (
@@ -78,10 +80,25 @@ export default React.createClass({
   },
 
   lowerPart() {
-    const { activeOrganization, tcsOfActiveOrganization, pcsOfActiveOrganization, rcsOfActiveOrganization } = this.props
-    const lr = uniq(tcsOfActiveOrganization.filter((tcs) => tcs.group === 'Lebensräume'), (tc) => tc.name)
-    const nonLrTcs = uniq(tcsOfActiveOrganization.filter((tcs) => tcs.group !== 'Lebensräume'), (tc) => tc.name)
-    const showDatenTitel = tcsOfActiveOrganization.length > 0 || pcsOfActiveOrganization.length > 0 || rcsOfActiveOrganization.length > 0
+    const {
+      activeOrganization,
+      tcsOfActiveOrganization,
+      pcsOfActiveOrganization,
+      rcsOfActiveOrganization
+    } = this.props
+    const lr = uniq(
+      tcsOfActiveOrganization.filter((tcs) => tcs.group === 'Lebensräume'),
+      (tc) => tc.name
+    )
+    const nonLrTcs = uniq(
+      tcsOfActiveOrganization.filter((tcs) => tcs.group !== 'Lebensräume'),
+      (tc) => tc.name
+    )
+    const showDatenTitel = (
+      tcsOfActiveOrganization.length > 0 ||
+      pcsOfActiveOrganization.length > 0 ||
+      rcsOfActiveOrganization.length > 0
+    )
 
     return (
       <div>
@@ -141,8 +158,17 @@ export default React.createClass({
   },
 
   render() {
-    const { onChangeActiveOrganization, userIsAdminInOrgs, email, activeOrganization } = this.props
-    const showLowerPart = email && activeOrganization && userIsAdminInOrgs.includes(activeOrganization.Name)
+    const {
+      onChangeActiveOrganization,
+      userIsAdminInOrgs,
+      email,
+      activeOrganization
+    } = this.props
+    const showLowerPart = (
+      email &&
+      activeOrganization &&
+      userIsAdminInOrgs.includes(activeOrganization.Name)
+    )
 
     return (
       <div className="formContent">
