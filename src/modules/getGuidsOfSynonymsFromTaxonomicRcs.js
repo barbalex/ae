@@ -6,9 +6,13 @@
 'use strict'
 
 export default (taxRcs) => {
-  let guidsOfSynonyms = []
+  const guidsOfSynonyms = []
   taxRcs.forEach((rc) => {
-    if (rc['Art der Beziehungen'] && rc['Art der Beziehungen'] === 'synonym' && rc.Beziehungen) {
+    if (
+      rc['Art der Beziehungen'] &&
+      rc['Art der Beziehungen'] === 'synonym' &&
+      rc.Beziehungen
+    ) {
       rc.Beziehungen.forEach((relation) => {
         if (relation.Beziehungspartner) {
           relation.Beziehungspartner.forEach((relationPartner) => {
