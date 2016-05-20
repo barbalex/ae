@@ -4,7 +4,7 @@ import app from 'ampersand-app'
 import buildFilterOptionsFromObject from './buildFilterOptionsFromObject.js'
 
 export default (items) => {
-  let options = []
+  const options = []
 
   items.forEach((object) => {
     const option = buildFilterOptionsFromObject(object)
@@ -20,7 +20,10 @@ export default (items) => {
       return app.localDb.put(doc)
     })
     .catch((error) =>
-      app.Actions.showError({title: 'buildFilterOptions.js: error saving to localDb:', msg: error})
+      app.Actions.showError({
+        title: 'buildFilterOptions.js: error saving to localDb:',
+        msg: error
+      })
     )
 
   return options
