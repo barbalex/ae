@@ -8,17 +8,20 @@ export default (Actions) => {
 
     listenables: Actions,
 
-    onReplicateFromRemoteDb (thenToRemoteDb) {
+    onReplicateFromRemoteDb(thenToRemoteDb) {
       this.trigger('replicating')
       app.localDb.replicate.from(app.remoteDb)
-        .then((result) => {
+        .then(() => {
           this.trigger('success')
           if (thenToRemoteDb) app.Actions.replicateToRemoteDb()
           app.fieldsStore.emptyFields()
           // TODO: need to rebuild redundant data > listen to change stream?
         })
         .catch((error) =>
-          app.Actions.showError({title: 'Fehler beim Replizieren:', msg: error})
+          app.Actions.showError({
+            title: 'Fehler beim Replizieren:',
+            msg: error
+          })
         )
     }
   })

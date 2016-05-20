@@ -8,13 +8,16 @@ export default (Actions) => {
 
     listenables: Actions,
 
-    onReplicateToRemoteDb () {
+    onReplicateToRemoteDb() {
       this.trigger('replicating')
       app.localDb.replicate.to(app.remoteDb)
-        .then((result) => this.trigger('success'))
-        .catch((error) => {
-          app.Actions.showError({title: 'Fehler beim Replizieren:', msg: error})
-        })
+        .then(() => this.trigger('success'))
+        .catch((error) =>
+          app.Actions.showError({
+            title: 'Fehler beim Replizieren:',
+            msg: error
+          })
+        )
     }
   })
 
