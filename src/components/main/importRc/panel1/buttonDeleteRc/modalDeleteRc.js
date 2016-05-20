@@ -18,11 +18,11 @@ const ModalDeleteRc = ({ nameBestehend, onClickDeleteRc, closeModal }) =>
       <Modal.Footer>
         <Button
           bsStyle="danger"
-          onClick={onClickDeleteRc()}
+          onClick={() => onClickDeleteRc()}
         >
           ja, löschen!
         </Button>
-        <Button onClick={closeModal()}>schliessen</Button>
+        <Button onClick={() => closeModal()}>schliessen</Button>
       </Modal.Footer>
     </Modal.Dialog>
   </div>
