@@ -8,19 +8,17 @@
 
 import app from 'ampersand-app'
 
-export default (ids) => {
-  return new Promise((resolve, reject) => {
-    const options = {
-      keys: ids
-    }
-    app.localDb.allDocs(options)
-      .then((result) => {
-        let returnObject = {}
-        result.rows.forEach((row) => {
-          returnObject[row.id] = row.id
-        })
-        resolve(returnObject)
+export default (ids) => new Promise((resolve, reject) => {
+  const options = {
+    keys: ids
+  }
+  app.localDb.allDocs(options)
+    .then((result) => {
+      const returnObject = {}
+      result.rows.forEach((row) => {
+        returnObject[row.id] = row.id
       })
-      .catch((error) => reject('error fetching docs', error))
-  })
-}
+      resolve(returnObject)
+    })
+    .catch((error) => reject('error fetching docs', error))
+})
