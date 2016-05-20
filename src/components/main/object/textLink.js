@@ -9,46 +9,40 @@
 import app from 'ampersand-app'
 import React from 'react'
 
-export default React.createClass({
-  displayName: 'TextLink',
+/**
+ * can't use getPathFromGuid because it is possible that
+ * the relation partner's group was not loaded yet
+ * and using it starts an infinite loop
+ */
+const TextLink = ({ label, value, guid }) =>
+  <div className="form-group">
+    <label className="control-label">
+      {
+        label
+        ? `${label}:`
+        : null
+      }
+    </label>
+    <p className="form-control-static feldtext controls">
+      <a
+        href={`/${guid}`}
+        onClick={(event) => {
+          event.preventDefault()
+          if (guid) app.Actions.loadActiveObject(guid)
+        }}
+      >
+        {value}
+      </a>
+    </p>
+  </div>
 
-  propTypes: {
-    label: React.PropTypes.string,
-    value: React.PropTypes.string,
-    gruppe: React.PropTypes.string,
-    guid: React.PropTypes.string
-  },
+TextLink.displayName = 'TextLink'
 
-  onClickUrl(event) {
-    event.preventDefault()
-    const { guid } = this.props
-    if (guid) app.Actions.loadActiveObject(guid)
-  },
+TextLink.propTypes = {
+  label: React.PropTypes.string,
+  value: React.PropTypes.string,
+  gruppe: React.PropTypes.string,
+  guid: React.PropTypes.string
+}
 
-  render() {
-    const { label, value, guid } = this.props
-    const url = `/${guid}`
-    // can't use getPathFromGuid because it is possible that the relation partner's group was not loaded yet
-    // and using it starts an infinite loop
-
-    return (
-      <div className="form-group">
-        <label className="control-label">
-          {
-            label
-            ? `${label}:`
-            : null
-          }
-        </label>
-        <p className="form-control-static feldtext controls">
-          <a
-            href={url}
-            onClick={this.onClickUrl}
-          >
-            {value}
-          </a>
-        </p>
-      </div>
-    )
-  }
-})
+export default TextLink
