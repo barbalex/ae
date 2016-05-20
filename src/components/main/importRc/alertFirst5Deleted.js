@@ -25,7 +25,12 @@ export default React.createClass({
   },
 
   render() {
-    const { idsOfAeObjects, nameBestehend, replicatingToAe, replicatingToAeTime } = this.props
+    const {
+      idsOfAeObjects,
+      nameBestehend,
+      replicatingToAe,
+      replicatingToAeTime
+    } = this.props
     const { paths } = this.state
     const first5Ids = idsOfAeObjects.slice(0, 5)
     const alertStyle = { marginTop: 11 }
@@ -60,7 +65,9 @@ export default React.createClass({
         bsStyle="info"
         style={alertStyle}
       >
-        <p>Aus {idsOfAeObjects.length} Datensätzen wurde die Eigenschaftensammlung "{nameBestehend}" entfernt.<br />
+        <p>
+          Aus {idsOfAeObjects.length} Datensätzen wurde die
+          Eigenschaftensammlung "{nameBestehend}" entfernt.<br />
           Beispiele zur Kontrolle:
         </p>
         {

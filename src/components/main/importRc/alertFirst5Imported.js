@@ -25,7 +25,12 @@ export default React.createClass({
   },
 
   render() {
-    const { idsOfAeObjects, idsNotImportable, replicatingToAe, replicatingToAeTime } = this.props
+    const {
+      idsOfAeObjects,
+      idsNotImportable,
+      replicatingToAe,
+      replicatingToAeTime
+    } = this.props
     const { paths } = this.state
     const idsImported = difference(idsOfAeObjects, idsNotImportable)
     const first5Ids = idsImported.slice(0, 5)
