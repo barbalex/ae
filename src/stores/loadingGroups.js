@@ -2,7 +2,7 @@
 
 import app from 'ampersand-app'
 import Reflux from 'reflux'
-import { reject, union, without } from 'lodash'
+import { reject as _reject, union, without } from 'lodash'
 import getGroupsLoadedFromLocalDb from '../modules/getGroupsLoadedFromLocalDb.js'
 import addGroupsLoadedToLocalDb from '../modules/addGroupsLoadedToLocalDb.js'
 import getGruppen from '../modules/gruppen.js'
@@ -21,7 +21,7 @@ export default (Actions) => {
 
     groupsLoading: [],
 
-    groupsLoaded () {
+    groupsLoaded() {
       return new Promise((resolve, reject) => {
         getGroupsLoadedFromLocalDb()
           .then((groupsLoaded) => resolve(groupsLoaded))
@@ -31,7 +31,7 @@ export default (Actions) => {
       })
     },
 
-    isGroupLoaded (gruppe) {
+    isGroupLoaded(gruppe) {
       return new Promise((resolve, reject) => {
         this.groupsLoaded()
           .then((groupsLoaded) => {
@@ -44,7 +44,7 @@ export default (Actions) => {
       })
     },
 
-    onShowGroupLoading (objectPassed) {
+    onShowGroupLoading(objectPassed) {
       // groups: after loading all groups in parallel from remoteDb
       // need to pass a single action for all
       // otherwise 5 addGroupsLoadedToLocalDb calls occur at the same moment...
@@ -59,7 +59,7 @@ export default (Actions) => {
           if (allGroups) {
             this.groupsLoading = []
           } else {
-            this.groupsLoading = reject(this.groupsLoading, (groupObject) => groupObject.group === group)
+            this.groupsLoading = _reject(this.groupsLoading, (groupObject) => groupObject.group === group)
           }
           // add the passed object, if it is not yet loaded
           if (!finishedLoading) {
@@ -78,7 +78,7 @@ export default (Actions) => {
               loadGroupFromRemote(nextGroup)
                 .then(() => app.objectStore.getHierarchy())
                 .catch((error) => {
-                  const errorMsg = 'Actions.loadObject, error loading group ' + nextGroup + ': ' + error
+                  const errorMsg = `Actions.loadObject, error loading group ${nextGroup}: ${error}`
                   app.objectStore.onLoadObjectFailed(errorMsg, nextGroup)
                 })
             }
@@ -86,13 +86,16 @@ export default (Actions) => {
             const groupsToPass = allGroups ? gruppen : [group]
             addGroupsLoadedToLocalDb(groupsToPass)
               .catch((error) =>
-                app.Actions.showError({title: 'loadingGroupsStore, onShowGroupLoading, error adding group(s) to localDb:', msg: error})
+                app.Actions.showError({
+                  title: 'loadingGroupsStore, onShowGroupLoading, error adding group(s) to localDb:',
+                  msg: error
+                })
               )
           }
           // inform views
           const payload = {
             groupsLoadingObjects: this.groupsLoading,
-            groupsLoaded: groupsLoaded
+            groupsLoaded
           }
           this.trigger(payload)
         })
@@ -103,7 +106,10 @@ export default (Actions) => {
           }
         })
         .catch((error) =>
-          app.Actions.showError({title: 'loadingGroupsStore, onShowGroupLoading, error getting groups loaded from localDb:', msg: error})
+          app.Actions.showError({
+            title: 'loadingGroupsStore, onShowGroupLoading, error getting groups loaded from localDb:',
+            msg: error
+          })
         )
     }
   })

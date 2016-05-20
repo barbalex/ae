@@ -2,7 +2,7 @@
 
 import app from 'ampersand-app'
 import Reflux from 'reflux'
-import { difference, get, reject } from 'lodash'
+import { difference, get } from 'lodash'
 import getItemsFromLocalDb from '../modules/getItemsFromLocalDb.js'
 import getItemFromLocalDb from '../modules/getItemFromLocalDb.js'
 import getItemFromRemoteDb from '../modules/getItemFromRemoteDb.js'
@@ -26,11 +26,11 @@ export default (Actions) => {
     listenables: Actions,
 
     // getObjects and getObject get Object(s) from pouch if loaded
-    getObjects () {
+    getObjects() {
       return getItemsFromLocalDb()
     },
 
-    getObject (guid) {
+    getObject(guid) {
       return new Promise((resolve, reject) => {
         getItemFromLocalDb(guid)
           .then((item) => {
@@ -42,12 +42,12 @@ export default (Actions) => {
           })
           .then((item) => resolve(item))
           .catch((error) =>
-            reject('objectStore, getObject: error getting item from guid' + guid + ': ', error)
+            reject(`objectStore, getObject: error getting item from guid ${guid}: ${error}`)
           )
       })
     },
 
-    onSaveObject (object, save) {
+    onSaveObject(object, save) {
       /**
        * 1. write object to localDb
        * 2. update object rev
@@ -66,7 +66,11 @@ export default (Actions) => {
           // 2. update object rev
           object._rev = result.rev
           // 3. if object is active: update activeObjectStore
-          const objectIsActive = app.activeObjectStore.item && app.activeObjectStore.item._id && app.activeObjectStore.item._id === object._id
+          const objectIsActive = (
+            app.activeObjectStore.item &&
+            app.activeObjectStore.item._id &&
+            app.activeObjectStore.item._id === object._id
+          )
           if (objectIsActive) app.Actions.loadActiveObject(object._id)
           if (save) {
             // 4. replace path in pathStore
@@ -81,37 +85,52 @@ export default (Actions) => {
           }
         })
         .catch((error) => {
-          app.Actions.showError({ title: 'objectStore, onSaveObject: error saving object:', msg: error })
+          app.Actions.showError({
+            title: 'objectStore, onSaveObject: error saving object:',
+            msg: error
+          })
         })
     },
 
-    getHierarchy () {
+    getHierarchy() {
       getHierarchyFromLocalDb()
         .then((hierarchy) => this.trigger(hierarchy))
         .catch((error) =>
-          app.Actions.showError({title: 'objectStore, onSaveObject, error getting hierarchy:', msg: error})
+          app.Actions.showError({
+            title: 'objectStore, onSaveObject, error getting hierarchy:',
+            msg: error
+          })
         )
     },
 
-    updateHierarchieInChildObject (guid, index, name) {
+    updateHierarchieInChildObject(guid, index, name) {
       this.getObject(guid)
         .then((object) => {
           const taxonomies = object.Taxonomien
           if (taxonomies) {
-            const taxonomy = taxonomies.find((taxonomy) => taxonomy.Standardtaxonomie)
+            const taxonomy = taxonomies.find((tax) => tax.Standardtaxonomie)
             if (taxonomy) {
               const hierarchy = get(taxonomy, 'Eigenschaften.Hierarchie')
-              if (hierarchy && hierarchy.length && hierarchy.length > 0 && hierarchy[index] && hierarchy[index].Name) {
+              if (
+                hierarchy &&
+                hierarchy.length &&
+                hierarchy.length > 0 &&
+                hierarchy[index] &&
+                hierarchy[index].Name
+              ) {
                 hierarchy[index].Name = name
                 return app.localDb.put(object)
               }
             }
           }
         })
-        .catch((error) => app.Actions.showError({ title: 'objectStore: error updating hierarchy in child object:', msg: error }))
+        .catch((error) => app.Actions.showError({
+          title: 'objectStore: error updating hierarchy in child object:',
+          msg: error
+        }))
     },
 
-    updateChildrensPath (child, index, name) {
+    updateChildrensPath(child, index, name) {
       // 1. update path of child
       child.path[index] = name
       // 2. update Hierarchie in child object
@@ -119,11 +138,11 @@ export default (Actions) => {
       // 3. update it's children
       const children = child.children
       if (children && children.length && children.length > 0) {
-        children.forEach((child) => this.updateChildrensPath(child, index, name))
+        children.forEach((chld) => this.updateChildrensPath(chld, index, name))
       }
     },
 
-    updateHierarchyForObject (object) {
+    updateHierarchyForObject(object) {
       // if lr need to update names in child lr's hierarchies
       // idea: use _local/hierarchy and follow its hierarchy down
       // then change _local/hierarchy AND the objects themselves
@@ -131,12 +150,20 @@ export default (Actions) => {
       const group = object.Gruppe
 
       if (group && taxonomies) {
-        const taxonomy = taxonomies.find((taxonomy) => taxonomy.Standardtaxonomie)
+        const taxonomy = taxonomies.find((tax) => tax.Standardtaxonomie)
         if (taxonomy) {
           const objectHierarchy = get(taxonomy, 'Eigenschaften.Hierarchie')
-          if (objectHierarchy && objectHierarchy.length && objectHierarchy.length > 0) {
+          if (
+            objectHierarchy &&
+            objectHierarchy.length &&
+            objectHierarchy.length > 0
+          ) {
             const objectHierarchyObject = objectHierarchy[objectHierarchy.length - 1]
-            if (objectHierarchyObject && objectHierarchyObject.Name && objectHierarchyObject.GUID) {
+            if (
+              objectHierarchyObject &&
+              objectHierarchyObject.Name &&
+              objectHierarchyObject.GUID
+            ) {
               let globalHierarchy
               app.localDb.get('_local/hierarchy')
                 .then((doc) => {
@@ -144,7 +171,7 @@ export default (Actions) => {
                   // drill down to this object's hierarchy
                   const gruppeHierarchy = globalHierarchy.find((h) => h.Name === group)
                   let hierarchyPart = gruppeHierarchy
-                  objectHierarchy.forEach((hO, index) => {
+                  objectHierarchy.forEach((hO) => {
                     if (hO.GUID) {
                       hierarchyPart = hierarchyPart.children.find((child) => child.GUID === hO.GUID)
                     } else {
@@ -155,10 +182,14 @@ export default (Actions) => {
                   // update Name
                   hierarchyPart.Name = objectHierarchyObject.Name
                   // now update path Name in all childrens hierarchy objects
-                  let children = hierarchyPart.children
+                  const children = hierarchyPart.children
                   if (children && children.length && children.length > 0) {
                     children.forEach((child) =>
-                      this.updateChildrensPath(child, objectHierarchy.length, objectHierarchyObject.Name)
+                      this.updateChildrensPath(
+                        child,
+                        objectHierarchy.length,
+                        objectHierarchyObject.Name
+                      )
                     )
                   }
                   // save doc
@@ -166,7 +197,10 @@ export default (Actions) => {
                 })
                 .then(() => this.trigger(globalHierarchy))
                 .catch((error) =>
-                  reject('objectStore: error updating hierarchy for object: ' + error)
+                  app.Actions.showError({
+                    title: 'objectStore: error updating hierarchy for object:',
+                    msg: error
+                  })
                 )
             }
           }
@@ -174,12 +208,12 @@ export default (Actions) => {
       }
     },
 
-    onLoadPouchFromLocal (groupsLoadedInPouch) {
+    onLoadPouchFromLocal() {
       Actions.loadFilterOptions()
       this.getHierarchy()
     },
 
-    onLoadPouchFromRemote () {
+    onLoadPouchFromRemote() {
       const groups = getGruppen()
       let groupsLoading = []
       // get groups already loaded
@@ -189,26 +223,30 @@ export default (Actions) => {
           // load all groups not yet loaded
           groupsLoading.forEach((group) => Actions.loadObject(group))
         })
-        .catch((error) => app.Actions.showError({
-          title: 'Actions.loadPouchFromRemote, error loading groups:',
-          msg: error
-        }))
+        .catch((error) =>
+          app.Actions.showError({
+            title: 'Actions.loadPouchFromRemote, error loading groups:',
+            msg: error
+          })
+        )
     },
 
-    onLoadObject (gruppe) {
+    onLoadObject(gruppe) {
       // make sure gruppe was passed
       if (!gruppe) return false
       // make sure a valid group was passed
       const gruppen = getGruppen()
       const validGroup = gruppen.includes(gruppe)
-      if (!validGroup) return this.onLoadObjectFailed('Actions.loadObject: the group passed is not valid', gruppe)
+      if (!validGroup) {
+        return this.onLoadObjectFailed('Actions.loadObject: the group passed is not valid', gruppe)
+      }
 
       // app.loadingGroupsStore.groupsLoading is a task list that is worked off one by one
       // if a loadGroupFromRemote call is started while the last is still active, bad things happen
       // > add this group to the tasklist
       const groupsLoadingObject = {
         group: gruppe,
-        message: 'Werde ' + gruppe + ' laden...'
+        message: `Werde ${gruppe} laden...`
       }
       app.loadingGroupsStore.groupsLoading.unshift(groupsLoadingObject)
       // check if there are groups loading now
@@ -218,19 +256,22 @@ export default (Actions) => {
         loadGroupFromRemote(gruppe)
           .then(() => this.getHierarchy())
           .catch((error) => {
-            const errorMsg = 'Actions.loadObject, error loading group ' + gruppe + ': ' + error
+            const errorMsg = `'Actions.loadObject, error loading group ${gruppe}: ${error}`
             this.onLoadObjectFailed(errorMsg, gruppe)
           })
       }
     },
 
-    onLoadObjectFailed (error, gruppe) {
+    onLoadObjectFailed(error, gruppe) {
       // remove loading indicator
       Actions.showGroupLoading({
         group: gruppe,
         finishedLoading: true
       })
-      app.Actions.showError({title: 'objectStore: loading items failed with error:', msg: error})
+      app.Actions.showError({
+        title: 'objectStore: loading items failed with error:',
+        msg: error
+      })
     }
   })
   return objectStore
