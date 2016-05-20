@@ -52,44 +52,44 @@ import replaceProblematicPathCharactersFromArray from './replaceProblematicPathC
 import getHierarchyFromObject from './getHierarchyFromObject.js'
 
 const buildEl = {
-  1 (hierarchy, hierarchyOfObject) {
+  1(hierarchy, hierarchyOfObject) {
     return hierarchy.find((el) => el.Name === hierarchyOfObject[0].Name)
   },
 
-  2 (el1, hierarchyOfObject) {
+  2(el1, hierarchyOfObject) {
     return el1.children.find((el) => el.Name === hierarchyOfObject[1].Name)
   },
 
-  3 (el2, hierarchyOfObject) {
+  3(el2, hierarchyOfObject) {
     return el2.children.find((el) => el.Name === hierarchyOfObject[2].Name)
   },
 
-  4 (el3, hierarchyOfObject) {
+  4(el3, hierarchyOfObject) {
     return el3.children.find((el) => el.Name === hierarchyOfObject[3].Name)
   },
 
-  5 (el4, hierarchyOfObject) {
+  5(el4, hierarchyOfObject) {
     return el4.children.find((el) => el.Name === hierarchyOfObject[4].Name)
   },
 
-  6 (el5, hierarchyOfObject) {
+  6(el5, hierarchyOfObject) {
     return el5.children.find((el) => el.Name === hierarchyOfObject[5].Name)
   },
 
-  7 (el6, hierarchyOfObject) {
+  7(el6, hierarchyOfObject) {
     return el6.children.find((el) => el.Name === hierarchyOfObject[6].Name)
   },
 
-  8 (el7, hierarchyOfObject) {
+  8(el7, hierarchyOfObject) {
     return el7.children.find((el) => el.Name === hierarchyOfObject[7].Name)
   },
 
-  9 (el8, hierarchyOfObject) {
+  9(el8, hierarchyOfObject) {
     return el8.children.find((el) => el.Name === hierarchyOfObject[8].Name)
   }
 }
 
-function checkLevel1 (hierarchy, hierarchyOfObject) {
+function checkLevel1(hierarchy, hierarchyOfObject) {
   let el1 = buildEl[1](hierarchy, hierarchyOfObject)
   if (!el1) {
     el1 = clone(hierarchyOfObject[0])
@@ -99,19 +99,22 @@ function checkLevel1 (hierarchy, hierarchyOfObject) {
   }
 }
 
-function checkLevel2 (hierarchy, hierarchyOfObject) {
+function checkLevel2(hierarchy, hierarchyOfObject) {
   checkLevel1(hierarchy, hierarchyOfObject)
   const el1 = buildEl[1](hierarchy, hierarchyOfObject)
   let el2 = buildEl[2](el1, hierarchyOfObject)
   if (!el2) {
     el2 = clone(hierarchyOfObject[1])
     el2.children = []
-    el2.path = replaceProblematicPathCharactersFromArray([el1.Name, el2.Name])
+    el2.path = replaceProblematicPathCharactersFromArray([
+      el1.Name,
+      el2.Name
+    ])
     el1.children.push(el2)
   }
 }
 
-function checkLevel3 (hierarchy, hierarchyOfObject) {
+function checkLevel3(hierarchy, hierarchyOfObject) {
   checkLevel1(hierarchy, hierarchyOfObject)
   checkLevel2(hierarchy, hierarchyOfObject)
   const el1 = buildEl[1](hierarchy, hierarchyOfObject)
@@ -120,12 +123,16 @@ function checkLevel3 (hierarchy, hierarchyOfObject) {
   if (!el3) {
     el3 = clone(hierarchyOfObject[2])
     el3.children = []
-    el3.path = replaceProblematicPathCharactersFromArray([el1.Name, el2.Name, el3.Name])
+    el3.path = replaceProblematicPathCharactersFromArray([
+      el1.Name,
+      el2.Name,
+      el3.Name
+    ])
     el2.children.push(el3)
   }
 }
 
-function checkLevel4 (hierarchy, hierarchyOfObject) {
+function checkLevel4(hierarchy, hierarchyOfObject) {
   checkLevel1(hierarchy, hierarchyOfObject)
   checkLevel2(hierarchy, hierarchyOfObject)
   checkLevel3(hierarchy, hierarchyOfObject)
@@ -136,12 +143,17 @@ function checkLevel4 (hierarchy, hierarchyOfObject) {
   if (!el4) {
     el4 = clone(hierarchyOfObject[3])
     el4.children = []
-    el4.path = replaceProblematicPathCharactersFromArray([el1.Name, el2.Name, el3.Name, el4.Name])
+    el4.path = replaceProblematicPathCharactersFromArray([
+      el1.Name,
+      el2.Name,
+      el3.Name,
+      el4.Name
+    ])
     el3.children.push(el4)
   }
 }
 
-function checkLevel5 (hierarchy, hierarchyOfObject) {
+function checkLevel5(hierarchy, hierarchyOfObject) {
   checkLevel1(hierarchy, hierarchyOfObject)
   checkLevel2(hierarchy, hierarchyOfObject)
   checkLevel3(hierarchy, hierarchyOfObject)
@@ -154,12 +166,18 @@ function checkLevel5 (hierarchy, hierarchyOfObject) {
   if (!el5) {
     el5 = clone(hierarchyOfObject[4])
     el5.children = []
-    el5.path = replaceProblematicPathCharactersFromArray([el1.Name, el2.Name, el3.Name, el4.Name, el5.Name])
+    el5.path = replaceProblematicPathCharactersFromArray([
+      el1.Name,
+      el2.Name,
+      el3.Name,
+      el4.Name,
+      el5.Name
+    ])
     el4.children.push(el5)
   }
 }
 
-function checkLevel6 (hierarchy, hierarchyOfObject) {
+function checkLevel6(hierarchy, hierarchyOfObject) {
   checkLevel1(hierarchy, hierarchyOfObject)
   checkLevel2(hierarchy, hierarchyOfObject)
   checkLevel3(hierarchy, hierarchyOfObject)
@@ -174,12 +192,19 @@ function checkLevel6 (hierarchy, hierarchyOfObject) {
   if (!el6) {
     el6 = clone(hierarchyOfObject[5])
     el6.children = []
-    el6.path = replaceProblematicPathCharactersFromArray([el1.Name, el2.Name, el3.Name, el4.Name, el5.Name, el6.Name])
+    el6.path = replaceProblematicPathCharactersFromArray([
+      el1.Name,
+      el2.Name,
+      el3.Name,
+      el4.Name,
+      el5.Name,
+      el6.Name
+    ])
     el5.children.push(el6)
   }
 }
 
-function checkLevel7 (hierarchy, hierarchyOfObject) {
+function checkLevel7(hierarchy, hierarchyOfObject) {
   checkLevel1(hierarchy, hierarchyOfObject)
   checkLevel2(hierarchy, hierarchyOfObject)
   checkLevel3(hierarchy, hierarchyOfObject)
@@ -196,12 +221,20 @@ function checkLevel7 (hierarchy, hierarchyOfObject) {
   if (!el7) {
     el7 = clone(hierarchyOfObject[6])
     el7.children = []
-    el7.path = replaceProblematicPathCharactersFromArray([el1.Name, el2.Name, el3.Name, el4.Name, el5.Name, el6.Name, el7.Name])
+    el7.path = replaceProblematicPathCharactersFromArray([
+      el1.Name,
+      el2.Name,
+      el3.Name,
+      el4.Name,
+      el5.Name,
+      el6.Name,
+      el7.Name
+    ])
     el6.children.push(el7)
   }
 }
 
-function checkLevel8 (hierarchy, hierarchyOfObject) {
+function checkLevel8(hierarchy, hierarchyOfObject) {
   checkLevel1(hierarchy, hierarchyOfObject)
   checkLevel2(hierarchy, hierarchyOfObject)
   checkLevel3(hierarchy, hierarchyOfObject)
@@ -220,12 +253,21 @@ function checkLevel8 (hierarchy, hierarchyOfObject) {
   if (!el8) {
     el8 = clone(hierarchyOfObject[7])
     el8.children = []
-    el8.path = replaceProblematicPathCharactersFromArray([el1.Name, el2.Name, el3.Name, el4.Name, el5.Name, el6.Name, el7.Name, el8.Name])
+    el8.path = replaceProblematicPathCharactersFromArray([
+      el1.Name,
+      el2.Name,
+      el3.Name,
+      el4.Name,
+      el5.Name,
+      el6.Name,
+      el7.Name,
+      el8.Name
+    ])
     el7.children.push(el8)
   }
 }
 
-function checkLevel9 (hierarchy, hierarchyOfObject) {
+function checkLevel9(hierarchy, hierarchyOfObject) {
   checkLevel1(hierarchy, hierarchyOfObject)
   checkLevel2(hierarchy, hierarchyOfObject)
   checkLevel3(hierarchy, hierarchyOfObject)
@@ -246,14 +288,24 @@ function checkLevel9 (hierarchy, hierarchyOfObject) {
   if (!el9) {
     el9 = clone(hierarchyOfObject[8])
     el9.children = []
-    el9.path = replaceProblematicPathCharactersFromArray([el1.Name, el2.Name, el3.Name, el4.Name, el5.Name, el6.Name, el7.Name, el8.Name, el9.Name])
+    el9.path = replaceProblematicPathCharactersFromArray([
+      el1.Name,
+      el2.Name,
+      el3.Name,
+      el4.Name,
+      el5.Name,
+      el6.Name,
+      el7.Name,
+      el8.Name,
+      el9.Name
+    ])
     el8.children.push(el9)
   }
 }
 
 export default (objects) => {
   // prepare hierarchieObject
-  let hierarchy = []
+  const hierarchy = []
 
   // extract Hierarchie from objects
   // used to use .map but that contained undefined elements because it always returns a value

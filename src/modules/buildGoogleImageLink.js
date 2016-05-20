@@ -32,6 +32,8 @@ export default (object) => {
         case 'Lebensräume':
           link += `"${Einheit}"`
           break
+        default:
+          link += `"${Einheit}"`
       }
     }
   }

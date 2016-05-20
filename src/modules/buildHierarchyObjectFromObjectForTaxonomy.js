@@ -10,7 +10,7 @@ export default (object, taxonomyName) => {
   const gruppe = object.Gruppe
   const taxonomies = object.Taxonomien
   if (taxonomies && gruppe) {
-    const taxonomy = taxonomies.find((taxonomy) => taxonomy.Name === taxonomyName)
+    const taxonomy = taxonomies.find((tax) => tax.Name === taxonomyName)
     if (taxonomy && taxonomy.Eigenschaften) {
       const artname = taxonomy.Eigenschaften['Artname vollständig']
       if (gruppe !== 'Lebensräume' && artname) {
