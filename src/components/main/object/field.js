@@ -11,100 +11,41 @@ import FieldInput from './fieldInput.js'
 import FieldBoolean from './fieldBoolean.js'
 import FieldTextarea from './fieldTextarea.js'
 
-export default React.createClass({
-  displayName: 'Field',
+const Field = ({
+  fieldName,
+  pcType,
+  pcName,
+  collectionIsEditing,
+  onSaveObjectField,
+  fieldValue
+}) => {
+  let fieldVal = fieldValue
+  // convert german booleans
+  if (fieldVal === 'nein') fieldVal = false
+  if (fieldVal === 'ja') fieldVal = true
 
-  propTypes: {
-    fieldName: React.PropTypes.string,
-    fieldValue: React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.number,
-      React.PropTypes.bool
-    ]),
-    pcType: React.PropTypes.string,
-    pcName: React.PropTypes.string,
-    collectionIsEditing: React.PropTypes.bool,
-    onSaveObjectField: React.PropTypes.func
-  },
-
-  render() {
-    const { fieldName, pcType, pcName, collectionIsEditing, onSaveObjectField } = this.props
-    let { fieldValue } = this.props
-
-    // console.log('field.js, collectionIsEditing', collectionIsEditing)
-
-    // convert german booleans
-    if (fieldValue === 'nein') fieldValue = false
-    if (fieldValue === 'ja') fieldValue = true
-
-    if ((typeof fieldValue === 'string' && fieldValue.slice(0, 7) === 'http://') || (typeof fieldValue === 'string' && fieldValue.slice(0, 8) === 'https://') || (typeof fieldValue === 'string' && fieldValue.slice(0, 2) === '//')) {
-      // www-Links als Link darstellen
-      return (
-        <FieldLink
-          fieldName={fieldName}
-          fieldValue={fieldValue}
-          pcType={pcType}
-          pcName={pcName}
-          collectionIsEditing={collectionIsEditing}
-          onSaveObjectField={onSaveObjectField}
-        />
-      )
-    }
-    if (typeof fieldValue === 'string' && fieldValue.length < 45) {
-      return (
-        <FieldInput
-          fieldName={fieldName}
-          fieldValue={fieldValue}
-          inputType="text"
-          pcType={pcType}
-          pcName={pcName}
-          collectionIsEditing={collectionIsEditing}
-          onSaveObjectField={onSaveObjectField}
-        />
-      )
-    }
-    if (typeof fieldValue === 'string' && fieldValue.length >= 45) {
-      return (
-        <FieldTextarea
-          fieldName={fieldName}
-          fieldValue={fieldValue}
-          pcType={pcType}
-          pcName={pcName}
-          collectionIsEditing={collectionIsEditing}
-          onSaveObjectField={onSaveObjectField}
-        />
-      )
-    }
-    if (typeof fieldValue === 'number') {
-      return (
-        <FieldInput
-          fieldName={fieldName}
-          fieldValue={fieldValue}
-          inputType="number"
-          pcType={pcType}
-          pcName={pcName}
-          collectionIsEditing={collectionIsEditing}
-          onSaveObjectField={onSaveObjectField}
-        />
-      )
-    }
-    if (typeof fieldValue === 'boolean') {
-      return (
-        <FieldBoolean
-          fieldName={fieldName}
-          fieldValue={fieldValue}
-          pcType={pcType}
-          pcName={pcName}
-          collectionIsEditing={collectionIsEditing}
-          onSaveObjectField={onSaveObjectField}
-        />
-      )
-    }
-    // fallback is text input
+  if (
+    (typeof fieldVal === 'string' && fieldVal.slice(0, 7) === 'http://') ||
+    (typeof fieldVal === 'string' && fieldVal.slice(0, 8) === 'https://') ||
+    (typeof fieldVal === 'string' && fieldVal.slice(0, 2) === '//')
+  ) {
+    // www-Links als Link darstellen
+    return (
+      <FieldLink
+        fieldName={fieldName}
+        fieldValue={fieldVal}
+        pcType={pcType}
+        pcName={pcName}
+        collectionIsEditing={collectionIsEditing}
+        onSaveObjectField={onSaveObjectField}
+      />
+    )
+  }
+  if (typeof fieldVal === 'string' && fieldVal.length < 45) {
     return (
       <FieldInput
         fieldName={fieldName}
-        fieldValue={fieldValue}
+        fieldValue={fieldVal}
         inputType="text"
         pcType={pcType}
         pcName={pcName}
@@ -113,4 +54,70 @@ export default React.createClass({
       />
     )
   }
-})
+  if (typeof fieldVal === 'string' && fieldVal.length >= 45) {
+    return (
+      <FieldTextarea
+        fieldName={fieldName}
+        fieldValue={fieldVal}
+        pcType={pcType}
+        pcName={pcName}
+        collectionIsEditing={collectionIsEditing}
+        onSaveObjectField={onSaveObjectField}
+      />
+    )
+  }
+  if (typeof fieldVal === 'number') {
+    return (
+      <FieldInput
+        fieldName={fieldName}
+        fieldValue={fieldVal}
+        inputType="number"
+        pcType={pcType}
+        pcName={pcName}
+        collectionIsEditing={collectionIsEditing}
+        onSaveObjectField={onSaveObjectField}
+      />
+    )
+  }
+  if (typeof fieldVal === 'boolean') {
+    return (
+      <FieldBoolean
+        fieldName={fieldName}
+        fieldValue={fieldVal}
+        pcType={pcType}
+        pcName={pcName}
+        collectionIsEditing={collectionIsEditing}
+        onSaveObjectField={onSaveObjectField}
+      />
+    )
+  }
+  // fallback is text input
+  return (
+    <FieldInput
+      fieldName={fieldName}
+      fieldValue={fieldVal}
+      inputType="text"
+      pcType={pcType}
+      pcName={pcName}
+      collectionIsEditing={collectionIsEditing}
+      onSaveObjectField={onSaveObjectField}
+    />
+  )
+}
+
+Field.displayName = 'Field'
+
+Field.propTypes = {
+  fieldName: React.PropTypes.string,
+  fieldValue: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.number,
+    React.PropTypes.bool
+  ]),
+  pcType: React.PropTypes.string,
+  pcName: React.PropTypes.string,
+  collectionIsEditing: React.PropTypes.bool,
+  onSaveObjectField: React.PropTypes.func
+}
+
+export default Field
