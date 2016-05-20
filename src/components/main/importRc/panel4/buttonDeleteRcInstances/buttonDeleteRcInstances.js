@@ -55,7 +55,8 @@ export default React.createClass({
           disabled={rcsRemoved}
         >
           <Glyphicon glyph="trash" />
-          &nbsp;Beziehungssammlung "{name}" aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen
+          &nbsp;
+          Beziehungssammlung "{name}" aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen
         </Button>
         {
           showConfirmModal &&
