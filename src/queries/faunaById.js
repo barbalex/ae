@@ -13,11 +13,11 @@ import app from 'ampersand-app'
 const ddoc = {
   _id: '_design/faunaById',
   views: {
-    'faunaById': {
+    faunaById: {
       map: function (doc) {
-        function findStandardTaxonomyInDoc (doc) {
+        function findStandardTaxonomyInDoc(doc) {
           var standardtaxonomie = null
-          doc.Taxonomien.forEach(function (taxonomy) {
+          doc.Taxonomien.forEach(function(taxonomy) {
             if (taxonomy.Standardtaxonomie) standardtaxonomie = taxonomy
           })
           return standardtaxonomie
@@ -36,19 +36,19 @@ export default (ids, offlineIndexes) => {
     keys: ids
   }
   const query = {
-    local () {
+    local() {
       return new Promise((resolve, reject) => {
         app.localDb.put(ddoc)
           .catch((error) => {
             // ignore if doc already exists
             if (error.status !== 409) reject(error)
           })
-          .then((response) => app.localDb.query('faunaById', queryOptions))
+          .then(() => app.localDb.query('faunaById', queryOptions))
           .then((result) => resolve(result))
           .catch((error) => reject(error))
       })
     },
-    remote () {
+    remote() {
       return new Promise((resolve, reject) => {
         app.remoteDb.query('faunaById', queryOptions)
           .then((result) => resolve(result))
@@ -61,7 +61,7 @@ export default (ids, offlineIndexes) => {
   return new Promise((resolve, reject) => {
     query[db]()
       .then((result) => {
-        let returnObject = {}
+        const returnObject = {}
         result.rows.forEach((row) => {
           returnObject[row.key] = row.id
         })
