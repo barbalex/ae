@@ -14,7 +14,7 @@ export default (Actions) => {
      */
     listenables: Actions,
 
-    getLogin () {
+    getLogin() {
       return new Promise((resolve, reject) => {
         app.localDb.get('_local/login')
           .then((doc) => {
@@ -22,12 +22,12 @@ export default (Actions) => {
             resolve(doc)
           })
           .catch((error) =>
-            reject('userStore: error getting login from localDb: ' + error)
+            reject(`userStore: error getting login from localDb: ${error}`)
           )
       })
     },
 
-    onLogin ({ logIn, email, roles }) {
+    onLogin({ logIn, email, roles }) {
       app.localDb.get('_local/login')
         .then((doc) => {
           doc.logIn = logIn
@@ -38,11 +38,16 @@ export default (Actions) => {
            * need to requery organizations if they have been loaded
            * because isUserAdmin needs to be updated
            */
-          if (email && app.organizationsStore.organizations.length > 0) app.Actions.getOrganizations(email)
+          if (email && app.organizationsStore.organizations.length > 0) {
+            app.Actions.getOrganizations(email)
+          }
           return app.localDb.put(doc)
         })
         .catch((error) =>
-          app.Actions.showError({title: 'userStore: error logging in:', msg: error})
+          app.Actions.showError({
+            title: 'userStore: error logging in:',
+            msg: error
+          })
         )
     }
   })

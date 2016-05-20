@@ -13,7 +13,7 @@ export default (Actions) => {
 
     userNames: [],
 
-    onGetUsers () {
+    onGetUsers() {
       if (this.userNames.length > 0) this.trigger(this.userNames)
       app.remoteUsersDb.allDocs({ include_docs: true })
         .then((result) => {
@@ -23,7 +23,10 @@ export default (Actions) => {
           this.trigger(this.userNames)
         })
         .catch((error) =>
-          app.Actions.showError({title: 'error fetching organizations from remoteDb:', msg: error})
+          app.Actions.showError({
+            title: 'error fetching organizations from remoteDb:',
+            msg: error
+          })
         )
     }
   })
