@@ -11,45 +11,45 @@ import RelationPartners from './relationPartners.js'
 import RelationFields from './relationFields.js'
 import sortRelationsByName from '../../../modules/sortRelationsByName.js'
 
-export default React.createClass({
-  displayName: 'RelationCollection',
+const RelationCollection = ({ relationCollection }) => {
+  const rc = relationCollection
+  if (!rc.Beziehungen || rc.Beziehungen.length === 0) return null
 
-  propTypes: {
-    relationCollection: React.PropTypes.object
-  },
+  rc.Beziehungen = sortRelationsByName(rc.Beziehungen)
 
-  render() {
-    const rc = this.props.relationCollection
-    if (!rc.Beziehungen || rc.Beziehungen.length === 0) return null
+  const relations = rc.Beziehungen.map((relation, index) =>
+    <div key={index}>
+      <RelationPartners relation={relation} />
+      <RelationFields
+        relation={relation}
+        relationCollection={rc}
+      />
+      {
+        index < rc.Beziehungen.length - 1 &&
+        <hr />
+      }
+    </div>
+  )
 
-    rc.Beziehungen = sortRelationsByName(rc.Beziehungen)
+  return (
+    <Accordion>
+      <Panel
+        header={`${rc.Name} (${rc.Beziehungen.length})`}
+        eventKey={1}
+      >
+        <PcDescription pc={rc} />
+        <div>
+          {relations}
+        </div>
+      </Panel>
+    </Accordion>
+  )
+}
 
-    const relations = rc.Beziehungen.map((relation, index) =>
-      <div key={index}>
-        <RelationPartners relation={relation} />
-        <RelationFields
-          relation={relation}
-          relationCollection={rc}
-        />
-        {
-          index < rc.Beziehungen.length - 1 &&
-            <hr />
-        }
-      </div>
-    )
+RelationCollection.displayName = 'RelationCollection'
 
-    return (
-      <Accordion>
-        <Panel
-          header={`${rc.Name} (${rc.Beziehungen.length})`}
-          eventKey={1}
-        >
-          <PcDescription pc={rc} />
-          <div>
-            {relations}
-          </div>
-        </Panel>
-      </Accordion>
-    )
-  }
-})
+RelationCollection.propTypes = {
+  relationCollection: React.PropTypes.object
+}
+
+export default RelationCollection
