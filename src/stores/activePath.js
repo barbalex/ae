@@ -16,7 +16,7 @@ export default (Actions) => {
 
     guid: null,
 
-    onLoadActivePath (path, guid) {
+    onLoadActivePath(path, guid) {
       // only change if something has changed
       if (this.guid !== guid || !isEqual(this.path, path)) {
         this.guid = guid

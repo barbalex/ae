@@ -7,7 +7,7 @@ export default (Actions) => {
 
     listenables: Actions,
 
-    onChangeRebuildingRedundantData (message) {
+    onChangeRebuildingRedundantData(message) {
       this.trigger(message)
     }
   })
