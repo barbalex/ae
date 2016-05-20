@@ -14,7 +14,7 @@
  when you run `gulp`.
  */
 
-var requireDir = require('require-dir')
+const requireDir = require('require-dir')
 
 // initiate modularized tasks
-requireDir('./gulp-tasks', {recurse: true})
+requireDir('./gulp-tasks', { recurse: true })

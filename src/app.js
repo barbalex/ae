@@ -54,7 +54,7 @@ window.PouchDB = PouchDB
  * get path to remote _users db
  */
 const remoteDbUrl = pouchUrl()
-const remoteDumpsDbUrl = pouchBaseUrl() + 'ae_dumps'
+const remoteDumpsDbUrl = `${pouchBaseUrl()}ae_dumps'`
 const remoteUsersDbUrl = remoteDbUrl.replace('/ae', '/_users').replace('/artendb', '/_users')
 
 /**
@@ -62,7 +62,7 @@ const remoteUsersDbUrl = remoteDbUrl.replace('/ae', '/_users').replace('/artendb
  * modules that need an app method import ampersand-app instead of using a global
  */
 app.extend({
-  init () {
+  init() {
     /**
      * pouchdb keeps setting a lot of listeners which makes browsers show warnings in the console
      * up the number of listeners to reduce the number of console warnings
@@ -166,7 +166,12 @@ app.extend({
         })
       }
     })
-    .catch((error) => app.Actions.showError({title: 'app.js: error initializing app:', msg: error}))
+    .catch((error) =>
+      app.Actions.showError({
+        title: 'app.js: error initializing app:',
+        msg: error
+      })
+    )
   }
 })
 

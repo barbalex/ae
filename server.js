@@ -7,16 +7,16 @@
 // only used sometimes in development
 // set options into new Hapi.Server()
 /*
-var serverOptionsDevelopment = {
+const serverOptionsDevelopment = {
     debug: {
       log: ['error'],
       request: ['error']
     }
   }
 */
-var Hapi = require('hapi')
-var Inert = require('inert')
-var server = new Hapi.Server()
+const Hapi = require('hapi')
+const Inert = require('inert')
+const server = new Hapi.Server()
 
 server.register(Inert, () => {
   server.connection({
@@ -24,17 +24,15 @@ server.register(Inert, () => {
     port: 8080
   })
 
-  server.start(function (err) {
-    if (err) {
-      throw err
-    }
+  server.start((err) => {
+    if (err) throw err
     console.log('Server running at:', server.info.uri)
   })
 
   server.route({
     method: 'GET',
     path: '/artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen',
-    handler: function (request, reply) {
+    handler: (request, reply) => {
       reply.redirect('http://' + request.headers.host + ':5984/artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen?include_docs=true')
     }
   })
@@ -42,7 +40,7 @@ server.register(Inert, () => {
   server.route({
     method: 'GET',
     path: '/artendb/_design/artendb/_list/export_evab/evab_arten',
-    handler: function (request, reply) {
+    handler: function(request, reply) {
       reply.redirect('http://' + request.headers.host + ':5984/artendb/_design/artendb/_list/export_evab/evab_arten?include_docs=true')
     }
   })
@@ -50,7 +48,7 @@ server.register(Inert, () => {
   server.route({
     method: 'GET',
     path: '/artendb/_design/artendb/_list/export_apflora/flora',
-    handler: function (request, reply) {
+    handler: function(request, reply) {
       reply.redirect('http://' + request.headers.host + ':5984/artendb/_design/artendb/_list/export_apflora/flora?include_docs=true')
     }
   })
