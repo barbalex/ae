@@ -15,7 +15,7 @@ const Panel2 = ({ rcsToImport, validRcsToImport, onChangeFile }) => (
     <input
       type="file"
       className="form-control"
-      onChange={onChangeFile}
+      onChange={(event) => onChangeFile(event)}
     />
     {
       !validRcsToImport &&
