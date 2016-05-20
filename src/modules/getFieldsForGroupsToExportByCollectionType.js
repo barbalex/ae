@@ -33,7 +33,7 @@ export default (allFields, groupsToExport, collectionType, combineTaxonomies) =>
       count: ''
      }
    */
-  let taxonomyNameObject = groupBy(fields, (field) => field.cName)
+  const taxonomyNameObject = groupBy(fields, (field) => field.cName)
   /**
    * format for taxonomyNameObject:
    * {
@@ -53,7 +53,7 @@ export default (allFields, groupsToExport, collectionType, combineTaxonomies) =>
         cName2...
        }
      */
-    let cNameObject = groupBy(cNameArray, (field) => field.fName)
+    const cNameObject = groupBy(cNameArray, (field) => field.fName)
     /**
      * format for taxonomyNameObject now:
      *  {
@@ -64,7 +64,7 @@ export default (allFields, groupsToExport, collectionType, combineTaxonomies) =>
           cName2...
         }
      */
-    forEach(cNameObject, (fNameArray, key) => {
+    forEach(cNameObject, (fNameArray) => {
       fNameArray = fNameArray.map((field) => {
         delete field.fName
         return field
@@ -79,7 +79,7 @@ export default (allFields, groupsToExport, collectionType, combineTaxonomies) =>
             cName2...
           }
        */
-      let fNameObject = {
+      const fNameObject = {
         fType: null,
         count: 0,
         groups: []
