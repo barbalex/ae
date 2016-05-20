@@ -73,7 +73,7 @@ const TreeNodes = ({ hierarchy, object, path }) => {
           </div>
           {
             showNode &&
-            <Nodes
+            <TreeNodes
               hierarchy={hO.children}
               object={object}
               path={path}
