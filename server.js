@@ -33,30 +33,30 @@ server.register(Inert, () => {
     method: 'GET',
     path: '/artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen',
     handler: (request, reply) => {
-      reply.redirect('http://' + request.headers.host + ':5984/artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen?include_docs=true')
+      reply.redirect(`http://${request.headers.host}:5984/artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen?include_docs=true`)
     }
   })
 
   server.route({
     method: 'GET',
     path: '/artendb/_design/artendb/_list/export_evab/evab_arten',
-    handler: function(request, reply) {
-      reply.redirect('http://' + request.headers.host + ':5984/artendb/_design/artendb/_list/export_evab/evab_arten?include_docs=true')
+    handler(request, reply) {
+      reply.redirect(`http://${request.headers.host}:5984/artendb/_design/artendb/_list/export_evab/evab_arten?include_docs=true`)
     }
   })
 
   server.route({
     method: 'GET',
     path: '/artendb/_design/artendb/_list/export_apflora/flora',
-    handler: function(request, reply) {
-      reply.redirect('http://' + request.headers.host + ':5984/artendb/_design/artendb/_list/export_apflora/flora?include_docs=true')
+    handler(request, reply) {
+      reply.redirect(`http://${request.headers.host}:5984/artendb/_design/artendb/_list/export_apflora/flora?include_docs=true`)
     }
   })
 
   server.route({
     method: 'GET',
     path: '/',
-    handler: function (request, reply) {
+    handler(request, reply) {
       reply.file('index.html')
     }
   })
@@ -64,7 +64,7 @@ server.register(Inert, () => {
   server.route({
     method: 'GET',
     path: '/index.html',
-    handler: function (request, reply) {
+    handler(request, reply) {
       reply.file('index.html')
     }
   })
@@ -81,15 +81,14 @@ server.register(Inert, () => {
   })
 
   // show 404 page if file not found
-  server.ext('onPreResponse', function (request, reply) {
+  server.ext('onPreResponse', (request, reply) => {
     if (request.response.isBoom) {
       // Inspect the response here, see if it's a 404
       if (request.response.output.statusCode === 404) {
         // let index.html handle this
         return reply.file('index.html')
-      } else {
-        return reply.redirect('/')
       }
+      return reply.redirect('/')
     }
     return reply.continue()
   })
