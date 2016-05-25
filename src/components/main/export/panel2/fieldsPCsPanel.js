@@ -1,7 +1,12 @@
 'use strict'
 
 import React from 'react'
-import { FormGroup, InputGroup, FormControl, ControlLabel } from 'react-bootstrap'
+import {
+  FormGroup,
+  InputGroup,
+  FormControl,
+  ControlLabel
+} from 'react-bootstrap'
 import { get } from 'lodash'
 import SelectComparisonOperator from './selectComparisonOperator.js'
 import InfoButtonAfter from './infoButtonAfter.js'
@@ -15,18 +20,25 @@ const FieldsPCsPanel = ({
   exportOptions,
   cNameKey
 }) => {
+  console.log('FieldsPCsPanel, pcFields', pcFields)
   const cNameObject = pcFields[cNameKey]
-  const pc = pcs.find((p) => p.name === cNameKey)
+  const pc = pcs.find((p) =>
+    p.name === cNameKey
+  )
   const fieldsSorted = (
-    Object.keys(cNameObject)
-      .sort((fNameKey) => fNameKey.toLowerCase())
+    Object.keys(cNameObject).sort((fNameKey) =>
+      fNameKey.toLowerCase()
+    )
   )
   const fields = fieldsSorted.map((fNameKey, index) => {
     const fieldKey = fNameKey.toLowerCase()
+    console.log('FieldsPCsPanel, fNameKey', fNameKey)
+    console.log('FieldsPCsPanel, cNameObject', cNameObject)
     const fNameObject = cNameObject[fNameKey]
     const value = get(exportOptions, `${cNameKey}.${fNameKey}.value`, null)
     const co = get(exportOptions, `${cNameKey}.${fNameKey}.co`, null)
-    const buttonAfter = <InfoButtonAfter fNameObject={fNameObject} />
+    console.log('FieldsPCsPanel, fNameObject', fNameObject)
+    const infoButtonAfter = <InfoButtonAfter fNameObject={fNameObject} />
     if (fNameObject.fType !== 'boolean') {
       return (
         <FormGroup key={index}>
@@ -46,9 +58,13 @@ const FieldsPCsPanel = ({
               bsSize="small"
               className="controls"
               value={value}
-              onChange={(event) => onChangeFilterField(cNameKey, fNameKey, 'pc', event)}
+              onChange={(event) =>
+                onChangeFilterField(cNameKey, fNameKey, 'pc', event)
+              }
             />
-            <InputGroup.Addon>{buttonAfter}</InputGroup.Addon>
+            <InputGroup.Addon>
+              {infoButtonAfter}
+            </InputGroup.Addon>
           </InputGroup>
         </FormGroup>
       )
@@ -63,13 +79,17 @@ const FieldsPCsPanel = ({
             bsSize="small"
             className="controls"
             value={value}
-            onChange={(event) => onChangeFilterField(cNameKey, fNameKey, 'pc', event)}
+            onChange={(event) =>
+              onChangeFilterField(cNameKey, fNameKey, 'pc', event)
+            }
           >
             <option value={null}></option>
             <option value>ja</option>
             <option value={false}>nein</option>
           </FormControl>
-          <InputGroup.Addon>{buttonAfter}</InputGroup.Addon>
+          <InputGroup.Addon>
+            {infoButtonAfter}
+          </InputGroup.Addon>
         </InputGroup>
       </FormGroup>
     )

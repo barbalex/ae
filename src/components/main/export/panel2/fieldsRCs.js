@@ -27,7 +27,9 @@ export default React.createClass({
     const { activePanel } = this.state
     // open collection panel if there is only one
     const numberOfCollections = Object.keys(relationFields).length
-    if (numberOfCollections === 1 && activePanel !== 0) this.setState({ activePanel: 0 })
+    if (numberOfCollections === 1 && activePanel !== 0) {
+      this.setState({ activePanel: 0 })
+    }
   },
 
   onClickPanel(number, event) {
@@ -37,23 +39,41 @@ export default React.createClass({
 
     // make sure the heading was clicked
     const parent = event.target.parentElement
-    const headingWasClicked = parent.className.includes('panel-title') || parent.className.includes('panel-heading')
+    const headingWasClicked = (
+      parent.className.includes('panel-title') ||
+      parent.className.includes('panel-heading')
+    )
     if (headingWasClicked) {
       // always close panel if it is open
-      if (activePanel === number) return this.setState({ activePanel: '' })
+      if (activePanel === number) {
+        return this.setState({ activePanel: '' })
+      }
         // open the panel clicked
       this.setState({ activePanel: number })
     }
   },
 
   render() {
-    const { relationFields, onChangeCoSelect, rcs, exportOptions, onChangeFilterField } = this.props
+    const {
+      relationFields,
+      onChangeCoSelect,
+      rcs,
+      exportOptions,
+      onChangeFilterField
+    } = this.props
     const { activePanel } = this.state
     // open panel if there is only one
     const numberOfCollections = Object.keys(relationFields).length
-    const activePanelOpeningWhenOnlyOneCollection = numberOfCollections === 1 ? 0 : activePanel
+    const activePanelOpeningWhenOnlyOneCollection = (
+      numberOfCollections === 1 ?
+      0 :
+      activePanel
+    )
 
-    const collectionKeysSorted = Object.keys(relationFields).sort((cNameKey) => cNameKey.toLowerCase())
+    const collectionKeysSorted = (
+      Object.keys(relationFields)
+        .sort((cNameKey) => cNameKey.toLowerCase())
+    )
     const collections = collectionKeysSorted.map((cNameKey, cIndex) => {
       const collectionKey = cNameKey.toLowerCase()
       const openPanel = activePanelOpeningWhenOnlyOneCollection === cIndex
@@ -64,7 +84,9 @@ export default React.createClass({
           collapsible
           header={rc.name}
           eventKey={cIndex}
-          onClick={this.onClickPanel.bind(this, cIndex)}
+          onClick={(event) =>
+            this.onClickPanel(cIndex, event)
+          }
         >
           {
             openPanel &&
