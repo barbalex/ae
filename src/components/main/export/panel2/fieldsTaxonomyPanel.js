@@ -1,7 +1,12 @@
 'use strict'
 
 import React from 'react'
-import { FormGroup, InputGroup, FormControl, ControlLabel } from 'react-bootstrap'
+import {
+  FormGroup,
+  InputGroup,
+  FormControl,
+  ControlLabel
+} from 'react-bootstrap'
 import { get } from 'lodash'
 import SelectComparisonOperator from './selectComparisonOperator.js'
 import InfoButtonAfter from './infoButtonAfter.js'
@@ -16,13 +21,19 @@ const FieldsTaxonomyPanel = ({
   const cNameObject = taxonomyFields[cNameKey]
   // we do not want the taxonomy field 'Hierarchie'
   delete cNameObject.Hierarchie
-  const fieldsSorted = Object.keys(cNameObject).sort((fNameKey) => fNameKey.toLowerCase())
+  const fieldsSorted = (
+    Object.keys(cNameObject)
+      .sort((fNameKey) =>
+        fNameKey.toLowerCase()
+      )
+  )
   const fields = fieldsSorted.map((fNameKey, index) => {
     const fieldKey = fNameKey.toLowerCase()
     const fNameObject = cNameObject[fNameKey]
     const value = get(exportOptions, `${cNameKey}.${fNameKey}.value`, null)
     const co = get(exportOptions, `${cNameKey}.${fNameKey}.co`, null)
     const buttonAfter = <InfoButtonAfter fNameObject={fNameObject} />
+
     if (fNameObject.fType !== 'boolean') {
       return (
         <FormGroup key={index}>
@@ -42,7 +53,9 @@ const FieldsTaxonomyPanel = ({
               bsSize="small"
               className="controls"
               value={value}
-              onChange={(event) => onChangeFilterField(cNameKey, fNameKey, 'taxonomy', event)}
+              onChange={(event) =>
+                onChangeFilterField(cNameKey, fNameKey, 'taxonomy', event)
+              }
             />
             <InputGroup.Addon>{buttonAfter}</InputGroup.Addon>
           </InputGroup>
@@ -59,7 +72,9 @@ const FieldsTaxonomyPanel = ({
             bsSize="small"
             className="controls"
             value={value}
-            onChange={(event) => onChangeFilterField(cNameKey, fNameKey, 'taxonomy', event)}
+            onChange={(event) =>
+              onChangeFilterField(cNameKey, fNameKey, 'taxonomy', event)
+            }
           >
             <option value={null}></option>
             <option value>ja</option>

@@ -40,10 +40,15 @@ export default React.createClass({
 
     // make sure the heading was clicked
     const parent = event.target.parentElement
-    const headingWasClicked = parent.className.includes('panel-title') || parent.className.includes('panel-heading')
+    const headingWasClicked = (
+      parent.className.includes('panel-title') ||
+      parent.className.includes('panel-heading')
+    )
     if (headingWasClicked) {
       // always close panel if it is open
-      if (activePanel === number) return this.setState({ activePanel: '' })
+      if (activePanel === number) {
+        return this.setState({ activePanel: '' })
+      }
         // open the panel clicked
       this.setState({ activePanel: number })
     }
@@ -77,7 +82,9 @@ export default React.createClass({
           collapsible
           header={cNameKey}
           eventKey={cIndex}
-          onClick={this.onClickPanel.bind(this, cIndex)}
+          onClick={(event) =>
+            this.onClickPanel(cIndex, event)
+          }
         >
           {
             openPanel &&
