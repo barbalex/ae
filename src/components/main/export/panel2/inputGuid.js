@@ -132,7 +132,9 @@ export default React.createClass({
           </OverlayTrigger>
           <textarea
             className="controls input-sm form-control"
-            onBlur={this.onBlur.bind(this, 'object', '_id')}
+            onBlur={(event) =>
+              this.onBlur('object', '_id', event)
+            }
             spellCheck={false}
           />
           {showInvalidGuids ? this.invalidGuids() : null}
