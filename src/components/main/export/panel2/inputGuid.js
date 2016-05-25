@@ -49,7 +49,9 @@ export default React.createClass({
     const eventToPass = {
       target: { value }
     }
-    if (invalidGuids.length === 0) onChangeFilterField(cName, fName, 'object', eventToPass)
+    if (invalidGuids.length === 0) {
+      onChangeFilterField(cName, fName, 'object', eventToPass)
+    }
   },
 
   popover() {
@@ -64,7 +66,8 @@ export default React.createClass({
           </em>
         </p>
         <p>
-          Oder eine Liste von GUID`s, die Sie mit einem Komma und (fakultativ) einem Leerschlag trennen, z.B.:<br />
+          Oder eine Liste von GUID`s, die Sie mit einem Komma und
+          (fakultativ) einem Leerschlag trennen, z.B.:<br />
           <em>
             c9cfe3e0-e298-7a36-9c88-7c2acf143bab<strong>,&nbsp;
             </strong>001FCF2F-9833-4B52-9201-B4B04C9A05BA<strong>,&nbsp;
@@ -80,7 +83,9 @@ export default React.createClass({
     const alertStyle = {
       marginTop: 8
     }
-    const list = invalidGuids.map((guid, index) => <li key={index}>{guid}</li>)
+    const list = invalidGuids.map((guid, index) =>
+      <li key={index}>{guid}</li>
+    )
     return (
       <Alert
         bsStyle="danger"
@@ -102,10 +107,17 @@ export default React.createClass({
     const divStyle = {
       marginLeft: 0
     }
-    const formGroupClass = invalidGuids.length > 0 ? 'form-group has-error' : 'form-group'
+    const formGroupClass = (
+      invalidGuids.length > 0 ?
+      'form-group has-error' :
+      'form-group'
+    )
     return (
       <div>
-        <div className={formGroupClass} style={divStyle}>
+        <div
+          className={formGroupClass}
+          style={divStyle}
+        >
           <OverlayTrigger
             trigger={['click', 'focus']}
             rootClose
