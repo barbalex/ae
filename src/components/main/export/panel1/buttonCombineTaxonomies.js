@@ -3,7 +3,10 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
 
-const ButtonCombineTaxonomies = ({ combineTaxonomies, onChangeCombineTaxonomies }) => {
+const ButtonCombineTaxonomies = ({
+  combineTaxonomies,
+  onChangeCombineTaxonomies
+}) => {
   const buttonText = (
     combineTaxonomies ?
     'Felder der gewählten Taxonomien einzeln behandeln' :
@@ -11,7 +14,11 @@ const ButtonCombineTaxonomies = ({ combineTaxonomies, onChangeCombineTaxonomies 
   )
 
   return (
-    <Button onClick={() => onChangeCombineTaxonomies(!combineTaxonomies)}>
+    <Button
+      onClick={() =>
+        onChangeCombineTaxonomies(!combineTaxonomies)
+      }
+    >
       {buttonText}
     </Button>
   )
