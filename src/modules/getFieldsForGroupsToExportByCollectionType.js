@@ -13,7 +13,7 @@
  */
 'use strict'
 
-import { forEach, groupBy } from 'lodash'
+import { forEach as _forEach, groupBy } from 'lodash'
 
 export default (allFields, groupsToExport, collectionType, combineTaxonomies) => {
   let fields = allFields.filter((field) =>
@@ -45,7 +45,7 @@ export default (allFields, groupsToExport, collectionType, combineTaxonomies) =>
       ...
      }
    */
-  forEach(taxonomyNameObject, (cNameArray, key) => {
+  _forEach(taxonomyNameObject, (cNameArray, key) => {
     cNameArray = cNameArray.map((field) => {
       delete field.cName
       return field
@@ -68,7 +68,8 @@ export default (allFields, groupsToExport, collectionType, combineTaxonomies) =>
           cName2...
         }
      */
-    forEach(cNameObject, (fNameArray) => {
+    // key is necessary, DO NOT REMOVE
+    _forEach(cNameObject, (fNameArray, key) => {
       fNameArray = fNameArray.map((field) => {
         delete field.fName
         return field

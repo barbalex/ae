@@ -125,7 +125,6 @@ export default React.createClass({
       Object.keys(object).length > 0 &&
       !mainComponent
     )
-    console.log('Main, pcs', pcs)
 
     return (
       <fieldset id="main">

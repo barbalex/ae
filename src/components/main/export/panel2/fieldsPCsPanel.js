@@ -20,7 +20,6 @@ const FieldsPCsPanel = ({
   exportOptions,
   cNameKey
 }) => {
-  console.log('FieldsPCsPanel, pcFields', pcFields)
   const cNameObject = pcFields[cNameKey]
   const pc = pcs.find((p) =>
     p.name === cNameKey
@@ -32,12 +31,9 @@ const FieldsPCsPanel = ({
   )
   const fields = fieldsSorted.map((fNameKey, index) => {
     const fieldKey = fNameKey.toLowerCase()
-    console.log('FieldsPCsPanel, fNameKey', fNameKey)
-    console.log('FieldsPCsPanel, cNameObject', cNameObject)
     const fNameObject = cNameObject[fNameKey]
     const value = get(exportOptions, `${cNameKey}.${fNameKey}.value`, null)
     const co = get(exportOptions, `${cNameKey}.${fNameKey}.co`, null)
-    console.log('FieldsPCsPanel, fNameObject', fNameObject)
     const infoButtonAfter = <InfoButtonAfter fNameObject={fNameObject} />
     if (fNameObject.fType !== 'boolean') {
       return (
