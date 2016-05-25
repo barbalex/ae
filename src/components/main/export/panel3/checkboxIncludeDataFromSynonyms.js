@@ -13,7 +13,10 @@ const labelStyle = {
   float: 'none !important'
 }
 
-const CheckboxIncludeDataFromSynonyms = ({ onChangeIncludeDataFromSynonyms, includeDataFromSynonyms }) =>
+const CheckboxIncludeDataFromSynonyms = ({
+  onChangeIncludeDataFromSynonyms,
+  includeDataFromSynonyms
+}) =>
   <div
     className="checkbox"
     style={divStyle}
@@ -26,7 +29,8 @@ const CheckboxIncludeDataFromSynonyms = ({ onChangeIncludeDataFromSynonyms, incl
         style={inputStyle}
       />
       <strong>Informationen von Synonymen berücksichtigen</strong><br />
-      Informationen von synonymen Arten bzw. Lebensräumen werden wie eigene Informationen behandelt
+      Informationen von synonymen Arten bzw. Lebensräumen
+      werden wie eigene Informationen behandelt
     </label>
   </div>
 
