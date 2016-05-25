@@ -8,7 +8,7 @@
  * returns objectsToFilter
  */
 
-import { map } from 'lodash'
+import { map as _map } from 'lodash'
 import addCollectionsOfSynonym from './addCollectionsOfSynonym.js'
 
 export default (originalObjects, objectsToFilter) => {
@@ -30,8 +30,10 @@ export default (originalObjects, objectsToFilter) => {
         if (isSynonym) {
           rc.Beziehungen.forEach((relation) => {
             if (relation.Beziehungspartner && relation.Beziehungspartner.length > 0) {
-              const rPartnerGuids = map(relation.Beziehungspartner, 'GUID')
-              rPartnerGuids.forEach((guid) => { object = addCollectionsOfSynonym(originalObjects, object, guid) })
+              const rPartnerGuids = _map(relation.Beziehungspartner, 'GUID')
+              rPartnerGuids.forEach((guid) => {
+                object = addCollectionsOfSynonym(originalObjects, object, guid)
+              })
             }
           })
         }
