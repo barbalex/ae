@@ -120,7 +120,12 @@ export default React.createClass({
       errors
     } = this.props
     const { formClassNames } = this.state
-    const showObject = object && Object.keys(object).length > 0 && !mainComponent
+    const showObject = (
+      object &&
+      Object.keys(object).length > 0 &&
+      !mainComponent
+    )
+    console.log('Main, pcs', pcs)
 
     return (
       <fieldset id="main">

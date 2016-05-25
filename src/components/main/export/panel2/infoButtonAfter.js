@@ -1,36 +1,35 @@
 'use strict'
 
 import React from 'react'
-import { Tooltip, OverlayTrigger, Button, Glyphicon } from 'react-bootstrap'
+import {
+  Tooltip,
+  OverlayTrigger,
+  Button,
+  Glyphicon
+} from 'react-bootstrap'
 
-const InfoButtonAfter = ({ fNameObject }) => {
-  const id = `${fNameObject.cName}-${fNameObject.fName}-info`
-  const tooltip = (
-    <Tooltip id={id}>
-      Gruppen: {fNameObject.groups.join(', ')}<br />
-      Anzahl Objekte: {fNameObject.count}<br />
-      Feldtyp: {fNameObject.fType}
-    </Tooltip>
-  )
-
-  return (
-    <OverlayTrigger
-      placement="left"
-      trigger={['click']}
-      rootClose
-      overlay={tooltip}
+const InfoButtonAfter = ({ fNameObject }) =>
+  <OverlayTrigger
+    placement="left"
+    trigger={['click']}
+    rootClose
+    overlay={
+      <Tooltip id={`${fNameObject.cName}-${fNameObject.fName}-info`}>
+        Gruppen: {fNameObject.groups.join(', ')}<br />
+        Anzahl Objekte: {fNameObject.count}<br />
+        Feldtyp: {fNameObject.fType}
+      </Tooltip>
+    }
+  >
+    <Button
+      bsSize="small"
     >
-      <Button
-        bsSize="small"
-      >
-        <Glyphicon
-          glyph="info-sign"
-          style={{ fontSize: 17 }}
-        />
-      </Button>
-    </OverlayTrigger>
-  )
-}
+      <Glyphicon
+        glyph="info-sign"
+        style={{ fontSize: 17 }}
+      />
+    </Button>
+  </OverlayTrigger>
 
 InfoButtonAfter.displayName = 'InfoButtonAfter'
 
