@@ -7,7 +7,9 @@ import download from './download.js'
 const ButtonExport = ({ exportObjects, format }) =>
   <Button
     bsStyle="primary"
-    onClick={() => download(exportObjects, format)}
+    onClick={() =>
+      download(exportObjects, format)
+    }
   >
     herunterladen
   </Button>

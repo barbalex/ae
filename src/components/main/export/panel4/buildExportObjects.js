@@ -7,7 +7,15 @@
 
 'use strict'
 
-import { clone, get, has, isArray, map, union, without } from 'lodash'
+import {
+  clone,
+  get,
+  has,
+  isArray,
+  map as _map,
+  union,
+  without
+} from 'lodash'
 
 export default (
   exportOptions,
@@ -56,13 +64,21 @@ export default (
             }
             const cTypeName = cTypeNames[cType]
             let collection
-            if (cType === 'taxonomy' && combineTaxonomies && object.Taxonomien) {
+            if (
+                cType === 'taxonomy' &&
+                combineTaxonomies &&
+                object.Taxonomien
+            ) {
               // TODO: do the following steps for ALL taxonomies
               // i.e. create exportObject if any of the taxonomies contain desired fields
-              const standardtaxonomie = object.Taxonomien.find((taxonomy) => taxonomy.Standardtaxonomie)
+              const standardtaxonomie = object.Taxonomien.find((taxonomy) =>
+                taxonomy.Standardtaxonomie
+              )
               collection = standardtaxonomie
             } else {
-              collection = object[cTypeName].find((c) => c.Name === cName)
+              collection = object[cTypeName].find((c) =>
+                c.Name === cName
+              )
             }
             if (collection) {
               if (cType !== 'rc') {
@@ -103,7 +119,7 @@ export default (
                           const key = `${cName}: ${fName}`
                           newExportObject[key] = rPartners
                           // build Beziehungspartner GUID
-                          const guidArray = map(rPartners, 'GUID')
+                          const guidArray = _map(rPartners, 'GUID')
                           const key2 = `${cName}: ${fName} GUID`
                           newExportObject[key2] = guidArray
                         }
@@ -151,7 +167,7 @@ export default (
                            * Beziehungspartner is an array of objects
                            */
                           // build Beziehungspartner GUID
-                          const guidArray = map(rPartners, 'GUID')
+                          const guidArray = _map(rPartners, 'GUID')
                           const key2 = `${cName}: ${fName} GUIDs`
                           if (has(exportObject, key2)) {
                             exportObject[key2] = union(exportObject[key2], guidArray)
