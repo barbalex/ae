@@ -23,14 +23,11 @@ export default React.createClass({
 
   render() {
     const { visible } = this.state
-    const wellStyle = {
-      margin: `${10}px !important`
-    }
 
     return (
       <Well
         bsSize="small"
-        style={wellStyle}
+        style={{ margin: 10 }}
       >
         <b>Option wählen</b>
         &nbsp;
@@ -45,13 +42,16 @@ export default React.createClass({
           className="adb-hidden"
           style={{ display: visible ? 'block' : 'none' }}
         >
-          <li>Pro Beziehung eine Zeile (Standardeinstellung):
+          <li>
+            Pro Beziehung eine Zeile (Standardeinstellung):
             <ul>
               <li>
-                Wie immer wird für jede gewählte Eigenschaft der Beziehungssammlung ein Feld erzeugt
+                Wie immer wird für jede gewählte Eigenschaft
+                der Beziehungssammlung ein Feld erzeugt
               </li>
               <li>
-                ABER: Für jede Art oder Lebensraum wird pro Beziehung eine neue Zeile erzeugt
+                ABER: Für jede Art oder Lebensraum wird pro Beziehung
+                eine neue Zeile erzeugt
               </li>
               <li>
                 Wählen Sie also z.B. Lebensraum-Beziehungen einer Art,
@@ -63,31 +63,35 @@ export default React.createClass({
               </li>
               <li>
                 Sie können aus maximal einer Beziehungssammlung Felder wählen<br />
-                (aber wie gewohnt mit beliebig vielen Feldern aus Taxonomie(n) und Eigenschaftensammlungen ergänzen)
+                (aber wie gewohnt mit beliebig vielen Feldern aus
+                Taxonomie(n) und Eigenschaftensammlungen ergänzen)
               </li>
             </ul>
           </li>
           <li>Pro Art/Lebensraum eine Zeile. Alle Beziehungen kommagetrennt in einem Feld:
             <ul>
               <li>
-                Wie immer wird für jede gewählte Eigenschaft der Beziehungssammlung ein Feld erzeugt...
+                Wie immer wird für jede gewählte Eigenschaft der
+                Beziehungssammlung ein Feld erzeugt...
               </li>
               <li>
                 ...und pro Art bzw. Lebensraum eine Zeile erzeugt
               </li>
               <li>
-                ABER: Von allen Beziehungen wird der Inhalt eines Feldes kommagetrennt in ein Feld geschrieben
+                ABER: Von allen Beziehungen wird der Inhalt eines Feldes
+                kommagetrennt in ein Feld geschrieben
               </li>
               <li>
-                Wählen Sie also z.B. Lebensraum-Beziehungen einer Art, wird jeder Lebensraum kommagetrennt
-                in einer einzigen Zelle aufgelistet
+                Wählen Sie also z.B. Lebensraum-Beziehungen einer Art,
+                wird jeder Lebensraum kommagetrennt in einer einzigen Zelle aufgelistet
               </li>
               <li>
                 Das vereinfacht eine anschliessende Auswertung nach den Eigenschaften der Art,<br />
                 erschwert aber die Auswertung nach den Beziehungen
               </li>
               <li>
-                Sie können Felder aus beliebig vielen Beziehungssammlungen gleichzeitig exportieren
+                Sie können Felder aus beliebig vielen Beziehungssammlungen
+                gleichzeitig exportieren
               </li>
             </ul>
           </li>

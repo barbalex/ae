@@ -24,7 +24,7 @@ export default React.createClass({
   render() {
     const { visible } = this.state
     const wellStyle = {
-      marginBottom: `${5}px !important`
+      marginBottom: 5
     }
 
     return (
