@@ -76,12 +76,12 @@ export default (allFields, groupsToExport, collectionType, combineTaxonomies) =>
       /**
        * format for taxonomyNameObject now:
        *  {
-            cName1: {                                          <= this is cNameObject
-              fName1: [{group: '', fType: '', count: '' }, ...],
-              fName2...
-            },
-            cName2...
-          }
+       *    cName1: {                                          <= this is cNameObject
+       *      fName1: [{group: '', fType: '', count: '' }, ...],
+       *      fName2...
+       *    },
+       *    cName2...
+       *  }
        */
       const fNameObject = {
         fType: null,
@@ -100,12 +100,12 @@ export default (allFields, groupsToExport, collectionType, combineTaxonomies) =>
   /**
    * format for taxonomyNameObject now:
    *  {
-        cName1: {                                          <= this is cNameObject
-          fName1: { group: '', fType: '', count: '' },
-          fName2...
-        },
-        cName2...
-      }
+   *    cName1: {                                          <= this is cNameObject
+   *      fName1: { group: '', fType: '', count: '' },
+   *      fName2...
+   *    },
+   *    cName2...
+   *  }
    */
   })
   return taxonomyNameObject
