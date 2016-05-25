@@ -37,10 +37,15 @@ export default React.createClass({
 
     // make sure the heading was clicked
     const parent = event.target.parentElement
-    const headingWasClicked = parent.className.includes('panel-title') || parent.className.includes('panel-heading')
+    const headingWasClicked = (
+      parent.className.includes('panel-title') ||
+      parent.className.includes('panel-heading')
+    )
     if (headingWasClicked) {
       // always close panel if it is open
-      if (activePanel === number) return this.setState({ activePanel: '' })
+      if (activePanel === number) {
+        return this.setState({ activePanel: '' })
+      }
         // open the panel clicked
       this.setState({ activePanel: number })
     }
@@ -58,7 +63,11 @@ export default React.createClass({
       exportOptions
     } = this.props
     const { activePanel } = this.state
-    const taxonomyHeader = Object.keys(taxonomyFields).length > 1 ? 'Taxonomien' : 'Taxonomie'
+    const taxonomyHeader = (
+      Object.keys(taxonomyFields).length > 1 ?
+      'Taxonomien' :
+      'Taxonomie'
+    )
 
     return (
       <Accordion
@@ -68,7 +77,9 @@ export default React.createClass({
           collapsible
           header="Art / Lebensraum"
           eventKey={1}
-          onClick={this.onClickPanel.bind(this, 1)}
+          onClick={(event) =>
+            this.onClickPanel(1, event)
+          }
         >
           {
             activePanel === 1 &&
@@ -82,7 +93,9 @@ export default React.createClass({
           collapsible
           header={taxonomyHeader}
           eventKey={2}
-          onClick={this.onClickPanel.bind(this, 2)}
+          onClick={(event) =>
+            this.onClickPanel(2, event)
+          }
         >
           {
             activePanel === 2 &&
@@ -99,7 +112,9 @@ export default React.createClass({
           collapsible
           header="Eigenschaftensammlungen"
           eventKey={3}
-          onClick={this.onClickPanel.bind(this, 3)}
+          onClick={(event) =>
+            this.onClickPanel(3, event)
+          }
         >
           {
             activePanel === 3 &&
@@ -117,7 +132,9 @@ export default React.createClass({
           collapsible
           header="Beziehungssammlungen"
           eventKey={4}
-          onClick={this.onClickPanel.bind(this, 4)}
+          onClick={(event) =>
+            this.onClickPanel(4, event)
+          }
         >
           {
             activePanel === 4 &&

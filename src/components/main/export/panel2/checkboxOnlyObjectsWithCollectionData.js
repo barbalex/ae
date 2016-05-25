@@ -26,7 +26,9 @@ const CheckboxOnlyObjectsWithCollectionData = ({
     style={{ marginBottom: 10, marginTop: 10 }}
   >
     <p style={pStyle}>
-      <strong>Filterkriterien in Eigenschaften- und Beziehungssammlungen:</strong>
+      <strong>
+        Filterkriterien in Eigenschaften- und Beziehungssammlungen:
+      </strong>
     </p>
     <div
       className="checkbox"
@@ -35,7 +37,9 @@ const CheckboxOnlyObjectsWithCollectionData = ({
       <label style={labelStyle}>
         <input
           type="checkbox"
-          onChange={() => onChangeOnlyObjectsWithCollectionData(true)}
+          onChange={() =>
+            onChangeOnlyObjectsWithCollectionData(true)
+          }
           checked={onlyObjectsWithCollectionData}
           style={inputStyle}
         />
@@ -52,11 +56,15 @@ const CheckboxOnlyObjectsWithCollectionData = ({
       <label style={labelStyle}>
         <input
           type="checkbox"
-          onChange={() => onChangeOnlyObjectsWithCollectionData(false)}
+          onChange={() =>
+            onChangeOnlyObjectsWithCollectionData(false)
+          }
           checked={!onlyObjectsWithCollectionData}
           style={inputStyle}
         />
-        <strong>filtern Eigenschaften- bzw. Beziehungssammlungen</strong><br />
+        <strong>
+          filtern Eigenschaften- bzw. Beziehungssammlungen
+        </strong><br />
         Beispiel:<br />
         Filtern Sie nach Artwert > 5, erhalten Sie im Resultat alle Arten der gewählten Gruppen.<br />
         Der Artwert wird aber nur mitgeliefert, wenn er > 5 ist

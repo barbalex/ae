@@ -41,7 +41,9 @@ export default React.createClass({
         className="well-sm last-well"
         style={wellStyle}
       >
-        <b>Felder der gewählten Taxonomien zusammenfassen?</b>
+        <b>
+          Felder der gewählten Taxonomien zusammenfassen?
+        </b>
         &nbsp;
         <a
           href="#"
