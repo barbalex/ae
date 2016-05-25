@@ -31,7 +31,9 @@ export default React.createClass({
     const { activePanel } = this.state
     // open collection panel if there is only one
     const numberOfCollections = Object.keys(relationFields).length
-    if (numberOfCollections === 1 && activePanel !== 0) this.setState({ activePanel: 0 })
+    if (numberOfCollections === 1 && activePanel !== 0) {
+      this.setState({ activePanel: 0 })
+    }
   },
 
   onClickPanel(number, event) {
@@ -47,7 +49,9 @@ export default React.createClass({
     )
     if (headingWasClicked) {
       // always close panel if it is open
-      if (activePanel === number) return this.setState({ activePanel: '' })
+      if (activePanel === number) {
+        return this.setState({ activePanel: '' })
+      }
         // open the panel clicked
       this.setState({ activePanel: number })
     }
@@ -80,14 +84,18 @@ export default React.createClass({
     )
     const collections = collectionKeysSorted.map((cNameKey, cIndex) => {
       const collectionKey = cNameKey.toLowerCase()
-      const rc = rcs.find((c) => c.name === cNameKey)
+      const rc = rcs.find((c) =>
+        c.name === cNameKey
+      )
       return (
         <Panel
           key={collectionKey}
           collapsible
           header={rc.name}
           eventKey={cIndex}
-          onClick={this.onClickPanel.bind(this, cIndex)}
+          onClick={(event) =>
+            this.onClickPanel(cIndex, event)
+          }
         >
           {
             activePanelOpeningWhenOnlyOneCollection === cIndex &&
@@ -115,7 +123,9 @@ export default React.createClass({
             type="checkbox"
             label="Pro Beziehung eine Zeile"
             checked={oneRowPerRelation}
-            onChange={() => onChangeOneRowPerRelation(true)}
+            onChange={() =>
+              onChangeOneRowPerRelation(true)
+            }
             style={{ marginBottom: 0 }}
           />
           <Input
