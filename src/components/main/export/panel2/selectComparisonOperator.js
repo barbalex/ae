@@ -11,13 +11,20 @@ const coSelectStyle = {
   borderBottomLeftRadius: 3
 }
 
-const SelectComparisonOperator = ({ cNameKey, fNameKey, value, onChangeCoSelect }) =>
+const SelectComparisonOperator = ({
+  cNameKey,
+  fNameKey,
+  value,
+  onChangeCoSelect
+}) =>
   <FormControl
     bsSize="small"
     componentClass="select"
     style={coSelectStyle}
     value={value}
-    onChange={(event) => onChangeCoSelect(cNameKey, fNameKey, event)}
+    onChange={(event) =>
+      onChangeCoSelect(cNameKey, fNameKey, event)
+    }
   >
     <option key={1} value={null}></option>
     <option key={2} value="=">&#61;</option>

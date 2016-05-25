@@ -90,7 +90,8 @@ export default React.createClass({
         <div className="dsBeschreibungZeile">
           <div>Zus.-fassend:</div>
           <div>
-            Diese Eigenschaftensammlung fasst die Daten mehrerer Eigenschaftensammlungen in einer zusammen.<br />
+            Diese Eigenschaftensammlung fasst die Daten mehrerer
+            Eigenschaftensammlungen in einer zusammen.<br />
             Die angezeigten Informationen stammen aus der
             Eigenschaftensammlung {`"${pc.fields.Ursprungsdatensammlung}"`}
           </div>
@@ -100,8 +101,12 @@ export default React.createClass({
       ursprungsEs = (
         <div className="dsBeschreibungZeile">
           <div>Zus.-fassend:</div>
-          <div>Diese Eigenschaftensammlung fasst die Daten mehrerer Eigenschaftensammlungen in einer zusammen.<br />
-          Bei den angezeigten Informationen ist die Ursprungs-Eigenschaftensammlung leider nicht beschrieben</div>
+          <div>
+            Diese Eigenschaftensammlung fasst die Daten mehrerer
+            Eigenschaftensammlungen in einer zusammen.<br />
+            Bei den angezeigten Informationen ist die
+            Ursprungs-Eigenschaftensammlung leider nicht beschrieben
+          </div>
         </div>
       )
     }
