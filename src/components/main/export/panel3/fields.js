@@ -1,7 +1,7 @@
 'use strict'
 
 import React from 'react'
-import { Accordion, Panel, Input } from 'react-bootstrap'
+import { Accordion, Panel, Checkbox } from 'react-bootstrap'
 import { get } from 'lodash'
 import FieldsTaxonomy from './fieldsTaxonomy.js'
 import FieldsPCs from './fieldsPCs.js'
@@ -44,7 +44,9 @@ export default React.createClass({
     )
     if (headingWasClicked) {
       // always close panel if it is open
-      if (activePanel === number) return this.setState({ activePanel: '' })
+      if (activePanel === number) {
+        return this.setState({ activePanel: '' })
+      }
         // open the panel clicked
       this.setState({ activePanel: number })
     }
@@ -66,7 +68,11 @@ export default React.createClass({
     } = this.props
     const { activePanel } = this.state
     const guidChecked = get(exportOptions, 'object._id.export')
-    const taxonomyHeader = Object.keys(taxonomyFields).length > 1 ? 'Taxonomien' : 'Taxonomie'
+    const taxonomyHeader = (
+      Object.keys(taxonomyFields).length > 1 ?
+      'Taxonomien' :
+      'Taxonomie'
+    )
 
     return (
       <Accordion activeKey={activePanel}>
@@ -74,7 +80,9 @@ export default React.createClass({
           collapsible
           header="Art / Lebensraum"
           eventKey={1}
-          onClick={this.onClickPanel.bind(this, 1)}
+          onClick={(event) =>
+            this.onClickPanel(1, event)
+          }
         >
           {
             activePanel === 1 &&
@@ -82,17 +90,21 @@ export default React.createClass({
               className="felderspalte"
               style={{ marginBottom: -8 }}
             >
-              <Input
-                type="checkbox"
-                label="GUID"
-                onChange={(event) => onChooseField('object', '_id', 'cType', event)}
+              <Checkbox
+                onChange={(event) =>
+                  onChooseField('object', '_id', 'cType', event)
+                }
                 checked={guidChecked}
-              />
-              <Input
-                type="checkbox"
-                label="Gruppe"
-                onChange={(event) => onChooseField('object', 'Gruppe', 'cType', event)}
-              />
+              >
+                GUID
+              </Checkbox>
+              <Checkbox
+                onChange={(event) =>
+                  onChooseField('object', 'Gruppe', 'cType', event)
+                }
+              >
+                Gruppe
+              </Checkbox>
             </div>
           }
         </Panel>
@@ -101,7 +113,9 @@ export default React.createClass({
           collapsible
           header={taxonomyHeader}
           eventKey={2}
-          onClick={this.onClickPanel.bind(this, 2)}
+          onClick={(event) =>
+            this.onClickPanel(2, event)
+          }
         >
           {
             activePanel === 2 &&
@@ -119,7 +133,9 @@ export default React.createClass({
           collapsible
           header="Eigenschaftensammlungen"
           eventKey={3}
-          onClick={this.onClickPanel.bind(this, 3)}
+          onClick={(event) =>
+            this.onClickPanel(3, event)
+          }
         >
           {
             activePanel === 3 &&
@@ -138,7 +154,9 @@ export default React.createClass({
           collapsible
           header="Beziehungssammlungen"
           eventKey={4}
-          onClick={this.onClickPanel.bind(this, 4)}
+          onClick={(event) =>
+            this.onClickPanel(4, event)
+          }
         >
           {
             activePanel === 4 &&
