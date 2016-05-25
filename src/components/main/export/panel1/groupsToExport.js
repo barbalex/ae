@@ -1,22 +1,25 @@
 'use strict'
 
 import React from 'react'
-import { Input } from 'react-bootstrap'
+import { Checkbox } from 'react-bootstrap'
 
-const GroupsToExport = ({ groupsToExport, groupsLoaded, onChangeGroupsToExport }) => {
+const GroupsToExport = ({
+  groupsToExport,
+  groupsLoaded,
+  onChangeGroupsToExport
+}) => {
   groupsLoaded.sort()
-  const groupCheckboxes = groupsLoaded.map((group, index) => {
-    const checked = groupsToExport.includes(group)
-    return (
-      <Input
-        key={index}
-        type="checkbox"
-        label={group}
-        checked={checked}
-        onChange={(event) => onChangeGroupsToExport(group, event.target.checked)}
-      />
-    )
-  })
+  const groupCheckboxes = groupsLoaded.map((group, index) =>
+    <Checkbox
+      key={index}
+      checked={groupsToExport.includes(group)}
+      onChange={(event) =>
+        onChangeGroupsToExport(group, event.target.checked)
+      }
+    >
+      {group}
+    </Checkbox>
+  )
 
   return (
     <div className="checkbox">
