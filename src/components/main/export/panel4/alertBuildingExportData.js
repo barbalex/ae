@@ -13,7 +13,9 @@ const AlertBuildingExportData = () =>
     bsStyle="info"
     style={style}
   >
-    <p>Die Exportdaten werden aufgebaut...</p>
+    <p>
+      Die Exportdaten werden aufgebaut...
+    </p>
   </Alert>
 
 AlertBuildingExportData.displayName = 'AlertBuildingExportData'

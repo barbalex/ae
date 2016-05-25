@@ -14,7 +14,8 @@ const AlertErrorBuildingExportData = ({ errorBuildingExportData }) =>
     style={style}
   >
     <p>
-      Fehler beim Aufbauen der Exportdaten: {JSON.stringify(errorBuildingExportData)}
+      Fehler beim Aufbauen der Exportdaten:
+      {JSON.stringify(errorBuildingExportData)}
     </p>
   </Alert>
 
