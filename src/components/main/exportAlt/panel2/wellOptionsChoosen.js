@@ -48,21 +48,36 @@ const fieldsList = (urlOptions) => {
     return myFields.map((field, index) => {
       const fName = field.fName
       const cName = field.cName
-      if (cName === 'object') return <li key={index}>{fName === '_id' ? 'GUID' : fName}</li>
+      if (cName === 'object') {
+        return <li key={index}>{fName === '_id' ? 'GUID' : fName}</li>
+      }
       return <li key={index}>{cName}: {fName}</li>
     })
   }
   return <li>Keine Eigenschaft gewählt</li>
 }
 
-const WellOptionsChoosen = ({ includeDataFromSynonyms, oneRowPerRelation, urlOptions }) =>
+const WellOptionsChoosen = ({
+  includeDataFromSynonyms,
+  oneRowPerRelation,
+  urlOptions
+}) =>
   <Well bsSize="small">
-    <p style={pStyle}>Gewählte Optionen:</p>
+    <p style={pStyle}>
+      Gewählte Optionen:
+    </p>
     <ul style={ulStyle}>
-      <li>{groupsText(urlOptions)}</li>
-      <li>{dataFromSynonymsText(includeDataFromSynonyms)}</li>
-      <li>{oneRowPerRelationText(oneRowPerRelation)}</li>
-      <li>Eigenschaften:
+      <li>
+        {groupsText(urlOptions)}
+      </li>
+      <li>
+        {dataFromSynonymsText(includeDataFromSynonyms)}
+      </li>
+      <li>
+        {oneRowPerRelationText(oneRowPerRelation)}
+      </li>
+      <li>
+        Eigenschaften:
         <ul style={ulStyle}>
           {fieldsList(urlOptions)}
         </ul>
