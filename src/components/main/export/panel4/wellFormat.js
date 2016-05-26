@@ -8,36 +8,22 @@ const WellFormat = ({ format, onChangeFormat }) =>
     <p style={{ marginBottom: 3 }}>
       <strong>Format:</strong>
     </p>
-    <div
-      style={{
-        marginLeft: 12,
-        marginBottom: `${-8}px`
-      }}
+    <Checkbox
+      onChange={() =>
+        onChangeFormat('xlsx')
+      }
+      checked={format === 'xlsx'}
     >
-      <Checkbox
-        onChange={() =>
-          onChangeFormat('xlsx')
-        }
-        checked={format === 'xlsx'}
-      >
-        xlsx (Excel)
-      </Checkbox>
-    </div>
-    <div
-      style={{
-        marginLeft: 12,
-        marginBottom: `${-7}px`
-      }}
+      xlsx (Excel)
+    </Checkbox>
+    <Checkbox
+      onChange={() =>
+        onChangeFormat('csv')
+      }
+      checked={format === 'csv'}
     >
-      <Checkbox
-        onChange={() =>
-          onChangeFormat('csv')
-        }
-        checked={format === 'csv'}
-      >
-        csv (kommagetrennte Textdatei)
-      </Checkbox>
-    </div>
+      csv (kommagetrennte Textdatei)
+    </Checkbox>
   </Well>
 
 WellFormat.displayName = 'WellFormat'

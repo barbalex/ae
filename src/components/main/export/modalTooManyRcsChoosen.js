@@ -23,9 +23,14 @@ export default React.createClass({
 
   render() {
     return (
-      <Modal show onHide={this.close}>
+      <Modal
+        show
+        onHide={this.close}
+      >
         <Modal.Header>
-          <Modal.Title>Zuviele Beziehungssammlungen gewählt</Modal.Title>
+          <Modal.Title>
+            Zuviele Beziehungssammlungen gewählt
+          </Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
