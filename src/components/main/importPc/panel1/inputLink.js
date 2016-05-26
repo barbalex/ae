@@ -13,7 +13,12 @@ const popover = (
   </Popover>
 )
 
-const InputLink = ({ link, validLink, onChangeLink, onBlurLink }) => (
+const InputLink = ({
+  link,
+  validLink,
+  onChangeLink,
+  onBlurLink
+}) => (
   <div
     className={validLink ? 'form-group' : 'form-group has-error'}
   >
@@ -32,7 +37,9 @@ const InputLink = ({ link, validLink, onChangeLink, onBlurLink }) => (
       className="form-control controls"
       value={link}
       onBlur={() => onBlurLink()}
-      onChange={(event) => onChangeLink(event.target.value)}
+      onChange={(event) =>
+        onChangeLink(event.target.value)
+      }
       rows={1}
     />
     {
