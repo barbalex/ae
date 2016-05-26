@@ -7,15 +7,24 @@ import inputUrsprungsBsPopover from './inputUrsprungsBsPopover'
 
 const nameUrsprungsBsOptions = (rcs) => {
   // don't want combining rcs
-  let options = rcs.filter((rc) => !rc.combining)
+  let options = rcs.filter((rc) =>
+    !rc.combining
+  )
   options = map(options, 'name')
-  options = options.map((name, index) => <option key={index} value={name}>{name}</option>)
+  options = options.map((name, index) =>
+    <option key={index} value={name}>{name}</option>
+  )
   // add an empty option at the beginning
   options.unshift(<option key="noValue" value=""></option>)
   return options
 }
 
-const InputUrsprungsBs = ({ nameUrsprungsBs, validUrsprungsBs, onChangeNameUrsprungsBs, rcs }) => (
+const InputUrsprungsBs = ({
+  nameUrsprungsBs,
+  validUrsprungsBs,
+  onChangeNameUrsprungsBs,
+  rcs
+}) => (
   <div
     className={validUrsprungsBs ? 'form-group' : 'form-group has-error'}
   >
@@ -35,7 +44,9 @@ const InputUrsprungsBs = ({ nameUrsprungsBs, validUrsprungsBs, onChangeNameUrspr
     <select
       className="form-control controls input-sm"
       selected={nameUrsprungsBs}
-      onChange={(event) => onChangeNameUrsprungsBs(event.target.value)}
+      onChange={(event) =>
+        onChangeNameUrsprungsBs(event.target.value)
+      }
     >
       {nameUrsprungsBsOptions(rcs)}
     </select>

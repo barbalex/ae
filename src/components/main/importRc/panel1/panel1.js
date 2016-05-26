@@ -128,8 +128,15 @@ export default React.createClass({
       orgMitSchreibrecht
     } = this.props
     const showLoadAllGroups = email && !allGroupsLoaded
-    const showAlertDeleteRcBuildingIndex = deletingRcProgress && deletingRcProgress < 100
-    const alertAllGroupsBsStyle = ultimatelyAlertLoadAllGroups ? 'danger' : 'info'
+    const showAlertDeleteRcBuildingIndex = (
+      deletingRcProgress &&
+      deletingRcProgress < 100
+    )
+    const alertAllGroupsBsStyle = (
+      ultimatelyAlertLoadAllGroups ?
+      'danger' :
+      'info'
+    )
     const enableDeleteRcButton = !!nameBestehend
     const alertNotEsWriter = !(
       isUserServerAdmin(userRoles) ||

@@ -50,8 +50,12 @@ const InputName = ({
       type="text"
       className="controls input-sm form-control"
       value={name}
-      onChange={(event) => onChangeName(event.target.value)}
-      onBlur={(event) => onBlurName(event.target.value)}
+      onChange={(event) =>
+        onChangeName(event.target.value)
+      }
+      onBlur={(event) =>
+        onBlurName(event.target.value)
+      }
     />
     {
       !validName &&
