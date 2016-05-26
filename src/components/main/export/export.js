@@ -533,7 +533,9 @@ export default React.createClass({
             collapsible
             header="1. Gruppe(n) wählen"
             eventKey={1}
-            onClick={this.onClickPanel.bind(this, 1)}
+            onClick={(event) =>
+              this.onClickPanel(1, event)
+            }
           >
             {
               activePanel === 1 &&
@@ -560,7 +562,9 @@ export default React.createClass({
             collapsible
             header="2. filtern"
             eventKey={2}
-            onClick={this.onClickPanel.bind(this, 2)}
+            onClick={(event) =>
+              this.onClickPanel(2, event)
+            }
           >
             {
               activePanel === 2 &&
@@ -585,7 +589,9 @@ export default React.createClass({
             collapsible
             header="3. Eigenschaften wählen"
             eventKey={3}
-            onClick={this.onClickPanel.bind(this, 3)}
+            onClick={(event) =>
+              this.onClickPanel(3, event)
+            }
           >
             {
               activePanel === 3 &&
@@ -611,7 +617,9 @@ export default React.createClass({
             collapsible
             header="4. exportieren"
             eventKey={4}
-            onClick={this.onClickPanel.bind(this, 4)}
+            onClick={(event) =>
+              this.onClickPanel(4, event)
+            }
           >
             {
               activePanel === 4 &&
