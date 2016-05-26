@@ -24,7 +24,7 @@ const Panel4 = ({
       className="btn-primary"
       onClick={onClickImportieren}
     >
-      <Glyphicon glyph="download-alt" />&npsb;Eigenschaftensammlung "{name}" importieren
+      <Glyphicon glyph="download-alt" /> Eigenschaftensammlung "{name}" importieren
     </Button>
     <ButtonDeletePcInstances
       name={name}

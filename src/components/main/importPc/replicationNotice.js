@@ -29,10 +29,12 @@ const ReplicationNotice = ({ replicatingToAe, replicatingToAeTime }) => {
   }
   return (
     <Button
-      onClick={() => app.Actions.replicateToRemoteDb()}
+      onClick={() =>
+        app.Actions.replicateToRemoteDb()
+      }
       style={style}
     >
-      <Glyphicon glyph="cloud-upload" />&nbsp;{text}
+      <Glyphicon glyph="cloud-upload" /> {text}
     </Button>
   )
 }
