@@ -15,9 +15,11 @@ export default (email) => {
           })
         }
       })
-      .catch((error) => app.Actions.showError({
-        title: 'Error trying to refresh users roles:',
-        msg: error
-      }))
+      .catch((error) =>
+        app.Actions.showError({
+          title: 'Error trying to refresh users roles:',
+          msg: error
+        })
+      )
   }
 }

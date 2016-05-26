@@ -39,7 +39,11 @@ export default Router.extend({
     app.userStore.getLogin()
       .then((login) => {
         const { email } = login
-        const { mainComponent, gruppe, guid } = extractInfoFromPath(path)
+        const {
+          mainComponent,
+          gruppe,
+          guid
+        } = extractInfoFromPath(path)
 
         ReactDOM.render(
           <Home
