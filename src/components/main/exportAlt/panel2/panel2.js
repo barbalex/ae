@@ -30,9 +30,19 @@ export default React.createClass({
   },
 
   render() {
-    const { urlOptions, includeDataFromSynonyms, oneRowPerRelation, urlCopied, onCopyUrl } = this.props
+    const {
+      urlOptions,
+      includeDataFromSynonyms,
+      oneRowPerRelation,
+      urlCopied,
+      onCopyUrl
+    } = this.props
     const url = this.buildUrl()
-    const urlCopiedButtonBsStyle = urlCopied === url ? 'success' : 'default'
+    const urlCopiedButtonBsStyle = (
+      urlCopied === url ?
+      'success' :
+      'default'
+    )
     const textareaStyle = {
       width: `${100}%`,
       borderRadius: 3,
@@ -54,7 +64,9 @@ export default React.createClass({
             So geht`s
           </b>
           <ul>
-            <li>Die URL wurde generiert.</li>
+            <li>
+              Die URL wurde generiert.
+            </li>
             <li>
               <strong>
                 <a
@@ -88,7 +100,9 @@ export default React.createClass({
         </div>
         <CopyToClipboard
           text={url}
-          onCopy={() => onCopyUrl(url)}
+          onCopy={() =>
+            onCopyUrl(url)
+          }
         >
           <Button
             bsStyle={urlCopiedButtonBsStyle}
