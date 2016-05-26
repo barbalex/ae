@@ -54,7 +54,7 @@ window.PouchDB = PouchDB
  * get path to remote _users db
  */
 const remoteDbUrl = pouchUrl()
-const remoteDumpsDbUrl = `${pouchBaseUrl()}ae_dumps'`
+const remoteDumpsDbUrl = `${pouchBaseUrl()}ae_dumps`
 const remoteUsersDbUrl = remoteDbUrl.replace('/ae', '/_users').replace('/artendb', '/_users')
 
 /**

@@ -27,7 +27,7 @@ export default (gruppe, callback) => new Promise((resolve, reject) => {
             gruppe.toLowerCase()
           )
         )
-        app.remoteDumpsDb.get(`'ae-${gruppeString}`)
+        app.remoteDumpsDb.get(`ae-${gruppeString}`)
           .then((doc) => Object.keys(doc._attachments))
           .then((attachments) => {
             // sort attachments so the one with the last docs is loaded last
