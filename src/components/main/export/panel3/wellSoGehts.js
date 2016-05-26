@@ -36,7 +36,9 @@ export default React.createClass({
         &nbsp;
         <a
           href="#"
-          onClick={this.onClickToggle}
+          onClick={(event) =>
+            this.onClickToggle(event)
+          }
           className="showNextHidden"
         >
           {visible ? '...weniger' : '...mehr'}

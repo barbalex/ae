@@ -68,7 +68,8 @@ export default React.createClass({
               </li>
             </ul>
           </li>
-          <li>Pro Art/Lebensraum eine Zeile. Alle Beziehungen kommagetrennt in einem Feld:
+          <li>
+            Pro Art/Lebensraum eine Zeile. Alle Beziehungen kommagetrennt in einem Feld:
             <ul>
               <li>
                 Wie immer wird für jede gewählte Eigenschaft der
