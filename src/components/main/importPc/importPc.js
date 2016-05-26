@@ -159,7 +159,9 @@ export default React.createClass({
               zusammenfassend
             }
             state = Object.assign(state, this.stateFollowingPanel1Reset())
-            if (editingPcIsAllowed) state = Object.assign(state, { nameBestehend, name })
+            if (editingPcIsAllowed) {
+              state = Object.assign(state, { nameBestehend, name })
+            }
             this.setState(state)
           }
         })
@@ -234,7 +236,10 @@ export default React.createClass({
           this.validPcsToImport()
         })
         .catch((error) =>
-          app.Actions.showError({ title: 'error reading file:', msg: error })
+          app.Actions.showError({
+            title: 'error reading file:',
+            msg: error
+          })
         )
     }
   },
@@ -276,9 +281,14 @@ export default React.createClass({
         })
       }
       const ids = map(pcsToImport, idsImportIdField)
-      // if ids should be numbers but some are not, an error can occur when fetching from the database
-      // so dont fetch
-      if (idsNotANumber.length > 0) return this.setState({ idsAnalysisComplete: true, idsNotANumber })
+      /**
+       * if ids should be numbers but some are not,
+       * an error can occur when fetching from the database
+       * so dont fetch
+       */
+      if (idsNotANumber.length > 0) {
+        return this.setState({ idsAnalysisComplete: true, idsNotANumber })
+      }
       getGuidsById(idsAeIdField, ids, offlineIndexes)
         .then((idGuidObject) => {
           // now add guids to pcsToImport
@@ -318,7 +328,9 @@ export default React.createClass({
             idsNotANumber
           })
         })
-        .catch((error) => app.Actions.showError({ msg: error }))
+        .catch((error) =>
+          app.Actions.showError({ msg: error })
+        )
     }
   },
 
@@ -389,26 +401,36 @@ export default React.createClass({
     )
     if (headingWasClicked) {
       // always close panel if it is open
-      if (activePanel === number) return this.setState({ activePanel: '' })
+      if (activePanel === number) {
+        return this.setState({ activePanel: '' })
+      }
 
       switch (number) {
         case 1:
           this.setState({ activePanel: 1 })
           break
         case 2: {
-          if (!allGroupsLoaded) this.setState({ ultimatelyAlertLoadAllGroups: true })
+          if (!allGroupsLoaded) {
+            this.setState({ ultimatelyAlertLoadAllGroups: true })
+          }
           const isPanel1Done = this.isPanel1Done()
-          if (isPanel1Done && allGroupsLoaded) this.setState({ activePanel: 2 })
+          if (isPanel1Done && allGroupsLoaded) {
+            this.setState({ activePanel: 2 })
+          }
           break
         }
         case 3: {
           const isPanel2Done = this.isPanel2Done()
-          if (isPanel2Done) this.setState({ activePanel: 3 })
+          if (isPanel2Done) {
+            this.setState({ activePanel: 3 })
+          }
           break
         }
         case 4: {
           const isPanel3Done = this.isPanel3Done()
-          if (isPanel3Done) this.setState({ activePanel: 4 })
+          if (isPanel3Done) {
+            this.setState({ activePanel: 4 })
+          }
           break
         }
         default:
@@ -483,7 +505,9 @@ export default React.createClass({
       validEmail
     )
     let state = { panel1Done }
-    if (!panel1Done) state = Object.assign(state, { activePanel: 1 })
+    if (!panel1Done) {
+      state = Object.assign(state, { activePanel: 1 })
+    }
     this.setState(state)
     return panel1Done
   },
@@ -493,7 +517,9 @@ export default React.createClass({
     const panel1Done = this.isPanel1Done()
     const panel2Done = panel1Done && validPcsToImport
     let state = { panel2Done }
-    if (panel1Done && !panel2Done) state = Object.assign(state, { activePanel: 2 })
+    if (panel1Done && !panel2Done) {
+      state = Object.assign(state, { activePanel: 2 })
+    }
     this.setState(state)
     return panel2Done
   },
@@ -516,9 +542,14 @@ export default React.createClass({
       idsDuplicate
     }
     const idsAnalysisResultType = getSuccessTypeFromAnalysis(variablesToPass)
-    const panel3Done = idsAnalysisResultType !== 'danger' && idsOfAeObjects.length > 0
+    const panel3Done = (
+      idsAnalysisResultType !== 'danger' &&
+      idsOfAeObjects.length > 0
+    )
     let state = { panel3Done }
-    if (isPanel2Done && !panel3Done) state = Object.assign(state, { activePanel: 3 })
+    if (isPanel2Done && !panel3Done) {
+      state = Object.assign(state, { activePanel: 3 })
+    }
     this.setState(state)
     return panel3Done
   },
@@ -605,9 +636,13 @@ export default React.createClass({
      * so state would not yet be updated! > needs to be passed directly
      */
     const { zusammenfassend } = this.state
-    if (!nameUrsprungsEs) nameUrsprungsEs = this.state.nameUrsprungsEs
+    if (!nameUrsprungsEs) {
+      nameUrsprungsEs = this.state.nameUrsprungsEs
+    }
     let validUrsprungsEs = true
-    if (zusammenfassend && !nameUrsprungsEs) validUrsprungsEs = false
+    if (zusammenfassend && !nameUrsprungsEs) {
+      validUrsprungsEs = false
+    }
     this.setState({ validUrsprungsEs })
     return validUrsprungsEs
   },
@@ -682,7 +717,9 @@ export default React.createClass({
             collapsible
             header="1. Eigenschaftensammlung beschreiben"
             eventKey={1}
-            onClick={this.onClickPanel.bind(this, 1)}
+            onClick={(event) =>
+              this.onClickPanel(1, event)
+            }
           >
             {
               activePanel === 1 &&
@@ -738,7 +775,9 @@ export default React.createClass({
             collapsible
             header="2. Eigenschaften laden"
             eventKey={2}
-            onClick={this.onClickPanel.bind(this, 2)}
+            onClick={(event) =>
+              this.onClickPanel(2, event)
+            }
           >
             {
               activePanel === 2 &&
@@ -754,7 +793,9 @@ export default React.createClass({
             collapsible
             header="3. ID's identifizieren"
             eventKey={3}
-            onClick={this.onClickPanel.bind(this, 3)}
+            onClick={(event) =>
+              this.onClickPanel(3, event)
+            }
           >
             {
               activePanel === 3 &&
@@ -778,7 +819,9 @@ export default React.createClass({
             collapsible
             header="4. importieren"
             eventKey={4}
-            onClick={this.onClickPanel.bind(this, 4)}
+            onClick={(event) =>
+              this.onClickPanel(4, event)
+            }
           >
             {
               activePanel === 4 &&
