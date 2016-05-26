@@ -23,21 +23,31 @@ const popover = () => (
   </Popover>
 )
 
-const InputBeschreibung = ({ beschreibung, validBeschreibung, onChangeBeschreibung }) =>
-  <div className={validBeschreibung ? 'form-group' : 'form-group has-error'}>
+const InputBeschreibung = ({
+  beschreibung,
+  validBeschreibung,
+  onChangeBeschreibung
+}) =>
+  <div
+    className={validBeschreibung ? 'form-group' : 'form-group has-error'}
+  >
     <OverlayTrigger
       trigger={['click', 'focus']}
       rootClose
       placement="right"
       overlay={popover()}
     >
-      <label className="control-label withPopover">Beschreibung</label>
+      <label className="control-label withPopover">
+        Beschreibung
+      </label>
     </OverlayTrigger>
     <input
       type="textarea"
       className="form-control controls"
       value={beschreibung}
-      onChange={(event) => onChangeBeschreibung(event.target.value)}
+      onChange={(event) =>
+        onChangeBeschreibung(event.target.value)
+      }
       rows={1}
     />
     {
