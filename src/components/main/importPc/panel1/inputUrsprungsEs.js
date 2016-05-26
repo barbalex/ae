@@ -54,7 +54,12 @@ const popover = () => (
   </Popover>
 )
 
-const InputUrsprungsEs = ({ nameUrsprungsEs, validUrsprungsEs, pcs, onChangeNameUrsprungsEs }) =>
+const InputUrsprungsEs = ({
+  nameUrsprungsEs,
+  validUrsprungsEs,
+  pcs,
+  onChangeNameUrsprungsEs
+}) =>
   <div
     className={validUrsprungsEs ? 'form-group' : 'form-group has-error'}
   >
@@ -74,7 +79,9 @@ const InputUrsprungsEs = ({ nameUrsprungsEs, validUrsprungsEs, pcs, onChangeName
     <select
       className="form-control controls input-sm"
       selected={nameUrsprungsEs}
-      onChange={(event) => onChangeNameUrsprungsEs(event.target.value)}
+      onChange={(event) =>
+        onChangeNameUrsprungsEs(event.target.value)
+      }
     >
       {options(pcs)}
     </select>
