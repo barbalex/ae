@@ -131,7 +131,7 @@ export default React.createClass({
     const showAlertDeleteRcBuildingIndex = deletingRcProgress && deletingRcProgress < 100
     const alertAllGroupsBsStyle = ultimatelyAlertLoadAllGroups ? 'danger' : 'info'
     const enableDeleteRcButton = !!nameBestehend
-    const alertNotEsWriter = (
+    const alertNotEsWriter = !(
       isUserServerAdmin(userRoles) ||
       isUserOrgAdminAnywhere(userRoles) ||
       isUserEsWriterAnywhere(userRoles)

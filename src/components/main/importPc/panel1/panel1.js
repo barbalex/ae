@@ -72,7 +72,7 @@ const Panel1 = ({
   const showAlertDeletePcBuildingIndex = deletingPcProgress && deletingPcProgress < 100
   const alertAllGroupsBsStyle = ultimatelyAlertLoadAllGroups ? 'danger' : 'info'
   const enableDeletePcButton = !!nameBestehend
-  const alertNotEsWriter = (
+  const alertNotEsWriter = !(
     isUserServerAdmin(userRoles) ||
     isUserOrgAdminAnywhere(userRoles) ||
     isUserEsWriterAnywhere(userRoles)
