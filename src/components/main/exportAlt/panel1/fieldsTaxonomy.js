@@ -27,7 +27,9 @@ export default React.createClass({
     const { activePanel } = this.state
     // open collection panel if there is only one
     const numberOfCollections = Object.keys(taxonomyFields).length
-    if (numberOfCollections === 1 && activePanel !== 0) this.setState({ activePanel: 0 })
+    if (numberOfCollections === 1 && activePanel !== 0) {
+      this.setState({ activePanel: 0 })
+    }
   },
 
   onClickPanel(number, event) {
@@ -43,7 +45,9 @@ export default React.createClass({
     )
     if (headingWasClicked) {
       // always close panel if it is open
-      if (activePanel === number) return this.setState({ activePanel: '' })
+      if (activePanel === number) {
+        return this.setState({ activePanel: '' })
+      }
         // open the panel clicked
       this.setState({ activePanel: number })
     }
@@ -60,10 +64,16 @@ export default React.createClass({
     const { activePanel } = this.state
     // open panel if there is only one
     const numberOfCollections = Object.keys(taxonomyFields).length
-    const activePanelOpeningWhenOnlyOneCollection = numberOfCollections === 1 ? 0 : activePanel
+    const activePanelOpeningWhenOnlyOneCollection = (
+      numberOfCollections === 1 ?
+      0 :
+      activePanel
+    )
     const collectionKeysSorted = (
       Object.keys(taxonomyFields)
-        .sort((cNameKey) => cNameKey.toLowerCase())
+        .sort((cNameKey) =>
+          cNameKey.toLowerCase()
+        )
     )
     console.log('FieldsTaxonomy, render, taxonomyFields', taxonomyFields)
     console.log('FieldsTaxonomy, render, Object.keys(taxonomyFields)', Object.keys(taxonomyFields))
@@ -94,7 +104,9 @@ export default React.createClass({
     })
 
     return (
-      <Accordion activeKey={activePanelOpeningWhenOnlyOneCollection}>
+      <Accordion
+        activeKey={activePanelOpeningWhenOnlyOneCollection}
+      >
         {collections}
       </Accordion>
     )

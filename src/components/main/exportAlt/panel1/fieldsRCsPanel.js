@@ -1,7 +1,7 @@
 'use strict'
 
 import React from 'react'
-import { Input } from 'react-bootstrap'
+import { Checkbox } from 'react-bootstrap'
 import { get, has } from 'lodash'
 
 const FieldsRCsPanel = ({
@@ -23,15 +23,15 @@ const FieldsRCsPanel = ({
     const path = `${cNameKey}.${fNameKey}.export`
     if (has(urlOptions, path)) checked = get(urlOptions, path)
     return (
-      <Input
+      <Checkbox
         key={fieldKey}
-        type="checkbox"
-        label={fNameKey}
         checked={checked}
         onChange={(event) =>
           onChooseField(cNameKey, fNameKey, 'rc', event)
         }
-      />
+      >
+        {fNameKey}
+      </Checkbox>
     )
   })
   let alleField = null
@@ -42,14 +42,14 @@ const FieldsRCsPanel = ({
         className="felderspalte alleWaehlenCheckbox"
         style={{ marginBottom: 5 }}
       >
-        <Input
-          type="checkbox"
-          label="alle"
+        <Checkbox
           checked={checked}
           onChange={(event) =>
             onChooseAllOfCollection(cNameKey, 'rc', event)
           }
-        />
+        >
+          alle
+        </Checkbox>
       </div>
     )
   }
