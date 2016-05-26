@@ -5,7 +5,9 @@ import { OverlayTrigger, Popover } from 'react-bootstrap'
 
 const popover = () =>
   <Popover id="InputImportiertVonPopover">
-    <p>Das ist immer die Email des angemeldeten Benutzers</p>
+    <p>
+      Das ist immer die Email des angemeldeten Benutzers
+    </p>
   </Popover>
 
 const InputImportiertVon = ({ importiertVon }) =>
