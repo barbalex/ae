@@ -40,7 +40,11 @@ export default React.createClass({
   },
 
   render() {
-    const { nameBestehend, enableDeletePcButton, deletingPcProgress } = this.props
+    const {
+      nameBestehend,
+      enableDeletePcButton,
+      deletingPcProgress
+    } = this.props
     const { show } = this.state
     const showConfirmModal = show && deletingPcProgress === null
 
@@ -52,7 +56,9 @@ export default React.createClass({
             <Button
               bsStyle="danger"
               className="feld"
-              onClick={this.onClickDeletePc}
+              onClick={() =>
+                this.onClickDeletePc()
+              }
               disabled={!enableDeletePcButton}
             >
               <Glyphicon glyph="trash" />
