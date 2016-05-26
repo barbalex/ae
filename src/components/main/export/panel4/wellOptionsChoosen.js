@@ -4,45 +4,37 @@ import React from 'react'
 import { Well } from 'react-bootstrap'
 import { reject } from 'lodash'
 
-function groupsText(exportOptions) {
+const groupsText = (exportOptions) => {
   const groups = exportOptions.object.Gruppen.value
   const prefix = groups.length > 1 ? 'Gruppen: ' : 'Gruppe: '
   return prefix + groups.join(', ')
 }
 
-function taxonomienZusammenfassenText(combineTaxonomies) {
-  return (
-    combineTaxonomies ?
-    'Die Felder der Taxonomien werden zusammengefasst' :
-    'Die Felder der Taxonomien werden einzeln dargestellt'
-  )
-}
+const taxonomienZusammenfassenText = (combineTaxonomies) => (
+  combineTaxonomies ?
+  'Die Felder der Taxonomien werden zusammengefasst' :
+  'Die Felder der Taxonomien werden einzeln dargestellt'
+)
 
-function dataFromSynonymsText(includeDataFromSynonyms) {
-  return (
-    includeDataFromSynonyms ?
-    'Informationen von Synonymen werden berücksichtigt' :
-    'Informationen von Synonymen werden ignoriert'
-  )
-}
+const dataFromSynonymsText = (includeDataFromSynonyms) => (
+  includeDataFromSynonyms ?
+  'Informationen von Synonymen werden berücksichtigt' :
+  'Informationen von Synonymen werden ignoriert'
+)
 
-function onlyObjectsWithCollectionDataText(onlyObjectsWithCollectionData) {
-  return (
-    onlyObjectsWithCollectionData ?
-    'Filterkriterien in Eigenschaften- und Beziehungssammlungen filtern Arten bzw. Lebensräume' :
-    'Filterkriterien in Eigenschaften- und Beziehungssammlungen filtern Eigenschaften- bzw. Beziehungssammlungen'
-  )
-}
+const onlyObjectsWithCollectionDataText = (onlyObjectsWithCollectionData) => (
+  onlyObjectsWithCollectionData ?
+  'Filterkriterien in Eigenschaften- und Beziehungssammlungen filtern Arten bzw. Lebensräume' :
+  'Filterkriterien in Eigenschaften- und Beziehungssammlungen filtern Eigenschaften- bzw. Beziehungssammlungen'
+)
 
-function oneRowPerRelationText(oneRowPerRelation) {
-  return (
-    oneRowPerRelation ?
-    'Pro Beziehung eine Zeile' :
-    'Pro Art/Lebensraum eine Zeile, alle Beziehungen kommagetrennt in einem Feld'
-  )
-}
+const oneRowPerRelationText = (oneRowPerRelation) => (
+  oneRowPerRelation ?
+  'Pro Beziehung eine Zeile' :
+  'Pro Art/Lebensraum eine Zeile, alle Beziehungen kommagetrennt in einem Feld'
+)
 
-function filtersAndFields(exportOptions) {
+const filtersAndFields = (exportOptions) => {
   const filters = []
   const fields = []
   Object.keys(exportOptions).forEach((cName) => {
