@@ -26,7 +26,9 @@ export default React.createClass({
 
     return (
       <Well bsSize="small">
-        <b>Zusätzliche Anforderungen an csv-Dateien</b>
+        <b>
+          Zusätzliche Anforderungen an csv-Dateien
+        </b>
         &nbsp;
         <a
           href="#"

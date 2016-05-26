@@ -25,7 +25,9 @@ const TablePreview = ({ pcsToImport }) => {
     keys = union(keys, Object.keys(pc))
   })
 
-  const thead = keys.map((key, index) => <th key={index}>{key}</th>)
+  const thead = keys.map((key, index) =>
+    <th key={index}>{key}</th>
+  )
   const tbody = pcsToImport.map((pc, index) => {
     // need only the first 10
     if (index < 10) {
