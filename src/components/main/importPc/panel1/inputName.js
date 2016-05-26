@@ -9,16 +9,24 @@ const popover = (
     title="So wählen Sie einen guten Namen:"
   >
     <p>
-      Er sollte ungefähr dem ersten Teil eines Literaturzitats entsprechen. Beispiel: "Blaue Liste (1998)".
+      Er sollte ungefähr dem ersten Teil eines Literaturzitats
+      entsprechen. Beispiel: "Blaue Liste (1998)".
     </p>
     <p>
-      Wurden die Informationen spezifisch für einen bestimmten Kanton oder die ganze Schweiz erarbeitet?<br />
-      Wenn ja: Bitte das entsprechende Kürzel voranstellen. Beispiel: "ZH Artwert (aktuell)".
+      Wurden die Informationen spezifisch für einen bestimmten
+      Kanton oder die ganze Schweiz erarbeitet?<br />
+      Wenn ja: Bitte das entsprechende Kürzel voranstellen.
+      Beispiel: "ZH Artwert (aktuell)".
     </p>
   </Popover>
 )
 
-const InputName = ({ name, validName, onChangeName, onBlurName }) => (
+const InputName = ({
+  name,
+  validName,
+  onChangeName,
+  onBlurName
+}) => (
   <div
     className={validName ? 'form-group' : 'form-group has-error'}
   >
@@ -36,8 +44,12 @@ const InputName = ({ name, validName, onChangeName, onBlurName }) => (
       type="text"
       className="controls input-sm form-control"
       value={name}
-      onChange={(event) => onChangeName(event.target.value)}
-      onBlur={(event) => onBlurName(event.target.value)}
+      onChange={(event) =>
+        onChangeName(event.target.value)
+      }
+      onBlur={(event) =>
+        onBlurName(event.target.value)
+      }
     />
     {
       !validName &&

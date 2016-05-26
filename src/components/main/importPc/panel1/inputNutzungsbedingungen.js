@@ -52,7 +52,9 @@ const InputNutzungsbedingungen = ({
       className="form-control controls"
       rows={1}
       value={nutzungsbedingungen}
-      onChange={(event) => onChangeNutzungsbedingungen(event.target.value)}
+      onChange={(event) =>
+        onChangeNutzungsbedingungen(event.target.value)
+      }
     >
     </textarea>
     {
