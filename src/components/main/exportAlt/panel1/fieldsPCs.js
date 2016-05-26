@@ -28,7 +28,9 @@ export default React.createClass({
     const { activePanel } = this.state
     // open collection panel if there is only one
     const numberOfCollections = Object.keys(pcFields).length
-    if (numberOfCollections === 1 && activePanel !== 0) this.setState({ activePanel: 0 })
+    if (numberOfCollections === 1 && activePanel !== 0) {
+      this.setState({ activePanel: 0 })
+    }
   },
 
   onClickPanel(number, event) {
@@ -44,7 +46,9 @@ export default React.createClass({
     )
     if (headingWasClicked) {
       // always close panel if it is open
-      if (activePanel === number) return this.setState({ activePanel: '' })
+      if (activePanel === number) {
+        return this.setState({ activePanel: '' })
+      }
         // open the panel clicked
       this.setState({ activePanel: number })
     }
@@ -62,7 +66,11 @@ export default React.createClass({
     const { activePanel } = this.state
     // open panel if there is only one
     const numberOfCollections = Object.keys(pcFields).length
-    const activePanelOpeningWhenOnlyOneCollection = numberOfCollections === 1 ? 0 : activePanel
+    const activePanelOpeningWhenOnlyOneCollection = (
+      numberOfCollections === 1 ?
+      0 :
+      activePanel
+    )
 
     const collectionKeysSorted = (
       Object.keys(pcFields)
@@ -70,14 +78,18 @@ export default React.createClass({
     )
     const collections = collectionKeysSorted.map((cNameKey, cIndex) => {
       const collectionKey = cNameKey.toLowerCase()
-      const pc = pcs.find((c) => c.name === cNameKey)
+      const pc = pcs.find((c) =>
+        c.name === cNameKey
+      )
       return (
         <Panel
           key={collectionKey}
           collapsible
           header={pc.name}
           eventKey={cIndex}
-          onClick={this.onClickPanel.bind(this, cIndex)}
+          onClick={(event) =>
+            this.onClickPanel(cIndex, event)
+          }
         >
           {
             activePanelOpeningWhenOnlyOneCollection === cIndex &&
