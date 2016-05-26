@@ -21,7 +21,7 @@ import InputImportiertVon from './inputImportiertVon.js'
 import InputZusammenfassend from './inputZusammenfassend.js'
 import InputUrsprungsEs from './inputUrsprungsEs.js'
 import isUserServerAdmin from '../../../../modules/isUserServerAdmin.js'
-import isUserOrgAdminAnywhere from '../../../../modules/isUserOrgAdmin.js'
+import isUserOrgAdminAnywhere from '../../../../modules/isUserOrgAdminAnywhere.js'
 import isUserEsWriterAnywhere from '../../../../modules/isUserEsWriter.js'
 
 const Panel1 = ({
@@ -69,8 +69,15 @@ const Panel1 = ({
   orgMitSchreibrecht
 }) => {
   const showLoadAllGroups = email && !allGroupsLoaded
-  const showAlertDeletePcBuildingIndex = deletingPcProgress && deletingPcProgress < 100
-  const alertAllGroupsBsStyle = ultimatelyAlertLoadAllGroups ? 'danger' : 'info'
+  const showAlertDeletePcBuildingIndex = (
+    deletingPcProgress &&
+    deletingPcProgress < 100
+  )
+  const alertAllGroupsBsStyle = (
+    ultimatelyAlertLoadAllGroups ?
+    'danger' :
+    'info'
+  )
   const enableDeletePcButton = !!nameBestehend
   const alertNotEsWriter = !(
     isUserServerAdmin(userRoles) ||
