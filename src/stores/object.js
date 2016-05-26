@@ -256,7 +256,7 @@ export default (Actions) => {
         loadGroupFromRemote(gruppe)
           .then(() => this.getHierarchy())
           .catch((error) => {
-            const errorMsg = `'Actions.loadObject, error loading group ${gruppe}: ${error}`
+            const errorMsg = `Actions.loadObject, error loading group ${gruppe}: ${error}`
             this.onLoadObjectFailed(errorMsg, gruppe)
           })
       }
