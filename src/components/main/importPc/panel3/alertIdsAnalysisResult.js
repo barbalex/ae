@@ -5,7 +5,7 @@
 'use strict'
 
 import React from 'react'
-import { unique } from 'lodash'
+import { uniq } from 'lodash'
 import { Alert } from 'react-bootstrap'
 import getSuccessTypeFromAnalysis from './getSuccessTypeFromAnalysis.js'
 
@@ -21,7 +21,9 @@ const AlertIdsAnalysisResult = ({
   idsNotImportable
 }) => {
   if (!idsAnalysisComplete) {
-    if (idsAeIdField === 'GUID') return <Alert bsStyle="info">Bitte warten, die Daten werden analysiert.</Alert>
+    if (idsAeIdField === 'GUID') {
+      return <Alert bsStyle="info">Bitte warten, die Daten werden analysiert.</Alert>
+    }
     return (
       <Alert bsStyle="info">
         Bitte warten, die Daten werden analysiert.<br />
@@ -34,7 +36,8 @@ const AlertIdsAnalysisResult = ({
 
   const titleText = <p>Die Importtabelle enthält {pcsToImport.length} Datensätze:</p>
   const recordsWithIdValueText = `${idsNumberOfRecordsWithIdValue} enthalten einen Wert im Feld "${idsImportIdField}"`
-  const idsDuplicateText = `${idsDuplicate.length} enthalten die folgenden mehrfach vorkommenden IDs: ${unique(idsDuplicate).join(', ')}`
+  const idsDuplicateList = uniq(idsDuplicate).join(', ')
+  const idsDuplicateText = `${idsDuplicate.length} enthalten die folgenden mehrfach vorkommenden IDs: ${idsDuplicateList}`
   const recordsImportableText = `${idsNumberImportable} können zugeordnet und importiert werden`
 
   const idsNotNumbersText = `${idsNotANumber.length} mit den folgenden Werten im Feld "${idsImportIdField}" enthalten keine Zahlen:`
