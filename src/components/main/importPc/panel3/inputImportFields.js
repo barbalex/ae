@@ -2,9 +2,13 @@
 
 import React from 'react'
 import { union } from 'lodash'
-import { Input } from 'react-bootstrap'
+import { FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
 
-const InputImportFields = ({ pcsToImport, idsImportIdField, onChangeImportId }) => {
+const InputImportFields = ({
+  pcsToImport,
+  idsImportIdField,
+  onChangeImportId
+}) => {
   // get a list of all keys
   let keys = []
   pcsToImport.forEach((pc) => {
@@ -25,18 +29,24 @@ const InputImportFields = ({ pcsToImport, idsImportIdField, onChangeImportId }) 
   ))
 
   return (
-    <Input
-      type="select"
-      label="Feld mit eindeutiger ID in den Importdaten"
-      multiple
-      className="form-control controls"
-      style={style}
-      bsSize="small"
-      value={[idsImportIdField]}
-      onChange={(event) => onChangeImportId(event.target.value)}
-    >
-      {options}
-    </Input>
+    <FormGroup controlId="idsImportIdField">
+      <ControlLabel>
+        Feld mit eindeutiger ID in den Importdaten
+      </ControlLabel>
+      <FormControl
+        componentClass="select"
+        multiple
+        className="form-control controls"
+        style={style}
+        bsSize="small"
+        value={[idsImportIdField]}
+        onChange={(event) =>
+          onChangeImportId(event.target.value)
+        }
+      >
+        {options}
+      </FormControl>
+    </FormGroup>
   )
 }
 
