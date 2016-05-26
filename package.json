@@ -19,7 +19,7 @@
     "amp-has-class": "1.0.3",
     "amp-toggle-class": "1.1.0",
     "ampersand-app": "2.0.0",
-    "ampersand-router": "3.0.2",
+    "ampersand-router": "4.0.0",
     "autolinker": "0.26.0",
     "autoprefixer-core": "6.0.1",
     "babel": "6.5.2",
@@ -79,7 +79,7 @@
     "babel-preset-react-hmre": "1.1.1",
     "eslint": "2.10.2",
     "eslint-config-airbnb": "9.0.1",
-    "eslint-plugin-import": "1.8.0",
+    "eslint-plugin-import": "1.8.1",
     "eslint-plugin-jsx-a11y": "1.2.2",
     "eslint-plugin-react": "5.1.1"
   },
