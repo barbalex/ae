@@ -52,7 +52,13 @@ function options(userRoles, pcs, groupsLoadedOrLoading) {
   )
 }
 
-const InputNameBestehend = ({ nameBestehend, onChangeNameBestehend, userRoles, pcs, groupsLoadedOrLoading }) =>
+const InputNameBestehend = ({
+  nameBestehend,
+  onChangeNameBestehend,
+  userRoles,
+  pcs,
+  groupsLoadedOrLoading
+}) =>
   <div className="form-group">
     <label
       className="control-label"
@@ -64,7 +70,9 @@ const InputNameBestehend = ({ nameBestehend, onChangeNameBestehend, userRoles, p
       id="nameBestehend"
       className="form-control controls"
       selected={nameBestehend}
-      onChange={(event) => onChangeNameBestehend(event.target.value)}
+      onChange={(event) =>
+        onChangeNameBestehend(event.target.value)
+      }
     >
       {options(userRoles, pcs, groupsLoadedOrLoading)}
     </select>
