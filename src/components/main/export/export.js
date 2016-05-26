@@ -158,10 +158,15 @@ export default React.createClass({
     const { activePanel } = this.state
     // make sure the heading was clicked
     const parent = event.target.parentElement
-    const headingWasClicked = parent.className.includes('panel-title') || parent.className.includes('panel-heading')
+    const headingWasClicked = (
+      parent.className.includes('panel-title') ||
+      parent.className.includes('panel-heading')
+    )
     if (headingWasClicked) {
       // always close panel if it is open
-      if (activePanel === number) return this.setState({ activePanel: '' })
+      if (activePanel === number) {
+        return this.setState({ activePanel: '' })
+      }
       // validate input before opening a panel
       switch (number) {
         case 1:
@@ -169,17 +174,23 @@ export default React.createClass({
           break
         case 2: {
           const isPanel1Done = this.isPanel1Done()
-          if (isPanel1Done) this.setState({ activePanel: 2 })
+          if (isPanel1Done) {
+            this.setState({ activePanel: 2 })
+          }
           break
         }
         case 3: {
           const isPanel2Done = this.isPanel2Done()
-          if (isPanel2Done) this.setState({ activePanel: 3 })
+          if (isPanel2Done) {
+            this.setState({ activePanel: 3 })
+          }
           break
         }
         case 4: {
           const isPanel3Done = this.isPanel3Done() || this.isPanel2Done()
-          if (isPanel3Done) this.setState({ activePanel: 4 })
+          if (isPanel3Done) {
+            this.setState({ activePanel: 4 })
+          }
           break
         }
         default:
@@ -195,7 +206,9 @@ export default React.createClass({
     const groupsToExport = exportOptions.object.Gruppen.value
     const panel1Done = groupsToExport.length > 0
     let state = { panel1Done }
-    if (!panel1Done) state = Object.assign(state, { activePanel: 1 })
+    if (!panel1Done) {
+      state = Object.assign(state, { activePanel: 1 })
+    }
     this.setState(state)
     return panel1Done
   },
@@ -204,7 +217,9 @@ export default React.createClass({
     const panel1Done = this.isPanel1Done()
     const panel2Done = panel1Done
     let state = { panel2Done }
-    if (panel1Done && !panel2Done) state = Object.assign(state, { activePanel: 2 })
+    if (panel1Done && !panel2Done) {
+      state = Object.assign(state, { activePanel: 2 })
+    }
     this.setState(state)
     return panel2Done
   },
@@ -213,7 +228,9 @@ export default React.createClass({
     const panel1Done = this.isPanel1Done()
     const panel3Done = panel1Done
     let state = { panel3Done }
-    if (panel1Done && !panel3Done) state = Object.assign(state, { activePanel: 3 })
+    if (panel1Done && !panel3Done) {
+      state = Object.assign(state, { activePanel: 3 })
+    }
     this.setState(state)
     return panel3Done
   },
@@ -221,13 +238,27 @@ export default React.createClass({
   onChangeGroupsToExport(group, checked) {
     const { combineTaxonomies, exportOptions } = this.state
     const { offlineIndexes } = this.props
-    if (checked) exportOptions.object.Gruppen.value.push(group)
-    if (!checked) exportOptions.object.Gruppen.value = without(exportOptions.object.Gruppen.value, group)
+    if (checked) {
+      exportOptions.object.Gruppen.value.push(group)
+    }
+    if (!checked) {
+      exportOptions.object.Gruppen.value = without(exportOptions.object.Gruppen.value, group)
+    }
     const panel1Done = exportOptions.object.Gruppen.value.length > 0
     const panel2Done = exportOptions.object.Gruppen.value.length > 0
     const exportObjects = []
-    this.setState({ exportObjects, exportOptions, panel1Done, panel2Done })
-    app.Actions.queryFields(exportOptions.object.Gruppen.value, group, combineTaxonomies, offlineIndexes)
+    this.setState({
+      exportObjects,
+      exportOptions,
+      panel1Done,
+      panel2Done
+    })
+    app.Actions.queryFields(
+      exportOptions.object.Gruppen.value,
+      group,
+      combineTaxonomies,
+      offlineIndexes
+    )
   },
 
   onChangeCombineTaxonomies(combineTaxonomies) {
@@ -238,15 +269,28 @@ export default React.createClass({
     // reset possible filters to do with taxonomy from exportOptions
     if (combineTaxonomies) {
       Object.keys(exportOptions).forEach((cName) => {
-        if (get(exportOptions, `${cName}.cType`) === 'taxonomy') delete exportOptions[cName]
+        if (get(exportOptions, `${cName}.cType`) === 'taxonomy') {
+          delete exportOptions[cName]
+        }
       })
     } else {
-      if (has(exportOptions, 'Taxonomie(n)')) delete exportOptions['Taxonomie(n)']
+      if (has(exportOptions, 'Taxonomie(n)')) {
+        delete exportOptions['Taxonomie(n)']
+      }
     }
-    this.setState({ exportObjects, exportOptions, combineTaxonomies })
+    this.setState({
+      exportObjects,
+      exportOptions,
+      combineTaxonomies
+    })
     // recalculate taxonomyFields
     const groupsToExport = exportOptions.object.Gruppen.value
-    app.Actions.queryFields(groupsToExport, group, combineTaxonomies, offlineIndexes)
+    app.Actions.queryFields(
+      groupsToExport,
+      group,
+      combineTaxonomies,
+      offlineIndexes
+    )
   },
 
   onChangeCoSelect(cName, fName, event) {
@@ -276,7 +320,11 @@ export default React.createClass({
   onChooseAllOfCollection(cName, cType, event) {
     let { collectionsWithAllChoosen } = this.state
     const { exportOptions } = this.state
-    const { taxonomyFields, pcFields, relationFields } = this.props
+    const {
+      taxonomyFields,
+      pcFields,
+      relationFields
+    } = this.props
     const choosen = event.target.checked
     // set exportObjects back
     const exportObjects = []
@@ -286,8 +334,14 @@ export default React.createClass({
     if (cType === 'rc') fields = relationFields
     const cNameObject = fields[cName]
     // we do not want the taxonomy field 'Hierarchie'
-    if (cType === 'taxonomy' && cNameObject.Hierarchie) delete cNameObject.Hierarchie
-    const fieldsNewlyChoosen = Object.keys(cNameObject).map((fName) => `${cName}${fName}`)
+    if (cType === 'taxonomy' && cNameObject.Hierarchie) {
+      delete cNameObject.Hierarchie
+    }
+    const fieldsNewlyChoosen = Object
+      .keys(cNameObject)
+      .map((fName) =>
+        `${cName}${fName}`
+      )
     if (choosen && this.tooManyFieldsChoosen(fieldsNewlyChoosen)) {
       event.preventDefault()
       const tooManyFieldsChoosen = true
@@ -406,10 +460,16 @@ export default React.createClass({
     if (this.tooManyRcsChoosen(null, oneRowPerRelation)) {
       // reset rc settings from exportOptions
       Object.keys(exportOptions).forEach((cName) => {
-        if (get(exportOptions, `${cName}.cType`) === 'rc') delete exportOptions[cName]
+        if (get(exportOptions, `${cName}.cType`) === 'rc') {
+          delete exportOptions[cName]
+        }
       })
     }
-    this.setState({ exportObjects, oneRowPerRelation, exportOptions })
+    this.setState({
+      exportObjects,
+      oneRowPerRelation,
+      exportOptions
+    })
   },
 
   onChangeFormat(format) {

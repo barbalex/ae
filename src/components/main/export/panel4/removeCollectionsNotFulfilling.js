@@ -37,7 +37,9 @@ export default (exportOptions, objects) => {
                     if (pc.Eigenschaften[fName] !== undefined) {
                       fulfilled = isFilterFulfilled(pc.Eigenschaften[fName], filterValue, co)
                     }
-                    if (!fulfilled) object.Eigenschaftensammlungen.splice(pcIndex, 1)
+                    if (!fulfilled) {
+                      object.Eigenschaftensammlungen.splice(pcIndex, 1)
+                    }
                   }
                 })
               }
