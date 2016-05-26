@@ -11,7 +11,9 @@ const ModalDeleteRcInstances = ({ name, closeModal, onClickRemoveRcInstances }) 
   <div className="static-modal">
     <Modal.Dialog onHide={this.onHide}>
       <Modal.Header>
-        <Modal.Title>Beziehungssammlung "{name}" entfernen</Modal.Title>
+        <Modal.Title>
+          Beziehungssammlung "{name}" entfernen
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <p>
@@ -22,11 +24,17 @@ const ModalDeleteRcInstances = ({ name, closeModal, onClickRemoveRcInstances }) 
       <Modal.Footer>
         <Button
           bsStyle="danger"
-          onClick={() => onClickRemoveRcInstances()}
+          onClick={() =>
+            onClickRemoveRcInstances()
+          }
         >
           ja, entfernen!
         </Button>
-        <Button onClick={() => closeModal()}>
+        <Button
+          onClick={() =>
+            closeModal()
+          }
+        >
           schliessen
         </Button>
       </Modal.Footer>

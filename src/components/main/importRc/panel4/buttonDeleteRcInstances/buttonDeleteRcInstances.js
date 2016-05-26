@@ -56,7 +56,8 @@ export default React.createClass({
         >
           <Glyphicon glyph="trash" />
           &nbsp;
-          Beziehungssammlung "{name}" aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen
+          Beziehungssammlung "{name}" aus den in der geladenen Datei
+          enthaltenen Arten/Lebensräumen entfernen
         </Button>
         {
           showConfirmModal &&
