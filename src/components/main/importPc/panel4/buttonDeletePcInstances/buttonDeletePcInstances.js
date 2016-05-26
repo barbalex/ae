@@ -56,7 +56,8 @@ export default React.createClass({
         >
           <Glyphicon glyph="trash" />
           &nbsp;
-          Eigenschaftensammlung "{name}" aus den in der geladenen Datei enthaltenen Arten/Lebensräumen entfernen
+          Eigenschaftensammlung "{name}" aus den in der geladenen
+          Datei enthaltenen Arten/Lebensräumen entfernen
         </Button>
         {
           showConfirmModal &&

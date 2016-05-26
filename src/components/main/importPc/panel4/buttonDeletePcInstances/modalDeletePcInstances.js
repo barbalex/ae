@@ -3,7 +3,11 @@
 import React from 'react'
 import { Modal, Button } from 'react-bootstrap'
 
-const ModalDeletePcInstances = ({ name, closeModal, onClickRemovePcInstances }) => (
+const ModalDeletePcInstances = ({
+  name,
+  closeModal,
+  onClickRemovePcInstances
+}) => (
   <div className="static-modal">
     <Modal.Dialog
       onHide={this.onHide}
@@ -22,12 +26,16 @@ const ModalDeletePcInstances = ({ name, closeModal, onClickRemovePcInstances }) 
       <Modal.Footer>
         <Button
           bsStyle="danger"
-          onClick={() => onClickRemovePcInstances()}
+          onClick={() =>
+            onClickRemovePcInstances()
+          }
         >
           ja, entfernen!
         </Button>
         <Button
-          onClick={() => closeModal()}
+          onClick={() =>
+            closeModal()
+          }
         >
           schliessen
         </Button>
