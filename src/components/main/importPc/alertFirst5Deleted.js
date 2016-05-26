@@ -25,7 +25,12 @@ export default React.createClass({
   },
 
   render() {
-    const { idsOfAeObjects, nameBestehend, replicatingToAe, replicatingToAeTime } = this.props
+    const {
+      idsOfAeObjects,
+      nameBestehend,
+      replicatingToAe,
+      replicatingToAeTime
+    } = this.props
     const { paths } = this.state
     const first5Ids = idsOfAeObjects.slice(0, 5)
     const alertStyle = { marginTop: 11 }
@@ -33,8 +38,15 @@ export default React.createClass({
     // only get paths on first render
     if (!paths) {
       getPathsFromLocalDb()
-        .then((paths) => this.setState({ paths }))
-        .catch((error) => app.Actions.showError({ title: 'Fehler beim Aufbauen der Beispiele:', msg: error }))
+        .then((paths) =>
+          this.setState({ paths })
+        )
+        .catch((error) =>
+          app.Actions.showError({
+            title: 'Fehler beim Aufbauen der Beispiele:',
+            msg: error
+          })
+        )
     }
 
     const examples = first5Ids.map((id, index) => {
@@ -61,7 +73,8 @@ export default React.createClass({
         style={alertStyle}
       >
         <p>
-          Aus {idsOfAeObjects.length} Datensätzen wurde die Eigenschaftensammlung "{nameBestehend}" entfernt.<br />
+          Aus {idsOfAeObjects.length} Datensätzen wurde die
+          Eigenschaftensammlung "{nameBestehend}" entfernt.<br />
           Beispiele zur Kontrolle:
         </p>
         {

@@ -25,7 +25,12 @@ export default React.createClass({
   },
 
   render() {
-    const { idsOfAeObjects, idsNotImportable, replicatingToAe, replicatingToAeTime } = this.props
+    const {
+      idsOfAeObjects,
+      idsNotImportable,
+      replicatingToAe,
+      replicatingToAeTime
+    } = this.props
     const { paths } = this.state
     const idsImported = difference(idsOfAeObjects, idsNotImportable)
     const first5Ids = idsImported.slice(0, 5)
@@ -34,8 +39,15 @@ export default React.createClass({
     // only get paths on first render
     if (!paths) {
       getPathsFromLocalDb()
-        .then((paths) => this.setState({ paths }))
-        .catch((error) => app.Actions.showError({ title: 'Fehler beim Aufbauen der Beispiele:', msg: error }))
+        .then((paths) =>
+          this.setState({ paths })
+        )
+        .catch((error) =>
+          app.Actions.showError({
+            title: 'Fehler beim Aufbauen der Beispiele:',
+            msg: error
+          })
+        )
     }
 
     const examples = first5Ids.map((id, index) => {
@@ -59,7 +71,8 @@ export default React.createClass({
     return (
       <Alert bsStyle="info" style={alertStyle}>
         <p>
-          {idsImported.length} Eigenschaftensammlungen wurden in Arten/Lebensräume importiert.<br />
+          {idsImported.length} Eigenschaftensammlungen wurden
+          in Arten/Lebensräume importiert.<br />
           Beispiele zur Kontrolle:
         </p>
         {
