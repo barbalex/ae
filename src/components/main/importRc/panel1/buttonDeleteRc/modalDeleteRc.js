@@ -7,7 +7,9 @@ const ModalDeleteRc = ({ nameBestehend, onClickDeleteRc, closeModal }) =>
   <div className="static-modal">
     <Modal.Dialog onHide={this.onHide}>
       <Modal.Header>
-        <Modal.Title>Beziehungssammlung "{nameBestehend}" löschen</Modal.Title>
+        <Modal.Title>
+          Beziehungssammlung "{nameBestehend}" löschen
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <p>
@@ -18,11 +20,19 @@ const ModalDeleteRc = ({ nameBestehend, onClickDeleteRc, closeModal }) =>
       <Modal.Footer>
         <Button
           bsStyle="danger"
-          onClick={() => onClickDeleteRc()}
+          onClick={() =>
+            onClickDeleteRc()
+          }
         >
           ja, löschen!
         </Button>
-        <Button onClick={() => closeModal()}>schliessen</Button>
+        <Button
+          onClick={() =>
+            closeModal()
+          }
+        >
+          schliessen
+        </Button>
       </Modal.Footer>
     </Modal.Dialog>
   </div>
