@@ -38,7 +38,9 @@ const Panel3 = ({
       oneRowPerRelation={oneRowPerRelation}
       onChooseField={onChooseField}
       onChooseAllOfCollection={onChooseAllOfCollection}
-      onClickPanel={(event) => onClickPanel(3, event)}
+      onClickPanel={(event) =>
+        onClickPanel(3, event)
+      }
       onChangeOneRowPerRelation={onChangeOneRowPerRelation}
     />
   </div>
