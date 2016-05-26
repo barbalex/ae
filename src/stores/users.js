@@ -14,10 +14,14 @@ export default (Actions) => {
     userNames: [],
 
     onGetUsers() {
-      if (this.userNames.length > 0) this.trigger(this.userNames)
+      if (this.userNames.length > 0) {
+        this.trigger(this.userNames)
+      }
       app.remoteUsersDb.allDocs({ include_docs: true })
         .then((result) => {
-          const users = result.rows.map((row) => row.doc)
+          const users = result.rows.map((row) =>
+            row.doc
+          )
           const userNames = map(users, 'name')
           this.userNames = userNames
           this.trigger(this.userNames)
