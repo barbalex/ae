@@ -21,7 +21,9 @@ const FieldsPCsPanel = ({
     const fieldKey = fNameKey.toLowerCase()
     let checked = false
     const path = `${cNameKey}.${fNameKey}.export`
-    if (has(exportOptions, path)) checked = get(exportOptions, path)
+    if (has(exportOptions, path)) {
+      checked = get(exportOptions, path)
+    }
     return (
       <Checkbox
         key={fieldKey}

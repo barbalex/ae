@@ -1,7 +1,7 @@
 'use strict'
 
 import React from 'react'
-import { Accordion, Panel, Input } from 'react-bootstrap'
+import { Accordion, Panel, Checkbox } from 'react-bootstrap'
 import FieldsRCsPanel from './fieldsRCsPanel.js'
 import WellRelationsOptions from './wellRelationsOptions.js'
 
@@ -71,7 +71,11 @@ export default React.createClass({
     const { activePanel } = this.state
     // open panel if there is only one
     const numberOfCollections = Object.keys(relationFields).length
-    const activePanelOpeningWhenOnlyOneCollection = numberOfCollections === 1 ? 0 : activePanel
+    const activePanelOpeningWhenOnlyOneCollection = (
+      numberOfCollections === 1 ?
+      0 :
+      activePanel
+    )
     const divStyle = {
       marginLeft: 24,
       marginTop: 3,
@@ -119,21 +123,23 @@ export default React.createClass({
           id="rcOptions"
           style={divStyle}
         >
-          <Input
-            type="checkbox"
-            label="Pro Beziehung eine Zeile"
+          <Checkbox
             checked={oneRowPerRelation}
             onChange={() =>
               onChangeOneRowPerRelation(true)
             }
             style={{ marginBottom: 0 }}
-          />
-          <Input
-            type="checkbox"
-            label="Pro Art/Lebensraum eine Zeile und alle Beziehungen kommagetrennt in einem Feld"
+          >
+            Pro Beziehung eine Zeile
+          </Checkbox>
+          <Checkbox
             checked={!oneRowPerRelation}
-            onChange={() => onChangeOneRowPerRelation(false)}
-          />
+            onChange={() =>
+              onChangeOneRowPerRelation(false)
+            }
+          >
+            Pro Art/Lebensraum eine Zeile und alle Beziehungen kommagetrennt in einem Feld
+          </Checkbox>
         </div>
         <Accordion
           activeKey={activePanelOpeningWhenOnlyOneCollection}
