@@ -99,7 +99,11 @@ export default (exportObjects) => {
   // add worksheet to workbook
   wb.SheetNames.push(wsName)
   wb.Sheets[wsName] = ws
-  const wbout = window.XLSX.write(wb, { bookType: 'xlsx', bookSST: true, type: 'binary' })
+  const wbout = window.XLSX.write(wb, {
+    bookType: 'xlsx',
+    bookSST: true,
+    type: 'binary'
+  })
 
   return s2ab(wbout)
 }

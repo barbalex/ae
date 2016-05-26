@@ -113,7 +113,10 @@ export default (
                         } else {
                           // this is Beziehungspartner
                           // add this field later to all export objects
-                          fieldsToAddToAllExportObjects = union(fieldsToAddToAllExportObjects, [`${cName}: ${fName} GUID`])
+                          fieldsToAddToAllExportObjects = union(
+                            fieldsToAddToAllExportObjects,
+                            [`${cName}: ${fName} GUID`]
+                          )
                           // build Beziehungspartner
                           const rPartners = get(relation, rKey, null)
                           const key = `${cName}: ${fName}`
@@ -151,7 +154,10 @@ export default (
                       } else {
                         // this is Beziehungspartner
                         // add this field later to all export objects
-                        fieldsToAddToAllExportObjects = union(fieldsToAddToAllExportObjects, [`${cName}: ${fName} GUIDs`])
+                        fieldsToAddToAllExportObjects = union(
+                          fieldsToAddToAllExportObjects,
+                          [`${cName}: ${fName} GUIDs`]
+                        )
                         // we want to return an array of rPartner objects and an array of GUIDs
                         const rPartners = get(relation, fName, null)
                         // console.log('rPartners', rPartners)
