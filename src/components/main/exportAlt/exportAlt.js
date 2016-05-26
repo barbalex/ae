@@ -141,8 +141,18 @@ export default React.createClass({
     app.Actions.queryRelationCollections(offlineIndexes)
     this.listenTo(app.exportDataStore, this.onChangeExportDataStore)
     // TODO: is this good? Or rather do it once?
-    app.Actions.queryFields(urlOptions.object.Gruppen.value, 'Flora', combineTaxonomies, offlineIndexes)
-    app.Actions.queryFields(urlOptions.object.Gruppen.value, 'Fauna', combineTaxonomies, offlineIndexes)
+    app.Actions.queryFields(
+      urlOptions.object.Gruppen.value,
+      'Flora',
+      combineTaxonomies,
+      offlineIndexes
+    )
+    app.Actions.queryFields(
+      urlOptions.object.Gruppen.value,
+      'Fauna',
+      combineTaxonomies,
+      offlineIndexes
+    )
   },
 
   onChangeExportDataStore({ exportObjects, errorBuildingExportData }) {
@@ -163,10 +173,15 @@ export default React.createClass({
     const { activePanel } = this.state
     // make sure the heading was clicked
     const parent = event.target.parentElement
-    const headingWasClicked = parent.className.includes('panel-title') || parent.className.includes('panel-heading')
+    const headingWasClicked = (
+      parent.className.includes('panel-title') ||
+      parent.className.includes('panel-heading')
+    )
     if (headingWasClicked) {
       // always close panel if it is open
-      if (activePanel === number) return this.setState({ activePanel: '' })
+      if (activePanel === number) {
+        return this.setState({ activePanel: '' })
+      }
       // validate input before opening a panel
       switch (number) {
         case 1:
@@ -186,7 +201,11 @@ export default React.createClass({
   onChooseAllOfCollection(cName, cType, event) {
     let { collectionsWithAllChoosen } = this.state
     const { urlOptions } = this.state
-    const { taxonomyFields, pcFields, relationFields } = this.props
+    const {
+      taxonomyFields,
+      pcFields,
+      relationFields
+    } = this.props
     const choosen = event.target.checked
     // set exportObjects back
     const exportObjects = []
@@ -198,8 +217,14 @@ export default React.createClass({
     if (cType === 'rc') fields = relationFields
     const cNameObject = fields[cName]
     // we do not want the taxonomy field 'Hierarchie'
-    if (cType === 'taxonomy' && cNameObject.Hierarchie) delete cNameObject.Hierarchie
-    const fieldsNewlyChoosen = Object.keys(cNameObject).map((fName) => `${cName}${fName}`)
+    if (cType === 'taxonomy' && cNameObject.Hierarchie) {
+      delete cNameObject.Hierarchie
+    }
+    const fieldsNewlyChoosen = Object
+      .keys(cNameObject)
+      .map((fName) =>
+        `${cName}${fName}`
+      )
     if (choosen && this.tooManyFieldsChoosen(fieldsNewlyChoosen)) {
       event.preventDefault()
       const tooManyFieldsChoosen = true
@@ -304,7 +329,11 @@ export default React.createClass({
     const exportObjects = []
     // set urlCopied back
     const urlCopied = null
-    this.setState({ exportObjects, includeDataFromSynonyms, urlCopied })
+    this.setState({
+      exportObjects,
+      includeDataFromSynonyms,
+      urlCopied
+    })
   },
 
   onChangeOneRowPerRelation(oneRowPerRelation) {
@@ -317,12 +346,19 @@ export default React.createClass({
     if (this.tooManyRcsChoosen(null, oneRowPerRelation)) {
       // reset rc settings from urlOptions
       Object.keys(urlOptions).forEach((cName) => {
-        if (get(urlOptions, `${cName}.cType`) === 'rc') delete urlOptions[cName]
+        if (get(urlOptions, `${cName}.cType`) === 'rc') {
+          delete urlOptions[cName]
+        }
       })
     }
     // set urlCopied back
     const urlCopied = null
-    this.setState({ exportObjects, oneRowPerRelation, urlOptions, urlCopied })
+    this.setState({
+      exportObjects,
+      oneRowPerRelation,
+      urlOptions,
+      urlCopied
+    })
   },
 
   render() {
@@ -372,7 +408,9 @@ export default React.createClass({
             collapsible
             header="1. Eigenschaften wählen"
             eventKey={1}
-            onClick={this.onClickPanel.bind(this, 1)}
+            onClick={(event) =>
+              this.onClickPanel(1, event)
+            }
           >
             {
               activePanel === 1 &&
@@ -397,7 +435,9 @@ export default React.createClass({
             collapsible
             header="2. URL generieren"
             eventKey={2}
-            onClick={this.onClickPanel.bind(this, 2)}
+            onClick={(event) =>
+              this.onClickPanel(2, event)
+            }
           >
             {
               activePanel === 2 &&
