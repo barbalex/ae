@@ -21,7 +21,13 @@ export default (
      * skip cName === 'object'. Was dealt with in stores.js
      * if cType === 'taxonomy' and combineTaxonomies: skip. Will be dealt with below
      */
-    if (cName !== 'object' && !(cType === 'taxonomy' && combineTaxonomies)) {
+    if (
+      cName !== 'object' &&
+      !(
+        cType === 'taxonomy' &&
+        combineTaxonomies
+      )
+    ) {
       Object.keys(urlOptions[cName]).forEach((fName) => {
         /**
          * always exclude fName === 'cType'
@@ -36,19 +42,39 @@ export default (
             objects = objects.filter((object) => {
               // find collection with this name
               let collections = []
-              if (cType === 'pc') collections = object.Eigenschaftensammlungen
-              if (cType === 'rc') collections = object.Beziehungssammlungen
-              let collection = collections.find((c) => c.Name === cName)
-              if (cType === 'taxonomy' && !combineTaxonomies && object.Taxonomien) {
+              if (cType === 'pc') {
+                collections = object.Eigenschaftensammlungen
+              }
+              if (cType === 'rc') {
+                collections = object.Beziehungssammlungen
+              }
+              let collection = collections.find((c) =>
+                c.Name === cName
+              )
+              if (
+                cType === 'taxonomy' &&
+                !combineTaxonomies &&
+                object.Taxonomien
+              ) {
                 collections = object.Taxonomien
-                const standardtaxonomie = object.Taxonomien.find((taxonomy) => taxonomy.Standardtaxonomie)
+                const standardtaxonomie = object.Taxonomien.find((taxonomy) =>
+                  taxonomy.Standardtaxonomie
+                )
                 // TODO: later loop all taxonomies and return if any fulfills
                 collection = standardtaxonomie
               }
               if (collection) {
                 // if taxonomy, check directly
-                const isFulfilled = isFilterFulfilled(collection.Eigenschaften[fName], filterValue, co)
-                if (cType === 'pc' && !onlyObjectsWithCollectionData && !isFulfilled) {
+                const isFulfilled = isFilterFulfilled(
+                  collection.Eigenschaften[fName],
+                  filterValue,
+                  co
+                )
+                if (
+                  cType === 'pc' &&
+                  !onlyObjectsWithCollectionData &&
+                  !isFulfilled
+                ) {
                   // this data should not be delivered > empty all fields
                   Object.keys(collection).forEach((key) => {
                     collection[key] = null
@@ -63,6 +89,5 @@ export default (
       })
     }
   })
-  // console.log('filterCollections.js: objects to return', objects)
   return objects
 }
