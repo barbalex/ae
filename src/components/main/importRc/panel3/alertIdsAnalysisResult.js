@@ -66,7 +66,9 @@ const AlertIdsAnalysisResult = ({
       <p><strong>Ergebnis der Analyse</strong></p>
       {titleText}
       <ul>
-        <li>{recordsWithIdValueText}</li>
+        <li>
+          {recordsWithIdValueText}
+        </li>
         {
           idsNotANumber.length > 0 &&
           <li>
@@ -91,7 +93,9 @@ const AlertIdsAnalysisResult = ({
             {idsWithoutPartnerList}
           </li>
         }
-        <li>{rPartnerText}</li>
+        <li>
+          {rPartnerText}
+        </li>
       </ul>
     </Alert>
   )
