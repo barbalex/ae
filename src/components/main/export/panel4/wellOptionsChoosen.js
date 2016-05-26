@@ -41,16 +41,22 @@ const filtersAndFields = (exportOptions) => {
     Object.keys(exportOptions[cName]).forEach((fName) => {
       const field = exportOptions[cName][fName]
       if (field.value) {
-        const filterValue = field.co !== undefined ? `${field.co} ${field.value}` : `${field.value}`
+        const filterValue = (
+          field.co !== undefined ?
+          `${field.co} ${field.value}` :
+          `${field.value}`
+        )
         filters.push({ cName, fName, filterValue })
       }
-      if (field.export) fields.push({ cName, fName })
+      if (field.export) {
+        fields.push({ cName, fName })
+      }
     })
   })
   return ({ filters, fields })
 }
 
-function filtersList(exportOptions) {
+const filtersList = (exportOptions) => {
   const spanStyle = {
     backgroundColor: '#DADADA',
     padding: '1px 8px',
@@ -59,7 +65,9 @@ function filtersList(exportOptions) {
   }
   let { filters } = filtersAndFields(exportOptions)
   // don't want to show Gruppen, it is already shown as groupsText
-  filters = reject(filters, (filter) => filter.cName === 'object' && filter.fName === 'Gruppen')
+  filters = reject(filters, (filter) =>
+    filter.cName === 'object' && filter.fName === 'Gruppen'
+  )
   if (filters.length > 0) {
     return filters.map((filter, index) => {
       const fName = filter.fName
