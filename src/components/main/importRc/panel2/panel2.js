@@ -6,7 +6,11 @@ import WellAnforderungenAnCsv from './wellAnforderungenAnCsv.js'
 import WellAnforderungenInhaltlich from './wellAnforderungenInhaltlich.js'
 import TablePreview from './tablePreview.js'
 
-const Panel2 = ({ rcsToImport, validRcsToImport, onChangeFile }) => (
+const Panel2 = ({
+  rcsToImport,
+  validRcsToImport,
+  onChangeFile
+}) => (
   <div>
     <WellTechnAnforderungenAnDatei />
     <WellAnforderungenAnCsv />

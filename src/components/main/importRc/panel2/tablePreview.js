@@ -27,7 +27,9 @@ const TablePreview = ({ rcsToImport }) => {
   // remove '_id' and 'rPartners' from keys
   keys = without(keys, '_id', 'rPartners')
 
-  const thead = keys.map((key, index) => <th key={index}>{key}</th>)
+  const thead = keys.map((key, index) =>
+    <th key={index}>{key}</th>
+  )
   const tbody = rcsToImport.map((pc, index) => {
     // need only the first 10
     if (index < 10) {
@@ -48,7 +50,9 @@ const TablePreview = ({ rcsToImport }) => {
 
   return (
     <div style={tablePreviewStyle}>
-      <p style={legendStyle}>{legend}</p>
+      <p style={legendStyle}>
+        {legend}
+      </p>
       {
       /**
        * surround table with panel to get rounded corners
@@ -59,7 +63,13 @@ const TablePreview = ({ rcsToImport }) => {
         className="panel panel-default"
         style={{ backgroundColor: '#fffff0' }}
       >
-        <Table responsive bordered striped condensed hover>
+        <Table
+          responsive
+          bordered
+          striped
+          condensed
+          hover
+        >
           <thead>
             <tr>
               {thead}
