@@ -230,15 +230,29 @@ export default React.createClass({
     const groupsNotLoaded = difference(gruppen, groupsLoadedOrLoading)
     const allGroupsLoaded = groupsNotLoaded.length === 0
 
-    this.setState({ groupsLoadingObjects, groupsLoadedOrLoading, allGroupsLoaded })
+    this.setState({
+      groupsLoadingObjects,
+      groupsLoadedOrLoading,
+      allGroupsLoaded
+    })
   },
 
   onLoginStoreChange({ logIn, email, roles: userRoles }) {
     this.setState({ logIn, email, userRoles })
   },
 
-  onActivePathStoreChange({ path, guid, gruppe, mainComponent }) {
-    this.setState({ path, guid, gruppe, mainComponent })
+  onActivePathStoreChange({
+    path,
+    guid,
+    gruppe,
+    mainComponent
+  }) {
+    this.setState({
+      path,
+      guid,
+      gruppe,
+      mainComponent
+    })
     // navigate
     const url = `/${path.join('/')}${guid ? `?id=${guid}` : ''}`
     app.router.navigate(url)
@@ -251,10 +265,17 @@ export default React.createClass({
 
   onActiveObjectStoreChange(object, synonymObjects) {
     const guid = object._id
-    this.setState({ object, guid, synonymObjects })
+    this.setState({
+      object,
+      guid,
+      synonymObjects
+    })
   },
 
-  onFilterOptionsStoreChange({ filterOptions, loading: loadingFilterOptions }) {
+  onFilterOptionsStoreChange({
+    filterOptions,
+    loading: loadingFilterOptions
+  }) {
     let state = { loadingFilterOptions }
     if (filterOptions) state = Object.assign(state, { filterOptions })
     this.setState(state)
@@ -266,7 +287,13 @@ export default React.createClass({
     this.setState({ offlineIndexes })
   },
 
-  onSaveObjectField(pcType, pcName, fieldName, fieldValue, save) {
+  onSaveObjectField(
+    pcType,
+    pcName,
+    fieldName,
+    fieldValue,
+    save
+  ) {
     const { object } = this.state
     const pcTypeHash = {
       Taxonomie: 'Taxonomien',
@@ -275,7 +302,9 @@ export default React.createClass({
       Beziehungssammlung: 'Beziehungssammlungen'
     }
     if (object) {
-      const collection = object[pcTypeHash[pcType]].find((pc) => pc.Name === pcName)
+      const collection = object[pcTypeHash[pcType]].find((pc) =>
+        pc.Name === pcName
+      )
       if (collection && collection.Eigenschaften) {
         // update eigenschaften
         const eigenschaften = collection.Eigenschaften
@@ -290,7 +319,9 @@ export default React.createClass({
           }
         }
         // o.k., now update object
-        const collectionIndex = object[pcTypeHash[pcType]].findIndex(pc => pc.Name === pcName)
+        const collectionIndex = object[pcTypeHash[pcType]].findIndex(pc =>
+          pc.Name === pcName
+        )
         object[pcTypeHash[pcType]][collectionIndex].Eigenschaften = eigenschaften
         app.Actions.saveObject(object, save)
       }
@@ -303,11 +334,15 @@ export default React.createClass({
   },
 
   addNewObject() {
-    app.Actions.showError({ title: 'Dieses Feature ist noch nicht implementiert' })
+    app.Actions.showError({
+      title: 'Dieses Feature ist noch nicht implementiert'
+    })
   },
 
   removeObject() {
-    app.Actions.showError({ title: 'Dieses Feature ist noch nicht implementiert' })
+    app.Actions.showError({
+      title: 'Dieses Feature ist noch nicht implementiert'
+    })
   },
 
   render() {
@@ -356,10 +391,16 @@ export default React.createClass({
     const showGruppen = groupsNotLoaded.length > 0
     const showFilter = filterOptions.length > 0 || loadingFilterOptions
     const showTree = groupsLoadedOrLoading.length > 0
-    const showMain = object !== undefined || !!mainComponent || errors && errors.length > 0
+    const showMain = (
+      object !== undefined ||
+      !!mainComponent ||
+      (errors && errors.length > 0)
+    )
     const showLogin = logIn && !email
     let homeStyle = {}
-    if (pcsQuerying || rcsQuerying || fieldsQuerying) homeStyle.cursor = 'progress'
+    if (pcsQuerying || rcsQuerying || fieldsQuerying) {
+      homeStyle.cursor = 'progress'
+    }
     const showMenu = mainComponent !== 'exportierenAlt'
 
     // MenuButton needs to be outside of the menu
@@ -385,7 +426,9 @@ export default React.createClass({
             </div>
             {
               showGruppen &&
-              <Groups groupsLoadedOrLoading={groupsLoadedOrLoading} />
+              <Groups
+                groupsLoadedOrLoading={groupsLoadedOrLoading}
+              />
             }
             {
               showFilter &&

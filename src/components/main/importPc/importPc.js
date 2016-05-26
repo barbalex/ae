@@ -3,7 +3,7 @@
 import app from 'ampersand-app'
 import React from 'react'
 import { Accordion, Panel } from 'react-bootstrap'
-import { difference, map, omitBy, unique, values } from 'lodash'
+import { difference, map, omitBy, uniq, values } from 'lodash'
 import { ListenerMixin } from 'reflux'
 import Panel1 from './panel1/panel1.js'
 import Panel2 from './panel2/panel2.js'
@@ -80,16 +80,16 @@ export default React.createClass({
   // validXxx: to check validity of these fields
   getInitialState() {
     return {
-      nameBestehend: null,
-      name: null,
-      beschreibung: null,
-      datenstand: null,
-      nutzungsbedingungen: null,
-      link: null,
-      orgMitSchreibrecht: null,
+      nameBestehend: '',
+      name: '',
+      beschreibung: '',
+      datenstand: '',
+      nutzungsbedingungen: '',
+      link: '',
+      orgMitSchreibrecht: '',
       importiertVon: this.props.email,
-      zusammenfassend: null,
-      nameUrsprungsEs: null,
+      zusammenfassend: false,
+      nameUrsprungsEs: '',
       esBearbeitenErlaubt: true,
       pcsToImport: [],
       pcsRemoved: false,
@@ -151,13 +151,21 @@ export default React.createClass({
             const link = pc.fields.Link
             const zusammenfassend = pc.combining
             const name = nameBestehend
-            let state = { beschreibung, datenstand, nutzungsbedingungen, link, zusammenfassend }
+            let state = {
+              beschreibung,
+              datenstand,
+              nutzungsbedingungen,
+              link,
+              zusammenfassend
+            }
             state = Object.assign(state, this.stateFollowingPanel1Reset())
             if (editingPcIsAllowed) state = Object.assign(state, { nameBestehend, name })
             this.setState(state)
           }
         })
-        .catch((error) => app.Actions.showError({ msg: error }))
+        .catch((error) =>
+          app.Actions.showError({ msg: error })
+        )
     } else {
       this.setState({ nameBestehend: null })
     }
@@ -282,7 +290,7 @@ export default React.createClass({
           // remove emtpy values
           idsToImportWithDuplicates = idsToImportWithDuplicates.filter((id) => !!id)
           // remove duplicates
-          const idsToImport = unique(idsToImportWithDuplicates)
+          const idsToImport = uniq(idsToImportWithDuplicates)
           const idsNumberOfRecordsWithIdValue = idsToImportWithDuplicates.length
           const idsDuplicate = difference(idsToImportWithDuplicates, idsToImport)
           // go on with analysis
@@ -541,11 +549,13 @@ export default React.createClass({
       this.setState({ esBearbeitenErlaubt: false })
       // delete text after a second
       setTimeout(() => this.setState({
-        nameBestehend: null,
-        name: null
+        nameBestehend: '',
+        name: ''
       }), 1000)
       // close alert after 8 seconds
-      setTimeout(() => this.setState({ esBearbeitenErlaubt: true }), 8000)
+      setTimeout(() =>
+        this.setState({ esBearbeitenErlaubt: true }), 8000
+      )
     }
     return esBearbeitenErlaubt
   },
