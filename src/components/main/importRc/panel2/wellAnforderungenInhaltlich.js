@@ -40,7 +40,8 @@ export default React.createClass({
           style={{ display: visible ? 'block' : 'none' }}
         >
           <li>
-            Um die Art oder den Lebensraum zu identifizieren, an den die Beziehung angefügt werden soll,
+            Um die Art oder den Lebensraum zu identifizieren,
+            an den die Beziehung angefügt werden soll,
             müssen Sie eine ID mitliefern.<br />
             Entweder die GUID der ArtenDb.<br />
             Oder die vom entsprechenden nationalen Artdatenzentrum
@@ -61,7 +62,9 @@ export default React.createClass({
             Dieses muss jeweils ein oder mehrere GUID's der ArtenDb enthalten
             (andere ID's werden hier - zumindest vorläufig - nicht erkannt)
           </li>
-          <li>Es können beliebig viele weitere, die Beziehung beschreibende Felder enthalten sein
+          <li>
+            Es können beliebig viele weitere, die Beziehung
+            beschreibende Felder enthalten sein
           </li>
           <li>
             Achten Sie bitte darauf, die Feldnamen und die enthaltenen Werte
