@@ -25,7 +25,11 @@ const popover = (
   </Popover>
 )
 
-const InputBeschreibung = ({ beschreibung, validBeschreibung, onChangeBeschreibung }) => (
+const InputBeschreibung = ({
+  beschreibung,
+  validBeschreibung,
+  onChangeBeschreibung
+}) => (
   <div
     className={validBeschreibung ? 'form-group' : 'form-group has-error'}
   >

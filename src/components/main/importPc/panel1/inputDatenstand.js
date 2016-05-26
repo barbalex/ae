@@ -8,11 +8,17 @@ const popover = (
     id="InputDatenstandPopover"
     title="Wozu ein Datenstand?"
   >
-    <p>Hier sieht der Nutzer, wann die Eigenschaftensammlung zuletzt aktualisiert wurde.</p>
+    <p>
+      Hier sieht der Nutzer, wann die Eigenschaftensammlung zuletzt aktualisiert wurde.
+    </p>
   </Popover>
 )
 
-const InputDatenstand = ({ datenstand, validDatenstand, onChangeDatenstand }) => (
+const InputDatenstand = ({
+  datenstand,
+  validDatenstand,
+  onChangeDatenstand
+}) => (
   <div
     className={validDatenstand ? 'form-group' : 'form-group has-error'}
   >
@@ -31,7 +37,9 @@ const InputDatenstand = ({ datenstand, validDatenstand, onChangeDatenstand }) =>
       className="form-control controls"
       rows={1}
       value={datenstand}
-      onChange={(event) => onChangeDatenstand(event.target.value)}
+      onChange={(event) =>
+        onChangeDatenstand(event.target.value)
+      }
     />
     {
       !validDatenstand &&
