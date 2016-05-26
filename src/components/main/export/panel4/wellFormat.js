@@ -1,7 +1,7 @@
 'use strict'
 
 import React from 'react'
-import { Input, Well } from 'react-bootstrap'
+import { Checkbox, Well } from 'react-bootstrap'
 
 const WellFormat = ({ format, onChangeFormat }) =>
   <Well bsSize="small">
@@ -14,12 +14,12 @@ const WellFormat = ({ format, onChangeFormat }) =>
         marginBottom: `${-8}px`
       }}
     >
-      <Input
-        type="checkbox"
-        label="xlsx (Excel)"
+      <Checkbox
         onChange={() => onChangeFormat('xlsx')}
         checked={format === 'xlsx'}
-      />
+      >
+        xlsx (Excel)
+      </Checkbox>
     </div>
     <div
       style={{
@@ -27,12 +27,12 @@ const WellFormat = ({ format, onChangeFormat }) =>
         marginBottom: `${-7}px`
       }}
     >
-      <Input
-        type="checkbox"
-        label="csv (kommagetrennte Textdatei)"
+      <Checkbox
         onChange={() => onChangeFormat('csv')}
         checked={format === 'csv'}
-      />
+      >
+        csv (kommagetrennte Textdatei)
+      </Checkbox>
     </div>
   </Well>
 

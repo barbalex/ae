@@ -41,7 +41,9 @@ const TablePreview = ({ exportObjects }) => {
         // if field content is array, write it into separate lines
         if (isArray(value)) {
           value = value.map((val, i) => {
-            if (isPlainObject(val)) val = JSON.stringify(val)
+            if (isPlainObject(val)) {
+              val = JSON.stringify(val)
+            }
             if (i + 1 === value.length) {
               return (
                 <p key={i}>
@@ -71,7 +73,9 @@ const TablePreview = ({ exportObjects }) => {
 
   return (
     <div style={tablePreviewStyle}>
-      <p style={legendStyle}>{legend}</p>
+      <p style={legendStyle}>
+        {legend}
+      </p>
       {
       /**
        * surround table with panel to get rounded corners
