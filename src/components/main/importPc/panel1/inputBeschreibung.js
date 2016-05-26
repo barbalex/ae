@@ -45,7 +45,9 @@ const InputBeschreibung = ({ beschreibung, validBeschreibung, onChangeBeschreibu
       type="textarea"
       className="form-control controls"
       value={beschreibung}
-      onChange={(event) => onChangeBeschreibung(event.target.value)}
+      onChange={(event) =>
+        onChangeBeschreibung(event.target.value)
+      }
       rows={1}
     />
     {
