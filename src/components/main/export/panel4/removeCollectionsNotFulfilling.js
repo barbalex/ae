@@ -21,10 +21,6 @@ export default (exportOptions, objects) => {
         if (fName !== 'cType') {
           const filterValue = exportOptions[cName][fName].value
           const co = exportOptions[cName][fName].co
-          // console.log('removeCollectionsNotFulfilling.js, cName', cName)
-          // console.log('removeCollectionsNotFulfilling.js, fName', fName)
-          // console.log('removeCollectionsNotFulfilling.js, filterValue', filterValue)
-          // console.log('removeCollectionsNotFulfilling.js, co', co)
           /**
            * only filter if a filter value was passed for this field
            */
@@ -69,9 +65,13 @@ export default (exportOptions, objects) => {
                           }
                         }
                       }
-                      if (!fulfilled) relations.splice(relIndex, 1)
+                      if (!fulfilled) {
+                        relations.splice(relIndex, 1)
+                      }
                     }
-                    if (relations.length === 0) rcs[rcsIndex].splice(rcsIndex, 1)
+                    if (relations.length === 0) {
+                      rcs[rcsIndex].splice(rcsIndex, 1)
+                    }
                   }
                 }
               }

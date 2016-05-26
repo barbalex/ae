@@ -13,7 +13,9 @@ export default (exportObjects) => {
       const value = object[key]
       if (isArray(value)) {
         value.forEach((val, vIndex) => {
-          if (isPlainObject(val)) object[key][vIndex] = JSON.stringify(val)
+          if (isPlainObject(val)) {
+            object[key][vIndex] = JSON.stringify(val)
+          }
         })
         object[key] = value.join(', ')
       } else if (isPlainObject(value)) {
