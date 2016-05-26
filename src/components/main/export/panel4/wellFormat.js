@@ -15,7 +15,9 @@ const WellFormat = ({ format, onChangeFormat }) =>
       }}
     >
       <Checkbox
-        onChange={() => onChangeFormat('xlsx')}
+        onChange={() =>
+          onChangeFormat('xlsx')
+        }
         checked={format === 'xlsx'}
       >
         xlsx (Excel)
@@ -28,7 +30,9 @@ const WellFormat = ({ format, onChangeFormat }) =>
       }}
     >
       <Checkbox
-        onChange={() => onChangeFormat('csv')}
+        onChange={() =>
+          onChangeFormat('csv')
+        }
         checked={format === 'csv'}
       >
         csv (kommagetrennte Textdatei)
