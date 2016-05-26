@@ -96,7 +96,7 @@ const filtersList = (exportOptions) => {
   return <li>Kein Filter gewählt</li>
 }
 
-function fieldsList(exportOptions) {
+const fieldsList = (exportOptions) => {
   const { fields } = filtersAndFields(exportOptions)
   if (fields.length > 0) {
     return fields.map((field, index) => {
@@ -127,19 +127,33 @@ const WellOptionsChoosen = ({
   oneRowPerRelation
 }) => (
   <Well bsSize="small">
-    <p style={pStyle}>Gewählte Optionen:</p>
+    <p style={pStyle}>
+      Gewählte Optionen:
+    </p>
     <ul style={ulStyle}>
-      <li>{groupsText(exportOptions)}</li>
-      <li>{taxonomienZusammenfassenText(combineTaxonomies)}</li>
-      <li>{dataFromSynonymsText(includeDataFromSynonyms)}</li>
-      <li>{onlyObjectsWithCollectionDataText(onlyObjectsWithCollectionData)}</li>
-      <li>{oneRowPerRelationText(oneRowPerRelation)}</li>
-      <li>Filter:
+      <li>
+        {groupsText(exportOptions)}
+      </li>
+      <li>
+        {taxonomienZusammenfassenText(combineTaxonomies)}
+      </li>
+      <li>
+        {dataFromSynonymsText(includeDataFromSynonyms)}
+      </li>
+      <li>
+        {onlyObjectsWithCollectionDataText(onlyObjectsWithCollectionData)}
+      </li>
+      <li>
+        {oneRowPerRelationText(oneRowPerRelation)}
+      </li>
+      <li>
+        Filter:
         <ul style={ulStyle}>
           {filtersList(exportOptions)}
         </ul>
       </li>
-      <li>Eigenschaften:
+      <li>
+        Eigenschaften:
         <ul style={ulStyle}>
           {fieldsList(exportOptions)}
         </ul>

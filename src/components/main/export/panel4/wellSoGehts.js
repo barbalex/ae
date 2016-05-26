@@ -39,10 +39,18 @@ export default React.createClass({
           className="adb-hidden"
           style={{ display: visible ? 'block' : 'none' }}
         >
-          <li>Aus den Rohdaten werden die Exportdaten extrahiert...</li>
-          <li><strong>...das dauert eine ganze Weile. Geduld bringt Daten!</strong></li>
-          <li>Danach wird eine Vorschau der ersten 10 Datensätze angezeigt...</li>
-          <li>...und es erscheinen Schaltflächen für den Download</li>
+          <li>
+            Aus den Rohdaten werden die Exportdaten extrahiert...
+          </li>
+          <li>
+            <strong>...das dauert eine ganze Weile. Geduld bringt Daten!</strong>
+          </li>
+          <li>
+            Danach wird eine Vorschau der ersten 10 Datensätze angezeigt...
+          </li>
+          <li>
+            ...und es erscheinen Schaltflächen für den Download
+          </li>
         </ul>
       </Well>
     )
