@@ -6,78 +6,71 @@
 'use strict'
 
 import React from 'react'
-import { Input } from 'react-bootstrap'
+import { FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
 
-export default React.createClass({
-  displayName: 'FieldInput',
+const FieldInput = ({
+  fieldName,
+  fieldValue,
+  inputType,
+  pcType,
+  pcName,
+  collectionIsEditing,
+  onSaveObjectField
+}) =>
+  <FormGroup
+    controlId={fieldName}
+  >
+    <ControlLabel>
+      {`${fieldName}:`}
+    </ControlLabel>
+    <FormControl
+      type={inputType}
+      bsSize="small"
+      dsTyp={pcType}
+      dsName={pcName}
+      id={fieldName}
+      name={fieldName}
+      value={fieldValue}
+      readOnly={!collectionIsEditing}
+      onChange={(event) => {
+        const save = false
+        onSaveObjectField(
+          pcType,
+          pcName,
+          fieldName,
+          event.target.value,
+          save
+        )
+      }}
+      onBlur={(event) => {
+        if (event.target.value !== fieldValue) {
+          const save = true
+          onSaveObjectField(
+            pcType,
+            pcName,
+            fieldName,
+            event.target.value,
+            save
+          )
+        }
+      }}
+    />
+  </FormGroup>
 
-  propTypes: {
-    fieldName: React.PropTypes.string,
-    fieldValue: React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.number,
-      React.PropTypes.bool
-    ]),
-    inputType: React.PropTypes.string,
-    pcType: React.PropTypes.string,
-    pcName: React.PropTypes.string,
-    collectionIsEditing: React.PropTypes.bool,
-    onSaveObjectField: React.PropTypes.func
-  },
+FieldInput.displayName = 'FieldInput'
 
-  onChange() {
-    const {
-      fieldName,
-      pcType,
-      pcName,
-      onSaveObjectField
-    } = this.props
-    const fieldValue = this.myInput.getValue()
-    const save = false
-    onSaveObjectField(pcType, pcName, fieldName, fieldValue, save)
-  },
+FieldInput.propTypes = {
+  fieldName: React.PropTypes.string,
+  fieldValue: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.number,
+    React.PropTypes.bool
+  ]),
+  inputType: React.PropTypes.string,
+  pcType: React.PropTypes.string,
+  pcName: React.PropTypes.string,
+  collectionIsEditing: React.PropTypes.bool,
+  onSaveObjectField: React.PropTypes.func
+}
 
-  onBlur() {
-    const {
-      fieldName,
-      fieldValue,
-      pcType,
-      pcName,
-      onSaveObjectField
-    } = this.props
-    const newFieldValue = this.myInput.getValue()
-    if (newFieldValue !== fieldValue) {
-      const save = true
-      onSaveObjectField(pcType, pcName, fieldName, newFieldValue, save)
-    }
-  },
-
-  render() {
-    const {
-      fieldName,
-      fieldValue,
-      inputType,
-      pcType,
-      pcName,
-      collectionIsEditing
-    } = this.props
-
-    return (
-      <Input
-        ref={(c) => { this.myInput = c }}
-        type={inputType}
-        label={`${fieldName}:`}
-        bsSize="small"
-        dsTyp={pcType}
-        dsName={pcName}
-        id={fieldName}
-        name={fieldName}
-        value={fieldValue}
-        readOnly={!collectionIsEditing}
-        className="controls"
-        onChange={this.onChange}
-        onBlur={this.onBlur}
-      />
-    )
-  }
-})
+export default FieldInput
