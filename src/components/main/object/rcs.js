@@ -6,12 +6,12 @@ import RelationCollection from './rc.js'
 const RelationCollections = ({ objectRcs }) => {
   let rcsComponent = null
   if (objectRcs.length > 0) {
-    rcsComponent = objectRcs.map((rc, index) => (
+    rcsComponent = objectRcs.map((rc, index) =>
       <RelationCollection
         key={index}
         relationCollection={rc}
       />
-    ))
+    )
   }
 
   return (

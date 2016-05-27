@@ -13,7 +13,9 @@ import sortRelationsByName from '../../../modules/sortRelationsByName.js'
 
 const RelationCollection = ({ relationCollection }) => {
   const rc = relationCollection
-  if (!rc.Beziehungen || rc.Beziehungen.length === 0) return null
+  if (!rc.Beziehungen || rc.Beziehungen.length === 0) {
+    return null
+  }
 
   rc.Beziehungen = sortRelationsByName(rc.Beziehungen)
 
