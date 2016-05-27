@@ -28,7 +28,9 @@ const TextLink = ({ label, value, guid }) =>
         href={`/${guid}`}
         onClick={(event) => {
           event.preventDefault()
-          if (guid) app.Actions.loadActiveObject(guid)
+          if (guid) {
+            app.Actions.loadActiveObject(guid)
+          }
         }}
       >
         {value}
