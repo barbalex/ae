@@ -125,9 +125,6 @@ body
 #menu button:focus
   outline: none
 
-#menu input[type="checkbox"]
-  margin-left: -15px !important
-
 .dropdown-menu > li > a
   padding: 1px 20px
 
@@ -139,34 +136,6 @@ body
 
 #menuBtn .form-group
   margin-bottom: 0
-
-#menuBtn .checkbox
-  margin-bottom: 0
-  margin-top: 0
-
-#groups
-  padding: 5px 10px
-  border: 1px solid transparent
-  border-radius: 3px
-  background-color: rgb(255, 255, 255)
-  border-color: rgb(204, 204, 204)
-  color: #333
-  margin: 0
-
-#groupCheckboxes
-  display: flex
-  justify-content: space-between
-  height: 30px
-
-#groupCheckboxesTitle
-  height: 12px
-
-#groupCheckboxes label
-  padding-left: 15px
-
-#groupCheckboxes input
-  margin-top: 3px
-  margin-left: -15px
 
 
 
@@ -400,22 +369,6 @@ a.showNextHidden,
 a.showNextHiddenExport
   font-style: italic
 
-input[type="checkbox"]
-  float: left
-  margin-bottom: 8px
-  margin-top: 4px !important
-  margin-right: 8px
-  margin-left: 4px !important
-  width: auto
-
-.form-horizontal input[type="checkbox"]
-  width: auto
-  margin-top: 9px !important
-
-label + input[type="radio"],
-label + input[type="checkbox"]
-  margin-bottom: -5px !important
-
 /*VORLÄUFIG KONTEN ERSTELLEN AUSBLENDEN*/
 .kontoErstellenBtn
   display: none !important
@@ -475,8 +428,7 @@ h5
   font-weight: bold
   margin: 0 0 7px 0
 
-.form-horizontal .controls
-// .form-horizontal .input-group
+.form-horizontal .form-control
   // Breite fix setzen für Browser, die calc nicht unterstützen
   width: 1000px
   // Breite setzen für Browser, die calc unterstützen
@@ -485,11 +437,8 @@ h5
 .input-group-sm > .input-group-btn
   width: 44px
 
-.form-horizontal .input-group
-  // Breite fix setzen für Browser, die calc nicht unterstützen
-  width: 1000px
-  // Breite setzen für Browser, die calc unterstützen
-  width: calc(100% - 230px)
+.form-horizontal .form-group
+  width: 100%
 
 .form-horizontal .input-group .controls
   width: 100%

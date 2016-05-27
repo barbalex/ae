@@ -1,23 +1,38 @@
 'use strict'
 
 import React from 'react'
-import { Input, OverlayTrigger, Popover, Glyphicon } from 'react-bootstrap'
+import { Checkbox, OverlayTrigger, Popover, Glyphicon } from 'react-bootstrap'
 
 const popover = () =>
-  <Popover id="inputIndexesPopover" title="Wozu lokale Indizes verwenden?">
-    <p>Lokale Indizes sind mühsam:</p>
+  <Popover
+    id="inputIndexesPopover"
+    title="Wozu lokale Indizes verwenden?"
+  >
+    <p>
+      Lokale Indizes sind mühsam:
+    </p>
     <ul>
-      <li>Browser und PC werden stark gefordert, um die Indizes aufzubauen</li>
+      <li>
+        Browser und PC werden stark gefordert, um die Indizes aufzubauen
+      </li>
       <li>
         Möglich, dass der Browser dabei abstürzt oder Sie eine Koffein-Vergiftung erleiden,
         bis die Indizes endlich fertig sind...
       </li>
-      <li>Dies ist ein selten benötigtes und (möglicherweise zu) wenig getestetes Feature</li>
+      <li>
+        Dies ist ein selten benötigtes und (möglicherweise zu) wenig getestetes Feature
+      </li>
     </ul>
-    <p>Sie sind aber nötig, wenn Sie:</p>
+    <p>
+      Sie sind aber nötig, wenn Sie:
+    </p>
     <ul>
-      <li>Daten importieren, die Sie nicht mit arteigenschaften.ch teilen möchten</li>
-      <li>Ohne Internetanschluss importieren oder exportieren möchten</li>
+      <li>
+        Daten importieren, die Sie nicht mit arteigenschaften.ch teilen möchten
+      </li>
+      <li>
+        Ohne Internetanschluss importieren oder exportieren möchten
+      </li>
     </ul>
   </Popover>
 
@@ -26,7 +41,9 @@ const liStyle = {
   paddingRight: 20
 }
 const cbStyle = {
-  marginLeft: `${-20}px !important`
+  marginLeft: 0,
+  marginTop: 0,
+  marginBottom: 0
 }
 const glyphiconStyle = {
   paddingLeft: 5,
@@ -36,13 +53,13 @@ const glyphiconStyle = {
 
 const InputIndexes = ({ offlineIndexes, onClickToggleOfflineIndexes }) =>
   <li style={liStyle}>
-    <Input
-      type="checkbox"
-      label="Von arteigenschaften.ch verwenden (empfohlen)"
+    <Checkbox
       checked={!offlineIndexes}
       onChange={onClickToggleOfflineIndexes}
       style={cbStyle}
-    />
+    >
+      Von arteigenschaften.ch verwenden (empfohlen)
+    </Checkbox>
     <div
       className="checkbox"
     >
