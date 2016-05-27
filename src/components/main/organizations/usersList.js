@@ -17,7 +17,8 @@ import {
   ListGroupItem,
   OverlayTrigger,
   Tooltip,
-  Alert } from 'react-bootstrap'
+  Alert
+} from 'react-bootstrap'
 import isValidEmail from '../../../modules/isValidEmail.js'
 import addRolesToUser from './addRolesToUser.js'
 import doesUserExist from './doesUserExist.js'
@@ -159,7 +160,6 @@ export default React.createClass({
   render() {
     const { userFieldName } = this.props
     const { newUser, newUserAlert } = this.state
-    const newWriterBsStyle = newUserAlert ? 'error' : null
     const titleObject = {
       esWriters: 'Benutzer mit Schreibrecht für Eigenschaften- und Beziehungssammlungen',
       lrWriters: 'Benutzer mit Schreibrecht für Lebensräume',
@@ -172,20 +172,28 @@ export default React.createClass({
       fontWeight: 700
     }
 
+    console.log('!!newUserAlert', !!newUserAlert)
+
     return (
       <div>
         <p style={titleStyle}>{title}</p>
         <ListGroup style={{ marginBottom: 0 }}>
           {this.users()}
         </ListGroup>
-        <Input
-          type="email"
-          label="Benutzer hinzufügen"
-          value={newUser}
-          onChange={this.onChangeNewWriter}
-          onBlur={this.onBlurNewWriter}
-          bsStyle={newWriterBsStyle}
-        />
+        <FormGroup
+          controlId="newUserInput"
+          validationState={!!newUserAlert ? 'error' : null}
+        >
+          <ControlLabel>
+            Benutzer hinzufügen
+          </ControlLabel>
+          <FormControl
+            type="email"
+            value={newUser}
+            onChange={this.onChangeNewWriter}
+            onBlur={this.onBlurNewWriter}
+          />
+        </FormGroup>
         {
           newUserAlert &&
           this.newUserAlert()

@@ -363,11 +363,16 @@ input[readonly], textarea[readonly]
   background-color: #FFFFF9 !important
   cursor: not-allowed
 
+#main .form-group:not(.has-error) label,
+#importDs .form-group:not(.has-error) label,
+#importBs .form-group:not(.has-error) label,
+#export .form-group:not(.has-error) label
+  color: #555555
+
 #main label,
 #importDs label,
 #importBs label,
 #export .form-group label
-  color: #555555
   /* bootstrap.css macht font-weight bold */
   font-weight: normal
   /* Trennung ermöglichen */
