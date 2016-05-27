@@ -168,7 +168,10 @@ export default React.createClass({
     )
 
     return (
-      <div className="formContent">
+      <div
+        id="organisationen"
+        className="formContent"
+      >
         <h4>
           Organisationen
         </h4>
