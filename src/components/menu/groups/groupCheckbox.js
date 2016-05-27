@@ -2,18 +2,21 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import { Input } from 'react-bootstrap'
+import { Checkbox } from 'react-bootstrap'
 
-const Group = ({ group }) => {
-  const label = group.replace('Macromycetes', 'Pilze')
-  return (
-    <Input
-      type="checkbox"
-      label={label}
-      onClick={() => app.Actions.loadObject(group)}
-    />
-  )
-}
+const Group = ({ group }) =>
+  <Checkbox
+    style={{
+      marginTop: '10px',
+      marginLeft: '-4px'
+    }}
+    checked={false}
+    onClick={() =>
+      app.Actions.loadObject(group)
+    }
+  >
+    {group.replace('Macromycetes', 'Pilze')}
+  </Checkbox>
 
 Group.displayName = 'Group'
 

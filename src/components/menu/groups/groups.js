@@ -17,11 +17,28 @@ const Groups = ({ groupsLoadedOrLoading }) => {
   )
 
   return (
-    <div id="groups">
-      <div id="groupCheckboxesTitle">
+    <div
+      style={{
+        padding: '5px 10px',
+        border: '1px solid transparent',
+        borderRadius: '3px',
+        backgroundColor: 'rgb(255, 255, 255)',
+        borderColor: 'rgb(204, 204, 204)',
+        color: '#333',
+        margin: 0,
+        marginBottom: 5
+      }}
+    >
+      <div style={{ height: 12 }}>
         Gruppen laden:
       </div>
-      <div id="groupCheckboxes">
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          height: 30
+        }}
+      >
         {groupCheckboxes}
       </div>
     </div>
