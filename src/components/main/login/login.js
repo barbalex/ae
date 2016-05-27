@@ -36,11 +36,6 @@ export default React.createClass({
     }
   },
 
-  onHide() {
-    // weird things happen if this is not here ???!!!
-    // console.log('onHide')
-  },
-
   onKeyDownEmail(event) {
     const { password } = this.state
     const enter = 13
@@ -186,168 +181,170 @@ export default React.createClass({
       password,
       password2
     } = this.state
-    const loginErrorMessage = loginError && loginError.message ? loginError.message : null
+    const loginErrorMessage = (
+      loginError && loginError.message ?
+      loginError.message :
+      null
+    )
     const styleAlert = {
       marginBottom: 8
     }
 
     return (
-      <div className="static-modal">
-        <Modal.Dialog onHide={this.onHide}>
-          <Modal.Header>
-            <Modal.Title>
-              {
-                !signUp
-                ? 'Anmelden'
-                : 'Neues Konto erstellen'
-              }
-            </Modal.Title>
-          </Modal.Header>
+      <Modal.Dialog onHide={this.onHide}>
+        <Modal.Header>
+          <Modal.Title>
+            {
+              !signUp
+              ? 'Anmelden'
+              : 'Neues Konto erstellen'
+            }
+          </Modal.Title>
+        </Modal.Header>
 
-          <Modal.Body>
-            <form
-              className="form"
-              autoComplete="off"
-            >
-              {
-                !signUp &&
-                <p className="anmelden">
-                  Für diese Funktion müssen Sie angemeldet sein
-                </p>
-              }
-              <FormGroup
-                id="emailFormGroup"
-                validationState={invalidEmail ? 'error' : null}
-              >
-                <ControlLabel>
-                  Email
-                </ControlLabel>
-                <FormControl
-                  type="email"
-                  bsSize="small"
-                  placeholder="Email"
-                  value={email}
-                  onChange={this.onChangeEmail}
-                  onBlur={this.onBlurEmail}
-                  onKeyDown={this.onKeyDownEmail}
-                  required
-                  autoFocus
-                />
-                {
-                  invalidEmail &&
-                  <div style={{ color: '#a94442' }}>
-                    Bitte Email prüfen
-                  </div>
-                }
-              </FormGroup>
-              <FormGroup
-                id="passwordFormGroup"
-                validationState={invalidPassword ? 'error' : null}
-              >
-                <ControlLabel>
-                  Passwort
-                </ControlLabel>
-                <FormControl
-                  type="password"
-                  placeholder="Passwort"
-                  value={password}
-                  onChange={this.onChangePassword}
-                  onBlur={this.onBlurPassword}
-                  onKeyDown={this.onKeyDownPassword}
-                  required
-                />
-                {
-                  invalidPassword &&
-                  <div style={{ color: '#a94442' }}>
-                    Bitte Passwort prüfen
-                  </div>
-                }
-              </FormGroup>
-              {
-                loginErrorMessage && !signUp &&
-                <Alert
-                  bsStyle="danger"
-                  onDismiss={this.onAlertDismiss}
-                  style={styleAlert}
-                >
-                  Fehler beim Anmelden: {loginErrorMessage}<br />
-                  Müssen Sie <a href="#" onClick={this.onClickWantToSignup}>ein Konto erstellen?</a>
-                </Alert>
-              }
-              {
-                !signUp &&
-                <p
-                  className="Passwort"
-                  style={{ marginBottom: `${-5}px` }}
-                >
-                  Passwort vergessen?<br />
-                  <a href="mailto:alex@gabriel-software.ch">
-                    Mailen Sie mir
-                  </a>, möglichst mit derselben email-Adresse, die Sie für das Konto verwenden.
-                </p>
-              }
-              {
-                signUp &&
-                <FormGroup
-                  id="password2FormGroup"
-                  validationState={invalidPassword2 ? 'error' : null}
-                >
-                  <ControlLabel>
-                    Passwort bestätigen
-                  </ControlLabel>
-                  <FormControl
-                    type="password"
-                    placeholder="Passwort bestätigen"
-                    value={password2}
-                    onChange={this.onChangePassword2}
-                    onBlur={this.onBlurPassword2}
-                    onKeyDown={this.onKeyDownPassword2}
-                    required
-                  />
-                  {
-                    invalidPassword2 &&
-                    <div style={{ color: '#a94442' }}>
-                      Passwort stimmt nicht überein
-                    </div>
-                  }
-                </FormGroup>
-              }
-            </form>
-          </Modal.Body>
-
-          <Modal.Footer>
+        <Modal.Body>
+          <form
+            className="form"
+            autoComplete="off"
+          >
             {
               !signUp &&
-              <Button
-                ref="anmeldenButton"
-                className="btn-primary"
-                onClick={this.onClickLogin}
+              <p className="anmelden">
+                Für diese Funktion müssen Sie angemeldet sein
+              </p>
+            }
+            <FormGroup
+              id="emailFormGroup"
+              validationState={invalidEmail ? 'error' : null}
+            >
+              <ControlLabel>
+                Email
+              </ControlLabel>
+              <FormControl
+                type="email"
+                bsSize="small"
+                placeholder="Email"
+                value={email}
+                onChange={this.onChangeEmail}
+                onBlur={this.onBlurEmail}
+                onKeyDown={this.onKeyDownEmail}
+                required
+                autoFocus
+              />
+              {
+                invalidEmail &&
+                <div style={{ color: '#a94442' }}>
+                  Bitte Email prüfen
+                </div>
+              }
+            </FormGroup>
+            <FormGroup
+              id="passwordFormGroup"
+              validationState={invalidPassword ? 'error' : null}
+            >
+              <ControlLabel>
+                Passwort
+              </ControlLabel>
+              <FormControl
+                type="password"
+                placeholder="Passwort"
+                value={password}
+                onChange={this.onChangePassword}
+                onBlur={this.onBlurPassword}
+                onKeyDown={this.onKeyDownPassword}
+                required
+              />
+              {
+                invalidPassword &&
+                <div style={{ color: '#a94442' }}>
+                  Bitte Passwort prüfen
+                </div>
+              }
+            </FormGroup>
+            {
+              loginErrorMessage && !signUp &&
+              <Alert
+                bsStyle="danger"
+                onDismiss={this.onAlertDismiss}
+                style={styleAlert}
               >
-                anmelden
-              </Button>
+                Fehler beim Anmelden: {loginErrorMessage}<br />
+                Müssen Sie <a href="#" onClick={this.onClickWantToSignup}>ein Konto erstellen?</a>
+              </Alert>
             }
             {
               !signUp &&
-              <Button onClick={this.onClickWantToSignup}>
-                neues Konto erstellen
-              </Button>
+              <p
+                className="Passwort"
+                style={{ marginBottom: `${-5}px` }}
+              >
+                Passwort vergessen?<br />
+                <a href="mailto:alex@gabriel-software.ch">
+                  Mailen Sie mir
+                </a>, möglichst mit derselben email-Adresse, die Sie für das Konto verwenden.
+              </p>
             }
             {
               signUp &&
-              <Button
-                className="btn-primary"
-                onClick={this.onClickSignup}
+              <FormGroup
+                id="password2FormGroup"
+                validationState={invalidPassword2 ? 'error' : null}
               >
-                Konto erstellen
-              </Button>
+                <ControlLabel>
+                  Passwort bestätigen
+                </ControlLabel>
+                <FormControl
+                  type="password"
+                  placeholder="Passwort bestätigen"
+                  value={password2}
+                  onChange={this.onChangePassword2}
+                  onBlur={this.onBlurPassword2}
+                  onKeyDown={this.onKeyDownPassword2}
+                  required
+                />
+                {
+                  invalidPassword2 &&
+                  <div style={{ color: '#a94442' }}>
+                    Passwort stimmt nicht überein
+                  </div>
+                }
+              </FormGroup>
             }
-            <Button onClick={this.schliessen}>
-              schliessen
-            </Button>
-          </Modal.Footer>
+          </form>
+        </Modal.Body>
 
-        </Modal.Dialog>
-      </div>
+        <Modal.Footer>
+          {
+            !signUp &&
+            <Button
+              ref="anmeldenButton"
+              className="btn-primary"
+              onClick={this.onClickLogin}
+            >
+              anmelden
+            </Button>
+          }
+          {
+            !signUp &&
+            <Button onClick={this.onClickWantToSignup}>
+              neues Konto erstellen
+            </Button>
+          }
+          {
+            signUp &&
+            <Button
+              className="btn-primary"
+              onClick={this.onClickSignup}
+            >
+              Konto erstellen
+            </Button>
+          }
+          <Button onClick={this.schliessen}>
+            schliessen
+          </Button>
+        </Modal.Footer>
+
+      </Modal.Dialog>
     )
   }
 })

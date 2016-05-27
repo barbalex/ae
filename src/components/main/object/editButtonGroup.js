@@ -14,24 +14,29 @@ import {
   Tooltip
 } from 'react-bootstrap'
 
-const editButton = (editObjects, toggleEditObjects) => {
-  const editGlyph = editObjects ? 'ban-circle' : 'pencil'
-  const editText = editObjects ? 'schützen' : 'bearbeiten'
-  return (
-    <OverlayTrigger
-      overlay={<Tooltip id="editButtonTooltip">{editText}</Tooltip>}
-      placement="top"
-    >
-      <Button onClick={toggleEditObjects}>
-        <Glyphicon glyph={editGlyph} />
-      </Button>
-    </OverlayTrigger>
-  )
-}
+const editButton = (editObjects, toggleEditObjects) =>
+  <OverlayTrigger
+    overlay={
+      <Tooltip id="editButtonTooltip">
+        {editObjects ? 'schützen' : 'bearbeiten'}
+      </Tooltip>
+    }
+    placement="top"
+  >
+    <Button onClick={toggleEditObjects}>
+      <Glyphicon
+        glyph={editObjects ? 'ban-circle' : 'pencil'}
+      />
+    </Button>
+  </OverlayTrigger>
 
 const addButton = (editObjects, addNewObject) =>
   <OverlayTrigger
-    overlay={<Tooltip id="addButtonTooltip">neu</Tooltip>}
+    overlay={
+      <Tooltip id="addButtonTooltip">
+        neu
+      </Tooltip>
+    }
     placement="top"
   >
     <Button
@@ -44,7 +49,11 @@ const addButton = (editObjects, addNewObject) =>
 
 const removeButton = (editObjects, removeObject) =>
   <OverlayTrigger
-    overlay={<Tooltip id="editingButtonTooltip">löschen</Tooltip>}
+    overlay={
+      <Tooltip id="editingButtonTooltip">
+        löschen
+      </Tooltip>
+    }
     placement="top"
   >
     <Button
