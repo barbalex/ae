@@ -172,8 +172,6 @@ export default React.createClass({
       fontWeight: 700
     }
 
-    console.log('!!newUserAlert', !!newUserAlert)
-
     return (
       <div>
         <p style={titleStyle}>{title}</p>
