@@ -39,12 +39,8 @@ export default React.createClass({
     // only get paths on first render
     if (!paths) {
       getPathsFromLocalDb()
-        .then((paths) =>
-          this.setState({ paths })
-        )
-        .catch((error) =>
-          app.Actions.showError({ title: 'Fehler beim Aufbauen der Beispiele:', msg: error })
-        )
+        .then((paths) => this.setState({ paths }))
+        .catch((error) => app.Actions.showError({ title: 'Fehler beim Aufbauen der Beispiele:', msg: error }))
     }
 
     const examples = first5Ids.map((id, index) => {
