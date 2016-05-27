@@ -40,7 +40,9 @@ const MyObject = ({
     // regular relation collections
     objectRcs = rcs.filter((rc) => !rc.Typ)
     // taxonomic relation collections
-    taxRcs = rcs.filter((rc) => rc.Typ && rc.Typ === 'taxonomisch')
+    taxRcs = rcs.filter((rc) =>
+      rc.Typ && rc.Typ === 'taxonomisch'
+    )
     // list of names of relation collections
     // needed to choose which relation collections of synonym objects need to be built
     namesOfRcsBuilt = _map(rcs, 'Name')
@@ -48,7 +50,9 @@ const MyObject = ({
 
   // list names of property collections
   // needed to choose which property collections of synonym objects need to be built
-  if (pcs && pcs.length > 0) namesOfPcsBuilt = _map(pcs, 'Name')
+  if (pcs && pcs.length > 0) {
+    namesOfPcsBuilt = _map(pcs, 'Name')
+  }
 
   /**
    * build pcsOfSynonyms

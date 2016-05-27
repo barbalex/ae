@@ -21,7 +21,9 @@ const FieldLinkToSameGroup = ({ fieldName, guid, objectName }) =>
         className="linkZuArtGleicherGruppe"
         onClick={(event) => {
           event.preventDefault()
-          if (guid) app.Actions.loadActiveObject(guid)
+          if (guid) {
+            app.Actions.loadActiveObject(guid)
+          }
         }}
       >
         {objectName}
