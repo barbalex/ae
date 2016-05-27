@@ -7,12 +7,12 @@ const RcsOfSynonyms = ({ rcsOfSynonyms }) => {
   let rcsComponent = null
 
   if (rcsOfSynonyms.length > 0) {
-    rcsComponent = rcsOfSynonyms.map((rc, index) => (
+    rcsComponent = rcsOfSynonyms.map((rc, index) =>
       <RelationCollection
         key={index}
         relationCollection={rc}
       />
-    ))
+    )
   }
 
   return (

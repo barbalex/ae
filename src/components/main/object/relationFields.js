@@ -11,7 +11,9 @@ import Field from './field.js'
 
 const RelationFields = ({ relation, relationCollection }) => {
   const relationFields = map(relation, (fieldValue, fieldName) => {
-    if (typeof fieldValue === 'string') fieldValue = fieldValue.replace('&#39;', '\'')
+    if (typeof fieldValue === 'string') {
+      fieldValue = fieldValue.replace('&#39;', '\'')
+    }
     if (fieldName !== 'Beziehungspartner') {
       const rcName = relationCollection.Name.replace(/"/g, "'")
       return (
