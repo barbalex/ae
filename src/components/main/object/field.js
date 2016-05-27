@@ -41,7 +41,10 @@ const Field = ({
       />
     )
   }
-  if (typeof fieldVal === 'string' && fieldVal.length < 45) {
+  if (
+    typeof fieldVal === 'string' &&
+    fieldVal.length < 45
+  ) {
     return (
       <FieldInput
         fieldName={fieldName}
@@ -54,7 +57,10 @@ const Field = ({
       />
     )
   }
-  if (typeof fieldVal === 'string' && fieldVal.length >= 45) {
+  if (
+    typeof fieldVal === 'string' &&
+    fieldVal.length >= 45
+  ) {
     return (
       <FieldTextarea
         fieldName={fieldName}

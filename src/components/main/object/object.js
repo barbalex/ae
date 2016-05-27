@@ -7,7 +7,7 @@
 'use strict'
 
 import React from 'react'
-import { map, reject } from 'lodash'
+import { map as _map, reject } from 'lodash'
 import Taxonomy from './taxonomy.js'
 import PropertyCollections from './pcs.js'
 import RelationCollections from './rcs.js'
@@ -43,12 +43,12 @@ const MyObject = ({
     taxRcs = rcs.filter((rc) => rc.Typ && rc.Typ === 'taxonomisch')
     // list of names of relation collections
     // needed to choose which relation collections of synonym objects need to be built
-    namesOfRcsBuilt = map(rcs, 'Name')
+    namesOfRcsBuilt = _map(rcs, 'Name')
   }
 
   // list names of property collections
   // needed to choose which property collections of synonym objects need to be built
-  if (pcs && pcs.length > 0) namesOfPcsBuilt = map(pcs, 'Name')
+  if (pcs && pcs.length > 0) namesOfPcsBuilt = _map(pcs, 'Name')
 
   /**
    * build pcsOfSynonyms
@@ -74,21 +74,32 @@ const MyObject = ({
       /**
        * build rcsOfSynonyms
        */
-      if (synonymObject && synonymObject.Beziehungssammlungen && synonymObject.Beziehungssammlungen.length > 0) {
+      const synonymObjectHasRelationCollections = (
+        synonymObject &&
+        synonymObject.Beziehungssammlungen &&
+        synonymObject.Beziehungssammlungen.length > 0
+      )
+      if (synonymObjectHasRelationCollections) {
         synonymObject.Beziehungssammlungen.forEach((rcOfSynonym) => {
-          if (
+          const rcIsTaxonomicAndNotYetIncluded = (
             !namesOfRcsBuilt.includes(rcOfSynonym.Name) &&
             rcOfSynonym['Art der Beziehungen'] !== 'synonym' &&
             rcOfSynonym.Typ !== 'taxonomisch'
-          ) {
+          )
+          if (rcIsTaxonomicAndNotYetIncluded) {
             // this rc is not yet shown and is not taxonomic
             rcsOfSynonyms.push(rcOfSynonym)
             // update namesOfRcsBuilt
             namesOfRcsBuilt.push(rcOfSynonym.Name)
-          } else if (rcOfSynonym['Art der Beziehungen'] !== 'synonym' && rcOfSynonym.Typ !== 'taxonomisch') {
+          } else if (
+            rcOfSynonym['Art der Beziehungen'] !== 'synonym' &&
+            rcOfSynonym.Typ !== 'taxonomisch'
+          ) {
             // this rc is already shown
             // but there could be relations that are not shown yet
-            const rcOfOriginal = object.Beziehungssammlungen.find((rc) => rc.Name === rcOfSynonym.Name)
+            const rcOfOriginal = object.Beziehungssammlungen.find((rc) =>
+              rc.Name === rcOfSynonym.Name
+            )
 
             if (
               rcOfSynonym.Beziehungen &&
@@ -117,7 +128,9 @@ const MyObject = ({
               })
             }
             // if Synonym has relations that weren't yet shown, push them
-            if (rcOfSynonym.Beziehungen.length > 0) rcsOfSynonyms.push(rcOfSynonym)
+            if (rcOfSynonym.Beziehungen.length > 0) {
+              rcsOfSynonyms.push(rcOfSynonym)
+            }
           }
         })
       }
