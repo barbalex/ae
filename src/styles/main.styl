@@ -433,6 +433,9 @@ h5
   width: 1000px
   // Breite setzen für Browser, die calc unterstützen
   width: calc(100% - 214px)
+  
+ .form-horizontal #organisationen .form-control
+  width: 100%
 
 .input-group-sm > .input-group-btn
   width: 44px
@@ -540,9 +543,10 @@ input[type=file]
   height: 20px
 
 .form-horizontal label:not(.json-inspector__line)
-  /* nicht nötig, wenn checkbox mit label beschrieben wird*/
-  line-height: 15px !important
-  float: left !important
+  /* turned this off because formatted organizations wrong */
+  /* nicht nötig, wenn checkbox mit label beschrieben wird */
+  //line-height: 15px !important
+  //float: left !important
 
 option
   white-space: pre
