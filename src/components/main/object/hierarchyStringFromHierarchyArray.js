@@ -6,11 +6,11 @@
 
 'use strict'
 
-import { isArray, map } from 'lodash'
+import { isArray, map as _map } from 'lodash'
 
 export default (hierarchyArray) => {
   if (!isArray(hierarchyArray)) return ''
 
-  const names = map(hierarchyArray, 'Name')
+  const names = _map(hierarchyArray, 'Name')
   return names.join('\n')
 }
