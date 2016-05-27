@@ -23,11 +23,12 @@ export default React.createClass({
 
   render() {
     const { visible } = this.state
+    /**
+     * TODO: Braucht es jetzt Hochzeichen um Feldinhalt?
+     */
     return (
       <Well bsSize="small">
-        <b>
-          Zusätzliche Anforderungen an csv-Dateien
-        </b>
+        <b>Zusätzliche Anforderungen an csv-Dateien</b>
         &nbsp;
         <a
           href="#"
