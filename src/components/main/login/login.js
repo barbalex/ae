@@ -6,7 +6,7 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import { Modal, Input, Alert, Button } from 'react-bootstrap'
+import { Modal, FormGroup, ControlLabel, FormControl, Alert, Button } from 'react-bootstrap'
 import validateEmail from '../../../modules/validateEmail.js'
 
 export default React.createClass({
@@ -28,9 +28,9 @@ export default React.createClass({
       invalidEmail: false,
       invalidPassword: false,
       invalidPassword2: false,
-      email: null,
-      password: null,
-      password2: null,
+      email: '',
+      password: '',
+      password2: '',
       loginError: null,
       signUp: false
     }
@@ -78,7 +78,9 @@ export default React.createClass({
     if (this.isSigninValid(email, password, password2)) {
       app.remoteDb.signup(email, password)
         .then(() => this.logIn(email, password))
-        .catch((error) => this.setState({ email: null, loginError: error }))
+        .catch((error) =>
+          this.setState({ email: '', loginError: error })
+        )
     }
   },
 
@@ -118,16 +120,21 @@ export default React.createClass({
 
   logIn(email, password) {
     app.remoteDb.login(email, password)
-      .then((response) => app.Actions.login({
-        logIn: false,
-        email,
-        roles: response.roles
-      }))
-      .catch((error) => this.setState({ loginError: error }))
+      .then((response) =>
+        app.Actions.login({
+          logIn: false,
+          email,
+          roles: response.roles
+        }))
+      .catch((error) =>
+        this.setState({ loginError: error })
+      )
   },
 
   checkSignin(email, password) {
-    if (this.isSigninValid(email, password)) this.logIn(email, password)
+    if (this.isSigninValid(email, password)) {
+      this.logIn(email, password)
+    }
   },
 
   schliessen() {
@@ -168,83 +175,17 @@ export default React.createClass({
     return validSignin
   },
 
-  wantToSignupButtonComponent() {
-    return (
-      <Button onClick={this.onClickWantToSignup}>
-        neues Konto erstellen
-      </Button>
-    )
-  },
-
-  signupButtonComponent() {
-    return (
-      <Button
-        className="btn-primary"
-        onClick={this.onClickSignup}
-      >
-        Konto erstellen
-      </Button>
-    )
-  },
-
-  signinButtonComponent() {
-    return (
-      <Button
-        ref="anmeldenButton"
-        className="btn-primary"
-        onClick={this.onClickLogin}
-      >
-        anmelden
-      </Button>
-    )
-  },
-
-  forgotPasswordComponent() {
-    return (
-      <p
-        className="Passwort"
-        style={{ marginBottom: `${-5}px` }}
-      >
-        Passwort vergessen?<br />
-        <a href="mailto:alex@gabriel-software.ch">
-          Mailen Sie mir
-        </a>, möglichst mit derselben email-Adresse, die Sie für das Konto verwenden.
-      </p>
-    )
-  },
-
-  password2Component() {
-    const { invalidPassword2, password2 } = this.state
-    const password2InputBsStyle = invalidPassword2 ? 'error' : null
-    return (
-      <div className="formGroup">
-        <Input
-          type="password"
-          id="password2"
-          label="Passwort bestätigen"
-          className="controls"
-          placeholder="Passwort bestätigen"
-          value={password2}
-          bsStyle={password2InputBsStyle}
-          onChange={this.onChangePassword2}
-          onBlur={this.onBlurPassword2}
-          onKeyDown={this.onKeyDownPassword2}
-          required
-        />
-        {
-          invalidPassword2 &&
-          <div className="validateDivAfterRBC">
-            Passwort stimmt nicht überein
-          </div>
-        }
-      </div>
-    )
-  },
-
   render() {
-    const { invalidEmail, invalidPassword, loginError, signUp, email, password } = this.state
-    const emailInputBsStyle = invalidEmail ? 'error' : null
-    const passwordInputBsStyle = invalidPassword ? 'error' : null
+    const {
+      invalidEmail,
+      invalidPassword,
+      invalidPassword2,
+      loginError,
+      signUp,
+      email,
+      password,
+      password2
+    } = this.state
     const loginErrorMessage = loginError && loginError.message ? loginError.message : null
     const styleAlert = {
       marginBottom: 8
@@ -274,16 +215,18 @@ export default React.createClass({
                   Für diese Funktion müssen Sie angemeldet sein
                 </p>
               }
-              <div className="formGroup">
-                <Input
+              <FormGroup
+                id="emailFormGroup"
+                validationState={invalidEmail ? 'error' : null}
+              >
+                <ControlLabel>
+                  Email
+                </ControlLabel>
+                <FormControl
                   type="email"
-                  id="email"
-                  label="Email"
                   bsSize="small"
-                  className="controls"
                   placeholder="Email"
                   value={email}
-                  bsStyle={emailInputBsStyle}
                   onChange={this.onChangeEmail}
                   onBlur={this.onBlurEmail}
                   onKeyDown={this.onKeyDownEmail}
@@ -292,20 +235,22 @@ export default React.createClass({
                 />
                 {
                   invalidEmail &&
-                  <div className="validateDivAfterRBC">
+                  <div style={{ color: '#a94442' }}>
                     Bitte Email prüfen
                   </div>
                 }
-              </div>
-              <div className="formGroup">
-                <Input
+              </FormGroup>
+              <FormGroup
+                id="passwordFormGroup"
+                validationState={invalidPassword ? 'error' : null}
+              >
+                <ControlLabel>
+                  Passwort
+                </ControlLabel>
+                <FormControl
                   type="password"
-                  id="password"
-                  label="Passwort"
-                  className="controls"
                   placeholder="Passwort"
                   value={password}
-                  bsStyle={passwordInputBsStyle}
                   onChange={this.onChangePassword}
                   onBlur={this.onBlurPassword}
                   onKeyDown={this.onKeyDownPassword}
@@ -313,11 +258,11 @@ export default React.createClass({
                 />
                 {
                   invalidPassword &&
-                  <div className="validateDivAfterRBC">
+                  <div style={{ color: '#a94442' }}>
                     Bitte Passwort prüfen
                   </div>
                 }
-              </div>
+              </FormGroup>
               {
                 loginErrorMessage && !signUp &&
                 <Alert
@@ -331,11 +276,41 @@ export default React.createClass({
               }
               {
                 !signUp &&
-                this.forgotPasswordComponent()
+                <p
+                  className="Passwort"
+                  style={{ marginBottom: `${-5}px` }}
+                >
+                  Passwort vergessen?<br />
+                  <a href="mailto:alex@gabriel-software.ch">
+                    Mailen Sie mir
+                  </a>, möglichst mit derselben email-Adresse, die Sie für das Konto verwenden.
+                </p>
               }
               {
                 signUp &&
-                this.password2Component()
+                <FormGroup
+                  id="password2FormGroup"
+                  validationState={invalidPassword2 ? 'error' : null}
+                >
+                  <ControlLabel>
+                    Passwort bestätigen
+                  </ControlLabel>
+                  <FormControl
+                    type="password"
+                    placeholder="Passwort bestätigen"
+                    value={password2}
+                    onChange={this.onChangePassword2}
+                    onBlur={this.onBlurPassword2}
+                    onKeyDown={this.onKeyDownPassword2}
+                    required
+                  />
+                  {
+                    invalidPassword2 &&
+                    <div style={{ color: '#a94442' }}>
+                      Passwort stimmt nicht überein
+                    </div>
+                  }
+                </FormGroup>
               }
             </form>
           </Modal.Body>
@@ -343,15 +318,28 @@ export default React.createClass({
           <Modal.Footer>
             {
               !signUp &&
-              this.signinButtonComponent()
+              <Button
+                ref="anmeldenButton"
+                className="btn-primary"
+                onClick={this.onClickLogin}
+              >
+                anmelden
+              </Button>
             }
             {
               !signUp &&
-              this.wantToSignupButtonComponent()
+              <Button onClick={this.onClickWantToSignup}>
+                neues Konto erstellen
+              </Button>
             }
             {
               signUp &&
-              this.signupButtonComponent()
+              <Button
+                className="btn-primary"
+                onClick={this.onClickSignup}
+              >
+                Konto erstellen
+              </Button>
             }
             <Button onClick={this.schliessen}>
               schliessen
