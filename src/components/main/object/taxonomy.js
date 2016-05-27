@@ -12,7 +12,9 @@ const Taxonomy = ({
   addNewObject,
   removeObject
 }) => {
-  const standardtaxonomie = object.Taxonomien.find((taxonomy) => taxonomy.Standardtaxonomie)
+  const standardtaxonomie = object.Taxonomien.find((taxonomy) =>
+    taxonomy.Standardtaxonomie
+  )
 
   return (
     <div>

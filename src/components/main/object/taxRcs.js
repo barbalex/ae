@@ -7,12 +7,12 @@ const TaxonomicRelationCollections = ({ taxRcs }) => {
   let taxRcComponent = null
 
   if (taxRcs.length > 0) {
-    taxRcComponent = taxRcs.map((rc, index) => (
+    taxRcComponent = taxRcs.map((rc, index) =>
       <RelationCollection
         key={index}
         relationCollection={rc}
       />
-    ))
+    )
   }
 
   return (
