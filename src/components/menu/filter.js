@@ -59,28 +59,29 @@ export default React.createClass({
     }
 
     const filterField = (
-      <div id="filter">
-        <div style={{ position: 'relative' }}>
-          <Glyphicon
-            glyph="remove"
-            style={removeGlyphStyle}
-            onClick={this.onClickEmptyFilterField}
-          />
-          <Typeahead
-            ref="typeahead"
-            placeholder={loadingFilterOptions ? 'Ergänze Suchindex...' : 'suchen'}
-            maxVisible={10}
-            options={filterOptions}
-            filterOption={'label'}
-            displayOption={'label'}
-            onOptionSelected={this.onSelectObject}
-            customClasses={{
-              input: ['form-control'],
-              results: ['list-group'],
-              listItem: ['list-group-item']
-            }}
-          />
-        </div>
+      <div
+        id="filter"
+        style={{ position: 'relative' }}
+      >
+        <Glyphicon
+          glyph="remove"
+          style={removeGlyphStyle}
+          onClick={this.onClickEmptyFilterField}
+        />
+        <Typeahead
+          ref="typeahead"
+          placeholder={loadingFilterOptions ? 'Ergänze Suchindex...' : 'suchen'}
+          maxVisible={10}
+          options={filterOptions}
+          filterOption={'label'}
+          displayOption={'label'}
+          onOptionSelected={this.onSelectObject}
+          customClasses={{
+            input: ['form-control'],
+            results: ['list-group'],
+            listItem: ['list-group-item']
+          }}
+        />
       </div>
     )
 
