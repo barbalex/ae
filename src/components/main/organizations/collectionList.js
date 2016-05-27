@@ -7,11 +7,11 @@ const collectionsList = (collections) => {
     if (a.name > b.name) return 1
     return -1
   })
-  return collections.map((collection, index) => (
+  return collections.map((collection, index) =>
     <li key={index}>
       <p>{collection.name}</p>
     </li>
-  ))
+  )
 }
 
 const titleStyle = {
