@@ -116,7 +116,8 @@ export default React.createClass({
             Zus.-fassend:
           </div>
           <div>
-            Diese Eigenschaftensammlung fasst die Daten mehrerer Eigenschaftensammlungen in einer zusammen.<br />
+            Diese Eigenschaftensammlung fasst die Daten mehrerer
+            Eigenschaftensammlungen in einer zusammen.<br />
             Die angezeigten Informationen stammen aus {`"${pc.Ursprungsdatensammlung}"`}
           </div>
         </div>
@@ -128,14 +129,20 @@ export default React.createClass({
             Zus.-fassend:
           </div>
           <div>
-            Diese Eigenschaftensammlung fasst die Daten mehrerer Eigenschaftensammlungen in einer zusammen.<br />
+            Diese Eigenschaftensammlung fasst die Daten mehrerer
+            Eigenschaftensammlungen in einer zusammen.<br />
             Leider ist die Ursprungs-Eigenschaftensammlung nicht beschrieben
           </div>
         </div>
       )
     }
 
-    if (pc.Datenstand || pc.Nutzungsbedingungen || pc.Link || (pc.zusammenfassend && pc.Ursprungsdatensammlung)) {
+    if (
+      pc.Datenstand ||
+      pc.Nutzungsbedingungen ||
+      pc.Link ||
+      (pc.zusammenfassend && pc.Ursprungsdatensammlung)
+    ) {
       mehr = (
         <span>
           <a

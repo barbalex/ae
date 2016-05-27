@@ -30,12 +30,18 @@ function buildFieldForProperty(
 ) {
   const pcName = propertyCollection.Name.replace(/"/g, "'")
   // bad hack because jsx shows &#39; not as ' but as &#39;
-  if (typeof value === 'string') value = value.replace('&#39;', '\'')
+  if (typeof value === 'string') {
+    value = value.replace('&#39;', '\'')
+  }
   // lr.Taxonomie is lr.Einheit of to level lr > never change lr.Taxonomie
-  if (key === 'Taxonomie' && object.Gruppe === 'Lebensräume') collectionIsEditing = false
+  if (key === 'Taxonomie' && object.Gruppe === 'Lebensräume') {
+    collectionIsEditing = false
+  }
   // don't show 'GUID' - _id is used instead
   // this field was removed and should not exist any more
-  if (key === 'GUID') return null
+  if (key === 'GUID') {
+    return null
+  }
   const buildAsSingleLink = (
     (
       object.Gruppe === 'Flora' &&
@@ -54,7 +60,9 @@ function buildFieldForProperty(
       .then((linkedObject) => {
         if (linkedObject) {
           const linkedObjectId = linkedObject._id
-          const standardtaxonomie = linkedObject.Taxonomien.find((taxonomy) => taxonomy.Standardtaxonomie)
+          const standardtaxonomie = linkedObject.Taxonomien.find((taxonomy) =>
+            taxonomy.Standardtaxonomie
+          )
           const linkedObjectName = standardtaxonomie.Eigenschaften['Artname vollständig']
           return (
             <LinkToSameGroup
@@ -69,10 +77,16 @@ function buildFieldForProperty(
         }
       })
       .catch((error) =>
-        app.Actions.showError({ title: 'pc.js: error getting item from objectStore:', msg: error })
+        app.Actions.showError({
+          title: 'pc.js: error getting item from objectStore:',
+          msg: error
+        })
       )
   }
-  if ((key === 'Gültige Namen' || key === 'Eingeschlossene Arten') && object.Gruppe === 'Flora') {
+  if (
+    (key === 'Gültige Namen' || key === 'Eingeschlossene Arten') &&
+    object.Gruppe === 'Flora'
+  ) {
     // build array of links
     return (
       <LinksToSameGroup
@@ -86,9 +100,12 @@ function buildFieldForProperty(
   }
   const dontShowThisField = (
     (object.Gruppe === 'Flora' && ['Artname', 'Synonyme'].includes(key)) ||
-    (key === 'Parent' && object.Gruppe === 'Lebensräume') || (key === 'Hierarchie' && isArray(value))
+    (key === 'Parent' && object.Gruppe === 'Lebensräume') ||
+    (key === 'Hierarchie' && isArray(value))
   )
-  if (dontShowThisField) return null
+  if (dontShowThisField) {
+    return null
+  }
   if (isArray(value)) {
     // this field contains an array of values
     return (
