@@ -82,16 +82,16 @@ export default React.createClass({
   // validXxx: to check validity of these fields
   getInitialState() {
     return {
-      nameBestehend: null,
-      name: null,
-      beschreibung: null,
-      datenstand: null,
-      nutzungsbedingungen: null,
-      link: null,
-      orgMitSchreibrecht: null,
+      nameBestehend: '',
+      name: '',
+      beschreibung: '',
+      datenstand: '',
+      nutzungsbedingungen: '',
+      link: '',
+      orgMitSchreibrecht: '',
       importiertVon: this.props.email,
-      zusammenfassend: null,
-      nameUrsprungsBs: null,
+      zusammenfassend: false,
+      nameUrsprungsBs: '',
       bsBearbeitenErlaubt: true,
       rcsToImport: [],
       rcsRemoved: false,
@@ -156,9 +156,17 @@ export default React.createClass({
             const link = rc.fields.Link
             const zusammenfassend = rc.combining
             const name = nameBestehend
-            let state = { beschreibung, datenstand, nutzungsbedingungen, link, zusammenfassend }
+            let state = {
+              beschreibung,
+              datenstand,
+              nutzungsbedingungen,
+              link,
+              zusammenfassend
+            }
             state = Object.assign(state, this.stateFollowingPanel1Reset())
-            if (editingRcIsAllowed) state = Object.assign(state, { nameBestehend, name })
+            if (editingRcIsAllowed) {
+              state = Object.assign(state, { nameBestehend, name })
+            }
             this.setState(state)
           }
         })
@@ -231,7 +239,10 @@ export default React.createClass({
           this.isRcsToImportValid()
         })
         .catch((error) =>
-          app.Actions.showError({ title: 'Fehler beim Lesen der Datei:', msg: error })
+          app.Actions.showError({
+            title: 'Fehler beim Lesen der Datei:',
+            msg: error
+          })
         )
     }
   },
@@ -285,7 +296,9 @@ export default React.createClass({
         // in ae it needs to be an array of objects
         const rPartnerIds = rc.Beziehungspartner.split(', ')
         // analyse
-        if (rPartnerIds.length === 0) idsWithoutPartner.push(rc[idsImportIdField])
+        if (rPartnerIds.length === 0) {
+          idsWithoutPartner.push(rc[idsImportIdField])
+        }
         rPartnerIdsToImport.push(rPartnerIds)
         // build rc.Beziehungspartner
         const rPartners = []
@@ -306,7 +319,11 @@ export default React.createClass({
         // ignore error - can simply be that no object was found for id
         .catch(() => {})
       })
-      const rcPartnerState = { idsWithoutPartner, rPartnerIdsToImport, rPartnerIdsImportable }
+      const rcPartnerState = {
+        idsWithoutPartner,
+        rPartnerIdsToImport,
+        rPartnerIdsImportable
+      }
 
       const ids = map(rcsToImport, idsImportIdField)
       // if ids should be numbers but some are not, an error can occur when fetching from the database
@@ -332,12 +349,16 @@ export default React.createClass({
           const idsImportable = Object.keys(idGuidImportable)
           // extracting from keys converts numbers to strings! Convert back
           idsImportable.forEach((id, index) => {
-            if (!isNaN(id)) idsImportable[index] = parseInt(id, 10)
+            if (!isNaN(id)) {
+              idsImportable[index] = parseInt(id, 10)
+            }
           })
 
           let idsNumberImportable = 0
           idsToImportWithDuplicates.forEach((id) => {
-            if (idsImportable.includes(id)) idsNumberImportable++
+            if (idsImportable.includes(id)) {
+              idsNumberImportable++
+            }
           })
           // get ids not fetched
           const idsNotImportable = difference(idsToImportWithDuplicates, idsImportable)
@@ -354,7 +375,9 @@ export default React.createClass({
           const state = Object.assign(rcPartnerState, relationState)
           this.setState(state)
         })
-        .catch((error) => app.Actions.showError({ msg: error }))
+        .catch((error) =>
+          app.Actions.showError({ msg: error })
+        )
     }
   },
 
@@ -425,26 +448,36 @@ export default React.createClass({
     )
     if (headingWasClicked) {
       // always close panel if it is open
-      if (activePanel === number) return this.setState({ activePanel: '' })
+      if (activePanel === number) {
+        return this.setState({ activePanel: '' })
+      }
 
       switch (number) {
         case 1:
           this.setState({ activePanel: 1 })
           break
         case 2: {
-          if (!allGroupsLoaded) this.setState({ ultimatelyAlertLoadAllGroups: true })
+          if (!allGroupsLoaded) {
+            this.setState({ ultimatelyAlertLoadAllGroups: true })
+          }
           const isPanel1Done = this.isPanel1Done()
-          if (isPanel1Done && allGroupsLoaded) this.setState({ activePanel: 2 })
+          if (isPanel1Done && allGroupsLoaded) {
+            this.setState({ activePanel: 2 })
+          }
           break
         }
         case 3: {
           const isPanel2Done = this.isPanel2Done()
-          if (isPanel2Done) this.setState({ activePanel: 3 })
+          if (isPanel2Done) {
+            this.setState({ activePanel: 3 })
+          }
           break
         }
         case 4: {
           const isPanel3Done = this.isPanel3Done()
-          if (isPanel3Done) this.setState({ activePanel: 4 })
+          if (isPanel3Done) {
+            this.setState({ activePanel: 4 })
+          }
           break
         }
         default:
@@ -489,7 +522,9 @@ export default React.createClass({
   },
 
   buildPartnerFromObject(object) {
-    const standardtaxonomie = object.Taxonomien.find((taxonomy) => taxonomy.Standardtaxonomie)
+    const standardtaxonomie = object.Taxonomien.find((taxonomy) =>
+      taxonomy.Standardtaxonomie
+    )
     const partner = {}
     partner.Gruppe = object.Gruppe
     if (object.Gruppe === 'Lebensräume') {
@@ -539,7 +574,9 @@ export default React.createClass({
       validEmail
     )
     let state = { panel1Done }
-    if (!panel1Done) state = Object.assign(state, { activePanel: 1 })
+    if (!panel1Done) {
+      state = Object.assign(state, { activePanel: 1 })
+    }
     this.setState(state)
     return panel1Done
   },
@@ -549,7 +586,9 @@ export default React.createClass({
     const panel1Done = this.isPanel1Done()
     const panel2Done = panel1Done && validRcsToImport
     let state = { panel2Done }
-    if (panel1Done && !panel2Done) state = Object.assign(state, { activePanel: 2 })
+    if (panel1Done && !panel2Done) {
+      state = Object.assign(state, { activePanel: 2 })
+    }
     this.setState(state)
     return panel2Done
   },
@@ -570,9 +609,14 @@ export default React.createClass({
       idsNotANumber
     }
     const idsAnalysisResultType = getSuccessTypeFromAnalysis(variablesToPass)
-    const panel3Done = idsAnalysisResultType !== 'danger' && idsOfAeObjects.length > 0
+    const panel3Done = (
+      idsAnalysisResultType !== 'danger' &&
+      idsOfAeObjects.length > 0
+    )
     let state = { panel3Done }
-    if (isPanel2Done && !panel3Done) state = Object.assign(state, { activePanel: 3 })
+    if (isPanel2Done && !panel3Done) {
+      state = Object.assign(state, { activePanel: 3 })
+    }
     this.setState(state)
     return panel3Done
   },
@@ -656,9 +700,13 @@ export default React.createClass({
      * so state would not yet be updated! > needs to be passed directly
      */
     const { zusammenfassend } = this.state
-    if (!nameUrsprungsBs) nameUrsprungsBs = this.state.nameUrsprungsBs
+    if (!nameUrsprungsBs) {
+      nameUrsprungsBs = this.state.nameUrsprungsBs
+    }
     let validUrsprungsBs = true
-    if (zusammenfassend && !nameUrsprungsBs) validUrsprungsBs = false
+    if (zusammenfassend && !nameUrsprungsBs) {
+      validUrsprungsBs = false
+    }
     this.setState({ validUrsprungsBs })
     return validUrsprungsBs
   },
@@ -738,7 +786,9 @@ export default React.createClass({
             collapsible
             header="1. Beziehungssammlung beschreiben"
             eventKey={1}
-            onClick={this.onClickPanel.bind(this, 1)}
+            onClick={(event) =>
+              this.onClickPanel(1, event)
+            }
           >
             {
               activePanel === 1 &&
@@ -795,7 +845,9 @@ export default React.createClass({
             collapsible
             header="2. Beziehungen laden"
             eventKey={2}
-            onClick={this.onClickPanel.bind(this, 2)}
+            onClick={(event) =>
+              this.onClickPanel(2, event)
+            }
           >
             {
               activePanel === 2 &&
@@ -811,7 +863,9 @@ export default React.createClass({
             collapsible
             header="3. ID's identifizieren"
             eventKey={3}
-            onClick={this.onClickPanel.bind(this, 3)}
+            onClick={(event) =>
+              this.onClickPanel(3, event)
+            }
           >
             {
               activePanel === 3 &&
@@ -837,7 +891,9 @@ export default React.createClass({
             collapsible
             header="4. importieren"
             eventKey={4}
-            onClick={this.onClickPanel.bind(this, 4)}
+            onClick={(event) =>
+              this.onClickPanel(4, event)
+            }
           >
             {
               activePanel === 4 &&
