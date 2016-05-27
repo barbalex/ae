@@ -2,7 +2,12 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import { Button, ButtonGroup, DropdownButton, MenuItem } from 'react-bootstrap'
+import {
+  Button,
+  ButtonGroup,
+  DropdownButton,
+  MenuItem
+} from 'react-bootstrap'
 import InputIndexes from './inputIndexes.js'
 import buildGoogleImageLink from '../../../modules/buildGoogleImageLink.js'
 import buildWikipediaLink from '../../../modules/buildWikipediaLink.js'
@@ -17,50 +22,21 @@ export default React.createClass({
     onClickToggleOfflineIndexes: React.PropTypes.func
   },
 
-  exportProperties() {
-    app.Actions.loadActivePath(['exportieren'])
-  },
-
-  importPropertyCollection() {
-    app.Actions.loadActivePath(['importieren', 'eigenschaften'])
-  },
-
-  importRelationsCollection() {
-    app.Actions.loadActivePath(['importieren', 'beziehungen'])
-  },
-
-  openOrganisationen() {
-    app.Actions.loadActivePath(['organisationen'])
-  },
-
-  replicateToRemoteDb() {
-    app.Actions.replicateToRemoteDb()
-  },
-
-  replicateFromRemoteDb() {
-    app.Actions.replicateFromRemoteDb()
-  },
-
-  loadPouchFromRemote() {
-    app.Actions.loadPouchFromRemote()
-  },
-
-  openAdminPage() {
-    console.log('openAdminPage was clicked')
-    // TODO
-    /* previously:
-    require('./zeigeFormular')('admin')
-    */
-  },
-
   render() {
-    const { object, offlineIndexes, onClickToggleOfflineIndexes } = this.props
+    const {
+      object,
+      offlineIndexes,
+      onClickToggleOfflineIndexes
+    } = this.props
     const isObject = object && Object.keys(object).length > 0
     const googleLink = isObject ? buildGoogleImageLink(object) : '#'
     const wikipediaLink = isObject ? buildWikipediaLink(object) : '#'
 
     return (
-      <div id="menuBtn" className="btn-group menu">
+      <div
+        id="menuBtn"
+        className="btn-group menu"
+      >
         <ButtonGroup>
           <Button
             onClick={this.searchGoogleImages}
@@ -81,7 +57,9 @@ export default React.createClass({
             Wikipedia
           </Button>
           <Button
-            onClick={this.exportProperties}
+            onClick={() =>
+              app.Actions.loadActivePath(['exportieren'])
+            }
             bsSize="small"
           >
             Export
@@ -95,12 +73,16 @@ export default React.createClass({
               Importieren oder löschen:
             </MenuItem>
             <MenuItem
-              onSelect={this.importPropertyCollection}
+              onSelect={() =>
+                app.Actions.loadActivePath(['importieren', 'eigenschaften'])
+              }
             >
               Eigenschaften
             </MenuItem>
             <MenuItem
-              onSelect={this.importRelationsCollection}
+              onSelect={() =>
+                app.Actions.loadActivePath(['importieren', 'beziehungen'])
+              }
             >
               Beziehungen
             </MenuItem>
@@ -111,7 +93,9 @@ export default React.createClass({
             bsSize="small"
           >
             <MenuItem
-              onSelect={this.openOrganisationen}
+              onSelect={() =>
+                app.Actions.loadActivePath(['organisationen'])
+              }
             >
               Organisationen
             </MenuItem>
@@ -120,17 +104,23 @@ export default React.createClass({
               Daten:
             </MenuItem>
             <MenuItem
-              onSelect={this.loadPouchFromRemote}
+              onSelect={() =>
+                app.Actions.loadPouchFromRemote()
+              }
             >
               Fehlende Gruppen laden
             </MenuItem>
             <MenuItem
-              onSelect={this.replicateFromRemoteDb}
+              onSelect={() =>
+                app.Actions.replicateFromRemoteDb()
+              }
             >
               <strong>Von</strong> arteigenschaften.ch replizieren
             </MenuItem>
             <MenuItem
-              onSelect={this.replicateToRemoteDb}
+              onSelect={() =>
+                app.Actions.replicateToRemoteDb()
+              }
             >
               <strong>Nach</strong> arteigenschaften.ch replizieren
             </MenuItem>
@@ -146,7 +136,13 @@ export default React.createClass({
             />
             <MenuItem divider />
             <MenuItem
-              onSelect={this.openAdminPage}
+              onSelect={() => {
+                console.log('openAdminPage was clicked')
+                // TODO
+                /* previously:
+                require('./zeigeFormular')('admin')
+                */
+              }}
               disabled
             >
               Administration

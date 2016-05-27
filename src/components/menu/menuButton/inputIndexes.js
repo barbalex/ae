@@ -60,36 +60,28 @@ const InputIndexes = ({ offlineIndexes, onClickToggleOfflineIndexes }) =>
     >
       Von arteigenschaften.ch verwenden (empfohlen)
     </Checkbox>
-    <div
-      className="checkbox"
+    <Checkbox
+      checked={offlineIndexes}
+      onChange={onClickToggleOfflineIndexes}
+      style={cbStyle}
     >
-      <label
-        className="control-label"
+      Lokale verwenden
+      <OverlayTrigger
+        trigger={['hover', 'focus']}
+        rootClose
+        placement="right"
+        overlay={popover()}
       >
-        <input
-          type="checkbox"
-          checked={offlineIndexes}
-          onChange={onClickToggleOfflineIndexes}
-          style={cbStyle}
-        />
-          Lokale verwenden
-        <OverlayTrigger
-          trigger={['hover', 'focus']}
-          rootClose
-          placement="right"
-          overlay={popover()}
+        <span
+          className="withPopover"
         >
-          <span
-            className="withPopover"
-          >
-            <Glyphicon
-              glyph="info-sign"
-              style={glyphiconStyle}
-            />
-          </span>
-        </OverlayTrigger>
-      </label>
-    </div>
+          <Glyphicon
+            glyph="info-sign"
+            style={glyphiconStyle}
+          />
+        </span>
+      </OverlayTrigger>
+    </Checkbox>
   </li>
 
 InputIndexes.displayName = 'InputIndexes'
