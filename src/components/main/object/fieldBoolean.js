@@ -76,6 +76,7 @@ export default React.createClass({
           readOnly={!collectionIsEditing}
           onChange={this.onChange}
           onBlur={this.onBlur}
+          style={{ marginTop: 8 }}
         />
       </div>
     )

@@ -51,6 +51,7 @@ const InputZusammenfassend = ({ zusammenfassend, onChangeZusammenfassend }) =>
       type="checkbox"
       label="zusammenfassend"
       checked={zusammenfassend}
+      style={{ marginTop: 8 }}
       onChange={(event) =>
         onChangeZusammenfassend(event.target.checked)
       }
