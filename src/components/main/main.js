@@ -62,7 +62,11 @@ export default React.createClass({
   mixins: [ListenerMixin],
 
   getInitialState() {
-    const formClassNames = window.innerWidth > 700 ? 'form form-horizontal' : 'form'
+    const formClassNames = (
+      window.innerWidth > 700 ?
+      'form form-horizontal' :
+      'form'
+    )
     return { formClassNames }
   },
 
@@ -76,7 +80,11 @@ export default React.createClass({
 
   onResize() {
     const thisWidth = ReactDOM.findDOMNode(this).offsetWidth
-    const formClassNames = thisWidth > 700 ? 'form form-horizontal' : 'form'
+    const formClassNames = (
+      thisWidth > 700 ?
+      'form form-horizontal' :
+      'form'
+    )
     this.setState({ formClassNames })
   },
 
@@ -127,106 +135,107 @@ export default React.createClass({
     )
 
     return (
-      <fieldset id="main">
-        <form className={formClassNames} autoComplete="off">
-          <Errors errors={errors} />
-          {
-            showObject &&
-            <Objekt
-              object={object}
-              onSaveObjectField={onSaveObjectField}
-              synonymObjects={synonymObjects}
-              userRoles={userRoles}
-              editObjects={editObjects}
-              toggleEditObjects={toggleEditObjects}
-              addNewObject={addNewObject}
-              removeObject={removeObject}
-            />
-          }
-          {
-            mainComponent === 'importPc' &&
-            <ImportPc
-              email={email}
-              userRoles={userRoles}
-              pcs={pcs}
-              offlineIndexes={offlineIndexes}
-              groupsLoadedOrLoading={groupsLoadedOrLoading}
-              groupsLoadingObjects={groupsLoadingObjects}
-              allGroupsLoaded={allGroupsLoaded}
-              replicatingToAe={replicatingToAe}
-              replicatingToAeTime={replicatingToAeTime}
-              organizations={organizations}
-              userIsEsWriterInOrgs={userIsEsWriterInOrgs}
-            />
-          }
-          {
-            mainComponent === 'importRc' &&
-            <ImportRc
-              email={email}
-              userRoles={userRoles}
-              rcs={rcs}
-              offlineIndexes={offlineIndexes}
-              groupsLoadedOrLoading={groupsLoadedOrLoading}
-              groupsLoadingObjects={groupsLoadingObjects}
-              allGroupsLoaded={allGroupsLoaded}
-              replicatingToAe={replicatingToAe}
-              replicatingToAeTime={replicatingToAeTime}
-              organizations={organizations}
-              userIsEsWriterInOrgs={userIsEsWriterInOrgs}
-            />
-          }
-          {
-            mainComponent === 'exportieren' &&
-            <Export
-              groupsLoadedOrLoading={groupsLoadedOrLoading}
-              groupsLoadingObjects={groupsLoadingObjects}
-              fieldsQuerying={fieldsQuerying}
-              fieldsQueryingError={fieldsQueryingError}
-              taxonomyFields={taxonomyFields}
-              pcFields={pcFields}
-              relationFields={relationFields}
-              pcs={pcs}
-              rcs={rcs}
-              pcsQuerying={pcsQuerying}
-              rcsQuerying={rcsQuerying}
-              offlineIndexes={offlineIndexes}
-            />
-          }
-          {
-            mainComponent === 'exportierenAlt' &&
-            <ExportAlt
-              groupsLoadedOrLoading={groupsLoadedOrLoading}
-              groupsLoadingObjects={groupsLoadingObjects}
-              fieldsQuerying={fieldsQuerying}
-              fieldsQueryingError={fieldsQueryingError}
-              taxonomyFields={taxonomyFields}
-              pcFields={pcFields}
-              relationFields={relationFields}
-              pcs={pcs}
-              rcs={rcs}
-              pcsQuerying={pcsQuerying}
-              rcsQuerying={rcsQuerying}
-              offlineIndexes={offlineIndexes}
-            />
-          }
-          {
-            mainComponent === 'organizations' &&
-            <Organizations
-              tcs={tcs}
-              tcsQuerying={tcsQuerying}
-              email={email}
-              userRoles={userRoles}
-              organizations={organizations}
-              activeOrganization={activeOrganization}
-              tcsOfActiveOrganization={tcsOfActiveOrganization}
-              pcsOfActiveOrganization={pcsOfActiveOrganization}
-              rcsOfActiveOrganization={rcsOfActiveOrganization}
-              onChangeActiveOrganization={onChangeActiveOrganization}
-              userIsAdminInOrgs={userIsAdminInOrgs}
-              offlineIndexes={offlineIndexes}
-            />
-          }
-        </form>
+      <fieldset
+        id="main"
+        className={formClassNames}
+      >
+        <Errors errors={errors} />
+        {
+          showObject &&
+          <Objekt
+            object={object}
+            onSaveObjectField={onSaveObjectField}
+            synonymObjects={synonymObjects}
+            userRoles={userRoles}
+            editObjects={editObjects}
+            toggleEditObjects={toggleEditObjects}
+            addNewObject={addNewObject}
+            removeObject={removeObject}
+          />
+        }
+        {
+          mainComponent === 'importPc' &&
+          <ImportPc
+            email={email}
+            userRoles={userRoles}
+            pcs={pcs}
+            offlineIndexes={offlineIndexes}
+            groupsLoadedOrLoading={groupsLoadedOrLoading}
+            groupsLoadingObjects={groupsLoadingObjects}
+            allGroupsLoaded={allGroupsLoaded}
+            replicatingToAe={replicatingToAe}
+            replicatingToAeTime={replicatingToAeTime}
+            organizations={organizations}
+            userIsEsWriterInOrgs={userIsEsWriterInOrgs}
+          />
+        }
+        {
+          mainComponent === 'importRc' &&
+          <ImportRc
+            email={email}
+            userRoles={userRoles}
+            rcs={rcs}
+            offlineIndexes={offlineIndexes}
+            groupsLoadedOrLoading={groupsLoadedOrLoading}
+            groupsLoadingObjects={groupsLoadingObjects}
+            allGroupsLoaded={allGroupsLoaded}
+            replicatingToAe={replicatingToAe}
+            replicatingToAeTime={replicatingToAeTime}
+            organizations={organizations}
+            userIsEsWriterInOrgs={userIsEsWriterInOrgs}
+          />
+        }
+        {
+          mainComponent === 'exportieren' &&
+          <Export
+            groupsLoadedOrLoading={groupsLoadedOrLoading}
+            groupsLoadingObjects={groupsLoadingObjects}
+            fieldsQuerying={fieldsQuerying}
+            fieldsQueryingError={fieldsQueryingError}
+            taxonomyFields={taxonomyFields}
+            pcFields={pcFields}
+            relationFields={relationFields}
+            pcs={pcs}
+            rcs={rcs}
+            pcsQuerying={pcsQuerying}
+            rcsQuerying={rcsQuerying}
+            offlineIndexes={offlineIndexes}
+          />
+        }
+        {
+          mainComponent === 'exportierenAlt' &&
+          <ExportAlt
+            groupsLoadedOrLoading={groupsLoadedOrLoading}
+            groupsLoadingObjects={groupsLoadingObjects}
+            fieldsQuerying={fieldsQuerying}
+            fieldsQueryingError={fieldsQueryingError}
+            taxonomyFields={taxonomyFields}
+            pcFields={pcFields}
+            relationFields={relationFields}
+            pcs={pcs}
+            rcs={rcs}
+            pcsQuerying={pcsQuerying}
+            rcsQuerying={rcsQuerying}
+            offlineIndexes={offlineIndexes}
+          />
+        }
+        {
+          mainComponent === 'organizations' &&
+          <Organizations
+            tcs={tcs}
+            tcsQuerying={tcsQuerying}
+            email={email}
+            userRoles={userRoles}
+            organizations={organizations}
+            activeOrganization={activeOrganization}
+            tcsOfActiveOrganization={tcsOfActiveOrganization}
+            pcsOfActiveOrganization={pcsOfActiveOrganization}
+            rcsOfActiveOrganization={rcsOfActiveOrganization}
+            onChangeActiveOrganization={onChangeActiveOrganization}
+            userIsAdminInOrgs={userIsAdminInOrgs}
+            offlineIndexes={offlineIndexes}
+          />
+        }
       </fieldset>
     )
   }
