@@ -14,10 +14,20 @@ import {
   DropdownButton,
   MenuItem
 } from 'react-bootstrap'
+import { StyleSheet, css } from 'aphrodite'
 import InputIndexes from './inputIndexes.js'
 import buildGoogleImageLink from '../../../modules/buildGoogleImageLink.js'
 import buildWikipediaLink from '../../../modules/buildWikipediaLink.js'
 import ObjectDerivedDataMenuItem from './objectDerivedDataMenuItem.js'
+
+const styles = StyleSheet.create({
+  menuBtn: {
+    position: 'absolute',
+    top: 17,
+    left: 16,
+    zIndex: 2
+  }
+})
 
 export default React.createClass({
   displayName: 'MenuButton',

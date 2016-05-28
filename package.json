@@ -20,6 +20,7 @@
     "amp-toggle-class": "1.1.0",
     "ampersand-app": "2.0.0",
     "ampersand-router": "4.0.0",
+    "aphrodite": "^0.3.1",
     "autolinker": "0.26.0",
     "autoprefixer-core": "6.0.1",
     "babel": "6.5.2",
