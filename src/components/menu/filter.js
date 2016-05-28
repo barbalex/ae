@@ -87,7 +87,9 @@ export default React.createClass({
 
     const loadingIndicator = <p>Lade Suchindex...</p>
 
-    if (loadingFilterOptions && !filterOptions) return loadingIndicator
+    if (loadingFilterOptions && !filterOptions) {
+      return loadingIndicator
+    }
     return filterField
   }
 })

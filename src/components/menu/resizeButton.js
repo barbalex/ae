@@ -15,21 +15,21 @@ export default React.createClass({
     this.forceUpdate()
   },
 
-  tooltip() {
-    return (
-      <Tooltip
-        id="btnResizeTooltip"
-      >
-        {hasClass(bodyElement, 'force-mobile') ? 'in zwei Spalten anzeigen' : 'ganze Breite nutzen'}
-      </Tooltip>
-    )
-  },
-
   render() {
     return (
       <OverlayTrigger
         placement="left"
-        overlay={this.tooltip()}
+        overlay={
+          <Tooltip
+            id="btnResizeTooltip"
+          >
+            {
+              hasClass(bodyElement, 'force-mobile') ?
+              'in zwei Spalten anzeigen' :
+              'ganze Breite nutzen'
+            }
+          </Tooltip>
+        }
       >
         <Button
           id="btnResize"
