@@ -5,6 +5,7 @@ import { ListenerMixin } from 'reflux'
 import React from 'react'
 import { difference, map, union } from 'lodash'
 import moment from 'moment'
+import { StyleSheet, css } from 'aphrodite'
 import MenuButton from './menu/menuButton/menuButton.js'
 import ResizeButton from './menu/resizeButton.js'
 import Groups from './menu/groups/groups.js'
@@ -19,6 +20,21 @@ import Login from './main/login/login.js'
 import buildHierarchyObjectFromObjectForTaxonomy from '../modules/buildHierarchyObjectFromObjectForTaxonomy.js'
 
 const gruppen = getGruppen()
+
+const styles = StyleSheet.create({
+  menu: {
+    left: 7,
+    width: '100%',
+    padding: 8,
+    marginBottom: 10,
+    border: '1px solid #e5e5e5',
+    borderRadius: 6,
+    backgroundColor: '#FFFFF0',
+    zIndex: 1,
+    overflow: 'hidden',
+    maxHeight: 'calc(100vh - 105px)',
+  }
+})
 
 export default React.createClass({
   displayName: 'Home',
@@ -427,7 +443,7 @@ export default React.createClass({
           showMenu &&
           <div
             id="menu"
-            className="menu"
+            className={css(styles.menu)}
           >
             <ResizeButton />
             {

@@ -9,6 +9,26 @@ import app from 'ampersand-app'
 import React from 'react'
 import { Typeahead } from 'react-typeahead'
 import { Glyphicon } from 'react-bootstrap'
+import { StyleSheet, css } from 'aphrodite'
+
+const styles = StyleSheet.create({
+  filterRootDiv: {
+    float: 'left',
+    clear: 'both',
+    width: '100%',
+    marginBottom: 5,
+    position: 'relative'
+  },
+  removeGlyph: {
+    fontSize: 13,
+    position: 'absolute',
+    right: 2,
+    top: 3,
+    padding: 7,
+    color: '#333',
+    cursor: 'pointer'
+  }
+})
 
 export default React.createClass({
   displayName: 'Filter',
@@ -48,24 +68,17 @@ export default React.createClass({
   render() {
     const { filterOptions, loadingFilterOptions } = this.props
 
-    const removeGlyphStyle = {
-      fontSize: 13,
-      position: 'absolute',
-      right: 2,
-      top: 3,
-      padding: 7,
-      color: '#333',
-      cursor: 'pointer'
+    if (loadingFilterOptions && !filterOptions) {
+      return <p>Lade Suchindex...</p>
     }
-
-    const filterField = (
+    return (
       <div
         id="filter"
-        style={{ position: 'relative' }}
+        className={css(styles.filterRootDiv)}
       >
         <Glyphicon
           glyph="remove"
-          style={removeGlyphStyle}
+          className={css(styles.removeGlyph)}
           onClick={this.onClickEmptyFilterField}
         />
         <Typeahead
@@ -84,12 +97,5 @@ export default React.createClass({
         />
       </div>
     )
-
-    const loadingIndicator = <p>Lade Suchindex...</p>
-
-    if (loadingFilterOptions && !filterOptions) {
-      return loadingIndicator
-    }
-    return filterField
   }
 })
