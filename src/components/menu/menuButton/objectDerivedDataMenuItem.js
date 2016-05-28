@@ -1,8 +1,22 @@
 'use strict'
 
 import React from 'react'
-import { MenuItem, OverlayTrigger, Popover, Glyphicon } from 'react-bootstrap'
+import {
+  MenuItem,
+  OverlayTrigger,
+  Popover,
+  Glyphicon
+} from 'react-bootstrap'
+import { StyleSheet, css } from 'aphrodite'
 import rebuildRedundantData from '../../../modules/rebuildRedundantData.js'
+
+const styles = StyleSheet.create({
+  glyphicon: {
+    paddingLeft: 5,
+    fontSize: 16,
+    top: 3
+  }
+})
 
 const popover = () =>
   <Popover
@@ -26,12 +40,6 @@ const popover = () =>
     <p>Nutzen Sie diesen Befehl, wenn Sie Fehler in den erwähnten Daten finden.</p>
   </Popover>
 
-const glyphiconStyle = {
-  paddingLeft: 5,
-  fontSize: 16,
-  top: 3
-}
-
 const ObjectDerivedDataMenuItem = () =>
   <MenuItem
     onClick={() => rebuildRedundantData()}
@@ -48,7 +56,7 @@ const ObjectDerivedDataMenuItem = () =>
       >
         <Glyphicon
           glyph="info-sign"
-          style={glyphiconStyle}
+          style={css(styles.glyphicon)}
         />
       </span>
     </OverlayTrigger>
