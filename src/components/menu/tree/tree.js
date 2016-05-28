@@ -2,8 +2,18 @@
 
 import React from 'react'
 import { debounce } from 'lodash'
+import { StyleSheet, css } from 'aphrodite'
 import Nodes from './treeNodes.js'
 import LoadingMessage from './loadingMessage.js'
+
+const styles = StyleSheet.create({
+  treeRootDiv: {
+    float: 'left',
+    clear: 'both',
+    width: '100%',
+    marginBottom: 5
+  }
+})
 
 export default React.createClass({
   displayName: 'TreeLevel1',
@@ -66,7 +76,7 @@ export default React.createClass({
     )
 
     return (
-      <div>
+      <div className={css(styles.treeRootDiv)}>
         <div
           id="tree"
           style={treeStyle}

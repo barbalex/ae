@@ -9,11 +9,20 @@ import { Tooltip, OverlayTrigger, Glyphicon, Button } from 'react-bootstrap'
 const bodyElement = document.body
 
 const styles = StyleSheet.create({
-  rootDiv: {
+  resizeButtonRootDiv: {
     float: 'left',
     clear: 'both',
     width: '100%',
     marginBottom: 5
+  },
+  button: {
+    visibility: 'hidden',
+    '@media screen and (min-width: 1001px)': {
+      visibility: 'visible'
+    },
+    ':focus': {
+      outline: 'none'
+    }
   }
 })
 
@@ -27,7 +36,7 @@ export default React.createClass({
 
   render() {
     return (
-      <div className={css(styles.rootDiv)}>
+      <div className={css(styles.resizeButtonRootDiv)}>
         <OverlayTrigger
           placement="left"
           overlay={
@@ -44,9 +53,9 @@ export default React.createClass({
         >
           <Button
             id="btnResize"
-            className="pull-right"
             bsSize="small"
             onClick={this.resize}
+            className={[css(styles.button), 'pull-right'].join(' ')}
           >
             <Glyphicon glyph="resize-horizontal" />
           </Button>
