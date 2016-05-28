@@ -12,14 +12,18 @@
 'use strict'
 
 import app from 'ampersand-app'
-import { map } from 'lodash'
+import { map as _map } from 'lodash'
 
 const ddoc = {
   _id: '_design/objectsIdsByPcsName',
   views: {
     objectsIdsByPcsName: {
       map: function(doc) {
-        if (doc.Typ && doc.Typ === 'Objekt' && doc.Eigenschaftensammlungen) {
+        if (
+          doc.Typ &&
+          doc.Typ === 'Objekt' &&
+          doc.Eigenschaftensammlungen
+        ) {
           doc.Eigenschaftensammlungen.forEach(function(es) {
             emit(es.Name, doc._id)
           })
@@ -60,7 +64,7 @@ export default (name, offlineIndexes) => {
   return new Promise((resolve, reject) => {
     query[db]()
       .then((result) => {
-        const ids = map(result.rows, 'id')
+        const ids = _map(result.rows, 'id')
         resolve(ids)
       })
       .catch((error) => reject(error))
