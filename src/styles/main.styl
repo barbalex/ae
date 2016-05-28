@@ -38,20 +38,6 @@ body
   /* Silbentrennung einschalten */
   hyphens: auto
 
-#main
-  // wenn main unter menu kommt muss ein margin vorhanden sein
-  margin:0 0 7px 0
-  // bootstrap-glyphicons.css vergibt Eigenschaften > korrigieren
-  border: none
-  padding: 0 0 0 0
-  position: relative
-  width: 100%
-
-#tree
-  // there needs to be enough height below the tree
-  // to swipe up the properties
-  max-height: calc(100vh - 302px)
-
 
 /* über 1000px nebeneinander
    force-mobile: damit kann die Mobil-Sicht manuell gewählt werden */
@@ -64,12 +50,12 @@ body
 
   body:not(.force-mobile) #main
     // nach rechts schieben
-    transform: translate(391px, 0)
+    transform: translate(391px, 0) !important
     // Breite berechnen
-    width: calc(100% - 391px)
+    width: calc(100% - 391px) !important
 
   body:not(.force-mobile) #tree
-    max-height: calc(100vh - 169px)
+    max-height: calc(100vh - 169px) !important
 
 
 
@@ -107,12 +93,6 @@ body
     2. #MENU
        #tree
 \*--------------------------------*/
-
-#tree
-    overflow:   auto
-    overflow-x: hidden
-    /* verhindern, das Text hinter dem Scrollbalken verschwindet */
-    padding-right: 15px
 
 #tree li
   list-style-type: none
