@@ -31,6 +31,11 @@ const styles = StyleSheet.create({
     '@media (min-width: 1001px)': {
       position: 'fixed'
     }
+  },
+  anyButton: {
+    ':focus': {
+      outline: 'none'
+    }
   }
 })
 
@@ -64,6 +69,7 @@ export default React.createClass({
             disabled={!isObject}
             href={googleLink}
             target="_blank"
+            className={css(styles.anyButton)}
           >
             Bilder
           </Button>
@@ -73,6 +79,7 @@ export default React.createClass({
             disabled={!isObject}
             href={wikipediaLink}
             target="_blank"
+            className={css(styles.anyButton)}
           >
             Wikipedia
           </Button>
@@ -81,6 +88,7 @@ export default React.createClass({
               app.Actions.loadActivePath(['exportieren'])
             }
             bsSize="small"
+            className={css(styles.anyButton)}
           >
             Export
           </Button>
@@ -88,6 +96,7 @@ export default React.createClass({
             id="importDropdown"
             title="Import"
             bsSize="small"
+            className={css(styles.anyButton)}
           >
             <MenuItem header>
               Importieren oder löschen:

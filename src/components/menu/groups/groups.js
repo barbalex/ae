@@ -9,7 +9,7 @@ import getGruppen from '../../../modules/gruppen.js'
 const gruppen = getGruppen()
 
 const styles = StyleSheet.create({
-  groupsDiv: {
+  groupsRootDiv: {
     float: 'left',
     clear: 'both',
     width: '100%',
@@ -43,7 +43,7 @@ const Groups = ({ groupsLoadedOrLoading }) => {
 
   return (
     <div
-      className={css(styles.groupsDiv)}
+      className={css(styles.groupsRootDiv)}
     >
       <div className={css(styles.labelDiv)}>
         Gruppen laden:
