@@ -1,5 +1,11 @@
 'use strict'
 
+/*
+ * converting this to an es6 function
+ * leads to the app starting blank
+ * nothing is added to the app div!!!
+ */
+
 import app from 'ampersand-app'
 import React from 'react'
 import {
