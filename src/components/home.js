@@ -429,9 +429,7 @@ export default React.createClass({
             id="menu"
             className="menu"
           >
-            <div id="menuLine">
-              <ResizeButton />
-            </div>
+            <ResizeButton />
             {
               showGruppen &&
               <Groups
