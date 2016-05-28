@@ -15,19 +15,17 @@ const ReplicatingToAe = ({ replicatingToAe, replicatingToAeTime }) => {
     tooltipText = `Replikation nach arteigenschaften.ch gescheitert um: ${replicatingToAeTime}`
   }
 
-  const tooltip = (
-    <Tooltip
-      id="replicatingToAeTooltip"
-      bsStyle="info"
-    >
-      {tooltipText}
-    </Tooltip>
-  )
-
   return (
     <OverlayTrigger
       placement="left"
-      overlay={tooltip}
+      overlay={
+        <Tooltip
+          id="replicatingToAeTooltip"
+          bsStyle="info"
+        >
+          {tooltipText}
+        </Tooltip>
+      }
     >
       <Glyphicon
         id="replicateToRemoteDb"

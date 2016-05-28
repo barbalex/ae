@@ -2,7 +2,9 @@
 
 export default (object) => {
   let wikipediaLink = '//de.wikipedia.org/wiki/'
-  const standardtaxonomie = object.Taxonomien.find((taxonomy) => taxonomy.Standardtaxonomie)
+  const standardtaxonomie = object.Taxonomien.find((taxonomy) =>
+    taxonomy.Standardtaxonomie
+  )
 
   switch (object.Gruppe) {
     case 'Flora':
