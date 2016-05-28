@@ -9,6 +9,7 @@ import { debounce } from 'lodash'
 import { ListenerMixin } from 'reflux'
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { StyleSheet, css } from 'aphrodite'
 import Objekt from './object/object.js'
 import ImportPc from './importPc/importPc.js'
 import ImportRc from './importRc/importRc.js'
@@ -16,6 +17,18 @@ import Export from './export/export.js'
 import ExportAlt from './exportAlt/exportAlt.js'
 import Organizations from './organizations/organizations.js'
 import Errors from './errors.js'
+
+// wenn main unter menu kommt muss ein margin vorhanden sein
+// bootstrap-glyphicons.css vergibt Eigenschaften > korrigieren
+const styles = StyleSheet.create({
+  mainRootDiv: {
+    margin: '0 0 7px 0',
+    border: 'none',
+    padding: 0,
+    position: 'relative',
+    width: '100%'
+  }
+})
 
 export default React.createClass({
   displayName: 'Main',
@@ -137,7 +150,7 @@ export default React.createClass({
     return (
       <fieldset
         id="main"
-        className={formClassNames}
+        className={[formClassNames, css(styles.mainRootDiv)].join(' ')}
       >
         <Errors errors={errors} />
         {
