@@ -40,7 +40,13 @@ export default React.createClass({
   },
 
   render() {
-    const { hierarchy, object, path, groupsLoadingObjects, allGroupsLoaded } = this.props
+    const {
+      hierarchy,
+      object,
+      path,
+      groupsLoadingObjects,
+      allGroupsLoaded
+    } = this.props
     const { windowHeight, windowWidth } = this.state
     const loading = groupsLoadingObjects && groupsLoadingObjects.length > 0
 
@@ -52,12 +58,12 @@ export default React.createClass({
     if (allGroupsLoaded) maxHeight += 59                    // correction if all groups are loaded
     const treeStyle = { maxHeight }
 
-    const loadingMessages = groupsLoadingObjects.map((groupLoadingObject, index) => (
+    const loadingMessages = groupsLoadingObjects.map((groupLoadingObject, index) =>
       <LoadingMessage
         key={index}
         groupLoadingObject={groupLoadingObject}
       />
-    ))
+    )
 
     return (
       <div>

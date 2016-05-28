@@ -16,6 +16,7 @@ const GroupsToExport = ({
       onChange={(event) =>
         onChangeGroupsToExport(group, event.target.checked)
       }
+      className="groupToExport"
     >
       {group}
     </Checkbox>
