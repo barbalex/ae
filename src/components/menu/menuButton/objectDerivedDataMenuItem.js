@@ -56,7 +56,7 @@ const ObjectDerivedDataMenuItem = () =>
       >
         <Glyphicon
           glyph="info-sign"
-          style={css(styles.glyphicon)}
+          className={css(styles.glyphicon)}
         />
       </span>
     </OverlayTrigger>
