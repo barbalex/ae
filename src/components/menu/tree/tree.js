@@ -6,12 +6,21 @@ import { StyleSheet, css } from 'aphrodite'
 import Nodes from './treeNodes.js'
 import LoadingMessage from './loadingMessage.js'
 
+// there needs to be enough height below the tree
+// to swipe up the properties
+// > set max-height
 const styles = StyleSheet.create({
   treeRootDiv: {
     float: 'left',
     clear: 'both',
     width: '100%',
     marginBottom: 5
+  },
+  tree: {
+    maxHeight: 'calc(100vh - 302px)',
+    overflow: 'auto',
+    overflowX: 'hidden',
+    paddingRight: 15
   }
 })
 
@@ -80,6 +89,7 @@ export default React.createClass({
         <div
           id="tree"
           style={treeStyle}
+          className={css(styles.tree)}
         >
           {
             hierarchy &&
