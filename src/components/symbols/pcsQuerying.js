@@ -3,14 +3,6 @@
 import React from 'react'
 import { OverlayTrigger, Tooltip } from 'react-bootstrap'
 
-const tooltip = (
-  <Tooltip
-    id="pcsQueryingTooltip"
-    bsStyle="info"
-  >
-    Bitte Geduld: Die App kann zeitweise einfrieren!
-  </Tooltip>
-)
 const pStyle = {
   color: 'red',
   fontWeight: 500,
@@ -20,7 +12,14 @@ const pStyle = {
 const PcsQuerying = () =>
   <OverlayTrigger
     placement="left"
-    overlay={tooltip}
+    overlay={
+      <Tooltip
+        id="pcsQueryingTooltip"
+        bsStyle="info"
+      >
+        Bitte Geduld: Die App kann zeitweise einfrieren!
+      </Tooltip>
+    }
   >
     <p
       className="symbols text"
