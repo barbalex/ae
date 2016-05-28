@@ -18,7 +18,12 @@ const ddoc = {
   views: {
     tcs: {
       map: function(doc) {
-        if (doc.Typ && doc.Typ === 'Objekt' && doc.Gruppe && doc.Taxonomien) {
+        if (
+          doc.Typ &&
+          doc.Typ === 'Objekt' &&
+          doc.Gruppe &&
+          doc.Taxonomien
+        ) {
           doc.Taxonomien.forEach(function(tc) {
             // add pcZusammenfassend
             var standard = !!tc.Standardtaxonomie
@@ -28,7 +33,10 @@ const ddoc = {
                 felder[key] = tc[key]
               }
             })
-            emit([doc.Gruppe, standard, tc.Name, tc['Organisation mit Schreibrecht'], felder], null)
+            emit(
+              [doc.Gruppe, standard, tc.Name, tc['Organisation mit Schreibrecht'], felder],
+              null
+            )
           })
         }
       }.toString(),
@@ -69,23 +77,26 @@ const query = {
   }
 }
 
-export default (offlineIndexes) => new Promise((resolve, reject) => {
-  const db = offlineIndexes ? 'local' : 'remote'
-  query[db]()
-    .then((result) => {
-      const rows = result.rows
-      const uniqueRows = uniqBy(rows, (row) => [row.key[0], row.key[1], row.key[2]])
-      let tcs = uniqueRows.map((row) => ({
-        group: row.key[0],
-        standard: row.key[1],
-        name: row.key[2],
-        organization: row.key[3],
-        fields: row.key[4],
-        count: row.value
-      }))
-      // sort by pcName
-      tcs = tcs.sort((tc) => tc.name)
-      resolve(tcs)
-    })
-    .catch((error) => reject(error))
-})
+export default (offlineIndexes) =>
+  new Promise((resolve, reject) => {
+    const db = offlineIndexes ? 'local' : 'remote'
+    query[db]()
+      .then((result) => {
+        const rows = result.rows
+        const uniqueRows = uniqBy(rows, (row) =>
+          [row.key[0], row.key[1], row.key[2]]
+        )
+        let tcs = uniqueRows.map((row) => ({
+          group: row.key[0],
+          standard: row.key[1],
+          name: row.key[2],
+          organization: row.key[3],
+          fields: row.key[4],
+          count: row.value
+        }))
+        // sort by pcName
+        tcs = tcs.sort((tc) => tc.name)
+        resolve(tcs)
+      })
+      .catch((error) => reject(error))
+  })
