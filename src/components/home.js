@@ -70,7 +70,13 @@ export default React.createClass({
   mixins: [ListenerMixin],
 
   getInitialState() {
-    const { gruppe, guid, path, mainComponent, email } = this.props
+    const {
+      gruppe,
+      guid,
+      path,
+      mainComponent,
+      email
+    } = this.props
     const groupsLoadedOrLoading = gruppe ? [gruppe] : []
 
     const isFirstLoad = (
@@ -277,7 +283,9 @@ export default React.createClass({
     loading: loadingFilterOptions
   }) {
     let state = { loadingFilterOptions }
-    if (filterOptions) state = Object.assign(state, { filterOptions })
+    if (filterOptions) {
+      state = Object.assign(state, { filterOptions })
+    }
     this.setState(state)
   },
 
