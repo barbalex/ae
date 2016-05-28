@@ -47,33 +47,10 @@ body
   position: relative
   width: 100%
 
-/*
- * unter 1000px beide Spalten übereinander setzen
- * 855px ist auf PC's optimal. Mein Handy hat 1280px, reagiert aber auf handheld
- * iPhone ignoriert handheld leider
- */
-#menu
-  left: 7px
-  width: 100%
-  padding: 8px 8px 8px 8px
-  margin-bottom: 10px
-  border: 1px solid #e5e5e5
-  border-radius: 6px
-  background-color: #FFFFF0
-  // auf chrome liegt Menu ohne z-index unter Accordion
-  z-index: 1
-  width: 100%
-  overflow: hidden
-  max-height: calc(100vh - 105px)
-
 #tree
   // there needs to be enough height below the tree
   // to swipe up the properties
   max-height: calc(100vh - 302px)
-
-// hide this button in stacked view
-#btnResize
-  visibility: hidden
 
 
 /* über 1000px nebeneinander
@@ -81,9 +58,9 @@ body
 @media screen and (min-width: 1001px)
 
   body:not(.force-mobile) #menu
-    width: 383px
-    position: fixed
-    max-height: calc(100vh - 15px)
+    width: 383px !important
+    position: fixed !important
+    max-height: calc(100vh - 15px) !important
 
   body:not(.force-mobile) #main
     // nach rechts schieben
@@ -93,30 +70,6 @@ body
 
   body:not(.force-mobile) #tree
     max-height: calc(100vh - 169px)
-
-  // always show resize button
-  #btnResize
-    visibility: visible
-
-
-
-/*--------------------------------*\
-    2. #MENU
-       #allgemein / querbeet
-\*--------------------------------*/
-
-/**
- * bootstrap adds a blue outline
- * not nice
- */
-#menu button:focus
-  outline: none
-
-#menu > div
-  float: left
-  clear: both
-  width: 100%
-  margin-bottom: 5px
 
 
 
