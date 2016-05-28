@@ -2,15 +2,12 @@
 
 import Reflux from 'reflux'
 
-export default (Actions) => {
-  const changeRebuildingRedundantDataStore = Reflux.createStore({
+export default (Actions) => Reflux.createStore({
 
-    listenables: Actions,
+  listenables: Actions,
 
-    onChangeRebuildingRedundantData(message) {
-      this.trigger(message)
-    }
-  })
+  onChangeRebuildingRedundantData(message) {
+    this.trigger(message)
+  }
 
-  return changeRebuildingRedundantDataStore
-}
+})
