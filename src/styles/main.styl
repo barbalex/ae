@@ -38,12 +38,6 @@ body
   /* Silbentrennung einschalten */
   hyphens: auto
 
-#menuBtn
-  position: absolute
-  top: 17px
-  left: 16px
-  z-index: 2
-
 #main
   // wenn main unter menu kommt muss ein margin vorhanden sein
   margin:0 0 7px 0
@@ -86,9 +80,6 @@ body
    force-mobile: damit kann die Mobil-Sicht manuell gewählt werden */
 @media screen and (min-width: 1001px)
 
-  #menuBtn
-    position: fixed
-
   body:not(.force-mobile) #menu
     width: 383px
     position: fixed
@@ -114,28 +105,18 @@ body
        #allgemein / querbeet
 \*--------------------------------*/
 
-#menu-div
-  line-height: 30px
-
-/* Symbol auffälliger machen und zentrieren */
-#menu .glyphicon
-  font-weight: 800
-  top: 2px
-
+/**
+ * bootstrap adds a blue outline
+ * not nice
+ */
 #menu button:focus
   outline: none
-
-.dropdown-menu > li > a
-  padding: 1px 20px
 
 #menu > div
   float: left
   clear: both
   width: 100%
   margin-bottom: 5px
-
-#menuBtn .form-group
-  margin-bottom: 0
 
 
 
@@ -160,11 +141,6 @@ body
 
 #filter ul li a
   color: #5F5F5F
-
-#menuLine ~ p
-  padding-left: 4px
-  margin-top: 2px
-  margin-bottom: 1px
 
 #filter .typeahead li:hover
   // background-color: orange
