@@ -26,6 +26,11 @@ const styles = StyleSheet.create({
     top: 17,
     left: 16,
     zIndex: 2
+  },
+  menuBtnWide: {
+    '@media (min-width: 1001px)': {
+      position: 'fixed'
+    }
   }
 })
 
@@ -50,8 +55,7 @@ export default React.createClass({
 
     return (
       <div
-        id="menuBtn"
-        className="btn-group menu"
+        className={css(styles.menuBtn, styles.menuBtnWide)}
       >
         <ButtonGroup>
           <Button
