@@ -18,7 +18,11 @@ const ddoc = {
   views: {
     pcs: {
       map: function(doc) {
-        if (doc.Typ && doc.Typ === 'Objekt' && doc.Eigenschaftensammlungen) {
+        if (
+          doc.Typ &&
+          doc.Typ === 'Objekt' &&
+          doc.Eigenschaftensammlungen
+        ) {
           doc.Eigenschaftensammlungen.forEach(function(pc) {
             // add pcZusammenfassend
             var pcZusammenfassend = !!pc.zusammenfassend
@@ -28,7 +32,10 @@ const ddoc = {
                 felder[key] = pc[key]
               }
             })
-            emit([pc.Name, pcZusammenfassend, pc['Organisation mit Schreibrecht'], felder], null)
+            emit(
+              [pc.Name, pcZusammenfassend, pc['Organisation mit Schreibrecht'], felder],
+              null
+            )
           })
         }
       }.toString(),
@@ -69,22 +76,23 @@ const query = {
   }
 }
 
-export default (offlineIndexes) => new Promise((resolve, reject) => {
-  const db = offlineIndexes ? 'local' : 'remote'
-  query[db]()
-    .then((result) => {
-      const rows = result.rows
-      const uniqueRows = uniqBy(rows, (row) => row.key[0])
-      let pcs = uniqueRows.map((row) => ({
-        name: row.key[0],
-        combining: row.key[1],
-        organization: row.key[2],
-        fields: row.key[3],
-        count: row.value
-      }))
-      // sort by pcName
-      pcs = pcs.sort((pc) => pc.name)
-      resolve(pcs)
-    })
-    .catch((error) => reject(error))
-})
+export default (offlineIndexes) =>
+  new Promise((resolve, reject) => {
+    const db = offlineIndexes ? 'local' : 'remote'
+    query[db]()
+      .then((result) => {
+        const rows = result.rows
+        const uniqueRows = uniqBy(rows, (row) => row.key[0])
+        let pcs = uniqueRows.map((row) => ({
+          name: row.key[0],
+          combining: row.key[1],
+          organization: row.key[2],
+          fields: row.key[3],
+          count: row.value
+        }))
+        // sort by pcName
+        pcs = pcs.sort((pc) => pc.name)
+        resolve(pcs)
+      })
+      .catch((error) => reject(error))
+  })

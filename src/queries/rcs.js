@@ -16,7 +16,11 @@ const ddoc = {
   views: {
     rcs: {
       map: function(doc) {
-        if (doc.Typ && doc.Typ === 'Objekt' && doc.Beziehungssammlungen) {
+        if (
+          doc.Typ &&
+          doc.Typ === 'Objekt' &&
+          doc.Beziehungssammlungen
+        ) {
           doc.Beziehungssammlungen.forEach(function(rc) {
             // add rcCombining
             var rcCombining = !!rc.zusammenfassend
@@ -26,7 +30,10 @@ const ddoc = {
                 felder[key] = rc[key]
               }
             })
-            emit([rc.Name, rcCombining, rc['Organisation mit Schreibrecht'], felder], null)
+            emit(
+              [rc.Name, rcCombining, rc['Organisation mit Schreibrecht'], felder],
+              null
+            )
           })
         }
       }.toString(),
@@ -67,22 +74,23 @@ const query = {
   }
 }
 
-export default (offlineIndexes) => new Promise((resolve, reject) => {
-  const db = offlineIndexes ? 'local' : 'remote'
-  query[db]()
-    .then((result) => {
-      const rows = result.rows
-      const uniqueRows = uniqBy(rows, (row) => row.key[0])
-      let rcs = uniqueRows.map((row) => ({
-        name: row.key[0],
-        combining: row.key[1],
-        organization: row.key[2],
-        fields: row.key[3],
-        count: row.value
-      }))
-      // sort by rcName
-      rcs = rcs.sort((rc) => rc.name)
-      resolve(rcs)
-    })
-    .catch((error) => reject(error))
-})
+export default (offlineIndexes) =>
+  new Promise((resolve, reject) => {
+    const db = offlineIndexes ? 'local' : 'remote'
+    query[db]()
+      .then((result) => {
+        const rows = result.rows
+        const uniqueRows = uniqBy(rows, (row) => row.key[0])
+        let rcs = uniqueRows.map((row) => ({
+          name: row.key[0],
+          combining: row.key[1],
+          organization: row.key[2],
+          fields: row.key[3],
+          count: row.value
+        }))
+        // sort by rcName
+        rcs = rcs.sort((rc) => rc.name)
+        resolve(rcs)
+      })
+      .catch((error) => reject(error))
+  })
