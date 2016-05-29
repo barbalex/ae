@@ -37,7 +37,10 @@ const FieldsRCsPanel = ({
 
     if (fNameObject.fType !== 'boolean') {
       return (
-        <FormGroup key={index}>
+        <FormGroup
+          key={index}
+          bsSize="small"
+        >
           <ControlLabel>{fNameKey}</ControlLabel>
           <InputGroup>
             <InputGroup.Addon>
@@ -51,26 +54,28 @@ const FieldsRCsPanel = ({
             <FormControl
               key={fieldKey}
               type={fNameObject.fType}
-              bsSize="small"
               className="controls"
               value={value}
               onChange={(event) =>
                 onChangeFilterField(cNameKey, fNameKey, 'rc', event)
               }
             />
-            <InputGroup.Addon>{buttonAfter}</InputGroup.Addon>
+            <InputGroup.Addon>
+              {buttonAfter}
+            </InputGroup.Addon>
           </InputGroup>
         </FormGroup>
       )
     }
     return (
-      <FormGroup>
+      <FormGroup
+        bsSize="small"
+      >
         <ControlLabel>{fNameKey}</ControlLabel>
         <InputGroup>
           <FormControl
             key={fieldKey}
             componentClass="select"
-            bsSize="small"
             className="controls"
             value={value}
             onChange={(event) =>

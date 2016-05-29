@@ -37,7 +37,10 @@ const FieldsPCsPanel = ({
     const infoButtonAfter = <InfoButtonAfter fNameObject={fNameObject} />
     if (fNameObject.fType !== 'boolean') {
       return (
-        <FormGroup key={index}>
+        <FormGroup
+          key={index}
+          bsSize="small"
+        >
           <ControlLabel>{fNameKey}</ControlLabel>
           <InputGroup>
             <InputGroup.Addon>
@@ -51,7 +54,6 @@ const FieldsPCsPanel = ({
             <FormControl
               key={fieldKey}
               type={fNameObject.fType}
-              bsSize="small"
               className="controls"
               value={value}
               onChange={(event) =>
@@ -66,13 +68,14 @@ const FieldsPCsPanel = ({
       )
     }
     return (
-      <FormGroup>
+      <FormGroup
+        bsSize="small"
+      >
         <ControlLabel>{fNameKey}</ControlLabel>
         <InputGroup>
           <FormControl
             key={fieldKey}
             componentClass="select"
-            bsSize="small"
             className="controls"
             value={value}
             onChange={(event) =>
