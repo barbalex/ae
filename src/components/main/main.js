@@ -11,13 +11,13 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Form } from 'react-bootstrap'
 import { StyleSheet, css } from 'aphrodite'
-import Objekt from './object/object.js'
+import Objekt from './object/Object.js'
 import ImportPc from './importPc/importPc.js'
 import ImportRc from './importRc/importRc.js'
 import Export from './export/export.js'
 import ExportAlt from './exportAlt/exportAlt.js'
 import Organizations from './organizations/Organizations.js'
-import Errors from './errors.js'
+import Errors from './Errors.js'
 
 // wenn main unter menu kommt muss ein margin vorhanden sein
 // bootstrap-glyphicons.css vergibt Eigenschaften > korrigieren

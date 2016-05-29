@@ -6,10 +6,10 @@
 'use strict'
 
 import React from 'react'
-import FieldLink from './fieldLink.js'
-import FieldInput from './fieldInput.js'
-import FieldBoolean from './fieldBoolean.js'
-import FieldTextarea from './fieldTextarea.js'
+import FieldLink from './FieldLink.js'
+import FieldInput from './FieldInput.js'
+import FieldBoolean from './FieldBoolean.js'
+import FieldTextarea from './FieldTextarea.js'
 
 const Field = ({
   fieldName,
