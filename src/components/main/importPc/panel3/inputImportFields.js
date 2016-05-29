@@ -31,7 +31,6 @@ const InputImportFields = ({
   return (
     <FormGroup
       controlId="idsImportIdField"
-      bsSize="small"
     >
       <ControlLabel>
         Feld mit eindeutiger ID in den Importdaten
