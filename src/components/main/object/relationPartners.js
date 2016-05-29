@@ -5,7 +5,7 @@
 'use strict'
 
 import React from 'react'
-import TextLink from './textLink.js'
+import TextLink from './TextLink.js'
 
 const RelationPartners = ({ relation }) => {
   let relationPartners = []
