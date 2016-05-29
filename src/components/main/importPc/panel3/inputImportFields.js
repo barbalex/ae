@@ -29,7 +29,10 @@ const InputImportFields = ({
   ))
 
   return (
-    <FormGroup controlId="idsImportIdField">
+    <FormGroup
+      controlId="idsImportIdField"
+      bsSize="small"
+    >
       <ControlLabel>
         Feld mit eindeutiger ID in den Importdaten
       </ControlLabel>
@@ -38,7 +41,6 @@ const InputImportFields = ({
         multiple
         className="form-control controls"
         style={style}
-        bsSize="small"
         value={[idsImportIdField]}
         onChange={(event) =>
           onChangeImportId(event.target.value)
