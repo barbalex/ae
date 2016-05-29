@@ -11,7 +11,7 @@ import React from 'react'
 const FieldLinkToSameGroup = ({ fieldName, guid, objectName }) =>
   <div className="form-group">
     <label className="control-label">
-      {`${fieldName}:`}
+      {fieldName}
     </label>
     <p
       className="form-control-static controls feldtext"

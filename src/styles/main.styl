@@ -255,16 +255,24 @@ input[readonly], textarea[readonly]
   font-weight: normal
   // ...und font-size 12px
   font-size: 14px
+  margin-bottom: 1px
   // Trennung ermöglichen
   hyphens: auto
-  margin-bottom: 1px
+.form-horizontal#main label,
+.form-horizontal#importDs label,
+.form-horizontal#importBs label,
+.form-horizontal#export .form-group label
   padding-right: 7px
   padding-left: 7px
 #main .checkboxFormGroup label
   padding-top 4px
-
+// when form is not horizontal
+// label is on the right
+// it needs a margin
+form:not(form-horizontal) .checkboxFormGroup .checkboxDiv
+  margin-right 7px
 //.form-horizontal #object label,
-.form-horizontal #importieren label,
+.form-horizontal#importieren label,
 .form-horizontal .exportFields .form-group label
   width: 200px
   margin-right: 7px
@@ -342,11 +350,20 @@ h5
   font-weight: bold
   margin: 0 0 7px 0
   
-.form-horizontal .form-group
+
+.form-horizontal .form-group,
+form.form-horizontal .checkboxFormGroup
   display flex
+  flex-direction: row
   // bootstrap gives -15px side margin, correct this
   margin-right 0
   margin-left 0
+// when form is not horizontal
+// label needs to be on the right
+.checkboxFormGroup
+  display flex
+  flex-direction: row-reverse
+  justify-content: flex-end
 .form-horizontal .form-group label
   width 200px
 .form-horizontal .form-group .form-control

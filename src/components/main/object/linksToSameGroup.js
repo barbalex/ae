@@ -43,7 +43,7 @@ const FieldLinksToSameGroup = ({ objects, fieldName }) => {
   return (
     <div className="form-group">
       <label className="control-label">
-        {`${fieldName}:`}
+        {fieldName}
       </label>
       <span className="feldtext controls">
         {linkArray}
