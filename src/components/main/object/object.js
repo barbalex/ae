@@ -8,12 +8,12 @@
 
 import React from 'react'
 import { map as _map, reject } from 'lodash'
-import Taxonomy from './taxonomy.js'
-import PropertyCollections from './pcs.js'
-import RelationCollections from './rcs.js'
-import TaxonomicRelationCollections from './taxRcs.js'
-import PcsOfSynonyms from './pcsOfSynonyms.js'
-import RcsOfSynonyms from './rcsOfSynonyms.js'
+import Taxonomy from './Taxonomy.js'
+import PropertyCollections from './Pcs.js'
+import RelationCollections from './Rcs.js'
+import TaxonomicRelationCollections from './TaxRcs.js'
+import PcsOfSynonyms from './PcsOfSynonyms.js'
+import RcsOfSynonyms from './RcsOfSynonyms.js'
 
 // don't name it "Object" - that is a reserved word
 const MyObject = ({
