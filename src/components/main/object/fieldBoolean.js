@@ -64,7 +64,7 @@ export default React.createClass({
         className="checkboxFormGroup"
       >
         <ControlLabel>
-          {`${fieldName}:`}
+          {fieldName}
         </ControlLabel>
         <div className="checkboxDiv">
           <input

@@ -21,7 +21,7 @@ const FieldInput = ({
     controlId={fieldName}
   >
     <ControlLabel>
-      {`${fieldName}:`}
+      {fieldName}
     </ControlLabel>
     <FormControl
       type={inputType}
