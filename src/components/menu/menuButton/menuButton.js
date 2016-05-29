@@ -21,16 +21,8 @@ import buildWikipediaLink from '../../../modules/buildWikipediaLink.js'
 import ObjectDerivedDataMenuItem from './objectDerivedDataMenuItem.js'
 
 const styles = StyleSheet.create({
-  menuBtn: {
-    position: 'absolute',
-    top: 17,
-    left: 16,
+  btnGroup: {
     zIndex: 2
-  },
-  menuBtnWide: {
-    '@media (min-width: 1001px)': {
-      position: 'fixed'
-    }
   },
   anyButton: {
     ':focus': {
@@ -60,7 +52,7 @@ export default React.createClass({
 
     return (
       <div
-        className={css(styles.menuBtn, styles.menuBtnWide)}
+        className={css(styles.btnGroup)}
       >
         <ButtonGroup>
           <Button

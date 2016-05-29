@@ -3,7 +3,7 @@
 import app from 'ampersand-app'
 import { ListenerMixin } from 'reflux'
 import React from 'react'
-import { difference, map, union } from 'lodash'
+import { difference, map as _map, union } from 'lodash'
 import moment from 'moment'
 import { StyleSheet, css } from 'aphrodite'
 import MenuButton from './menu/menuButton/menuButton.js'
@@ -23,6 +23,8 @@ const gruppen = getGruppen()
 
 const styles = StyleSheet.create({
   menu: {
+    display: 'flex',
+    flexDirection: 'column',
     left: 7,
     width: '100%',
     padding: 8,
@@ -31,8 +33,13 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     backgroundColor: '#FFFFF0',
     zIndex: 1,
-    overflow: 'hidden',
     maxHeight: 'calc(100vh - 105px)',
+  },
+  buttonLine: {
+    display: 'flex',
+    alignItems: 'stretch',
+    justifyContent: 'space-between',
+    marginBottom: 5
   }
 })
 
@@ -246,7 +253,7 @@ export default React.createClass({
 
   onLoadingGroupsStoreChange(payload) {
     const { groupsLoadingObjects, groupsLoaded } = payload
-    const groupsLoading = map(groupsLoadingObjects, 'group')
+    const groupsLoading = _map(groupsLoadingObjects, 'group')
     // add groups loading to groups loaded to hide the group checkbox of the loading group
     const groupsLoadedOrLoading = union(groupsLoaded, groupsLoading)
     const groupsNotLoaded = difference(gruppen, groupsLoadedOrLoading)
@@ -433,19 +440,18 @@ export default React.createClass({
       <NavHelper style={homeStyle}>
         {
           showMenu &&
-          <MenuButton
-            object={object}
-            offlineIndexes={offlineIndexes}
-            onClickToggleOfflineIndexes={this.onClickToggleOfflineIndexes}
-          />
-        }
-        {
-          showMenu &&
           <div
             id="menu"
             className={css(styles.menu)}
           >
-            <ResizeButton />
+            <div className={css(styles.buttonLine)}>
+              <MenuButton
+                object={object}
+                offlineIndexes={offlineIndexes}
+                onClickToggleOfflineIndexes={this.onClickToggleOfflineIndexes}
+              />
+              <ResizeButton />
+            </div>
             {
               showGruppen &&
               <Groups
