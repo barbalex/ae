@@ -25,7 +25,7 @@ const SelectComparisonOperator = ({
       onChangeCoSelect(cNameKey, fNameKey, event)
     }
   >
-    <option key={1} value={null}></option>
+    <option key={1} value={''}></option>
     <option key={2} value="=">&#61;</option>
     <option key={3} value=">">&#62;</option>
     <option key={4} value=">=">&#62;&#61;</option>
