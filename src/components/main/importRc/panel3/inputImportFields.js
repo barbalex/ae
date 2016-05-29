@@ -26,7 +26,6 @@ const InputImportFields = ({ rcsToImport, idsImportIdField, onChangeImportId }) 
   return (
     <FormGroup
       controlId="idsImportIdField"
-      bsSize="small"
     >
       <ControlLabel>
         Feld mit eindeutiger ID in den Importdaten

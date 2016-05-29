@@ -216,7 +216,6 @@ export default React.createClass({
             <FormGroup
               id="emailFormGroup"
               validationState={invalidEmail ? 'error' : null}
-              bsSize="small"
             >
               <ControlLabel>
                 Email
