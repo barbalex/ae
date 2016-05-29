@@ -10,7 +10,7 @@ import {
 import { get } from 'lodash'
 import SelectComparisonOperator from './selectComparisonOperator.js'
 import InfoButtonAfter from './infoButtonAfter.js'
-import PcDescription from './pcDescription.js'
+import PcDescription from './PcDescription.js'
 
 const FieldsPCsPanel = ({
   pcFields,
