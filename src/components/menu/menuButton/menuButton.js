@@ -15,10 +15,10 @@ import {
   MenuItem
 } from 'react-bootstrap'
 import { StyleSheet, css } from 'aphrodite'
-import InputIndexes from './inputIndexes.js'
+import InputIndexes from './InputIndexes.js'
 import buildGoogleImageLink from '../../../modules/buildGoogleImageLink.js'
 import buildWikipediaLink from '../../../modules/buildWikipediaLink.js'
-import ObjectDerivedDataMenuItem from './objectDerivedDataMenuItem.js'
+import ObjectDerivedDataMenuItem from './ObjectDerivedDataMenuItem.js'
 
 const styles = StyleSheet.create({
   btnGroup: {

@@ -4,7 +4,12 @@ import React from 'react'
 import hasClass from 'amp-has-class'
 import toggleClass from 'amp-toggle-class'
 import { StyleSheet, css } from 'aphrodite'
-import { Tooltip, OverlayTrigger, Glyphicon, Button } from 'react-bootstrap'
+import {
+  Tooltip,
+  OverlayTrigger,
+  Glyphicon,
+  Button
+} from 'react-bootstrap'
 
 const bodyElement = document.body
 
