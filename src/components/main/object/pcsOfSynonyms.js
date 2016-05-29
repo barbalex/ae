@@ -1,7 +1,7 @@
 'use strict'
 
 import React from 'react'
-import PropertyCollection from './pc.js'
+import PropertyCollection from './Pc.js'
 
 const PcsOfSynonyms = ({ pcsOfSynonyms, object }) => {
   let pcsComponent = null
