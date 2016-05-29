@@ -18,7 +18,6 @@ const SelectComparisonOperator = ({
   onChangeCoSelect
 }) =>
   <FormControl
-    bsSize="small"
     componentClass="select"
     style={coSelectStyle}
     value={value}

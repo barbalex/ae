@@ -36,7 +36,10 @@ const FieldsTaxonomyPanel = ({
 
     if (fNameObject.fType !== 'boolean') {
       return (
-        <FormGroup key={index}>
+        <FormGroup
+          key={index}
+          bsSize="small"
+        >
           <ControlLabel>{fNameKey}</ControlLabel>
           <InputGroup>
             <InputGroup.Addon>
@@ -50,7 +53,6 @@ const FieldsTaxonomyPanel = ({
             <FormControl
               key={fieldKey}
               type={fNameObject.fType}
-              bsSize="small"
               className="controls"
               value={value}
               onChange={(event) =>
@@ -63,13 +65,12 @@ const FieldsTaxonomyPanel = ({
       )
     }
     return (
-      <FormGroup>
+      <FormGroup bsSize="small">
         <ControlLabel>{fNameKey}</ControlLabel>
         <InputGroup>
           <FormControl
             key={fieldKey}
             componentClass="select"
-            bsSize="small"
             className="controls"
             value={value}
             onChange={(event) =>
@@ -80,7 +81,9 @@ const FieldsTaxonomyPanel = ({
             <option value>ja</option>
             <option value={false}>nein</option>
           </FormControl>
-          <InputGroup.Addon>{buttonAfter}</InputGroup.Addon>
+          <InputGroup.Addon>
+            {buttonAfter}
+          </InputGroup.Addon>
         </InputGroup>
       </FormGroup>
     )
