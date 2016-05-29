@@ -16,7 +16,7 @@ import ImportPc from './importPc/importPc.js'
 import ImportRc from './importRc/importRc.js'
 import Export from './export/export.js'
 import ExportAlt from './exportAlt/exportAlt.js'
-import Organizations from './organizations/organizations.js'
+import Organizations from './organizations/Organizations.js'
 import Errors from './errors.js'
 
 // wenn main unter menu kommt muss ein margin vorhanden sein
