@@ -1,7 +1,12 @@
 'use strict'
 
 import React from 'react'
-import { Checkbox, OverlayTrigger, Popover, Glyphicon } from 'react-bootstrap'
+import {
+  Checkbox,
+  OverlayTrigger,
+  Popover,
+  Glyphicon
+} from 'react-bootstrap'
 
 const popover = () =>
   <Popover

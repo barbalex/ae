@@ -3,7 +3,7 @@
 import React from 'react'
 import { difference } from 'lodash'
 import { StyleSheet, css } from 'aphrodite'
-import GroupCheckbox from './groupCheckbox.js'
+import GroupCheckbox from './GroupCheckbox.js'
 import getGruppen from '../../../modules/gruppen.js'
 
 const gruppen = getGruppen()
