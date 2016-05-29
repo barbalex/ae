@@ -39,7 +39,6 @@ const FieldsPCsPanel = ({
       return (
         <FormGroup
           key={index}
-          bsSize="small"
         >
           <ControlLabel>{fNameKey}</ControlLabel>
           <InputGroup>
@@ -68,9 +67,7 @@ const FieldsPCsPanel = ({
       )
     }
     return (
-      <FormGroup
-        bsSize="small"
-      >
+      <FormGroup>
         <ControlLabel>{fNameKey}</ControlLabel>
         <InputGroup>
           <FormControl
