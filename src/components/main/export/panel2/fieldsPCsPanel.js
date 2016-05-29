@@ -32,8 +32,8 @@ const FieldsPCsPanel = ({
   const fields = fieldsSorted.map((fNameKey, index) => {
     const fieldKey = fNameKey.toLowerCase()
     const fNameObject = cNameObject[fNameKey]
-    const value = get(exportOptions, `${cNameKey}.${fNameKey}.value`, null)
-    const co = get(exportOptions, `${cNameKey}.${fNameKey}.co`, null)
+    const value = get(exportOptions, `${cNameKey}.${fNameKey}.value`, '')
+    const co = get(exportOptions, `${cNameKey}.${fNameKey}.co`, '')
     const infoButtonAfter = <InfoButtonAfter fNameObject={fNameObject} />
     if (fNameObject.fType !== 'boolean') {
       return (
