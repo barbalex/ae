@@ -3,8 +3,8 @@
 import React from 'react'
 import { debounce } from 'lodash'
 import { StyleSheet, css } from 'aphrodite'
-import Nodes from './treeNodes.js'
-import LoadingMessage from './loadingMessage.js'
+import Nodes from './TreeNodes.js'
+import LoadingMessage from './LoadingMessage.js'
 
 // there needs to be enough height below the tree
 // to swipe up the properties

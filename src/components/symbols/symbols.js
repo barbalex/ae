@@ -1,15 +1,15 @@
 'use strict'
 
 import React from 'react'
-import ReplicatingToAe from './replicatingToAe.js'
-import ReplicatingFromAe from './replicatingFromAe.js'
-import Email from './email.js'
-import GroupsLoading from './groupsLoading.js'
-import TcsQuerying from './tcsQuerying.js'
-import PcsQuerying from './pcsQuerying.js'
-import RcsQuerying from './rcsQuerying.js'
-import FieldsQuerying from './fieldsQuerying.js'
-import RebuildingRedundantData from './rebuildingRedundantData.js'
+import ReplicatingToAe from './ReplicatingToAe.js'
+import ReplicatingFromAe from './ReplicatingFromAe.js'
+import Email from './Email.js'
+import GroupsLoading from './GroupsLoading.js'
+import TcsQuerying from './TcsQuerying.js'
+import PcsQuerying from './PcsQuerying.js'
+import RcsQuerying from './RcsQuerying.js'
+import FieldsQuerying from './FieldsQuerying.js'
+import RebuildingRedundantData from './RebuildingRedundantData.js'
 
 const Symbols = ({
   email,
