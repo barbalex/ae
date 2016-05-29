@@ -102,15 +102,11 @@ export default React.createClass({
     app.Actions.removeUserFromActiveOrganization(user, userFieldName)
   },
 
-  removeUserTooltip() {
-    return <Tooltip id="removeThisUser">entfernen</Tooltip>
-  },
-
   removeUserGlyph(user) {
     const glyphStyle = {
       position: 'absolute',
       right: 10,
-      top: 8,
+      top: 5,
       fontSize: `${1.5}em`,
       color: 'red',
       cursor: 'pointer'
@@ -118,7 +114,9 @@ export default React.createClass({
     return (
       <OverlayTrigger
         placement="top"
-        overlay={this.removeUserTooltip()}
+        overlay={
+          <Tooltip id="removeThisUser">entfernen</Tooltip>
+        }
       >
         <Glyphicon
           glyph="remove-circle"
@@ -138,22 +136,19 @@ export default React.createClass({
       activeOrganization[userFieldName].length > 0
     ) {
       return activeOrganization[userFieldName].map((user, index) => (
-        <ListGroupItem key={index}>
+        <ListGroupItem
+          key={index}
+          style={{
+            paddingTop: 6,
+            paddingBottom: 6
+          }}
+        >
           {user}
           {this.removeUserGlyph(user)}
         </ListGroupItem>
       ))
     }
     return <p>(Noch) keine</p>
-  },
-
-  newUserAlert() {
-    const { newUserAlert } = this.state
-    return (
-      <Alert bsStyle="danger">
-        <strong>{newUserAlert}</strong>
-      </Alert>
-    )
   },
 
   render() {
@@ -193,7 +188,9 @@ export default React.createClass({
         </FormGroup>
         {
           newUserAlert &&
-          this.newUserAlert()
+          <Alert bsStyle="danger">
+            <strong>{newUserAlert}</strong>
+          </Alert>
         }
       </div>
     )

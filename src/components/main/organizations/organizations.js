@@ -19,8 +19,8 @@ import {
   FormControl,
   Alert
 } from 'react-bootstrap'
-import UsersList from './usersList.js'
-import CollectionList from './collectionList.js'
+import UsersList from './UsersList.js'
+import CollectionList from './CollectionList.js'
 
 const titleStyle = {
   marginTop: 20,
