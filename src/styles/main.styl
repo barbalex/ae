@@ -349,27 +349,28 @@ h5
   color: #6F6F66
   font-weight: bold
   margin: 0 0 7px 0
-  
 
 .form-horizontal .form-group,
 form.form-horizontal .checkboxFormGroup
-  display flex
-  flex-direction: row
   // bootstrap gives -15px side margin, correct this
   margin-right 0
   margin-left 0
+.form-horizontal > div:not(#organisationen) .form-group,
+form.form-horizontal > div:not(#organisationen) .checkboxFormGroup
+  display flex
+  flex-direction: row
 // when form is not horizontal
 // label needs to be on the right
 .checkboxFormGroup
   display flex
   flex-direction: row-reverse
   justify-content: flex-end
-.form-horizontal .form-group label
+.form-horizontal > div:not(#organisationen) .form-group label
   width 200px
-.form-horizontal .form-group .form-control,
-.form-horizontal .form-group .form-control-static
+.form-horizontal > div:not(#organisationen) .form-group .form-control,
+.form-horizontal > div:not(#organisationen) .form-group .form-control-static
   width 100%
-.form-horizontal .form-group .checkboxDiv
+.form-horizontal > div:not(#organisationen) .form-group .checkboxDiv
   width 100%
 /*
 .form-horizontal .form-control
