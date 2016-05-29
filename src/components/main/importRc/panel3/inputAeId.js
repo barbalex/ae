@@ -4,13 +4,15 @@ import React from 'react'
 import { FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
 
 const InputAeId = ({ idsAeIdField, onChangeAeId }) => (
-  <FormGroup controlId="idsAeIdField">
+  <FormGroup
+    controlId="idsAeIdField"
+    bsSize="small"
+  >
     <ControlLabel>
       zugehörige ID in ArtenDb
     </ControlLabel>
     <FormControl
       componentClass="select"
-      bsSize="small"
       multiple
       className="form-control controls"
       style={{ height: `${101}px` }}

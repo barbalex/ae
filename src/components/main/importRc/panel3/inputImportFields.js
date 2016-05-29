@@ -24,7 +24,10 @@ const InputImportFields = ({ rcsToImport, idsImportIdField, onChangeImportId }) 
   ))
 
   return (
-    <FormGroup controlId="idsImportIdField">
+    <FormGroup
+      controlId="idsImportIdField"
+      bsSize="small"
+    >
       <ControlLabel>
         Feld mit eindeutiger ID in den Importdaten
       </ControlLabel>
@@ -33,7 +36,6 @@ const InputImportFields = ({ rcsToImport, idsImportIdField, onChangeImportId }) 
         multiple
         className="form-control controls"
         style={style}
-        bsSize="small"
         value={[idsImportIdField]}
         onChange={(event) =>
           onChangeImportId(event.target.value)
