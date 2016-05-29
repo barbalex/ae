@@ -6,6 +6,7 @@
 'use strict'
 
 import React from 'react'
+import { FormGroup, ControlLabel } from 'react-bootstrap'
 import Textarea from 'react-textarea-autosize'
 
 const FieldTextarea = ({
@@ -16,22 +17,17 @@ const FieldTextarea = ({
   collectionIsEditing,
   onSaveObjectField
 }) =>
-  <div className="form-group form-group-sm">
-    <label
-      htmlFor={fieldName}
-      className="control-label"
-    >
-      <span>
-        {`${fieldName}:`}
-      </span>
-    </label>
+  <FormGroup controlId={fieldName}>
+    <ControlLabel>
+      {fieldName}
+    </ControlLabel>
     <Textarea
       dsTyp={pcType}
       dsName={pcName}
       id={fieldName}
       name={fieldName}
       readOnly={!collectionIsEditing}
-      className="controls form-control"
+      className="form-control"
       defaultValue={fieldValue}
       onChange={(event) => {
         const save = false
@@ -56,7 +52,7 @@ const FieldTextarea = ({
         }
       }}
     />
-  </div>
+  </FormGroup>
 
 FieldTextarea.displayName = 'FieldTextarea'
 

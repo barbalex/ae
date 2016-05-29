@@ -26,7 +26,7 @@ const FieldLink = ({
         controlId={fieldName}
       >
         <ControlLabel>
-          {`${fieldName}:`}
+          {fieldName}
         </ControlLabel>
         <FormControl
           type="text"
@@ -67,7 +67,7 @@ const FieldLink = ({
       controlId={fieldName}
     >
       <ControlLabel>
-        {`${fieldName}:`}
+        {fieldName}
       </ControlLabel>
       <a href={fieldValue}>
         <FormControl
