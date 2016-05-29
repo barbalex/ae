@@ -6,7 +6,6 @@ import { FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
 const InputAeId = ({ idsAeIdField, onChangeAeId }) =>
   <FormGroup
     controlId="inputAeId"
-    bsSize="small"
   >
     <ControlLabel>
       zugehörige ID in ArtenDb
