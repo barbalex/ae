@@ -16,7 +16,7 @@ import Tree from './menu/tree/Tree.js'
 import getGruppen from '../modules/gruppen.js'
 import NavHelper from '../components/NavHelper.js'
 import kickOffStores from '../modules/kickOffStores.js'
-import Login from './main/login/login.js'
+import Login from './main/login/Login.js'
 import buildHierarchyObjectFromObjectForTaxonomy from '../modules/buildHierarchyObjectFromObjectForTaxonomy.js'
 
 const gruppen = getGruppen()

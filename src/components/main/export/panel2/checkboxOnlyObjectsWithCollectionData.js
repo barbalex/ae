@@ -1,47 +1,54 @@
 'use strict'
 
 import React from 'react'
+import { StyleSheet, css } from 'aphrodite'
 
-const inputStyle = {
-  top: 5
-}
-const divStyle = {
-  marginTop: 0,
-  marginBottom: 0
-}
-const labelStyle = {
-  float: 'none !important'
-}
-const pStyle = {
-  marginBottom: `${1}px`,
-  marginLeft: 6,
-  marginTop: 10
-}
+const styles = StyleSheet.create({
+  rootDiv: {
+    marginBottom: 10,
+    marginTop: 10
+  },
+  input: {
+    top: 5
+  },
+  div: {
+    marginTop: 0,
+    marginBottom: 0
+  },
+  label: {
+    float: 'none !important',
+    marginLeft: 12,
+  },
+  p: {
+    marginBottom: 1,
+    marginLeft: 6,
+    marginTop: 10
+  }
+})
 
 const CheckboxOnlyObjectsWithCollectionData = ({
   onlyObjectsWithCollectionData,
   onChangeOnlyObjectsWithCollectionData
 }) => (
   <div
-    style={{ marginBottom: 10, marginTop: 10 }}
+    className={css(styles.rootDiv)}
   >
-    <p style={pStyle}>
+    <p className={css(styles.p)}>
       <strong>
         Filterkriterien in Eigenschaften- und Beziehungssammlungen:
       </strong>
     </p>
     <div
-      className="checkbox"
-      style={divStyle}
+      className={[css(styles.div), 'checkbox'].join(' ')}
     >
-      <label style={labelStyle}>
+      <label className={css(styles.label)}>
         <input
           type="checkbox"
           onChange={() =>
             onChangeOnlyObjectsWithCollectionData(true)
           }
           checked={onlyObjectsWithCollectionData}
-          style={inputStyle}
+          className={css(styles.input)}
         />
         <strong>filtern Arten bzw. Lebensräume</strong><br />
         Beispiel:<br />
@@ -50,17 +57,16 @@ const CheckboxOnlyObjectsWithCollectionData = ({
       </label>
     </div>
     <div
-      className="checkbox"
-      style={divStyle}
+      className={[css(styles.div), 'checkbox'].join(' ')}
     >
-      <label style={labelStyle}>
+      <label className={css(styles.label)}>
         <input
           type="checkbox"
           onChange={() =>
             onChangeOnlyObjectsWithCollectionData(false)
           }
           checked={!onlyObjectsWithCollectionData}
-          style={inputStyle}
+          className={css(styles.input)}
         />
         <strong>
           filtern Eigenschaften- bzw. Beziehungssammlungen
