@@ -7,7 +7,7 @@
 
 import React from 'react'
 import { map } from 'lodash'
-import Field from './field.js'
+import Field from './Field.js'
 
 const RelationFields = ({ relation, relationCollection }) => {
   const relationFields = map(relation, (fieldValue, fieldName) => {

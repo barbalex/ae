@@ -1,7 +1,7 @@
 'use strict'
 
 import React from 'react'
-import RelationCollection from './rc.js'
+import RelationCollection from './Rc.js'
 
 const RcsOfSynonyms = ({ rcsOfSynonyms }) => {
   let rcsComponent = null
