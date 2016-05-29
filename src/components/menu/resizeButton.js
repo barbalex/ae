@@ -10,10 +10,7 @@ const bodyElement = document.body
 
 const styles = StyleSheet.create({
   resizeButtonRootDiv: {
-    float: 'left',
-    clear: 'both',
-    width: '100%',
-    marginBottom: 5
+    
   },
   button: {
     visibility: 'hidden',
@@ -55,7 +52,7 @@ export default React.createClass({
             id="btnResize"
             bsSize="small"
             onClick={this.resize}
-            className={[css(styles.button), 'pull-right'].join(' ')}
+            className={css(styles.button)}
           >
             <Glyphicon glyph="resize-horizontal" />
           </Button>
