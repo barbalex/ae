@@ -4,7 +4,7 @@ import app from 'ampersand-app'
 import Router from 'ampersand-router'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Home from './components/home.js'
+import Home from './components/Home.js'
 import replaceProblematicPathCharactersFromArray from './modules/replaceProblematicPathCharactersFromArray.js'
 import extractInfoFromPath from './modules/extractInfoFromPath.js'
 
