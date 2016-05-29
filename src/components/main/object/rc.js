@@ -40,9 +40,7 @@ const RelationCollection = ({ relationCollection }) => {
         eventKey={1}
       >
         <PcDescription pc={rc} />
-        <div>
-          {relations}
-        </div>
+        {relations}
       </Panel>
     </Accordion>
   )

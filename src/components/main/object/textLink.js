@@ -8,6 +8,7 @@
 
 import app from 'ampersand-app'
 import React from 'react'
+import { FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
 
 /**
  * can't use getPathFromGuid because it is possible that
@@ -15,15 +16,11 @@ import React from 'react'
  * and using it starts an infinite loop
  */
 const TextLink = ({ label, value, guid }) =>
-  <div className="form-group">
-    <label className="control-label">
-      {
-        label
-        ? `${label}:`
-        : null
-      }
-    </label>
-    <p className="form-control-static feldtext controls">
+  <FormGroup controlId={label}>
+    <ControlLabel>
+      {label}
+    </ControlLabel>
+    <FormControl.Static>
       <a
         href={`/${guid}`}
         onClick={(event) => {
@@ -35,8 +32,8 @@ const TextLink = ({ label, value, guid }) =>
       >
         {value}
       </a>
-    </p>
-  </div>
+    </FormControl.Static>
+  </FormGroup>
 
 TextLink.displayName = 'TextLink'
 
