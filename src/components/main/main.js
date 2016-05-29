@@ -9,6 +9,7 @@ import { debounce } from 'lodash'
 import { ListenerMixin } from 'reflux'
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { Form } from 'react-bootstrap'
 import { StyleSheet, css } from 'aphrodite'
 import Objekt from './object/object.js'
 import ImportPc from './importPc/importPc.js'
@@ -75,12 +76,8 @@ export default React.createClass({
   mixins: [ListenerMixin],
 
   getInitialState() {
-    const formClassNames = (
-      window.innerWidth > 700 ?
-      'form form-horizontal' :
-      'form'
-    )
-    return { formClassNames }
+    const formHorizontal = window.innerWidth > 700
+    return { formHorizontal }
   },
 
   componentDidMount() {
@@ -93,12 +90,8 @@ export default React.createClass({
 
   onResize() {
     const thisWidth = ReactDOM.findDOMNode(this).offsetWidth
-    const formClassNames = (
-      thisWidth > 700 ?
-      'form form-horizontal' :
-      'form'
-    )
-    this.setState({ formClassNames })
+    const formHorizontal = thisWidth > 700
+    this.setState({ formHorizontal })
   },
 
   render() {
@@ -140,7 +133,7 @@ export default React.createClass({
       rcsOfActiveOrganization,
       errors
     } = this.props
-    const { formClassNames } = this.state
+    const { formHorizontal } = this.state
     const showObject = (
       object &&
       Object.keys(object).length > 0 &&
@@ -148,9 +141,10 @@ export default React.createClass({
     )
 
     return (
-      <fieldset
+      <Form
         id="main"
-        className={[formClassNames, css(styles.mainRootDiv)].join(' ')}
+        horizontal={formHorizontal}
+        className={css(styles.mainRootDiv)}
       >
         <Errors errors={errors} />
         {
@@ -249,7 +243,7 @@ export default React.createClass({
             offlineIndexes={offlineIndexes}
           />
         }
-      </fieldset>
+      </Form>
     )
   }
 })

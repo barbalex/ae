@@ -6,6 +6,7 @@
 'use strict'
 
 import React from 'react'
+import { FormGroup, Checkbox, ControlLabel } from 'react-bootstrap'
 
 export default React.createClass({
   displayName: 'FieldBoolean',
@@ -58,27 +59,29 @@ export default React.createClass({
     // need to place checkboxes next to labels, not inside
     // makes styling MUCH easier
     return (
-      <div className={'form-group'}>
-        <label
-          className={'control-label'}
-          htmlFor={fieldName}
-        >
+      <FormGroup
+        controlId={fieldName}
+        className="checkboxFormGroup"
+      >
+        <ControlLabel>
           {`${fieldName}:`}
-        </label>
-        <input
-          ref={(c) => { this.myInput = c }}
-          type="checkbox"
-          dsTyp={pcType}
-          dsName={pcName}
-          id={fieldName}
-          name={fieldName}
-          checked={fieldValue}
-          readOnly={!collectionIsEditing}
-          onChange={this.onChange}
-          onBlur={this.onBlur}
-          style={{ marginTop: 8 }}
-        />
-      </div>
+        </ControlLabel>
+        <div className="checkboxDiv">
+          <input
+            type="checkbox"
+            ref={(c) => { this.myInput = c }}
+            dsTyp={pcType}
+            dsName={pcName}
+            id={fieldName}
+            name={fieldName}
+            checked={fieldValue}
+            readOnly={!collectionIsEditing}
+            onChange={this.onChange}
+            onBlur={this.onBlur}
+            style={{ marginTop: 8 }}
+          />
+        </div>
+      </FormGroup>
     )
   }
 })
