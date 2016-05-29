@@ -216,13 +216,13 @@ export default React.createClass({
             <FormGroup
               id="emailFormGroup"
               validationState={invalidEmail ? 'error' : null}
+              bsSize="small"
             >
               <ControlLabel>
                 Email
               </ControlLabel>
               <FormControl
                 type="email"
-                bsSize="small"
                 placeholder="Email"
                 value={email}
                 onChange={this.onChangeEmail}

@@ -19,13 +19,13 @@ const FieldInput = ({
 }) =>
   <FormGroup
     controlId={fieldName}
+    bsSize="small"
   >
     <ControlLabel>
       {`${fieldName}:`}
     </ControlLabel>
     <FormControl
       type={inputType}
-      bsSize="small"
       dsTyp={pcType}
       dsName={pcName}
       id={fieldName}
