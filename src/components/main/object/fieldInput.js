@@ -19,7 +19,6 @@ const FieldInput = ({
 }) =>
   <FormGroup
     controlId={fieldName}
-    bsSize="small"
   >
     <ControlLabel>
       {`${fieldName}:`}

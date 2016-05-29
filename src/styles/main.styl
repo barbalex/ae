@@ -251,14 +251,19 @@ input[readonly], textarea[readonly]
 #importDs label,
 #importBs label,
 #export .form-group label
-  /* bootstrap.css macht font-weight bold */
+  // bootstrap.css macht font-weight bold
   font-weight: normal
-  /* Trennung ermöglichen */
-  hyphens: auto
+  // ...und font-size 12px
   font-size: 14px
+  // Trennung ermöglichen
+  hyphens: auto
   margin-bottom: 1px
+  padding-right: 7px
+  padding-left: 7px
+#main .checkboxFormGroup label
+  padding-top 4px
 
-.form-horizontal #object label,
+//.form-horizontal #object label,
 .form-horizontal #importieren label,
 .form-horizontal .exportFields .form-group label
   width: 200px
@@ -336,7 +341,19 @@ h5
   color: #6F6F66
   font-weight: bold
   margin: 0 0 7px 0
-
+  
+.form-horizontal .form-group
+  display flex
+  // bootstrap gives -15px side margin, correct this
+  margin-right 0
+  margin-left 0
+.form-horizontal .form-group label
+  width 200px
+.form-horizontal .form-group .form-control
+  width 100%
+.form-horizontal .form-group .checkboxDiv
+  width 100%
+/*
 .form-horizontal .form-control
   // Breite fix setzen für Browser, die calc nicht unterstützen
   width: 1000px
@@ -372,7 +389,7 @@ h5
 .feldtext
   margin-top: 4px
   padding-bottom: 0
-
+*/
 .Datensammlung
   color: #944600
 
@@ -432,14 +449,14 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 #export .form-group
   margin-bottom: 5px
   break-inside: avoid
-
+/*
 .form-control-static
   padding-top: 0 !important
   min-height: 0
 
 .form-horizontal .form-control-static
   margin-left: 200px
-
+*/
 input[type=file]
   margin-left: 0 !important
 
