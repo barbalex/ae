@@ -57,13 +57,13 @@ const MyObject = ({
   /**
    * build pcsOfSynonyms
    */
-  if (synonymObjects.length > 0) {
+  if (synonymObjects && synonymObjects.length) {
     synonymObjects.forEach((synonymObject) => {
       // property collections
       if (
         synonymObject &&
         synonymObject.Eigenschaftensammlungen &&
-        synonymObject.Eigenschaftensammlungen.length > 0
+        synonymObject.Eigenschaftensammlungen.length
       ) {
         synonymObject.Eigenschaftensammlungen.forEach((pc) => {
           if (!namesOfPcsBuilt.includes(pc.Name)) {
@@ -81,7 +81,7 @@ const MyObject = ({
       const synonymObjectHasRelationCollections = (
         synonymObject &&
         synonymObject.Beziehungssammlungen &&
-        synonymObject.Beziehungssammlungen.length > 0
+        synonymObject.Beziehungssammlungen.length
       )
       if (synonymObjectHasRelationCollections) {
         synonymObject.Beziehungssammlungen.forEach((rcOfSynonym) => {
@@ -107,10 +107,10 @@ const MyObject = ({
 
             if (
               rcOfSynonym.Beziehungen &&
-              rcOfSynonym.Beziehungen.length > 0 &&
+              rcOfSynonym.Beziehungen.length &&
               rcOfOriginal &&
               rcOfOriginal.Beziehungen &&
-              rcOfOriginal.Beziehungen.length > 0
+              rcOfOriginal.Beziehungen.length
             ) {
               // Both objects have relations in the same relation collection
               // remove relations existing in original object from synonym
