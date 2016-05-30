@@ -1,8 +1,8 @@
 'use strict'
 
 import React from 'react'
-import { Button, Glyphicon } from 'react-bootstrap'
-import ModalDeletePc from './modalDeletePc.js'
+import { Button, Glyphicon, FormGroup, ControlLabel } from 'react-bootstrap'
+import ModalDeletePc from './ModalDeletePc.js'
 
 export default React.createClass({
   displayName: 'ButtonDeletePc',
@@ -49,33 +49,31 @@ export default React.createClass({
     const showConfirmModal = show && deletingPcProgress === null
 
     return (
-      <div>
-        {
-          nameBestehend &&
-          <div className="form-group">
-            <Button
-              bsStyle="danger"
-              className="feld"
-              onClick={() =>
-                this.onClickDeletePc()
-              }
-              disabled={!enableDeletePcButton}
-            >
-              <Glyphicon glyph="trash" />
-              &nbsp;
-              Eigenschaftensammlung "{nameBestehend}" aus allen Arten/Lebensräumen entfernen
-            </Button>
-          </div>
-        }
-        {
-          showConfirmModal &&
-          <ModalDeletePc
-            nameBestehend={nameBestehend}
-            onClickDeletePc={this.onClickDelete}
-            closeModal={this.closeModal}
-          />
-        }
-      </div>
+      <FormGroup>
+        <ControlLabel style={{ display: 'block' }} />
+        <div style={{ width: '100%' }}>
+          <Button
+            bsStyle="danger"
+            className="feld"
+            onClick={() =>
+              this.onClickDeletePc()
+            }
+            disabled={!enableDeletePcButton}
+          >
+            <Glyphicon glyph="trash" />
+            &nbsp;
+            Eigenschaftensammlung "{nameBestehend}" aus allen Arten/Lebensräumen entfernen
+          </Button>
+          {
+            showConfirmModal &&
+            <ModalDeletePc
+              nameBestehend={nameBestehend}
+              onClickDeletePc={this.onClickDelete}
+              closeModal={this.closeModal}
+            />
+          }
+        </div>
+      </FormGroup>
     )
   }
 })

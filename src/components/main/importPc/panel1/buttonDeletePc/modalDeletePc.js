@@ -15,7 +15,7 @@ const ModalDeletePc = ({
   <div
     className="static-modal"
   >
-    <Modal.Dialog onHide={this.onHide}>
+    <Modal.Dialog>
       <Modal.Header>
         <Modal.Title>
           Eigenschaftensammlung "{nameBestehend}" löschen
