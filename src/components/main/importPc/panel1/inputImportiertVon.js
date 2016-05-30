@@ -1,7 +1,7 @@
 'use strict'
 
 import React from 'react'
-import { OverlayTrigger, Popover } from 'react-bootstrap'
+import { OverlayTrigger, Popover, FormGroup, FormControl } from 'react-bootstrap'
 
 const popover = (
   <Popover
@@ -14,7 +14,7 @@ const popover = (
 )
 
 const InputImportiertVon = ({ importiertVon }) => (
-  <div className="form-group">
+  <FormGroup>
     <OverlayTrigger
       trigger={['click', 'focus']}
       rootClose
@@ -25,13 +25,12 @@ const InputImportiertVon = ({ importiertVon }) => (
         importiert von
       </label>
     </OverlayTrigger>
-    <input
+    <FormControl
       type="text"
-      className="form-control controls"
       value={importiertVon}
       disabled
     />
-  </div>
+  </FormGroup>
 )
 
 InputImportiertVon.displayName = 'InputImportiertVon'

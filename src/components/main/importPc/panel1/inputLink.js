@@ -1,7 +1,7 @@
 'use strict'
 
 import React from 'react'
-import { OverlayTrigger, Popover } from 'react-bootstrap'
+import { OverlayTrigger, Popover, FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
 
 const popover = (
   <Popover
@@ -19,34 +19,38 @@ const InputLink = ({
   onChangeLink,
   onBlurLink
 }) => (
-  <div
-    className={validLink ? 'form-group' : 'form-group has-error'}
-  >
-    <OverlayTrigger
-      trigger={['click', 'focus']}
-      rootClose
-      placement="right"
-      overlay={popover}
+  <div>
+    <FormGroup
+      validationState={validLink ? null : 'error'}
     >
-      <label className="control-label withPopover">
-        Link
-      </label>
-    </OverlayTrigger>
-    <input
-      type="textarea"
-      className="form-control controls"
-      value={link}
-      onBlur={() => onBlurLink()}
-      onChange={(event) =>
-        onChangeLink(event.target.value)
-      }
-      rows={1}
-    />
+      <OverlayTrigger
+        trigger={['click', 'focus']}
+        rootClose
+        placement="right"
+        overlay={popover}
+      >
+        <label className="control-label withPopover">
+          Link
+        </label>
+      </OverlayTrigger>
+      <FormControl
+        componentClass="textarea"
+        value={link}
+        onBlur={() => onBlurLink()}
+        onChange={(event) =>
+          onChangeLink(event.target.value)
+        }
+        rows={1}
+      />
+    </FormGroup>
     {
       !validLink &&
-      <div className="validateDiv feld">
-        Bitte prüfen Sie den Link. Es muss einge gültige URL sein
-      </div>
+      <FormGroup>
+        <ControlLabel style={{ display: 'block' }} />
+        <div style={{ width: '100%' }} className="validateDiv">
+          Bitte prüfen Sie den Link. Es muss einge gültige URL sein
+        </div>
+      </FormGroup>
     }
   </div>
 )
