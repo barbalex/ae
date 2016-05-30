@@ -1,7 +1,7 @@
 'use strict'
 
 import React from 'react'
-import { OverlayTrigger, Popover } from 'react-bootstrap'
+import { OverlayTrigger, Popover, FormGroup, FormControl } from 'react-bootstrap'
 
 const popover = () => (
   <Popover
@@ -33,7 +33,7 @@ const popover = () => (
 )
 
 const InputZusammenfassend = ({ zusammenfassend, onChangeZusammenfassend }) =>
-  <div className="form-group">
+  <FormGroup>
     <OverlayTrigger
       trigger={['click', 'focus']}
       rootClose
@@ -56,7 +56,7 @@ const InputZusammenfassend = ({ zusammenfassend, onChangeZusammenfassend }) =>
         onChangeZusammenfassend(event.target.checked)
       }
     />
-  </div>
+  </FormGroup>
 
 InputZusammenfassend.displayName = 'InputZusammenfassend'
 

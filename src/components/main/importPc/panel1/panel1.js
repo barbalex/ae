@@ -8,7 +8,7 @@ import AlertFirst5Deleted from '../alertFirst5Deleted.js'
 import AlertLoadAllGroups from './alertLoadAllGroups.js'
 import AlertEditingPcDisallowed from './alertEditingPcDisallowed.js'
 import AlertNotEsWriter from './alertNotEsWriter.js'
-import ButtonDeletePc from './buttonDeletePc/buttonDeletePc.js'
+import ButtonDeletePc from './buttonDeletePc/ButtonDeletePc.js'
 import ProgressbarDeletePc from './progressbarDeletePc.js'
 import InputNameBestehend from './inputNameBestehend.js'
 import InputName from './inputName.js'
@@ -115,12 +115,15 @@ const Panel1 = ({
         alertNotEsWriter &&
         <AlertNotEsWriter />
       }
-      <ButtonDeletePc
-        nameBestehend={nameBestehend}
-        enableDeletePcButton={enableDeletePcButton}
-        deletingPcProgress={deletingPcProgress}
-        onClickDeletePc={onClickDeletePc}
-      />
+      {
+        nameBestehend &&
+        <ButtonDeletePc
+          nameBestehend={nameBestehend}
+          enableDeletePcButton={enableDeletePcButton}
+          deletingPcProgress={deletingPcProgress}
+          onClickDeletePc={onClickDeletePc}
+        />
+      }
       {
         showAlertDeletePcBuildingIndex &&
         <AlertDeletePcBuildingIndex />
@@ -133,14 +136,12 @@ const Panel1 = ({
       }
       {
         deletingPcProgress === 100 &&
-        <div className="feld">
-          <AlertFirst5Deleted
-            idsOfAeObjects={idsOfAeObjects}
-            nameBestehend={nameBestehend}
-            replicatingToAe={replicatingToAe}
-            replicatingToAeTime={replicatingToAeTime}
-          />
-        </div>
+        <AlertFirst5Deleted
+          idsOfAeObjects={idsOfAeObjects}
+          nameBestehend={nameBestehend}
+          replicatingToAe={replicatingToAe}
+          replicatingToAeTime={replicatingToAeTime}
+        />
       }
       <hr />
       <InputName
