@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Well } from 'react-bootstrap'
-import ButtonCombineTaxonomies from './buttonCombineTaxonomies.js'
+import ButtonCombineTaxonomies from './ButtonCombineTaxonomies.js'
 
 export default React.createClass({
   displayName: 'WellCombineTaxonomies',

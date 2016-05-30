@@ -2,10 +2,10 @@
 
 import React from 'react'
 import { Accordion, Panel } from 'react-bootstrap'
-import InputFilterGuid from './inputGuid.js'
-import FieldsTaxonomy from './fieldsTaxonomy.js'
-import FieldsPCs from './fieldsPCs.js'
-import FieldsRCs from './fieldsRCs.js'
+import InputFilterGuid from './InputGuid.js'
+import FieldsTaxonomy from './FieldsTaxonomy.js'
+import FieldsPCs from './FieldsPCs.js'
+import FieldsRCs from './FieldsRCs.js'
 
 export default React.createClass({
   displayName: 'Fields',
