@@ -3,16 +3,16 @@
 import app from 'ampersand-app'
 import React from 'react'
 import { Accordion, Panel } from 'react-bootstrap'
-import { difference, get, map, omitBy, values } from 'lodash'
+import { difference, get, map as _map, omitBy, values } from 'lodash'
 import { ListenerMixin } from 'reflux'
 import getObjectsFromFile from './getObjectsFromFile.js'
 import isValidUrl from '../../../modules/isValidUrl.js'
 import getSuccessTypeFromAnalysis from './getSuccessTypeFromAnalysis.js'
 import getGuidsById from '../../../modules/getGuidsById.js'
-import Panel1 from './panel1/panel1.js'
-import Panel2 from './panel2/panel2.js'
-import Panel3 from './panel3/panel3.js'
-import Panel4 from './panel4/panel4.js'
+import Panel1 from './panel1/Panel1.js'
+import Panel2 from './panel2/Panel2.js'
+import Panel3 from './panel3/Panel3.js'
+import Panel4 from './panel4/Panel4.js'
 import isUserServerAdmin from '../../../modules/isUserServerAdmin.js'
 import isUserOrgAdmin from '../../../modules/isUserOrgAdmin.js'
 import isUserEsWriter from '../../../modules/isUserEsWriter.js'
@@ -325,7 +325,7 @@ export default React.createClass({
         rPartnerIdsImportable
       }
 
-      const ids = map(rcsToImport, idsImportIdField)
+      const ids = _map(rcsToImport, idsImportIdField)
       // if ids should be numbers but some are not, an error can occur when fetching from the database
       // so dont fetch
       const idsAnalysisComplete = true
