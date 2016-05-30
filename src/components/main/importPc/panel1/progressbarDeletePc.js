@@ -1,16 +1,19 @@
 'use strict'
 
 import React from 'react'
-import { ProgressBar } from 'react-bootstrap'
+import { ProgressBar, FormGroup, ControlLabel } from 'react-bootstrap'
 
 const ProgressbarDeletePc = ({ progress }) =>
-  <div className="feld">
-    <ProgressBar
-      bsStyle="success"
-      now={progress}
-      label={`${progress}% gelöscht`}
-    />
-  </div>
+  <FormGroup>
+    <ControlLabel style={{ display: 'block' }} />
+    <div style={{ width: '100%' }}>
+      <ProgressBar
+        bsStyle="success"
+        now={progress}
+        label={`${progress}% gelöscht`}
+      />
+    </div>
+  </FormGroup>
 
 ProgressbarDeletePc.displayName = 'ProgressbarDeletePc'
 
