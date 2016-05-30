@@ -2,8 +2,8 @@
 
 import React from 'react'
 import { Accordion, Panel, Checkbox } from 'react-bootstrap'
-import FieldsRCsPanel from './fieldsRCsPanel.js'
-import WellRelationsOptions from './wellRelationsOptions.js'
+import FieldsRCsPanel from './FieldsRCsPanel.js'
+import WellRelationsOptions from './WellRelationsOptions.js'
 
 export default React.createClass({
   displayName: 'FieldsRCs',
