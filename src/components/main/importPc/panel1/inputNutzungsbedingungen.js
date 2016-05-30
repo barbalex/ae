@@ -1,7 +1,7 @@
 'use strict'
 
 import React from 'react'
-import { OverlayTrigger, Popover } from 'react-bootstrap'
+import { OverlayTrigger, Popover, FormGroup, FormControl } from 'react-bootstrap'
 
 const popover = (
   <Popover
@@ -35,8 +35,8 @@ const InputNutzungsbedingungen = ({
   validNutzungsbedingungen,
   onChangeNutzungsbedingungen
 }) => (
-  <div
-    className={validNutzungsbedingungen ? 'form-group' : 'form-group has-error'}
+  <FormGroup
+    validationState={validNutzungsbedingungen ? null : 'error'}
   >
     <OverlayTrigger
       trigger={['click', 'focus']}
@@ -48,22 +48,16 @@ const InputNutzungsbedingungen = ({
         Nutzungsbedingungen
       </label>
     </OverlayTrigger>
-    <textarea
-      className="form-control controls"
+    <FormControl
+      componentClass="textarea"
       rows={1}
       value={nutzungsbedingungen}
+      placeholder={validNutzungsbedingungen ? '' : 'erforderlich'}
       onChange={(event) =>
         onChangeNutzungsbedingungen(event.target.value)
       }
-    >
-    </textarea>
-    {
-      !validNutzungsbedingungen &&
-      <div className="validateDiv feld">
-        Nutzungsbedingungen sind erforderlich
-      </div>
-    }
-  </div>
+    />
+  </FormGroup>
 )
 
 InputNutzungsbedingungen.displayName = 'InputNutzungsbedingungen'
