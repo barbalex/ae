@@ -1,7 +1,7 @@
 'use strict'
 
 import React from 'react'
-import { OverlayTrigger, Popover } from 'react-bootstrap'
+import { OverlayTrigger, Popover, FormGroup, FormControl } from 'react-bootstrap'
 
 const popover = (
   <Popover
@@ -27,8 +27,8 @@ const InputName = ({
   onChangeName,
   onBlurName
 }) => (
-  <div
-    className={validName ? 'form-group' : 'form-group has-error'}
+  <FormGroup
+    validationState={validName ? null : 'error'}
   >
     <OverlayTrigger
       trigger={['click', 'focus']}
@@ -40,10 +40,10 @@ const InputName = ({
         Name
       </label>
     </OverlayTrigger>
-    <input
+    <FormControl
       type="text"
-      className="controls input-sm form-control"
       value={name}
+      placeholder={validName ? '' : 'erforderlich'}
       onChange={(event) =>
         onChangeName(event.target.value)
       }
@@ -51,13 +51,7 @@ const InputName = ({
         onBlurName(event.target.value)
       }
     />
-    {
-      !validName &&
-      <div className="validateDiv feld">
-        Ein Name ist erforderlich
-      </div>
-    }
-  </div>
+  </FormGroup>
 )
 
 InputName.displayName = 'InputName'
