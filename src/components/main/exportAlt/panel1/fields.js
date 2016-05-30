@@ -3,9 +3,9 @@
 import React from 'react'
 import { Accordion, Panel, Checkbox } from 'react-bootstrap'
 import { get } from 'lodash'
-import FieldsTaxonomy from './fieldsTaxonomy.js'
-import FieldsPCs from './fieldsPCs.js'
-import FieldsRCs from './fieldsRCs.js'
+import FieldsTaxonomy from './FieldsTaxonomy.js'
+import FieldsPCs from './FieldsPCs.js'
+import FieldsRCs from './FieldsRCs.js'
 
 export default React.createClass({
   displayName: 'Fields',

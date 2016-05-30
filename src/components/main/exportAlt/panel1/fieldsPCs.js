@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Accordion, Panel } from 'react-bootstrap'
-import FieldsPCsPanel from './fieldsPCsPanel.js'
+import FieldsPCsPanel from './FieldsPCsPanel.js'
 
 export default React.createClass({
   displayName: 'FieldsPCs',
