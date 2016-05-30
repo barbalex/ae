@@ -8,8 +8,8 @@ import {
   ControlLabel
 } from 'react-bootstrap'
 import { get } from 'lodash'
-import SelectComparisonOperator from './selectComparisonOperator.js'
-import InfoButtonAfter from './infoButtonAfter.js'
+import SelectComparisonOperator from './SelectComparisonOperator.js'
+import InfoButtonAfter from './InfoButtonAfter.js'
 
 const FieldsTaxonomyPanel = ({
   taxonomyFields,
