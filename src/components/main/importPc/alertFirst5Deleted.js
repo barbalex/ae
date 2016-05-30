@@ -2,7 +2,7 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import { Alert } from 'react-bootstrap'
+import { Alert, FormGroup, ControlLabel } from 'react-bootstrap'
 import { findKey } from 'lodash'
 import ReplicationNotice from './replicationNotice.js'
 import getPathsFromLocalDb from '../../../modules/getPathsFromLocalDb.js'
@@ -33,7 +33,6 @@ export default React.createClass({
     } = this.props
     const { paths } = this.state
     const first5Ids = idsOfAeObjects.slice(0, 5)
-    const alertStyle = { marginTop: 11 }
 
     // only get paths on first render
     if (!paths) {
@@ -68,29 +67,33 @@ export default React.createClass({
     })
 
     return (
-      <Alert
-        bsStyle="info"
-        style={alertStyle}
-      >
-        <p>
-          Aus {idsOfAeObjects.length} Datensätzen wurde die
-          Eigenschaftensammlung "{nameBestehend}" entfernt.<br />
-          Beispiele zur Kontrolle:
-        </p>
-        {
-          paths &&
-          <ul>
-            {examples}
-          </ul>
-        }
-        {
-          paths &&
-          <ReplicationNotice
-            replicatingToAe={replicatingToAe}
-            replicatingToAeTime={replicatingToAeTime}
-          />
-        }
-      </Alert>
+      <FormGroup>
+        <ControlLabel style={{ display: 'block' }} />
+        <div style={{ width: '100%' }}>
+          <Alert
+            bsStyle="info"
+          >
+            <p>
+              Aus {idsOfAeObjects.length} Datensätzen wurde die
+              Eigenschaftensammlung "{nameBestehend}" entfernt.<br />
+              Beispiele zur Kontrolle:
+            </p>
+            {
+              paths &&
+              <ul>
+                {examples}
+              </ul>
+            }
+            {
+              paths &&
+              <ReplicationNotice
+                replicatingToAe={replicatingToAe}
+                replicatingToAeTime={replicatingToAeTime}
+              />
+            }
+          </Alert>
+        </div>
+      </FormGroup>
     )
   }
 })
