@@ -15,7 +15,7 @@ export default (originalObjects, objectsToFilter) => {
   objectsToFilter.forEach((object) => {
     const hasBeziehungssammlungen = (
       object.Beziehungssammlungen &&
-      object.Beziehungssammlungen.length > 0
+      object.Beziehungssammlungen.length
     )
     if (hasBeziehungssammlungen) {
       object.Beziehungssammlungen.forEach((rc) => {
@@ -29,7 +29,11 @@ export default (originalObjects, objectsToFilter) => {
         )
         if (isSynonym) {
           rc.Beziehungen.forEach((relation) => {
-            if (relation.Beziehungspartner && relation.Beziehungspartner.length > 0) {
+            if (
+              relation.Beziehungspartner &&
+              relation.Beziehungspartner.length &&
+              relation.Beziehungspartner.length > 0
+            ) {
               const rPartnerGuids = _map(relation.Beziehungspartner, 'GUID')
               rPartnerGuids.forEach((guid) => {
                 object = addCollectionsOfSynonym(originalObjects, object, guid)

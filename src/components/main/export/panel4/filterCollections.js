@@ -83,7 +83,11 @@ export default (
                 }
                 // if rc, check if any relation fulfills
                 const relations = collection.Beziehungen
-                if (relations && relations.length > 0) {
+                if (
+                  relations &&
+                  relations.length &&
+                  relations.length > 0
+                ) {
                   let returnFromRelationsLoop = false
                   relations.forEach((relation, rIndex) => {
                     if (fName !== 'Beziehungspartner') {
