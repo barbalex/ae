@@ -4,7 +4,7 @@ import React from 'react'
 import { Button, Well } from 'react-bootstrap'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import Textarea from 'react-textarea-autosize'
-import WellOptionsChoosen from './wellOptionsChoosen.js'
+import WellOptionsChoosen from './WellOptionsChoosen.js'
 import buildExportFields from './buildExportFields.js'
 import getCouchUrl from '../../../../modules/getCouchUrl.js'
 
