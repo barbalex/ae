@@ -1,9 +1,9 @@
 'use strict'
 
 import React from 'react'
-import WellSoGehts from './wellSoGehts.js'
-import CheckboxIncludeDataFromSynonyms from './checkboxIncludeDataFromSynonyms.js'
-import Fields from './fields.js'
+import WellSoGehts from './WellSoGehts.js'
+import CheckboxIncludeDataFromSynonyms from './CheckboxIncludeDataFromSynonyms.js'
+import Fields from './Fields.js'
 
 const Panel1 = ({
   taxonomyFields,
