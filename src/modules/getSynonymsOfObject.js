@@ -4,7 +4,11 @@ import app from 'ampersand-app'
 import getGuidsOfSynonymsFromTaxonomicRcs from './getGuidsOfSynonymsFromTaxonomicRcs.js'
 
 export default (object) => new Promise((resolve, reject) => {
-  if (object.Beziehungssammlungen && object.Beziehungssammlungen.length > 0) {
+  if (
+    object.Beziehungssammlungen &&
+    object.Beziehungssammlungen.length &&
+    object.Beziehungssammlungen.length > 0
+  ) {
     const rcs = object.Beziehungssammlungen
     // taxonomic relation collections
     const taxRcs = rcs.filter((rc) =>
