@@ -4,7 +4,7 @@ import React from 'react'
 import WellTechnAnforderungenAnDatei from './wellTechnAnforderungenAnDatei.js'
 import WellAnforderungenAnCsv from './wellAnforderungenAnCsv.js'
 import WellAnforderungenInhaltlich from './wellAnforderungenInhaltlich.js'
-import TablePreview from './tablePreview.js'
+import TablePreview from './TablePreview.js'
 
 const Panel2 = ({ onChangeFile, pcsToImport, validPcsToImport }) =>
   <div>

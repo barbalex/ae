@@ -3,12 +3,12 @@
 import app from 'ampersand-app'
 import React from 'react'
 import { Accordion, Panel } from 'react-bootstrap'
-import { difference, map, omitBy, uniq, values } from 'lodash'
+import { difference, map as _map, omitBy, uniq, values } from 'lodash'
 import { ListenerMixin } from 'reflux'
-import Panel1 from './panel1/panel1.js'
-import Panel2 from './panel2/panel2.js'
-import Panel3 from './panel3/panel3.js'
-import Panel4 from './panel4/panel4.js'
+import Panel1 from './panel1/Panel1.js'
+import Panel2 from './panel2/Panel2.js'
+import Panel3 from './panel3/Panel3.js'
+import Panel4 from './panel4/Panel4.js'
 import getObjectsFromFile from './getObjectsFromFile.js'
 import isValidUrl from '../../../modules/isValidUrl.js'
 import getSuccessTypeFromAnalysis from './panel3/getSuccessTypeFromAnalysis.js'
@@ -280,7 +280,7 @@ export default React.createClass({
           }
         })
       }
-      const ids = map(pcsToImport, idsImportIdField)
+      const ids = _map(pcsToImport, idsImportIdField)
       /**
        * if ids should be numbers but some are not,
        * an error can occur when fetching from the database
@@ -296,7 +296,7 @@ export default React.createClass({
             const importId = pc[idsImportIdField]
             pc._id = idGuidObject[importId]
           })
-          let idsToImportWithDuplicates = map(pcsToImport, idsImportIdField)
+          let idsToImportWithDuplicates = _map(pcsToImport, idsImportIdField)
           // remove emtpy values
           idsToImportWithDuplicates = idsToImportWithDuplicates.filter((id) => !!id)
           // remove duplicates
