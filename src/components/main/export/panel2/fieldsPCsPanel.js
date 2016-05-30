@@ -8,8 +8,8 @@ import {
   ControlLabel
 } from 'react-bootstrap'
 import { get } from 'lodash'
-import SelectComparisonOperator from './selectComparisonOperator.js'
-import InfoButtonAfter from './infoButtonAfter.js'
+import SelectComparisonOperator from './SelectComparisonOperator.js'
+import InfoButtonAfter from './InfoButtonAfter.js'
 import PcDescription from './PcDescription.js'
 
 const FieldsPCsPanel = ({
@@ -34,7 +34,7 @@ const FieldsPCsPanel = ({
     const fNameObject = cNameObject[fNameKey]
     const value = get(exportOptions, `${cNameKey}.${fNameKey}.value`, '')
     const co = get(exportOptions, `${cNameKey}.${fNameKey}.co`, '')
-    const infoButtonAfter = <InfoButtonAfter fNameObject={fNameObject} />
+    const infoButtonAfterInstance = <InfoButtonAfter fNameObject={fNameObject} />
     if (fNameObject.fType !== 'boolean') {
       return (
         <FormGroup
@@ -60,7 +60,7 @@ const FieldsPCsPanel = ({
               }
             />
             <InputGroup.Addon>
-              {infoButtonAfter}
+              {infoButtonAfterInstance}
             </InputGroup.Addon>
           </InputGroup>
         </FormGroup>
@@ -84,7 +84,7 @@ const FieldsPCsPanel = ({
             <option value={false}>nein</option>
           </FormControl>
           <InputGroup.Addon>
-            {infoButtonAfter}
+            {infoButtonAfterInstance}
           </InputGroup.Addon>
         </InputGroup>
       </FormGroup>
