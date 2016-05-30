@@ -2,12 +2,12 @@
 
 import React from 'react'
 import { map, difference } from 'lodash'
-import WellSoGehts from './wellSoGehts.js'
-import GroupsToExport from './groupsToExport.js'
-import WellCombineTaxonomies from './wellCombineTaxonomies.js'
-import AlertGroups from './alertGroups.js'
-import AlertLoadGroups from './alertLoadGroups.js'
-import AlertChooseGroup from './alertChooseGroup.js'
+import WellSoGehts from './WellSoGehts.js'
+import GroupsToExport from './GroupsToExport.js'
+import WellCombineTaxonomies from './WellCombineTaxonomies.js'
+import AlertGroups from './AlertGroups.js'
+import AlertLoadGroups from './AlertLoadGroups.js'
+import AlertChooseGroup from './AlertChooseGroup.js'
 
 const Panel1 = ({
   groupsLoadedOrLoading,
