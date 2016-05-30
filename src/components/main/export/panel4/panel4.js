@@ -2,13 +2,13 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import WellSoGehts from './wellSoGehts.js'
-import WellOptionsChoosen from './wellOptionsChoosen.js'
-import WellFormat from './wellFormat.js'
-import TablePreview from './tablePreview.js'
-import AlertErrorBuildingExportData from './alertErrorBuildingExportData.js'
-import AlertBuildingExportData from './alertBuildingExportData.js'
-import ButtonExport from './buttonExport.js'
+import WellSoGehts from './WellSoGehts.js'
+import WellOptionsChoosen from './WellOptionsChoosen.js'
+import WellFormat from './WellFormat.js'
+import TablePreview from './TablePreview.js'
+import AlertErrorBuildingExportData from './AlertErrorBuildingExportData.js'
+import AlertBuildingExportData from './AlertBuildingExportData.js'
+import ButtonExport from './ButtonExport.js'
 
 export default React.createClass({
   displayName: 'Panel4',

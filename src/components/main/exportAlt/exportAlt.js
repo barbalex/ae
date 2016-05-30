@@ -6,10 +6,10 @@ import { ListenerMixin } from 'reflux'
 import { Accordion, Panel } from 'react-bootstrap'
 import { get, set, union, without } from 'lodash'
 import addClass from 'amp-add-class'
-import Panel1 from './panel1/panel1.js'
-import Panel2 from './panel2/panel2.js'
-import ModalTooManyFieldsChoosen from './modalTooManyFieldsChoosen.js'
-import ModalTooManyRcsChoosen from './modalTooManyRcsChoosen.js'
+import Panel1 from './panel1/Panel1.js'
+import Panel2 from './panel2/Panel2.js'
+import ModalTooManyFieldsChoosen from './ModalTooManyFieldsChoosen.js'
+import ModalTooManyRcsChoosen from './ModalTooManyRcsChoosen.js'
 
 export default React.createClass({
   displayName: 'Export',
