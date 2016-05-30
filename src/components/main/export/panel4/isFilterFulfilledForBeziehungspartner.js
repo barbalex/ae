@@ -4,7 +4,7 @@ import isFilterFulfilled from './isFilterFulfilled.js'
 
 export default (rPartners, filterValue, co) => {
   const rPartnersToReturn = []
-  if (rPartners && rPartners.length > 0) {
+  if (rPartners && rPartners.length) {
     rPartners.forEach((rPartner) => {
       if (
         isFilterFulfilled(rPartner.Name, filterValue, co) ||

@@ -1,6 +1,7 @@
 'use strict'
 
 export default (value) => {
+  if (value === undefined) return 'undefined'
   if (typeof value === 'boolean') return 'boolean'
   if (
     parseInt(value, 10) &&
@@ -20,8 +21,5 @@ export default (value) => {
   ) {
     return 'integer'
   }
-  if (typeof value === 'object') return 'object'
-  if (typeof value === 'string') return 'string'
-  if (value === undefined) return 'undefined'
-  if (typeof value === 'function') return 'function'
+  return typeof value
 }
