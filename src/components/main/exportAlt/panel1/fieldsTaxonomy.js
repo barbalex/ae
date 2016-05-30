@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Accordion, Panel } from 'react-bootstrap'
-import FieldsTaxonomyPanel from './fieldsTaxonomyPanel.js'
+import FieldsTaxonomyPanel from './FieldsTaxonomyPanel.js'
 
 export default React.createClass({
   displayName: 'FieldsTaxonomy',
