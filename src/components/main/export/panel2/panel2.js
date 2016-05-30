@@ -1,10 +1,10 @@
 'use strict'
 
 import React from 'react'
-import WellSoGehts from './wellSoGehts.js'
-import WellTippsTricks from './wellTippsTricks.js'
-import CheckboxOnlyObjectsWithCollectionData from './checkboxOnlyObjectsWithCollectionData.js'
-import Fields from './fields.js'
+import WellSoGehts from './WellSoGehts.js'
+import WellTippsTricks from './WellTippsTricks.js'
+import CheckboxOnlyObjectsWithCollectionData from './CheckboxOnlyObjectsWithCollectionData.js'
+import Fields from './Fields.js'
 
 const Panel2 = ({
   groupsLoadedOrLoading,
