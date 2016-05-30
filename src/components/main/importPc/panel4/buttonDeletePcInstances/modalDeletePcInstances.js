@@ -9,9 +9,7 @@ const ModalDeletePcInstances = ({
   onClickRemovePcInstances
 }) => (
   <div className="static-modal">
-    <Modal.Dialog
-      onHide={this.onHide}
-    >
+    <Modal.Dialog>
       <Modal.Header>
         <Modal.Title>
           Eigenschaftensammlung "{name}" entfernen

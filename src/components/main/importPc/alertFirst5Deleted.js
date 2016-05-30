@@ -2,7 +2,7 @@
 
 import app from 'ampersand-app'
 import React from 'react'
-import { Alert, FormGroup, ControlLabel } from 'react-bootstrap'
+import { Alert } from 'react-bootstrap'
 import { findKey } from 'lodash'
 import ReplicationNotice from './replicationNotice.js'
 import getPathsFromLocalDb from '../../../modules/getPathsFromLocalDb.js'
@@ -67,33 +67,28 @@ export default React.createClass({
     })
 
     return (
-      <FormGroup>
-        <ControlLabel style={{ display: 'block' }} />
-        <div style={{ width: '100%' }}>
-          <Alert
-            bsStyle="info"
-          >
-            <p>
-              Aus {idsOfAeObjects.length} Datensätzen wurde die
-              Eigenschaftensammlung "{nameBestehend}" entfernt.<br />
-              Beispiele zur Kontrolle:
-            </p>
-            {
-              paths &&
-              <ul>
-                {examples}
-              </ul>
-            }
-            {
-              paths &&
-              <ReplicationNotice
-                replicatingToAe={replicatingToAe}
-                replicatingToAeTime={replicatingToAeTime}
-              />
-            }
-          </Alert>
-        </div>
-      </FormGroup>
+      <Alert
+        bsStyle="info"
+      >
+        <p>
+          Aus {idsOfAeObjects.length} Datensätzen wurde die
+          Eigenschaftensammlung "{nameBestehend}" entfernt.<br />
+          Beispiele zur Kontrolle:
+        </p>
+        {
+          paths &&
+          <ul>
+            {examples}
+          </ul>
+        }
+        {
+          paths &&
+          <ReplicationNotice
+            replicatingToAe={replicatingToAe}
+            replicatingToAeTime={replicatingToAeTime}
+          />
+        }
+      </Alert>
     )
   }
 })
