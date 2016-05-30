@@ -9,7 +9,7 @@ import { Modal, Button } from 'react-bootstrap'
 
 const ModalDeleteRcInstances = ({ name, closeModal, onClickRemoveRcInstances }) =>
   <div className="static-modal">
-    <Modal.Dialog onHide={this.onHide}>
+    <Modal.Dialog>
       <Modal.Header>
         <Modal.Title>Beziehungssammlung "{name}" entfernen</Modal.Title>
       </Modal.Header>

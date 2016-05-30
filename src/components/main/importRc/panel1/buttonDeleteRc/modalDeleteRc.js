@@ -5,7 +5,7 @@ import { Modal, Button } from 'react-bootstrap'
 
 const ModalDeleteRc = ({ nameBestehend, onClickDeleteRc, closeModal }) =>
   <div className="static-modal">
-    <Modal.Dialog onHide={this.onHide}>
+    <Modal.Dialog>
       <Modal.Header>
         <Modal.Title>
           Beziehungssammlung "{nameBestehend}" löschen
