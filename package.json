@@ -73,8 +73,7 @@
     "url-loader": "0.5.7",
     "webpack": "1.13.1",
     "whatwg-fetch": "1.0.0",
-    "xlsx": "0.8.0",
-    "yeticss": "7.3.0"
+    "xlsx": "0.8.0"
   },
   "devDependencies": {
     "babel-preset-react-hmre": "1.1.1",
