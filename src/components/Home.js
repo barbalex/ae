@@ -13,6 +13,7 @@ import Filter from './menu/Filter.js'
 import Symbols from './symbols/symbols.js'
 import Main from './main/Main.js'
 import Tree from './menu/tree/Tree.js'
+import Errors from './Errors.js'
 import getGruppen from '../modules/gruppen.js'
 import NavHelper from '../components/NavHelper.js'
 import kickOffStores from '../modules/kickOffStores.js'
@@ -424,8 +425,7 @@ export default React.createClass({
     const showTree = groupsLoadedOrLoading.length > 0
     const showMain = (
       object !== undefined ||
-      !!mainComponent ||
-      (errors && errors.length > 0)
+      !!mainComponent
     )
     const showLogin = logIn && !email
     let homeStyle = {}
@@ -433,6 +433,13 @@ export default React.createClass({
       homeStyle.cursor = 'progress'
     }
     const showMenu = mainComponent !== 'exportierenAlt'
+
+    if (
+      errors &&
+      errors.length > 0
+    ) {
+      console.log('errors', errors)
+    }
 
     // MenuButton needs to be outside of the menu
     // otherwise the menu can't be shown outside when menu is short
@@ -528,12 +535,16 @@ export default React.createClass({
             onChangeActiveOrganization={this.onChangeActiveOrganization}
             userIsAdminInOrgs={userIsAdminInOrgs}
             userIsEsWriterInOrgs={userIsEsWriterInOrgs}
-            errors={errors}
           />
         }
         {
           showLogin &&
           <Login />
+        }
+        {
+          errors &&
+          errors.length > 0 &&
+          <Errors errors={errors} />
         }
       </NavHelper>
     )
