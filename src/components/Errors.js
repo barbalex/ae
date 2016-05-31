@@ -43,8 +43,9 @@ const errorComponents = (errors) =>
   errors.map((error, index) =>
     <ErrorComponent
       key={index}
+      errors={errors}
       error={error}
-      errorFollows={index + 1 < errors.length}
+      index={index}
     />
   )
 
