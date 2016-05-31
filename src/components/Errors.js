@@ -14,7 +14,7 @@ import app from 'ampersand-app'
 import React from 'react'
 import { Glyphicon } from 'react-bootstrap'
 import { StyleSheet, css } from 'aphrodite'
-import Error from './Error.js'
+import ErrorComponent from './Error.js'
 
 const styles = StyleSheet.create({
   rootDiv: {
@@ -39,6 +39,15 @@ const styles = StyleSheet.create({
   }
 })
 
+const errorComponents = (errors) =>
+  errors.map((error, index) =>
+    <ErrorComponent
+      key={index}
+      error={error}
+      errorFollows={index + 1 < errors.length}
+    />
+  )
+
 const Errors = ({ errors }) =>
   <div
     id="errors"
@@ -51,15 +60,7 @@ const Errors = ({ errors }) =>
         app.Actions.showError()
       }
     />
-    {/*  TODO: THIS ERRORS OUT
-      errors.map((error, index) => (
-        <Error
-          key={index}
-          error={error}
-          errorFollows={index + 1 < errors.length}
-        />
-      ))
-    */}
+    {errorComponents(errors)}
   </div>
 
 Errors.displays = 'Errors'

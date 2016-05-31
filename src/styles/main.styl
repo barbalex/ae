@@ -40,7 +40,9 @@ body
 
 
 /* über 1000px nebeneinander
-   force-mobile: damit kann die Mobil-Sicht manuell gewählt werden */
+ * force-mobile: damit kann die Mobil-Sicht manuell gewählt werden
+ * can't move this to modules because it needs to check body
+ */
 @media screen and (min-width: 1001px)
 
   body:not(.force-mobile) #menu

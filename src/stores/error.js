@@ -22,9 +22,7 @@ export default (Actions) => Reflux.createStore({
   errors: [],
 
   // this is how long the error will be shown
-  //duration: 10000,
-
-  duration: 1000000,
+  duration: 10000,
 
   onShowError(error) {
     if (!error) {

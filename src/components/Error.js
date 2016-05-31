@@ -15,6 +15,12 @@ const styles = StyleSheet.create({
   }
 })
 
+/**
+ * need to stringify error.msg
+ * because it seems that in some cases
+ * it is an object and contains < and >
+ * and this creates an error in jsx
+ */
 const Error = ({ error, errorFollows }) =>
   <div
     className={css(styles.errorContainer)}
@@ -28,7 +34,7 @@ const Error = ({ error, errorFollows }) =>
       }
       <p>
         <em>
-          {error.msg}
+          {error.msg.toString()}
         </em>
       </p>
     </div>

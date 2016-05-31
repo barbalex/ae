@@ -2,10 +2,10 @@
 
 import React from 'react'
 import { ProgressBar, Button, Glyphicon } from 'react-bootstrap'
-import ButtonDeleteRcInstances from './buttonDeleteRcInstances/buttonDeleteRcInstances.js'
-import ProgressbarImport from './progressbarImport.js'
-import AlertFirst5Imported from '../alertFirst5Imported.js'
-import AlertFirst5Deleted from '../alertFirst5Deleted.js'
+import ButtonDeleteRcInstances from './buttonDeleteRcInstances/ButtonDeleteRcInstances.js'
+import ProgressbarImport from './ProgressbarImport.js'
+import AlertFirst5Imported from '../AlertFirst5Imported.js'
+import AlertFirst5Deleted from '../AlertFirst5Deleted.js'
 
 const Panel4 = ({
   name,
