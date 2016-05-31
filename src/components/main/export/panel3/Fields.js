@@ -3,9 +3,18 @@
 import React from 'react'
 import { Accordion, Panel, Checkbox } from 'react-bootstrap'
 import { get } from 'lodash'
+import { StyleSheet, css } from 'aphrodite'
 import FieldsTaxonomy from './FieldsTaxonomy.js'
 import FieldsPCs from './FieldsPCs.js'
 import FieldsRCs from './FieldsRCs.js'
+
+const styles = StyleSheet.create({
+  fields: {
+    columnWidth: 450,
+    breakInside: 'avoid',
+    marginBottom: -8
+  }
+})
 
 export default React.createClass({
   displayName: 'Fields',
@@ -87,8 +96,7 @@ export default React.createClass({
           {
             activePanel === 1 &&
             <div
-              className="felderspalte"
-              style={{ marginBottom: -8 }}
+              className={css(styles.fields)}
             >
               <Checkbox
                 onChange={(event) =>
