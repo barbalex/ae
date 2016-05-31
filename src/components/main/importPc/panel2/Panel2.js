@@ -1,24 +1,33 @@
 'use strict'
 
 import React from 'react'
-import WellTechnAnforderungenAnDatei from './wellTechnAnforderungenAnDatei.js'
-import WellAnforderungenAnCsv from './wellAnforderungenAnCsv.js'
-import WellAnforderungenInhaltlich from './wellAnforderungenInhaltlich.js'
+import { FormGroup, FormControl } from 'react-bootstrap'
+import WellTechnAnforderungenAnDatei from './WellTechnAnforderungenAnDatei.js'
+import WellAnforderungenAnCsv from './WellAnforderungenAnCsv.js'
+import WellAnforderungenInhaltlich from './WellAnforderungenInhaltlich.js'
 import TablePreview from './TablePreview.js'
 
-const Panel2 = ({ onChangeFile, pcsToImport, validPcsToImport }) =>
+const Panel2 = ({
+  onChangeFile,
+  pcsToImport,
+  validPcsToImport
+}) =>
   <div>
     <WellTechnAnforderungenAnDatei />
     <WellAnforderungenAnCsv />
     <WellAnforderungenInhaltlich />
-    <input
-      type="file"
-      className="form-control"
-      onChange={onChangeFile}
-    />
+    <FormGroup
+      controlId="nutzungsbedingungenInput"
+      validationState={validPcsToImport ? null : 'error'}
+    >
+      <FormControl
+        type="file"
+        onChange={onChangeFile}
+      />
+    </FormGroup>
     {
       !validPcsToImport &&
-      <div className="validateDiv">
+      <div style={{ marginTop: '-4px' }} className="validateDiv">
         Bitte wählen Sie eine Datei
       </div>
     }

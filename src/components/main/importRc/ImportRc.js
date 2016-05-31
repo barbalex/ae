@@ -3,7 +3,13 @@
 import app from 'ampersand-app'
 import React from 'react'
 import { Accordion, Panel } from 'react-bootstrap'
-import { difference, get, map as _map, omitBy, values } from 'lodash'
+import {
+  difference,
+  get,
+  map as _map,
+  omitBy,
+  values
+} from 'lodash'
 import { ListenerMixin } from 'reflux'
 import getObjectsFromFile from './getObjectsFromFile.js'
 import isValidUrl from '../../../modules/isValidUrl.js'
@@ -330,7 +336,10 @@ export default React.createClass({
       // so dont fetch
       const idsAnalysisComplete = true
       if (idsNotANumber.length > 0) {
-        const state = Object.assign(rcPartnerState, { idsAnalysisComplete, idsNotANumber })
+        const state = Object.assign(rcPartnerState, {
+          idsAnalysisComplete,
+          idsNotANumber
+        })
         return this.setState(state)
       }
       getGuidsById(idsAeIdField, ids, offlineIndexes)
@@ -340,7 +349,7 @@ export default React.createClass({
             const importId = rc[idsImportIdField]
             rc._id = idGuidObject[importId]
           })
-          let idsToImportWithDuplicates = map(rcsToImport, idsImportIdField)
+          let idsToImportWithDuplicates = _map(rcsToImport, idsImportIdField)
           // remove emtpy values
           idsToImportWithDuplicates = idsToImportWithDuplicates.filter((id) => !!id)
           const idsNumberOfRecordsWithIdValue = idsToImportWithDuplicates.length
