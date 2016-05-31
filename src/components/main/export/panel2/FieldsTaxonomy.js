@@ -22,17 +22,6 @@ export default React.createClass({
     }
   },
 
-  /*
-  componentWillUpdate() {
-    const { taxonomyFields } = this.props
-    const { activePanel } = this.state
-    // open collection panel if there is only one
-    console.log('taxonomyFields', taxonomyFields)
-    const numberOfCollections = Object.keys(taxonomyFields).length
-    if (numberOfCollections === 1 && activePanel !== 0) this.setState({ activePanel: 0 })
-  },
-  */
-
   onClickPanel(number, event) {
     const { activePanel } = this.state
     // prevent higher level panels from reacting

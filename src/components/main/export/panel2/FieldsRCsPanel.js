@@ -8,9 +8,23 @@ import {
   ControlLabel
 } from 'react-bootstrap'
 import { get } from 'lodash'
+import { StyleSheet, css } from 'aphrodite'
 import SelectComparisonOperator from './SelectComparisonOperator.js'
 import InfoButtonAfter from './InfoButtonAfter.js'
 import PcDescription from './PcDescription.js'
+
+const styles = StyleSheet.create({
+  fields: {
+    columnWidth: 450,
+    breakInside: 'avoid'
+  },
+  formGroup: {
+    breakInside: 'avoid'
+  },
+  inputGroup: {
+    width: 'calc(100% - 215px)'
+  }
+})
 
 const FieldsRCsPanel = ({
   relationFields,
@@ -39,9 +53,12 @@ const FieldsRCsPanel = ({
       return (
         <FormGroup
           key={index}
+          className={css(styles.formGroup)}
         >
-          <ControlLabel>{fNameKey}</ControlLabel>
-          <InputGroup>
+          <ControlLabel>
+            {fNameKey}
+          </ControlLabel>
+          <InputGroup className={css(styles.inputGroup)}>
             <InputGroup.Addon>
               <SelectComparisonOperator
                 cNameKey={cNameKey}
@@ -53,7 +70,6 @@ const FieldsRCsPanel = ({
             <FormControl
               key={fieldKey}
               type={fNameObject.fType}
-              className="controls"
               value={value}
               onChange={(event) =>
                 onChangeFilterField(cNameKey, fNameKey, 'rc', event)
@@ -67,13 +83,17 @@ const FieldsRCsPanel = ({
       )
     }
     return (
-      <FormGroup>
-        <ControlLabel>{fNameKey}</ControlLabel>
-        <InputGroup>
+      <FormGroup
+        key={index}
+        className={css(styles.formGroup)}
+      >
+        <ControlLabel>
+          {fNameKey}
+        </ControlLabel>
+        <InputGroup className={css(styles.inputGroup)}>
           <FormControl
             key={fieldKey}
             componentClass="select"
-            className="controls"
             value={value}
             onChange={(event) =>
               onChangeFilterField(cNameKey, fNameKey, 'rc', event)
@@ -83,7 +103,9 @@ const FieldsRCsPanel = ({
             <option value>ja</option>
             <option value={false}>nein</option>
           </FormControl>
-          <InputGroup.Addon>{buttonAfter}</InputGroup.Addon>
+          <InputGroup.Addon>
+            {buttonAfter}
+          </InputGroup.Addon>
         </InputGroup>
       </FormGroup>
     )
@@ -91,7 +113,7 @@ const FieldsRCsPanel = ({
   return (
     <div>
       <PcDescription pc={rc} />
-      <div className="felderspalte">
+      <div className={css(styles.fields)}>
         {fields}
       </div>
     </div>
