@@ -12,12 +12,11 @@ import ReactDOM from 'react-dom'
 import { Form } from 'react-bootstrap'
 import { StyleSheet, css } from 'aphrodite'
 import Objekt from './object/Object.js'
-import ImportPc from './importPc/importPc.js'
-import ImportRc from './importRc/importRc.js'
+import ImportPc from './importPc/ImportPc.js'
+import ImportRc from './importRc/ImportRc.js'
 import Export from './export/Export.js'
 import ExportAlt from './exportAlt/ExportAlt.js'
 import Organizations from './organizations/Organizations.js'
-import Errors from './Errors.js'
 
 // wenn main unter menu kommt muss ein margin vorhanden sein
 // bootstrap-glyphicons.css vergibt Eigenschaften > korrigieren
@@ -59,7 +58,6 @@ export default React.createClass({
     allGroupsLoaded: React.PropTypes.bool,
     groupsLoadedOrLoading: React.PropTypes.array,
     groupsLoadingObjects: React.PropTypes.array,
-    errors: React.PropTypes.array,
     replicatingToAe: React.PropTypes.string,
     replicatingToAeTime: React.PropTypes.string,
     offlineIndexes: React.PropTypes.bool,
@@ -85,7 +83,7 @@ export default React.createClass({
   },
 
   componentWillUnmount() {
-    window.removeEventListener('resize')
+    window.removeEventListener('resize', debounce(this.onResize, 150))
   },
 
   onResize() {
@@ -130,8 +128,7 @@ export default React.createClass({
       userIsEsWriterInOrgs,
       tcsOfActiveOrganization,
       pcsOfActiveOrganization,
-      rcsOfActiveOrganization,
-      errors
+      rcsOfActiveOrganization
     } = this.props
     const { formHorizontal } = this.state
     const showObject = (
@@ -146,7 +143,6 @@ export default React.createClass({
         horizontal={formHorizontal}
         className={css(styles.mainRootDiv)}
       >
-        <Errors errors={errors} />
         {
           showObject &&
           <Objekt
