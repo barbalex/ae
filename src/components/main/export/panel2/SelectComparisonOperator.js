@@ -2,14 +2,17 @@
 
 import React from 'react'
 import { FormControl } from 'react-bootstrap'
+import { StyleSheet, css } from 'aphrodite'
 
-const coSelectStyle = {
-  width: 45,
-  paddingLeft: 3,
-  paddingRight: 0,
-  borderTopLeftRadius: 3,
-  borderBottomLeftRadius: 3
-}
+const styles = StyleSheet.create({
+  coSelect: {
+    width: 45,
+    paddingLeft: 3,
+    paddingRight: 0,
+    borderTopLeftRadius: 3,
+    borderBottomLeftRadius: 3
+  }
+})
 
 const SelectComparisonOperator = ({
   cNameKey,
@@ -19,7 +22,7 @@ const SelectComparisonOperator = ({
 }) =>
   <FormControl
     componentClass="select"
-    style={coSelectStyle}
+    className={css(styles.coSelect)}
     value={value}
     onChange={(event) =>
       onChangeCoSelect(cNameKey, fNameKey, event)
