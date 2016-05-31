@@ -8,9 +8,23 @@ import {
   ControlLabel
 } from 'react-bootstrap'
 import { get } from 'lodash'
+import { StyleSheet, css } from 'aphrodite'
 import SelectComparisonOperator from './SelectComparisonOperator.js'
 import InfoButtonAfter from './InfoButtonAfter.js'
 import PcDescription from './PcDescription.js'
+
+const styles = StyleSheet.create({
+  fields: {
+    columnWidth: 450,
+    breakInside: 'avoid'
+  },
+  formGroup: {
+    breakInside: 'avoid'
+  },
+  inputGroup: {
+    width: 'calc(100% - 215px)'
+  }
+})
 
 const FieldsPCsPanel = ({
   pcFields,
@@ -35,13 +49,17 @@ const FieldsPCsPanel = ({
     const value = get(exportOptions, `${cNameKey}.${fNameKey}.value`, '')
     const co = get(exportOptions, `${cNameKey}.${fNameKey}.co`, '')
     const infoButtonAfterInstance = <InfoButtonAfter fNameObject={fNameObject} />
+
     if (fNameObject.fType !== 'boolean') {
       return (
         <FormGroup
           key={index}
+          className={css(styles.formGroup)}
         >
-          <ControlLabel>{fNameKey}</ControlLabel>
-          <InputGroup>
+          <ControlLabel>
+            {fNameKey}
+          </ControlLabel>
+          <InputGroup className={css(styles.inputGroup)}>
             <InputGroup.Addon>
               <SelectComparisonOperator
                 cNameKey={cNameKey}
@@ -53,7 +71,6 @@ const FieldsPCsPanel = ({
             <FormControl
               key={fieldKey}
               type={fNameObject.fType}
-              className="controls"
               value={value}
               onChange={(event) =>
                 onChangeFilterField(cNameKey, fNameKey, 'pc', event)
@@ -67,13 +84,17 @@ const FieldsPCsPanel = ({
       )
     }
     return (
-      <FormGroup>
-        <ControlLabel>{fNameKey}</ControlLabel>
-        <InputGroup>
+      <FormGroup
+        key={index}
+        className={css(styles.formGroup)}
+      >
+        <ControlLabel>
+          {fNameKey}
+        </ControlLabel>
+        <InputGroup className={css(styles.inputGroup)}>
           <FormControl
             key={fieldKey}
             componentClass="select"
-            className="controls"
             value={value}
             onChange={(event) =>
               onChangeFilterField(cNameKey, fNameKey, 'pc', event)
@@ -93,7 +114,7 @@ const FieldsPCsPanel = ({
   return (
     <div>
       <PcDescription pc={pc} />
-      <div className="felderspalte">
+      <div className={css(styles.fields)}>
         {fields}
       </div>
     </div>
