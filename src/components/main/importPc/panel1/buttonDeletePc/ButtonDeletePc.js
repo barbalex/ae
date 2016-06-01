@@ -54,10 +54,7 @@ export default React.createClass({
         <div style={{ width: '100%' }}>
           <Button
             bsStyle="danger"
-            className="feld"
-            onClick={() =>
-              this.onClickDeletePc()
-            }
+            onClick={this.onClickDeletePc}
             disabled={!enableDeletePcButton}
           >
             <Glyphicon glyph="trash" />

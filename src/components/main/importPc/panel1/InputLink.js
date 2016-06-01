@@ -24,7 +24,7 @@ const InputLink = ({
   validLink,
   onChangeLink,
   onBlurLink
-}) => (
+}) =>
   <div>
     <FormGroup
       validationState={validLink ? null : 'error'}
@@ -35,9 +35,7 @@ const InputLink = ({
         placement="right"
         overlay={popover}
       >
-        <ControlLabel
-        className={css(styles.label)}
-      >
+        <ControlLabel className={css(styles.label)}>
           Link
         </ControlLabel>
       </OverlayTrigger>
@@ -61,7 +59,6 @@ const InputLink = ({
       </FormGroup>
     }
   </div>
-)
 
 InputLink.displayName = 'InputLink'
 
