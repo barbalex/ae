@@ -10,9 +10,10 @@ import FieldsRCs from './FieldsRCs.js'
 
 const styles = StyleSheet.create({
   fields: {
-    columnWidth: 450,
-    breakInside: 'avoid',
-    marginBottom: -8
+    display: 'flex'
+  },
+  cb: {
+    width: 450
   }
 })
 
@@ -99,6 +100,7 @@ export default React.createClass({
               className={css(styles.fields)}
             >
               <Checkbox
+                className={css(styles.cb)}
                 onChange={(event) =>
                   onChooseField('object', '_id', 'cType', event)
                 }
@@ -107,6 +109,7 @@ export default React.createClass({
                 GUID
               </Checkbox>
               <Checkbox
+                className={css(styles.cb)}
                 onChange={(event) =>
                   onChooseField('object', 'Gruppe', 'cType', event)
                 }

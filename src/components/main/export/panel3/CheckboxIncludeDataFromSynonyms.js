@@ -7,7 +7,8 @@ import { StyleSheet, css } from 'aphrodite'
 const styles = StyleSheet.create({
   cb: {
     marginTop: 13,
-    marginBottom: 13
+    marginBottom: 13,
+    marginLeft: 8
   }
 })
 
