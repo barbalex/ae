@@ -13,7 +13,6 @@ const InputAeId = ({ idsAeIdField, onChangeAeId }) => (
     <FormControl
       componentClass="select"
       multiple
-      className="form-control controls"
       style={{ height: `${101}px` }}
       value={[idsAeIdField]}
       onChange={(event) =>

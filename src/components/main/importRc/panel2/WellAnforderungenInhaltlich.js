@@ -25,7 +25,7 @@ export default React.createClass({
     const { visible } = this.state
 
     return (
-      <Well className="well-sm">
+      <Well bsSize="small">
         <b>Inhaltliche Anforderungen</b>
         &nbsp;
         <a
