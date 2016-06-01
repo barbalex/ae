@@ -26,7 +26,8 @@ export default React.createClass({
 
     return (
       <Well
-        className="well-sm last-well"
+        bsSize="small"
+        style={{ marginBottom: 0 }}
       >
         <strong>Tipps und Tricks</strong>
         &nbsp;
