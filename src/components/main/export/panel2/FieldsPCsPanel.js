@@ -38,11 +38,11 @@ const FieldsPCsPanel = ({
   const pc = pcs.find((p) =>
     p.name === cNameKey
   )
-  const fieldsSorted = (
-    Object.keys(cNameObject).sort((fNameKey) =>
-      fNameKey.toLowerCase()
-    )
-  )
+  const fieldsSorted = Object.keys(cNameObject)
+    .sort((a, b) => {
+      if (a.toLowerCase() < b.toLowerCase()) return -1
+      return 1
+    })
   const fields = fieldsSorted.map((fNameKey, index) => {
     const fieldKey = fNameKey.toLowerCase()
     const fNameObject = cNameObject[fNameKey]
