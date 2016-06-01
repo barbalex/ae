@@ -1,7 +1,19 @@
 'use strict'
 
 import React from 'react'
-import { OverlayTrigger, Popover } from 'react-bootstrap'
+import { OverlayTrigger, Popover, ControlLabel } from 'react-bootstrap'
+import { StyleSheet, css } from 'aphrodite'
+import labelWithPopover from '../../../../styles/labelWithPopover.js'
+
+const styles = StyleSheet.create({
+  label: labelWithPopover(),
+  cb: {
+    marginTop: 11
+  },
+  cbContainer: {
+    width: '100%'
+  }
+})
 
 const inputZusammenfassendPopover = (
   <Popover
@@ -38,21 +50,22 @@ const InputZusammenfassend = ({ zusammenfassend, onChangeZusammenfassend }) => (
       placement="right"
       overlay={inputZusammenfassendPopover}
     >
-      <label
-        className="control-label withPopover"
-        htmlFor="dsZusammenfassend"
+      <ControlLabel
+        className={css(styles.label)}
       >
         zusammenfassend
-      </label>
+      </ControlLabel>
     </OverlayTrigger>
-    <input
-      type="checkbox"
-      label="zusammenfassend"
-      checked={zusammenfassend}
-      onChange={(event) =>
-        onChangeZusammenfassend(event.target.checked)
-      }
-    />
+    <div className={css(styles.cbContainer)}>
+      <input
+        type="checkbox"
+        checked={zusammenfassend}
+        className={css(styles.cb)}
+        onChange={(event) =>
+          onChangeZusammenfassend(event.target.checked)
+        }
+      />
+    </div>
   </div>
 )
 

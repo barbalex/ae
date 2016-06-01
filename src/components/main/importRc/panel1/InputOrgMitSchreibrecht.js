@@ -1,7 +1,13 @@
 'use strict'
 
 import React from 'react'
-import { OverlayTrigger, Popover } from 'react-bootstrap'
+import { OverlayTrigger, Popover, FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
+import { StyleSheet, css } from 'aphrodite'
+import labelWithPopover from '../../../../styles/labelWithPopover.js'
+
+const styles = StyleSheet.create({
+  label: labelWithPopover()
+})
 
 const options = (userIsEsWriterInOrgs) => {
   if (userIsEsWriterInOrgs && userIsEsWriterInOrgs.length > 0) {
@@ -49,37 +55,39 @@ const InputOrganisationMitSchreibrecht = ({
   userIsEsWriterInOrgs,
   validOrgMitSchreibrecht
 }) => (
-  <div
-    className={validOrgMitSchreibrecht ? 'form-group' : 'form-group has-error'}
-  >
-    <OverlayTrigger
-      trigger={['click', 'focus']}
-      rootClose
-      placement="right"
-      overlay={popover()}
+  <div>
+    <FormGroup
+      controlId="orgMitSchreibrechtInput"
+      validationState={validOrgMitSchreibrecht ? null : 'error'}
     >
-      <label
-        className="control-label withPopover"
+      <OverlayTrigger
+        trigger={['click', 'focus']}
+        rootClose
+        placement="right"
+        overlay={popover()}
       >
-        Organisation mit Schreibrecht
-      </label>
-    </OverlayTrigger>
-    <select
-      className="form-control controls"
-      value={orgMitSchreibrecht}
-      onChange={(event) =>
-        onChangeOrgMitSchreibrecht(event)
-      }
-    >
-      {options(userIsEsWriterInOrgs)}
-    </select>
+        <ControlLabel
+          className={css(styles.label)}
+        >
+          Organisation mit Schreibrecht
+        </ControlLabel>
+      </OverlayTrigger>
+      <FormControl
+        componentClass="select"
+        value={orgMitSchreibrecht}
+        onChange={onChangeOrgMitSchreibrecht}
+      >
+        {options(userIsEsWriterInOrgs)}
+      </FormControl>
+    </FormGroup>
     {
       !validOrgMitSchreibrecht &&
-      <div
-        className="validateDiv feld"
-      >
-        Es muss eine Organisation mit Schreibrecht gewählt sein
-      </div>
+      <FormGroup>
+        <ControlLabel style={{ display: 'block' }} />
+        <div style={{ width: '100%', marginTop: '-14px' }} className="validateDiv">
+          Es muss eine Organisation mit Schreibrecht gewählt sein
+        </div>
+      </FormGroup>
     }
   </div>
 )
