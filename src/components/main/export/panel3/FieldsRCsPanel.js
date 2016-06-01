@@ -3,6 +3,22 @@
 import React from 'react'
 import { Checkbox } from 'react-bootstrap'
 import { has, get } from 'lodash'
+import { StyleSheet, css } from 'aphrodite'
+
+const styles = StyleSheet.create({
+  fields: {
+    columnWidth: 450,
+    breakInside: 'avoid',
+    marginBottom: -8
+  },
+  cb: {
+    breakInside: 'avoid'
+  },
+  dbAlleWaehlen: {
+    fontStyle: 'italic',
+    marginBottom: 5
+  }
+})
 
 const FieldsRCsPanel = ({
   relationFields,
@@ -26,6 +42,7 @@ const FieldsRCsPanel = ({
       <Checkbox
         key={fieldKey}
         checked={checked}
+        className={css(styles.cb)}
         onChange={(event) =>
           onChooseField(cNameKey, fNameKey, 'rc', event)
         }
@@ -39,11 +56,11 @@ const FieldsRCsPanel = ({
     const checked = collectionsWithAllChoosen.includes(cNameKey)
     alleField = (
       <div
-        className="felderspalte alleWaehlenCheckbox"
-        style={{ marginBottom: 5 }}
+        className={css(styles.fields, styles.dbAlleWaehlen)}
       >
         <Checkbox
           checked={checked}
+          className={css(styles.cb)}
           onChange={(event) =>
             onChooseAllOfCollection(cNameKey, 'rc', event)
           }
@@ -56,10 +73,7 @@ const FieldsRCsPanel = ({
   return (
     <div>
       {alleField}
-      <div
-        className="felderspalte"
-        style={{ marginBottom: -8 }}
-      >
+      <div className={css(styles.fields)}>
         {fields}
       </div>
     </div>
