@@ -6,7 +6,11 @@ import { StyleSheet, css } from 'aphrodite'
 import labelWithPopover from '../../../../styles/labelWithPopover.js'
 
 const styles = StyleSheet.create({
-  label: labelWithPopover()
+  label: labelWithPopover(),
+  cb: {
+    marginTop: 11,
+    width: '100%'
+  }
 })
 
 const popover = () => (
@@ -56,7 +60,7 @@ const InputZusammenfassend = ({ zusammenfassend, onChangeZusammenfassend }) =>
       type="checkbox"
       label="zusammenfassend"
       checked={zusammenfassend}
-      style={{ marginTop: 8 }}
+      className={css(styles.cb)}
       onChange={(event) =>
         onChangeZusammenfassend(event.target.checked)
       }
