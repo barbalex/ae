@@ -1,7 +1,7 @@
 'use strict'
 
 import React from 'react'
-import { OverlayTrigger, Popover, ControlLabel } from 'react-bootstrap'
+import { OverlayTrigger, Popover, FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
 import { map } from 'lodash'
 import { StyleSheet, css } from 'aphrodite'
 import labelWithPopover from '../../../../styles/labelWithPopover.js'
@@ -66,36 +66,40 @@ const InputUrsprungsEs = ({
   pcs,
   onChangeNameUrsprungsEs
 }) =>
-  <div
-    className={validUrsprungsEs ? 'form-group' : 'form-group has-error'}
-  >
-    <OverlayTrigger
-      trigger={['click', 'focus']}
-      rootClose
-      placement="right"
-      overlay={popover()}
+  <div>
+    <FormGroup
+      validationState={validUrsprungsEs ? null : 'error'}
     >
-      <ControlLabel
-        className={css(styles.label)}
-        id="dsUrsprungsDsLabel"
+      <OverlayTrigger
+        trigger={['click', 'focus']}
+        rootClose
+        placement="right"
+        overlay={popover()}
       >
-        eigenständige Eigenschaftensammlung
-      </ControlLabel>
-    </OverlayTrigger>
-    <select
-      className="form-control controls input-sm"
-      selected={nameUrsprungsEs}
-      onChange={(event) =>
-        onChangeNameUrsprungsEs(event.target.value)
-      }
-    >
-      {options(pcs)}
-    </select>
+        <ControlLabel
+          className={css(styles.label)}
+        >
+          eigenständige Eigenschaftensammlung
+        </ControlLabel>
+      </OverlayTrigger>
+      <FormControl
+        componentClass="select"
+        selected={nameUrsprungsEs}
+        onChange={(event) =>
+          onChangeNameUrsprungsEs(event.target.value)
+        }
+      >
+        {options(pcs)}
+      </FormControl>
+    </FormGroup>
     {
       !validUrsprungsEs &&
-      <div className="validateDiv feld">
-        Bitte wählen Sie die eigenständige Eigenschaftensammlung
-      </div>
+      <FormGroup>
+        <ControlLabel style={{ display: 'block' }} />
+        <div style={{ width: '100%', marginTop: '-14px' }} className="validateDiv">
+          Bitte wählen Sie die eigenständige Eigenschaftensammlung
+        </div>
+      </FormGroup>
     }
   </div>
 

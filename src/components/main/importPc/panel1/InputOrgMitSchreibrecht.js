@@ -54,7 +54,6 @@ const InputOrgMitSchreibrecht = ({
 }) =>
   <div>
     <FormGroup
-      controlId="orgMitSchreibrechtInput"
       validationState={validOrgMitSchreibrecht ? null : 'error'}
     >
       <OverlayTrigger
