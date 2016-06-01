@@ -35,12 +35,11 @@ const FieldsTaxonomyPanel = ({
   const cNameObject = taxonomyFields[cNameKey]
   // we do not want the taxonomy field 'Hierarchie'
   delete cNameObject.Hierarchie
-  const fieldsSorted = (
-    Object.keys(cNameObject)
-      .sort((fNameKey) =>
-        fNameKey.toLowerCase()
-      )
-  )
+  const fieldsSorted = Object.keys(cNameObject)
+    .sort((a, b) => {
+      if (a.toLowerCase() < b.toLowerCase()) return -1
+      return 1
+    })
   const fields = fieldsSorted.map((fNameKey, index) => {
     const fieldKey = fNameKey.toLowerCase()
     const fNameObject = cNameObject[fNameKey]
