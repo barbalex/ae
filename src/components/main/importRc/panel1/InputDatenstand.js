@@ -1,7 +1,13 @@
 'use strict'
 
 import React from 'react'
-import { OverlayTrigger, Popover } from 'react-bootstrap'
+import { OverlayTrigger, Popover, FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
+import { StyleSheet, css } from 'aphrodite'
+import labelWithPopover from '../../../../styles/labelWithPopover.js'
+
+const styles = StyleSheet.create({
+  label: labelWithPopover()
+})
 
 const popover = () =>
   <Popover
@@ -19,8 +25,8 @@ const InputDatenstand = ({
   validDatenstand,
   onChangeDatenstand
 }) =>
-  <div
-    className={validDatenstand ? 'form-group' : 'form-group has-error'}
+  <FormGroup
+    validationState={validDatenstand ? null : 'error'}
   >
     <OverlayTrigger
       trigger={['click', 'focus']}
@@ -28,26 +34,22 @@ const InputDatenstand = ({
       placement="right"
       overlay={popover()}
     >
-      <label className="control-label withPopover">
+      <ControlLabel
+        className={css(styles.label)}
+      >
         Datenstand
-      </label>
+      </ControlLabel>
     </OverlayTrigger>
-    <input
-      type="textarea"
-      className="form-control controls"
+    <FormControl
+      componentClass="textarea"
       rows={1}
       value={datenstand}
+      placeholder={validDatenstand ? '' : 'erforderlich'}
       onChange={(event) =>
         onChangeDatenstand(event.target.value)
       }
     />
-    {
-      !validDatenstand &&
-      <div className="validateDiv feld">
-        Ein Datenstand ist erforderlich
-      </div>
-    }
-  </div>
+  </FormGroup>
 
 InputDatenstand.displayName = 'InputDatenstand'
 

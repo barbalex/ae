@@ -1,7 +1,13 @@
 'use strict'
 
 import React from 'react'
-import { OverlayTrigger, Popover } from 'react-bootstrap'
+import { OverlayTrigger, Popover, FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
+import { StyleSheet, css } from 'aphrodite'
+import labelWithPopover from '../../../../styles/labelWithPopover.js'
+
+const styles = StyleSheet.create({
+  label: labelWithPopover()
+})
 
 const popover = () =>
   <Popover id="InputImportiertVonPopover">
@@ -11,24 +17,25 @@ const popover = () =>
   </Popover>
 
 const InputImportiertVon = ({ importiertVon }) =>
-  <div className="form-group">
+  <FormGroup>
     <OverlayTrigger
       trigger={['click', 'focus']}
       rootClose
       placement="right"
       overlay={popover()}
     >
-      <label className="control-label withPopover">
+      <ControlLabel
+        className={css(styles.label)}
+      >
         importiert von
-      </label>
+      </ControlLabel>
     </OverlayTrigger>
-    <input
+    <FormControl
       type="text"
-      className="form-control controls"
       value={importiertVon}
       disabled
     />
-  </div>
+  </FormGroup>
 
 InputImportiertVon.displayName = 'InputImportiertVon'
 
