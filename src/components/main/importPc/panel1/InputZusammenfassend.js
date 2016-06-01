@@ -1,14 +1,16 @@
 'use strict'
 
 import React from 'react'
-import { OverlayTrigger, Popover, FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
+import { OverlayTrigger, Popover, FormGroup, ControlLabel } from 'react-bootstrap'
 import { StyleSheet, css } from 'aphrodite'
 import labelWithPopover from '../../../../styles/labelWithPopover.js'
 
 const styles = StyleSheet.create({
   label: labelWithPopover(),
   cb: {
-    marginTop: 11,
+    marginTop: 11
+  },
+  cbContainer: {
     width: '100%'
   }
 })
@@ -56,15 +58,16 @@ const InputZusammenfassend = ({ zusammenfassend, onChangeZusammenfassend }) =>
         zusammenfassend
       </ControlLabel>
     </OverlayTrigger>
-    <input
-      type="checkbox"
-      label="zusammenfassend"
-      checked={zusammenfassend}
-      className={css(styles.cb)}
-      onChange={(event) =>
-        onChangeZusammenfassend(event.target.checked)
-      }
-    />
+    <div className={css(styles.cbContainer)}>
+      <input
+        type="checkbox"
+        checked={zusammenfassend}
+        className={css(styles.cb)}
+        onChange={(event) =>
+          onChangeZusammenfassend(event.target.checked)
+        }
+      />
+    </div>
   </FormGroup>
 
 InputZusammenfassend.displayName = 'InputZusammenfassend'

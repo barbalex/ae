@@ -42,7 +42,6 @@ const InputNutzungsbedingungen = ({
   onChangeNutzungsbedingungen
 }) =>
   <FormGroup
-    controlId="nutzungsbedingungenInput"
     validationState={validNutzungsbedingungen ? null : 'error'}
   >
     <OverlayTrigger
