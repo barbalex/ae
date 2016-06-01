@@ -72,12 +72,11 @@ export default React.createClass({
       activePanel
     )
 
-    const collectionKeysSorted = (
-      Object.keys(pcFields)
-        .sort((cNameKey) =>
-          cNameKey.toLowerCase()
-        )
-    )
+    const collectionKeysSorted = Object.keys(pcFields)
+      .sort((a, b) => {
+        if (a.toLowerCase() < b.toLowerCase()) return -1
+        return 1
+      })
     const collections = collectionKeysSorted.map((cNameKey, cIndex) => {
       const collectionKey = cNameKey.toLowerCase()
       const pc = pcs.find((c) =>
