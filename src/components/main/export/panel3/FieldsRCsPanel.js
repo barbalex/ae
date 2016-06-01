@@ -7,12 +7,12 @@ import { StyleSheet, css } from 'aphrodite'
 
 const styles = StyleSheet.create({
   fields: {
-    columnWidth: 450,
-    breakInside: 'avoid',
-    marginBottom: -8
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap'
   },
   cb: {
-    breakInside: 'avoid'
+    width: 450
   },
   dbAlleWaehlen: {
     fontStyle: 'italic',
@@ -29,15 +29,18 @@ const FieldsRCsPanel = ({
   onChooseAllOfCollection
 }) => {
   const cNameObject = relationFields[cNameKey]
-  const fieldsSorted = (
-    Object.keys(cNameObject)
-      .sort((fNameKey) => fNameKey.toLowerCase())
-  )
+  const fieldsSorted = Object.keys(cNameObject)
+    .sort((a, b) => {
+      if (a.toLowerCase() < b.toLowerCase()) return -1
+      return 1
+    })
   const fields = fieldsSorted.map((fNameKey) => {
     const fieldKey = fNameKey.toLowerCase()
     let checked = false
     const path = `${cNameKey}.${fNameKey}.export`
-    if (has(exportOptions, path)) checked = get(exportOptions, path)
+    if (has(exportOptions, path)) {
+      checked = get(exportOptions, path)
+    }
     return (
       <Checkbox
         key={fieldKey}
