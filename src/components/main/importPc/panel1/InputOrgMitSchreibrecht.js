@@ -2,6 +2,12 @@
 
 import React from 'react'
 import { OverlayTrigger, Popover, FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
+import { StyleSheet, css } from 'aphrodite'
+import labelWithPopover from '../../../../styles/labelWithPopover.js'
+
+const styles = StyleSheet.create({
+  label: labelWithPopover()
+})
 
 const popover = (
   <Popover
@@ -57,9 +63,11 @@ const InputOrgMitSchreibrecht = ({
         placement="right"
         overlay={popover}
       >
-        <label className="control-label withPopover">
+        <ControlLabel
+          className={css(styles.label)}
+        >
           Organisation mit Schreibrecht
-        </label>
+        </ControlLabel>
       </OverlayTrigger>
       <FormControl
         componentClass="select"
