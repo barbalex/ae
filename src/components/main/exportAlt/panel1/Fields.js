@@ -10,12 +10,12 @@ import FieldsRCs from './FieldsRCs.js'
 
 const styles = StyleSheet.create({
   fields: {
-    columnWidth: 450,
-    breakInside: 'avoid',
-    marginBottom: -8
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap'
   },
   cb: {
-    breakInside: 'avoid'
+    width: 450
   },
   divAlleWaehlen: {
     fontStyle: 'italic',
