@@ -1,8 +1,14 @@
 'use strict'
 
 import React from 'react'
-import { OverlayTrigger, Popover } from 'react-bootstrap'
+import { OverlayTrigger, Popover, ControlLabel } from 'react-bootstrap'
 import { map } from 'lodash'
+import { StyleSheet, css } from 'aphrodite'
+import labelWithPopover from '../../../../styles/labelWithPopover.js'
+
+const styles = StyleSheet.create({
+  label: labelWithPopover()
+})
 
 const options = (pcs) => {
   // don't want combining pcs
@@ -69,12 +75,12 @@ const InputUrsprungsEs = ({
       placement="right"
       overlay={popover()}
     >
-      <label
-        className="control-label withPopover"
+      <ControlLabel
+        className={css(styles.label)}
         id="dsUrsprungsDsLabel"
       >
         eigenständige Eigenschaftensammlung
-      </label>
+      </ControlLabel>
     </OverlayTrigger>
     <select
       className="form-control controls input-sm"
