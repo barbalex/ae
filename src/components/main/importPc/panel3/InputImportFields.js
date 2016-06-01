@@ -38,7 +38,6 @@ const InputImportFields = ({
       <FormControl
         componentClass="select"
         multiple
-        className="form-control controls"
         style={style}
         value={[idsImportIdField]}
         onChange={(event) =>

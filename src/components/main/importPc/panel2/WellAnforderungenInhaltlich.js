@@ -23,14 +23,11 @@ export default React.createClass({
 
   render() {
     const { visible } = this.state
-    const wellStyle = {
-      marginBottom: `${15}px !important`
-    }
 
     return (
       <Well
         bsSize="small"
-        style={wellStyle}
+        style={{ marginBottom: 15 }}
       >
         <b>Inhaltliche Anforderungen</b>
         &nbsp;
