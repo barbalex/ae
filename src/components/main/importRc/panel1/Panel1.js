@@ -21,7 +21,7 @@ import AlertDeleteRcBuildingIndex from './AlertDeleteRcBuildingIndex.js'
 import AlertFirst5Deleted from '../AlertFirst5Deleted.js'
 import AlertLoadAllGroups from '../AlertLoadAllGroups.js'
 import isUserServerAdmin from '../../../../modules/isUserServerAdmin.js'
-import isUserOrgAdminAnywhere from '../../../../modules/isUserOrgAdmin.js'
+import isUserOrgAdminAnywhere from '../../../../modules/isUserOrgAdminAnywhere.js'
 import isUserEsWriterAnywhere from '../../../../modules/isUserEsWriter.js'
 
 export default React.createClass({
@@ -125,7 +125,9 @@ export default React.createClass({
       deletingRcProgress,
       onChangeOrgMitSchreibrecht,
       userIsEsWriterInOrgs,
-      orgMitSchreibrecht
+      orgMitSchreibrecht,
+      isEditingRcAllowed,
+      isLinkValid
     } = this.props
     const showLoadAllGroups = email && !allGroupsLoaded
     const showAlertDeleteRcBuildingIndex = (
@@ -175,12 +177,15 @@ export default React.createClass({
           alertNotEsWriter &&
           <AlertNotEsWriter />
         }
-        <ButtonDeleteRc
-          nameBestehend={nameBestehend}
-          enableDeleteRcButton={enableDeleteRcButton}
-          deletingRcProgress={deletingRcProgress}
-          onClickDeleteRc={onClickDeleteRc}
-        />
+        {
+          nameBestehend &&
+          <ButtonDeleteRc
+            nameBestehend={nameBestehend}
+            enableDeleteRcButton={enableDeleteRcButton}
+            deletingRcProgress={deletingRcProgress}
+            onClickDeleteRc={onClickDeleteRc}
+          />
+        }
         {
           showAlertDeleteRcBuildingIndex &&
           <AlertDeleteRcBuildingIndex />
@@ -193,16 +198,12 @@ export default React.createClass({
         }
         {
           deletingRcProgress === 100 &&
-          <div
-            className="feld"
-          >
-            <AlertFirst5Deleted
-              idsOfAeObjects={idsOfAeObjects}
-              nameBestehend={nameBestehend}
-              replicatingToAe={replicatingToAe}
-              replicatingToAeTime={replicatingToAeTime}
-            />
-          </div>
+          <AlertFirst5Deleted
+            idsOfAeObjects={idsOfAeObjects}
+            nameBestehend={nameBestehend}
+            replicatingToAe={replicatingToAe}
+            replicatingToAeTime={replicatingToAeTime}
+          />
         }
 
         <hr />
@@ -211,7 +212,7 @@ export default React.createClass({
           name={name}
           validName={validName}
           onChangeName={onChangeName}
-          onBlurName={this.onBlurName}
+          onBlurName={(event) => isEditingRcAllowed(event.target.value)}
         />
         {
           !bsBearbeitenErlaubt &&
