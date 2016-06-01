@@ -1,7 +1,7 @@
 'use strict'
 
 import React from 'react'
-import { OverlayTrigger, Popover, Alert } from 'react-bootstrap'
+import { OverlayTrigger, Popover, Alert, FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
 import isGuid from '../../../../modules/isGuid.js'
 
 export default React.createClass({
@@ -80,17 +80,12 @@ export default React.createClass({
 
   invalidGuids() {
     const { invalidGuids } = this.state
-    const alertStyle = {
-      marginTop: 8
-    }
     const list = invalidGuids.map((guid, index) =>
       <li key={index}>{guid}</li>
     )
     return (
       <Alert
         bsStyle="danger"
-        className="controls feld"
-        style={alertStyle}
       >
         <p>Bitte prüfen Sie die folgenden GUID`s:</p>
         <ul>
@@ -103,20 +98,10 @@ export default React.createClass({
   render() {
     const { invalidGuids } = this.state
     const showInvalidGuids = invalidGuids.length > 0
-    // necessary to align guid with other fields
-    const divStyle = {
-      marginLeft: 0
-    }
-    const formGroupClass = (
-      invalidGuids.length > 0 ?
-      'form-group has-error' :
-      'form-group'
-    )
     return (
       <div>
-        <div
-          className={formGroupClass}
-          style={divStyle}
+        <FormGroup
+          validationState={showInvalidGuids ? 'error' : null}
         >
           <OverlayTrigger
             trigger={['click', 'focus']}
@@ -130,15 +115,23 @@ export default React.createClass({
               GUID
             </label>
           </OverlayTrigger>
-          <textarea
-            className="controls input-sm form-control"
+          <FormControl
+            componentClass="textarea"
             onBlur={(event) =>
               this.onBlur('object', '_id', event)
             }
             spellCheck={false}
           />
-          {showInvalidGuids ? this.invalidGuids() : null}
-        </div>
+        </FormGroup>
+        {
+          showInvalidGuids &&
+          <FormGroup>
+            <ControlLabel style={{ display: 'block' }} />
+            <div style={{ width: '100%' }}>
+              {this.invalidGuids()}
+            </div>
+          </FormGroup>
+        }
       </div>
     )
   }

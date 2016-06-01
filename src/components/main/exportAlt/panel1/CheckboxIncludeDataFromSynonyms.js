@@ -1,37 +1,29 @@
 'use strict'
 
 import React from 'react'
+import { Checkbox } from 'react-bootstrap'
+import { StyleSheet, css } from 'aphrodite'
 
-const inputStyle = {
-  top: 5
-}
-const divStyle = {
-  marginTop: 13,
-  marginBottom: 13
-}
-const labelStyle = {
-  float: 'none !important'
-}
+const styles = StyleSheet.create({
+  cb: {
+    marginTop: 13,
+    marginBottom: 13,
+    marginLeft: 8
+  }
+})
 
 const CheckboxIncludeDataFromSynonyms = ({
   onChangeIncludeDataFromSynonyms,
   includeDataFromSynonyms
 }) =>
-  <div
-    className="checkbox"
-    style={divStyle}
+  <Checkbox
+    onChange={onChangeIncludeDataFromSynonyms}
+    checked={includeDataFromSynonyms}
+    className={css(styles.cb)}
   >
-    <label style={labelStyle}>
-      <input
-        type="checkbox"
-        onChange={onChangeIncludeDataFromSynonyms}
-        checked={includeDataFromSynonyms}
-        style={inputStyle}
-      />
-      <strong>Informationen von Synonymen berücksichtigen</strong><br />
-      Informationen von synonymen Arten werden wie eigene Informationen behandelt
-    </label>
-  </div>
+    <strong>Informationen von Synonymen berücksichtigen</strong><br />
+    Informationen von synonymen Arten werden wie eigene Informationen behandelt
+  </Checkbox>
 
 CheckboxIncludeDataFromSynonyms.displayName = 'CheckboxIncludeDataFromSynonyms'
 
