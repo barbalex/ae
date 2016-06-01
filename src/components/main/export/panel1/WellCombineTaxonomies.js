@@ -32,13 +32,13 @@ export default React.createClass({
       marginBottom: 0
     }
     const wellStyle = {
-      marginTop: 5
+      marginTop: 5,
+      marginBottom: 0
     }
 
     return (
       <Well
-        id="wellCombineTaxonomies"
-        className="well-sm last-well"
+        bsSize="small"
         style={wellStyle}
       >
         <b>

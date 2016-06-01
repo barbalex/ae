@@ -2,7 +2,13 @@
 
 import React from 'react'
 import { OverlayTrigger, Popover, Alert, FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
+import { StyleSheet, css } from 'aphrodite'
 import isGuid from '../../../../modules/isGuid.js'
+import labelWithPopover from '../../../../styles/labelWithPopover.js'
+
+const styles = StyleSheet.create({
+  label: labelWithPopover()
+})
 
 export default React.createClass({
   displayName: 'InputGuid',
@@ -109,11 +115,11 @@ export default React.createClass({
             placement="right"
             overlay={this.popover()}
           >
-            <label
-              className="control-label withPopover"
+            <ControlLabel
+              className={css(styles.label)}
             >
               GUID
-            </label>
+            </ControlLabel>
           </OverlayTrigger>
           <FormControl
             componentClass="textarea"
