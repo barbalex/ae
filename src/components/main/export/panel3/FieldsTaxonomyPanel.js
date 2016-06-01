@@ -3,6 +3,22 @@
 import React from 'react'
 import { Checkbox } from 'react-bootstrap'
 import { has, get } from 'lodash'
+import { StyleSheet, css } from 'aphrodite'
+
+const styles = StyleSheet.create({
+  fields: {
+    columnWidth: 450,
+    breakInside: 'avoid',
+    marginBottom: -8
+  },
+  cb: {
+    breakInside: 'avoid'
+  },
+  divAlleWaehlen: {
+    fontStyle: 'italic',
+    marginBottom: 5
+  }
+})
 
 const FieldsTaxonomyPanel = ({
   taxonomyFields,
@@ -32,6 +48,7 @@ const FieldsTaxonomyPanel = ({
       <Checkbox
         key={fieldKey}
         checked={checked}
+        className={css(styles.cb)}
         onChange={(event) =>
           onChooseField(cNameKey, fNameKey, 'taxonomy', event)
         }
@@ -45,11 +62,11 @@ const FieldsTaxonomyPanel = ({
     const checked = collectionsWithAllChoosen.includes(cNameKey)
     alleField = (
       <div
-        className="felderspalte alleWaehlenCheckbox"
-        style={{ marginBottom: 5 }}
+        className={css(styles.fields, styles.divAlleWaehlen)}
       >
         <Checkbox
           checked={checked}
+          className={css(styles.cb)}
           onChange={(event) =>
             onChooseAllOfCollection(cNameKey, 'taxonomy', event)
           }
@@ -62,10 +79,7 @@ const FieldsTaxonomyPanel = ({
   return (
     <div>
       {alleField}
-      <div
-        className="felderspalte"
-        style={{ marginBottom: -8 }}
-      >
+      <div className={css(styles.fields)}>
         {fields}
       </div>
     </div>
