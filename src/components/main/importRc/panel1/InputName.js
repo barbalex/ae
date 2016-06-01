@@ -1,7 +1,13 @@
 'use strict'
 
 import React from 'react'
-import { OverlayTrigger, Popover } from 'react-bootstrap'
+import { OverlayTrigger, Popover, FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
+import { StyleSheet, css } from 'aphrodite'
+import labelWithPopover from '../../../../styles/labelWithPopover.js'
+
+const styles = StyleSheet.create({
+  label: labelWithPopover()
+})
 
 const popover = () => (
   <Popover
@@ -31,8 +37,8 @@ const InputName = ({
   onChangeName,
   onBlurName
 }) => (
-  <div
-    className={validName ? 'form-group' : 'form-group has-error'}
+  <FormGroup
+    validationState={validName ? null : 'error'}
   >
     <OverlayTrigger
       trigger={['click', 'focus']}
@@ -40,16 +46,16 @@ const InputName = ({
       placement="right"
       overlay={popover()}
     >
-      <label
-        className="control-label withPopover"
+      <ControlLabel
+        className={css(styles.label)}
       >
         Name
-      </label>
+      </ControlLabel>
     </OverlayTrigger>
-    <input
+    <FormControl
       type="text"
-      className="controls input-sm form-control"
       value={name}
+      placeholder={validName ? '' : 'erforderlich'}
       onChange={(event) =>
         onChangeName(event.target.value)
       }
@@ -57,13 +63,7 @@ const InputName = ({
         onBlurName(event.target.value)
       }
     />
-    {
-      !validName &&
-      <div className="validateDiv feld">
-        Ein Name ist erforderlich
-      </div>
-    }
-  </div>
+  </FormGroup>
 )
 
 
