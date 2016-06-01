@@ -69,15 +69,11 @@ export default React.createClass({
       0 :
       activePanel
     )
-    const collectionKeysSorted = (
-      Object.keys(taxonomyFields)
-        .sort((cNameKey) =>
-          cNameKey.toLowerCase()
-        )
-    )
-    console.log('FieldsTaxonomy, render, taxonomyFields', taxonomyFields)
-    console.log('FieldsTaxonomy, render, Object.keys(taxonomyFields)', Object.keys(taxonomyFields))
-    console.log('FieldsTaxonomy, render, collectionKeysSorted', collectionKeysSorted)
+    const collectionKeysSorted = Object.keys(taxonomyFields)
+      .sort((a, b) => {
+        if (a.toLowerCase() < b.toLowerCase()) return -1
+        return 1
+      })
     const collections = collectionKeysSorted.map((cNameKey, cIndex) => {
       const collectionKey = cNameKey.toLowerCase()
       return (
