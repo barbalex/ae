@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
   label: labelWithPopover()
 })
 
-const popover = () => (
+const popover = (
   <Popover
     id="InputNutzungsbedingungenPopover"
     title="Wozu Nutzunsbedingungen?"
