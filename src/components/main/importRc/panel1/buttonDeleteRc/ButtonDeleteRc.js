@@ -1,8 +1,8 @@
 'use strict'
 
 import React from 'react'
-import { Button, Glyphicon } from 'react-bootstrap'
-import ModalDeleteRc from './modalDeleteRc.js'
+import { Button, Glyphicon, FormGroup, ControlLabel } from 'react-bootstrap'
+import ModalDeleteRc from './ModalDeleteRc.js'
 
 export default React.createClass({
   displayName: 'ButtonDeleteRc',
@@ -49,33 +49,28 @@ export default React.createClass({
     const showConfirmModal = show && deletingRcProgress === null
 
     return (
-      <div>
-        {
-          nameBestehend &&
-          <div
-            className="form-group"
+      <FormGroup>
+        <ControlLabel style={{ display: 'block' }} />
+        <div style={{ width: '100%' }}>
+          <Button
+            bsStyle="danger"
+            onClick={this.onClickDeleteRc}
+            disabled={!enableDeleteRcButton}
           >
-            <Button
-              bsStyle="danger"
-              className="feld"
-              onClick={this.onClickDeleteRc}
-              disabled={!enableDeleteRcButton}
-            >
-              <Glyphicon glyph="trash" />
-              &nbsp;
-              Beziehungssammlung "{nameBestehend}" aus allen Arten/Lebensräumen entfernen
-            </Button>
-          </div>
-        }
-        {
-          showConfirmModal &&
-          <ModalDeleteRc
-            nameBestehend={nameBestehend}
-            onClickDeleteRc={this.onClickDelete}
-            closeModal={this.closeModal}
-          />
-        }
-      </div>
+            <Glyphicon glyph="trash" />
+            &nbsp;
+            Beziehungssammlung "{nameBestehend}" aus allen Arten/Lebensräumen entfernen
+          </Button>
+          {
+            showConfirmModal &&
+            <ModalDeleteRc
+              nameBestehend={nameBestehend}
+              onClickDeleteRc={this.onClickDelete}
+              closeModal={this.closeModal}
+            />
+          }
+        </div>
+      </FormGroup>
     )
   }
 })

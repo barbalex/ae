@@ -1,7 +1,13 @@
 'use strict'
 
 import React from 'react'
-import { OverlayTrigger, Popover } from 'react-bootstrap'
+import { OverlayTrigger, Popover, FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
+import { StyleSheet, css } from 'aphrodite'
+import labelWithPopover from '../../../../styles/labelWithPopover.js'
+
+const styles = StyleSheet.create({
+  label: labelWithPopover()
+})
 
 const popover = () => (
   <Popover
@@ -28,8 +34,8 @@ const InputBeschreibung = ({
   validBeschreibung,
   onChangeBeschreibung
 }) =>
-  <div
-    className={validBeschreibung ? 'form-group' : 'form-group has-error'}
+  <FormGroup
+    validationState={validBeschreibung ? null : 'error'}
   >
     <OverlayTrigger
       trigger={['click', 'focus']}
@@ -37,26 +43,22 @@ const InputBeschreibung = ({
       placement="right"
       overlay={popover()}
     >
-      <label className="control-label withPopover">
+      <ControlLabel
+        className={css(styles.label)}
+      >
         Beschreibung
-      </label>
+      </ControlLabel>
     </OverlayTrigger>
-    <input
-      type="textarea"
-      className="form-control controls"
+    <FormControl
+      componentClass="textarea"
       value={beschreibung}
+      placeholder={validBeschreibung ? '' : 'erforderlich'}
       onChange={(event) =>
         onChangeBeschreibung(event.target.value)
       }
       rows={1}
     />
-    {
-      !validBeschreibung &&
-      <div className="validateDiv feld">
-        Eine Beschreibung ist erforderlich
-      </div>
-    }
-  </div>
+  </FormGroup>
 
 InputBeschreibung.displayName = 'InputBeschreibung'
 
