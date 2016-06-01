@@ -23,14 +23,11 @@ export default React.createClass({
 
   render() {
     const { visible } = this.state
-    const wellStyle = {
-      marginBottom: 5
-    }
 
     return (
       <Well
         bsSize="small"
-        style={wellStyle}
+        style={{ marginBottom: 5 }}
       >
         <b>So geht`s</b>
         &nbsp;
