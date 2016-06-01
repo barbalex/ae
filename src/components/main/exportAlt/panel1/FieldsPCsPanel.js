@@ -7,12 +7,12 @@ import { StyleSheet, css } from 'aphrodite'
 
 const styles = StyleSheet.create({
   fields: {
-    columnWidth: 450,
-    breakInside: 'avoid',
-    marginBottom: -8
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap'
   },
   cb: {
-    breakInside: 'avoid'
+    width: 450
   },
   divAlleWaehlen: {
     fontStyle: 'italic',
@@ -29,12 +29,11 @@ const FieldsPCsPanel = ({
   onChooseAllOfCollection
 }) => {
   const cNameObject = pcFields[cNameKey]
-  const fieldsSorted = (
-    Object.keys(cNameObject)
-      .sort((fNameKey) =>
-        fNameKey.toLowerCase()
-      )
-  )
+  const fieldsSorted = Object.keys(cNameObject)
+    .sort((a, b) => {
+      if (a.toLowerCase() < b.toLowerCase()) return -1
+      return 1
+    })
   const fields = fieldsSorted.map((fNameKey) => {
     const fieldKey = fNameKey.toLowerCase()
     let checked = false
