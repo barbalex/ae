@@ -13,6 +13,9 @@ const styles = StyleSheet.create({
     marginBottom: 1,
     marginLeft: 6,
     marginTop: 10
+  },
+  cb: {
+    marginLeft: 8
   }
 })
 
@@ -29,6 +32,7 @@ const CheckboxOnlyObjectsWithCollectionData = ({
       </strong>
     </p>
     <Checkbox
+      className={css(styles.cb)}
       onChange={() =>
         onChangeOnlyObjectsWithCollectionData(true)
       }
@@ -40,6 +44,7 @@ const CheckboxOnlyObjectsWithCollectionData = ({
       erhalten Sie im Resultat nur Arten mit Artwert > 5
     </Checkbox>
     <Checkbox
+      className={css(styles.cb)}
       onChange={() =>
         onChangeOnlyObjectsWithCollectionData(false)
       }

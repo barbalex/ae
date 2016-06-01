@@ -2,6 +2,14 @@
 
 import React from 'react'
 import { Checkbox } from 'react-bootstrap'
+import { StyleSheet, css } from 'aphrodite'
+
+const styles = StyleSheet.create({
+  rootDiv: {
+    paddingLeft: 8,
+    paddingBottom: 8
+  }
+})
 
 const GroupsToExport = ({
   groupsToExport,
@@ -23,7 +31,7 @@ const GroupsToExport = ({
   )
 
   return (
-    <div className="checkbox">
+    <div className={css(styles.rootDiv)}>
       {groupCheckboxes}
     </div>
   )
