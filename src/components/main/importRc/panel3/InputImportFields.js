@@ -33,7 +33,6 @@ const InputImportFields = ({ rcsToImport, idsImportIdField, onChangeImportId }) 
       <FormControl
         componentClass="select"
         multiple
-        className="form-control controls"
         style={style}
         value={[idsImportIdField]}
         onChange={(event) =>
