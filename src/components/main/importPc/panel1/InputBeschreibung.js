@@ -1,7 +1,13 @@
 'use strict'
 
 import React from 'react'
-import { OverlayTrigger, Popover, FormGroup, FormControl } from 'react-bootstrap'
+import { OverlayTrigger, Popover, FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
+import { StyleSheet, css } from 'aphrodite'
+import labelWithPopover from '../../../../styles/labelWithPopover.js'
+
+const styles = StyleSheet.create({
+  label: labelWithPopover()
+})
 
 const popover = (
   <Popover
@@ -39,11 +45,11 @@ const InputBeschreibung = ({
       placement="right"
       overlay={popover}
     >
-      <label
-        className="control-label withPopover"
+      <ControlLabel
+        className={css(styles.label)}
       >
         Beschreibung
-      </label>
+      </ControlLabel>
     </OverlayTrigger>
     <FormControl
       componentClass="textarea"

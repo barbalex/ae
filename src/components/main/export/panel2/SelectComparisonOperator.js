@@ -10,7 +10,9 @@ const styles = StyleSheet.create({
     paddingLeft: 3,
     paddingRight: 0,
     borderTopLeftRadius: 3,
-    borderBottomLeftRadius: 3
+    borderBottomLeftRadius: 3,
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: 0
   }
 })
 
