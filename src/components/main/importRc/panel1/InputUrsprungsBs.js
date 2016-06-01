@@ -1,9 +1,15 @@
 'use strict'
 
 import React from 'react'
-import { OverlayTrigger } from 'react-bootstrap'
+import { OverlayTrigger, FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
 import { map } from 'lodash'
-import inputUrsprungsBsPopover from './inputUrsprungsBsPopover'
+import { StyleSheet, css } from 'aphrodite'
+import inputUrsprungsBsPopover from './InputUrsprungsBsPopover'
+import labelWithPopover from '../../../../styles/labelWithPopover.js'
+
+const styles = StyleSheet.create({
+  label: labelWithPopover()
+})
 
 const nameUrsprungsBsOptions = (rcs) => {
   // don't want combining rcs
@@ -25,38 +31,40 @@ const InputUrsprungsBs = ({
   onChangeNameUrsprungsBs,
   rcs
 }) => (
-  <div
-    className={validUrsprungsBs ? 'form-group' : 'form-group has-error'}
-  >
-    <OverlayTrigger
-      trigger={['click', 'focus']}
-      rootClose
-      placement="right"
-      overlay={inputUrsprungsBsPopover}
+  <div>
+    <FormGroup
+      validationState={validUrsprungsBs ? null : 'error'}
     >
-      <label
-        className="control-label withPopover"
-        id="dsUrsprungsDsLabel"
+      <OverlayTrigger
+        trigger={['click', 'focus']}
+        rootClose
+        placement="right"
+        overlay={inputUrsprungsBsPopover}
       >
-        eigenständige Beziehungssammlung
-      </label>
-    </OverlayTrigger>
-    <select
-      className="form-control controls input-sm"
-      selected={nameUrsprungsBs}
-      onChange={(event) =>
-        onChangeNameUrsprungsBs(event.target.value)
-      }
-    >
-      {nameUrsprungsBsOptions(rcs)}
-    </select>
+        <ControlLabel
+          className={css(styles.label)}
+        >
+          eigenständige Beziehungssammlung
+        </ControlLabel>
+      </OverlayTrigger>
+      <FormControl
+        componentClass="select"
+        selected={nameUrsprungsBs}
+        onChange={(event) =>
+          onChangeNameUrsprungsBs(event.target.value)
+        }
+      >
+        {nameUrsprungsBsOptions(rcs)}
+      </FormControl>
+    </FormGroup>
     {
       !validUrsprungsBs &&
-      <div
-        className="validateDiv feld"
-      >
-        Bitte wählen Sie die eigenständige Beziehungssammlung
-      </div>
+      <FormGroup>
+        <ControlLabel style={{ display: 'block' }} />
+        <div style={{ width: '100%', marginTop: '-14px' }} className="validateDiv">
+          Bitte wählen Sie die eigenständige Beziehungssammlung
+        </div>
+      </FormGroup>
     }
   </div>
 )
