@@ -14,7 +14,6 @@
  * 3. FORMS....................die rechte Spalte
  *    allgemein / querbeet
  *    symbols
- *    errors
  *    main
  *    login
  *    exportieren
@@ -329,23 +328,6 @@ h5
   flex: 1                  // NEW, Spec - Opera 12.1, Firefox 20+
   margin-left: 5px
 
-.felderspalte
-  /* Breite */
-  column-width: 450px
-  /* bootstrap setzt -15px */
-  margin-left: 0
-  /* Trennung */
-  break-inside: avoid
-
-.felderspalte .form-group
-  /* bootstrap setzt -15px */
-  margin-left: 0
-  break-inside: avoid
-
-/* ohne das werden checkboxen z.T. von ihrem Label getrennt, in Chrome */
-.felderspalte .checkbox
-  break-inside: avoid
-
 #art legend,
 #importDs legend,
 #importBs legend,
@@ -650,17 +632,8 @@ option
   margin-bottom: 0
   margin-top:   16px
 
-#export .checkbox,
-#exportAlt .checkbox
-  padding-top: 3px
-  // margin-bottom: 0
-  margin-left: 8px
-
 .exportZumTitelGehoerig
   margin-bottom: 15px
-
-#export .alleWaehlenCheckbox label span
-  font-style: italic
 
 #export .checkbox .form-group
   margin-bottom: 0
@@ -690,14 +663,6 @@ option
 
 #exportExportCollapse .tooltip-inner
   max-width: 250px
-
-/*Filterfelder im Export: checkboxes gestalten*/
-#exportObjekteWaehlenDsCollapse .felderspalte .form-group input[type='checkbox']
-  width:      13px !important
-  height:     13px
-  margin-top:  8px !important
-  margin-left: 4px !important
-  cursor: auto
 
 #exportExportFilterkriterien li
   margin-left: -24px
