@@ -1,6 +1,7 @@
 'use strict'
 
 import React from 'react'
+import { FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
 import isUserServerAdmin from '../../../../modules/isUserServerAdmin.js'
 import isUserOrgAdmin from '../../../../modules/isUserOrgAdmin.js'
 import isUserEsWriter from '../../../../modules/isUserEsWriter.js'
@@ -58,24 +59,20 @@ const InputNameBestehend = ({
   rcs,
   groupsLoadedOrLoading
 }) =>
-  <div className="form-group">
-    <label
-      className="control-label"
-      htmlFor="nameBestehend"
-    >
+  <FormGroup controlId="nameBestehend">
+    <ControlLabel>
       Bestehende wählen
-    </label>
-    <select
-      id="nameBestehend"
-      className="form-control controls"
+    </ControlLabel>
+    <FormControl
+      componentClass="select"
       selected={nameBestehend}
       onChange={(event) =>
         onChangeNameBestehend(event.target.value)
       }
     >
       {options(userRoles, rcs, groupsLoadedOrLoading)}
-    </select>
-  </div>
+    </FormControl>
+  </FormGroup>
 
 InputNameBestehend.displayName = 'InputNameBestehend'
 
