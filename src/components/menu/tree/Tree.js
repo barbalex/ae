@@ -10,7 +10,7 @@ import LoadingMessage from './LoadingMessage.js'
 // to swipe up the properties
 // > set max-height
 const styles = StyleSheet.create({
-  treeRootDiv: {
+  rootDiv: {
     float: 'left',
     clear: 'both',
     width: '100%',
@@ -85,7 +85,7 @@ export default React.createClass({
     )
 
     return (
-      <div className={css(styles.treeRootDiv)}>
+      <div className={css(styles.rootDiv)}>
         <div
           id="tree"
           style={treeStyle}
@@ -93,13 +93,11 @@ export default React.createClass({
         >
           {
             hierarchy &&
-            <div>
-              <Nodes
-                hierarchy={hierarchy}
-                object={object}
-                path={path}
-              />
-            </div>
+            <Nodes
+              hierarchy={hierarchy}
+              object={object}
+              path={path}
+            />
           }
         </div>
         {
