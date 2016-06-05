@@ -3,7 +3,17 @@
 import app from 'ampersand-app'
 import React from 'react'
 import { Dropdown, MenuItem } from 'react-bootstrap'
+import { StyleSheet, css } from 'aphrodite'
 import refreshUserRoles from '../../modules/refreshUserRoles.js'
+
+const styles = StyleSheet.create({
+  emailP: {
+    textDecoration: 'underline',
+    paddingLeft: 5,
+    paddingRight: 5,
+    cursor: 'pointer'
+  }
+})
 
 export default React.createClass({
   displayName: 'Email',
@@ -78,7 +88,7 @@ export default React.createClass({
         >
           <p
             bsRole="toggle"
-            className="symbols link"
+            className={css(styles.emailP)}
             onClick={this.toggleDropdown}
           >
             {email}
@@ -109,7 +119,7 @@ export default React.createClass({
       >
         <p
           bsRole="toggle"
-          className="symbols link"
+          className={css(styles.emailP)}
           onClick={this.toggleDropdown}
         >
           nicht angemeldet
