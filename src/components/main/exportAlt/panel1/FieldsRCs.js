@@ -2,7 +2,22 @@
 
 import React from 'react'
 import { Accordion, Panel, Checkbox } from 'react-bootstrap'
+import { StyleSheet, css } from 'aphrodite'
 import FieldsRCsPanel from './FieldsRCsPanel.js'
+
+const styles = StyleSheet.create({
+  optionsDiv: {
+    marginLeft: 24,
+    marginTop: 0,
+    marginBottom: 3,
+  },
+  firstCb: {
+    marginBottom: -2,
+  },
+  lastCb: {
+    marginBottom: 10,
+  }
+})
 
 export default React.createClass({
   displayName: 'FieldsRCs',
@@ -75,11 +90,6 @@ export default React.createClass({
       0 :
       activePanel
     )
-    const divStyle = {
-      marginLeft: 24,
-      marginTop: 3,
-      marginBottom: 3
-    }
 
     const collectionKeysSorted = Object
       .keys(relationFields)
@@ -120,15 +130,14 @@ export default React.createClass({
     return (
       <div>
         <div
-          id="rcOptions"
-          style={divStyle}
+          className={css(styles.optionsDiv)}
         >
           <Checkbox
             checked={oneRowPerRelation}
             onChange={() =>
               onChangeOneRowPerRelation(true)
             }
-            style={{ marginBottom: 0 }}
+            className={css(styles.firstCb)}
           >
             Pro Beziehung eine Zeile
           </Checkbox>
@@ -137,6 +146,7 @@ export default React.createClass({
             onChange={() =>
               onChangeOneRowPerRelation(false)
             }
+            className={css(styles.lastCb)}
           >
             Pro Art/Lebensraum eine Zeile und alle Beziehungen kommagetrennt in einem Feld
           </Checkbox>
