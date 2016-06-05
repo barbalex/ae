@@ -85,6 +85,7 @@ export default React.createClass({
           id="emailDropdown"
           open={open}
           onToggle={this.onToggle}
+          className={css(styles.dropdown)}
         >
           <p
             bsRole="toggle"
