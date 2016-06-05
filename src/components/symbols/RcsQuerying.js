@@ -2,12 +2,17 @@
 
 import React from 'react'
 import { OverlayTrigger, Tooltip } from 'react-bootstrap'
+import { StyleSheet, css } from 'aphrodite'
 
-const pStyle = {
-  color: 'red',
-  fontWeight: 500,
-  cursor: 'progress'
-}
+const styles = StyleSheet.create({
+  text: {
+    textDecoration: 'underline',
+    paddingLeft: 5,
+    color: 'red',
+    fontWeight: 500,
+    cursor: 'progress'
+  }
+})
 
 const RcsQuerying = () =>
   <OverlayTrigger
@@ -22,8 +27,7 @@ const RcsQuerying = () =>
     }
   >
     <p
-      className="symbols text"
-      style={pStyle}
+      className={css(styles.text)}
     >
       Lade aktuelle Beziehungssammlungen...
     </p>
