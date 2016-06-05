@@ -53,8 +53,9 @@ export default React.createClass({
           {visible ? '...weniger' : '...mehr'}
         </a>
         <div
-          className="adb-hidden"
-          style={{ display: visible ? 'block' : 'none' }}
+          style={{
+            display: visible ? 'block' : 'none',
+          }}
         >
           <ul>
             <li>
