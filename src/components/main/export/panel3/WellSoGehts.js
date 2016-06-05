@@ -41,7 +41,6 @@ export default React.createClass({
           {visible ? '...weniger' : '...mehr'}
         </a>
         <ul
-          className="adb-hidden"
           style={{ display: visible ? 'block' : 'none' }}
         >
           <li>Nachfolgend sind alle Eigenschaften aufgelistet, die in den gewählten Gruppen vorkommen</li>
