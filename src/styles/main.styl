@@ -4,21 +4,16 @@
 /*
  * INHALT
  *
- * 1. GRUNDSTRUKTUR............responsive
+ * 1. GRUNDSTRUKTUR
  *
- * 2. MENU.....................die linke Spalte
- *    allgemein / querbeet
- *    filter
+ * 2. MENU
  *    tree
  * 
- * 3. FORMS....................die rechte Spalte
+ * 3. FORMS
  *    allgemein / querbeet
  *    symbols
- *    main
- *    login
  *    exportieren
  *    importieren
- *    admin
  *
  * 4. TOOLS/QUERBEET
  * 
@@ -254,11 +249,6 @@ form.form-horizontal > div:not(#organisationen) .checkboxFormGroup
   /* bootstrap macht 0.85, das ist nur schwer sichtbar */
   opacity: 0.5
 
-/* alle Datenfelder links ausrichten */
-.Datenfelder
-  float: left
-  margin: 0 5px 10px 0
-
 /* ausrichten wie die Felder */
 .form-horizontal .form-actions
   padding-left: 190px
@@ -290,16 +280,6 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 #export .form-group
   margin-bottom: 5px
   break-inside: avoid
-/*
-.form-control-static
-  padding-top: 0 !important
-  min-height: 0
-
-.form-horizontal .form-control-static
-  margin-left: 200px
-*/
-input[type=file]
-  margin-left: 0 !important
 
 .input-group > .input-group-addon
   padding: 0
@@ -309,12 +289,6 @@ input[type=file]
   /* aus unbekanntem Grund stimmt die Höhe nicht */
   height: 20px
 
-.form-horizontal label:not(.json-inspector__line)
-  /* turned this off because formatted organizations wrong */
-  /* nicht nötig, wenn checkbox mit label beschrieben wird */
-  //line-height: 15px !important
-  //float: left !important
-
 option
   white-space: pre
 
@@ -323,15 +297,6 @@ option
 
 .modal-footer
   padding: 10px 15px 10px 15px
-
-.hinweis
-  /* wird erst eingeblendet, wenn ein Anliegen besteht */
-  display: none
-  margin-left:  210px
-  margin-top:     7px
-  margin-bottom:  7px !important
-  padding-top:    7px
-  padding-bottom: 7px
 
 .alert
   margin-bottom: 0
@@ -464,15 +429,6 @@ option
        #importieren
 \*--------------------------------*/
 
-// Auswahlliste um bestehende DS/BS zu wählen: 
-// wählbare sollen dunkel sein, nicht wählbare grau
-.adbGruenFett
-  color: black
-  font-weight: bold
-.adbGrauNormal
-  color: #B2B2B2
-  font-weight: normal
-
 // if two buttons follow each other, place them apart
 .form-horizontal .btn-group button
   margin-right 0
@@ -489,24 +445,6 @@ option
 
 #importieren .progress
   margin-bottom: 6px
-
-#importDsIdsIdentifizieren .alert
-  margin-left: 192px
-  margin-right: 7px
-  margin-top: 6px
-
-#allGroupsAlert
-  margin-bottom: 10px
-
-#allGroupsAlert button
-  margin-top: 5px
-
-.form-horizontal #allGroupsAlert p
-  display: inline-block
-
-.form-horizontal #allGroupsAlert button
-  margin-left: 10px
-  margin-top: 0
 
 .panel-body .alert
   margin-bottom: 0
