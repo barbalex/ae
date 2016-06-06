@@ -301,7 +301,6 @@ export default React.createClass({
 
   onActiveObjectStoreChange(object, synonymObjects) {
     const guid = object._id
-    console.log('Home.js, onActiveObjectStoreChange, object', object)
     this.setState({
       object,
       guid,
