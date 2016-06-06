@@ -15,6 +15,9 @@ import stores from './stores'
 import pouchUrl from './modules/getCouchUrl.js'
 import pouchBaseUrl from './modules/getCouchBaseUrl.js'
 import getGroupsLoadedFromLocalDb from './modules/getGroupsLoadedFromLocalDb.js'
+import kickOffStores from './modules/kickOffStores.js'
+import replaceProblematicPathCharactersFromArray from './modules/replaceProblematicPathCharactersFromArray.js'
+import extractInfoFromPath from './modules/extractInfoFromPath.js'
 /**
  * need this polyfill to transform promise.all
  * without it IE11 and lower bark
@@ -160,6 +163,17 @@ app.extend({
         document.getElementById('root')
       )
       app.userStore.getLogin()
+      // read data from url
+      // need to remove first / or there will be a first path element of null
+      let path = window.location.pathname.replace('/', '').split('/')
+      path = replaceProblematicPathCharactersFromArray(path)
+      const search = window.location.search
+      const {
+        path: pathArray,
+        gruppe,
+        guid
+      } = extractInfoFromPath(path, search)
+      kickOffStores(pathArray, gruppe, guid)
       // check if groups have previously been loaded in pouchdb
       return getGroupsLoadedFromLocalDb()
     })

@@ -16,11 +16,8 @@ import Main from './main/Main.js'
 import Tree from './menu/tree/Tree.js'
 import Errors from './Errors.js'
 import getGruppen from '../modules/gruppen.js'
-import kickOffStores from '../modules/kickOffStores.js'
 import Login from './main/login/Login.js'
 import buildHierarchyObjectFromObjectForTaxonomy from '../modules/buildHierarchyObjectFromObjectForTaxonomy.js'
-import replaceProblematicPathCharactersFromArray from '../modules/replaceProblematicPathCharactersFromArray.js'
-import extractInfoFromPath from '../modules/extractInfoFromPath.js'
 
 const gruppen = getGruppen()
 
@@ -156,7 +153,6 @@ export default React.createClass({
   },
 
   componentDidMount() {
-    const { location } = this.props
     // listen to stores
     this.listenTo(app.userStore, this.onLoginStoreChange)
     this.listenTo(app.activePathStore, this.onActivePathStoreChange)
@@ -174,18 +170,6 @@ export default React.createClass({
     this.listenTo(app.fieldsStore, this.onChangeFieldsStore)
     this.listenTo(app.organizationsStore, this.onOrganizationsStoreChange)
     this.listenTo(app.errorStore, this.onErrorStoreChange)
-
-    // read data from url on first load
-    // need to remove first / or there will be a first path element of null
-    let path = location.pathname.replace('/', '').split('/')
-    path = replaceProblematicPathCharactersFromArray(path)
-    const search = location.search
-    const {
-      path: pathArray,
-      gruppe,
-      guid
-    } = extractInfoFromPath(path, search)
-    kickOffStores(pathArray, gruppe, guid)
   },
 
   onErrorStoreChange(errors) {
