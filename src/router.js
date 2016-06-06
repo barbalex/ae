@@ -2,20 +2,24 @@
 
 import React from 'react'
 import { Router, Route, browserHistory } from 'react-router'
+import configureStore from './configureStore.js'
+import { Provider } from 'react-redux'
 import Home from './components/Home.js'
 
 export default () =>
-  <Router history={browserHistory}>
-    <Route
-      path="/"
-      component={Home}
-    />
-    <Route
-      path="*"
-      component={Home}
-    />
-    <Route
-      path="/**/*"
-      component={Home}
-    />
-  </Router>
+  <Provider store={configureStore()}>
+    <Router history={browserHistory}>
+      <Route
+        path="/"
+        component={Home}
+      />
+      <Route
+        path="*"
+        component={Home}
+      />
+      <Route
+        path="/**/*"
+        component={Home}
+      />
+    </Router>
+  </Provider>
