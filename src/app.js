@@ -4,6 +4,8 @@
  * import needed dependencies (more will be imported by dependant modules)
  */
 import app from 'ampersand-app'
+import React from 'react'
+import { render } from 'react-dom'
 import PouchDB from 'pouchdb'
 import pouchdbUpsert from 'pouchdb-upsert'
 import pouchdbAuthentication from 'pouchdb-authentication'
@@ -153,8 +155,10 @@ app.extend({
        */
       this.Actions = actions()
       stores(this.Actions)
-      this.router = new Router()
-      this.router.history.start()
+      render(
+        <Router />,
+        document.getElementById('root')
+      )
       // check if groups have previously been loaded in pouchdb
       return getGroupsLoadedFromLocalDb()
     })

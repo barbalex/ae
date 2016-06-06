@@ -9,7 +9,7 @@
 import isGuid from './isGuid.js'
 import getUrlParameterByName from './getUrlParameterByName.js'
 
-export default (path) => {
+export default (path, search) => {
   let mainComponent = null
   let gruppe = null
   // a regular url consists of hierarchy names
@@ -28,10 +28,13 @@ export default (path) => {
   } else if (path.length === 1 && path[0] === 'exportieren') {
     // this is a path of style /<guid>
     mainComponent = 'exportieren'
+    path = ['exportieren', 'artenlistentool']
   } else if (path.length === 1 && path[0] === 'indexhtml') {
     // this is a path of style /index.html?id=<guid>
     // it was used in a previous app version
     // and is still called by ALT and EvAB
+    mainComponent = 'exportierenAlt'
+    path = ['exportieren', 'artenlistentool']
   } else if (path.length === 1 && path[0] === 'organisationen') {
     mainComponent = 'organizations'
   } else if (path.length === 2 && path[0] === 'exportieren' && path[1] === 'artenlistentool') {
@@ -43,5 +46,5 @@ export default (path) => {
     // must be home
   }
 
-  return { mainComponent, gruppe, guid }
+  return { path, mainComponent, gruppe, guid }
 }

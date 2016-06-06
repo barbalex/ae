@@ -6,6 +6,7 @@ import React from 'react'
 import { difference, map as _map, union } from 'lodash'
 import moment from 'moment'
 import { StyleSheet, css } from 'aphrodite'
+import { browserHistory } from 'react-router'
 import MenuButton from './menu/menuButton/MenuButton.js'
 import ResizeButton from './menu/ResizeButton.js'
 import Groups from './menu/groups/Groups.js'
@@ -15,10 +16,11 @@ import Main from './main/Main.js'
 import Tree from './menu/tree/Tree.js'
 import Errors from './Errors.js'
 import getGruppen from '../modules/gruppen.js'
-import NavHelper from '../components/NavHelper.js'
 import kickOffStores from '../modules/kickOffStores.js'
 import Login from './main/login/Login.js'
 import buildHierarchyObjectFromObjectForTaxonomy from '../modules/buildHierarchyObjectFromObjectForTaxonomy.js'
+import replaceProblematicPathCharactersFromArray from '../modules/replaceProblematicPathCharactersFromArray.js'
+import extractInfoFromPath from '../modules/extractInfoFromPath.js'
 
 const gruppen = getGruppen()
 
@@ -88,7 +90,8 @@ export default React.createClass({
     userIsAdminInOrgs: React.PropTypes.array,
     userIsEsWriterInOrgs: React.PropTypes.array,
     rebuildingRedundantData: React.PropTypes.string,
-    errors: React.PropTypes.array
+    errors: React.PropTypes.array,
+    location: React.PropTypes.object
   },
 
   mixins: [ListenerMixin],
@@ -152,11 +155,7 @@ export default React.createClass({
   },
 
   componentDidMount() {
-    const {
-      gruppe,
-      guid,
-      path
-    } = this.props
+    const { location } = this.props
     // listen to stores
     this.listenTo(app.userStore, this.onLoginStoreChange)
     this.listenTo(app.activePathStore, this.onActivePathStoreChange)
@@ -174,6 +173,8 @@ export default React.createClass({
     this.listenTo(app.fieldsStore, this.onChangeFieldsStore)
     this.listenTo(app.organizationsStore, this.onOrganizationsStoreChange)
     this.listenTo(app.errorStore, this.onErrorStoreChange)
+
+    // TODO: do this all in actions?
     // get user login
     app.userStore.getLogin()
       .then((login) => {
@@ -186,7 +187,23 @@ export default React.createClass({
           msg: error
         })
       )
+    // read data from url on first load
+    // need to remove first / or there will be a first path element of null
+    let path = location.pathname.replace('/', '').split('/')
+    path = replaceProblematicPathCharactersFromArray(path)
+    const search = location.search
+    const {
+      path: newPath,
+      mainComponent,
+      gruppe,
+      guid
+    } = extractInfoFromPath(path, search)
+    if (path !== newPath) {
+      browserHistory.push(`/${newPath.join('/')}`)
+    }
+    path = newPath
     kickOffStores(path, gruppe, guid)
+    this.setState({ path, mainComponent, gruppe, guid })
   },
 
   onErrorStoreChange(errors) {
@@ -292,7 +309,7 @@ export default React.createClass({
     })
     // navigate
     const url = `/${path.join('/')}${guid ? `?id=${guid}` : ''}`
-    app.router.navigate(url)
+    browserHistory.push(url)
   },
 
   onObjectStoreChange(hierarchyPassed) {
@@ -451,7 +468,7 @@ export default React.createClass({
     // MenuButton needs to be outside of the menu
     // otherwise the menu can't be shown outside when menu is short
     return (
-      <NavHelper style={homeStyle}>
+      <div style={homeStyle}>
         {
           showMenu &&
           <div
@@ -553,7 +570,7 @@ export default React.createClass({
           errors.length > 0 &&
           <Errors errors={errors} />
         }
-      </NavHelper>
+      </div>
     )
   }
 })
