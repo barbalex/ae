@@ -18,7 +18,8 @@ export default (Actions) => Reflux.createStore({
       app.localDb.get('_local/login')
         .then((doc) => {
           refreshUserRoles(doc.email)
-          resolve(doc)
+          const { logIn, email, roles } = doc
+          this.trigger({ logIn, email, roles })
         })
         .catch((error) =>
           reject(`userStore: error getting login from localDb: ${error}`)

@@ -6,6 +6,7 @@ import React from 'react'
 import { difference, map as _map, union } from 'lodash'
 import moment from 'moment'
 import { StyleSheet, css } from 'aphrodite'
+import { browserHistory } from 'react-router'
 import MenuButton from './menu/menuButton/MenuButton.js'
 import ResizeButton from './menu/ResizeButton.js'
 import Groups from './menu/groups/Groups.js'
@@ -15,8 +16,6 @@ import Main from './main/Main.js'
 import Tree from './menu/tree/Tree.js'
 import Errors from './Errors.js'
 import getGruppen from '../modules/gruppen.js'
-import NavHelper from '../components/NavHelper.js'
-import kickOffStores from '../modules/kickOffStores.js'
 import Login from './main/login/Login.js'
 import buildHierarchyObjectFromObjectForTaxonomy from '../modules/buildHierarchyObjectFromObjectForTaxonomy.js'
 
@@ -27,6 +26,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     left: 7,
+    top: 8,
     width: '100%',
     padding: 8,
     marginBottom: 10,
@@ -88,7 +88,8 @@ export default React.createClass({
     userIsAdminInOrgs: React.PropTypes.array,
     userIsEsWriterInOrgs: React.PropTypes.array,
     rebuildingRedundantData: React.PropTypes.string,
-    errors: React.PropTypes.array
+    errors: React.PropTypes.array,
+    location: React.PropTypes.object
   },
 
   mixins: [ListenerMixin],
@@ -102,17 +103,6 @@ export default React.createClass({
       email
     } = this.props
     const groupsLoadedOrLoading = gruppe ? [gruppe] : []
-
-    const isFirstLoad = (
-      !(path.length === 2 && path[0] === 'importieren') &&
-      !(path.length === 1 && path[0] === 'organisationen') &&
-      !(path.length === 1 && path[0] === 'exportieren') && path[0]
-    )
-    if (isFirstLoad) {
-      // need to kick off stores
-      // this would be an object url
-      kickOffStores(path, gruppe, guid)
-    }
 
     return {
       hierarchy: [],
@@ -285,7 +275,7 @@ export default React.createClass({
     })
     // navigate
     const url = `/${path.join('/')}${guid ? `?id=${guid}` : ''}`
-    app.router.navigate(url)
+    browserHistory.push(url)
   },
 
   onObjectStoreChange(hierarchyPassed) {
@@ -422,7 +412,7 @@ export default React.createClass({
     const groupsNotLoaded = difference(gruppen, groupsLoadedOrLoading)
     const showGruppen = groupsNotLoaded.length > 0
     const showFilter = filterOptions.length > 0 || loadingFilterOptions
-    const showTree = groupsLoadedOrLoading.length > 0
+    const showTree = groupsLoadedOrLoading.length > 0 && path && hierarchy
     const showMain = (
       object !== undefined ||
       !!mainComponent
@@ -444,7 +434,7 @@ export default React.createClass({
     // MenuButton needs to be outside of the menu
     // otherwise the menu can't be shown outside when menu is short
     return (
-      <NavHelper style={homeStyle}>
+      <div style={homeStyle}>
         {
           showMenu &&
           <div
@@ -546,7 +536,7 @@ export default React.createClass({
           errors.length > 0 &&
           <Errors errors={errors} />
         }
-      </NavHelper>
+      </div>
     )
   }
 })

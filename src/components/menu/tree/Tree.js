@@ -6,24 +6,6 @@ import { StyleSheet, css } from 'aphrodite'
 import Nodes from './TreeNodes.js'
 import LoadingMessage from './LoadingMessage.js'
 
-// there needs to be enough height below the tree
-// to swipe up the properties
-// > set max-height
-const styles = StyleSheet.create({
-  rootDiv: {
-    float: 'left',
-    clear: 'both',
-    width: '100%',
-    marginBottom: 5
-  },
-  tree: {
-    maxHeight: 'calc(100vh - 302px)',
-    overflow: 'auto',
-    overflowX: 'hidden',
-    paddingRight: 15
-  }
-})
-
 export default React.createClass({
   displayName: 'TreeLevel1',
 
@@ -70,9 +52,9 @@ export default React.createClass({
     const loading = groupsLoadingObjects && groupsLoadingObjects.length > 0
 
     // calculate max height of tree
-    const groupsLoadingHeight = 22 * (groupsLoadingObjects.length)
-    let maxHeight = windowHeight - 302                      // initial value on mobile
-    if (windowWidth > 1000) maxHeight = windowHeight - 160  // initial value on desktop
+    const groupsLoadingHeight = 23 * groupsLoadingObjects.length
+    let maxHeight = windowHeight - 362                      // initial value on mobile
+    if (windowWidth > 1000) maxHeight = windowHeight - 169  // initial value on desktop
     maxHeight -= groupsLoadingHeight                        // correction if groups are loading
     if (allGroupsLoaded) maxHeight += 59                    // correction if all groups are loaded
     const treeStyle = { maxHeight }
@@ -84,12 +66,30 @@ export default React.createClass({
       />
     )
 
+    // there needs to be enough height below the tree
+    // to swipe up the properties
+    // > set max-height
+    const styles = StyleSheet.create({
+      rootDiv: {
+        float: 'left',
+        clear: 'both',
+        width: '100%',
+        marginBottom: 5,
+      },
+      tree: {
+        overflow: 'auto',
+        overflowX: 'hidden',
+        paddingRight: 15,
+        maxHeight
+      }
+    })
+
     return (
       <div className={css(styles.rootDiv)}>
         <div
           id="tree"
-          style={treeStyle}
           className={css(styles.tree)}
+          style={treeStyle}
         >
           {
             hierarchy &&
