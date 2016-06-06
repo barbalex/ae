@@ -4,9 +4,11 @@ import React from 'react'
 import { OverlayTrigger, Popover, FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
 import { StyleSheet, css } from 'aphrodite'
 import labelWithPopover from '../../../../styles/labelWithPopover.js'
+import validateDiv from '../../../../styles/validateDiv.js'
 
 const styles = StyleSheet.create({
-  label: labelWithPopover()
+  label: labelWithPopover(),
+  validateDiv: validateDiv()
 })
 
 const popover = (
@@ -80,7 +82,7 @@ const InputOrgMitSchreibrecht = ({
       !validOrgMitSchreibrecht &&
       <FormGroup>
         <ControlLabel style={{ display: 'block' }} />
-        <div style={{ width: '100%', marginTop: '-14px' }} className="validateDiv">
+        <div style={{ width: '100%', marginTop: '-14px' }} className={css(styles.validateDiv)}>
           Es muss eine Organisation mit Schreibrecht gewählt sein
         </div>
       </FormGroup>

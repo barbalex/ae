@@ -4,9 +4,11 @@ import React from 'react'
 import { OverlayTrigger, Popover, FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
 import { StyleSheet, css } from 'aphrodite'
 import labelWithPopover from '../../../../styles/labelWithPopover.js'
+import validateDiv from '../../../../styles/validateDiv.js'
 
 const styles = StyleSheet.create({
-  label: labelWithPopover()
+  label: labelWithPopover(),
+  validateDiv: validateDiv()
 })
 
 const popover = (
@@ -53,7 +55,7 @@ const InputLink = ({
       !validLink &&
       <FormGroup>
         <ControlLabel style={{ display: 'block' }} />
-        <div style={{ width: '100%' }} className="validateDiv">
+        <div style={{ width: '100%' }} className={css(styles.validateDiv)}>
           Bitte prüfen Sie den Link. Es muss einge gültige URL sein
         </div>
       </FormGroup>

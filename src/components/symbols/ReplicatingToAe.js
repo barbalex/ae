@@ -2,18 +2,28 @@
 
 import React from 'react'
 import { OverlayTrigger, Tooltip, Glyphicon } from 'react-bootstrap'
+import { StyleSheet, css } from 'aphrodite'
 
 const ReplicatingToAe = ({ replicatingToAe, replicatingToAeTime }) => {
-  let style = {}
+  let color = '#00AA00'
   let tooltipText = `Repliziere nach arteigenschaften.ch seit ${replicatingToAeTime}`
   if (replicatingToAe === 'success') {
-    style.color = '#00AA00'
+    color = '#00AA00'
     tooltipText = `Zuletzt nach arteigenschaften.ch repliziert: ${replicatingToAeTime}`
   }
   if (replicatingToAe === 'error') {
-    style.color = 'red'
+    color = 'red'
     tooltipText = `Replikation nach arteigenschaften.ch gescheitert um: ${replicatingToAeTime}`
   }
+
+  const styles = StyleSheet.create({
+    glyph: {
+      top: 2,
+      fontSize: 16,
+      paddingLeft: 5,
+      color
+    }
+  })
 
   return (
     <OverlayTrigger
@@ -29,9 +39,8 @@ const ReplicatingToAe = ({ replicatingToAe, replicatingToAeTime }) => {
     >
       <Glyphicon
         id="replicateToRemoteDb"
-        className="symbols symbol"
+        className={css(styles.glyph)}
         glyph="cloud-upload"
-        style={style}
       />
     </OverlayTrigger>
   )

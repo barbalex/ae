@@ -6,9 +6,11 @@ import { map } from 'lodash'
 import { StyleSheet, css } from 'aphrodite'
 import inputUrsprungsBsPopover from './InputUrsprungsBsPopover'
 import labelWithPopover from '../../../../styles/labelWithPopover.js'
+import validateDiv from '../../../../styles/validateDiv.js'
 
 const styles = StyleSheet.create({
-  label: labelWithPopover()
+  label: labelWithPopover(),
+  validateDiv: validateDiv()
 })
 
 const nameUrsprungsBsOptions = (rcs) => {
@@ -61,7 +63,7 @@ const InputUrsprungsBs = ({
       !validUrsprungsBs &&
       <FormGroup>
         <ControlLabel style={{ display: 'block' }} />
-        <div style={{ width: '100%', marginTop: '-14px' }} className="validateDiv">
+        <div style={{ width: '100%', marginTop: '-14px' }} className={css(styles.validateDiv)}>
           Bitte wählen Sie die eigenständige Beziehungssammlung
         </div>
       </FormGroup>

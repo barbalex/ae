@@ -42,7 +42,7 @@ const popover = () =>
 
 const ObjectDerivedDataMenuItem = () =>
   <MenuItem
-    onClick={() => rebuildRedundantData()}
+    onClick={rebuildRedundantData}
   >
     Redundante Daten neu aufbauen
     <OverlayTrigger
@@ -51,14 +51,10 @@ const ObjectDerivedDataMenuItem = () =>
       placement="right"
       overlay={popover()}
     >
-      <span
-        className="withPopover"
-      >
-        <Glyphicon
-          glyph="info-sign"
-          className={css(styles.glyphicon)}
-        />
-      </span>
+      <Glyphicon
+        glyph="info-sign"
+        className={css(styles.glyphicon)}
+      />
     </OverlayTrigger>
   </MenuItem>
 

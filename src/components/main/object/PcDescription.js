@@ -8,6 +8,29 @@
 'use strict'
 
 import React from 'react'
+import { StyleSheet, css } from 'aphrodite'
+
+const styles = StyleSheet.create({
+  rootDiv: {
+    color: '#944600',
+    paddingBottom: '0.9em',
+    /* sehr lange links müssen im Wort umbrechen können */
+    wordWrap: 'break-word',
+  },
+  line: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  label: {
+    width: 215,
+    wordWrap: 'break-word',
+  },
+  description: {
+    width: '20%',               // For old syntax, otherwise collapses
+    flex: 1,                    // NEW, Spec - Opera 12.1, Firefox 20+
+    marginLeft: 5,
+  }
+})
 
 export default React.createClass({
   displayName: 'PcDescription',
@@ -35,22 +58,22 @@ export default React.createClass({
     let mehr = null
 
     const datenstand = (
-      <div className="dsBeschreibungZeile">
-        <div>
+      <div className={css(styles.line)}>
+        <div className={css(styles.label)}>
           Stand:
         </div>
-        <div>
+        <div className={css(styles.description)}>
           {pc.Datenstand}
         </div>
       </div>
     )
 
     const nutzunbsbedingungen = (
-      <div className="dsBeschreibungZeile">
-        <div>
+      <div className={css(styles.line)}>
+        <div className={css(styles.label)}>
           Nutzungsbedingungen:
         </div>
-        <div>
+        <div className={css(styles.description)}>
           {pc.Nutzungsbedingungen}
         </div>
       </div>
@@ -59,11 +82,11 @@ export default React.createClass({
     let link = null
     if (pc.Link) {
       link = (
-        <div className="dsBeschreibungZeile">
-          <div>
+        <div className={css(styles.line)}>
+          <div className={css(styles.label)}>
             Link:
           </div>
-          <div>
+          <div className={css(styles.description)}>
             <a
               href={pc.Link}
               target="_blank"
@@ -78,11 +101,11 @@ export default React.createClass({
     let organization = null
     if (pc['Organisation mit Schreibrecht']) {
       organization = (
-        <div className="dsBeschreibungZeile">
-          <div>
+        <div className={css(styles.line)}>
+          <div className={css(styles.label)}>
             Organisation mit Schreibrecht:
           </div>
-          <div>
+          <div className={css(styles.description)}>
             {pc['Organisation mit Schreibrecht']}
           </div>
         </div>
@@ -92,11 +115,11 @@ export default React.createClass({
     let importiertVon = null
     if (pc['importiert von']) {
       importiertVon = (
-        <div className="dsBeschreibungZeile">
-          <div>
+        <div className={css(styles.line)}>
+          <div className={css(styles.label)}>
             Importiert von:
           </div>
-          <div>
+          <div className={css(styles.description)}>
             <a
               href={`mailto:${pc['importiert von']}`}
               target={'_blank'}
@@ -111,11 +134,11 @@ export default React.createClass({
     let ursprungsEs = null
     if (pc.Ursprungsdatensammlung) {
       ursprungsEs = (
-        <div className="dsBeschreibungZeile">
-          <div>
+        <div className={css(styles.line)}>
+          <div className={css(styles.label)}>
             Zus.-fassend:
           </div>
-          <div>
+          <div className={css(styles.description)}>
             Diese Eigenschaftensammlung fasst die Daten mehrerer
             Eigenschaftensammlungen in einer zusammen.<br />
             Die angezeigten Informationen stammen aus {`"${pc.Ursprungsdatensammlung}"`}
@@ -124,11 +147,11 @@ export default React.createClass({
       )
     } else {
       ursprungsEs = (
-        <div className="dsBeschreibungZeile">
-          <div>
+        <div className={css(styles.line)}>
+          <div className={css(styles.label)}>
             Zus.-fassend:
           </div>
-          <div>
+          <div className={css(styles.description)}>
             Diese Eigenschaftensammlung fasst die Daten mehrerer
             Eigenschaftensammlungen in einer zusammen.<br />
             Leider ist die Ursprungs-Eigenschaftensammlung nicht beschrieben
@@ -160,30 +183,25 @@ export default React.createClass({
             style={{ display: isVisible ? 'block' : 'none' }}
           >
             {
-              pc.Datenstand
-              ? datenstand
-              : null
+              pc.Datenstand &&
+              datenstand
             }
             {
-              pc.Nutzungsbedingungen
-              ? nutzunbsbedingungen
-              : null
+              pc.Nutzungsbedingungen &&
+              nutzunbsbedingungen
             }
             {
-              pc.Link
-              ? link
-              : null
+              pc.Link &&
+              link
             }
             {organization}
             {
-              pc['importiert von']
-              ? importiertVon
-              : null
+              pc['importiert von'] &&
+              importiertVon
             }
             {
-              pc.zusammenfassend
-              ? ursprungsEs
-              : null
+              pc.zusammenfassend &&
+              ursprungsEs
             }
           </div>
         </span>
@@ -191,13 +209,11 @@ export default React.createClass({
     }
 
     return (
-      <div>
-        <div className="Datensammlung beschreibungDatensammlung">
-          <span style={{ marginRight: 3 }}>
-            {pc.Beschreibung}
-          </span>
-          {mehr}
-        </div>
+      <div className={css(styles.rootDiv)}>
+        <span style={{ marginRight: 3 }}>
+          {pc.Beschreibung}
+        </span>
+        {mehr}
       </div>
     )
   }

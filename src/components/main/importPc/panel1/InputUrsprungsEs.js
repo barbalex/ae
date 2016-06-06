@@ -5,9 +5,11 @@ import { OverlayTrigger, Popover, FormGroup, FormControl, ControlLabel } from 'r
 import { map } from 'lodash'
 import { StyleSheet, css } from 'aphrodite'
 import labelWithPopover from '../../../../styles/labelWithPopover.js'
+import validateDiv from '../../../../styles/validateDiv.js'
 
 const styles = StyleSheet.create({
-  label: labelWithPopover()
+  label: labelWithPopover(),
+  validateDiv: validateDiv()
 })
 
 const options = (pcs) => {
@@ -96,7 +98,7 @@ const InputUrsprungsEs = ({
       !validUrsprungsEs &&
       <FormGroup>
         <ControlLabel style={{ display: 'block' }} />
-        <div style={{ width: '100%', marginTop: '-14px' }} className="validateDiv">
+        <div style={{ width: '100%', marginTop: '-14px' }} className={css(styles.validateDiv)}>
           Bitte wählen Sie die eigenständige Eigenschaftensammlung
         </div>
       </FormGroup>

@@ -1,6 +1,7 @@
 'use strict'
 
 import React from 'react'
+import { StyleSheet, css } from 'aphrodite'
 import ReplicatingToAe from './ReplicatingToAe.js'
 import ReplicatingFromAe from './ReplicatingFromAe.js'
 import Email from './Email.js'
@@ -10,6 +11,18 @@ import PcsQuerying from './PcsQuerying.js'
 import RcsQuerying from './RcsQuerying.js'
 import FieldsQuerying from './FieldsQuerying.js'
 import RebuildingRedundantData from './RebuildingRedundantData.js'
+
+const styles = StyleSheet.create({
+  rootDiv: {
+    position: 'absolute',
+    right: 8,
+    marginTop: 3,
+    zIndex: 1
+  },
+  symbolDiv: {
+    float: 'right'
+  }
+})
 
 const Symbols = ({
   email,
@@ -30,12 +43,12 @@ const Symbols = ({
   const showRebuildingRedundantData = rebuildingRedundantData !== null
 
   return (
-    <div id="symbols">
+    <div id="symbols" className={css(styles.rootDiv)}>
       <div className="pull-right">
-        <div className="symbol-div">
+        <div className={css(styles.symbolDiv)}>
           <Email email={email} />
         </div>
-        <div className="symbol-div">
+        <div className={css(styles.symbolDiv)}>
           {
             showReplicatingFromAe &&
             <ReplicatingFromAe
@@ -44,7 +57,7 @@ const Symbols = ({
             />
           }
         </div>
-        <div className="symbol-div">
+        <div className={css(styles.symbolDiv)}>
           {
             showReplicatingToAe &&
             <ReplicatingToAe
@@ -53,31 +66,31 @@ const Symbols = ({
             />
           }
         </div>
-        <div className="symbol-div">
+        <div className={css(styles.symbolDiv)}>
           {
             tcsQuerying &&
             <TcsQuerying />
           }
         </div>
-        <div className="symbol-div">
+        <div className={css(styles.symbolDiv)}>
           {
             pcsQuerying &&
             <PcsQuerying />
           }
         </div>
-        <div className="symbol-div">
+        <div className={css(styles.symbolDiv)}>
           {
             rcsQuerying &&
             <RcsQuerying />
           }
         </div>
-        <div className="symbol-div">
+        <div className={css(styles.symbolDiv)}>
           {
             fieldsQuerying &&
             <FieldsQuerying />
           }
         </div>
-        <div className="symbol-div">
+        <div className={css(styles.symbolDiv)}>
           {
             showGroupsLoading &&
             <GroupsLoading
@@ -85,7 +98,7 @@ const Symbols = ({
             />
           }
         </div>
-        <div className="symbol-div">
+        <div className={css(styles.symbolDiv)}>
           {
             showRebuildingRedundantData &&
             <RebuildingRedundantData

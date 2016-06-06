@@ -27,6 +27,26 @@ const styles = StyleSheet.create({
     padding: 7,
     color: '#333',
     cursor: 'pointer'
+  },
+  input: {
+    paddingRight: 28
+  },
+  results: {
+    marginBottom: 0,
+    position: 'absolute',
+    zIndex: 2,
+    width: '100%'
+  },
+  listItem: {
+    paddingTop: 3,
+    paddingBottom: 3,
+    borderTop: '1px solid #F2F2F2'
+  },
+  listAnchor: {
+    color: '#5F5F5F'
+  },
+  hover: {
+    backgroundColor: 'orange'
   }
 })
 
@@ -90,9 +110,11 @@ export default React.createClass({
           displayOption={'label'}
           onOptionSelected={this.onSelectObject}
           customClasses={{
-            input: ['form-control'],
-            results: ['list-group'],
-            listItem: ['list-group-item']
+            input: ['form-control', css(styles.input)].join(' '),
+            results: ['list-group', css(styles.results)].join(' '),
+            listItem: ['list-group-item', css(styles.listItem)].join(' '),
+            hover: css(styles.hover),
+            listAnchor: css(styles.listAnchor)
           }}
         />
       </div>

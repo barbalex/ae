@@ -2,6 +2,15 @@
 
 import React from 'react'
 import { ProgressBar } from 'react-bootstrap'
+import { StyleSheet, css } from 'aphrodite'
+
+const styles = StyleSheet.create({
+  p: {
+    paddingLeft: 4,
+    marginTop: 2,
+    marginBottom: 1
+  }
+})
 
 const LoadingMessage = ({ groupLoadingObject }) => {
   let { message, progressPercent } = groupLoadingObject
@@ -17,7 +26,7 @@ const LoadingMessage = ({ groupLoadingObject }) => {
       />
     )
   }
-  return <p>{message}</p>
+  return <p className={css(styles.p)}>{message}</p>
 }
 
 LoadingMessage.displayName = 'LoadingMessage'

@@ -39,7 +39,6 @@ export default React.createClass({
           {visible ? '...weniger' : '...mehr'}
         </a>
         <ol
-          className="adb-hidden"
           style={{ display: visible ? 'block' : 'none' }}
         >
           <li>

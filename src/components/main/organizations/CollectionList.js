@@ -1,6 +1,25 @@
 'use strict'
 
 import React from 'react'
+import { StyleSheet, css } from 'aphrodite'
+
+const styles = StyleSheet.create({
+  title: {
+    marginBottom: 0,
+    marginTop: 15,
+    fontWeight: 700
+  },
+  cList: {
+    marginTop: 5,
+    columnWidth: 400
+  },
+  cListUl: {
+    paddingLeft: 20
+  },
+  cListP: {
+    breakInside: 'avoid'
+  }
+})
 
 const collectionsList = (collections) => {
   collections.sort((a, b) => {
@@ -9,24 +28,20 @@ const collectionsList = (collections) => {
   })
   return collections.map((collection, index) =>
     <li key={index}>
-      <p>{collection.name}</p>
+      <p className={css(styles.cListP)}>
+        {collection.name}
+      </p>
     </li>
   )
 }
 
-const titleStyle = {
-  marginBottom: 0,
-  marginTop: 15,
-  fontWeight: 700
-}
-
 const CollectionList = ({ cType, collections }) =>
   <div>
-    <p style={titleStyle}>
+    <p className={css(styles.title)}>
       {cType}
     </p>
-    <div className="orgCollectionList">
-      <ul>
+    <div className={css(styles.cList)}>
+      <ul className={css(styles.cListUl)}>
         {collectionsList(collections)}
       </ul>
     </div>

@@ -4,21 +4,16 @@
 /*
  * INHALT
  *
- * 1. GRUNDSTRUKTUR............responsive
+ * 1. GRUNDSTRUKTUR
  *
- * 2. MENU.....................die linke Spalte
- *    allgemein / querbeet
- *    filter
+ * 2. MENU
  *    tree
  * 
- * 3. FORMS....................die rechte Spalte
+ * 3. FORMS
  *    allgemein / querbeet
  *    symbols
- *    main
- *    login
  *    exportieren
  *    importieren
- *    admin
  *
  * 4. TOOLS/QUERBEET
  * 
@@ -57,36 +52,6 @@ body
 
   body:not(.force-mobile) #tree
     max-height: calc(100vh - 169px) !important
-
-
-
-
-/*--------------------------------*\
-    2. #MENU
-       #filter
-\*--------------------------------*/
-
-#filter input
-  padding-right: 28px
-
-#filter ul
-  margin-bottom: 0
-  position: absolute
-  z-index: 2
-
-#filter ul li
-  padding-top: 3px
-  padding-bottom: 3px
-  border-top: 1px solid #F2F2F2
-
-#filter ul li a
-  color: #5F5F5F
-
-#filter .typeahead li:hover
-  // background-color: orange
-
-#filter .typeahead li.hover
-  background-color: orange
   
 
 
@@ -94,47 +59,6 @@ body
     2. #MENU
        #tree
 \*--------------------------------*/
-
-#tree li
-  list-style-type: none
-  white-space: nowrap
-
-#tree li div
-  line-height: 16px
-  padding: 2px 0
-  display: inline-block
-  margin-left: 3px
-  cursor: pointer
-  white-space: normal
-
-#tree li div:hover
-  background-color: #FFFF90
-
-#tree li div.active
-  font-weight: bold
-
-#tree li span
-  cursor: pointer
-
-#tree ~ p
-  padding-left: 4px
-  margin-top: 2px
-  margin-bottom: 1px
-
-// first level of tree:
-// less padding and margin
-#tree > div > ul
-  padding-left: 4px
-  margin-bottom: 0
-
-#tree ul
-  padding-left: 20px
-
-#tree span.glyphicon
- font-size: 0.7em
- position: relative
- top: 5px
- vertical-align: top
 
 // can't move this to module because
 // divs .progress and .progress-bar
@@ -165,40 +89,16 @@ body
 }
 
 
-
-.orgCollectionList
-  margin-top 5px
-  column-width 400px
-  ul
-    padding-left 20px
-  p
-    break-inside avoid
-
 .popover-title
   background: linear-gradient(180deg, #FDEEC1, #FFECB5)
 
-// validate div after react bootstrap component
-.validateDivAfterRBC
-  color: #a94442
-  margin-top: -15px
-  margin-bottom: 5px
 
-.validateDiv
-  color: #a94442
-  // margin-top: -5px
-  // margin-bottom: 5px
 
 [role="tooltip"]
   max-width: 1000px
 
 [role="tooltip"] p:last-of-type
   margin-bottom: 0
-
-label.withPopover
-label .withPopover
-span.withPopover
-  text-decoration: underline
-  cursor: pointer
 
 .panel-body .alert
   margin-bottom: 5px
@@ -303,26 +203,6 @@ h5 a
 h5
   font-size: 15px
 
-#exportPanel .dsBeschreibungZeile,
-.formContent .dsBeschreibungZeile
-  display: -webkit-box      // OLD - iOS 6-, Safari 3.1-6
-  display:    -moz-box      // OLD - Firefox 19- (buggy but mostly works)
-  display: -ms-flexbox      // TWEENER - IE 10
-  display: -webkit-flex     // NEW - Chrome
-  display:         flex
-  flex-direction: row
-
-#exportPanel .dsBeschreibungZeile > div:nth-child(1),
-.formContent .dsBeschreibungZeile > div:nth-child(1)
-  width: 215px
-  word-wrap: break-word
-
-#exportPanel .dsBeschreibungZeile > div:nth-child(2),
-.formContent .dsBeschreibungZeile > div:nth-child(2)
-  width: 20%               // For old syntax, otherwise collapses
-  flex: 1                  // NEW, Spec - Opera 12.1, Firefox 20+
-  margin-left: 5px
-
 #art legend,
 #importDs legend,
 #importBs legend,
@@ -354,9 +234,6 @@ form.form-horizontal > div:not(#organisationen) .checkboxFormGroup
 .form-horizontal > div:not(#organisationen) .form-group .checkboxDiv
   width 100%
 
-.Datensammlung
-  color: #944600
-
 .tabelle
   overflow:   auto
   overflow-y: hidden
@@ -371,16 +248,6 @@ form.form-horizontal > div:not(#organisationen) .checkboxFormGroup
 .btn-group [disabled]
   /* bootstrap macht 0.85, das ist nur schwer sichtbar */
   opacity: 0.5
-
-.beschreibungDatensammlung
-  padding-bottom: 0.9em
-  /* sehr lange links müssen im Wort umbrechen können */
-  word-wrap: break-word
-
-/* alle Datenfelder links ausrichten */
-.Datenfelder
-  float: left
-  margin: 0 5px 10px 0
 
 /* ausrichten wie die Felder */
 .form-horizontal .form-actions
@@ -413,16 +280,6 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 #export .form-group
   margin-bottom: 5px
   break-inside: avoid
-/*
-.form-control-static
-  padding-top: 0 !important
-  min-height: 0
-
-.form-horizontal .form-control-static
-  margin-left: 200px
-*/
-input[type=file]
-  margin-left: 0 !important
 
 .input-group > .input-group-addon
   padding: 0
@@ -432,12 +289,6 @@ input[type=file]
   /* aus unbekanntem Grund stimmt die Höhe nicht */
   height: 20px
 
-.form-horizontal label:not(.json-inspector__line)
-  /* turned this off because formatted organizations wrong */
-  /* nicht nötig, wenn checkbox mit label beschrieben wird */
-  //line-height: 15px !important
-  //float: left !important
-
 option
   white-space: pre
 
@@ -446,15 +297,6 @@ option
 
 .modal-footer
   padding: 10px 15px 10px 15px
-
-.hinweis
-  /* wird erst eingeblendet, wenn ein Anliegen besteht */
-  display: none
-  margin-left:  210px
-  margin-top:     7px
-  margin-bottom:  7px !important
-  padding-top:    7px
-  padding-bottom: 7px
 
 .alert
   margin-bottom: 0
@@ -481,90 +323,17 @@ option
        #symbols
 \*--------------------------------*/
 
-#symbols
-  position: absolute
-  right: 8px
-  margin-top: 3px
-  z-index: 1
-
-.symbol-div
-  float: right
-
-.symbols
-  margin-right: 8px
-
-.symbols.link
-  text-decoration: underline
-  cursor: pointer
-.symbols.text
-  text-decoration: underline
-
-.symbols.symbol
-  top: 2px
-  font-size: 16px
-
+/**
+ * can't remove this
+ * because it applies on divs created
+ * on the fly by bootstrap
+ */
 #symbols .dropdown-menu
   margin-top: -10px
   min-width: 0
 
 #symbols .dropdown:focus
   outline: none
-    
-
-
-
-
-/*--------------------------------*\
-    3. #FORMS
-       #main
-\*--------------------------------*/
-
-#artAnmelden
-  display: none
-  margin-bottom: 7px
-
-.bearbToolbar
-  position: absolute
-  margin-top: -3px
-  right: 23px
-
-#lrParentWaehlen .modal-content
-  background-color: #FFFFF0
-
-#lrParentWaehlen .modal-dialog
-  display: block
-
-#lrParentWaehlen .modal-body
-  overflow-y: auto !important
-  padding-top:    0
-  padding-bottom: 0
-
-#lrParentWaehlen .modal-header
-  padding: 0 15px 0 15px
-
-#lrParentWaehlen h3
-  margin-top: 10px
-
-
-
-
-/*--------------------------------*\
-    3. #FORMS
-       #login
-\*--------------------------------*/
-
-#login .form-group
-  margin-bottom: 0
-
-#login .formGroup
-  margin-bottom: 15px
-
-#login p
-  padding-bottom: 6px
-  margin-bottom: 6px
-
-#login button + button
-  margin-left: 6px
 
 
 
@@ -573,9 +342,6 @@ option
     3. #FORMS
        #exportieren
 \*--------------------------------*/
-
-#rcOptions > .form-group:first-of-type
-  margin-bottom: -2px
 
 .collectionPanel .panel-body
   padding: 0
@@ -620,9 +386,6 @@ option
   margin-bottom: 0
   margin-top:   16px
 
-.exportZumTitelGehoerig
-  margin-bottom: 15px
-
 #export .checkbox .form-group
   margin-bottom: 0
 
@@ -632,12 +395,6 @@ option
 #exportAltFelderWaehlen input[type="checkbox"]
   margin-top:    1px !important
   margin-left: -19px !important
-
-#exportPanel div.adb-hidden,
-#exportAltExportFilterkriterien
-  margin-bottom: 20px
-  margin-top:   -10px
-  color: #8D8C8C
 
 #exportExportCollapse button
   margin-bottom: 10px
@@ -672,15 +429,6 @@ option
        #importieren
 \*--------------------------------*/
 
-// Auswahlliste um bestehende DS/BS zu wählen: 
-// wählbare sollen dunkel sein, nicht wählbare grau
-.adbGruenFett
-  color: black
-  font-weight: bold
-.adbGrauNormal
-  color: #B2B2B2
-  font-weight: normal
-
 // if two buttons follow each other, place them apart
 .form-horizontal .btn-group button
   margin-right 0
@@ -698,24 +446,6 @@ option
 #importieren .progress
   margin-bottom: 6px
 
-#importDsIdsIdentifizieren .alert
-  margin-left: 192px
-  margin-right: 7px
-  margin-top: 6px
-
-#allGroupsAlert
-  margin-bottom: 10px
-
-#allGroupsAlert button
-  margin-top: 5px
-
-.form-horizontal #allGroupsAlert p
-  display: inline-block
-
-.form-horizontal #allGroupsAlert button
-  margin-left: 10px
-  margin-top: 0
-
 .panel-body .alert
   margin-bottom: 0
 
@@ -727,29 +457,15 @@ option
 
 
 
-/*--------------------------------*\
- *  3. FORMS
- *     admin
-\*--------------------------------*/
-
-#admin label
-  font-weight: normal
-  color: #555555
-
-
-
 
 /*--------------------------------*\
  *  4. TOOLS/QUERBEET
 \*--------------------------------*/
 
-// Vorsicht, 'hidden' geht nicht, das wird von bootstrap benutzt
-.adb-hidden
-  display: none
-
-.adb-hidden-strictly
-  display: none !important
-
+/**
+ * this is a general override
+ * so don't do it inline
+ **/
 .btn-primary
   background-color: #414141 !important
   border-color: #222 !important

@@ -4,6 +4,7 @@ import app from 'ampersand-app'
 import React from 'react'
 import { Glyphicon } from 'react-bootstrap'
 import { chain, clone } from 'lodash'
+import { StyleSheet, css } from 'aphrodite'
 import replaceProblematicPathCharactersFromString from '../../../modules/replaceProblematicPathCharactersFromString.js'
 import getObjectFromPath from '../../../modules/getObjectFromPath.js'
 
@@ -54,6 +55,35 @@ const TreeNodes = ({ hierarchy, object, path }) => {
       )
       const onClick = onClickNode.bind(this, { hO, path })
       const showNode = keyIsActive && hO.children
+      const styles = StyleSheet.create({
+        ul: {
+          paddingLeft: 4,
+          marginBottom: 0
+        },
+        li: {
+          listStyleType: 'none',
+          whiteSpace: 'nowrap'
+        },
+        div: {
+          lineHeight: '16px',
+          fontWeight: keyIsActive ? 'bold' : 'normal',
+          padding: '2px 0',
+          display: 'inline-block',
+          marginLeft: 3,
+          cursor: 'pointer',
+          whiteSpace: 'normal',
+          ':hover': {
+            backgroundColor: '#FFFF90'
+          }
+        },
+        glyph: {
+          fontSize: '0.7em',
+          position: 'relative',
+          top: 5,
+          verticalAlign: 'top',
+          cursor: 'pointer'
+        }
+      })
 
       return (
         <li
@@ -61,13 +91,15 @@ const TreeNodes = ({ hierarchy, object, path }) => {
           level={level}
           hO={hO}
           onClick={onClick}
+          className={css(styles.li)}
         >
           <Glyphicon
             glyph={glyph}
             onClick={onClick}
+            className={css(styles.glyph)}
           />
           <div
-            className={keyIsActive ? 'active' : null}
+            className={css(styles.div)}
           >
             {hO.Name.replace('&#39;', '\'')}
           </div>
@@ -84,8 +116,15 @@ const TreeNodes = ({ hierarchy, object, path }) => {
     })
     .value()
 
+  const mainStyles = StyleSheet.create({
+    ul: {
+      paddingLeft: (hierarchy.length && hierarchy[0].path.length === 1) ? 4 : 20,
+      marginBottom: 0
+    }
+  })
+
   return (
-    <ul>
+    <ul className={css(mainStyles.ul)}>
       {nodes}
     </ul>
   )
