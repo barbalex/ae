@@ -10,7 +10,9 @@ export default (path, gruppe, guid) => {
     app.Actions.loadActivePath(path, guid)
     getObjectFromPath(path)
       .then((object) => {
-        if (object) app.Actions.loadActiveObject(object._id)
+        if (object) {
+          app.Actions.loadActiveObject(object._id)
+        }
       })
       .catch((error) =>
         app.Actions.showError({
@@ -21,7 +23,9 @@ export default (path, gruppe, guid) => {
   }
   app.loadingGroupsStore.isGroupLoaded(gruppe)
     .then((groupIsLoaded) => {
-      if (!groupIsLoaded) app.Actions.loadObject(gruppe)
+      if (!groupIsLoaded) {
+        app.Actions.loadObject(gruppe)
+      }
     })
     .catch((error) =>
       app.Actions.showError({

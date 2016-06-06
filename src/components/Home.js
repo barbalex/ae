@@ -187,12 +187,9 @@ export default React.createClass({
       gruppe,
       guid
     } = extractInfoFromPath(path, search)
-    if (path !== newPath) {
-      browserHistory.push(`/${newPath.join('/')}`)
-    }
     path = newPath
     kickOffStores(path, gruppe, guid)
-    this.setState({ path, mainComponent, gruppe, guid })
+    this.setState({ mainComponent, gruppe, guid })
   },
 
   onErrorStoreChange(errors) {
