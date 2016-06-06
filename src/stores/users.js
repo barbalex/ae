@@ -2,7 +2,7 @@
 
 import app from 'ampersand-app'
 import Reflux from 'reflux'
-import { map } from 'lodash'
+import { map as _map } from 'lodash'
 
 export default (Actions) => Reflux.createStore({
   /**
@@ -21,7 +21,7 @@ export default (Actions) => Reflux.createStore({
         const users = result.rows.map((row) =>
           row.doc
         )
-        const userNames = map(users, 'name')
+        const userNames = _map(users, 'name')
         this.userNames = userNames
         this.trigger(this.userNames)
       })

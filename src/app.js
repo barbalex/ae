@@ -159,6 +159,7 @@ app.extend({
         <Router />,
         document.getElementById('root')
       )
+      app.userStore.getLogin()
       // check if groups have previously been loaded in pouchdb
       return getGroupsLoadedFromLocalDb()
     })

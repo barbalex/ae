@@ -175,18 +175,7 @@ export default React.createClass({
     this.listenTo(app.errorStore, this.onErrorStoreChange)
 
     // TODO: do this all in actions?
-    // get user login
-    app.userStore.getLogin()
-      .then((login) => {
-        const { email } = login
-        this.setState({ email })
-      })
-      .catch((error) =>
-        app.Actions.showError({
-          title: 'Home.js: error getting Login:',
-          msg: error
-        })
-      )
+
     // read data from url on first load
     // need to remove first / or there will be a first path element of null
     let path = location.pathname.replace('/', '').split('/')
