@@ -1,6 +1,5 @@
 'use strict'
 
-import app from 'ampersand-app'
 import Router from 'ampersand-router'
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -22,7 +21,6 @@ export default Router.extend({
         guid={null}
         path={['exportieren', 'artenlistentool']}
         mainComponent={'exportAlt'}
-        email={null}
       />,
       document.getElementById('root')
     )
@@ -35,32 +33,20 @@ export default Router.extend({
     // > read props from url
     let path = pathName ? pathName.split('/') : []
     path = replaceProblematicPathCharactersFromArray(path)
+    const {
+      mainComponent,
+      gruppe,
+      guid
+    } = extractInfoFromPath(path)
 
-    app.userStore.getLogin()
-      .then((login) => {
-        const { email } = login
-        const {
-          mainComponent,
-          gruppe,
-          guid
-        } = extractInfoFromPath(path)
-
-        ReactDOM.render(
-          <Home
-            gruppe={gruppe}
-            guid={guid}
-            path={path}
-            mainComponent={mainComponent}
-            email={email}
-          />,
-          document.getElementById('root')
-        )
-      })
-      .catch((error) =>
-        app.Actions.showError({
-          title: 'router.js: error during routing:',
-          msg: error
-        })
-      )
+    ReactDOM.render(
+      <Home
+        gruppe={gruppe}
+        guid={guid}
+        path={path}
+        mainComponent={mainComponent}
+      />,
+      document.getElementById('root')
+    )
   }
 })

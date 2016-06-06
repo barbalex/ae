@@ -180,6 +180,18 @@ export default React.createClass({
     this.listenTo(app.fieldsStore, this.onChangeFieldsStore)
     this.listenTo(app.organizationsStore, this.onOrganizationsStoreChange)
     this.listenTo(app.errorStore, this.onErrorStoreChange)
+    // get user login
+    app.userStore.getLogin()
+      .then((login) => {
+        const { email } = login
+        this.setState({ email })
+      })
+      .catch((error) =>
+        app.Actions.showError({
+          title: 'Home.js: error getting Login:',
+          msg: error
+        })
+      )
   },
 
   onErrorStoreChange(errors) {
