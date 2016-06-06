@@ -3,6 +3,21 @@
 import app from 'ampersand-app'
 import React from 'react'
 import { Alert, Button } from 'react-bootstrap'
+import { StyleSheet, css } from 'aphrodite'
+
+const styles = StyleSheet.create({
+  alert: {
+    marginBottom: 10,
+  },
+  button: {
+    marginTop: 5,
+  },
+  p: {
+    display: 'inline-block',
+    marginTop: 5,
+    marginRight: 10,
+  }
+})
 
 export default React.createClass({
   displayName: 'AlertLoadAllGroups',
@@ -34,13 +49,16 @@ export default React.createClass({
     if (show) {
       return (
         <Alert
-          id="allGroupsAlert"
+          className={css(styles.alert)}
           bsStyle={alertAllGroupsBsStyle}
         >
-          <p>
+          <p className={css(styles.p)}>
             Um Daten zu importieren, müssen alle Gruppen geladen sein
           </p>
-          <Button onClick={this.onClickreplicate}>
+          <Button
+            onClick={this.onClickreplicate}
+            className={css(styles.button)}
+          >
             {btnText}
           </Button>
         </Alert>

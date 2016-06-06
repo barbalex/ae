@@ -2,9 +2,21 @@
 
 import React from 'react'
 import { FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
+import { StyleSheet, css } from 'aphrodite'
 import isUserServerAdmin from '../../../../modules/isUserServerAdmin.js'
 import isUserOrgAdmin from '../../../../modules/isUserOrgAdmin.js'
 import isUserEsWriter from '../../../../modules/isUserEsWriter.js'
+
+const styles = StyleSheet.create({
+  mutable: {
+    color: 'black',
+    fontWeight: 'bold',
+  },
+  immutable: {
+    color: '#B2B2B2',
+    fontWeight: 'normal',
+  }
+})
 
 const options = (userRoles, rcs, groupsLoadedOrLoading) => {
   if (rcs && rcs.length > 0) {
@@ -17,12 +29,11 @@ const options = (userRoles, rcs, groupsLoadedOrLoading) => {
         isUserEsWriter(userRoles, organization) ||
         combining
       )
-      const className = mutable ? 'adbGruenFett' : 'adbGrauNormal'
       return (
         <option
           key={index}
           value={name}
-          className={className}
+          className={css(styles[mutable ? 'mutable' : 'immutable'])}
         >
           {name}
         </option>
