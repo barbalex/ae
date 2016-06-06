@@ -12,7 +12,9 @@ function escapeRegExp(string) {
 }
 
 function replaceAll(string, find, replace) {
-  if (string && string.length > 0) return string.replace(new RegExp(escapeRegExp(find), 'g'), replace)
+  if (string && string.length > 0) {
+    return string.replace(new RegExp(escapeRegExp(find), 'g'), replace)
+  }
   return null
 }
 

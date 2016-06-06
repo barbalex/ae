@@ -7,7 +7,15 @@ import Home from './components/Home.js'
 export default () =>
   <Router history={browserHistory}>
     <Route
+      path="/"
+      component={Home}
+    />
+    <Route
       path="*"
+      component={Home}
+    />
+    <Route
+      path="/**/*"
       component={Home}
     />
   </Router>

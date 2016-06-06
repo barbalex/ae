@@ -7,9 +7,9 @@
 
 'use strict'
 
-export default (name) => {
+export default (name, search) => {
   name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]')
   const regex = new RegExp(`[\\?&]${name}=([^&#]*)`)
-  const results = regex.exec(window.location.search)
+  const results = regex.exec(search)
   return results === null ? undefined : decodeURIComponent(results[1].replace(/\+/g, ' '))
 }

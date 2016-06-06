@@ -14,7 +14,7 @@ export default (path, search) => {
   let gruppe = null
   // a regular url consists of hierarchy names
   // followed by ?id=<guid> if an object is shown
-  let guid = getUrlParameterByName('id')
+  let guid = getUrlParameterByName('id', search)
 
   if (path.length === 2 && path[0] === 'importieren') {
     if (path[1] === 'eigenschaften') {
@@ -28,7 +28,7 @@ export default (path, search) => {
   } else if (path.length === 1 && path[0] === 'exportieren') {
     // this is a path of style /<guid>
     mainComponent = 'exportieren'
-    path = ['exportieren', 'artenlistentool']
+    path = ['exportieren']
   } else if (path.length === 1 && path[0] === 'indexhtml') {
     // this is a path of style /index.html?id=<guid>
     // it was used in a previous app version

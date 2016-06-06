@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     left: 7,
+    top: 8,
     width: '100%',
     padding: 8,
     marginBottom: 10,
@@ -174,22 +175,17 @@ export default React.createClass({
     this.listenTo(app.organizationsStore, this.onOrganizationsStoreChange)
     this.listenTo(app.errorStore, this.onErrorStoreChange)
 
-    // TODO: do this all in actions?
-
     // read data from url on first load
     // need to remove first / or there will be a first path element of null
     let path = location.pathname.replace('/', '').split('/')
     path = replaceProblematicPathCharactersFromArray(path)
     const search = location.search
     const {
-      path: newPath,
-      mainComponent,
+      path: pathArray,
       gruppe,
       guid
     } = extractInfoFromPath(path, search)
-    path = newPath
-    kickOffStores(path, gruppe, guid)
-    this.setState({ mainComponent, gruppe, guid })
+    kickOffStores(pathArray, gruppe, guid)
   },
 
   onErrorStoreChange(errors) {
@@ -305,6 +301,7 @@ export default React.createClass({
 
   onActiveObjectStoreChange(object, synonymObjects) {
     const guid = object._id
+    console.log('Home.js, onActiveObjectStoreChange, object', object)
     this.setState({
       object,
       guid,
@@ -432,7 +429,7 @@ export default React.createClass({
     const groupsNotLoaded = difference(gruppen, groupsLoadedOrLoading)
     const showGruppen = groupsNotLoaded.length > 0
     const showFilter = filterOptions.length > 0 || loadingFilterOptions
-    const showTree = groupsLoadedOrLoading.length > 0
+    const showTree = groupsLoadedOrLoading.length > 0 && path && hierarchy
     const showMain = (
       object !== undefined ||
       !!mainComponent
