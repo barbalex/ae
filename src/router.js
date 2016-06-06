@@ -2,7 +2,7 @@
 
 import Router from 'ampersand-router'
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { render } from 'react-dom'
 import Home from './components/Home.js'
 import replaceProblematicPathCharactersFromArray from './modules/replaceProblematicPathCharactersFromArray.js'
 import extractInfoFromPath from './modules/extractInfoFromPath.js'
@@ -15,7 +15,7 @@ export default Router.extend({
   },
 
   exportAlt() {
-    ReactDOM.render(
+    render(
       <Home
         gruppe={null}
         guid={null}
@@ -39,7 +39,7 @@ export default Router.extend({
       guid
     } = extractInfoFromPath(path)
 
-    ReactDOM.render(
+    render(
       <Home
         gruppe={gruppe}
         guid={guid}
