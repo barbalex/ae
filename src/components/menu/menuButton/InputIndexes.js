@@ -7,6 +7,25 @@ import {
   Popover,
   Glyphicon
 } from 'react-bootstrap'
+import { StyleSheet, css } from 'aphrodite'
+
+const styles = StyleSheet.create({
+  li: {
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+  cb: {
+    marginLeft: 0,
+    marginTop: 0,
+    marginBottom: 0,
+  },
+  glyph: {
+    paddingLeft: 5,
+    fontSize: 16,
+    top: 3,
+    cursor: 'pointer',
+  }
+})
 
 const popover = () =>
   <Popover
@@ -41,34 +60,19 @@ const popover = () =>
     </ul>
   </Popover>
 
-const liStyle = {
-  paddingLeft: 20,
-  paddingRight: 20
-}
-const cbStyle = {
-  marginLeft: 0,
-  marginTop: 0,
-  marginBottom: 0
-}
-const glyphiconStyle = {
-  paddingLeft: 5,
-  fontSize: 16,
-  top: 3
-}
-
 const InputIndexes = ({ offlineIndexes, onClickToggleOfflineIndexes }) =>
-  <li style={liStyle}>
+  <li className={css(styles.li)}>
     <Checkbox
       checked={!offlineIndexes}
       onChange={onClickToggleOfflineIndexes}
-      style={cbStyle}
+      className={css(styles.cb)}
     >
       Von arteigenschaften.ch verwenden (empfohlen)
     </Checkbox>
     <Checkbox
       checked={offlineIndexes}
       onChange={onClickToggleOfflineIndexes}
-      style={cbStyle}
+      className={css(styles.cb)}
     >
       Lokale verwenden
       <OverlayTrigger
@@ -77,14 +81,10 @@ const InputIndexes = ({ offlineIndexes, onClickToggleOfflineIndexes }) =>
         placement="right"
         overlay={popover()}
       >
-        <span
-          className="withPopover"
-        >
-          <Glyphicon
-            glyph="info-sign"
-            style={glyphiconStyle}
-          />
-        </span>
+        <Glyphicon
+          glyph="info-sign"
+          className={css(styles.glyph)}
+        />
       </OverlayTrigger>
     </Checkbox>
   </li>
