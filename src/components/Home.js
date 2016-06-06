@@ -103,17 +103,6 @@ export default React.createClass({
     } = this.props
     const groupsLoadedOrLoading = gruppe ? [gruppe] : []
 
-    const isFirstLoad = (
-      !(path.length === 2 && path[0] === 'importieren') &&
-      !(path.length === 1 && path[0] === 'organisationen') &&
-      !(path.length === 1 && path[0] === 'exportieren') && path[0]
-    )
-    if (isFirstLoad) {
-      // need to kick off stores
-      // this would be an object url
-      kickOffStores(path, gruppe, guid)
-    }
-
     return {
       hierarchy: [],
       groupsLoadedOrLoading,
@@ -163,6 +152,11 @@ export default React.createClass({
   },
 
   componentDidMount() {
+    const {
+      gruppe,
+      guid,
+      path
+    } = this.props
     // listen to stores
     this.listenTo(app.userStore, this.onLoginStoreChange)
     this.listenTo(app.activePathStore, this.onActivePathStoreChange)
@@ -192,6 +186,7 @@ export default React.createClass({
           msg: error
         })
       )
+    kickOffStores(path, gruppe, guid)
   },
 
   onErrorStoreChange(errors) {
