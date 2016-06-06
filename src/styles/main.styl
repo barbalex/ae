@@ -208,26 +208,6 @@ h5 a
 h5
   font-size: 15px
 
-#exportPanel .dsBeschreibungZeile,
-.formContent .dsBeschreibungZeile
-  display: -webkit-box      // OLD - iOS 6-, Safari 3.1-6
-  display:    -moz-box      // OLD - Firefox 19- (buggy but mostly works)
-  display: -ms-flexbox      // TWEENER - IE 10
-  display: -webkit-flex     // NEW - Chrome
-  display:         flex
-  flex-direction: row
-
-#exportPanel .dsBeschreibungZeile > div:nth-child(1),
-.formContent .dsBeschreibungZeile > div:nth-child(1)
-  width: 215px
-  word-wrap: break-word
-
-#exportPanel .dsBeschreibungZeile > div:nth-child(2),
-.formContent .dsBeschreibungZeile > div:nth-child(2)
-  width: 20%               // For old syntax, otherwise collapses
-  flex: 1                  // NEW, Spec - Opera 12.1, Firefox 20+
-  margin-left: 5px
-
 #art legend,
 #importDs legend,
 #importBs legend,
@@ -259,9 +239,6 @@ form.form-horizontal > div:not(#organisationen) .checkboxFormGroup
 .form-horizontal > div:not(#organisationen) .form-group .checkboxDiv
   width 100%
 
-.Datensammlung
-  color: #944600
-
 .tabelle
   overflow:   auto
   overflow-y: hidden
@@ -276,11 +253,6 @@ form.form-horizontal > div:not(#organisationen) .checkboxFormGroup
 .btn-group [disabled]
   /* bootstrap macht 0.85, das ist nur schwer sichtbar */
   opacity: 0.5
-
-.beschreibungDatensammlung
-  padding-bottom: 0.9em
-  /* sehr lange links müssen im Wort umbrechen können */
-  word-wrap: break-word
 
 /* alle Datenfelder links ausrichten */
 .Datenfelder
