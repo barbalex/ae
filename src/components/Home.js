@@ -88,8 +88,7 @@ export default React.createClass({
     userIsAdminInOrgs: React.PropTypes.array,
     userIsEsWriterInOrgs: React.PropTypes.array,
     rebuildingRedundantData: React.PropTypes.string,
-    errors: React.PropTypes.array,
-    location: React.PropTypes.object
+    errors: React.PropTypes.array
   },
 
   mixins: [ListenerMixin],
@@ -175,26 +174,6 @@ export default React.createClass({
   onErrorStoreChange(errors) {
     console.log('home.js, onErrorStoreChange, errors', errors)
     this.setState({ errors })
-  },
-
-  onOrganizationsStoreChange({
-    organizations,
-    activeOrganization,
-    userIsAdminInOrgs,
-    userIsEsWriterInOrgs,
-    tcsOfActiveOrganization,
-    pcsOfActiveOrganization,
-    rcsOfActiveOrganization
-  }) {
-    this.setState({
-      organizations,
-      activeOrganization,
-      userIsAdminInOrgs,
-      userIsEsWriterInOrgs,
-      tcsOfActiveOrganization,
-      pcsOfActiveOrganization,
-      rcsOfActiveOrganization
-    })
   },
 
   onChangeActiveOrganization(event) {
