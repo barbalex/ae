@@ -7,19 +7,24 @@ export const GROUP_TOGGLE_ACTIVATED = 'GROUP_TOGGLE_ACTIVATED'
 
 export const getGroups = () =>
   // TODO: build action and reducer for app, db
-  const { app } = getState()
   (dispatch, getState) => {
     dispatch({
       type: GROUPS_GET
     })
+    const { app } = getState()
     // TODO: build function getGroupsFromDb
     getGroupsFromDb(app.db)
       .then((groups) => dispatch({
-        type: GROUPS_GET_SUCCESS
+        type: GROUPS_GET_SUCCESS,
         groups
       }))
-      .catch((error) => dispatch(
-        type: GROUPS_GET_ERROR
+      .catch((error) => dispatch({
+        type: GROUPS_GET_ERROR,
         error
-      ))
+      }))
   }
+
+export const groupToggleActivated = (name) => ({
+  type: GROUP_TOGGLE_ACTIVATED,
+  activated: name
+})
