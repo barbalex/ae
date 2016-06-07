@@ -5,7 +5,7 @@ import getGroupsFromRemoteDb from '../modules/getGroupsFromRemoteDb'
 export const GROUPS_GET = 'GROUPS_GET'
 export const GROUPS_GET_SUCCESS = 'GROUPS_GET_SUCCESS'
 export const GROUPS_GET_ERROR = 'GROUPS_GET_ERROR'
-export const GROUP_TOGGLE_ACTIVATED = 'GROUP_TOGGLE_ACTIVATED'
+export const GROUP_TOGGLE_ACTIVE = 'GROUP_TOGGLE_ACTIVE'
 
 export const getGroups = () =>
   // TODO: build action and reducer for app, db
@@ -26,6 +26,6 @@ export const getGroups = () =>
   }
 
 export const groupToggleActivated = (name) => ({
-  type: GROUP_TOGGLE_ACTIVATED,
-  activated: name
+  type: GROUP_TOGGLE_ACTIVE,
+  active: name
 })
