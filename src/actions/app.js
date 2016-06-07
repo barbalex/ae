@@ -10,6 +10,11 @@ import pouchUrl from '../modules/getCouchUrl.js'
  */
 PouchDB.plugin(pouchdbUpsert)
 PouchDB.plugin(pouchdbAuthentication)
+/**
+ * enable pouch inspector in chrome
+ * (https://chrome.google.com/webstore/detail/pouchdb-inspector/hbhhpaojmpfimakffndmpmpndcmonkfa)
+ */
+window.PouchDB = PouchDB
 
 export const DBS_INITIALIZE = 'DBS_INITIALIZE'
 export const DBS_INITIALIZE_SUCCESS = 'DBS_INITIALIZE_SUCCESS'
