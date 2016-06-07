@@ -3,6 +3,8 @@
 export const GROUPS_GET = 'GROUPS_GET'
 export const GROUPS_GET_SUCCESS = 'GROUPS_GET_SUCCESS'
 export const GROUPS_GET_ERROR = 'GROUPS_GET_ERROR'
+export const GROUP_TOGGLE_ACTIVATED = 'GROUP_TOGGLE_ACTIVATED'
+
 export const getGroups = () =>
   // TODO: build action and reducer for app, db
   const { app } = getState()
