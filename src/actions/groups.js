@@ -1,5 +1,7 @@
 'use strict'
 
+import getGroupsFromRemoteDb from '../modules/getGroupsFromRemoteDb'
+
 export const GROUPS_GET = 'GROUPS_GET'
 export const GROUPS_GET_SUCCESS = 'GROUPS_GET_SUCCESS'
 export const GROUPS_GET_ERROR = 'GROUPS_GET_ERROR'
@@ -12,8 +14,7 @@ export const getGroups = () =>
       type: GROUPS_GET
     })
     const { app } = getState()
-    // TODO: build function getGroupsFromDb
-    getGroupsFromDb(app.db)
+    getGroupsFromRemoteDb(app.remoteDb)
       .then((groups) => dispatch({
         type: GROUPS_GET_SUCCESS,
         groups
