@@ -20,8 +20,8 @@ function mapStateToProps(state) {
     activeId
   } = state.geschaefte
   const { username } = state.user
-  const {  } = state.groups
-  const {  } = state.app
+  const { } = state.groups
+  const { } = state.app
 
   return {
     geschaefte,

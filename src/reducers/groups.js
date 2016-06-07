@@ -5,15 +5,15 @@ import {
   GROUPS_GET,
   GROUPS_GET_SUCCESS,
   GROUPS_GET_ERROR,
-  GROUP_TOGGLE_ACTIVATED
+  GROUP_TOGGLE_ACTIVE
 } from '../actions/groups'
 
 const standardState = {
   fetching: false,
   // object, key = group.Name, value: group
   groups: {},
-  // this is the Name of the activated group
-  activated: null,
+  // this is the Name of the active group
+  active: null,
   error: null
 }
 
@@ -23,16 +23,14 @@ const groups = (state = standardState, action) => {
       return {
         ...state,
         fetching: true,
+        groups: {},
         error: null
       }
     case GROUPS_GET_SUCCESS:
       return {
         ...state,
         fetching: false,
-        groups: {
-          ...state.groups,
-          ...keyBy(action.groups, 'Name')
-        },
+        groups: keyBy(action.groups, 'Name'),
         error: null
       }
     case GROUPS_GET_ERROR:
@@ -41,10 +39,10 @@ const groups = (state = standardState, action) => {
         fetching: false,
         error: action.error
       }
-    case GROUP_TOGGLE_ACTIVATED:
+    case GROUP_TOGGLE_ACTIVE:
       return {
         ...state,
-        activated: action.activated
+        active: action.active
       }
     default:
       return state
