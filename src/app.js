@@ -6,14 +6,9 @@
 import app from 'ampersand-app'
 import React from 'react'
 import { render } from 'react-dom'
-import PouchDB from 'pouchdb'
-import pouchdbUpsert from 'pouchdb-upsert'
-import pouchdbAuthentication from 'pouchdb-authentication'
 import Router from './router.js'
 import actions from './actions.js'
 import stores from './stores'
-import pouchUrl from './modules/getCouchUrl.js'
-import pouchBaseUrl from './modules/getCouchBaseUrl.js'
 import getGroupsLoadedFromLocalDb from './modules/getGroupsLoadedFromLocalDb.js'
 import kickOffStores from './modules/kickOffStores.js'
 import replaceProblematicPathCharactersFromArray from './modules/replaceProblematicPathCharactersFromArray.js'
@@ -39,30 +34,10 @@ import 'script!../node_modules/xlsx/dist/xlsx.core.min.js'
 require('file?name=favicon.ico!../favicon.ico')
 
 /**
- * set up pouchdb plugins
- */
-PouchDB.plugin(pouchdbUpsert)
-PouchDB.plugin(pouchdbAuthentication)
-
-/**
  * expose 'app' to the browser console
  * this is handy to call actions and stores in the browser console
  */
 window.app = app
-/**
- * enable pouch inspector in chrome
- * (https://chrome.google.com/webstore/detail/pouchdb-inspector/hbhhpaojmpfimakffndmpmpndcmonkfa)
- */
-window.PouchDB = PouchDB
-
-/**
- * get path to remote _users db
- */
-const remoteDbUrl = pouchUrl()
-const remoteDumpsDbUrl = `${pouchBaseUrl()}ae_dumps`
-const remoteUsersDbUrl = remoteDbUrl
-  .replace('/ae', '/_users')
-  .replace('/artendb', '/_users')
 
 /**
  * ampersand-app is extended with app methods (=singleton)
@@ -70,129 +45,50 @@ const remoteUsersDbUrl = remoteDbUrl
  */
 app.extend({
   init() {
-    /**
-     * pouchdb keeps setting a lot of listeners which makes browsers show warnings in the console
-     * up the number of listeners to reduce the number of console warnings
-     */
-    PouchDB.setMaxListeners(80)
-    /**
-     * set up all the needed databases in parallel
-     * in chrome these can be looked at using pouch inspector
-     * (https://chrome.google.com/webstore/detail/pouchdb-inspector/hbhhpaojmpfimakffndmpmpndcmonkfa)
-     */
-    Promise.all([
-      this.localDb = new PouchDB('ae'),
-      this.remoteDb = new PouchDB(pouchUrl()),
-      this.remoteUsersDb = new PouchDB(remoteUsersDbUrl),
-      this.remoteDumpsDb = new PouchDB(remoteDumpsDbUrl)
-    ])
-    .then(() => Promise.all([
-      /**
-       * initiate groupsLoaded if necessary
-       * putIfNotExists is a method added by pouchdbUpsert
-       */
-      this.localDb.putIfNotExists({
-        _id: '_local/groupsLoaded',
-        groupsLoaded: []
-      }),
-      /**
-       * initiate hierarchy if necessary
-       */
-      this.localDb.putIfNotExists({
-        _id: '_local/hierarchy',
-        hierarchy: []
-      }),
-      /**
-       * initiate paths if necessary
-       */
-      this.localDb.putIfNotExists({
-        _id: '_local/paths',
-        paths: {}
-      }),
-      /**
-       * initiate filterOptions if necessary
-       */
-      this.localDb.putIfNotExists({
-        _id: '_local/filterOptions',
-        filterOptions: []
-      }),
-      /**
-       * initiate login data if necessary
-       * by adding a local document to pouch
-       * local documents are not replicated
-       */
-      this.localDb.putIfNotExists({
-        _id: '_local/login',
-        logIn: false,
-        email: null
-      }),
-      // initiate tcs data if necessary
-      this.localDb.putIfNotExists({
-        _id: '_local/tcs',
-        tcs: []
-      }),
-      // initiate pcs data if necessary
-      this.localDb.putIfNotExists({
-        _id: '_local/pcs',
-        pcs: []
-      }),
-      // initiate rcs data if necessary
-      this.localDb.putIfNotExists({
-        _id: '_local/rcs',
-        rcs: []
-      }),
-      // initiate fields data if necessary
-      this.localDb.putIfNotExists({
-        _id: '_local/fields',
-        fields: []
-      })
-    ]))
-    .then(() => {
-      // get meaningful messages when errors occur in design docs
-      // this.localDb.on('error', function (err) { debugger })
+    // get meaningful messages when errors occur in design docs
+    // this.localDb.on('error', function (err) { debugger })
 
-      /**
-       * initiate actions, stores and router
-       * extend app with them so they can be called in modules
-       * and accessed in the browser console
-       */
-      this.Actions = actions()
-      stores(this.Actions)
-      render(
-        <Router />,
-        document.getElementById('root')
-      )
-      app.userStore.getLogin()
-      // read data from url
-      // need to remove first / or there will be a first path element of null
-      let path = window.location.pathname.replace('/', '').split('/')
-      path = replaceProblematicPathCharactersFromArray(path)
-      const search = window.location.search
-      const {
-        path: pathArray,
-        gruppe,
-        guid
-      } = extractInfoFromPath(path, search)
-      kickOffStores(pathArray, gruppe, guid)
-      // check if groups have previously been loaded in pouchdb
-      return getGroupsLoadedFromLocalDb()
-    })
-    .then((groupsLoadedInPouch) => {
-      // if so, load them
-      if (groupsLoadedInPouch.length > 0) {
-        this.Actions.loadPouchFromLocal(groupsLoadedInPouch)
-        this.Actions.showGroupLoading({
-          group: groupsLoadedInPouch[0],
-          finishedLoading: true
-        })
-      }
-    })
-    .catch((error) =>
-      app.Actions.showError({
-        title: 'app.js: error initializing app:',
-        msg: error
-      })
+    /**
+     * initiate actions, stores and router
+     * extend app with them so they can be called in modules
+     * and accessed in the browser console
+     */
+    this.Actions = actions()
+    stores(this.Actions)
+    render(
+      <Router />,
+      document.getElementById('root')
     )
+    app.userStore.getLogin()
+    // read data from url
+    // need to remove first / or there will be a first path element of null
+    let path = window.location.pathname.replace('/', '').split('/')
+    path = replaceProblematicPathCharactersFromArray(path)
+    const search = window.location.search
+    const {
+      path: pathArray,
+      gruppe,
+      guid
+    } = extractInfoFromPath(path, search)
+    kickOffStores(pathArray, gruppe, guid)
+    // check if groups have previously been loaded in pouchdb
+    getGroupsLoadedFromLocalDb()
+      .then((groupsLoadedInPouch) => {
+        // if so, load them
+        if (groupsLoadedInPouch.length > 0) {
+          this.Actions.loadPouchFromLocal(groupsLoadedInPouch)
+          this.Actions.showGroupLoading({
+            group: groupsLoadedInPouch[0],
+            finishedLoading: true
+          })
+        }
+      })
+      .catch((error) =>
+        app.Actions.showError({
+          title: 'app.js: error initializing app:',
+          msg: error
+        })
+      )
   }
 })
 
