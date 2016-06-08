@@ -51,7 +51,7 @@ export const initializeApp = () =>
       remoteDb = new PouchDB(pouchUrl()),
       remoteUsersDb = new PouchDB(remoteUsersDbUrl)
     ])
-    // for a while keep initiating app.dbs
+    // keep the old store working for a while
     .then(() => {
       app.extend({
         localDb,
