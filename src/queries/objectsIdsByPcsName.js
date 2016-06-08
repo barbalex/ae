@@ -9,8 +9,6 @@
  * no es6 in ddocs!
  */
 
-'use strict'
-
 import app from 'ampersand-app'
 import { map as _map } from 'lodash'
 

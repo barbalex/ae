@@ -6,8 +6,6 @@
  * if offlineIndexes is true: queries from remote and does not create design doc
  */
 
-'use strict'
-
 import app from 'ampersand-app'
 import { uniqBy } from 'lodash'
 

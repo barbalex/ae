@@ -8,8 +8,6 @@
  * no es6 in ddocs!
  */
 
-'use strict'
-
 import app from 'ampersand-app'
 import { uniqBy } from 'lodash'
 
