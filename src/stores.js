@@ -15,7 +15,6 @@ import pathStore from './stores/path.js'
 import filterOptionsStore from './stores/filterOptions.js'
 import activePathStore from './stores/activePath.js'
 import activeObjectStore from './stores/activeObject.js'
-import loadingGroupsStore from './stores/loadingGroups.js'
 import objectStore from './stores/object.js'
 
 export default (Actions) => {
@@ -35,6 +34,5 @@ export default (Actions) => {
   app.filterOptionsStore = filterOptionsStore(Actions)
   app.activePathStore = activePathStore(Actions)
   app.activeObjectStore = activeObjectStore(Actions)
-  app.loadingGroupsStore = loadingGroupsStore(Actions)
   app.objectStore = objectStore(Actions)
 }

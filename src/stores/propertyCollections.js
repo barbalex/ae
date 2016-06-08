@@ -90,7 +90,7 @@ export default (Actions) => Reflux.createStore({
     })
   },
 
-  onQueryPropertyCollections(offlineIndexes) {
+  onQueryPropertyCollections() {
     // if pc's exist, send them immediately
     this.pcsQuerying = true
     this.getPcs()
@@ -102,7 +102,7 @@ export default (Actions) => Reflux.createStore({
         })
       )
     // now fetch up to date pc's
-    queryPcs(offlineIndexes)
+    queryPcs()
       .then((pcs) => {
         this.pcsQuerying = false
         this.trigger(pcs, this.pcsQuerying)

@@ -90,7 +90,7 @@ export default (Actions) => Reflux.createStore({
     })
   },
 
-  onQueryRelationCollections(offlineIndexes) {
+  onQueryRelationCollections() {
     // if rc's exist, send them immediately
     this.rcsQuerying = true
     this.getRcs()
@@ -102,7 +102,7 @@ export default (Actions) => Reflux.createStore({
         })
       )
     // now fetch up to date rc's
-    queryRcs(offlineIndexes)
+    queryRcs()
       .then((rcs) => {
         this.rcsQuerying = false
         this.trigger(rcs, this.rcsQuerying)

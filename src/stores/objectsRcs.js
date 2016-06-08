@@ -158,7 +158,7 @@ export default (Actions) => Reflux.createStore({
     app.fieldsStore.emptyFields()
   },
 
-  onDeleteRcByName(name, offlineIndexes) {
+  onDeleteRcByName(name) {
     /**
      * gets name of rc
      * removes rc's with this name from all objects
@@ -170,7 +170,7 @@ export default (Actions) => Reflux.createStore({
     let deletingRcProgress = null
     const nameBestehend = name
     this.trigger({ idsOfAeObjects, deletingRcProgress, nameBestehend })
-    objectsIdsByRcsName(name, offlineIndexes)
+    objectsIdsByRcsName(name)
       .then((ids) => {
         idsOfAeObjects = ids
         ids.forEach((id, index) => {

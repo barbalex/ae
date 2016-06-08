@@ -78,8 +78,7 @@ export default (Actions) => Reflux.createStore({
   onQueryFields(
     groupsToExport,
     group,
-    combineTaxonomies,
-    offlineIndexes
+    combineTaxonomies
   ) {
     // if fields exist, send them immediately
     let taxonomyFields = {}
@@ -144,8 +143,7 @@ export default (Actions) => Reflux.createStore({
             this.queryFieldsOfGroup({
               groupsToExport,
               group,
-              combineTaxonomies,
-              offlineIndexes
+              combineTaxonomies
             })
           }
         }
@@ -161,11 +159,10 @@ export default (Actions) => Reflux.createStore({
   queryFieldsOfGroup({
     groupsToExport,
     group,
-    combineTaxonomies,
-    offlineIndexes
+    combineTaxonomies
   }) {
     // fetch up to date fields for the requested group
-    queryFieldsOfGroup(group, offlineIndexes)
+    queryFieldsOfGroup(group)
       .then((fieldsOfGroup) =>
         this.saveFieldsOfGroup(fieldsOfGroup, group)
       )

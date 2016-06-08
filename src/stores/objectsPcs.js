@@ -129,7 +129,7 @@ export default (Actions) => Reflux.createStore({
     app.fieldsStore.emptyFields()
   },
 
-  onDeletePcByName(name, offlineIndexes) {
+  onDeletePcByName(name) {
     /**
      * gets name of pc
      * removes pc's with this name from all objects
@@ -145,7 +145,7 @@ export default (Actions) => Reflux.createStore({
       deletingPcProgress,
       nameBestehend
     })
-    objectsIdsByPcsName(name, offlineIndexes)
+    objectsIdsByPcsName(name)
       .then((ids) => {
         idsOfAeObjects = ids
         ids.forEach((id, index) => {
