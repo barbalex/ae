@@ -1,5 +1,3 @@
-'use strict'
-
 import { has, get } from 'lodash'
 
 export default (object) => {

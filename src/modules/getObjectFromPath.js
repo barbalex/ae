@@ -3,8 +3,6 @@
  * returns the object or undefined
  */
 
-'use strict'
-
 import app from 'ampersand-app'
 import isGuid from './isGuid.js'
 import replaceProblematicPathCharactersFromArray from './replaceProblematicPathCharactersFromArray.js'
