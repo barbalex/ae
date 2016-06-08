@@ -1,5 +1,3 @@
-'use strict'
-
 export default (objectArray) => {
   objectArray.sort((a, b) => {
     const aName = a.Name

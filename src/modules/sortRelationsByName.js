@@ -4,8 +4,6 @@
  * TODO: catch if a relation does not have Beziehungspartner
  */
 
-'use strict'
-
 export default (relations) => {
   if (relations && relations.length > 0) {
     relations.sort((a, b) => {
