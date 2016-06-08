@@ -13,14 +13,12 @@ export default React.createClass({
   displayName: 'Export',
 
   propTypes: {
-    groupsLoadingObjects: React.PropTypes.array,
     fieldsQuerying: React.PropTypes.bool,
     fieldsQueryingError: React.PropTypes.object,
     errorBuildingExportOptions: React.PropTypes.string,
     taxonomyFields: React.PropTypes.object,
     pcFields: React.PropTypes.object,
     relationFields: React.PropTypes.object,
-    groupsLoadedOrLoading: React.PropTypes.array,
     combineTaxonomies: React.PropTypes.bool,
     activePanel: React.PropTypes.number,
     panel1Done: React.PropTypes.bool,
@@ -31,7 +29,6 @@ export default React.createClass({
     pcsQuerying: React.PropTypes.bool,
     rcs: React.PropTypes.array,
     rcsQuerying: React.PropTypes.bool,
-    offlineIndexes: React.PropTypes.bool,
     onlyObjectsWithCollectionData: React.PropTypes.bool,
     includeDataFromSynonyms: React.PropTypes.bool,
     tooManyFieldsChoosen: React.PropTypes.bool,
@@ -42,7 +39,7 @@ export default React.createClass({
     format: React.PropTypes.string,
     exportObjects: React.PropTypes.array,
     errorBuildingExportData: React.PropTypes.object,
-    urlCopied: React.PropTypes.string
+    urlCopied: React.PropTypes.string,
   },
 
   mixins: [ListenerMixin],
@@ -128,28 +125,24 @@ export default React.createClass({
   },
 
   componentDidMount() {
-    const { offlineIndexes } = this.props
     const { urlOptions, combineTaxonomies } = this.state
     const bodyElement = document.body
     addClass(bodyElement, 'force-mobile')
     this.forceUpdate()
     // make sure, pcs are queried
-    // app.Actions.queryTaxonomyCollections(offlineIndexes)
-    app.Actions.queryPropertyCollections(offlineIndexes)
-    app.Actions.queryRelationCollections(offlineIndexes)
+    app.Actions.queryPropertyCollections()
+    app.Actions.queryRelationCollections()
     this.listenTo(app.exportDataStore, this.onChangeExportDataStore)
     // TODO: is this good? Or rather do it once?
     app.Actions.queryFields(
       urlOptions.object.Gruppen.value,
       'Flora',
-      combineTaxonomies,
-      offlineIndexes
+      combineTaxonomies
     )
     app.Actions.queryFields(
       urlOptions.object.Gruppen.value,
       'Fauna',
-      combineTaxonomies,
-      offlineIndexes
+      combineTaxonomies
     )
   },
 

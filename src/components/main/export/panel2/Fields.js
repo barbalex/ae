@@ -18,8 +18,6 @@ export default React.createClass({
     rcs: React.PropTypes.array,
     exportOptions: React.PropTypes.object,
     activePanel: React.PropTypes.number,
-    groupsLoadedOrLoading: React.PropTypes.array,
-    groupsLoadingObjects: React.PropTypes.array
   },
 
   getInitialState() {

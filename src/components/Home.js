@@ -1,23 +1,17 @@
 import app from 'ampersand-app'
 import { ListenerMixin } from 'reflux'
 import React from 'react'
-import { difference, map as _map, union } from 'lodash'
-import moment from 'moment'
 import { StyleSheet, css } from 'aphrodite'
 import { browserHistory } from 'react-router'
 import MenuButton from './menu/menuButton/MenuButton.js'
 import ResizeButton from './menu/ResizeButton.js'
-import Groups from './menu/groups/Groups.js'
 import Filter from './menu/Filter.js'
 import Symbols from './symbols/Symbols.js'
 import Main from './main/Main.js'
 import Tree from './menu/tree/Tree.js'
 import ErrorsCt from './ErrorsCt.js'
-import getGruppen from '../modules/gruppen.js'
 import Login from './main/login/Login.js'
 import buildHierarchyObjectFromObjectForTaxonomy from '../modules/buildHierarchyObjectFromObjectForTaxonomy.js'
-
-const gruppen = getGruppen()
 
 const styles = StyleSheet.create({
   menu: {
@@ -48,9 +42,6 @@ export default React.createClass({
   propTypes: {
     hierarchy: React.PropTypes.object,
     gruppe: React.PropTypes.string,
-    groupsLoadedOrLoading: React.PropTypes.array,
-    groupsLoadingObjects: React.PropTypes.array,
-    allGroupsLoaded: React.PropTypes.bool,
     path: React.PropTypes.array,
     synonymObjects: React.PropTypes.array,
     object: React.PropTypes.object,
@@ -62,10 +53,6 @@ export default React.createClass({
     logIn: React.PropTypes.bool,
     email: React.PropTypes.string,
     userRoles: React.PropTypes.array,
-    replicatingToAe: React.PropTypes.string,
-    replicatingToAeTime: React.PropTypes.string,
-    replicatingFromAe: React.PropTypes.string,
-    replicatingFromAeTime: React.PropTypes.string,
     tcs: React.PropTypes.array,
     tcsQuerying: React.PropTypes.bool,
     pcs: React.PropTypes.array,
@@ -77,7 +64,6 @@ export default React.createClass({
     taxonomyFields: React.PropTypes.object,
     pcFields: React.PropTypes.object,
     relationFields: React.PropTypes.object,
-    offlineIndexes: React.PropTypes.bool,
     organizations: React.PropTypes.array,
     activeOrganization: React.PropTypes.object,
     tcsOfActiveOrganization: React.PropTypes.array,
@@ -85,7 +71,6 @@ export default React.createClass({
     rcsOfActiveOrganization: React.PropTypes.array,
     userIsAdminInOrgs: React.PropTypes.array,
     userIsEsWriterInOrgs: React.PropTypes.array,
-    rebuildingRedundantData: React.PropTypes.string,
     errors: React.PropTypes.array,
     initializeApp: React.PropTypes.func
   },
@@ -94,19 +79,14 @@ export default React.createClass({
 
   getInitialState() {
     const {
-      gruppe,
       guid,
       path,
       mainComponent,
       email
     } = this.props
-    const groupsLoadedOrLoading = gruppe ? [gruppe] : []
 
     return {
       hierarchy: [],
-      groupsLoadedOrLoading,
-      groupsLoadingObjects: [],
-      allGroupsLoaded: false,
       path,
       synonymObjects: [],
       object: undefined,
@@ -118,10 +98,6 @@ export default React.createClass({
       logIn: false,
       email,
       userRoles: [],
-      replicatingToAe: null,
-      replicatingToAeTime: null,
-      replicatingFromAe: null,
-      replicatingFromAeTime: null,
       tcs: [],
       tcsQuerying: false,
       pcs: [],
@@ -134,10 +110,6 @@ export default React.createClass({
       taxonomyFields: {},
       pcFields: {},
       relationFields: {},
-      // if true: get index calls from remoteDb
-      // if false: query localDb
-      // this uses indexes which are VERY slow to build and make the app instable
-      offlineIndexes: false,
       organizations: [],
       activeOrganization: null,
       tcsOfActiveOrganization: [],
@@ -145,7 +117,6 @@ export default React.createClass({
       rcsOfActiveOrganization: [],
       userIsAdminInOrgs: [],
       userIsEsWriterInOrgs: [],
-      rebuildingRedundantData: null,
       errors: []
     }
   },
@@ -159,10 +130,6 @@ export default React.createClass({
     this.listenTo(app.objectStore, this.onObjectStoreChange)
     this.listenTo(app.activeObjectStore, this.onActiveObjectStoreChange)
     this.listenTo(app.filterOptionsStore, this.onFilterOptionsStoreChange)
-    this.listenTo(app.loadingGroupsStore, this.onLoadingGroupsStoreChange)
-    this.listenTo(app.replicateToRemoteDbStore, this.onReplicateToRemoteDbStoreChange)
-    this.listenTo(app.replicateFromRemoteDbStore, this.onReplicateFromRemoteDbStoreChange)
-    this.listenTo(app.changeRebuildingRedundantDataStore, this.onRebuildingRedundantDataStoreChange)
     this.listenTo(app.objectsPcsStore, this.onChangeObjectsPcsStore)
     this.listenTo(app.taxonomyCollectionsStore, this.onChangeTaxonomyCollectionsStore)
     this.listenTo(app.propertyCollectionsStore, this.onChangePropertyCollectionsStore)
@@ -206,35 +173,6 @@ export default React.createClass({
     const replicatingToAe = null
     const replicatingToAeTime = null
     this.setState({ replicatingToAe, replicatingToAeTime })
-  },
-
-  onReplicateFromRemoteDbStoreChange(replicatingFromAe) {
-    const replicatingFromAeTime = moment().format('HH:mm')
-    this.setState({ replicatingFromAe, replicatingFromAeTime })
-  },
-
-  onRebuildingRedundantDataStoreChange(message) {
-    this.setState({ rebuildingRedundantData: message })
-  },
-
-  onReplicateToRemoteDbStoreChange(replicatingToAe) {
-    const replicatingToAeTime = moment().format('HH:mm')
-    this.setState({ replicatingToAe, replicatingToAeTime })
-  },
-
-  onLoadingGroupsStoreChange(payload) {
-    const { groupsLoadingObjects, groupsLoaded } = payload
-    const groupsLoading = _map(groupsLoadingObjects, 'group')
-    // add groups loading to groups loaded to hide the group checkbox of the loading group
-    const groupsLoadedOrLoading = union(groupsLoaded, groupsLoading)
-    const groupsNotLoaded = difference(gruppen, groupsLoadedOrLoading)
-    const allGroupsLoaded = groupsNotLoaded.length === 0
-
-    this.setState({
-      groupsLoadingObjects,
-      groupsLoadedOrLoading,
-      allGroupsLoaded
-    })
   },
 
   onLoginStoreChange({ logIn, email, roles: userRoles }) {
@@ -281,12 +219,6 @@ export default React.createClass({
       state = Object.assign(state, { filterOptions })
     }
     this.setState(state)
-  },
-
-  onClickToggleOfflineIndexes() {
-    let { offlineIndexes } = this.state
-    offlineIndexes = !offlineIndexes
-    this.setState({ offlineIndexes })
   },
 
   onSaveObjectField(
@@ -353,19 +285,12 @@ export default React.createClass({
       path,
       synonymObjects,
       object,
-      groupsLoadingObjects,
-      allGroupsLoaded,
       filterOptions,
       loadingFilterOptions,
       mainComponent,
       logIn,
       email,
       userRoles,
-      groupsLoadedOrLoading,
-      replicatingToAe,
-      replicatingToAeTime,
-      replicatingFromAe,
-      replicatingFromAeTime,
       tcs,
       pcs,
       tcsQuerying,
@@ -377,7 +302,6 @@ export default React.createClass({
       taxonomyFields,
       pcFields,
       relationFields,
-      offlineIndexes,
       organizations,
       activeOrganization,
       userIsAdminInOrgs,
@@ -386,13 +310,10 @@ export default React.createClass({
       pcsOfActiveOrganization,
       rcsOfActiveOrganization,
       editObjects,
-      rebuildingRedundantData,
       errors
     } = this.state
-    const groupsNotLoaded = difference(gruppen, groupsLoadedOrLoading)
-    const showGruppen = groupsNotLoaded.length > 0
     const showFilter = filterOptions.length > 0 || loadingFilterOptions
-    const showTree = groupsLoadedOrLoading.length > 0 && path && hierarchy
+    const showTree = path && hierarchy
     const showMain = (
       object !== undefined ||
       !!mainComponent
@@ -424,17 +345,9 @@ export default React.createClass({
             <div className={css(styles.buttonLine)}>
               <MenuButton
                 object={object}
-                offlineIndexes={offlineIndexes}
-                onClickToggleOfflineIndexes={this.onClickToggleOfflineIndexes}
               />
               <ResizeButton />
             </div>
-            {
-              showGruppen &&
-              <Groups
-                groupsLoadedOrLoading={groupsLoadedOrLoading}
-              />
-            }
             {
               showFilter &&
               <Filter
@@ -446,8 +359,6 @@ export default React.createClass({
               showTree &&
               <Tree
                 hierarchy={hierarchy}
-                groupsLoadingObjects={groupsLoadingObjects}
-                allGroupsLoaded={allGroupsLoaded}
                 object={object}
                 path={path}
               />
@@ -456,16 +367,10 @@ export default React.createClass({
         }
         <Symbols
           email={email}
-          groupsLoadingObjects={groupsLoadingObjects}
           tcsQuerying={tcsQuerying}
           pcsQuerying={pcsQuerying}
           rcsQuerying={rcsQuerying}
           fieldsQuerying={fieldsQuerying}
-          replicatingToAe={replicatingToAe}
-          replicatingToAeTime={replicatingToAeTime}
-          replicatingFromAe={replicatingFromAe}
-          replicatingFromAeTime={replicatingFromAeTime}
-          rebuildingRedundantData={rebuildingRedundantData}
         />
         {
           showMain &&
@@ -476,14 +381,10 @@ export default React.createClass({
             toggleEditObjects={this.toggleEditObjects}
             addNewObject={this.addNewObject}
             removeObject={this.removeObject}
-            allGroupsLoaded={allGroupsLoaded}
-            groupsLoadedOrLoading={groupsLoadedOrLoading}
-            groupsLoadingObjects={groupsLoadingObjects}
             synonymObjects={synonymObjects}
             tcs={tcs}
             pcs={pcs}
             rcs={rcs}
-            tcsQuerying={tcsQuerying}
             pcsQuerying={pcsQuerying}
             rcsQuerying={rcsQuerying}
             mainComponent={mainComponent}
@@ -494,9 +395,6 @@ export default React.createClass({
             relationFields={relationFields}
             email={email}
             userRoles={userRoles}
-            replicatingToAe={replicatingToAe}
-            replicatingToAeTime={replicatingToAeTime}
-            offlineIndexes={offlineIndexes}
             organizations={organizations}
             activeOrganization={activeOrganization}
             tcsOfActiveOrganization={tcsOfActiveOrganization}

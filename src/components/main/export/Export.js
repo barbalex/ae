@@ -14,14 +14,12 @@ export default React.createClass({
   displayName: 'Export',
 
   propTypes: {
-    groupsLoadingObjects: React.PropTypes.array,
     fieldsQuerying: React.PropTypes.bool,
     fieldsQueryingError: React.PropTypes.object,
     errorBuildingExportOptions: React.PropTypes.string,
     taxonomyFields: React.PropTypes.object,
     pcFields: React.PropTypes.object,
     relationFields: React.PropTypes.object,
-    groupsLoadedOrLoading: React.PropTypes.array,
     combineTaxonomies: React.PropTypes.bool,
     activePanel: React.PropTypes.number,
     panel1Done: React.PropTypes.bool,
@@ -32,7 +30,6 @@ export default React.createClass({
     pcsQuerying: React.PropTypes.bool,
     rcs: React.PropTypes.array,
     rcsQuerying: React.PropTypes.bool,
-    offlineIndexes: React.PropTypes.bool,
     onlyObjectsWithCollectionData: React.PropTypes.bool,
     includeDataFromSynonyms: React.PropTypes.bool,
     tooManyFieldsChoosen: React.PropTypes.bool,
@@ -134,11 +131,9 @@ export default React.createClass({
   },
 
   componentDidMount() {
-    const { offlineIndexes } = this.props
     // make sure, pcs are queried
-    // app.Actions.queryTaxonomyCollections(offlineIndexes)
-    app.Actions.queryPropertyCollections(offlineIndexes)
-    app.Actions.queryRelationCollections(offlineIndexes)
+    app.Actions.queryPropertyCollections()
+    app.Actions.queryRelationCollections()
     this.listenTo(app.exportDataStore, this.onChangeExportDataStore)
   },
 
@@ -235,7 +230,6 @@ export default React.createClass({
 
   onChangeGroupsToExport(group, checked) {
     const { combineTaxonomies, exportOptions } = this.state
-    const { offlineIndexes } = this.props
     if (checked) {
       exportOptions.object.Gruppen.value.push(group)
     }
@@ -255,13 +249,11 @@ export default React.createClass({
       exportOptions.object.Gruppen.value,
       group,
       combineTaxonomies,
-      offlineIndexes
     )
   },
 
   onChangeCombineTaxonomies(combineTaxonomies) {
     const { exportOptions } = this.state
-    const { offlineIndexes } = this.props
     const group = null
     const exportObjects = []
     // reset possible filters to do with taxonomy from exportOptions
@@ -287,7 +279,6 @@ export default React.createClass({
       groupsToExport,
       group,
       combineTaxonomies,
-      offlineIndexes
     )
   },
 
@@ -476,8 +467,6 @@ export default React.createClass({
 
   render() {
     const {
-      groupsLoadedOrLoading,
-      groupsLoadingObjects,
       fieldsQuerying,
       fieldsQueryingError,
       taxonomyFields,
@@ -486,7 +475,7 @@ export default React.createClass({
       pcs,
       pcsQuerying,
       rcs,
-      rcsQuerying
+      rcsQuerying,
     } = this.props
     const {
       combineTaxonomies,
@@ -538,12 +527,10 @@ export default React.createClass({
             {
               activePanel === 1 &&
               <Panel1
-                groupsLoadingObjects={groupsLoadingObjects}
                 fieldsQuerying={fieldsQuerying}
                 fieldsQueryingError={fieldsQueryingError}
                 errorBuildingExportOptions={errorBuildingExportOptions}
                 taxonomyFields={taxonomyFields}
-                groupsLoadedOrLoading={groupsLoadedOrLoading}
                 combineTaxonomies={combineTaxonomies}
                 panel1Done={panel1Done}
                 exportOptions={exportOptions}
@@ -567,11 +554,9 @@ export default React.createClass({
             {
               activePanel === 2 &&
               <Panel2
-                groupsLoadingObjects={groupsLoadingObjects}
                 taxonomyFields={taxonomyFields}
                 pcFields={pcFields}
                 relationFields={relationFields}
-                groupsLoadedOrLoading={groupsLoadedOrLoading}
                 pcs={pcs}
                 rcs={rcs}
                 exportOptions={exportOptions}

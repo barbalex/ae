@@ -5,8 +5,6 @@ import CheckboxOnlyObjectsWithCollectionData from './CheckboxOnlyObjectsWithColl
 import Fields from './Fields.js'
 
 const Panel2 = ({
-  groupsLoadedOrLoading,
-  groupsLoadingObjects,
   taxonomyFields,
   pcFields,
   relationFields,
@@ -16,7 +14,7 @@ const Panel2 = ({
   onChangeFilterField,
   onChangeCoSelect,
   onlyObjectsWithCollectionData,
-  onChangeOnlyObjectsWithCollectionData
+  onChangeOnlyObjectsWithCollectionData,
 }) => {
   const showFields = (
     Object.keys(taxonomyFields).length > 0 ||
@@ -41,8 +39,6 @@ const Panel2 = ({
           relationFields={relationFields}
           rcs={rcs}
           exportOptions={exportOptions}
-          groupsLoadedOrLoading={groupsLoadedOrLoading}
-          groupsLoadingObjects={groupsLoadingObjects}
           onChangeFilterField={onChangeFilterField}
           onChangeCoSelect={onChangeCoSelect}
         />
@@ -54,18 +50,16 @@ const Panel2 = ({
 Panel2.displayName = 'Panel2'
 
 Panel2.propTypes = {
-  groupsLoadingObjects: React.PropTypes.array,
   taxonomyFields: React.PropTypes.object,
   pcFields: React.PropTypes.object,
   relationFields: React.PropTypes.object,
-  groupsLoadedOrLoading: React.PropTypes.array,
   pcs: React.PropTypes.array,
   rcs: React.PropTypes.array,
   exportOptions: React.PropTypes.object,
   onChangeFilterField: React.PropTypes.func,
   onChangeCoSelect: React.PropTypes.func,
   onChangeOnlyObjectsWithCollectionData: React.PropTypes.func,
-  onlyObjectsWithCollectionData: React.PropTypes.bool
+  onlyObjectsWithCollectionData: React.PropTypes.bool,
 }
 
 export default Panel2

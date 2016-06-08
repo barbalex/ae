@@ -19,9 +19,6 @@ export default React.createClass({
   displayName: 'ImportPropertyCollections',
 
   propTypes: {
-    groupsLoadingObjects: React.PropTypes.array,
-    allGroupsLoaded: React.PropTypes.bool,
-    groupsLoadedOrLoading: React.PropTypes.array,
     nameBestehend: React.PropTypes.string,
     name: React.PropTypes.string,
     beschreibung: React.PropTypes.string,
@@ -63,9 +60,6 @@ export default React.createClass({
     validOrgMitSchreibrecht: React.PropTypes.bool,
     validUrsprungsEs: React.PropTypes.bool,
     validPcsToImport: React.PropTypes.bool,
-    replicatingToAe: React.PropTypes.string,
-    replicatingToAeTime: React.PropTypes.string,
-    offlineIndexes: React.PropTypes.bool,
     organizations: React.PropTypes.array,
     userIsEsWriterInOrgs: React.PropTypes.array
   },
@@ -122,13 +116,13 @@ export default React.createClass({
   componentDidMount() {
     this.listenTo(app.objectsPcsStore, this.onChangeObjectsPcsStore)
     // show login of not logged in
-    const { offlineIndexes, email } = this.props
+    const { email } = this.props
     if (!email) {
       const logIn = true
       app.Actions.login({ logIn })
     }
     // get property collections
-    app.Actions.queryPropertyCollections(offlineIndexes)
+    app.Actions.queryPropertyCollections()
     app.Actions.getOrganizations(email)
   },
 
@@ -258,7 +252,6 @@ export default React.createClass({
 
   onChangeId() {
     const { idsAeIdField, idsImportIdField, pcsToImport } = this.state
-    const { offlineIndexes } = this.props
 
     if (idsAeIdField && idsImportIdField) {
       // start analysis
@@ -287,7 +280,7 @@ export default React.createClass({
       if (idsNotANumber.length > 0) {
         return this.setState({ idsAnalysisComplete: true, idsNotANumber })
       }
-      getGuidsById(idsAeIdField, ids, offlineIndexes)
+      getGuidsById(idsAeIdField, ids)
         .then((idGuidObject) => {
           // now add guids to pcsToImport
           pcsToImport.forEach((pc) => {
@@ -363,7 +356,6 @@ export default React.createClass({
 
   onClickDeletePc() {
     const { name } = this.state
-    const { offlineIndexes } = this.props
     // first remove progressbar and alert from last import
     const importingProgress = null
     const pcsRemoved = false
@@ -373,7 +365,7 @@ export default React.createClass({
       pcsRemoved,
       deletingPcProgress
     }, () =>
-      app.Actions.deletePcByName(name, offlineIndexes)
+      app.Actions.deletePcByName(name)
     )
   },
 
@@ -389,7 +381,6 @@ export default React.createClass({
 
   onClickPanel(number, event) {
     const { activePanel } = this.state
-    const { allGroupsLoaded } = this.props
 
     // make sure the heading was clicked
     const parent = event.target.parentElement
@@ -408,11 +399,8 @@ export default React.createClass({
           this.setState({ activePanel: 1 })
           break
         case 2: {
-          if (!allGroupsLoaded) {
-            this.setState({ ultimatelyAlertLoadAllGroups: true })
-          }
           const isPanel1Done = this.isPanel1Done()
-          if (isPanel1Done && allGroupsLoaded) {
+          if (isPanel1Done) {
             this.setState({ activePanel: 2 })
           }
           break
@@ -690,14 +678,9 @@ export default React.createClass({
       orgMitSchreibrecht
     } = this.state
     const {
-      groupsLoadedOrLoading,
       email,
       userRoles,
       pcs,
-      allGroupsLoaded,
-      groupsLoadingObjects,
-      replicatingToAe,
-      replicatingToAeTime,
       organizations,
       userIsEsWriterInOrgs
     } = this.props
@@ -722,9 +705,6 @@ export default React.createClass({
             {
               activePanel === 1 &&
               <Panel1
-                groupsLoadingObjects={groupsLoadingObjects}
-                allGroupsLoaded={allGroupsLoaded}
-                groupsLoadedOrLoading={groupsLoadedOrLoading}
                 nameBestehend={nameBestehend}
                 name={name}
                 beschreibung={beschreibung}
@@ -749,8 +729,6 @@ export default React.createClass({
                 validLink={validLink}
                 validOrgMitSchreibrecht={validOrgMitSchreibrecht}
                 validUrsprungsEs={validUrsprungsEs}
-                replicatingToAe={replicatingToAe}
-                replicatingToAeTime={replicatingToAeTime}
                 onClickDeletePc={this.onClickDeletePc}
                 onChangeNameUrsprungsEs={this.onChangeNameUrsprungsEs}
                 onChangeZusammenfassend={this.onChangeZusammenfassend}
@@ -830,8 +808,6 @@ export default React.createClass({
                 idsNotImportable={idsNotImportable}
                 importingProgress={importingProgress}
                 deletingPcInstancesProgress={deletingPcInstancesProgress}
-                replicatingToAe={replicatingToAe}
-                replicatingToAeTime={replicatingToAeTime}
                 onClickRemovePcInstances={this.onClickRemovePcInstances}
                 onClickImportieren={this.onClickImportieren}
               />
