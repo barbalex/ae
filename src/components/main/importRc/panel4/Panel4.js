@@ -13,8 +13,6 @@ const Panel4 = ({
   panel3Done,
   importingProgress,
   deletingRcInstancesProgress,
-  replicatingToAe,
-  replicatingToAeTime,
   onClickImportieren,
   onClickRemoveRcInstances
 }) => {
@@ -53,8 +51,6 @@ const Panel4 = ({
         <AlertFirst5Imported
           idsOfAeObjects={idsOfAeObjects}
           idsNotImportable={idsNotImportable}
-          replicatingToAe={replicatingToAe}
-          replicatingToAeTime={replicatingToAeTime}
         />
       }
       {
@@ -70,8 +66,6 @@ const Panel4 = ({
         <AlertFirst5Deleted
           idsOfAeObjects={idsOfAeObjects}
           nameBestehend={name}
-          replicatingToAe={replicatingToAe}
-          replicatingToAeTime={replicatingToAeTime}
         />
       }
     </div>
@@ -89,8 +83,6 @@ Panel4.propTypes = {
   importingProgress: React.PropTypes.number,
   deletingRcInstancesProgress: React.PropTypes.number,
   panel3Done: React.PropTypes.bool,
-  replicatingToAe: React.PropTypes.string,
-  replicatingToAeTime: React.PropTypes.string,
   onClickImportieren: React.PropTypes.func,
   onClickRemoveRcInstances: React.PropTypes.func
 }
