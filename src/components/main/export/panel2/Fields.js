@@ -1,5 +1,3 @@
-'use strict'
-
 import React from 'react'
 import { Accordion, Panel } from 'react-bootstrap'
 import InputFilterGuid from './InputGuid.js'
