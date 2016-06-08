@@ -1,5 +1,3 @@
-'use strict'
-
 import app from 'ampersand-app'
 
 export default () => new Promise((resolve, reject) => {

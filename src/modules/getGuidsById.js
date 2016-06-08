@@ -4,8 +4,6 @@
  * it is one of: GUID, Fauna, Flora, Moose, Macromycetes
  */
 
-'use strict'
-
 import queryGuid from '../queries/guidById.js'
 import queryFauna from '../queries/faunaById.js'
 import queryFlora from '../queries/floraById.js'

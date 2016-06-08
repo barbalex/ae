@@ -1,5 +1,3 @@
-'use strict'
-
 import getPathsFromLocalDb from './getPathsFromLocalDb.js'
 
 export default (path) => new Promise((resolve, reject) => {

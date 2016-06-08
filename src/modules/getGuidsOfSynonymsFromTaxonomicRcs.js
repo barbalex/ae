@@ -3,8 +3,6 @@
  * returns an array of guids of synonyms
  */
 
-'use strict'
-
 export default (taxRcs) => {
   const guidsOfSynonyms = []
   taxRcs.forEach((rc) => {
