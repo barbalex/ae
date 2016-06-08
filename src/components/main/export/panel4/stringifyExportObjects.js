@@ -1,5 +1,3 @@
-'use strict'
-
 /**
  * converts all remaining objects in arrays in to strings
  * needed for passing to csv / xlsx

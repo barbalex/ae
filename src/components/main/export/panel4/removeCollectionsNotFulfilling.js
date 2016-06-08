@@ -1,5 +1,3 @@
-'use strict'
-
 import isFilterFulfilled from './isFilterFulfilled.js'
 import isFilterFulfilledForBeziehungspartner from './isFilterFulfilledForBeziehungspartner.js'
 

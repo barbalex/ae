@@ -1,5 +1,3 @@
-'use strict'
-
 import React from 'react'
 import { Table } from 'react-bootstrap'
 import { isArray, isPlainObject } from 'lodash'
