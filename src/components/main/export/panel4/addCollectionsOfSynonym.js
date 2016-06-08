@@ -1,5 +1,3 @@
-'use strict'
-
 /**
  * gets objects, objectToAddTo and _id of synonym
  * finds synonym

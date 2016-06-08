@@ -1,5 +1,3 @@
-'use strict'
-
 /**
  * gets objectsToFilter
  * loops all passed objectsToFilter
