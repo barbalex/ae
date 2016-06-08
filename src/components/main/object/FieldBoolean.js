@@ -3,8 +3,6 @@
  * returns a component with label and checkbox
  */
 
-'use strict'
-
 import React from 'react'
 import { FormGroup, Checkbox, ControlLabel } from 'react-bootstrap'
 

@@ -4,8 +4,6 @@
  * this string is later rendered into a textarea
  */
 
-'use strict'
-
 import { isArray, map as _map } from 'lodash'
 
 export default (hierarchyArray) => {

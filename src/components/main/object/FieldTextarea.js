@@ -3,8 +3,6 @@
  * returns a component with label and input
  */
 
-'use strict'
-
 import React from 'react'
 import { FormGroup, ControlLabel } from 'react-bootstrap'
 import Textarea from 'react-textarea-autosize'
