@@ -1,5 +1,3 @@
-'use strict'
-
 export default (object) => {
   let options = null
   const standardtaxonomie = object.Taxonomien.find((taxonomy) => taxonomy.Standardtaxonomie)

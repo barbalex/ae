@@ -43,8 +43,6 @@
  * in the meantime Standardtaxonomie is used
  */
 
-'use strict'
-
 // TODO: refactor to remove repeating code
 
 import { clone } from 'lodash'

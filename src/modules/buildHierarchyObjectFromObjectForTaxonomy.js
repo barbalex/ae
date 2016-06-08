@@ -1,5 +1,3 @@
-'use strict'
-
 /**
  * gets an object and the name of a taxonomy
  * builds a taxonomy object for the taxonomy with this name
