@@ -38,7 +38,6 @@ TextLink.displayName = 'TextLink'
 TextLink.propTypes = {
   label: React.PropTypes.string,
   value: React.PropTypes.string,
-  gruppe: React.PropTypes.string,
   guid: React.PropTypes.string
 }
 
