@@ -41,7 +41,7 @@ export default (Actions) => Reflux.createStore({
       })
       .then(() => this.trigger(tcs, this.tcsQuerying))
       .catch((error) =>
-        app.Actions.showError({
+        addError({
           title: 'Fehler in taxonomyCollectionsStore, saveTc:',
           msg: error
         })
@@ -55,7 +55,7 @@ export default (Actions) => Reflux.createStore({
         return app.localDb.put(doc)
       })
       .catch((error) =>
-        app.Actions.showError({
+        addError({
           title: 'Fehler in taxonomyCollectionsStore, saveTcs:',
           msg: error
         })
@@ -72,7 +72,7 @@ export default (Actions) => Reflux.createStore({
       })
       .then(() => this.trigger(tcs, this.tcsQuerying))
       .catch((error) =>
-        app.Actions.showError({
+        addError({
           title: 'Fehler in taxonomyCollectionsStore, removeTcByName:',
           msg: error
         })
@@ -96,7 +96,7 @@ export default (Actions) => Reflux.createStore({
     this.getTcs()
       .then((tcs) => this.trigger(tcs, this.tcsQuerying))
       .catch((error) =>
-        app.Actions.showError({
+        addError({
           title: 'taxonomyCollectionsStore, error getting existing tcs:',
           msg: error
         })
@@ -109,7 +109,7 @@ export default (Actions) => Reflux.createStore({
         return this.saveTcs(tcs)
       })
       .catch((error) =>
-        app.Actions.showError({
+        addError({
           title: 'taxonomyCollectionsStore, error querying up to date tcs:',
           msg: error
         })

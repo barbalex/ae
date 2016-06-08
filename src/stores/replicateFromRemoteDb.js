@@ -17,7 +17,7 @@ export default (Actions) => Reflux.createStore({
         // TODO: need to rebuild redundant data > listen to change stream?
       })
       .catch((error) =>
-        app.Actions.showError({
+        addError({
           title: 'Fehler beim Replizieren:',
           msg: error
         })

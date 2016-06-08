@@ -41,7 +41,7 @@ export default (Actions) => Reflux.createStore({
         return app.localDb.put(doc)
       })
       .catch((error) =>
-        app.Actions.showError({
+        addError({
           title: 'userStore: error logging in:',
           msg: error
         })

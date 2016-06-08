@@ -10,7 +10,7 @@ export default (Actions) => Reflux.createStore({
     app.localDb.replicate.to(app.remoteDb)
       .then(() => this.trigger('success'))
       .catch((error) =>
-        app.Actions.showError({
+        addError({
           title: 'Fehler beim Replizieren:',
           msg: error
         })

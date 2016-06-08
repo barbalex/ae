@@ -41,7 +41,7 @@ export default (Actions) => Reflux.createStore({
       })
       .then(() => this.trigger(rcs, this.rcsQuerying))
       .catch((error) =>
-        app.Actions.showError({
+        addError({
           title: 'Fehler in relationCollectionsStore, saveRc:',
           msg: error
         })
@@ -55,7 +55,7 @@ export default (Actions) => Reflux.createStore({
         return app.localDb.put(doc)
       })
       .catch((error) =>
-        app.Actions.showError({
+        addError({
           title: 'Fehler in relationCollectionsStore, saveRcs:',
           msg: error
         })
@@ -72,7 +72,7 @@ export default (Actions) => Reflux.createStore({
       })
       .then(() => this.trigger(rcs, this.rcsQuerying))
       .catch((error) =>
-        app.Actions.showError({
+        addError({
           title: 'Fehler in relationCollectionsStore, removeRcByName:',
           msg: error
         })
@@ -96,7 +96,7 @@ export default (Actions) => Reflux.createStore({
     this.getRcs()
       .then((rcs) => this.trigger(rcs, this.rcsQuerying))
       .catch((error) =>
-        app.Actions.showError({
+        addError({
           title: 'relationCollectionsStore, error getting existing rcs:',
           msg: error
         })
@@ -109,7 +109,7 @@ export default (Actions) => Reflux.createStore({
         return this.saveRcs(rcs)
       })
       .catch((error) =>
-        app.Actions.showError({
+        addError({
           title: 'relationCollectionsStore, error querying up to date rcs:',
           msg: error
         })
