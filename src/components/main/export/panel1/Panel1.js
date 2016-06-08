@@ -1,5 +1,3 @@
-'use strict'
-
 import React from 'react'
 import { map, difference } from 'lodash'
 import WellSoGehts from './WellSoGehts.js'
