@@ -1,5 +1,3 @@
-'use strict'
-
 import React from 'react'
 import { Button, Glyphicon, FormGroup, ControlLabel } from 'react-bootstrap'
 import ModalDeletePc from './ModalDeletePc.js'

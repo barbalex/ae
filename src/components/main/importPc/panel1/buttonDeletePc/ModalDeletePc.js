@@ -2,8 +2,6 @@
  * contains ui for a login/signup modal
  */
 
-'use strict'
-
 import React from 'react'
 import { Modal, Button } from 'react-bootstrap'
 
