@@ -102,15 +102,12 @@ export default React.createClass({
           Benutzerrechte
         </p>
         <UsersList
-          activeOrganization={activeOrganization}
           userFieldName="esWriters"
         />
         <UsersList
-          activeOrganization={activeOrganization}
           userFieldName="lrWriters"
         />
         <UsersList
-          activeOrganization={activeOrganization}
           userFieldName="orgAdmins"
         />
         {

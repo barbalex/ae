@@ -50,7 +50,6 @@ CollectionList.displayName = 'CollectionList'
 CollectionList.propTypes = {
   collections: React.PropTypes.array,
   cType: React.PropTypes.string,
-  orgName: React.PropTypes.string
 }
 
 export default CollectionList
