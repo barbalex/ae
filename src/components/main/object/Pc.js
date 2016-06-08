@@ -20,7 +20,6 @@ import EditButtonGroup from './EditButtonGroup.js'
 function buildFieldForProperty(
   propertyCollection,
   object,
-  onSaveObjectField,
   value,
   key,
   pcType,
@@ -69,7 +68,6 @@ function buildFieldForProperty(
               guid={linkedObjectId}
               objectName={linkedObjectName}
               collectionIsEditing={collectionIsEditing}
-              onSaveObjectField={onSaveObjectField}
             />
           )
         }
@@ -92,7 +90,6 @@ function buildFieldForProperty(
         fieldName={key}
         objects={value}
         collectionIsEditing={collectionIsEditing}
-        onSaveObjectField={onSaveObjectField}
       />
     )
   }
@@ -115,7 +112,6 @@ function buildFieldForProperty(
         pcType={pcType}
         pcName={pcName}
         collectionIsEditing={collectionIsEditing}
-        onSaveObjectField={onSaveObjectField}
       />
     )
   }
@@ -127,7 +123,6 @@ function buildFieldForProperty(
       pcType={pcType}
       pcName={pcName}
       collectionIsEditing={collectionIsEditing}
-      onSaveObjectField={onSaveObjectField}
     />
   )
 }
@@ -136,7 +131,6 @@ const PropertyCollection = ({
   propertyCollection,
   pcType,
   object,
-  onSaveObjectField,
   userRoles,
   editObjects,
   toggleEditObjects,
@@ -159,7 +153,6 @@ const PropertyCollection = ({
     buildFieldForProperty(
       propertyCollection,
       object,
-      onSaveObjectField,
       value,
       key,
       pcType,
@@ -213,7 +206,6 @@ PropertyCollection.displayName = 'PropertyCollection'
 PropertyCollection.propTypes = {
   pcType: React.PropTypes.string,
   object: React.PropTypes.object,
-  onSaveObjectField: React.PropTypes.func,
   editObjects: React.PropTypes.bool,
   toggleEditObjects: React.PropTypes.func,
   addNewObject: React.PropTypes.func,

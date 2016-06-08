@@ -16,13 +16,7 @@ import RcsOfSynonyms from './RcsOfSynonyms.js'
 // don't name it "Object" - that is a reserved word
 const MyObject = ({
   object,
-  onSaveObjectField,
   synonymObjects,
-  userRoles,
-  editObjects,
-  toggleEditObjects,
-  addNewObject,
-  removeObject
 }) => {
   let objectRcs = []
   let taxRcs = []
@@ -144,15 +138,7 @@ const MyObject = ({
       id="object"
       className="formContent"
     >
-      <Taxonomy
-        object={object}
-        onSaveObjectField={onSaveObjectField}
-        userRoles={userRoles}
-        editObjects={editObjects}
-        toggleEditObjects={toggleEditObjects}
-        addNewObject={addNewObject}
-        removeObject={removeObject}
-      />
+      <Taxonomy />
       {
         taxRcs.length > 0 &&
         <TaxonomicRelationCollections
@@ -175,7 +161,6 @@ const MyObject = ({
         pcsOfSynonyms.length > 0 &&
         <PcsOfSynonyms
           pcsOfSynonyms={pcsOfSynonyms}
-          object={object}
         />
       }
       {
@@ -192,13 +177,7 @@ MyObject.displayName = 'Object'
 
 MyObject.propTypes = {
   object: React.PropTypes.object,
-  onSaveObjectField: React.PropTypes.func,
   synonymObjects: React.PropTypes.array,
-  userRoles: React.PropTypes.array,
-  editObjects: React.PropTypes.bool,
-  toggleEditObjects: React.PropTypes.func,
-  addNewObject: React.PropTypes.func,
-  removeObject: React.PropTypes.func
 }
 
 export default MyObject
