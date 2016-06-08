@@ -17,7 +17,6 @@ import InputUrsprungsBs from './InputUrsprungsBs.js'
 import ProgressbarDeleteRc from './ProgressbarDeleteRc.js'
 import AlertDeleteRcBuildingIndex from './AlertDeleteRcBuildingIndex.js'
 import AlertFirst5Deleted from '../AlertFirst5Deleted.js'
-import AlertLoadAllGroups from '../AlertLoadAllGroups.js'
 import isUserServerAdmin from '../../../../modules/isUserServerAdmin.js'
 import isUserOrgAdminAnywhere from '../../../../modules/isUserOrgAdminAnywhere.js'
 import isUserEsWriterAnywhere from '../../../../modules/isUserEsWriter.js'
@@ -26,9 +25,6 @@ export default React.createClass({
   displayName: 'Panel1',
 
   propTypes: {
-    groupsLoadingObjects: React.PropTypes.array,
-    allGroupsLoaded: React.PropTypes.bool,
-    groupsLoadedOrLoading: React.PropTypes.array,
     nameBestehend: React.PropTypes.string,
     name: React.PropTypes.string,
     beschreibung: React.PropTypes.string,
@@ -84,12 +80,9 @@ export default React.createClass({
 
   render() {
     const {
-      groupsLoadedOrLoading,
       email,
       userRoles,
       rcs,
-      allGroupsLoaded,
-      groupsLoadingObjects,
       replicatingToAe,
       replicatingToAeTime,
       onClickDeleteRc,
@@ -119,7 +112,6 @@ export default React.createClass({
       nameUrsprungsBs,
       name,
       nameBestehend,
-      ultimatelyAlertLoadAllGroups,
       deletingRcProgress,
       onChangeOrgMitSchreibrecht,
       userIsEsWriterInOrgs,
@@ -127,15 +119,9 @@ export default React.createClass({
       isEditingRcAllowed,
       isLinkValid
     } = this.props
-    const showLoadAllGroups = email && !allGroupsLoaded
     const showAlertDeleteRcBuildingIndex = (
       deletingRcProgress &&
       deletingRcProgress < 100
-    )
-    const alertAllGroupsBsStyle = (
-      ultimatelyAlertLoadAllGroups ?
-      'danger' :
-      'info'
     )
     const enableDeleteRcButton = !!nameBestehend
     const alertNotEsWriter = !(
@@ -146,14 +132,6 @@ export default React.createClass({
 
     return (
       <div>
-        {
-          showLoadAllGroups &&
-          <AlertLoadAllGroups
-            open="true"
-            groupsLoadingObjects={groupsLoadingObjects}
-            alertAllGroupsBsStyle={alertAllGroupsBsStyle}
-          />
-        }
         <WellTippsUndTricks />
         <WellAutorenrechte />
 
@@ -167,7 +145,6 @@ export default React.createClass({
           email={email}
           userRoles={userRoles}
           rcs={rcs}
-          groupsLoadedOrLoading={groupsLoadedOrLoading}
           onChangeNameBestehend={onChangeNameBestehend}
           userIsEsWriterInOrgs={userIsEsWriterInOrgs}
         />

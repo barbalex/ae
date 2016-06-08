@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   }
 })
 
-function options(userRoles, pcs, groupsLoadedOrLoading) {
+function options(userRoles, pcs) {
   // TODO: check if user is writer in pcs's organization instead of imported by
   if (pcs && pcs.length > 0) {
     const myOptions = pcs.map((pc, index) => {
@@ -47,13 +47,6 @@ function options(userRoles, pcs, groupsLoadedOrLoading) {
       </option>
     )
     return myOptions
-  } else if (groupsLoadedOrLoading.length > 0) {
-    // this option is showed while loading
-    return (
-      <option value={null}>
-        Lade Daten...
-      </option>
-    )
   }
   return (
     <option value={null}>
@@ -67,7 +60,6 @@ const InputNameBestehend = ({
   onChangeNameBestehend,
   userRoles,
   pcs,
-  groupsLoadedOrLoading
 }) =>
   <FormGroup controlId="nameBestehend">
     <ControlLabel>
@@ -80,14 +72,13 @@ const InputNameBestehend = ({
         onChangeNameBestehend(event.target.value)
       }
     >
-      {options(userRoles, pcs, groupsLoadedOrLoading)}
+      {options(userRoles, pcs)}
     </FormControl>
   </FormGroup>
 
 InputNameBestehend.displayName = 'InputNameBestehend'
 
 InputNameBestehend.propTypes = {
-  groupsLoadedOrLoading: React.PropTypes.array,
   nameBestehend: React.PropTypes.string,
   email: React.PropTypes.string,
   userRoles: React.PropTypes.array,

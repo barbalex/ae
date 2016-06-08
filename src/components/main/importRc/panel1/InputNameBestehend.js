@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   }
 })
 
-const options = (userRoles, rcs, groupsLoadedOrLoading) => {
+const options = (userRoles, rcs) => {
   if (rcs && rcs.length > 0) {
     const myOptions = rcs.map((rc, index) => {
       const { name, combining, organization } = rc
@@ -46,13 +46,6 @@ const options = (userRoles, rcs, groupsLoadedOrLoading) => {
       </option>
     )
     return myOptions
-  } else if (groupsLoadedOrLoading && groupsLoadedOrLoading.length > 0) {
-    // this option is showed while loading
-    return (
-      <option value={null}>
-        Lade Daten...
-      </option>
-    )
   }
   return (
     <option value={null}>
@@ -65,8 +58,7 @@ const InputNameBestehend = ({
   nameBestehend,
   onChangeNameBestehend,
   userRoles,
-  rcs,
-  groupsLoadedOrLoading
+  rcs
 }) =>
   <FormGroup controlId="nameBestehend">
     <ControlLabel>
@@ -79,14 +71,13 @@ const InputNameBestehend = ({
         onChangeNameBestehend(event.target.value)
       }
     >
-      {options(userRoles, rcs, groupsLoadedOrLoading)}
+      {options(userRoles, rcs)}
     </FormControl>
   </FormGroup>
 
 InputNameBestehend.displayName = 'InputNameBestehend'
 
 InputNameBestehend.propTypes = {
-  groupsLoadedOrLoading: React.PropTypes.array,
   nameBestehend: React.PropTypes.string,
   email: React.PropTypes.string,
   userRoles: React.PropTypes.array,

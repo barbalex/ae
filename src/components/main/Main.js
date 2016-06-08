@@ -3,7 +3,7 @@
  * changes ui depending on size of window
  */
 
-import { debounce } from 'lodash'
+import debounce from 'lodash/debounce'
 import { ListenerMixin } from 'reflux'
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -40,7 +40,6 @@ export default React.createClass({
     removeObject: React.PropTypes.func,
     synonymObjects: React.PropTypes.array,
     tcs: React.PropTypes.array,
-    tcsQuerying: React.PropTypes.bool,
     pcs: React.PropTypes.array,
     pcsQuerying: React.PropTypes.bool,
     rcs: React.PropTypes.array,
@@ -53,12 +52,6 @@ export default React.createClass({
     relationFields: React.PropTypes.object,
     email: React.PropTypes.string,
     userRoles: React.PropTypes.array,
-    allGroupsLoaded: React.PropTypes.bool,
-    groupsLoadedOrLoading: React.PropTypes.array,
-    groupsLoadingObjects: React.PropTypes.array,
-    replicatingToAe: React.PropTypes.string,
-    replicatingToAeTime: React.PropTypes.string,
-    offlineIndexes: React.PropTypes.bool,
     organizations: React.PropTypes.array,
     activeOrganization: React.PropTypes.object,
     tcsOfActiveOrganization: React.PropTypes.array,
@@ -92,9 +85,6 @@ export default React.createClass({
 
   render() {
     const {
-      allGroupsLoaded,
-      groupsLoadedOrLoading,
-      groupsLoadingObjects,
       object,
       onSaveObjectField,
       editObjects,
@@ -103,7 +93,6 @@ export default React.createClass({
       removeObject,
       synonymObjects,
       tcs,
-      tcsQuerying,
       pcs,
       pcsQuerying,
       rcs,
@@ -116,9 +105,6 @@ export default React.createClass({
       relationFields,
       email,
       userRoles,
-      replicatingToAe,
-      replicatingToAeTime,
-      offlineIndexes,
       organizations,
       activeOrganization,
       onChangeActiveOrganization,
@@ -160,12 +146,6 @@ export default React.createClass({
             email={email}
             userRoles={userRoles}
             pcs={pcs}
-            offlineIndexes={offlineIndexes}
-            groupsLoadedOrLoading={groupsLoadedOrLoading}
-            groupsLoadingObjects={groupsLoadingObjects}
-            allGroupsLoaded={allGroupsLoaded}
-            replicatingToAe={replicatingToAe}
-            replicatingToAeTime={replicatingToAeTime}
             organizations={organizations}
             userIsEsWriterInOrgs={userIsEsWriterInOrgs}
           />
@@ -176,12 +156,6 @@ export default React.createClass({
             email={email}
             userRoles={userRoles}
             rcs={rcs}
-            offlineIndexes={offlineIndexes}
-            groupsLoadedOrLoading={groupsLoadedOrLoading}
-            groupsLoadingObjects={groupsLoadingObjects}
-            allGroupsLoaded={allGroupsLoaded}
-            replicatingToAe={replicatingToAe}
-            replicatingToAeTime={replicatingToAeTime}
             organizations={organizations}
             userIsEsWriterInOrgs={userIsEsWriterInOrgs}
           />
@@ -189,8 +163,6 @@ export default React.createClass({
         {
           mainComponent === 'exportieren' &&
           <Export
-            groupsLoadedOrLoading={groupsLoadedOrLoading}
-            groupsLoadingObjects={groupsLoadingObjects}
             fieldsQuerying={fieldsQuerying}
             fieldsQueryingError={fieldsQueryingError}
             taxonomyFields={taxonomyFields}
@@ -200,14 +172,11 @@ export default React.createClass({
             rcs={rcs}
             pcsQuerying={pcsQuerying}
             rcsQuerying={rcsQuerying}
-            offlineIndexes={offlineIndexes}
           />
         }
         {
           mainComponent === 'exportierenAlt' &&
           <ExportAlt
-            groupsLoadedOrLoading={groupsLoadedOrLoading}
-            groupsLoadingObjects={groupsLoadingObjects}
             fieldsQuerying={fieldsQuerying}
             fieldsQueryingError={fieldsQueryingError}
             taxonomyFields={taxonomyFields}
@@ -217,14 +186,12 @@ export default React.createClass({
             rcs={rcs}
             pcsQuerying={pcsQuerying}
             rcsQuerying={rcsQuerying}
-            offlineIndexes={offlineIndexes}
           />
         }
         {
           mainComponent === 'organizations' &&
           <Organizations
             tcs={tcs}
-            tcsQuerying={tcsQuerying}
             email={email}
             userRoles={userRoles}
             organizations={organizations}
@@ -234,7 +201,6 @@ export default React.createClass({
             rcsOfActiveOrganization={rcsOfActiveOrganization}
             onChangeActiveOrganization={onChangeActiveOrganization}
             userIsAdminInOrgs={userIsAdminInOrgs}
-            offlineIndexes={offlineIndexes}
           />
         }
       </Form>

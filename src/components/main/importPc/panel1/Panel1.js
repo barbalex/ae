@@ -3,7 +3,6 @@ import WellAutorenrechte from './WellAutorenrechte.js'
 import WellTippsUndTricks from './WellTippsUndTricks.js'
 import AlertDeletePcBuildingIndex from './AlertDeletePcBuildingIndex.js'
 import AlertFirst5Deleted from '../AlertFirst5Deleted.js'
-import AlertLoadAllGroups from './AlertLoadAllGroups.js'
 import AlertEditingPcDisallowed from './AlertEditingPcDisallowed.js'
 import AlertNotEsWriter from './AlertNotEsWriter.js'
 import ButtonDeletePc from './buttonDeletePc/ButtonDeletePc.js'
@@ -52,29 +51,19 @@ const Panel1 = ({
   validLink,
   validOrgMitSchreibrecht,
   validUrsprungsEs,
-  ultimatelyAlertLoadAllGroups,
   deletingPcProgress,
-  groupsLoadedOrLoading,
   email,
   userRoles,
   pcs,
-  allGroupsLoaded,
-  groupsLoadingObjects,
   replicatingToAe,
   replicatingToAeTime,
   onChangeOrgMitSchreibrecht,
   userIsEsWriterInOrgs,
   orgMitSchreibrecht
 }) => {
-  const showLoadAllGroups = email && !allGroupsLoaded
   const showAlertDeletePcBuildingIndex = (
     deletingPcProgress &&
     deletingPcProgress < 100
-  )
-  const alertAllGroupsBsStyle = (
-    ultimatelyAlertLoadAllGroups ?
-    'danger' :
-    'info'
   )
   const enableDeletePcButton = !!nameBestehend
   const alertNotEsWriter = !(
@@ -85,14 +74,6 @@ const Panel1 = ({
 
   return (
     <div>
-      {
-        showLoadAllGroups &&
-        <AlertLoadAllGroups
-          open="true"
-          groupsLoadingObjects={groupsLoadingObjects}
-          alertAllGroupsBsStyle={alertAllGroupsBsStyle}
-        />
-      }
       <WellTippsUndTricks />
       <WellAutorenrechte />
       <InputNameBestehend
@@ -105,7 +86,6 @@ const Panel1 = ({
         email={email}
         userRoles={userRoles}
         pcs={pcs}
-        groupsLoadedOrLoading={groupsLoadedOrLoading}
         onChangeNameBestehend={onChangeNameBestehend}
         userIsEsWriterInOrgs={userIsEsWriterInOrgs}
       />
@@ -202,9 +182,6 @@ const Panel1 = ({
 Panel1.displayName = 'Panel1'
 
 Panel1.propTypes = {
-  groupsLoadingObjects: React.PropTypes.array,
-  allGroupsLoaded: React.PropTypes.bool,
-  groupsLoadedOrLoading: React.PropTypes.array,
   nameBestehend: React.PropTypes.string,
   name: React.PropTypes.string,
   beschreibung: React.PropTypes.string,

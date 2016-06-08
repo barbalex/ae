@@ -31,7 +31,6 @@ export default React.createClass({
 
   propTypes: {
     email: React.PropTypes.string,
-    offlineIndexes: React.PropTypes.bool,
     userRoles: React.PropTypes.array,
     organizations: React.PropTypes.array,
     activeOrganization: React.PropTypes.object,
@@ -43,15 +42,15 @@ export default React.createClass({
   },
 
   componentDidMount() {
-    const { email, offlineIndexes } = this.props
+    const { email } = this.props
     if (!email) {
       const logIn = true
       app.Actions.login({ logIn })
     }
     app.Actions.getOrganizations(email)
-    app.Actions.queryTaxonomyCollections(offlineIndexes)
-    app.Actions.queryPropertyCollections(offlineIndexes)
-    app.Actions.queryRelationCollections(offlineIndexes)
+    app.Actions.queryTaxonomyCollections()
+    app.Actions.queryPropertyCollections()
+    app.Actions.queryRelationCollections()
   },
 
   orgValues() {

@@ -25,9 +25,6 @@ export default React.createClass({
   displayName: 'ImportRelationCollections',
 
   propTypes: {
-    groupsLoadingObjects: React.PropTypes.array,
-    allGroupsLoaded: React.PropTypes.bool,
-    groupsLoadedOrLoading: React.PropTypes.array,
     nameBestehend: React.PropTypes.string,
     name: React.PropTypes.string,
     beschreibung: React.PropTypes.string,
@@ -61,7 +58,6 @@ export default React.createClass({
     panel1Done: React.PropTypes.bool,
     panel2Done: React.PropTypes.bool,
     panel3Done: React.PropTypes.bool,
-    ultimatelyAlertLoadAllGroups: React.PropTypes.bool,
     activePanel: React.PropTypes.number,
     validName: React.PropTypes.bool,
     validBeschreibung: React.PropTypes.bool,
@@ -71,9 +67,6 @@ export default React.createClass({
     validOrgMitSchreibrecht: React.PropTypes.bool,
     validUrsprungsBs: React.PropTypes.bool,
     validRcsToImport: React.PropTypes.bool,
-    replicatingToAe: React.PropTypes.string,
-    replicatingToAeTime: React.PropTypes.string,
-    offlineIndexes: React.PropTypes.bool,
     organizations: React.PropTypes.array,
     userIsEsWriterInOrgs: React.PropTypes.array
   },
@@ -132,13 +125,13 @@ export default React.createClass({
   componentDidMount() {
     this.listenTo(app.objectsRcsStore, this.onChangeObjectsRcsStore)
     // show login of not logged in
-    const { offlineIndexes, email } = this.props
+    const { email } = this.props
     if (!email) {
       const logIn = true
       app.Actions.login({ logIn })
     }
     // get relation collections
-    app.Actions.queryRelationCollections(offlineIndexes)
+    app.Actions.queryRelationCollections()
     app.Actions.getOrganizations(email)
   },
 
@@ -267,7 +260,6 @@ export default React.createClass({
 
   onChangeId() {
     const { idsAeIdField, idsImportIdField, rcsToImport } = this.state
-    const { offlineIndexes } = this.props
 
     if (idsAeIdField && idsImportIdField) {
       // start analysis
@@ -340,7 +332,7 @@ export default React.createClass({
         })
         return this.setState(state)
       }
-      getGuidsById(idsAeIdField, ids, offlineIndexes)
+      getGuidsById(idsAeIdField, ids)
         .then((idGuidObject) => {
           // now add guids to rcsToImport
           rcsToImport.forEach((rc) => {
@@ -419,7 +411,6 @@ export default React.createClass({
 
   onClickDeleteRc() {
     const { name } = this.state
-    const { offlineIndexes } = this.props
     // first remove progressbar and alert from last import
     const importingProgress = null
     const rcsRemoved = false
@@ -429,7 +420,7 @@ export default React.createClass({
       rcsRemoved,
       deletingRcProgress
     }, () =>
-      app.Actions.deleteRcByName(name, offlineIndexes)
+      app.Actions.deleteRcByName(name)
     )
   },
 
@@ -445,7 +436,6 @@ export default React.createClass({
 
   onClickPanel(number, event) {
     const { activePanel } = this.state
-    const { allGroupsLoaded } = this.props
 
     // make sure the heading was clicked
     const parent = event.target.parentElement
@@ -464,11 +454,7 @@ export default React.createClass({
           this.setState({ activePanel: 1 })
           break
         case 2: {
-          if (!allGroupsLoaded) {
-            this.setState({ ultimatelyAlertLoadAllGroups: true })
-          }
-          const isPanel1Done = this.isPanel1Done()
-          if (isPanel1Done && allGroupsLoaded) {
+          if (this.isPanel1Done()) {
             this.setState({ activePanel: 2 })
           }
           break
@@ -766,14 +752,9 @@ export default React.createClass({
       orgMitSchreibrecht
     } = this.state
     const {
-      groupsLoadedOrLoading,
       email,
       userRoles,
       rcs,
-      allGroupsLoaded,
-      groupsLoadingObjects,
-      replicatingToAe,
-      replicatingToAeTime,
       organizations,
       userIsEsWriterInOrgs
     } = this.props
@@ -800,9 +781,6 @@ export default React.createClass({
             {
               activePanel === 1 &&
               <Panel1
-                groupsLoadingObjects={groupsLoadingObjects}
-                allGroupsLoaded={allGroupsLoaded}
-                groupsLoadedOrLoading={groupsLoadedOrLoading}
                 nameBestehend={nameBestehend}
                 name={name}
                 beschreibung={beschreibung}
@@ -827,8 +805,6 @@ export default React.createClass({
                 validLink={validLink}
                 validOrgMitSchreibrecht={validOrgMitSchreibrecht}
                 validUrsprungsBs={validUrsprungsBs}
-                replicatingToAe={replicatingToAe}
-                replicatingToAeTime={replicatingToAeTime}
                 organizations={organizations}
                 onClickDeleteRc={this.onClickDeleteRc}
                 isUrsprungsBsValid={this.isUrsprungsBsValid}
@@ -912,8 +888,6 @@ export default React.createClass({
                 importingProgress={importingProgress}
                 deletingRcInstancesProgress={deletingRcInstancesProgress}
                 panel3Done={panel3Done}
-                replicatingToAe={replicatingToAe}
-                replicatingToAeTime={replicatingToAeTime}
                 onClickImportieren={this.onClickImportieren}
                 onClickRemoveRcInstances={this.onClickRemoveRcInstances}
               />
