@@ -7,7 +7,6 @@ import replicateFromRemoteDbStore from './stores/replicateFromRemoteDb.js'
 import replicateToRemoteDbStore from './stores/replicateToRemoteDb.js'
 import errorStore from './stores/error.js'
 import organizationsStore from './stores/organizations.js'
-import usersStore from './stores/users.js'
 import objectsPcsStore from './stores/objectsPcs.js'
 import objectsRcsStore from './stores/objectsRcs.js'
 import fieldsStore from './stores/fields.js'
@@ -28,7 +27,6 @@ export default (Actions) => {
   app.replicateFromRemoteDbStore = replicateFromRemoteDbStore(Actions)
   app.replicateToRemoteDbStore = replicateToRemoteDbStore(Actions)
   app.errorStore = errorStore(Actions)
-  app.usersStore = usersStore(Actions)
   app.organizationsStore = organizationsStore(Actions)
   app.objectsPcsStore = objectsPcsStore(Actions)
   app.objectsRcsStore = objectsRcsStore(Actions)
