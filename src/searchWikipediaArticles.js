@@ -1,5 +1,3 @@
-'use strict'
-
 export default (object) => {
   let wikipediaLink = '//de.wikipedia.org/wiki/'
   const standardtaxonomie = object.Taxonomien.find((taxonomy) =>

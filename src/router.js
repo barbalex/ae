@@ -1,5 +1,3 @@
-'use strict'
-
 import React from 'react'
 import { Router, Route, browserHistory } from 'react-router'
 import configureStore from './configureStore.js'
