@@ -69,6 +69,7 @@ export default (gruppe, callback) => new Promise((resolve, reject) => {
                 // build path hash - it helps finding an item by path
                 app.Actions.loadPaths(itemsOfGroup)
                 // build hierarchy and save to pouch
+                // TODO: adapt to new data
                 return app.localDb.get('_local/hierarchy')
               })
               .then((doc) => {
