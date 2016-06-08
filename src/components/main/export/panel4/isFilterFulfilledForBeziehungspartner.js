@@ -1,5 +1,3 @@
-'use strict'
-
 import isFilterFulfilled from './isFilterFulfilled.js'
 
 export default (rPartners, filterValue, co) => {

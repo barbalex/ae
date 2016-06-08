@@ -6,8 +6,6 @@
  *
  **/
 
-'use strict'
-
 function datenum(v, date1904) {
   if (date1904) v += 1462
   const epoch = Date.parse(v)

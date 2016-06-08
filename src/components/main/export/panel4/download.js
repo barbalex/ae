@@ -1,5 +1,3 @@
-'use strict'
-
 import d3 from 'd3'
 import moment from 'moment'
 import createBlobXlsx from './createBlobXlsx.js'

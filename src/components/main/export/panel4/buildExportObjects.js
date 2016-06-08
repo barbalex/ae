@@ -5,8 +5,6 @@
  * returns exportObjects
  */
 
-'use strict'
-
 import {
   clone,
   get,

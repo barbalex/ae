@@ -1,5 +1,3 @@
-'use strict'
-
 /**
  * gets exportOptions and objects
  * loops all fields in exportOptions

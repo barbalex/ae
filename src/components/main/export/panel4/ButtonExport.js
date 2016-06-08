@@ -1,5 +1,3 @@
-'use strict'
-
 import React from 'react'
 import { Button } from 'react-bootstrap'
 import download from './download.js'
