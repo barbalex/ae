@@ -1,5 +1,3 @@
-'use strict'
-
 import app from 'ampersand-app'
 import Reflux from 'reflux'
 import { map as _map, union } from 'lodash'
