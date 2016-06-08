@@ -2,8 +2,6 @@
  * loads a group if it is not listed in aeGroupsDb
  */
 
-'use strict'
-
 import app from 'ampersand-app'
 import PouchDB from 'pouchdb'
 import pouchdbLoad from 'pouchdb-load'
