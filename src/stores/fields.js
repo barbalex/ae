@@ -151,7 +151,7 @@ export default (Actions) => Reflux.createStore({
         }
       })
       .catch((error) =>
-        app.Actions.showError({
+        addError({
           title: 'fieldsStore, error getting existing fields:',
           msg: error
         })

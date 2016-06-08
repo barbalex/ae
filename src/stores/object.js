@@ -84,7 +84,7 @@ export default (Actions) => Reflux.createStore({
         }
       })
       .catch((error) => {
-        app.Actions.showError({
+        addError({
           title: 'objectStore, onSaveObject: error saving object:',
           msg: error
         })
@@ -95,7 +95,7 @@ export default (Actions) => Reflux.createStore({
     getHierarchyFromLocalDb()
       .then((hierarchy) => this.trigger(hierarchy))
       .catch((error) =>
-        app.Actions.showError({
+        addError({
           title: 'objectStore, onSaveObject, error getting hierarchy:',
           msg: error
         })
@@ -125,7 +125,7 @@ export default (Actions) => Reflux.createStore({
           }
         }
       })
-      .catch((error) => app.Actions.showError({
+      .catch((error) => addError({
         title: 'objectStore: error updating hierarchy in child object:',
         msg: error
       }))
@@ -210,7 +210,7 @@ export default (Actions) => Reflux.createStore({
               })
               .then(() => this.trigger(globalHierarchy))
               .catch((error) =>
-                app.Actions.showError({
+                addError({
                   title: 'objectStore: error updating hierarchy for object:',
                   msg: error
                 })
@@ -239,7 +239,7 @@ export default (Actions) => Reflux.createStore({
         )
       })
       .catch((error) =>
-        app.Actions.showError({
+        addError({
           title: 'Actions.loadPouchFromRemote, error loading groups:',
           msg: error
         })
@@ -283,7 +283,7 @@ export default (Actions) => Reflux.createStore({
       group: gruppe,
       finishedLoading: true
     })
-    app.Actions.showError({
+    addError({
       title: 'objectStore: loading items failed with error:',
       msg: error
     })

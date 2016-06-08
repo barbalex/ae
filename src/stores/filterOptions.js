@@ -35,7 +35,7 @@ export default (Actions) => Reflux.createStore({
         this.trigger({ filterOptions, loading })
       })
       .catch((error) =>
-        app.Actions.showError({
+        addError({
           title: 'filterOptionsStore, onLoadFilterOptions: error preparing trigger:',
           msg: error
         })
@@ -57,7 +57,7 @@ export default (Actions) => Reflux.createStore({
       })
       .then(() => this.trigger({ options, loading: false }))
       .catch((error) =>
-        app.Actions.showError({
+        addError({
           title: 'filterOptionsStore, onChangeFilterOptionsForObject: error preparing trigger:',
           msg: error
         })

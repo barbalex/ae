@@ -86,7 +86,7 @@ export default (Actions) => Reflux.createStore({
           const groupsToPass = allGroups ? gruppen : [group]
           addGroupsLoadedToLocalDb(groupsToPass)
             .catch((error) =>
-              app.Actions.showError({
+              addError({
                 title: 'loadingGroupsStore, onShowGroupLoading, error adding group(s) to localDb:',
                 msg: error
               })
@@ -106,7 +106,7 @@ export default (Actions) => Reflux.createStore({
         }
       })
       .catch((error) =>
-        app.Actions.showError({
+        addError({
           title: 'loadingGroupsStore, onShowGroupLoading, error getting groups loaded from localDb:',
           msg: error
         })
