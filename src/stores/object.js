@@ -1,10 +1,9 @@
 import app from 'ampersand-app'
 import Reflux from 'reflux'
-import { difference, get } from 'lodash'
+import { get } from 'lodash'
 import getItemsFromLocalDb from '../modules/getItemsFromLocalDb.js'
 import getItemFromLocalDb from '../modules/getItemFromLocalDb.js'
 import getItemFromRemoteDb from '../modules/getItemFromRemoteDb.js'
-import getHierarchyFromLocalDb from '../modules/getHierarchyFromLocalDb.js'
 import getGruppen from '../modules/gruppen.js'
 import loadGroupFromRemote from '../modules/loadGroupFromRemote.js'
 import changePathOfObjectInLocalDb from '../modules/changePathOfObjectInLocalDb.js'
@@ -172,6 +171,7 @@ export default (Actions) => Reflux.createStore({
             objectHierarchyObject.GUID
           ) {
             let globalHierarchy
+            // TODO: adapt to new structure
             app.localDb.get('_local/hierarchy')
               .then((doc) => {
                 globalHierarchy = doc.hierarchy
@@ -224,26 +224,6 @@ export default (Actions) => Reflux.createStore({
   onLoadPouchFromLocal() {
     Actions.loadFilterOptions()
     this.getHierarchy()
-  },
-
-  onLoadPouchFromRemote() {
-    const groups = getGruppen()
-    let groupsLoading = []
-    // get groups already loaded
-    app.loadingGroupsStore.groupsLoaded()
-      .then((groupsLoaded) => {
-        groupsLoading = difference(groups, groupsLoaded)
-        // load all groups not yet loaded
-        groupsLoading.forEach((group) =>
-          Actions.loadObject(group)
-        )
-      })
-      .catch((error) =>
-        addError({
-          title: 'Actions.loadPouchFromRemote, error loading groups:',
-          msg: error
-        })
-      )
   },
 
   onLoadObject(gruppe) {
