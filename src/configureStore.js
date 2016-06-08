@@ -1,15 +1,23 @@
 'use strict'
 
 import { createStore, applyMiddleware } from 'redux'
-import thunk from 'redux-thunk'
 import { hashHistory } from 'react-router'
 import { routerMiddleware } from 'react-router-redux'
+import thunk from 'redux-thunk'
+import promise from 'redux-promise'
+import createLogger from 'redux-logger'
 import rootReducer from './reducers'
 
 const router = routerMiddleware(hashHistory)
+const middlewares = [thunk, router, promise]
 
-const enhancer = applyMiddleware(thunk, router)
+if (process.env.NODE_ENV !== 'production') {
+  const logger = createLogger()
+  middlewares.push(logger)
+}
 
-export default function configureStore(initialState) {
-  return createStore(rootReducer, initialState, enhancer)
+const enhancer = applyMiddleware(...middlewares)
+
+export default function configureStore() {
+  return createStore(rootReducer, enhancer)
 }
