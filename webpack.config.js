@@ -31,6 +31,7 @@ config.plugins.push(
 // need to add this so request can load
 // see: https://github.com/request/request/issues/1529
 config.node = {
+  console: true,
   fs: 'empty',
   net: 'empty',
   tls: 'empty'
