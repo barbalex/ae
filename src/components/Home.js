@@ -514,7 +514,7 @@ export default React.createClass({
         {
           errors &&
           errors.length > 0 &&
-          <Errors errors={errors} />
+          <Errors />
         }
       </div>
     )

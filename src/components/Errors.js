@@ -47,7 +47,7 @@ const errorComponents = (errors) =>
     />
   )
 
-const Errors = ({ errors }) =>
+const Errors = ({ errors, errorRemoveAll }) =>
   <div
     id="errors"
     className={css(styles.rootDiv)}
@@ -56,7 +56,7 @@ const Errors = ({ errors }) =>
       glyph="remove-circle"
       className={css(styles.glyph)}
       onClick={() =>
-        app.Actions.showError()
+        errorRemoveAll()
       }
     />
     {errorComponents(errors)}
@@ -65,7 +65,8 @@ const Errors = ({ errors }) =>
 Errors.displays = 'Errors'
 
 Errors.propTypes = {
-  errors: React.PropTypes.array
+  errors: React.PropTypes.array,
+  errorRemoveAll: React.PropTypes.func
 }
 
 export default Errors
