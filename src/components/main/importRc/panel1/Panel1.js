@@ -49,8 +49,6 @@ export default React.createClass({
     validLink: React.PropTypes.bool,
     validOrgMitSchreibrecht: React.PropTypes.bool,
     validUrsprungsBs: React.PropTypes.bool,
-    replicatingToAe: React.PropTypes.string,
-    replicatingToAeTime: React.PropTypes.string,
     organizations: React.PropTypes.array,
     isUrsprungsBsValid: React.PropTypes.func,
     isLinkValid: React.PropTypes.func,
@@ -83,8 +81,6 @@ export default React.createClass({
       email,
       userRoles,
       rcs,
-      replicatingToAe,
-      replicatingToAeTime,
       onClickDeleteRc,
       onChangeNameUrsprungsBs,
       onChangeZusammenfassend,
@@ -176,8 +172,6 @@ export default React.createClass({
           <AlertFirst5Deleted
             idsOfAeObjects={idsOfAeObjects}
             nameBestehend={nameBestehend}
-            replicatingToAe={replicatingToAe}
-            replicatingToAeTime={replicatingToAeTime}
           />
         }
 
