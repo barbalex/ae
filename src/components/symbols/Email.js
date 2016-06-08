@@ -1,5 +1,3 @@
-'use strict'
-
 import app from 'ampersand-app'
 import React from 'react'
 import { Dropdown, MenuItem } from 'react-bootstrap'

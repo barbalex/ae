@@ -1,5 +1,3 @@
-'use strict'
-
 import React from 'react'
 import hasClass from 'amp-has-class'
 import toggleClass from 'amp-toggle-class'
