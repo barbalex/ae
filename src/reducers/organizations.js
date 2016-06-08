@@ -16,17 +16,17 @@ import {
 } from '../actions/organizations'
 
 const standardState = {
-  fetching: false,
+  getting: false,
   organizations: {},
   active: null,
   error: null,
-  fetchingTcsOfActive: false,
+  gettingTcsOfActive: false,
   tcsOfActive: {},
   tcsOfActiveError: null,
-  fetchingPcsOfActive: false,
+  gettingPcsOfActive: false,
   pcsOfActive: {},
   pcsOfActiveError: null,
-  fetchingRcsOfActive: false,
+  gettingRcsOfActive: false,
   rcsOfActive: {},
   rcsOfActiveError: null,
 }
@@ -37,30 +37,30 @@ const organization = (state = standardState, action) => {
       // set everything back
       return {
         ...state,
-        fetching: true,
+        getting: true,
         organizations: {},
         active: null,
         error: null,
-        fetchingTcsOfActive: false,
+        gettingTcsOfActive: false,
         tcsOfActive: {},
         tcsOfActiveError: null,
-        fetchingPcsOfActive: false,
+        gettingPcsOfActive: false,
         pcsOfActive: {},
         pcsOfActiveError: null,
-        fetchingRcsOfActive: false,
+        gettingRcsOfActive: false,
         rcsOfActive: {},
         rcsOfActiveError: null,
       }
     case ORGANIZATIONS_GET_SUCCESS:
       return {
         ...state,
-        fetching: false,
+        getting: false,
         organizations: action.organizations,
       }
     case ORGANIZATIONS_GET_ERROR:
       return {
         ...state,
-        fetching: false,
+        getting: false,
         error: action.error
       }
     case ORGANIZATION_TOGGLE_ACTIVE:
@@ -74,55 +74,55 @@ const organization = (state = standardState, action) => {
     case ORGANIZATION_GET_TCS_OF_ACTIVE:
       return {
         ...state,
-        fetchingTcsOfActive: true,
+        gettingTcsOfActive: true,
         tcsOfActive: {},
       }
     case ORGANIZATION_GET_TCS_OF_ACTIVE_SUCCESS:
       return {
         ...state,
-        fetchingTcsOfActive: false,
+        gettingTcsOfActive: false,
         tcsOfActive: keyBy(action.tcsOfActive, 'Name'),
       }
     case ORGANIZATION_GET_TCS_OF_ACTIVE_ERROR:
       return {
         ...state,
-        fetchingPcsOfActive: false,
+        gettingPcsOfActive: false,
         tcsOfActiveError: action.error,
       }
     case ORGANIZATION_GET_PCS_OF_ACTIVE:
       return {
         ...state,
-        fetchingPcsOfActive: true,
+        gettingPcsOfActive: true,
         pcsOfActive: {},
       }
     case ORGANIZATION_GET_PCS_OF_ACTIVE_SUCCESS:
       return {
         ...state,
-        fetchingPcsOfActive: false,
+        gettingPcsOfActive: false,
         pcsOfActive: keyBy(action.pcsOfActive, 'Name'),
       }
     case ORGANIZATION_GET_PCS_OF_ACTIVE_ERROR:
       return {
         ...state,
-        fetchingPcsOfActive: false,
+        gettingPcsOfActive: false,
         pcsOfActiveError: action.error,
       }
     case ORGANIZATION_GET_RCS_OF_ACTIVE:
       return {
         ...state,
-        fetchingRcsOfActive: true,
+        gettingRcsOfActive: true,
         rcsOfActive: {},
       }
     case ORGANIZATION_GET_RCS_OF_ACTIVE_SUCCESS:
       return {
         ...state,
-        fetchingRcsOfActive: false,
+        gettingRcsOfActive: false,
         rcsOfActive: keyBy(action.rcsOfActive, 'Name'),
       }
     case ORGANIZATION_GET_RCS_OF_ACTIVE_ERROR:
       return {
         ...state,
-        fetchingRcsOfActive: false,
+        gettingRcsOfActive: false,
         rcsOfActiveError: action.error,
       }
     default:
