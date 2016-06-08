@@ -1,13 +1,13 @@
 'use strict'
 
 import {
-  DBS_INITIALIZE,
-  DBS_INITIALIZE_SUCCESS,
-  DBS_INITIALIZE_ERROR
+  INITIALIZE,
+  INITIALIZE_SUCCESS,
+  INITIALIZE_ERROR
 } from '../actions/app'
 
 const standardState = {
-  initializingDbs: false,
+  initializing: false,
   localDb: null,
   remoteDb: null,
   remoteUsersDb: null,
@@ -16,20 +16,20 @@ const standardState = {
 
 const app = (state = standardState, action) => {
   switch (action.type) {
-    case DBS_INITIALIZE:
+    case INITIALIZE:
       return {
-        initializingDbs: true
+        initializing: true
       }
-    case DBS_INITIALIZE_SUCCESS:
+    case INITIALIZE_SUCCESS:
       return {
-        initializingDbs: false,
+        initializing: false,
         localDb: action.localDb,
         remoteDb: action.remoteDb,
         remoteUsersDb: action.remoteUsersDb
       }
-    case DBS_INITIALIZE_ERROR:
+    case INITIALIZE_ERROR:
       return {
-        initializingDbs: false,
+        initializing: false,
         localDb: null,
         remoteDb: null,
         remoteUsersDb: null,
