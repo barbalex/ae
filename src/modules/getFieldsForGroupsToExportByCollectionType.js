@@ -11,8 +11,6 @@
  *
  * collectionType is one of: taxonomy, propertyCollection, relation
  */
-'use strict'
-
 import { forEach as _forEach, groupBy } from 'lodash'
 
 export default (allFields, groupsToExport, collectionType, combineTaxonomies) => {

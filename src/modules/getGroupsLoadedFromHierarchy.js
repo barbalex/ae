@@ -2,8 +2,6 @@
  * momentarily not in use
  */
 
-'use strict'
-
 import app from 'ampersand-app'
 import { map } from 'lodash'
 

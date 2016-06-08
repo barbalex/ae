@@ -1,5 +1,3 @@
-'use strict'
-
 import keyBy from 'lodash/keyBy'
 
 export default (remoteDb) =>
