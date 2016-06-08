@@ -2,8 +2,6 @@
  * get: idsAeIdField, idsImportIdField, pcsToImport
  * return alert
  */
-'use strict'
-
 import React from 'react'
 import { Alert } from 'react-bootstrap'
 import getSuccessTypeFromAnalysis from '../getSuccessTypeFromAnalysis.js'
