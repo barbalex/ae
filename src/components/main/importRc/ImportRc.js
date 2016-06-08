@@ -174,7 +174,7 @@ export default React.createClass({
             this.setState(state)
           }
         })
-        .catch((error) => app.Actions.showError({ msg: error }))
+        .catch((error) => addError({ msg: error }))
     } else {
       this.setState({ nameBestehend: null })
     }
@@ -243,7 +243,7 @@ export default React.createClass({
           this.isRcsToImportValid()
         })
         .catch((error) =>
-          app.Actions.showError({
+          addError({
             title: 'Fehler beim Lesen der Datei:',
             msg: error
           })
@@ -383,7 +383,7 @@ export default React.createClass({
           this.setState(state)
         })
         .catch((error) =>
-          app.Actions.showError({ msg: error })
+          addError({ msg: error })
         )
     }
   },

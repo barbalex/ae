@@ -31,7 +31,7 @@ const FieldLinksToSameGroup = ({ objects, fieldName }) => {
         )
       })
       .catch((error) =>
-        app.Actions.showError({
+        addError({
           title: `linksToSameGroup.js: error getting path for guid ${object.guid}:`,
           msg: error
         })

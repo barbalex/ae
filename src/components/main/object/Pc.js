@@ -75,7 +75,7 @@ function buildFieldForProperty(
         }
       })
       .catch((error) =>
-        app.Actions.showError({
+        addError({
           title: 'pc.js: error getting item from objectStore:',
           msg: error
         })
