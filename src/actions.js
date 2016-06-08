@@ -1,5 +1,3 @@
-'use strict'
-
 import Reflux from 'reflux'
 
 // Each action is like an event channel for one specific event. Actions are called by components.

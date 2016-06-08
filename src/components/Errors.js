@@ -8,8 +8,6 @@
  * ...then triggers again some time later, passing an empty error object
  */
 
-'use strict'
-
 import app from 'ampersand-app'
 import React from 'react'
 import { Glyphicon } from 'react-bootstrap'

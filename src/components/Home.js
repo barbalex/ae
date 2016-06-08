@@ -1,5 +1,3 @@
-'use strict'
-
 import app from 'ampersand-app'
 import { ListenerMixin } from 'reflux'
 import React from 'react'

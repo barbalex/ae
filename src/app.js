@@ -1,5 +1,3 @@
-'use strict'
-
 /**
  * import needed dependencies (more will be imported by dependant modules)
  */
