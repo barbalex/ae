@@ -37,36 +37,46 @@ require('file?name=favicon.ico!../favicon.ico')
  */
 window.app = app
 
+// keep old store working for a while
+app.extend({
+  init() {
+    this.Actions = actions()
+    stores(this.Actions)
+  }
+})
+app.init()
+
 render(
   <Router />,
   document.getElementById('root')
 )
-// read data from url
-// need to remove first / or there will be a first path element of null
-let path = window.location.pathname.replace('/', '').split('/')
-path = replaceProblematicPathCharactersFromArray(path)
-const search = window.location.search
-const {
-  path: pathArray,
-  gruppe,
-  guid
-} = extractInfoFromPath(path, search)
-kickOffStores(pathArray, gruppe, guid)
-// check if groups have previously been loaded in pouchdb
-getGroupsLoadedFromLocalDb()
-  .then((groupsLoadedInPouch) => {
-    // if so, load them
-    if (groupsLoadedInPouch.length > 0) {
-      this.Actions.loadPouchFromLocal(groupsLoadedInPouch)
-      this.Actions.showGroupLoading({
-        group: groupsLoadedInPouch[0],
-        finishedLoading: true
-      })
-    }
-  })
-  .catch((error) =>
-    app.Actions.showError({
-      title: 'app.js: error initializing app:',
-      msg: error
+
+// wait for home.js to do it's job
+setTimeout(() => {
+  // read data from url
+  // need to remove first / or there will be a first path element of null
+  let path = window.location.pathname.replace('/', '').split('/')
+  path = replaceProblematicPathCharactersFromArray(path)
+  const search = window.location.search
+  const {
+    path: pathArray,
+    gruppe,
+    guid
+  } = extractInfoFromPath(path, search)
+  kickOffStores(pathArray, gruppe, guid)
+  // check if groups have previously been loaded in pouchdb
+  getGroupsLoadedFromLocalDb()
+    .then((groupsLoadedInPouch) => {
+      // if so, load them
+      if (groupsLoadedInPouch.length > 0) {
+        this.Actions.loadPouchFromLocal(groupsLoadedInPouch)
+        this.Actions.showGroupLoading({
+          group: groupsLoadedInPouch[0],
+          finishedLoading: true
+        })
+      }
     })
-  )
+    .catch(() => {
+      // do something
+    })
+}, 1000)

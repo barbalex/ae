@@ -20,6 +20,7 @@ export default (Actions) => Reflux.createStore({
 
   groupsLoaded() {
     return new Promise((resolve, reject) => {
+      console.log('loadingGroupsStore, groupsLoaded running')
       getGroupsLoadedFromLocalDb()
         .then((groupsLoaded) => resolve(groupsLoaded))
         .catch((error) =>

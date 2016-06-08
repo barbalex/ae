@@ -1,3 +1,4 @@
+import app from 'ampersand-app'
 import PouchDB from 'pouchdb'
 import pouchdbUpsert from 'pouchdb-upsert'
 import pouchdbAuthentication from 'pouchdb-authentication'
@@ -50,6 +51,14 @@ export const initializeApp = () =>
       remoteDb = new PouchDB(pouchUrl()),
       remoteUsersDb = new PouchDB(remoteUsersDbUrl)
     ])
+    // for a while keep initiating app.dbs
+    .then(() => {
+      app.extend({
+        localDb,
+        remoteDb,
+        remoteUsersDb
+      })
+    })
     .then(() => Promise.all([
       /**
        * initiate login data if necessary
