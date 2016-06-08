@@ -13,10 +13,8 @@ import {
   MenuItem
 } from 'react-bootstrap'
 import { StyleSheet, css } from 'aphrodite'
-import InputIndexes from './InputIndexes.js'
 import buildGoogleImageLink from '../../../modules/buildGoogleImageLink.js'
 import buildWikipediaLink from '../../../modules/buildWikipediaLink.js'
-import ObjectDerivedDataMenuItem from './ObjectDerivedDataMenuItem.js'
 
 const styles = StyleSheet.create({
   btnGroup: {
@@ -34,15 +32,11 @@ export default React.createClass({
 
   propTypes: {
     object: React.PropTypes.object,
-    offlineIndexes: React.PropTypes.bool,
-    onClickToggleOfflineIndexes: React.PropTypes.func
   },
 
   render() {
     const {
       object,
-      offlineIndexes,
-      onClickToggleOfflineIndexes
     } = this.props
     const isObject = object && Object.keys(object).length > 0
     const googleLink = isObject ? buildGoogleImageLink(object) : '#'
@@ -117,54 +111,6 @@ export default React.createClass({
               }
             >
               Organisationen
-            </MenuItem>
-            <MenuItem divider />
-            <MenuItem header>
-              Daten:
-            </MenuItem>
-            <MenuItem
-              onSelect={() =>
-                app.Actions.loadPouchFromRemote()
-              }
-            >
-              Fehlende Gruppen laden
-            </MenuItem>
-            <MenuItem
-              onSelect={() =>
-                app.Actions.replicateFromRemoteDb()
-              }
-            >
-              <strong>Von</strong> arteigenschaften.ch replizieren
-            </MenuItem>
-            <MenuItem
-              onSelect={() =>
-                app.Actions.replicateToRemoteDb()
-              }
-            >
-              <strong>Nach</strong> arteigenschaften.ch replizieren
-            </MenuItem>
-            <MenuItem divider />
-            <ObjectDerivedDataMenuItem />
-            <MenuItem divider />
-            <MenuItem header>
-              Indizes:
-            </MenuItem>
-            <InputIndexes
-              offlineIndexes={offlineIndexes}
-              onClickToggleOfflineIndexes={onClickToggleOfflineIndexes}
-            />
-            <MenuItem divider />
-            <MenuItem
-              onSelect={() => {
-                console.log('openAdminPage was clicked')
-                // TODO
-                /* previously:
-                require('./zeigeFormular')('admin')
-                */
-              }}
-              disabled
-            >
-              Administration
             </MenuItem>
             <MenuItem divider />
             <MenuItem header>
