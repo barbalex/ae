@@ -1,6 +1,3 @@
-'use strict'
-
-import keyBy from 'lodash/keyBy'
 import {
   GROUPS_GET,
   GROUPS_GET_SUCCESS,
@@ -9,12 +6,12 @@ import {
 } from '../actions/groups'
 
 const standardState = {
-  fetching: false,
+  getting: false,
   // object, key = group.Name, value: group
   groups: {},
   // this is the Name of the active group
   active: null,
-  error: null
+  error: null,
 }
 
 const groups = (state = standardState, action) => {
@@ -22,27 +19,26 @@ const groups = (state = standardState, action) => {
     case GROUPS_GET:
       return {
         ...state,
-        fetching: true,
+        getting: true,
         groups: {},
-        error: null
+        error: null,
       }
     case GROUPS_GET_SUCCESS:
       return {
         ...state,
-        fetching: false,
-        groups: keyBy(action.groups, 'Name'),
-        error: null
+        getting: false,
+        groups: action.groups,
       }
     case GROUPS_GET_ERROR:
       return {
         ...state,
-        fetching: false,
-        error: action.error
+        getting: false,
+        error: action.error,
       }
     case GROUP_TOGGLE_ACTIVE:
       return {
         ...state,
-        active: action.active
+        active: action.active,
       }
     default:
       return state
