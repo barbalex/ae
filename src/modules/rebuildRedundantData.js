@@ -1,5 +1,3 @@
-'use strict'
-
 /**
  * rebuilds from objects derived data in _local docs
  * based on objects

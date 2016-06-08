@@ -5,8 +5,6 @@
  * and returns the array
  */
 
-'use strict'
-
 import replaceProblematicPathCharactersFromString from './replaceProblematicPathCharactersFromString.js'
 
 export default (elArray) => {

@@ -1,5 +1,3 @@
-'use strict'
-
 export default (idname) =>
   idname
     .replace(/\s+/g, ' ')

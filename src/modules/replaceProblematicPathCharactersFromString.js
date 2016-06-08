@@ -5,8 +5,6 @@
  * and returns the string
  */
 
-'use strict'
-
 function escapeRegExp(string) {
   return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1')
 }
