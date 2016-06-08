@@ -1,5 +1,3 @@
-'use strict'
-
 import React from 'react'
 import { union, without } from 'lodash'
 import { Table } from 'react-bootstrap'
