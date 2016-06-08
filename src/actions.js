@@ -6,7 +6,6 @@ import Reflux from 'reflux'
 
 export default () => {
   const Actions = Reflux.createActions([
-    'loadPouchFromRemote',
     'loadPouchFromLocal',
     'loadObject',
     'loadActiveObject',

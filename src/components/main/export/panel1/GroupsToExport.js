@@ -11,11 +11,11 @@ const styles = StyleSheet.create({
 
 const GroupsToExport = ({
   groupsToExport,
-  groupsLoaded,
+  groups,
   onChangeGroupsToExport
 }) => {
-  groupsLoaded.sort()
-  const groupCheckboxes = groupsLoaded.map((group, index) =>
+  groups.sort()
+  const groupCheckboxes = groups.map((group, index) =>
     <Checkbox
       key={index}
       checked={groupsToExport.includes(group)}
@@ -38,7 +38,7 @@ const GroupsToExport = ({
 GroupsToExport.displayName = 'GroupsToExport'
 
 GroupsToExport.propTypes = {
-  groupsLoaded: React.PropTypes.array,
+  groups: React.PropTypes.array,
   groupsToExport: React.PropTypes.array,
   onChangeGroupsToExport: React.PropTypes.func
 }

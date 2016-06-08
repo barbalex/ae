@@ -47,12 +47,10 @@ export default React.createClass({
     object: React.PropTypes.object,
     editObjects: React.PropTypes.bool,
     guid: React.PropTypes.string,
-    options: React.PropTypes.array,
     loadingFilterOptions: React.PropTypes.bool,
     mainComponent: React.PropTypes.string,
     logIn: React.PropTypes.bool,
     email: React.PropTypes.string,
-    userRoles: React.PropTypes.array,
     tcs: React.PropTypes.array,
     tcsQuerying: React.PropTypes.bool,
     pcs: React.PropTypes.array,
@@ -60,17 +58,6 @@ export default React.createClass({
     rcs: React.PropTypes.array,
     rcsQuerying: React.PropTypes.bool,
     fieldsQuerying: React.PropTypes.bool,
-    fieldsQueryingError: React.PropTypes.object,
-    taxonomyFields: React.PropTypes.object,
-    pcFields: React.PropTypes.object,
-    relationFields: React.PropTypes.object,
-    organizations: React.PropTypes.array,
-    activeOrganization: React.PropTypes.object,
-    tcsOfActiveOrganization: React.PropTypes.array,
-    pcsOfActiveOrganization: React.PropTypes.array,
-    rcsOfActiveOrganization: React.PropTypes.array,
-    userIsAdminInOrgs: React.PropTypes.array,
-    userIsEsWriterInOrgs: React.PropTypes.array,
     errors: React.PropTypes.array,
     initializeApp: React.PropTypes.func
   },
@@ -97,7 +84,6 @@ export default React.createClass({
       mainComponent,
       logIn: false,
       email,
-      userRoles: [],
       tcs: [],
       tcsQuerying: false,
       pcs: [],
@@ -105,18 +91,6 @@ export default React.createClass({
       rcs: [],
       rcsQuerying: false,
       fieldsQuerying: false,
-      fieldsQueryingError: null,
-      fields: [],
-      taxonomyFields: {},
-      pcFields: {},
-      relationFields: {},
-      organizations: [],
-      activeOrganization: null,
-      tcsOfActiveOrganization: [],
-      pcsOfActiveOrganization: [],
-      rcsOfActiveOrganization: [],
-      userIsAdminInOrgs: [],
-      userIsEsWriterInOrgs: [],
       errors: []
     }
   },
@@ -166,13 +140,6 @@ export default React.createClass({
 
   onChangeFieldsStore(state) {
     this.setState(state)
-  },
-
-  onChangeObjectsPcsStore() {
-    // set back replication to ae state
-    const replicatingToAe = null
-    const replicatingToAeTime = null
-    this.setState({ replicatingToAe, replicatingToAeTime })
   },
 
   onLoginStoreChange({ logIn, email, roles: userRoles }) {
@@ -283,33 +250,15 @@ export default React.createClass({
     const {
       hierarchy,
       path,
-      synonymObjects,
       object,
       filterOptions,
       loadingFilterOptions,
       mainComponent,
       logIn,
       email,
-      userRoles,
-      tcs,
-      pcs,
-      tcsQuerying,
-      rcs,
       pcsQuerying,
       rcsQuerying,
       fieldsQuerying,
-      fieldsQueryingError,
-      taxonomyFields,
-      pcFields,
-      relationFields,
-      organizations,
-      activeOrganization,
-      userIsAdminInOrgs,
-      userIsEsWriterInOrgs,
-      tcsOfActiveOrganization,
-      pcsOfActiveOrganization,
-      rcsOfActiveOrganization,
-      editObjects,
       errors
     } = this.state
     const showFilter = filterOptions.length > 0 || loadingFilterOptions
@@ -343,67 +292,23 @@ export default React.createClass({
             className={css(styles.menu)}
           >
             <div className={css(styles.buttonLine)}>
-              <MenuButton
-                object={object}
-              />
+              <MenuButton />
               <ResizeButton />
             </div>
             {
               showFilter &&
-              <Filter
-                filterOptions={filterOptions}
-                loadingFilterOptions={loadingFilterOptions}
-              />
+              <Filter />
             }
             {
               showTree &&
-              <Tree
-                hierarchy={hierarchy}
-                object={object}
-                path={path}
-              />
+              <Tree />
             }
           </div>
         }
-        <Symbols
-          email={email}
-          tcsQuerying={tcsQuerying}
-          pcsQuerying={pcsQuerying}
-          rcsQuerying={rcsQuerying}
-          fieldsQuerying={fieldsQuerying}
-        />
+        <Symbols />
         {
           showMain &&
-          <Main
-            object={object}
-            onSaveObjectField={this.onSaveObjectField}
-            editObjects={editObjects}
-            toggleEditObjects={this.toggleEditObjects}
-            addNewObject={this.addNewObject}
-            removeObject={this.removeObject}
-            synonymObjects={synonymObjects}
-            tcs={tcs}
-            pcs={pcs}
-            rcs={rcs}
-            pcsQuerying={pcsQuerying}
-            rcsQuerying={rcsQuerying}
-            mainComponent={mainComponent}
-            fieldsQuerying={fieldsQuerying}
-            fieldsQueryingError={fieldsQueryingError}
-            taxonomyFields={taxonomyFields}
-            pcFields={pcFields}
-            relationFields={relationFields}
-            email={email}
-            userRoles={userRoles}
-            organizations={organizations}
-            activeOrganization={activeOrganization}
-            tcsOfActiveOrganization={tcsOfActiveOrganization}
-            pcsOfActiveOrganization={pcsOfActiveOrganization}
-            rcsOfActiveOrganization={rcsOfActiveOrganization}
-            onChangeActiveOrganization={this.onChangeActiveOrganization}
-            userIsAdminInOrgs={userIsAdminInOrgs}
-            userIsEsWriterInOrgs={userIsEsWriterInOrgs}
-          />
+          <Main />
         }
         {
           showLogin &&
