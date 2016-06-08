@@ -1,5 +1,3 @@
-'use strict'
-
 import { isArray } from 'lodash'
 
 export default (roles) => {
