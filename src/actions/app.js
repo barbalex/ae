@@ -4,6 +4,7 @@ import PouchDB from 'pouchdb'
 import pouchdbUpsert from 'pouchdb-upsert'
 import pouchdbAuthentication from 'pouchdb-authentication'
 import pouchUrl from '../modules/getCouchUrl.js'
+import * as userActions from './user'
 
 /**
  * set up pouchdb plugins
@@ -16,18 +17,18 @@ PouchDB.plugin(pouchdbAuthentication)
  */
 window.PouchDB = PouchDB
 
-export const DBS_INITIALIZE = 'DBS_INITIALIZE'
-export const DBS_INITIALIZE_SUCCESS = 'DBS_INITIALIZE_SUCCESS'
-export const DBS_INITIALIZE_ERROR = 'DBS_INITIALIZE_ERROR'
+export const INITIALIZE = 'INITIALIZE'
+export const INITIALIZE_SUCCESS = 'INITIALIZE_SUCCESS'
+export const INITIALIZE_ERROR = 'INITIALIZE_ERROR'
 
-export const initializeDbs = () =>
+export const initializeApp = () =>
   (dispatch) => {
     let localDb
     let remoteDb
     let remoteUsersDb
-
+    dispatch(userActions.getUser())
     dispatch({
-      type: DBS_INITIALIZE
+      type: INITIALIZE
     })
     /**
      * get path to remote _users db
@@ -83,13 +84,13 @@ export const initializeDbs = () =>
         fields: []
       })
       .then(() => dispatch({
-        type: DBS_INITIALIZE_SUCCESS,
+        type: INITIALIZE_SUCCESS,
         localDb,
         remoteDb,
         remoteUsersDb
       }))
       .catch((error) => dispatch({
-        type: DBS_INITIALIZE_ERROR,
+        type: INITIALIZE_ERROR,
         error
       }))
     ]))
