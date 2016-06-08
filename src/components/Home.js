@@ -12,7 +12,7 @@ import Filter from './menu/Filter.js'
 import Symbols from './symbols/Symbols.js'
 import Main from './main/Main.js'
 import Tree from './menu/tree/Tree.js'
-import Errors from './Errors.js'
+import ErrorsCt from './ErrorsCt.js'
 import getGruppen from '../modules/gruppen.js'
 import Login from './main/login/Login.js'
 import buildHierarchyObjectFromObjectForTaxonomy from '../modules/buildHierarchyObjectFromObjectForTaxonomy.js'
@@ -514,7 +514,7 @@ export default React.createClass({
         {
           errors &&
           errors.length > 0 &&
-          <Errors />
+          <ErrorsCt />
         }
       </div>
     )
