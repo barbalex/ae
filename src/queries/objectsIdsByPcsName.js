@@ -4,8 +4,6 @@
  * then returns a list of guids of property collections
  * that contain the pc with the name
  *
- * if offlineIndexes is true: queries from remote and does not create design doc
- *
  * no es6 in ddocs!
  */
 
@@ -31,36 +29,13 @@ const ddoc = {
   }
 }
 
-// TODO: offlineIndexes
-export default (name, offlineIndexes) => {
+export default (name) => {
   const queryOptions = {
     key: name
   }
-  const query = {
-    local() {
-      return new Promise((resolve, reject) => {
-        app.localDb.put(ddoc)
-          .catch((error) => {
-            // ignore if doc already exists
-            if (error.status !== 409) reject(error)
-          })
-          .then(() => app.localDb.query('objectsIdsByPcsName', queryOptions))
-          .then((result) => resolve(result))
-          .catch((error) => reject(error))
-      })
-    },
-    remote() {
-      return new Promise((resolve, reject) => {
-        app.remoteDb.query('objectsIdsByPcsName', queryOptions)
-          .then((result) => resolve(result))
-          .catch((error) => reject(error))
-      })
-    }
-  }
-  const db = offlineIndexes ? 'local' : 'remote'
 
   return new Promise((resolve, reject) => {
-    query[db]()
+    app.remoteDb.query('objectsIdsByPcsName', queryOptions)
       .then((result) => {
         const ids = _map(result.rows, 'id')
         resolve(ids)
