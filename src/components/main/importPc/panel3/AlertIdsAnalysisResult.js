@@ -2,8 +2,6 @@
  * get: idsAeIdField, idsImportIdField, pcsToImport
  * return alert
  */
-'use strict'
-
 import React from 'react'
 import { uniq } from 'lodash'
 import { Alert } from 'react-bootstrap'

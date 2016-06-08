@@ -1,5 +1,3 @@
-'use strict'
-
 import React from 'react'
 import { union } from 'lodash'
 import { FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
