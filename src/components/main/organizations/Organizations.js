@@ -1,5 +1,3 @@
-'use strict'
-
 /**
  * when loading:
  * - get organizations from remoteDb

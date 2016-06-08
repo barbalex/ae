@@ -1,5 +1,3 @@
-'use strict'
-
 export default (organization, fieldName) => {
   const roleFromField = {
     esWriters: `${organization.Name} es`,

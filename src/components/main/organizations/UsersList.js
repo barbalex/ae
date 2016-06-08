@@ -1,5 +1,3 @@
-'use strict'
-
 /**
  * creates user lists for esWriters, lrWriters and orgAdmins
  * manages adding and removing

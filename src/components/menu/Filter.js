@@ -3,8 +3,6 @@
  * builds an array of objects needed by the filter component to create the list of filterable objects
  * returns the filter component
  */
-'use strict'
-
 import app from 'ampersand-app'
 import React from 'react'
 import { Typeahead } from 'react-typeahead'
