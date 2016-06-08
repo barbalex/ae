@@ -14,20 +14,10 @@ const actions = Object.assign(
 )
 
 function mapStateToProps(state) {
-  const {
-    geschaefte,
-    geschaefteGefilterteIds,
-    activeId
-  } = state.geschaefte
-  const { username } = state.user
-  const { } = state.groups
-  const { } = state.app
+  const { user } = state.user
 
   return {
-    geschaefte,
-    geschaefteGefilterteIds,
-    username,
-    activeId
+    user
   }
 }
 

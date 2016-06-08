@@ -19,8 +19,8 @@ import {
   Alert
 } from 'react-bootstrap'
 import isValidEmail from '../../../modules/isValidEmail.js'
-import addRolesToUser from './addRolesToUser.js'
-import doesUserExist from './doesUserExist.js'
+import addRolesToUser from '../../../modules/addRolesToUser.js'
+import doesUserExist from '../../../modules/doesUserExist.js'
 import getRoleFromOrgField from './getRoleFromOrgField.js'
 
 export default React.createClass({
