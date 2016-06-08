@@ -1,5 +1,3 @@
-'use strict'
-
 import { has, map } from 'lodash'
 import replaceProblematicPathCharactersFromArray from './replaceProblematicPathCharactersFromArray.js'
 

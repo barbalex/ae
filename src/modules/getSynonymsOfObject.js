@@ -1,5 +1,3 @@
-'use strict'
-
 import app from 'ampersand-app'
 import getGuidsOfSynonymsFromTaxonomicRcs from './getGuidsOfSynonymsFromTaxonomicRcs.js'
 

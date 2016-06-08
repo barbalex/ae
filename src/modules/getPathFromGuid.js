@@ -3,8 +3,6 @@
  * returns the full path
  */
 
-'use strict'
-
 import app from 'ampersand-app'
 import getPathFromObject from './getPathFromObject.js'
 
