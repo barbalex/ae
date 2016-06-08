@@ -1,5 +1,3 @@
-'use strict'
-
 import React from 'react'
 import { OverlayTrigger, FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
 import { map } from 'lodash'

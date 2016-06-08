@@ -1,5 +1,3 @@
-'use strict'
-
 import React from 'react'
 import WellTippsUndTricks from './WellTippsUndTricks.js'
 import WellAutorenrechte from './WellAutorenrechte.js'

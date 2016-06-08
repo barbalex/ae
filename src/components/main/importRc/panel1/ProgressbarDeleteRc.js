@@ -1,5 +1,3 @@
-'use strict'
-
 import React from 'react'
 import { ProgressBar, FormGroup, ControlLabel } from 'react-bootstrap'
 
