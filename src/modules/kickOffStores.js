@@ -13,7 +13,7 @@ export default (path, gruppe, guid) => {
         }
       })
       .catch((error) =>
-        app.Actions.showError({
+        addError({
           title: `kickOffStores.js: error loading active object store or getting path for path "${path}":`,
           msg: error
         })
@@ -26,7 +26,7 @@ export default (path, gruppe, guid) => {
       }
     })
     .catch((error) =>
-      app.Actions.showError({
+      addError({
         title: 'kickOffStores.js: error getting groups from localDb:',
         msg: error
       })

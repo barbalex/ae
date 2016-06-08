@@ -53,7 +53,7 @@ export default () => {
     .then(() => app.Actions.loadPaths(objects))
     .then(() => app.Actions.changeRebuildingRedundantData(null))
     .catch((error) =>
-      app.Actions.showError({
+      addError({
         title: 'Error rebuilding hierarhy:',
         msg: error
       })

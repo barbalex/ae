@@ -31,7 +31,7 @@ const onClickNode = ({ hO, path: previousPath }, event) => {
       app.Actions.loadActiveObject(guidOfObjectToLoad)
     })
     .catch((error) =>
-      app.Actions.showError({
+      addError({
         title: 'treeNodes.js: error getting object from path:',
         msg: error
       })

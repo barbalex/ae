@@ -31,7 +31,7 @@ export default (Actions) => Reflux.createStore({
           // get Object from couch
           app.remoteDb.get(guid)
             .then((object) => this.onLoadActiveObjectCompleted(object))
-            .catch((error) => app.Actions.showError({
+            .catch((error) => addError({
               title: `error fetching doc from remoteDb with guid ${guid}:`,
               msg: error
             }))
@@ -66,7 +66,7 @@ export default (Actions) => Reflux.createStore({
           }
         })
         .catch((error) =>
-          app.Actions.showError({
+          addError({
             title: 'activeObjectStore: error fetching synonyms of object:',
             msg: error
           })

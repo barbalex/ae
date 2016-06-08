@@ -18,7 +18,7 @@ export default (items) => {
       return app.localDb.put(doc)
     })
     .catch((error) =>
-      app.Actions.showError({
+      addError({
         title: 'buildFilterOptions.js: error saving to localDb:',
         msg: error
       })
