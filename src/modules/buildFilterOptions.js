@@ -1,5 +1,3 @@
-'use strict'
-
 import app from 'ampersand-app'
 import buildFilterOptionsFromObject from './buildFilterOptionsFromObject.js'
 

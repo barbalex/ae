@@ -4,8 +4,6 @@
  * and adds them to localDb
  */
 
-'use strict'
-
 import app from 'ampersand-app'
 import getPathFromObject from './getPathFromObject.js'
 

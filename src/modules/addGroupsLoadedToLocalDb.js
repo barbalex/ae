@@ -4,8 +4,6 @@
  * returns the groups loaded
  */
 
-'use strict'
-
 import app from 'ampersand-app'
 import { union } from 'lodash'
 

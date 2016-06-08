@@ -1,5 +1,3 @@
-'use strict'
-
 export default (username, roles) =>
   new Promise((resolve, reject) =>
     fetch(
