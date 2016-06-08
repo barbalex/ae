@@ -1,5 +1,3 @@
-import refreshUserRoles from './refreshUserRoles.js'
-
 export default (localDb) =>
   new Promise((resolve, reject) => {
     if (!localDb) {
@@ -7,7 +5,6 @@ export default (localDb) =>
     }
     localDb.get('_local/user')
       .then((user) => {
-        refreshUserRoles(user.name)
         resolve(user)
       })
       .catch((error) =>
