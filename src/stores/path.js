@@ -14,7 +14,7 @@ export default (Actions) => Reflux.createStore({
     addPathsFromItemsToLocalDb(newItemsPassed)
       .then(() => this.trigger(true))
       .catch((error) =>
-        app.Actions.showError({
+        addError({
           title: 'pathStore: error adding paths from passed items:',
           msg: error
         })

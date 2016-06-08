@@ -48,7 +48,7 @@ export default (Actions) => Reflux.createStore({
         this.triggerMe()
       })
       .catch((error) => {
-        app.Actions.showError({
+        addError({
           title: 'error updating esWriter in remoteDb:',
           msg: error.message
         })
@@ -94,7 +94,7 @@ export default (Actions) => Reflux.createStore({
         this.triggerMe()
       })
       .catch((error) =>
-        app.Actions.showError({
+        addError({
           title: 'error fetching organizations from remoteDb:',
           msg: error
         })
@@ -140,7 +140,7 @@ export default (Actions) => Reflux.createStore({
         this.triggerMe()
       })
       .catch((error) =>
-        app.Actions.showError({
+        addError({
           title: `organizationsStore, error getting existing tcs of ${orgName}:`,
           msg: error
         })
@@ -156,7 +156,7 @@ export default (Actions) => Reflux.createStore({
         this.triggerMe()
       })
       .catch((error) =>
-        app.Actions.showError({
+        addError({
           title: `organizationsStore, error getting existing pcs of ${orgName}:`,
           msg: error
         })
@@ -172,7 +172,7 @@ export default (Actions) => Reflux.createStore({
         this.triggerMe()
       })
       .catch((error) =>
-        app.Actions.showError({
+        addError({
           title: `organizationsStore, error getting existing rcs of ${orgName}:`,
           msg: error
         })

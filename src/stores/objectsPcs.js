@@ -119,7 +119,7 @@ export default (Actions) => Reflux.createStore({
             this.trigger(state)
           })
           .catch((error) =>
-            app.Actions.showError({
+            addError({
               title: 'Fehler beim Importieren:',
               msg: error
             })
@@ -165,7 +165,7 @@ export default (Actions) => Reflux.createStore({
               this.trigger({ idsOfAeObjects, deletingPcProgress })
             })
             .catch((error) =>
-              app.Actions.showError({
+              addError({
                 title: `Fehler: Das Objekt mit der ID ${id} wurde nicht aktualisiert:`,
                 msg: error
               })
@@ -174,7 +174,7 @@ export default (Actions) => Reflux.createStore({
         app.fieldsStore.emptyFields()
       })
       .catch((error) =>
-        app.Actions.showError({
+        addError({
           title: 'Fehler beim Versuch, die Eigenschaften zu löschen:',
           msg: error
         })
@@ -200,7 +200,7 @@ export default (Actions) => Reflux.createStore({
           this.trigger({ deletingPcInstancesProgress, pcsRemoved })
         })
         .catch((error) =>
-          app.Actions.showError({
+          addError({
             title: `Fehler: Das Objekt mit der GUID ${guid} wurde nicht aktualisiert:`,
             msg: error
           })

@@ -41,7 +41,7 @@ export default (Actions) => Reflux.createStore({
       })
       .then(() => this.trigger(pcs, this.pcsQuerying))
       .catch((error) =>
-        app.Actions.showError({
+        addError({
           title: 'Fehler in propertyCollectionsStore, savePc:',
           msg: error
         })
@@ -55,7 +55,7 @@ export default (Actions) => Reflux.createStore({
         return app.localDb.put(doc)
       })
       .catch((error) =>
-        app.Actions.showError({
+        addError({
           title: 'Fehler in propertyCollectionsStore, savePcs:',
           msg: error
         })
@@ -72,7 +72,7 @@ export default (Actions) => Reflux.createStore({
       })
       .then(() => this.trigger(pcs, this.pcsQuerying))
       .catch((error) =>
-        app.Actions.showError({
+        addError({
           title: 'Fehler in propertyCollectionsStore, removePcByName:',
           msg: error
         })
@@ -96,7 +96,7 @@ export default (Actions) => Reflux.createStore({
     this.getPcs()
       .then((pcs) => this.trigger(pcs, this.pcsQuerying))
       .catch((error) =>
-        app.Actions.showError({
+        addError({
           title: 'propertyCollectionsStore, error getting existing pcs:',
           msg: error
         })
@@ -109,7 +109,7 @@ export default (Actions) => Reflux.createStore({
         return this.savePcs(pcs)
       })
       .catch((error) =>
-        app.Actions.showError({
+        addError({
           title: 'propertyCollectionsStore, error querying up to date pcs:',
           msg: error
         })
