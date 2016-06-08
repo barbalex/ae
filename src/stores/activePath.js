@@ -1,5 +1,3 @@
-'use strict'
-
 import Reflux from 'reflux'
 import { isEqual } from 'lodash'
 import extractInfoFromPath from '../modules/extractInfoFromPath.js'

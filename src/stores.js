@@ -1,5 +1,3 @@
-'use strict'
-
 import app from 'ampersand-app'
 import exportDataStore from './stores/exportData.js'
 import changeRebuildingRedundantDataStore from './stores/changeRebuildingRedundantData.js'
