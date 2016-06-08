@@ -4,8 +4,6 @@
  * and updates it in localDb
  */
 
-'use strict'
-
 import app from 'ampersand-app'
 import { findKey } from 'lodash'
 import getPathFromObject from './getPathFromObject.js'

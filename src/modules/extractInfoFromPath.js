@@ -1,5 +1,3 @@
-'use strict'
-
 /**
  * gets path
  * returns mainComponent and gruppe

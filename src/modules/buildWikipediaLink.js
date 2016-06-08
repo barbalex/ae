@@ -1,5 +1,3 @@
-'use strict'
-
 export default (object) => {
   let link = '#'
   if (object && object.Taxonomien) {

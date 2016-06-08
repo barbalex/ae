@@ -3,8 +3,6 @@
  * converts it to what it probably should be
  */
 
-'use strict'
-
 export default (value) => {
   /* eslint-disable eqeqeq */
   if (value == -1) return true
