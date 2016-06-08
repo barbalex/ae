@@ -6,8 +6,6 @@ import AlertFirst5Imported from '../AlertFirst5Imported.js'
 import AlertFirst5Deleted from '../AlertFirst5Deleted.js'
 
 const Panel4 = ({
-  replicatingToAe,
-  replicatingToAeTime,
   onClickRemovePcInstances,
   onClickImportieren,
   name,
@@ -43,8 +41,6 @@ const Panel4 = ({
       <AlertFirst5Imported
         idsOfAeObjects={idsOfAeObjects}
         idsNotImportable={idsNotImportable}
-        replicatingToAe={replicatingToAe}
-        replicatingToAeTime={replicatingToAeTime}
       />
     }
     {
@@ -60,8 +56,6 @@ const Panel4 = ({
       <AlertFirst5Deleted
         idsOfAeObjects={idsOfAeObjects}
         nameBestehend={name}
-        replicatingToAe={replicatingToAe}
-        replicatingToAeTime={replicatingToAeTime}
       />
     }
   </div>
@@ -76,8 +70,6 @@ Panel4.propTypes = {
   idsNotImportable: React.PropTypes.array,
   importingProgress: React.PropTypes.number,
   deletingPcInstancesProgress: React.PropTypes.number,
-  replicatingToAe: React.PropTypes.string,
-  replicatingToAeTime: React.PropTypes.string,
   onClickRemovePcInstances: React.PropTypes.func,
   onClickImportieren: React.PropTypes.func
 }

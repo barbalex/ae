@@ -55,8 +55,6 @@ const Panel1 = ({
   email,
   userRoles,
   pcs,
-  replicatingToAe,
-  replicatingToAeTime,
   onChangeOrgMitSchreibrecht,
   userIsEsWriterInOrgs,
   orgMitSchreibrecht
@@ -117,8 +115,6 @@ const Panel1 = ({
         <AlertFirst5Deleted
           idsOfAeObjects={idsOfAeObjects}
           nameBestehend={nameBestehend}
-          replicatingToAe={replicatingToAe}
-          replicatingToAeTime={replicatingToAeTime}
         />
       }
       <hr />
@@ -206,8 +202,6 @@ Panel1.propTypes = {
   validLink: React.PropTypes.bool,
   validOrgMitSchreibrecht: React.PropTypes.bool,
   validUrsprungsEs: React.PropTypes.bool,
-  replicatingToAe: React.PropTypes.string,
-  replicatingToAeTime: React.PropTypes.string,
   onClickDeletePc: React.PropTypes.func,
   onChangeNameUrsprungsEs: React.PropTypes.func,
   onChangeZusammenfassend: React.PropTypes.func,
