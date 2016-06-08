@@ -1,5 +1,3 @@
-'use strict'
-
 /*
  * converting this to an es6 function
  * leads to the app starting blank

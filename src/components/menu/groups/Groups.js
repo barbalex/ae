@@ -1,5 +1,3 @@
-'use strict'
-
 import React from 'react'
 import { difference } from 'lodash'
 import { StyleSheet, css } from 'aphrodite'
