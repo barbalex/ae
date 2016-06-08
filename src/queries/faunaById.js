@@ -2,8 +2,6 @@
  * creates a design doc and puts it into the localDb
  * then queries it with the provided options, passing an array of ids (Taxonomie ID)
  * emits the Taxonomie ID as key and guid as value
- *
- * if offlineIndexes is true: queries from remote and does not create design doc
  */
 
 import app from 'ampersand-app'
@@ -37,35 +35,13 @@ const ddoc = {
   }
 }
 
-export default (ids, offlineIndexes) => {
+export default (ids) => {
   const queryOptions = {
     keys: ids
   }
-  const query = {
-    local() {
-      return new Promise((resolve, reject) => {
-        app.localDb.put(ddoc)
-          .catch((error) => {
-            // ignore if doc already exists
-            if (error.status !== 409) reject(error)
-          })
-          .then(() => app.localDb.query('faunaById', queryOptions))
-          .then((result) => resolve(result))
-          .catch((error) => reject(error))
-      })
-    },
-    remote() {
-      return new Promise((resolve, reject) => {
-        app.remoteDb.query('faunaById', queryOptions)
-          .then((result) => resolve(result))
-          .catch((error) => reject(error))
-      })
-    }
-  }
-  const db = offlineIndexes ? 'local' : 'remote'
 
   return new Promise((resolve, reject) => {
-    query[db]()
+    app.remoteDb.query('faunaById', queryOptions)
       .then((result) => {
         const returnObject = {}
         result.rows.forEach((row) => {

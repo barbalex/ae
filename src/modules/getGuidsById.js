@@ -19,9 +19,9 @@ const dynamicFuntions = {
   Macromycetes: queryMacromycetes
 }
 
-export default (idField, ids, offlineIndexes) => new Promise((resolve, reject) => {
+export default (idField, ids) => new Promise((resolve, reject) => {
   // call the apropriate function and pass the ids
-  dynamicFuntions[idField](ids, offlineIndexes)
+  dynamicFuntions[idField](ids)
     .then((returnObjects) => resolve(returnObjects))
     .catch((error) => reject('error fetching GUIDs', error))
 })

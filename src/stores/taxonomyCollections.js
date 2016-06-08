@@ -90,7 +90,7 @@ export default (Actions) => Reflux.createStore({
     })
   },
 
-  onQueryTaxonomyCollections(offlineIndexes) {
+  onQueryTaxonomyCollections() {
     // if tc's exist, send them immediately
     this.tcsQuerying = true
     this.getTcs()
@@ -102,7 +102,7 @@ export default (Actions) => Reflux.createStore({
         })
       )
     // now fetch up to date tc's
-    queryTcs(offlineIndexes)
+    queryTcs()
       .then((tcs) => {
         this.tcsQuerying = false
         this.trigger(tcs, this.tcsQuerying)

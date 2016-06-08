@@ -75,45 +75,17 @@ const ddoc = {
   }
 }
 
-export default (group, offlineIndexes) =>
+export default (group) =>
   new Promise((resolve, reject) => {
-    const queryOptions = {
-      group_level: 5,
-      start_key: [group],
-      end_key: [group, {}, {}, {}, {}],
-      reduce: '_count'
-    }
     // don't understand why but passing reduce
     // produces an error in couch
-    const queryOptionsCouch = {
+    const queryOptions = {
       group_level: 5,
       start_key: [group],
       end_key: [group, {}, {}, {}, {}]
     }
-    const query = {
-      local() {
-        return new Promise((res, rej) => {
-          app.localDb.put(ddoc)
-            .catch((error) => {
-              // ignore if doc already exists
-              if (error.status !== 409) reject(error)
-            })
-            .then(() => app.localDb.query('fieldsOfGroup', queryOptions))
-            .then((result) => res(result))
-            .catch((error) => rej(error))
-        })
-      },
-      remote() {
-        return new Promise((res, rej) => {
-          app.remoteDb.query('fieldsOfGroup', queryOptionsCouch)
-            .then((result) => res(result))
-            .catch((error) => rej(error))
-        })
-      }
-    }
-    const db = offlineIndexes ? 'local' : 'remote'
 
-    query[db]()
+    app.remoteDb.query('fieldsOfGroup', queryOptions)
       .then((result) => {
         // console.log('fieldsOfGroup.js, result', result)
         const rows = result.rows
