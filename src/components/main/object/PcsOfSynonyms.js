@@ -1,7 +1,7 @@
 import React from 'react'
 import PropertyCollection from './Pc.js'
 
-const PcsOfSynonyms = ({ pcsOfSynonyms, object }) => {
+const PcsOfSynonyms = ({ pcsOfSynonyms }) => {
   let pcsComponent = null
 
   if (pcsOfSynonyms.length > 0) {
@@ -9,7 +9,6 @@ const PcsOfSynonyms = ({ pcsOfSynonyms, object }) => {
       <PropertyCollection
         key={index}
         pcType="Datensammlung"
-        object={object}
         propertyCollection={pc}
       />
     ))
@@ -28,7 +27,6 @@ const PcsOfSynonyms = ({ pcsOfSynonyms, object }) => {
 PcsOfSynonyms.displayName = 'PcsOfSynonyms'
 
 PcsOfSynonyms.propTypes = {
-  object: React.PropTypes.object,
   pcsOfSynonyms: React.PropTypes.array
 }
 

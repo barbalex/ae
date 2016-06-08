@@ -21,7 +21,6 @@ const RelationPartners = ({ relation }) => {
           key={bezPartner.GUID}
           label={label}
           value={value}
-          gruppe={bezPartner.Gruppe}
           guid={bezPartner.GUID}
         />
       )
