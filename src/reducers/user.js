@@ -70,9 +70,3 @@ const user = (state = standardState, action) => {
 }
 
 export default user
-
-// selectors
-export const userIsDbOrServerAdmin = () =>
-export const userIsAdminInOrgs = () =>
-export const userIsEsWriterInOrgs = () =>
-export const userIsLrWriterInOrgs = () =>

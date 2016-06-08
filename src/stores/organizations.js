@@ -3,7 +3,7 @@
 import app from 'ampersand-app'
 import Reflux from 'reflux'
 import { map as _map, union } from 'lodash'
-import removeRolesFromUser from '../components/main/organizations/removeRolesFromUser.js'
+import removeRolesFromUser from '../modules/removeRolesFromUser.js'
 import getRoleFromOrgField from '../components/main/organizations/getRoleFromOrgField.js'
 
 export default (Actions) => Reflux.createStore({
