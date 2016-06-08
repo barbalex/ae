@@ -3,8 +3,6 @@
  * changes ui depending on size of window
  */
 
-'use strict'
-
 import { debounce } from 'lodash'
 import { ListenerMixin } from 'reflux'
 import React from 'react'

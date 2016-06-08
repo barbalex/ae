@@ -3,8 +3,6 @@
  * decides what type of field to generate
  */
 
-'use strict'
-
 import React from 'react'
 import FieldLink from './FieldLink.js'
 import FieldInput from './FieldInput.js'

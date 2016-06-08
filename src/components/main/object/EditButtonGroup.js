@@ -3,8 +3,6 @@
  * this component presents a button group used to edit collections
  */
 
-'use strict'
-
 import React from 'react'
 import {
   ButtonGroup,
