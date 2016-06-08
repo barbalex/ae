@@ -3,8 +3,6 @@
  * builds the fields other than 'Beziehungspartner'
  */
 
-'use strict'
-
 import React from 'react'
 import { map } from 'lodash'
 import Field from './Field.js'

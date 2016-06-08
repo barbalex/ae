@@ -4,8 +4,6 @@
  * where the link is in a p element
  */
 
-'use strict'
-
 import app from 'ampersand-app'
 import React from 'react'
 import { FormGroup, ControlLabel, FormControl } from 'react-bootstrap'

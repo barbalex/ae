@@ -2,8 +2,6 @@
  * TODO
  */
 
-'use strict'
-
 import React from 'react'
 import TextLink from './TextLink.js'
 
