@@ -1,8 +1,6 @@
-import app from 'ampersand-app'
 import React from 'react'
 import { Alert } from 'react-bootstrap'
 import { findKey } from 'lodash'
-import ReplicationNotice from './replicationNotice.js'
 import getPathsFromLocalDb from '../../../modules/getPathsFromLocalDb.js'
 
 export default React.createClass({
@@ -12,8 +10,6 @@ export default React.createClass({
     idsOfAeObjects: React.PropTypes.array,
     nameBestehend: React.PropTypes.string,
     paths: React.PropTypes.object,
-    replicatingToAe: React.PropTypes.string,
-    replicatingToAeTime: React.PropTypes.string
   },
 
   getInitialState() {
@@ -26,8 +22,6 @@ export default React.createClass({
     const {
       idsOfAeObjects,
       nameBestehend,
-      replicatingToAe,
-      replicatingToAeTime
     } = this.props
     const { paths } = this.state
     const first5Ids = idsOfAeObjects.slice(0, 5)
@@ -78,13 +72,6 @@ export default React.createClass({
           <ul>
             {examples}
           </ul>
-        }
-        {
-          paths &&
-          <ReplicationNotice
-            replicatingToAe={replicatingToAe}
-            replicatingToAeTime={replicatingToAeTime}
-          />
         }
       </Alert>
     )
