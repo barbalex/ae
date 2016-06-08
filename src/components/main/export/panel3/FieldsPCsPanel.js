@@ -1,5 +1,3 @@
-'use strict'
-
 import React from 'react'
 import { Checkbox } from 'react-bootstrap'
 import { has, get } from 'lodash'

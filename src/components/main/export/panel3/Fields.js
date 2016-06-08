@@ -1,5 +1,3 @@
-'use strict'
-
 import React from 'react'
 import { Accordion, Panel, Checkbox } from 'react-bootstrap'
 import { get } from 'lodash'

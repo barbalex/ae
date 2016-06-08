@@ -1,5 +1,3 @@
-'use strict'
-
 import React from 'react'
 import { FormControl } from 'react-bootstrap'
 import { StyleSheet, css } from 'aphrodite'
