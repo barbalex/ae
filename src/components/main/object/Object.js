@@ -4,8 +4,6 @@
  * and then passed in as props
  */
 
-'use strict'
-
 import React from 'react'
 import { map as _map, reject } from 'lodash'
 import Taxonomy from './Taxonomy.js'

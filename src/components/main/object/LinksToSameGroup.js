@@ -3,8 +3,6 @@
  * returns a component with label and a number of links to the same group
  */
 
-'use strict'
-
 import app from 'ampersand-app'
 import React from 'react'
 import getPathFromGuid from '../../../modules/getPathFromGuid.js'

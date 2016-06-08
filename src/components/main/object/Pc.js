@@ -2,8 +2,6 @@
  * this component presents a single property collection
  */
 
-'use strict'
-
 import app from 'ampersand-app'
 import React from 'react'
 import { Accordion, Panel } from 'react-bootstrap'

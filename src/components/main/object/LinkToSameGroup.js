@@ -3,8 +3,6 @@
  * returns a component with label and a linke to the same group
  */
 
-'use strict'
-
 import app from 'ampersand-app'
 import React from 'react'
 
