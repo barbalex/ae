@@ -336,13 +336,13 @@ export default React.createClass({
   },
 
   addNewObject() {
-    app.Actions.showError({
+    addError({
       title: 'Dieses Feature ist noch nicht implementiert'
     })
   },
 
   removeObject() {
-    app.Actions.showError({
+    addError({
       title: 'Dieses Feature ist noch nicht implementiert'
     })
   },

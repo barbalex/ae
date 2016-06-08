@@ -164,7 +164,7 @@ export default React.createClass({
           }
         })
         .catch((error) =>
-          app.Actions.showError({ msg: error })
+          addError({ msg: error })
         )
     } else {
       this.setState({ nameBestehend: null })
@@ -234,7 +234,7 @@ export default React.createClass({
           this.validPcsToImport()
         })
         .catch((error) =>
-          app.Actions.showError({
+          addError({
             title: 'error reading file:',
             msg: error
           })
@@ -327,7 +327,7 @@ export default React.createClass({
           })
         })
         .catch((error) =>
-          app.Actions.showError({ msg: error })
+          addError({ msg: error })
         )
     }
   },

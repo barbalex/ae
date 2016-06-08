@@ -40,7 +40,7 @@ export default React.createClass({
           this.setState({ paths })
         )
         .catch((error) =>
-          app.Actions.showError({
+          addError({
             title: 'Fehler beim Aufbauen der Beispiele:',
             msg: error
           })
