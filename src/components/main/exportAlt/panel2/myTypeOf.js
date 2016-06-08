@@ -1,5 +1,3 @@
-'use strict'
-
 export default (value) => {
   if (value === undefined) return 'undefined'
   if (typeof value === 'boolean') return 'boolean'

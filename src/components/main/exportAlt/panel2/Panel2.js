@@ -1,5 +1,3 @@
-'use strict'
-
 import React from 'react'
 import { Button, Well } from 'react-bootstrap'
 import CopyToClipboard from 'react-copy-to-clipboard'

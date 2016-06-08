@@ -1,5 +1,3 @@
-'use strict'
-
 /**
  * gets urlOptions and objects
  * loops all fields in urlOptions

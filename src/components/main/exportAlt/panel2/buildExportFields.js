@@ -3,8 +3,6 @@
  * builds and returns export fields array used to pass from alt to arteigenschaften.ch
  */
 
-'use strict'
-
 import { get } from 'lodash'
 
 export default (urlOptions) => {

@@ -1,5 +1,3 @@
-'use strict'
-
 import myTypeOf from './myTypeOf.js'
 
 export default (fieldValue, filterValue, comparisonOperator) => {
