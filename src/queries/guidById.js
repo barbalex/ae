@@ -4,8 +4,6 @@
  * allways gets docs from local because allDocs is fast
  */
 
-'use strict'
-
 import app from 'ampersand-app'
 
 export default (ids) =>
