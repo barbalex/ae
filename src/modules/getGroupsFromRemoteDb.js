@@ -1,17 +1,20 @@
 'use strict'
 
-import app from 'ampersand-app'
+import keyBy from 'lodash/keyBy'
 
-export default (remoteDb) => new Promise((resolve, reject) => {
-  if (!remoteDb) {
-    return reject('getGroupsFromRemoteDb.js: no remoteDb passed')
-  }
-  app.remoteDb.query('groups', { include_docs: true })
-    .then((result) => {
-      const groups = result.rows.map((row) => row.doc)
-      resolve(groups)
-    })
-    .catch((error) =>
-      reject('getGroupsFromRemoteDb.js, error getting groups from remote remoteDb:', error)
-    )
-})
+export default (remoteDb) =>
+  new Promise((resolve, reject) => {
+    if (!remoteDb) {
+      reject('getGroupsFromRemoteDb.js: no remoteDb passed')
+    }
+    remoteDb.query('groups', { include_docs: true })
+      .then((result) => {
+        // build format wanted for store
+        const docs = result.rows.map((row) => row.doc)
+        const groups = keyBy(docs, 'Name')
+        resolve(groups)
+      })
+      .catch((error) =>
+        reject('getGroupsFromRemoteDb.js, error getting groups from remote remoteDb:', error)
+      )
+  })

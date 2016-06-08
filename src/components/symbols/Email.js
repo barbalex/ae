@@ -4,7 +4,6 @@ import app from 'ampersand-app'
 import React from 'react'
 import { Dropdown, MenuItem } from 'react-bootstrap'
 import { StyleSheet, css } from 'aphrodite'
-import refreshUserRoles from '../../modules/refreshUserRoles.js'
 
 const styles = StyleSheet.create({
   emailP: {
@@ -55,7 +54,7 @@ export default React.createClass({
 
   refreshRoles() {
     const { email } = this.props
-    refreshUserRoles(email)
+    // TODO: call action to refresh user roles
   },
 
   abmelden() {
