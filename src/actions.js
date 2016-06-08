@@ -37,7 +37,6 @@ export default () => {
     'setActiveOrganization',
     'updateActiveOrganization',
     'removeUserFromActiveOrganization',
-    'getUsers',
     'getPcsOfOrganization',
     'getRcsOfOrganization',
     'getTcsOfOrganization',

@@ -58,7 +58,7 @@ export const initializeDbs = () =>
        * local documents are not replicated
        */
       localDb.putIfNotExists({
-        _id: '_local/login',
+        _id: '_local/user',
         logIn: false,
         email: null
       }),
