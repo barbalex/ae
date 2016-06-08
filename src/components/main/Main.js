@@ -33,33 +33,7 @@ export default React.createClass({
 
   propTypes: {
     object: React.PropTypes.object,
-    onSaveObjectField: React.PropTypes.func,
-    editObjects: React.PropTypes.bool,
-    toggleEditObjects: React.PropTypes.func,
-    addNewObject: React.PropTypes.func,
-    removeObject: React.PropTypes.func,
-    synonymObjects: React.PropTypes.array,
-    tcs: React.PropTypes.array,
-    pcs: React.PropTypes.array,
-    pcsQuerying: React.PropTypes.bool,
-    rcs: React.PropTypes.array,
-    rcsQuerying: React.PropTypes.bool,
     mainComponent: React.PropTypes.string,
-    fieldsQuerying: React.PropTypes.bool,
-    fieldsQueryingError: React.PropTypes.object,
-    taxonomyFields: React.PropTypes.object,
-    pcFields: React.PropTypes.object,
-    relationFields: React.PropTypes.object,
-    email: React.PropTypes.string,
-    userRoles: React.PropTypes.array,
-    organizations: React.PropTypes.array,
-    activeOrganization: React.PropTypes.object,
-    tcsOfActiveOrganization: React.PropTypes.array,
-    pcsOfActiveOrganization: React.PropTypes.array,
-    rcsOfActiveOrganization: React.PropTypes.array,
-    onChangeActiveOrganization: React.PropTypes.func,
-    userIsAdminInOrgs: React.PropTypes.array,
-    userIsEsWriterInOrgs: React.PropTypes.array
   },
 
   mixins: [ListenerMixin],
@@ -86,33 +60,7 @@ export default React.createClass({
   render() {
     const {
       object,
-      onSaveObjectField,
-      editObjects,
-      toggleEditObjects,
-      addNewObject,
-      removeObject,
-      synonymObjects,
-      tcs,
-      pcs,
-      pcsQuerying,
-      rcs,
-      rcsQuerying,
       mainComponent,
-      fieldsQuerying,
-      fieldsQueryingError,
-      taxonomyFields,
-      pcFields,
-      relationFields,
-      email,
-      userRoles,
-      organizations,
-      activeOrganization,
-      onChangeActiveOrganization,
-      userIsAdminInOrgs,
-      userIsEsWriterInOrgs,
-      tcsOfActiveOrganization,
-      pcsOfActiveOrganization,
-      rcsOfActiveOrganization
     } = this.props
     const { formHorizontal } = this.state
     const showObject = (
@@ -129,79 +77,27 @@ export default React.createClass({
       >
         {
           showObject &&
-          <Objekt
-            object={object}
-            onSaveObjectField={onSaveObjectField}
-            synonymObjects={synonymObjects}
-            userRoles={userRoles}
-            editObjects={editObjects}
-            toggleEditObjects={toggleEditObjects}
-            addNewObject={addNewObject}
-            removeObject={removeObject}
-          />
+          <Objekt />
         }
         {
           mainComponent === 'importPc' &&
-          <ImportPc
-            email={email}
-            userRoles={userRoles}
-            pcs={pcs}
-            organizations={organizations}
-            userIsEsWriterInOrgs={userIsEsWriterInOrgs}
-          />
+          <ImportPc />
         }
         {
           mainComponent === 'importRc' &&
-          <ImportRc
-            email={email}
-            userRoles={userRoles}
-            rcs={rcs}
-            organizations={organizations}
-            userIsEsWriterInOrgs={userIsEsWriterInOrgs}
-          />
+          <ImportRc />
         }
         {
           mainComponent === 'exportieren' &&
-          <Export
-            fieldsQuerying={fieldsQuerying}
-            fieldsQueryingError={fieldsQueryingError}
-            taxonomyFields={taxonomyFields}
-            pcFields={pcFields}
-            relationFields={relationFields}
-            pcs={pcs}
-            rcs={rcs}
-            pcsQuerying={pcsQuerying}
-            rcsQuerying={rcsQuerying}
-          />
+          <Export />
         }
         {
           mainComponent === 'exportierenAlt' &&
-          <ExportAlt
-            fieldsQuerying={fieldsQuerying}
-            fieldsQueryingError={fieldsQueryingError}
-            taxonomyFields={taxonomyFields}
-            pcFields={pcFields}
-            relationFields={relationFields}
-            pcs={pcs}
-            rcs={rcs}
-            pcsQuerying={pcsQuerying}
-            rcsQuerying={rcsQuerying}
-          />
+          <ExportAlt />
         }
         {
           mainComponent === 'organizations' &&
-          <Organizations
-            tcs={tcs}
-            email={email}
-            userRoles={userRoles}
-            organizations={organizations}
-            activeOrganization={activeOrganization}
-            tcsOfActiveOrganization={tcsOfActiveOrganization}
-            pcsOfActiveOrganization={pcsOfActiveOrganization}
-            rcsOfActiveOrganization={rcsOfActiveOrganization}
-            onChangeActiveOrganization={onChangeActiveOrganization}
-            userIsAdminInOrgs={userIsAdminInOrgs}
-          />
+          <Organizations />
         }
       </Form>
     )

@@ -13,8 +13,6 @@ const Field = ({
   fieldName,
   pcType,
   pcName,
-  collectionIsEditing,
-  onSaveObjectField,
   fieldValue
 }) => {
   let fieldVal = fieldValue
@@ -34,8 +32,6 @@ const Field = ({
         fieldValue={fieldVal}
         pcType={pcType}
         pcName={pcName}
-        collectionIsEditing={collectionIsEditing}
-        onSaveObjectField={onSaveObjectField}
       />
     )
   }
@@ -50,8 +46,6 @@ const Field = ({
         inputType="text"
         pcType={pcType}
         pcName={pcName}
-        collectionIsEditing={collectionIsEditing}
-        onSaveObjectField={onSaveObjectField}
       />
     )
   }
@@ -65,8 +59,6 @@ const Field = ({
         fieldValue={fieldVal}
         pcType={pcType}
         pcName={pcName}
-        collectionIsEditing={collectionIsEditing}
-        onSaveObjectField={onSaveObjectField}
       />
     )
   }
@@ -78,8 +70,6 @@ const Field = ({
         inputType="number"
         pcType={pcType}
         pcName={pcName}
-        collectionIsEditing={collectionIsEditing}
-        onSaveObjectField={onSaveObjectField}
       />
     )
   }
@@ -90,8 +80,6 @@ const Field = ({
         fieldValue={fieldVal}
         pcType={pcType}
         pcName={pcName}
-        collectionIsEditing={collectionIsEditing}
-        onSaveObjectField={onSaveObjectField}
       />
     )
   }
@@ -103,8 +91,6 @@ const Field = ({
       inputType="text"
       pcType={pcType}
       pcName={pcName}
-      collectionIsEditing={collectionIsEditing}
-      onSaveObjectField={onSaveObjectField}
     />
   )
 }
@@ -120,8 +106,6 @@ Field.propTypes = {
   ]),
   pcType: React.PropTypes.string,
   pcName: React.PropTypes.string,
-  collectionIsEditing: React.PropTypes.bool,
-  onSaveObjectField: React.PropTypes.func
 }
 
 export default Field
