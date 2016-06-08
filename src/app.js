@@ -39,61 +39,36 @@ require('file?name=favicon.ico!../favicon.ico')
  */
 window.app = app
 
-/**
- * ampersand-app is extended with app methods (=singleton)
- * modules that need an app method import ampersand-app instead of using a global
- */
-app.extend({
-  init() {
-    // get meaningful messages when errors occur in design docs
-    // this.localDb.on('error', function (err) { debugger })
-
-    /**
-     * initiate actions, stores and router
-     * extend app with them so they can be called in modules
-     * and accessed in the browser console
-     */
-    this.Actions = actions()
-    stores(this.Actions)
-    render(
-      <Router />,
-      document.getElementById('root')
-    )
-    app.userStore.getLogin()
-    // read data from url
-    // need to remove first / or there will be a first path element of null
-    let path = window.location.pathname.replace('/', '').split('/')
-    path = replaceProblematicPathCharactersFromArray(path)
-    const search = window.location.search
-    const {
-      path: pathArray,
-      gruppe,
-      guid
-    } = extractInfoFromPath(path, search)
-    kickOffStores(pathArray, gruppe, guid)
-    // check if groups have previously been loaded in pouchdb
-    getGroupsLoadedFromLocalDb()
-      .then((groupsLoadedInPouch) => {
-        // if so, load them
-        if (groupsLoadedInPouch.length > 0) {
-          this.Actions.loadPouchFromLocal(groupsLoadedInPouch)
-          this.Actions.showGroupLoading({
-            group: groupsLoadedInPouch[0],
-            finishedLoading: true
-          })
-        }
+render(
+  <Router />,
+  document.getElementById('root')
+)
+// read data from url
+// need to remove first / or there will be a first path element of null
+let path = window.location.pathname.replace('/', '').split('/')
+path = replaceProblematicPathCharactersFromArray(path)
+const search = window.location.search
+const {
+  path: pathArray,
+  gruppe,
+  guid
+} = extractInfoFromPath(path, search)
+kickOffStores(pathArray, gruppe, guid)
+// check if groups have previously been loaded in pouchdb
+getGroupsLoadedFromLocalDb()
+  .then((groupsLoadedInPouch) => {
+    // if so, load them
+    if (groupsLoadedInPouch.length > 0) {
+      this.Actions.loadPouchFromLocal(groupsLoadedInPouch)
+      this.Actions.showGroupLoading({
+        group: groupsLoadedInPouch[0],
+        finishedLoading: true
       })
-      .catch((error) =>
-        app.Actions.showError({
-          title: 'app.js: error initializing app:',
-          msg: error
-        })
-      )
-  }
-})
-
-/**
- * o.k., everything necessary is prepared
- * now lauch the app
- */
-app.init()
+    }
+  })
+  .catch((error) =>
+    app.Actions.showError({
+      title: 'app.js: error initializing app:',
+      msg: error
+    })
+  )

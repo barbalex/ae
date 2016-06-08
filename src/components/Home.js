@@ -88,7 +88,8 @@ export default React.createClass({
     userIsAdminInOrgs: React.PropTypes.array,
     userIsEsWriterInOrgs: React.PropTypes.array,
     rebuildingRedundantData: React.PropTypes.string,
-    errors: React.PropTypes.array
+    errors: React.PropTypes.array,
+    initializeApp: React.PropTypes.func
   },
 
   mixins: [ListenerMixin],
@@ -152,6 +153,8 @@ export default React.createClass({
   },
 
   componentDidMount() {
+    const { initializeApp } = this.props
+    initializeApp()
     // listen to stores
     this.listenTo(app.userStore, this.onLoginStoreChange)
     this.listenTo(app.activePathStore, this.onActivePathStoreChange)

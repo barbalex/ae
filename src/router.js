@@ -4,7 +4,7 @@ import React from 'react'
 import { Router, Route, browserHistory } from 'react-router'
 import configureStore from './configureStore.js'
 import { Provider } from 'react-redux'
-import Home from './components/Home.js'
+import Home from './containers/Home.js'
 
 export default () =>
   <Provider store={configureStore()}>
