@@ -3,7 +3,6 @@ import exportDataStore from './stores/exportData.js'
 import changeRebuildingRedundantDataStore from './stores/changeRebuildingRedundantData.js'
 import replicateFromRemoteDbStore from './stores/replicateFromRemoteDb.js'
 import replicateToRemoteDbStore from './stores/replicateToRemoteDb.js'
-import errorStore from './stores/error.js'
 import organizationsStore from './stores/organizations.js'
 import objectsPcsStore from './stores/objectsPcs.js'
 import objectsRcsStore from './stores/objectsRcs.js'
@@ -24,7 +23,6 @@ export default (Actions) => {
   app.changeRebuildingRedundantDataStore = changeRebuildingRedundantDataStore(Actions)
   app.replicateFromRemoteDbStore = replicateFromRemoteDbStore(Actions)
   app.replicateToRemoteDbStore = replicateToRemoteDbStore(Actions)
-  app.errorStore = errorStore(Actions)
   app.organizationsStore = organizationsStore(Actions)
   app.objectsPcsStore = objectsPcsStore(Actions)
   app.objectsRcsStore = objectsRcsStore(Actions)
