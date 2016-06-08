@@ -1,5 +1,3 @@
-'use strict'
-
 import React from 'react'
 import { ProgressBar, Button, Glyphicon } from 'react-bootstrap'
 import ButtonDeleteRcInstances from './buttonDeleteRcInstances/ButtonDeleteRcInstances.js'
