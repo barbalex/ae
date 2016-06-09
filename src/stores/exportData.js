@@ -27,8 +27,6 @@ export default (Actions) => Reflux.createStore({
   }) {
     app.objectStore.getObjects()
       .then((objects) => {
-        // console.log('objects.length', objects.length)
-        // console.log('exportDataStore, onBuildExportData: exportOptions', exportOptions)
         const originalObjects = clone(objects)
 
         // 1. filter ids
@@ -42,7 +40,6 @@ export default (Actions) => Reflux.createStore({
         objects = objects.filter((object) =>
           groups.includes(object.Gruppe)
         )
-        // console.log('objects.length after filtering for group', objects.length)
 
         // 3. add missing pc's and rc's of synonyms if applicable
         if (includeDataFromSynonyms) {
@@ -70,7 +67,6 @@ export default (Actions) => Reflux.createStore({
           oneRowPerRelation,
           onlyObjectsWithCollectionData
         )
-        // console.log('exportDataStore, onBuildExportData: exportObjects', exportObjects)
 
         // 6. tell the view
         const errorBuildingExportData = null
