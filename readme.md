@@ -6,85 +6,50 @@
 
 ###Diese Technologien werden verwendet:
 
-- Für die Applikation wird keine CouchApp mehr benutzt
-  - ermöglicht die nachfolgenden Vorteile
+- Als Datenbank wird neu [PostgreSQL](https://www.postgresql.org) verwendet
+  - die dynamische Datenstruktur, welche mit Hilfe von [JSON](https://de.wikipedia.org/wiki/JavaScript_Object_Notation) den Benutzern ermöglicht, eigene Datenstrukturen zu importieren, bleibt erhalten - genau dort wo nötig
+  - alle übrigen Datenstrukturen sind relational und ermöglichen damit:
+     - einfachere Verwaltung
+     - einfachere Datenauswertung
+     - bessere Datenintegrität
 - Alle Abhängigkeiten werden mit [npm](https://www.npmjs.com) verwaltet
-  - einfachere Aktualisierung
-  - zuverlässige und schnelle Installation der Enwicklungsumgebung
-- [ES6](https://github.com/lukehoban/es6features), die künftige Version von [JavaScript](http://en.wikipedia.org/wiki/JavaScript)
+  - einfache Aktualisierung
+  - zuverlässige Verwaltung benutzter Fremd-Software
+  - zuverlässige und rasche Installation der Enwicklungsumgebung
+  - einfache Aktualisierung der Server nach Anpassungen
+- [ES6](https://github.com/lukehoban/es6features), die neue Version von [JavaScript](http://en.wikipedia.org/wiki/JavaScript)
   - fördert lesbaren, kurzen Code
-- [standard](https://github.com/feross/standard)
+- [eslint](http://eslint.org)
   - erzwingt einen konsequenten und lesbaren Programmierstil
+  - reduziert Fehler
 - [webpack](http://webpack.github.io) aktualisiert während der Entwicklung laufend die App im Browser
   - jede Änderung ist direkt sichtbar
   - raschere Enwicklung, weniger Fehler
-- [Flux](http://facebook.github.io/flux)
+- [Flux](http://facebook.github.io/flux) in der Form von [Redux](https://github.com/reactjs/redux)
   - vereinfacht die Architektur
-  - senkt damit die Komplexität
+  - senkt die Komplexität
   - beschleunigt Entwicklung und Unterhalt
 - [React](https://facebook.github.io/react/index.html)
   - vereinfacht die Steuerung der Benutzeroberfläche
   - reduziert die Komplexität
 - [surge](https://surge.sh) erzeugt für den produktiven App-Server statische Dateien
-  - womit der App-Server äusserst einfach aufgebaut und zu installieren ist
-- [hapi.js](http://hapijs.com) liefert die Applikation an den Browser...
-- ...der sie dann ohne weitere Hilfe des Servers ausführt. Es handelt sich daher um eine reine ["Native Web App"](https://blog.andyet.com/2015/01/22/native-web-apps)
-- Die Daten werden mit Hilfe von [pouchdb](http://pouchdb.com) im Browser gespeichert
-- Schnittstellen zu anderen Anwendungen werden wie bisher direkt durch die CouchApp gewährleistet. Ev. wird in einem zweiten Schritt ein unabhängiger api-Server erstellt, der sie mit Hilfe von [hapi.js](http://hapijs.com) bereitstellt
+  - womit der App-Server einfach aufgebaut und zu installieren ist
+- [hapi.js](http://hapijs.com) liefert auf dem Anwendungsserver die Applikation und auf dem Datenserver die Daten
 
-###Technische Unterschiede zur bisherigen Anwendung
+###Funktionale Erweiterungen
+Verglichen mit der aktuellen Anwendung:
 
-- Neuste Technologie, stark verringerte Komplexität, viel bessere Unterhalt- und Erweiterbarkeit
-  - Ein mit Flux und React bewandter Software-Ingenieur kann sich sehr rasch einarbeiten
-- Der Server hat jetzt diese Aufgaben:
-  - Zentraler Datenserver und Replikationsdrehscheibe
-  - Schnittstellen zu EvAB und ALT (unverändert)
-  - Anwendungsserver: Beim erstmaligen Besuch von [erfassen.ch](http://erfassen.ch) wird die Anwendung vom Server an den Browser übergeben. Danach liefert der Server nur noch Updates
-- Die Anwendung ist (jetzt noch nicht ganz, dazu braucht es https) nach dem ersten Laden vom Server bzw. dem Internet unabhängig
-- Daher funktioniert einiges viel schneller, denn die Daten müssen nach dem erstmaligen Laden nicht über das Internet gebeamt werden
-- Anderes ist langsamer: 
-  - Indizes müssen lokal aufgebaut werden - das kann den Browser stark belasten.<br/>Indizes werden für Importe und Exporte benötigt
-  - Die Anwendung beansprucht viel Festplattenspeicher: Nach dem erstmaligen Laden aller Gruppen ca. 680 MB.<br/>Wenn man Indizes nutzt, werden daraus bis zu einigen Gigabites
-- Da viele Aufgaben neu von der Anwendung wahrgenommen werden, reicht der kleinste verfügbare Server
-
-###Funktionale Erweiterungen verglichen mit der bisherigen Anwendung
-- Jedes Objekt kann n Taxonomien haben, wie bisher schon Eigenschaften- und Beziehungssammlungen (realisiert). Das ermöglicht diese künftigen Erweiterungen:
-  - Import von Taxonomien über die Benutzeroberfläche, wie heute bei Eigenschaften- und Beziehungssammlungen
-  - Der Benutzer kann wählen, nach welcher Taxonomie der Strukturbaum aufgebaut wird
-- Daten sind geschützt. Ihre Anpassung wird durch Organisationen gesteuert, welche Benutzern entsprechende Rechte erteilen (pendent)
+- Jedes Objekt kann n Taxonomien haben, wie bisher schon Eigenschaften- und Beziehungssammlungen. Das ermöglicht diese z.T. noch nicht realisierten Features:
+  - Ein Objekt kann von mehreren Taxonomien beschrieben werden
+  - Jede neue Version einer Taxonomie kann wie bisher bei den Eigenschaften- und Beziehungssammlungen importiert werden, ohne dass die alte ersetzt werden muss
+     - Damit bleiben alle Daten langfristig erhalten 
+     - Anwendungen, welche die Daten über Schnittstellen verwenden, werden durch den Import neuer Daten(-strukturen) nicht beeinträchtigt 
+  - Import von Taxonomien über die Benutzeroberfläche, wie heute bei Eigenschaften- und Beziehungssammlungen (noch nicht realisiert)
+  - Der Benutzer kann wählen, nach welcher Taxonomie der Strukturbaum aufgebaut wird (noch nicht realisiert)
+- Daten sind vor Veränderung geschützt. Ihre Anpassung wird durch Organisationen gesteuert, welche Benutzern entsprechende Rechte erteilen
 
 ###Aktueller Stand
 ####Man kann jetzt:
 
-- Daten laden
-- Daten anzeigen
-- Daten suchen
-- Daten exportieren
-- Öffnet man die Anwendung beim ersten Besuch direkt mit einem Art-Link [(Beispiel)](http://erfassen.ch/Moose/Musci%20Laubmoose/Buxbaumiaceae/Buxbaumia/Buxbaumia%20aphylla%20Hedw?id=6B7B1CC6-7505-4D79-8E24-F43E464EDB48), lädt sie die Art von der zentralen Datenbank, zeigt sie an und lädt anschliessend die entsprechende Gruppe nach.<br/>
-  So sieht man die Art rasch. Sobald die Gruppe fertig geladen ist, wird der Strukturbaum aufgebaut.<br/>
-  Beim nächsten Aufruf einer Art aus dieser Gruppe, wird die Art aus der lokalen Datenbank geholt
-- Bilder auf Google suchen
-- Wikipedia Artikel suchen
-- Eigenschaftensammlungen importieren...
-- Beziehungssammlungen importieren...
-- ...und anschliessend mit der zentralen Datenbank replizieren.<br/>
-  Es wäre einfach, nach jedem Import automatisch zu replizieren. Aber so wie es jetzt realisiert ist, kann jemand eigene Daten importieren, ohne sie mit [arteigenschaften.ch](http://arteigenschaften.ch) zu teilen. Das kann in Einzelfällen auch ein Vorteil sein
-- Aktuelle Daten von der zentralen Datenbank replizieren.<br/>
-  Es wäre einfach, bei jedem Start der Anwendung von der zentralen Datenbank zu replizieren, wenn der Benutzer bereits alle Gruppen geladen hat. Das wäre vermutlich sinnvoll
-- Vor allem bei Importen und Exporten werden Informationen und Rückmeldungen verbessert
-- Die Anwendung passt sich an den Handy-Bildschirm an - und läuft auf meinem Nexus 6 recht schön (allerdings auf WLAN getestet)
-- Jede Hierarchiestufe hat ihre eigene verlinkbare URL
-- Links sind aussagekräftig, wenn auch nicht besonders lesbar, weil Leerzeichen in der URL von Browsern mit "%20" dargestellt werden
-- Wo möglich wird bei langsamen Vorgängen der Fortschritt angezeigt, z.B. beim Laden von Gruppen.<br/>
-  Leider ist das nicht immer möglich, z.B. wenn Indizes gebaut werden
-- Ein Objekt kann beliebig viele Taxonomien enthalten
-
-Die Anwendung ist auf [erfassen.ch](http://erfassen.ch) aufgeschaltet. Man kann hier üben, soviel man will.<br/>
-Test-Login: User "z@z.ch", Passwort "z".
-
-####To Do
-
-- Organisationen und Benutzer
-- Testen
-
-Die Anwendung wird auf Google Chrome entwickelt. Auf Firefox scheint sie gut zu funktionieren. Edge und IE 11 sind leider ungeeignet, weil sie die lokale Speicherung so vieler Daten nicht zulassen. Safari ist offenbar grundsätzlich noch nicht geeignet für native Web-Anwendungen.
+- Es besteht [ein Projekt](https://github.com/barbalex/ae_import), mit dem jederzeit die Daten aus der bisherigen in die neue Anwendung importiert werden können
+- Die neue Anwendung ist noch im Aufbau
