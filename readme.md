@@ -39,11 +39,10 @@
 ###Funktionale Erweiterungen
 Verglichen mit der aktuellen Anwendung:
 
-- Jedes Objekt kann n Taxonomien haben, wie bisher schon Eigenschaften- und Beziehungssammlungen. Das ermöglicht diese z.T. noch nicht realisierten Features:
-  - Ein Objekt kann von mehreren Taxonomien beschrieben werden
+- Jedes Objekt kann von beliebig vielen Taxonomien beschrieben werden, ähnlich wie bisher schon bei den Eigenschaften- und Beziehungssammlungen. Das ermöglicht diese z.T. noch nicht realisierten Features:
   - Jede neue Version einer Taxonomie kann wie bisher bei den Eigenschaften- und Beziehungssammlungen importiert werden, ohne dass die alte ersetzt werden muss
      - Damit bleiben alle Daten langfristig erhalten 
-     - Anwendungen, welche die Daten über Schnittstellen verwenden, werden durch den Import neuer Daten(-strukturen) nicht beeinträchtigt 
+     - Anwender oder Anwendungen (welche die Daten über Schnittstellen verwenden), werden durch den Import neuer Daten(-strukturen) nicht beeinträchtigt 
   - Import von Taxonomien über die Benutzeroberfläche, wie heute bei Eigenschaften- und Beziehungssammlungen (noch nicht realisiert)
   - Der Benutzer kann wählen, nach welcher Taxonomie der Strukturbaum aufgebaut wird (noch nicht realisiert)
 - Daten sind vor Veränderung geschützt. Ihre Anpassung wird durch Organisationen gesteuert, welche Benutzern entsprechende Rechte erteilen
