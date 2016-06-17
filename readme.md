@@ -1,12 +1,11 @@
 #[arteigenschaften.ch](http://arteigenschaften.ch), neu aufgebaut
  
-[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](https://github.com/feross/standard)
 [![js-standard-style](https://img.shields.io/badge/license-ISC-brightgreen.svg)](https://github.com/barbalex/gs/blob/master/license.md)
 [![js-standard-style](https://david-dm.org/barbalex/ae.svg)](https://david-dm.org/barbalex/ae)
 
 ###Diese Technologien werden verwendet:
 
-- Als Datenbank wird neu [PostgreSQL](https://www.postgresql.org) verwendet
+- Als Datenbank neu [PostgreSQL](https://www.postgresql.org)
   - die dynamische Datenstruktur, welche mit Hilfe von [JSON](https://de.wikipedia.org/wiki/JavaScript_Object_Notation) den Benutzern ermöglicht, eigene Datenstrukturen zu importieren, bleibt erhalten - genau dort wo nötig
   - alle übrigen Datenstrukturen sind relational und ermöglichen damit:
      - einfachere Verwaltung
@@ -34,7 +33,7 @@
   - reduziert die Komplexität
 - [surge](https://surge.sh) erzeugt für den produktiven App-Server statische Dateien
   - womit der App-Server einfach aufgebaut und zu installieren ist
-- [hapi.js](http://hapijs.com) liefert auf dem Anwendungsserver die Applikation und auf dem Datenserver die Daten
+- [hapi.js](http://hapijs.com) liefert Applikation und API bzw. Daten
 
 ###Funktionale Erweiterungen
 Verglichen mit der aktuellen Anwendung:
@@ -42,13 +41,15 @@ Verglichen mit der aktuellen Anwendung:
 - Jedes Objekt kann von beliebig vielen Taxonomien beschrieben werden, ähnlich wie bisher schon bei den Eigenschaften- und Beziehungssammlungen. Das ermöglicht diese z.T. noch nicht realisierten Features:
   - Jede neue Version einer Taxonomie kann wie bisher bei den Eigenschaften- und Beziehungssammlungen importiert werden, ohne dass die alte ersetzt werden muss
      - Damit bleiben alle Daten langfristig erhalten 
-     - Anwender oder Anwendungen (welche die Daten über Schnittstellen verwenden), werden durch den Import neuer Daten(-strukturen) nicht beeinträchtigt 
+     - Anwender oder Anwendungen (welche die Daten über Schnittstellen verwenden), werden durch den Import neuer Daten(-strukturen) nicht beeinträchtigt bzw. nicht gezwungen, ihre Anwendung anzupassen
   - Import von Taxonomien über die Benutzeroberfläche, wie heute bei Eigenschaften- und Beziehungssammlungen (noch nicht realisiert)
   - Der Benutzer kann wählen, nach welcher Taxonomie der Strukturbaum aufgebaut wird (noch nicht realisiert)
 - Daten sind vor Veränderung geschützt. Ihre Anpassung wird durch Organisationen gesteuert, welche Benutzern entsprechende Rechte erteilen
+- Die Anwendung ist moderner und besser unterhalt- bzw. erweiterbar
+- Die verwendeten Technologien sind "state of the art" und daher auch vielen Entwicklern bekannt
+- Die Anwendung ist für den Anwender einfacher und übersichtlicher
 
 ###Aktueller Stand
-####Man kann jetzt:
 
 - Es besteht [ein Projekt](https://github.com/barbalex/ae_import), mit dem jederzeit die Daten aus der bisherigen in die neue Anwendung importiert werden können
 - Die neue Anwendung ist noch im Aufbau
