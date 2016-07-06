@@ -59,37 +59,6 @@ export const initializeApp = () =>
         remoteUsersDb
       })
     })
-    .then(() => Promise.all([
-      /**
-       * initiate login data if necessary
-       * by adding a local document to pouch
-       * local documents are not replicated
-       */
-      localDb.putIfNotExists({
-        _id: '_local/user',
-        logIn: false,
-        email: null
-      }),
-      // initiate tcs data if necessary
-      localDb.putIfNotExists({
-        _id: '_local/tcs',
-        tcs: []
-      }),
-      // initiate pcs data if necessary
-      localDb.putIfNotExists({
-        _id: '_local/pcs',
-        pcs: []
-      }),
-      // initiate rcs data if necessary
-      localDb.putIfNotExists({
-        _id: '_local/rcs',
-        rcs: []
-      }),
-      // initiate fields data if necessary
-      localDb.putIfNotExists({
-        _id: '_local/fields',
-        fields: []
-      })
       .then(() => dispatch({
         type: INITIALIZE_SUCCESS,
         localDb,

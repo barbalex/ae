@@ -5,7 +5,6 @@ import getItemsFromLocalDb from '../modules/getItemsFromLocalDb.js'
 import getItemFromLocalDb from '../modules/getItemFromLocalDb.js'
 import getItemFromRemoteDb from '../modules/getItemFromRemoteDb.js'
 import getGruppen from '../modules/gruppen.js'
-import loadGroupFromRemote from '../modules/loadGroupFromRemote.js'
 import changePathOfObjectInLocalDb from '../modules/changePathOfObjectInLocalDb.js'
 import updateActivePathFromObject from '../modules/updateActivePathFromObject.js'
 
@@ -246,15 +245,7 @@ export default (Actions) => Reflux.createStore({
     app.loadingGroupsStore.groupsLoading.unshift(groupsLoadingObject)
     // check if there are groups loading now
     // if yes: when finished, loadGroupFromRemote will begin loading the next group in the queue
-    if (app.loadingGroupsStore.groupsLoading.length === 1) {
-      // o.k., no other group is being loaded - go on
-      loadGroupFromRemote(gruppe)
-        .then(() => this.getHierarchy())
-        .catch((error) => {
-          const errorMsg = `Actions.loadObject, error loading group ${gruppe}: ${error}`
-          this.onLoadObjectFailed(errorMsg, gruppe)
-        })
-    }
+
   },
 
   onLoadObjectFailed(error, gruppe) {

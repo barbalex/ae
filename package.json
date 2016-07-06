@@ -35,8 +35,6 @@
     "node-libs-browser": "1.0.0",
     "pouchdb-authentication": "0.5.3",
     "pouchdb": "5.3.2",
-    "pouchdb-load": "1.4.5",
-    "pouchdb-upsert": "2.0.2",
     "react": "15.1.0",
     "react-bootstrap": "0.29.5",
     "react-copy-to-clipboard": "4.2.0",
