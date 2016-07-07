@@ -59,15 +59,14 @@ export const initializeApp = () =>
         remoteUsersDb
       })
     })
-      .then(() => dispatch({
-        type: INITIALIZE_SUCCESS,
-        localDb,
-        remoteDb,
-        remoteUsersDb
-      }))
-      .catch((error) => dispatch({
-        type: INITIALIZE_ERROR,
-        error
-      }))
-    ]))
+    .then(() => dispatch({
+      type: INITIALIZE_SUCCESS,
+      localDb,
+      remoteDb,
+      remoteUsersDb
+    }))
+    .catch((error) => dispatch({
+      type: INITIALIZE_ERROR,
+      error
+    }))
   }
