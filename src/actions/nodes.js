@@ -14,6 +14,7 @@ export const getNodesInitial = () =>
       type: NODES_GET_INITIAL
     })
     fetch(`${getApiBaseUrl()}/nodes`)
+      .then((response) => response.json())
       .then((nodes) => dispatch({
         type: NODES_GET_INITIAL_SUCCESS,
         nodes
