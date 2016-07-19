@@ -2,7 +2,7 @@
  * nodes = nodes in tree view showing taxonomies
  */
 
-import getApiBaseUrl from '../getApiBaseUrl.js'
+import getApiBaseUrl from '../modules/getApiBaseUrl.js'
 
 export const NODES_GET_INITIAL = 'NODES_GET_INITIAL'
 export const NODES_GET_INITIAL_SUCCESS = 'NODES_GET_INITIAL_SUCCESS'
