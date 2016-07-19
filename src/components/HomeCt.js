@@ -18,10 +18,12 @@ const actions = Object.assign(
 function mapStateToProps(state) {
   const { user } = state.user
   const { errors } = state.errors
+  const { nodes } = state.nodes
 
   return {
     user,
-    errors
+    errors,
+    nodes,
   }
 }
 

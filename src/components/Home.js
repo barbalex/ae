@@ -8,7 +8,7 @@ import ResizeButton from './menu/ResizeButton.js'
 import Filter from './menu/Filter.js'
 import Symbols from './symbols/Symbols.js'
 import Main from './main/Main.js'
-import Tree from './menu/tree/Tree.js'
+import Tree from './menu/tree/TreeCt.js'
 import ErrorsCt from './ErrorsCt.js'
 import Login from './main/login/Login.js'
 import buildHierarchyObjectFromObjectForTaxonomy from '../modules/buildHierarchyObjectFromObjectForTaxonomy.js'
@@ -40,7 +40,7 @@ export default React.createClass({
   displayName: 'Home',
 
   propTypes: {
-    hierarchy: React.PropTypes.object,
+    nodes: React.PropTypes.object,
     gruppe: React.PropTypes.string,
     path: React.PropTypes.array,
     synonymObjects: React.PropTypes.array,
@@ -74,7 +74,7 @@ export default React.createClass({
     } = this.props
 
     return {
-      hierarchy: [],
+      nodes: [],
       path,
       synonymObjects: [],
       object: undefined,
@@ -168,11 +168,6 @@ export default React.createClass({
     browserHistory.push(url)
   },
 
-  onObjectStoreChange(hierarchyPassed) {
-    const hierarchy = hierarchyPassed || this.state.hierarchy
-    this.setState({ hierarchy })
-  },
-
   onActiveObjectStoreChange(object, synonymObjects) {
     const guid = object._id
     this.setState({
@@ -218,11 +213,12 @@ export default React.createClass({
         // if this field is contained in Hierarchien, need to update that
         if (save && pcType === 'Taxonomie' && eigenschaften.Hierarchie) {
           const hO = buildHierarchyObjectFromObjectForTaxonomy(object, pcName)
+          /*
           if (hO) {
-            const hierarchy = eigenschaften.Hierarchie
-            hierarchy.pop()
-            hierarchy.push(hO)
-          }
+            const nodes = eigenschaften.Hierarchie
+            nodes.pop()
+            nodes.push(hO)
+          }*/
         }
         // o.k., now update object
         const collectionIndex = object[pcTypeHash[pcType]].findIndex(pc =>
@@ -253,7 +249,9 @@ export default React.createClass({
 
   render() {
     const {
-      hierarchy,
+      nodes,
+    } = this.props
+    const {
       path,
       object,
       filterOptions,
@@ -267,7 +265,8 @@ export default React.createClass({
       errors
     } = this.state
     const showFilter = filterOptions.length > 0 || loadingFilterOptions
-    const showTree = path && hierarchy
+    // const showTree = path && nodes
+    const showTree = true
     const showMain = (
       object !== undefined ||
       !!mainComponent
@@ -277,7 +276,11 @@ export default React.createClass({
     if (pcsQuerying || rcsQuerying || fieldsQuerying) {
       homeStyle.cursor = 'progress'
     }
-    const showMenu = mainComponent !== 'exportierenAlt'
+    // const showMenu = mainComponent !== 'exportierenAlt'
+    const showMenu = true
+    console.log('Home.js, render, nodes:', nodes)
+    console.log('Home.js, render, showTree:', showTree)
+    console.log('Home.js, render, showMenu:', showMenu)
 
     if (
       errors &&
@@ -308,6 +311,7 @@ export default React.createClass({
               showTree &&
               <Tree />
             }
+            <Tree />
           </div>
         }
         <Symbols />

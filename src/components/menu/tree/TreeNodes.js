@@ -6,16 +6,16 @@ import { StyleSheet, css } from 'aphrodite'
 import replaceProblematicPathCharactersFromString from '../../../modules/replaceProblematicPathCharactersFromString.js'
 import getObjectFromPath from '../../../modules/getObjectFromPath.js'
 
-const onClickNode = ({ hO, path: previousPath }, event) => {
+const onClickNode = ({ node, path: previousPath }, event) => {
   event.stopPropagation()
-  let guidOfObjectToLoad = hO.GUID
+  let guidOfObjectToLoad = node.GUID
   // check if clicked node was already active:
   // if path.length is same or shorter as before
-  const pathToLoad = clone(hO.path)
-  if (previousPath.length <= hO.path.length) {
+  const pathToLoad = clone(node.path)
+  if (previousPath.length <= node.path.length) {
     // and last element is same as before
-    const positionToCheck = hO.path.length - 1
-    if (previousPath[positionToCheck] === hO.path[positionToCheck]) {
+    const positionToCheck = node.path.length - 1
+    if (previousPath[positionToCheck] === node.path[positionToCheck]) {
       // an already active node was clicked
       // so remove the last element
       pathToLoad.pop()
@@ -38,21 +38,21 @@ const onClickNode = ({ hO, path: previousPath }, event) => {
     )
 }
 
-const TreeNodes = ({ hierarchy, object, path }) => {
-  let nodes = chain(hierarchy)
-    .sortBy((hO) => hO.Name)
-    .map((hO, index) => {
-      const level = hO.path.length
+const TreeNodes = ({ nodes, object, path }) => {
+  let nodesElements = chain(nodes)
+    .sortBy((node) => node.Name)
+    .map((node, index) => {
+      const level = node.path.length
       const activeKey = path[level - 1]
-      const keyIsActive = replaceProblematicPathCharactersFromString(hO.Name) === activeKey
-      const keyIsObjectShown = object !== undefined && hO.GUID && object._id === hO.GUID
+      const keyIsActive = replaceProblematicPathCharactersFromString(node.Name) === activeKey
+      const keyIsObjectShown = object !== undefined && node.GUID && object._id === node.GUID
       const glyph = (
         keyIsActive ?
         (keyIsObjectShown ? 'forward' : 'triangle-bottom') :
-        (hO.children && hO.children.length > 0 ? 'play' : 'minus')
+        (node.children && node.children.length > 0 ? 'play' : 'minus')
       )
-      const onClick = onClickNode.bind(this, { hO, path })
-      const showNode = keyIsActive && hO.children
+      const onClick = onClickNode.bind(this, { node, path })
+      const showNode = keyIsActive && node.children
       const styles = StyleSheet.create({
         ul: {
           paddingLeft: 4,
@@ -87,7 +87,7 @@ const TreeNodes = ({ hierarchy, object, path }) => {
         <li
           key={index}
           level={level}
-          hO={hO}
+          node={node}
           onClick={onClick}
           className={css(styles.li)}
         >
@@ -99,12 +99,12 @@ const TreeNodes = ({ hierarchy, object, path }) => {
           <div
             className={css(styles.div)}
           >
-            {hO.Name.replace('&#39;', '\'')}
+            {node.Name.replace('&#39;', '\'')}
           </div>
           {
             showNode &&
             <TreeNodes
-              hierarchy={hO.children}
+              nodes={node.children}
               object={object}
               path={path}
             />
@@ -123,7 +123,7 @@ const TreeNodes = ({ hierarchy, object, path }) => {
 
   return (
     <ul className={css(mainStyles.ul)}>
-      {nodes}
+      {nodesElements}
     </ul>
   )
 }

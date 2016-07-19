@@ -7,7 +7,7 @@ export default React.createClass({
   displayName: 'TreeLevel1',
 
   propTypes: {
-    hierarchy: React.PropTypes.array,
+    nodes: React.PropTypes.array,
     object: React.PropTypes.object,
     path: React.PropTypes.array,
     windowHeight: React.PropTypes.number,
@@ -37,7 +37,7 @@ export default React.createClass({
 
   render() {
     const {
-      hierarchy,
+      nodes,
       object,
       path,
     } = this.props
@@ -73,9 +73,9 @@ export default React.createClass({
         style={treeStyle}
       >
         {
-          hierarchy &&
+          nodes &&
           <Nodes
-            hierarchy={hierarchy}
+            nodes={nodes}
             object={object}
             path={path}
           />
