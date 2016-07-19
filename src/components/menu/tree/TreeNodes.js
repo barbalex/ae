@@ -39,13 +39,14 @@ const onClickNode = ({ node, path: previousPath }, event) => {
 }
 
 const TreeNodes = ({ nodes, object, path }) => {
+  console.log('TreeNodes, nodes:', nodes)
   let nodesElements = chain(nodes)
-    .sortBy((node) => node.Name)
+    .sortBy((node) => node.data.name)
     .map((node, index) => {
       const level = node.path.length
       const activeKey = path[level - 1]
-      const keyIsActive = replaceProblematicPathCharactersFromString(node.Name) === activeKey
-      const keyIsObjectShown = object !== undefined && node.GUID && object._id === node.GUID
+      const keyIsActive = replaceProblematicPathCharactersFromString(node.data.name) === activeKey
+      const keyIsObjectShown = object !== undefined && node.data.id && object._id === node.data.id
       const glyph = (
         keyIsActive ?
         (keyIsObjectShown ? 'forward' : 'triangle-bottom') :
@@ -99,7 +100,7 @@ const TreeNodes = ({ nodes, object, path }) => {
           <div
             className={css(styles.div)}
           >
-            {node.Name.replace('&#39;', '\'')}
+            {node.data.name.replace('&#39;', '\'')}
           </div>
           {
             showNode &&
@@ -116,7 +117,7 @@ const TreeNodes = ({ nodes, object, path }) => {
 
   const mainStyles = StyleSheet.create({
     ul: {
-      paddingLeft: (hierarchy.length && hierarchy[0].path.length === 1) ? 4 : 20,
+      paddingLeft: (nodes.length && nodes[0].path.length === 1) ? 4 : 20,
       marginBottom: 0
     }
   })
@@ -131,7 +132,7 @@ const TreeNodes = ({ nodes, object, path }) => {
 TreeNodes.displayName = 'TreeNodes'
 
 TreeNodes.propTypes = {
-  hierarchy: React.PropTypes.array,  // = hierarchy objects OF THIS LEVEL
+  nodes: React.PropTypes.array,  // = hierarchy objects OF THIS LEVEL
   activeKey: React.PropTypes.string,
   object: React.PropTypes.object,
   path: React.PropTypes.array

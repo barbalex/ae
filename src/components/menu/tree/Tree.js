@@ -7,7 +7,7 @@ export default React.createClass({
   displayName: 'TreeLevel1',
 
   propTypes: {
-    nodes: React.PropTypes.array,
+    nodes: React.PropTypes.object,
     object: React.PropTypes.object,
     path: React.PropTypes.array,
     windowHeight: React.PropTypes.number,
@@ -75,7 +75,7 @@ export default React.createClass({
         {
           nodes &&
           <Nodes
-            nodes={nodes}
+            nodes={nodes.children}
             object={object}
             path={path}
           />
