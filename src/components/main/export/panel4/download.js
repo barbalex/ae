@@ -1,4 +1,4 @@
-import d3 from 'd3'
+import d3 from 'd3-dsv'
 import moment from 'moment'
 import createBlobXlsx from './createBlobXlsx.js'
 import FileSaver from 'browser-filesaver'
@@ -15,7 +15,7 @@ export default (exportObjects, format) => {
   const filename = `${date}_arteigenschaften.${format}`
   let blob
   if (format === 'csv') {
-    const csvData = d3.csv.format(exportObjects)
+    const csvData = d3.csvFormat(exportObjects)
     blob = new window.Blob([csvData], {
       type: 'text/plain;charset=utf-8;'
     })

@@ -1,5 +1,5 @@
 import { forEach } from 'lodash'
-import d3 from 'd3'
+import d3 from 'd3-dsv'
 
 export default (file) => new Promise((resolve, reject) => {
   const fileName = file.name
@@ -9,7 +9,7 @@ export default (file) => new Promise((resolve, reject) => {
   if (fileType === 'csv') {
     reader.onload = (onloadEvent) => {
       const data = onloadEvent.target.result
-      const objects = d3.csv.parse(data)
+      const objects = d3.csvParse(data)
       // d3 adds missing fields as '' > remove them
       objects.forEach((object, index) => {
         forEach(object, (value, key) => {
