@@ -63,7 +63,7 @@ setTimeout(() => {
     gruppe,
     guid
   } = extractInfoFromPath(path, search)
-  kickOffStores(pathArray, gruppe, guid)
+  // kickOffStores(pathArray, gruppe, guid)
   // check if groups have previously been loaded in pouchdb
   getGroupsLoadedFromLocalDb()
     .then((groupsLoadedInPouch) => {
