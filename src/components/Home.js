@@ -59,7 +59,8 @@ export default React.createClass({
     rcsQuerying: React.PropTypes.bool,
     fieldsQuerying: React.PropTypes.bool,
     errors: React.PropTypes.array,
-    initializeApp: React.PropTypes.func
+    initializeApp: React.PropTypes.func,
+    getNodesInitial: React.PropTypes.func,
   },
 
   mixins: [ListenerMixin],
@@ -96,8 +97,9 @@ export default React.createClass({
   },
 
   componentDidMount() {
-    const { initializeApp } = this.props
+    const { initializeApp, getNodesInitial } = this.props
     initializeApp()
+    /*
     // listen to stores
     this.listenTo(app.userStore, this.onLoginStoreChange)
     this.listenTo(app.activePathStore, this.onActivePathStoreChange)
@@ -111,6 +113,9 @@ export default React.createClass({
     this.listenTo(app.fieldsStore, this.onChangeFieldsStore)
     this.listenTo(app.organizationsStore, this.onOrganizationsStoreChange)
     this.listenTo(app.errorStore, this.onErrorStoreChange)
+    */
+    console.log('Home.js, componentDidMount')
+    getNodesInitial()
   },
 
   onErrorStoreChange(errors) {
