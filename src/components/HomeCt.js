@@ -6,6 +6,7 @@ import * as groupsActions from '../actions/groups'
 import * as appActions from '../actions/app'
 import * as errorActions from '../actions/errors'
 import * as nodesActions from '../actions/nodes'
+import * as pathActions from '../actions/path'
 
 const actions = Object.assign(
   userActions,
@@ -13,6 +14,7 @@ const actions = Object.assign(
   appActions,
   errorActions,
   nodesActions,
+  pathActions,
 )
 
 function mapStateToProps(state) {

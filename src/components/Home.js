@@ -12,6 +12,7 @@ import Tree from './menu/tree/TreeCt.js'
 import ErrorsCt from './ErrorsCt.js'
 import Login from './main/login/Login.js'
 import buildHierarchyObjectFromObjectForTaxonomy from '../modules/buildHierarchyObjectFromObjectForTaxonomy.js'
+import getPathFromUrl from '../modules/getPathFromUrl'
 
 const styles = StyleSheet.create({
   menu: {
@@ -61,6 +62,7 @@ export default React.createClass({
     errors: React.PropTypes.array,
     initializeApp: React.PropTypes.func,
     getNodesInitial: React.PropTypes.func,
+    setPath: React.PropTypes.func,
   },
 
   mixins: [ListenerMixin],
@@ -97,7 +99,11 @@ export default React.createClass({
   },
 
   componentDidMount() {
-    const { initializeApp, getNodesInitial } = this.props
+    const {
+      initializeApp,
+      getNodesInitial,
+      setPath,
+    } = this.props
     initializeApp()
     /*
     // listen to stores
@@ -114,8 +120,9 @@ export default React.createClass({
     this.listenTo(app.organizationsStore, this.onOrganizationsStoreChange)
     this.listenTo(app.errorStore, this.onErrorStoreChange)
     */
-    console.log('Home.js, componentDidMount')
     getNodesInitial()
+    const { path, guid, mainComponent } = getPathFromUrl(this.props.location)
+    setPath({ path, guid, mainComponent })
   },
 
   onErrorStoreChange(errors) {

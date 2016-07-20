@@ -3,18 +3,31 @@ import { browserHistory } from 'react-router'
 export const PATH_CHANGE = 'PATH_CHANGE'
 export const changePath = ({
   path,
-  guid,
-  gruppe,
+  objectId,
   mainComponent
 }) =>
   (dispatch) => {
     dispatch({
       type: PATH_CHANGE,
       path,
-      guid,
-      gruppe,
+      objectId,
       mainComponent
     })
-    const url = `/${path.join('/')}${guid ? `?id=${guid}` : ''}`
+    const url = `/${path.join('/')}${objectId ? `?id=${objectId}` : ''}`
     browserHistory.push(url)
+  }
+
+export const PATH_SET = 'PATH_SET'
+export const setPath = ({
+  path,
+  objectId,
+  mainComponent
+}) =>
+  (dispatch) => {
+    dispatch({
+      type: PATH_SET,
+      path,
+      objectId,
+      mainComponent
+    })
   }
