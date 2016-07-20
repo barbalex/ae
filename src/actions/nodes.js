@@ -34,7 +34,7 @@ export const nodesGetForNode = ({ type, id }) =>
     dispatch({
       type: NODES_GET_FOR_NODE
     })
-    fetch(`${getApiBaseUrl()}/nodes/${type}/${id}`)
+    fetch(`${getApiBaseUrl()}/node?type=${type}&objectId=${id}`)
       .then((response) => response.json())
       .then((nodes) => dispatch({
         type: NODES_GET_FOR_NODE_SUCCESS,

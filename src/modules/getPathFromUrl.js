@@ -8,7 +8,7 @@ import getUrlParameterByName from './getUrlParameterByName'
 import getPathFromObjectId from './getPathFromObjectId'
 
 export default (location) =>
-  new Promise((resolve, reject) => {
+  new Promise((resolve) => {
     const {
       pathname,
       search,
@@ -28,7 +28,7 @@ export default (location) =>
       // this is a path of style /<objectId>
       objectId = path[0]
       mainComponent = 'object'
-      // TODO: need to replace path from objectId
+      // need to replace path from objectId
       replacePathFromObjectTaxonomy = true
     } else if (path.length === 1 && path[0] === 'exportieren') {
       mainComponent = 'exportieren'
@@ -37,7 +37,7 @@ export default (location) =>
       // it was used in a previous app version
       // and is still called by ALT and EvAB
       mainComponent = 'object'
-      // TODO: need to set replace path from objectId
+      // need to set replace path from objectId
       replacePathFromObjectTaxonomy = true
     } else if (path.length === 1 && path[0] === 'organisationen') {
       mainComponent = 'organizations'
