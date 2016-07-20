@@ -9,5 +9,5 @@ export default (name, search) => {
   name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]')
   const regex = new RegExp(`[\\?&]${name}=([^&#]*)`)
   const results = regex.exec(search)
-  return results === null ? undefined : decodeURIComponent(results[1].replace(/\+/g, ' '))
+  return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '))
 }

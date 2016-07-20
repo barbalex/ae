@@ -8,7 +8,7 @@ export const NODES_GET_INITIAL = 'NODES_GET_INITIAL'
 export const NODES_GET_INITIAL_SUCCESS = 'NODES_GET_INITIAL_SUCCESS'
 export const NODES_GET_INITIAL_ERROR = 'NODES_GET_INITIAL_ERROR'
 
-export const getNodesInitial = () =>
+export const nodesGetInitial = () =>
   (dispatch) => {
     dispatch({
       type: NODES_GET_INITIAL
@@ -21,6 +21,27 @@ export const getNodesInitial = () =>
       }))
       .catch((error) => dispatch({
         type: NODES_GET_INITIAL_ERROR,
+        error
+      }))
+  }
+
+export const NODES_GET_FOR_NODE = 'NODES_GET_FOR_NODE'
+export const NODES_GET_FOR_NODE_SUCCESS = 'NODES_GET_FOR_NODE_SUCCESS'
+export const NODES_GET_FOR_NODE_ERROR = 'NODES_GET_FOR_NODE_ERROR'
+
+export const nodesGetForNode = ({ type, id }) =>
+  (dispatch) => {
+    dispatch({
+      type: NODES_GET_FOR_NODE
+    })
+    fetch(`${getApiBaseUrl()}/nodes/${type}/${id}`)
+      .then((response) => response.json())
+      .then((nodes) => dispatch({
+        type: NODES_GET_FOR_NODE_SUCCESS,
+        nodes
+      }))
+      .catch((error) => dispatch({
+        type: NODES_GET_FOR_NODE_ERROR,
         error
       }))
   }

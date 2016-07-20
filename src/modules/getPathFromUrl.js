@@ -10,12 +10,9 @@ export default (location) => {
     pathname,
     search,
   } = location
-  console.log('getPathFromUrl.js, pathname:', `'${pathname}'`)
   const pathEncoded = pathname === '/' ? [] : pathname.split('/').slice(1)
   const path = pathEncoded.map((p) => decodeURIComponent(p))
-  const objectId = getUrlParameterByName('id', search) || null
-  console.log('getPathFromUrl.js, path:', path)
-  console.log('getPathFromUrl.js, objectId:', objectId)
+  const objectId = getUrlParameterByName('id', search)
   let mainComponent = 'object'
   switch (path[0]) {
     case 'importPc':
