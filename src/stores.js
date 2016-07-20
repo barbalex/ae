@@ -13,7 +13,6 @@ import relationCollectionsStore from './stores/relationCollections.js'
 import userStore from './stores/user.js'
 import pathStore from './stores/path.js'
 import filterOptionsStore from './stores/filterOptions.js'
-import activePathStore from './stores/activePath.js'
 import activeObjectStore from './stores/activeObject.js'
 import objectStore from './stores/object.js'
 
@@ -32,7 +31,6 @@ export default (Actions) => {
   app.userStore = userStore(Actions)
   app.pathStore = pathStore(Actions)
   app.filterOptionsStore = filterOptionsStore(Actions)
-  app.activePathStore = activePathStore(Actions)
   app.activeObjectStore = activeObjectStore(Actions)
   app.objectStore = objectStore(Actions)
 }

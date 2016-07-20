@@ -1,5 +1,6 @@
 import { browserHistory } from 'react-router'
 import * as nodesActions from './nodes'
+import * as objectActions from './object'
 
 export const PATH_CHANGE = 'PATH_CHANGE'
 export const changePath = ({
@@ -38,8 +39,9 @@ export const setPath = ({
       const id = objectId
       dispatch(nodesActions.nodesGetForNode({ type, id }))
     }
-    // TODO: get object
-    if (objectId)
+    if (objectId) {
+      dispatch(objectActions.objectChange(objectId))
+    }
     dispatch({
       type: PATH_SET,
       path,

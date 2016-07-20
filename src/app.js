@@ -8,9 +8,6 @@ import Router from './router.js'
 import actions from './actions.js'
 import stores from './stores'
 import getGroupsLoadedFromLocalDb from './modules/getGroupsLoadedFromLocalDb.js'
-import kickOffStores from './modules/kickOffStores.js'
-import replaceProblematicPathCharactersFromArray from './modules/replaceProblematicPathCharactersFromArray.js'
-import extractInfoFromPath from './modules/extractInfoFromPath.js'
 /**
  * need this polyfill to transform promise.all
  * without it IE11 and lower bark
@@ -53,17 +50,6 @@ render(
 
 // wait for home.js to do it's job
 setTimeout(() => {
-  // read data from url
-  // need to remove first / or there will be a first path element of null
-  let path = window.location.pathname.replace('/', '').split('/')
-  path = replaceProblematicPathCharactersFromArray(path)
-  const search = window.location.search
-  const {
-    path: pathArray,
-    gruppe,
-    guid
-  } = extractInfoFromPath(path, search)
-  // kickOffStores(pathArray, gruppe, guid)
   // check if groups have previously been loaded in pouchdb
   getGroupsLoadedFromLocalDb()
     .then((groupsLoadedInPouch) => {

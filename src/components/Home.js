@@ -121,8 +121,9 @@ export default React.createClass({
     this.listenTo(app.errorStore, this.onErrorStoreChange)
     */
     nodesGetInitial()
-    const { path, objectId, mainComponent } = getPathFromUrl(this.props.location)
-    setPath({ path, objectId, mainComponent })
+    getPathFromUrl(this.props.location)
+      .then(({ path, objectId, mainComponent }) => setPath({ path, objectId, mainComponent }))
+      .catch((error) => console.log(error))
   },
 
   onErrorStoreChange(errors) {

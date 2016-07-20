@@ -7,6 +7,7 @@ import users, * as fromUsers from './users'
 import path from './path'
 import groups from './groups'
 import nodes from './nodes'
+import object from './object'
 
 const rootReducer = combineReducers({
   app,
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
   path,
   groups,
   routing,
-  nodes
+  nodes,
+  object,
 })
 
 export default rootReducer
