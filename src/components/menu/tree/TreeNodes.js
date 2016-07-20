@@ -41,7 +41,7 @@ const onClickNode = ({ node, path: previousPath }, event) => {
 const TreeNodes = ({
   nodes,
   object,
-  path = [],
+  path,
 }) => {
   console.log('TreeNodes, nodes:', nodes)
   let nodesElements = chain(nodes)
