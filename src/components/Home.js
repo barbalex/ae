@@ -278,9 +278,6 @@ export default React.createClass({
     }
     // const showMenu = mainComponent !== 'exportierenAlt'
     const showMenu = true
-    console.log('Home.js, render, nodes:', nodes)
-    console.log('Home.js, render, showTree:', showTree)
-    console.log('Home.js, render, showMenu:', showMenu)
 
     if (
       errors &&

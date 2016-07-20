@@ -38,7 +38,11 @@ const onClickNode = ({ node, path: previousPath }, event) => {
     )
 }
 
-const TreeNodes = ({ nodes, object, path }) => {
+const TreeNodes = ({
+  nodes,
+  object,
+  path = [],
+}) => {
   console.log('TreeNodes, nodes:', nodes)
   let nodesElements = chain(nodes)
     .sortBy((node) => node.data.name)
