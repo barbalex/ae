@@ -5,7 +5,6 @@
 
 import app from 'ampersand-app'
 import isGuid from './isGuid.js'
-import replaceProblematicPathCharactersFromArray from './replaceProblematicPathCharactersFromArray.js'
 import getGuidFromPath from './getGuidFromPath.js'
 
 export default (path) => new Promise((resolve, reject) => {
@@ -20,7 +19,6 @@ export default (path) => new Promise((resolve, reject) => {
   }
 
   // check if the pathname equals an object's path
-  path = replaceProblematicPathCharactersFromArray(path)
   getGuidFromPath(path)
     .then((guid) => {
       if (guid) {

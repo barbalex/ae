@@ -46,7 +46,6 @@
 // TODO: refactor to remove repeating code
 
 import { clone } from 'lodash'
-import replaceProblematicPathCharactersFromArray from './replaceProblematicPathCharactersFromArray.js'
 import getHierarchyFromObject from './getHierarchyFromObject.js'
 
 const buildEl = {
@@ -92,7 +91,7 @@ function checkLevel1(hierarchy, hierarchyOfObject) {
   if (!el1) {
     el1 = clone(hierarchyOfObject[0])
     el1.children = []
-    el1.path = replaceProblematicPathCharactersFromArray([el1.Name])
+    el1.path = [el1.Name]
     hierarchy.push(el1)
   }
 }
@@ -104,10 +103,10 @@ function checkLevel2(hierarchy, hierarchyOfObject) {
   if (!el2) {
     el2 = clone(hierarchyOfObject[1])
     el2.children = []
-    el2.path = replaceProblematicPathCharactersFromArray([
+    el2.path = [
       el1.Name,
       el2.Name
-    ])
+    ]
     el1.children.push(el2)
   }
 }
@@ -121,11 +120,11 @@ function checkLevel3(hierarchy, hierarchyOfObject) {
   if (!el3) {
     el3 = clone(hierarchyOfObject[2])
     el3.children = []
-    el3.path = replaceProblematicPathCharactersFromArray([
+    el3.path = [
       el1.Name,
       el2.Name,
       el3.Name
-    ])
+    ]
     el2.children.push(el3)
   }
 }
@@ -141,12 +140,12 @@ function checkLevel4(hierarchy, hierarchyOfObject) {
   if (!el4) {
     el4 = clone(hierarchyOfObject[3])
     el4.children = []
-    el4.path = replaceProblematicPathCharactersFromArray([
+    el4.path = [
       el1.Name,
       el2.Name,
       el3.Name,
       el4.Name
-    ])
+    ]
     el3.children.push(el4)
   }
 }
@@ -164,13 +163,13 @@ function checkLevel5(hierarchy, hierarchyOfObject) {
   if (!el5) {
     el5 = clone(hierarchyOfObject[4])
     el5.children = []
-    el5.path = replaceProblematicPathCharactersFromArray([
+    el5.path = [
       el1.Name,
       el2.Name,
       el3.Name,
       el4.Name,
       el5.Name
-    ])
+    ]
     el4.children.push(el5)
   }
 }
@@ -190,14 +189,14 @@ function checkLevel6(hierarchy, hierarchyOfObject) {
   if (!el6) {
     el6 = clone(hierarchyOfObject[5])
     el6.children = []
-    el6.path = replaceProblematicPathCharactersFromArray([
+    el6.path = [
       el1.Name,
       el2.Name,
       el3.Name,
       el4.Name,
       el5.Name,
       el6.Name
-    ])
+    ]
     el5.children.push(el6)
   }
 }
@@ -219,7 +218,7 @@ function checkLevel7(hierarchy, hierarchyOfObject) {
   if (!el7) {
     el7 = clone(hierarchyOfObject[6])
     el7.children = []
-    el7.path = replaceProblematicPathCharactersFromArray([
+    el7.path = [
       el1.Name,
       el2.Name,
       el3.Name,
@@ -227,7 +226,7 @@ function checkLevel7(hierarchy, hierarchyOfObject) {
       el5.Name,
       el6.Name,
       el7.Name
-    ])
+    ]
     el6.children.push(el7)
   }
 }
@@ -251,7 +250,7 @@ function checkLevel8(hierarchy, hierarchyOfObject) {
   if (!el8) {
     el8 = clone(hierarchyOfObject[7])
     el8.children = []
-    el8.path = replaceProblematicPathCharactersFromArray([
+    el8.path = [
       el1.Name,
       el2.Name,
       el3.Name,
@@ -260,7 +259,7 @@ function checkLevel8(hierarchy, hierarchyOfObject) {
       el6.Name,
       el7.Name,
       el8.Name
-    ])
+    ]
     el7.children.push(el8)
   }
 }
@@ -286,7 +285,7 @@ function checkLevel9(hierarchy, hierarchyOfObject) {
   if (!el9) {
     el9 = clone(hierarchyOfObject[8])
     el9.children = []
-    el9.path = replaceProblematicPathCharactersFromArray([
+    el9.path = [
       el1.Name,
       el2.Name,
       el3.Name,
@@ -296,7 +295,7 @@ function checkLevel9(hierarchy, hierarchyOfObject) {
       el7.Name,
       el8.Name,
       el9.Name
-    ])
+    ]
     el8.children.push(el9)
   }
 }

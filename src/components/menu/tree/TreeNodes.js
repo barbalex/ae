@@ -3,7 +3,6 @@ import React from 'react'
 import { Glyphicon } from 'react-bootstrap'
 import { chain, clone } from 'lodash'
 import { StyleSheet, css } from 'aphrodite'
-import replaceProblematicPathCharactersFromString from '../../../modules/replaceProblematicPathCharactersFromString.js'
 import getObjectFromPath from '../../../modules/getObjectFromPath.js'
 
 const onClickNode = ({ node, path: previousPath }, event) => {
@@ -49,7 +48,7 @@ const TreeNodes = ({
     .map((node, index) => {
       const level = node.path.length
       const activeKey = path[level - 1]
-      const keyIsActive = replaceProblematicPathCharactersFromString(node.data.name) === activeKey
+      const keyIsActive = node.data.name === activeKey
       const keyIsObjectShown = object !== undefined && node.data.id && object._id === node.data.id
       const glyph = (
         keyIsActive ?
