@@ -61,7 +61,6 @@ export default React.createClass({
     fieldsQuerying: React.PropTypes.bool,
     errors: React.PropTypes.array,
     initializeApp: React.PropTypes.func,
-    nodesGetInitial: React.PropTypes.func,
     setPath: React.PropTypes.func,
   },
 
@@ -101,7 +100,6 @@ export default React.createClass({
   componentDidMount() {
     const {
       initializeApp,
-      nodesGetInitial,
       setPath,
     } = this.props
     initializeApp()
@@ -120,7 +118,6 @@ export default React.createClass({
     this.listenTo(app.organizationsStore, this.onOrganizationsStoreChange)
     this.listenTo(app.errorStore, this.onErrorStoreChange)
     */
-    nodesGetInitial()
     getPathFromUrl(this.props.location)
       .then(({ path, objectId, mainComponent }) => setPath({ path, objectId, mainComponent }))
       .catch((error) => console.log(error))

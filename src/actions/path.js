@@ -51,6 +51,9 @@ export const setPath = ({
     if (objectId) {
       dispatch(objectActions.objectChange(objectId))
     }
+    if (!mainComponent) {
+      dispatch(nodesActions.nodesGetInitial())
+    }
     dispatch({
       type: PATH_SET,
       path,
