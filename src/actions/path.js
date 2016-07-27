@@ -29,7 +29,7 @@ export const setPath = ({
     // get nodes if main Component is 'object'
     if (mainComponent === 'object') {
       // find out type of node
-      let type = 'taxonomy_object'
+      let type = 'object'
       if (path.length === 1) {
         type = 'category'
       }
