@@ -52,14 +52,13 @@ export default (location) =>
 
     if (replacePathFromObjectTaxonomy) {
       getPathFromObjectId(objectId)
-        .then((pathFromObjectId) => {
-          console.log('getPathFromUrl.js, pathFromObjectId:', pathFromObjectId)
+        .then((pathFromObjectId) =>
           resolve({
             path: pathFromObjectId,
             objectId,
             mainComponent,
           })
-        })
+        )
         .catch((error) => console.log(error))
     } else {
       resolve({
