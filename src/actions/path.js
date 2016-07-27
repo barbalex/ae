@@ -6,14 +6,14 @@ export const PATH_CHANGE = 'PATH_CHANGE'
 export const changePath = ({
   path,
   objectId,
-  mainComponent
+  mainComponent,
 }) =>
   (dispatch) => {
     dispatch({
       type: PATH_CHANGE,
       path,
       objectId,
-      mainComponent
+      mainComponent,
     })
     const url = `/${path.join('/')}${objectId ? `?id=${objectId}` : ''}`
     browserHistory.push(url)
@@ -23,7 +23,7 @@ export const PATH_SET = 'PATH_SET'
 export const setPath = ({
   path,
   objectId,
-  mainComponent
+  mainComponent,
 }) =>
   (dispatch) => {
     // get nodes if main Component is 'object'
@@ -41,7 +41,7 @@ export const setPath = ({
       dispatch(changePath({
         path,
         objectId,
-        mainComponent
+        mainComponent,
       }))
     }
     if (objectId) {
@@ -51,6 +51,6 @@ export const setPath = ({
       type: PATH_SET,
       path,
       objectId,
-      mainComponent
+      mainComponent,
     })
   }
