@@ -38,6 +38,11 @@ export const setPath = ({
       }
       const id = objectId
       dispatch(nodesActions.nodesGetForNode({ type, id }))
+      dispatch(changePath({
+        path,
+        objectId,
+        mainComponent
+      }))
     }
     if (objectId) {
       dispatch(objectActions.objectChange(objectId))
