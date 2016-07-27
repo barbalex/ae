@@ -29,12 +29,12 @@ export const NODES_GET_FOR_NODE = 'NODES_GET_FOR_NODE'
 export const NODES_GET_FOR_NODE_SUCCESS = 'NODES_GET_FOR_NODE_SUCCESS'
 export const NODES_GET_FOR_NODE_ERROR = 'NODES_GET_FOR_NODE_ERROR'
 
-export const nodesGetForNode = ({ type, id }) =>
+export const nodesGetForNode = ({ path, id }) =>
   (dispatch) => {
     dispatch({
       type: NODES_GET_FOR_NODE
     })
-    fetch(`${getApiBaseUrl()}/node/${type}/${id}`)
+    fetch(`${getApiBaseUrl()}/node/${path}/${id}`)
       .then((response) => response.json())
       .then((nodes) => dispatch({
         type: NODES_GET_FOR_NODE_SUCCESS,

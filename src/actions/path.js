@@ -16,17 +16,30 @@ export const setPath = ({
     console.log('actions/path, mainComponent:', mainComponent)
     // get nodes if main Component is 'object'
     if (mainComponent === 'object') {
+      // TODO:
+      // send url to db
+      // receive:
+      // - path
+      // - nodes
+
       // find out type of node
       let type = objectId ? 'object' : 'taxonomy_object'
       if (path.length === 1) {
         type = 'category'
-
-      }
-      if (path.length === 2) {
+        const id = path[0]
+        dispatch(nodesActions.nodesGetForNode({ type, id }))
+      } else if (path.length === 2) {
         type = 'taxonomy'
+        // TODO: get nodes
+      } else if (objectId) {
+        // this is an object node
+        const id = objectId
+        dispatch(nodesActions.nodesGetForNode({ type, id }))
+      } else {
+        // this is a taxonomy_node without object
+        // need to get it's id
       }
-      const id = objectId
-      dispatch(nodesActions.nodesGetForNode({ type, id }))
+
       const url = `/${path.join('/')}${objectId ? `?id=${objectId}` : ''}`
       browserHistory.push(url)
     }
