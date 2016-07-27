@@ -43,7 +43,7 @@ const TreeNodes = ({
   object,
   path,
 }) => {
-  console.log('TreeNodes, nodes:', nodes)
+  // console.log('TreeNodes, nodes:', nodes)
   let nodesElements = chain(nodes)
     .sortBy((node) => node.data.name)
     .map((node, index) => {
@@ -57,7 +57,7 @@ const TreeNodes = ({
         (node.children && node.children.length > 0 ? 'play' : 'minus')
       )
       const onClick = onClickNode.bind(this, { node, path })
-      const showNode = keyIsActive && node.children
+      const showNode = node.children
       const styles = StyleSheet.create({
         ul: {
           paddingLeft: 4,
@@ -91,8 +91,6 @@ const TreeNodes = ({
       return (
         <li
           key={index}
-          level={level}
-          node={node}
           onClick={onClick}
           className={css(styles.li)}
         >

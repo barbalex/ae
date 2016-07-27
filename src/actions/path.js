@@ -6,6 +6,7 @@ export const PATH_CHANGE = 'PATH_CHANGE'
 export const changePath = ({
   path,
   objectId,
+  taxonomyObjectId,
   mainComponent,
 }) =>
   (dispatch) => {
@@ -13,6 +14,7 @@ export const changePath = ({
       type: PATH_CHANGE,
       path,
       objectId,
+      taxonomyObjectId,
       mainComponent,
     })
     const url = `/${path.join('/')}${objectId ? `?id=${objectId}` : ''}`
@@ -23,13 +25,14 @@ export const PATH_SET = 'PATH_SET'
 export const setPath = ({
   path,
   objectId,
+  taxonomyObjectId,
   mainComponent,
 }) =>
   (dispatch) => {
     // get nodes if main Component is 'object'
     if (mainComponent === 'object') {
       // find out type of node
-      let type = 'object'
+      let type = objectId ? 'object' : 'taxonomy_object'
       if (path.length === 1) {
         type = 'category'
       }
@@ -41,6 +44,7 @@ export const setPath = ({
       dispatch(changePath({
         path,
         objectId,
+        taxonomyObjectId,
         mainComponent,
       }))
     }
@@ -51,6 +55,7 @@ export const setPath = ({
       type: PATH_SET,
       path,
       objectId,
+      taxonomyObjectId,
       mainComponent,
     })
   }

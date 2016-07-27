@@ -10,9 +10,9 @@ import {
   NODES_GET_CHILDREN_SUCCESS,
   NODES_GET_CHILDREN_ERROR,
   NODES_REMOVE_CHILDREN,
-  NODE_GET,
-  NODE_GET_SUCCESS,
-  NODE_GET_ERROR,
+  NODES_GET_FOR_NODE,
+  NODES_GET_FOR_NODE_SUCCESS,
+  NODES_GET_FOR_NODE_ERROR,
 } from '../actions/user'
 import buildNodes from '../modules/buildNodes'
 
@@ -25,19 +25,21 @@ const standardState = {
 const nodes = (state = standardState, action) => {
   switch (action.type) {
     case NODES_GET_INITIAL:
+    case NODES_GET_FOR_NODE:
       return {
         ...state,
         fetchingNodes: true,
-        nodes: null,
         error: null,
       }
     case NODES_GET_INITIAL_SUCCESS:
+    case NODES_GET_FOR_NODE_SUCCESS:
       return {
         ...state,
         fetchingNodes: false,
         nodes: buildNodes(action.nodes),
       }
     case NODES_GET_INITIAL_ERROR:
+    case NODES_GET_FOR_NODE_ERROR:
       return {
         ...state,
         fetchingNodes: false,

@@ -6,6 +6,7 @@ import {
 const standardState = {
   path: [],
   objectId: null,
+  taxonomyObjectId: null,
   mainComponent: null
 }
 
@@ -17,6 +18,7 @@ const path = (state = standardState, action) => {
         ...state,
         path: action.path,
         objectId: action.objectId,
+        taxonomyObjectId: action.taxonomyObjectId,
         mainComponent: action.mainComponent
       }
     default:
