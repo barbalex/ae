@@ -1,5 +1,4 @@
 import {
-  PATH_CHANGE,
   PATH_SET,
 } from '../actions/path'
 
@@ -12,7 +11,6 @@ const standardState = {
 
 const path = (state = standardState, action) => {
   switch (action.type) {
-    case PATH_CHANGE:
     case PATH_SET:
       return {
         ...state,
