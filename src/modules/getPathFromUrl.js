@@ -13,11 +13,11 @@ export default (location) =>
       pathname,
       search,
     } = location
-    let replacePathFromObjectTaxonomy = false
     const pathEncoded = pathname === '/' ? [] : pathname.split('/').slice(1)
     const path = pathEncoded.map((p) => decodeURIComponent(p))
     let objectId = getUrlParameterByName('id', search)
     let mainComponent = null
+
     if (path.length === 2 && path[0] === 'importieren') {
       if (path[1] === 'eigenschaften') {
         mainComponent = 'importPc'
@@ -28,8 +28,6 @@ export default (location) =>
       // this is a path of style /<objectId>
       objectId = path[0]
       mainComponent = 'object'
-      // need to replace path from objectId
-      replacePathFromObjectTaxonomy = true
     } else if (path.length === 1 && path[0] === 'exportieren') {
       mainComponent = 'exportieren'
     } else if (path.length === 1 && path[0] === 'index.html') {
@@ -37,8 +35,6 @@ export default (location) =>
       // it was used in a previous app version
       // and is still called by ALT and EvAB
       mainComponent = 'object'
-      // need to set replace path from objectId
-      replacePathFromObjectTaxonomy = true
     } else if (path.length === 1 && path[0] === 'organisationen') {
       mainComponent = 'organizations'
     } else if (path.length === 2 && path[0] === 'exportieren' && path[1] === 'artenlistentool') {
@@ -48,6 +44,7 @@ export default (location) =>
       mainComponent = 'object'
     } else {
       // must be home
+      mainComponent = 'home'
     }
 
     if (replacePathFromObjectTaxonomy) {

@@ -4,44 +4,53 @@
 
 import getApiBaseUrl from '../modules/getApiBaseUrl.js'
 
-export const NODES_GET_INITIAL = 'NODES_GET_INITIAL'
-export const NODES_GET_INITIAL_SUCCESS = 'NODES_GET_INITIAL_SUCCESS'
-export const NODES_GET_INITIAL_ERROR = 'NODES_GET_INITIAL_ERROR'
+export const NODES_GET_FOR_URL = 'NODES_GET_FOR_URL'
+export const NODES_GET_FOR_URL_SUCCESS = 'NODES_GET_FOR_URL_SUCCESS'
+export const NODES_GET_FOR_URL_ERROR = 'NODES_GET_FOR_URL_ERROR'
 
-export const nodesGetInitial = () =>
+export const nodesGetForUrl = ({ path, id }) =>
   (dispatch) => {
     dispatch({
-      type: NODES_GET_INITIAL
+      type: NODES_GET_FOR_URL
     })
-    fetch(`${getApiBaseUrl()}/nodes`)
+    // TODO: url-encode path array elements
+    fetch(`${getApiBaseUrl()}/node/${path}/${id}`)
       .then((response) => response.json())
       .then((nodes) => dispatch({
-        type: NODES_GET_INITIAL_SUCCESS,
+        type: NODES_GET_FOR_URL_SUCCESS,
         nodes
       }))
       .catch((error) => dispatch({
-        type: NODES_GET_INITIAL_ERROR,
+        type: NODES_GET_FOR_URL_ERROR,
         error
       }))
   }
 
-export const NODES_GET_FOR_NODE = 'NODES_GET_FOR_NODE'
-export const NODES_GET_FOR_NODE_SUCCESS = 'NODES_GET_FOR_NODE_SUCCESS'
-export const NODES_GET_FOR_NODE_ERROR = 'NODES_GET_FOR_NODE_ERROR'
-
-export const nodesGetForNode = ({ path, id }) =>
+export const OBJECT_CHANGE = 'OBJECT_CHANGE'
+export const OBJECT_CHANGE_SUCCESS = 'OBJECT_CHANGE_SUCCESS'
+export const OBJECT_CHANGE_ERROR = 'OBJECT_CHANGE_ERROR'
+export const objectChange = ({
+  id,
+}) =>
   (dispatch) => {
     dispatch({
-      type: NODES_GET_FOR_NODE
+      type: OBJECT_CHANGE,
     })
-    fetch(`${getApiBaseUrl()}/node/${path}/${id}`)
-      .then((response) => response.json())
-      .then((nodes) => dispatch({
-        type: NODES_GET_FOR_NODE_SUCCESS,
-        nodes
-      }))
-      .catch((error) => dispatch({
-        type: NODES_GET_FOR_NODE_ERROR,
-        error
-      }))
+    if (id) {
+      fetch(`${getApiBaseUrl()}/object/${id}`)
+        .then((response) => response.json())
+        .then((object) => dispatch({
+          type: OBJECT_CHANGE_SUCCESS,
+          object
+        }))
+        .catch((error) => dispatch({
+          type: OBJECT_CHANGE_ERROR,
+          error
+        }))
+    } else {
+      dispatch({
+        type: OBJECT_CHANGE_SUCCESS,
+        id: null,
+      })
+    }
   }
