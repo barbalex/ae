@@ -6,6 +6,8 @@
 
 import { browserHistory } from 'react-router'
 import getApiBaseUrl from '../modules/getApiBaseUrl.js'
+import isGuid from '../modules/isGuid'
+import getUrlParameterByName from '../modules/getUrlParameterByName'
 
 export const PATH_SET = 'PATH_SET'
 export const setPath = ({
@@ -67,19 +69,65 @@ export const NODES_GET_FOR_URL = 'NODES_GET_FOR_URL'
 export const NODES_GET_FOR_URL_SUCCESS = 'NODES_GET_FOR_URL_SUCCESS'
 export const NODES_GET_FOR_URL_ERROR = 'NODES_GET_FOR_URL_ERROR'
 
-export const nodesGetForUrl = ({ path, id }) =>
+export const nodesGetForUrl = (location) =>
   (dispatch) => {
     dispatch({
       type: NODES_GET_FOR_URL
     })
-    // TODO: url-encode path array elements
-    fetch(`${getApiBaseUrl()}/node/${path}/${id}`)
+    const {
+      pathname,
+      search,
+    } = location
+    const pathString = pathname === '/' ? [] : pathname.split('/').slice(1)
+    const path = pathString.map((p) => decodeURIComponent(p))
+    let id = getUrlParameterByName('id', search)
+    let mainComponent = null
+
+    if (path.length === 2 && path[0] === 'importieren') {
+      if (path[1] === 'eigenschaften') {
+        mainComponent = 'importPc'
+      } else if (path[1] === 'beziehungen') {
+        mainComponent = 'importRc'
+      }
+    } else if (path.length === 1 && isGuid(path[0])) {
+      // this is a path of style /<objectId>
+      id = path[0]
+      mainComponent = 'object'
+    } else if (path.length === 1 && path[0] === 'exportieren') {
+      mainComponent = 'exportieren'
+    } else if (path.length === 1 && path[0] === 'index.html') {
+      // this is a path of style /index.html?id=<objectId>
+      // it was used in a previous app version
+      // and is still called by ALT and EvAB
+      mainComponent = 'object'
+    } else if (path.length === 1 && path[0] === 'organisationen') {
+      mainComponent = 'organizations'
+    } else if (path.length === 2 && path[0] === 'exportieren' && path[1] === 'artenlistentool') {
+      mainComponent = 'exportierenAlt'
+    } else if (path[0]) {
+      // this would be an object url
+      mainComponent = 'object'
+    } else {
+      // must be home
+      mainComponent = 'home'
+    }
+
+    const pathEncoded = path.map((n) => encodeURIComponent(n))
+    let url = `${getApiBaseUrl()}/node/${pathEncoded}/${id}`
+    if (!id) {
+      url = `${getApiBaseUrl()}/node/${pathEncoded}`
+    }
+    fetch(url)
       .then((response) => response.json())
-      .then((resp) => dispatch({
-        type: NODES_GET_FOR_URL_SUCCESS,
-        nodes: resp.nodes,
-        object: resp.object,
-      }))
+      .then((resp) => {
+        dispatch({
+          type: NODES_GET_FOR_URL_SUCCESS,
+          nodes: resp.nodes,
+          object: resp.object,
+          urlPath: resp.urlPath,
+        })
+        setPath()
+      })
       .catch((error) => dispatch({
         type: NODES_GET_FOR_URL_ERROR,
         error

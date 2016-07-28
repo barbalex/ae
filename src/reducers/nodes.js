@@ -23,6 +23,7 @@ const standardState = {
   nodes: null,
   object: null,
   error: null,
+  urlPath: [],
   path: [],
   taxonomyObjectId: null,
   mainComponent: null

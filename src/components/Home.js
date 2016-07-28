@@ -12,7 +12,6 @@ import Tree from './menu/tree/TreeCt.js'
 import ErrorsCt from './ErrorsCt.js'
 import Login from './main/login/Login.js'
 import buildHierarchyObjectFromObjectForTaxonomy from '../modules/buildHierarchyObjectFromObjectForTaxonomy.js'
-import getPathFromUrl from '../modules/getPathFromUrl'
 
 const styles = StyleSheet.create({
   menu: {
@@ -62,6 +61,7 @@ export default React.createClass({
     errors: React.PropTypes.array,
     initializeApp: React.PropTypes.func,
     setPath: React.PropTypes.func,
+    nodesGetForUrl: React.PropTypes.func,
   },
 
   mixins: [ListenerMixin],
@@ -100,7 +100,7 @@ export default React.createClass({
   componentDidMount() {
     const {
       initializeApp,
-      setPath,
+      nodesGetForUrl,
     } = this.props
     initializeApp()
     /*
@@ -118,9 +118,7 @@ export default React.createClass({
     this.listenTo(app.organizationsStore, this.onOrganizationsStoreChange)
     this.listenTo(app.errorStore, this.onErrorStoreChange)
     */
-    getPathFromUrl(this.props.location)
-      .then(({ path, objectId, mainComponent }) => setPath({ path, objectId, mainComponent }))
-      .catch((error) => console.log(error))
+    nodesGetForUrl(this.props.location)
   },
 
   onErrorStoreChange(errors) {
