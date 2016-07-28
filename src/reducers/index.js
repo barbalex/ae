@@ -4,7 +4,6 @@ import app from './app'
 import user from './user'
 import errors from './errors'
 import users, * as fromUsers from './users'
-import path from './path'
 import groups from './groups'
 import nodes from './nodes'
 
@@ -13,7 +12,6 @@ const rootReducer = combineReducers({
   user,
   errors,
   users,
-  path,
   groups,
   routing,
   nodes,

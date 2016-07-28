@@ -2,7 +2,70 @@
  * nodes = nodes in tree view showing taxonomies
  */
 
+import { browserHistory } from 'react-router'
 import getApiBaseUrl from '../modules/getApiBaseUrl.js'
+
+export const PATH_GET_FROM_URL = 'PATH_GET_FROM_URL'
+export const pathGetFromUrl = () =>
+  (dispatch) => {
+
+  }
+
+export const PATH_SET = 'PATH_SET'
+export const setPath = ({
+  path,
+  id,
+  mainComponent,
+}) =>
+  (dispatch) => {
+    console.log('actions/path, path:', path)
+    console.log('actions/path, objectId:', objectId)
+    console.log('actions/path, taxonomyObjectId:', taxonomyObjectId)
+    console.log('actions/path, mainComponent:', mainComponent)
+    // get nodes if main Component is 'object'
+    if (mainComponent === 'object') {
+      // TODO:
+      // send url to db
+      // receive:
+      // - path
+      // - nodes
+      dispatch(nodesActions.nodesGetForUrl({ path, id }))
+
+      // find out type of node
+      let type = objectId ? 'object' : 'taxonomy_object'
+      if (path.length === 1) {
+        type = 'category'
+        const id = path[0]
+        dispatch(nodesActions.nodesGetForUrl({ type, id }))
+      } else if (path.length === 2) {
+        type = 'taxonomy'
+        // TODO: get nodes
+      } else if (objectId) {
+        // this is an object node
+        const id = objectId
+        dispatch(nodesActions.nodesGetForUrl({ type, id }))
+      } else {
+        // this is a taxonomy_node without object
+        // need to get it's id
+      }
+
+      const url = `/${path.join('/')}${objectId ? `?id=${objectId}` : ''}`
+      browserHistory.push(url)
+    }
+    if (objectId) {
+      dispatch(objectActions.objectChange(objectId))
+    }
+    if (!mainComponent) {
+      dispatch(nodesActions.nodesGetInitial())
+    }
+    dispatch({
+      type: PATH_SET,
+      path,
+      objectId,
+      taxonomyObjectId,
+      mainComponent,
+    })
+  }
 
 export const NODES_GET_FOR_URL = 'NODES_GET_FOR_URL'
 export const NODES_GET_FOR_URL_SUCCESS = 'NODES_GET_FOR_URL_SUCCESS'
