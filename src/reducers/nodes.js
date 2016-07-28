@@ -3,6 +3,7 @@
  */
 
 import {
+  PATH_SET,
   NODES_GET_CHILDREN,
   NODES_GET_CHILDREN_SUCCESS,
   NODES_GET_CHILDREN_ERROR,
@@ -22,6 +23,9 @@ const standardState = {
   nodes: null,
   object: null,
   error: null,
+  path: [],
+  taxonomyObjectId: null,
+  mainComponent: null
 }
 
 const nodes = (state = standardState, action) => {
@@ -37,6 +41,7 @@ const nodes = (state = standardState, action) => {
         ...state,
         fetchingNodes: false,
         nodes: buildNodes(action.nodes),
+        object: action.object,
       }
     case NODES_GET_FOR_URL_ERROR:
       return {
@@ -61,6 +66,13 @@ const nodes = (state = standardState, action) => {
         ...state,
         fetchingObject: false,
         error: action.error,
+      }
+    case PATH_SET:
+      return {
+        ...state,
+        path: action.path,
+        taxonomyObjectId: action.taxonomyObjectId,
+        mainComponent: action.mainComponent
       }
     default:
       return state

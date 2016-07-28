@@ -2,14 +2,10 @@
  * nodes = nodes in tree view showing taxonomies
  */
 
+/* eslint no-console:0 */
+
 import { browserHistory } from 'react-router'
 import getApiBaseUrl from '../modules/getApiBaseUrl.js'
-
-export const PATH_GET_FROM_URL = 'PATH_GET_FROM_URL'
-export const pathGetFromUrl = () =>
-  (dispatch) => {
-
-  }
 
 export const PATH_SET = 'PATH_SET'
 export const setPath = ({
@@ -79,9 +75,10 @@ export const nodesGetForUrl = ({ path, id }) =>
     // TODO: url-encode path array elements
     fetch(`${getApiBaseUrl()}/node/${path}/${id}`)
       .then((response) => response.json())
-      .then((nodes) => dispatch({
+      .then((resp) => dispatch({
         type: NODES_GET_FOR_URL_SUCCESS,
-        nodes
+        nodes: resp.nodes,
+        object: resp.object,
       }))
       .catch((error) => dispatch({
         type: NODES_GET_FOR_URL_ERROR,
