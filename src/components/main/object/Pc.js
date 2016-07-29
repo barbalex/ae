@@ -34,7 +34,7 @@ function buildFieldForProperty(
   if (key === 'Taxonomie' && object.Gruppe === 'Lebensräume') {
     collectionIsEditing = false
   }
-  // don't show 'GUID' - _id is used instead
+  // don't show 'GUID' - id is used instead
   // this field was removed and should not exist any more
   if (key === 'GUID') {
     return null
@@ -56,7 +56,7 @@ function buildFieldForProperty(
     app.objectStore.getObject(value)
       .then((linkedObject) => {
         if (linkedObject) {
-          const linkedObjectId = linkedObject._id
+          const linkedObjectId = linkedObject.id
           const standardtaxonomie = linkedObject.Taxonomien.find((taxonomy) =>
             taxonomy.Standardtaxonomie
           )
@@ -188,7 +188,7 @@ const PropertyCollection = ({
             pcType === 'Taxonomie' &&
               <Field
                 fieldName="GUID"
-                fieldValue={object._id}
+                fieldValue={object.id}
                 pcType={pcType}
                 pcName={pcName}
                 collectionIsEditing={false}

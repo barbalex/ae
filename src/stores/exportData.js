@@ -30,9 +30,9 @@ export default (Actions) => Reflux.createStore({
         const originalObjects = clone(objects)
 
         // 1. filter ids
-        if (exportOptions.object._id.value) {
+        if (exportOptions.object.id.value) {
           objects = objects.filter((object) =>
-            exportOptions.object._id.value.includes(object._id)
+            exportOptions.object.id.value.includes(object.id)
           )
         }
         // 2. filter groups

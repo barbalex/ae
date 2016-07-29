@@ -22,7 +22,7 @@ const FieldLinksToSameGroup = ({ objects, fieldName }) => {
               className="form-control-static linkZuArtGleicherGruppe"
               onClick={(event) => {
                 event.preventDefault()
-                if (object._id) app.Actions.loadActiveObject(object._id)
+                if (object.id) app.Actions.loadActiveObject(object.id)
               }}
             >
               {object.Name}

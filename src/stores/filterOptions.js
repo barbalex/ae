@@ -49,7 +49,7 @@ export default (Actions) => Reflux.createStore({
       .then((doc) => {
         // replace option with new
         doc.filterOptions = doc.filterOptions.filter((op) =>
-          op.value !== object._id
+          op.value !== object.id
         )
         doc.filterOptions.push(option)
         options = doc.filterOptions

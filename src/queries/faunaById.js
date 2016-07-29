@@ -7,7 +7,7 @@
 import app from 'ampersand-app'
 
 const ddoc = {
-  _id: '_design/faunaById',
+  id: '_design/faunaById',
   views: {
     faunaById: {
       map: function (doc) {

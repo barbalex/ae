@@ -23,9 +23,7 @@ export const nodesGetForUrl = (location) =>
       search,
     } = location
     const pathString = pathname === '/' ? [] : pathname.split('/').slice(1)
-    console.log('actions/node: pathString:', pathString)
     const path = pathString.map((p) => decodeURIComponent(p))
-    console.log('actions/node: path:', path)
     let id = getUrlParameterByName('id', search)
     let mainComponent = null
 
@@ -59,7 +57,6 @@ export const nodesGetForUrl = (location) =>
     }
 
     const pathEncoded = JSON.stringify(path.map((n) => encodeURIComponent(n)))
-    console.log('actions/node: pathEncoded:', pathEncoded)
     let url = `${getApiBaseUrl()}/node/${pathEncoded}/${id}`
     if (!id) {
       url = `${getApiBaseUrl()}/node/${pathEncoded}`
@@ -67,12 +64,14 @@ export const nodesGetForUrl = (location) =>
     fetch(url)
       .then((response) => response.json())
       .then((resp) => {
+        console.log('actions/node, nodes:', resp.nodes)
         dispatch({
           type: NODES_GET_FOR_URL_SUCCESS,
           nodes: resp.nodes,
           object: resp.object,
           namePath: resp.namePath,
           idPath: resp.idPath,
+          mainComponent,
         })
         const newPath = resp.idPath
         const newUrl = `/${newPath.join('/')}${id ? `?id=${id}` : ''}`

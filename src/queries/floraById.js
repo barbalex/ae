@@ -9,7 +9,7 @@
 import app from 'ampersand-app'
 
 const ddoc = {
-  _id: '_design/floraById',
+  id: '_design/floraById',
   views: {
     floraById: {
       map: function(doc) {

@@ -10,7 +10,7 @@
 import app from 'ampersand-app'
 
 const ddoc = {
-  _id: '_design/fieldsOfGroup',
+  id: '_design/fieldsOfGroup',
   views: {
     fieldsOfGroup: {
       map: function (doc) {
@@ -23,7 +23,7 @@ const ddoc = {
                   var feldwert = eigenschaften[feldname]
                   emit(
                     [doc.Gruppe, 'taxonomy', taxonomy.Name, feldname, typeof feldwert],
-                    doc._id
+                    doc.id
                   )
                 })
               }
@@ -38,7 +38,7 @@ const ddoc = {
                   var feldwert = eigenschaften[feldname]
                   emit(
                     [doc.Gruppe, 'propertyCollection', pc.Name, feldname, typeof feldwert],
-                    doc._id
+                    doc.id
                   )
                 })
               }
@@ -60,7 +60,7 @@ const ddoc = {
                       // jetzt loopen wir durch die Daten der Beziehung
                       emit(
                         [doc.Gruppe, 'relation', beziehungssammlung.Name, feldname, typeof feldwert],
-                        doc._id
+                        doc.id
                       )
                     }
                   })

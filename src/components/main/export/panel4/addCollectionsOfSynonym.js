@@ -1,5 +1,5 @@
 /**
- * gets objects, objectToAddTo and _id of synonym
+ * gets objects, objectToAddTo and id of synonym
  * finds synonym
  * adds missing pcs and missing rcs to objectToAddTo
  * returns objectToAddTo
@@ -7,9 +7,9 @@
 
 import { get } from 'lodash'
 
-export default (objects, objectToAddTo, _id) => {
+export default (objects, objectToAddTo, id) => {
   const synonym = objects.find((object) =>
-    object._id === _id
+    object.id === id
   )
   if (synonym) {
     // add missing pcs

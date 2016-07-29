@@ -9,7 +9,7 @@ export default ({
   nameUrsprungsEs
 }) => {
   const rc = {}
-  rc._id = id
+  rc.id = id
   rc.Name = name
   rc.Beschreibung = beschreibung
   rc.Datenstand = datenstand

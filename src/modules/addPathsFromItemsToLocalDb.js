@@ -17,7 +17,7 @@ export default (objects) => new Promise((resolve, reject) => {
     // if path is [] make sure no path is added
     if (path.length > 0) {
       const url = path.join('/')
-      pathsOfGruppe[url] = object._id
+      pathsOfGruppe[url] = object.id
     }
   })
 

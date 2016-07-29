@@ -24,7 +24,7 @@ const onClickNode = ({ node, path: previousPath }, event) => {
   // find guid of last path element
   getObjectFromPath(pathToLoad)
     .then((objectToLoad) => {
-      guidOfObjectToLoad = objectToLoad && objectToLoad._id ? objectToLoad._id : null
+      guidOfObjectToLoad = objectToLoad && objectToLoad.id ? objectToLoad.id : null
       // kick of actions
       app.Actions.loadActivePath(pathToLoad, guidOfObjectToLoad)
       app.Actions.loadActiveObject(guidOfObjectToLoad)
@@ -42,14 +42,16 @@ const TreeNodes = ({
   object,
   idPath,
 }) => {
-  // console.log('TreeNodes, nodes:', nodes)
+  console.log('TreeNodes, render, nodes:', nodes)
+  console.log('TreeNodes, render, object:', object)
+  console.log('TreeNodes, render, idPath:', idPath)
   let nodesElements = chain(nodes)
     .sortBy((node) => node.data.name)
     .map((node, index) => {
       const level = node.path.length
       const activeKey = idPath[level - 1]
       const keyIsActive = node.data.name === activeKey
-      const keyIsObjectShown = object !== undefined && node.data.id && object._id === node.data.id
+      const keyIsObjectShown = object !== undefined && node.data.id && object.id === node.data.id
       const glyph = (
         keyIsActive ?
         (keyIsObjectShown ? 'forward' : 'triangle-bottom') :

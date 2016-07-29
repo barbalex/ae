@@ -47,7 +47,7 @@ const fieldsList = (urlOptions) => {
       const fName = field.fName
       const cName = field.cName
       if (cName === 'object') {
-        return <li key={index}>{fName === '_id' ? 'GUID' : fName}</li>
+        return <li key={index}>{fName === 'id' ? 'GUID' : fName}</li>
       }
       return <li key={index}>{cName}: {fName}</li>
     })

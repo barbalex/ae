@@ -49,12 +49,12 @@ export default (Actions) => Reflux.createStore({
     // tell views that data has changed
     this.trigger(item, [])
     // load path for this object...
-    if (item && item._id) {
-      getPathFromGuid(item._id)
+    if (item && item.id) {
+      getPathFromGuid(item.id)
         .then(({ path }) => {
           // ...if it differs from the loaded path
           if (!isEqual(app.activePathStore.path, path)) {
-            app.Actions.loadActivePath(path, item._id)
+            app.Actions.loadActivePath(path, item.id)
           }
           // now check for synonym objects
           return getSynonymsOfObject(item)

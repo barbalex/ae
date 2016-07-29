@@ -8,8 +8,8 @@ const InputImportFields = ({ rcsToImport, idsImportIdField, onChangeImportId }) 
   rcsToImport.forEach((pc) => {
     keys = union(keys, Object.keys(pc))
   })
-  // remove field '_id'
-  keys = without(keys, '_id')
+  // remove field 'id'
+  keys = without(keys, 'id')
 
   const style = { height: `${((keys.length * 18) + 9)}px` }
   const options = keys.map((key, index) => (

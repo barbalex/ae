@@ -75,7 +75,7 @@ export default React.createClass({
       onChangeOneRowPerRelation
     } = this.props
     const { activePanel } = this.state
-    const guidChecked = get(exportOptions, 'object._id.export')
+    const guidChecked = get(exportOptions, 'object.id.export')
     const taxonomyHeader = (
       Object.keys(taxonomyFields).length > 1 ?
       'Taxonomien' :
@@ -100,7 +100,7 @@ export default React.createClass({
               <Checkbox
                 className={css(styles.cb)}
                 onChange={(event) =>
-                  onChooseField('object', '_id', 'cType', event)
+                  onChooseField('object', 'id', 'cType', event)
                 }
                 checked={guidChecked}
               >

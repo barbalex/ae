@@ -41,7 +41,7 @@ export default (Actions) => Reflux.createStore({
     // loop pcsToImport
     pcsToImport.forEach((pcToImport, index) => {
       // get the object to add it to
-      const guid = pcToImport._id
+      const guid = pcToImport.id
       if (guid) {
         app.objectStore.getObject(guid)
           .then((objectToImportPcInTo) => {
@@ -59,9 +59,9 @@ export default (Actions) => Reflux.createStore({
             pc.Eigenschaften = {}
             // now add fields of pc
             forEach(pcToImport, (value, field) => {
-              // dont import _id, idField or empty fields
+              // dont import id, idField or empty fields
               if (
-                field !== '_id' &&
+                field !== 'id' &&
                 field !== idsImportIdField &&
                 value !== '' &&
                 value !== null

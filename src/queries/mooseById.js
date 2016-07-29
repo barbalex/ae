@@ -9,7 +9,7 @@
 import app from 'ampersand-app'
 
 const ddoc = {
-  _id: '_design/mooseById',
+  id: '_design/mooseById',
   views: {
     mooseById: {
       map: function(doc) {

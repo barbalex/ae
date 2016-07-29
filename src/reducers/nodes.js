@@ -45,6 +45,7 @@ const nodes = (state = standardState, action) => {
         object: action.object,
         namePath: action.namePath,
         idPath: action.idPath,
+        mainComponent: action.mainComponent,
       }
     case NODES_GET_FOR_URL_ERROR:
       return {

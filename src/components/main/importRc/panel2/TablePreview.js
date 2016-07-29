@@ -22,8 +22,8 @@ const TablePreview = ({ rcsToImport }) => {
   rcsToImport.forEach((pc) => {
     keys = union(keys, Object.keys(pc))
   })
-  // remove '_id' and 'rPartners' from keys
-  keys = without(keys, '_id', 'rPartners')
+  // remove 'id' and 'rPartners' from keys
+  keys = without(keys, 'id', 'rPartners')
 
   const thead = keys.map((key, index) =>
     <th key={index}>{key}</th>

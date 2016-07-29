@@ -49,7 +49,7 @@ export default React.createClass({
    * co is: comparison operator
    * {
    *   object: {
-   *     _id: {
+   *     id: {
    *       value: [],
    *       export: ''
    *     },
@@ -71,7 +71,7 @@ export default React.createClass({
   getInitialState() {
     const urlOptions = {
       object: {
-        _id: {
+        id: {
           export: true
         },
         Gruppen: {

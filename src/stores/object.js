@@ -63,11 +63,11 @@ export default (Actions) => Reflux.createStore({
         // 3. if object is active: update activeObjectStore
         const objectIsActive = (
           app.activeObjectStore.item &&
-          app.activeObjectStore.item._id &&
-          app.activeObjectStore.item._id === object._id
+          app.activeObjectStore.item.id &&
+          app.activeObjectStore.item.id === object.id
         )
         if (objectIsActive) {
-          app.Actions.loadActiveObject(object._id)
+          app.Actions.loadActiveObject(object.id)
         }
         if (save) {
           // 4. replace path in pathStore

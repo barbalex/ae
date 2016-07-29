@@ -172,7 +172,7 @@ export default React.createClass({
   },
 
   onActiveObjectStoreChange(object, synonymObjects) {
-    const guid = object._id
+    const guid = object.id
     this.setState({
       object,
       guid,
@@ -255,7 +255,6 @@ export default React.createClass({
       nodes,
     } = this.props
     const {
-      path,
       object,
       filterOptions,
       loadingFilterOptions,
@@ -267,9 +266,10 @@ export default React.createClass({
       fieldsQuerying,
       errors
     } = this.state
+
+    console.log('Home.js, render, nodes:', nodes)
     const showFilter = filterOptions.length > 0 || loadingFilterOptions
-    // const showTree = path && nodes
-    const showTree = true
+    const showTree = nodes
     const showMain = (
       object !== undefined ||
       !!mainComponent
@@ -311,7 +311,6 @@ export default React.createClass({
               showTree &&
               <Tree />
             }
-            <Tree />
           </div>
         }
         <Symbols />

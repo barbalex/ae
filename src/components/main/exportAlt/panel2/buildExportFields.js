@@ -8,8 +8,8 @@ import { get } from 'lodash'
 export default (urlOptions) => {
   const felder = []
 
-  // 1. add _id if applicable
-  if (get(urlOptions, 'object._id.export')) {
+  // 1. add id if applicable
+  if (get(urlOptions, 'object.id.export')) {
     const feld = {}
     feld.DsName = 'Objekt'
     feld.Feldname = 'GUID'
@@ -32,7 +32,7 @@ export default (urlOptions) => {
       Object.keys(urlOptions[cName]).forEach((fName) => {
         if (
           get(urlOptions, `${cName}.${fName}.export`) &&
-          fName !== '_id' && fName !== 'Gruppe'
+          fName !== 'id' && fName !== 'Gruppe'
         ) {
           const dsTypeNames = {
             taxonomy: 'Taxonomie',

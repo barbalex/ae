@@ -33,9 +33,9 @@ export default (
      */
     let objectMissesCollection = false
     let exportObject = {}
-    // 1. add _id if applicable
-    if (get(exportOptions, 'object._id.export')) {
-      const value = get(object, '_id', null)
+    // 1. add id if applicable
+    if (get(exportOptions, 'object.id.export')) {
+      const value = get(object, 'id', null)
       exportObject.GUID = value
     }
     // 2. add Gruppen if applicable

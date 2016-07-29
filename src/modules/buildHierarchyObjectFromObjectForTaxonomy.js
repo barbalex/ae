@@ -14,7 +14,7 @@ export default (object, taxonomyName) => {
       if (gruppe !== 'Lebensräume' && artname) {
         return {
           Name: artname,
-          GUID: object._id
+          GUID: object.id
         }
       }
       const einheit = taxonomy.Eigenschaften.Einheit
@@ -23,7 +23,7 @@ export default (object, taxonomyName) => {
         const name = label ? `${label}: ${einheit}` : einheit
         return {
           Name: name,
-          GUID: object._id
+          GUID: object.id
         }
       }
     }

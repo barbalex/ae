@@ -38,22 +38,22 @@ export default (Actions) => Reflux.createStore({
       deletingRcInstancesProgress,
       deletingRcProgress
     })
-    // make sure there are no rcsToImport without _id
+    // make sure there are no rcsToImport without id
     rcsToImport = rcsToImport.filter((rcToImport) =>
-      !!rcToImport._id
+      !!rcToImport.id
     )
     /**
      * prepare rcsToImport:
-     * combine all objects with the same _id like this:
-     * 1. build an object with keys = _id's, values = array of all import-objects with this _id
+     * combine all objects with the same id like this:
+     * 1. build an object with keys = id's, values = array of all import-objects with this id
      * 2. loop the keys of this object and combine the import-objects like this:
      * 2.1: use relation description from state
      * 2.2: combine relation partners of all objects in field Beziehungen
      * 2.3: use other properties from any
      */
     const rcs = []
-    // 1. build an object with keys = _id's, values = array of all import-objects with this _id
-    const rcsToImportObjects = groupBy(rcsToImport, '_id')
+    // 1. build an object with keys = id's, values = array of all import-objects with this id
+    const rcsToImportObjects = groupBy(rcsToImport, 'id')
     // 2. loop the keys of this object and combine the import-objects
     forEach(rcsToImportObjects, (rcToImportArray, id) => {
       const rcstoImportObject = rcToImportArray[0]
@@ -77,7 +77,7 @@ export default (Actions) => Reflux.createStore({
             relation.Beziehungspartner = value
           }
           if (
-            field !== '_id' &&
+            field !== 'id' &&
             field !== 'rPartners' &&
             field !== 'Beziehungspartner' &&
             field !== idsImportIdField &&
@@ -96,7 +96,7 @@ export default (Actions) => Reflux.createStore({
 
     // loop rcs
     rcs.forEach((rcToImport, index) => {
-      app.objectStore.getObject(rcToImport._id)
+      app.objectStore.getObject(rcToImport.id)
         .then((objectToImportRcInTo) => {
           // make sure, Beziehungssammlungen exists
           if (!objectToImportRcInTo.Beziehungssammlungen) {
@@ -107,8 +107,8 @@ export default (Actions) => Reflux.createStore({
             objectToImportRcInTo.Beziehungssammlungen,
             (bs) => bs.Name === name
           )
-          // remove _id
-          delete rcToImport._id
+          // remove id
+          delete rcToImport.id
           objectToImportRcInTo.Beziehungssammlungen.push(rcToImport)
           objectToImportRcInTo.Beziehungssammlungen = sortObjectArrayByName(objectToImportRcInTo.Beziehungssammlungen)
           // write to db

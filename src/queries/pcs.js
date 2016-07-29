@@ -10,7 +10,7 @@ import app from 'ampersand-app'
 import { uniqBy } from 'lodash'
 
 const ddoc = {
-  _id: '_design/pcs',
+  id: '_design/pcs',
   views: {
     pcs: {
       map: function(doc) {

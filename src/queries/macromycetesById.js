@@ -9,7 +9,7 @@
 import app from 'ampersand-app'
 
 const ddoc = {
-  _id: '_design/macromycetesById',
+  id: '_design/macromycetesById',
   views: {
     macromycetesById: {
       map: function(doc) {

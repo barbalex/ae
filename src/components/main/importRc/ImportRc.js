@@ -305,7 +305,7 @@ export default React.createClass({
         .then((objects) => {
           // now build rPartner for each rPartnerId
           objects.forEach((object) => {
-            rPartnerIdsImportable.push(object._id)
+            rPartnerIdsImportable.push(object.id)
             rPartners.push(this.buildPartnerFromObject(object))
           })
           // push this in rPartners, not Beziehungssammlungen
@@ -337,7 +337,7 @@ export default React.createClass({
           // now add guids to rcsToImport
           rcsToImport.forEach((rc) => {
             const importId = rc[idsImportIdField]
-            rc._id = idGuidObject[importId]
+            rc.id = idGuidObject[importId]
           })
           let idsToImportWithDuplicates = _map(rcsToImport, idsImportIdField)
           // remove emtpy values
@@ -532,7 +532,7 @@ export default React.createClass({
     } else {
       partner.Name = standardtaxonomie.Eigenschaften['Artname vollständig']
     }
-    partner.GUID = object._id
+    partner.GUID = object.id
     return partner
   },
 

@@ -14,10 +14,10 @@ export default (object) => new Promise((resolve, reject) => {
     app.localDb.get('_local/paths')
       .then((doc) => {
         // remove previous path
-        const previousPath = findKey(doc.paths, (value) => value === object._id)
+        const previousPath = findKey(doc.paths, (value) => value === object.id)
         if (previousPath) delete doc[previousPath]
         // add new path
-        doc.paths[path] = object._id
+        doc.paths[path] = object.id
         app.localDb.put(doc)
           .then(() => resolve(doc.paths))
           .catch((error) =>

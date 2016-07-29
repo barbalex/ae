@@ -285,7 +285,7 @@ export default React.createClass({
           // now add guids to pcsToImport
           pcsToImport.forEach((pc) => {
             const importId = pc[idsImportIdField]
-            pc._id = idGuidObject[importId]
+            pc.id = idGuidObject[importId]
           })
           let idsToImportWithDuplicates = _map(pcsToImport, idsImportIdField)
           // remove emtpy values

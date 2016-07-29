@@ -122,7 +122,7 @@ export default React.createClass({
           <FormControl
             componentClass="textarea"
             onBlur={(event) =>
-              this.onBlur('object', '_id', event)
+              this.onBlur('object', 'id', event)
             }
             spellCheck={false}
           />

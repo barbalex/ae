@@ -6,7 +6,7 @@ export default (object) => {
     if (eig['Artname vollständig']) {
       // this is a species object
       options = {
-        value: object._id,
+        value: object.id,
         label: eig['Artname vollständig']
       }
     }
@@ -14,7 +14,7 @@ export default (object) => {
       // this is an lr object
       // top level has no label
       options = {
-        value: object._id,
+        value: object.id,
         label: eig.Label ? `${eig.Label}: ${eig.Einheit}` : eig.Einheit
       }
     }

@@ -11,7 +11,7 @@ import app from 'ampersand-app'
 import { map as _map } from 'lodash'
 
 const ddoc = {
-  _id: '_design/objectsIdsByRcsName',
+  id: '_design/objectsIdsByRcsName',
   views: {
     objectsIdsByRcsName: {
       map: function(doc) {
@@ -21,7 +21,7 @@ const ddoc = {
           doc.Beziehungssammlungen
         ) {
           doc.Beziehungssammlungen.forEach(function(rc) {
-            emit(rc.Name, doc._id)
+            emit(rc.Name, doc.id)
           })
         }
       }.toString()

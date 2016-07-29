@@ -9,7 +9,7 @@ export default (path, gruppe, guid) => {
     getObjectFromPath(path)
       .then((object) => {
         if (object) {
-          app.Actions.loadActiveObject(object._id)
+          app.Actions.loadActiveObject(object.id)
         }
       })
       .catch((error) =>

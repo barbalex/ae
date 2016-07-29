@@ -74,7 +74,7 @@ const filtersList = (exportOptions) => {
       if (cName === 'object') {
         return (
           <li key={index}>
-            {fName === '_id' ? 'GUID' : fName}&nbsp;
+            {fName === 'id' ? 'GUID' : fName}&nbsp;
             <span style={spanStyle}>
               {filterValue}
             </span>
@@ -100,7 +100,7 @@ const fieldsList = (exportOptions) => {
     return fields.map((field, index) => {
       const fName = field.fName
       const cName = field.cName
-      if (cName === 'object') return <li key={index}>{fName === '_id' ? 'GUID' : fName}</li>
+      if (cName === 'object') return <li key={index}>{fName === 'id' ? 'GUID' : fName}</li>
       return <li key={index}>{cName}: {fName}</li>
     })
   }
