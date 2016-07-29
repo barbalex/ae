@@ -43,10 +43,10 @@ export default React.createClass({
     } = this.props
     const { windowHeight, windowWidth } = this.state
 
-    console.log('Tree.js, render, nodes:', nodes)
-    console.log('Tree.js, render, nodes.children:', nodes.children)
-    console.log('Tree.js, render, object:', object)
-    console.log('Tree.js, render, idPath:', idPath)
+    // console.log('Tree.js, render, nodes:', nodes)
+    // console.log('Tree.js, render, nodes.children:', nodes.children)
+    // console.log('Tree.js, render, object:', object)
+    // console.log('Tree.js, render, idPath:', idPath)
 
     // calculate max height of tree
     let maxHeight = windowHeight - 323                      // initial value on mobile

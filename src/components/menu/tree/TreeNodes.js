@@ -10,11 +10,11 @@ const onClickNode = ({ node, path: previousPath }, event) => {
   let guidOfObjectToLoad = node.GUID
   // check if clicked node was already active:
   // if path.length is same or shorter as before
-  const pathToLoad = clone(node.path)
-  if (previousPath.length <= node.path.length) {
+  const pathToLoad = clone(node.data.path)
+  if (previousPath.length <= node.data.path.length) {
     // and last element is same as before
-    const positionToCheck = node.path.length - 1
-    if (previousPath[positionToCheck] === node.path[positionToCheck]) {
+    const positionToCheck = node.data.path.length - 1
+    if (previousPath[positionToCheck] === node.data.path[positionToCheck]) {
       // an already active node was clicked
       // so remove the last element
       pathToLoad.pop()
@@ -48,7 +48,7 @@ const TreeNodes = ({
   let nodesElements = chain(nodes)
     .sortBy((node) => node.data.name)
     .map((node, index) => {
-      const level = node.path.length
+      const level = node.data.path.length
       const activeKey = idPath[level - 1]
       const keyIsActive = node.data.id === activeKey
       const keyIsObjectShown = object !== undefined && node.data.id && object.id === node.data.id
@@ -120,7 +120,7 @@ const TreeNodes = ({
 
   const mainStyles = StyleSheet.create({
     ul: {
-      paddingLeft: (nodes.length && nodes[0].path.length === 1) ? 4 : 20,
+      paddingLeft: (nodes.length && nodes[0].data.path.length === 1) ? 4 : 20,
       marginBottom: 0
     }
   })
