@@ -55,7 +55,7 @@ const TreeNodes = ({
       const glyph = (
         keyIsActive ?
         (keyIsObjectShown ? 'forward' : 'triangle-bottom') :
-        (node.children && node.children.length > 0 ? 'play' : 'minus')
+        (node.data.object_id ? 'minus' : 'play')
       )
       const onClick = onClickNode.bind(this, { node, idPath })
       const showNode = node.children

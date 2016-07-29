@@ -267,7 +267,6 @@ export default React.createClass({
       errors
     } = this.state
 
-    console.log('Home.js, render, nodes:', nodes)
     const showFilter = filterOptions.length > 0 || loadingFilterOptions
     const showTree = nodes
     const showMain = (
