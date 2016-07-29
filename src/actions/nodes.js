@@ -26,6 +26,7 @@ export const nodesGetForUrl = (location) =>
     const path = pathString.map((p) => decodeURIComponent(p))
     let id = getUrlParameterByName('id', search)
     let mainComponent = null
+    let idPath = false
 
     if (path.length === 2 && path[0] === 'importieren') {
       if (path[1] === 'eigenschaften') {
@@ -36,6 +37,7 @@ export const nodesGetForUrl = (location) =>
     } else if (path.length === 1 && isGuid(path[0])) {
       // this is a path of style /<objectId>
       id = path[0]
+      idPath = true
       mainComponent = 'object'
     } else if (path.length === 1 && path[0] === 'exportieren') {
       mainComponent = 'exportieren'
@@ -58,13 +60,12 @@ export const nodesGetForUrl = (location) =>
 
     const pathEncoded = JSON.stringify(path.map((n) => encodeURIComponent(n)))
     let url = `${getApiBaseUrl()}/node/${pathEncoded}/${id}`
-    if (!id) {
+    if (!id || idPath) {
       url = `${getApiBaseUrl()}/node/${pathEncoded}`
     }
     fetch(url)
       .then((response) => response.json())
       .then((resp) => {
-        console.log('actions/node, nodes:', resp.nodes)
         dispatch({
           type: NODES_GET_FOR_URL_SUCCESS,
           nodes: resp.nodes,
@@ -73,7 +74,7 @@ export const nodesGetForUrl = (location) =>
           idPath: resp.idPath,
           mainComponent,
         })
-        const newPath = resp.idPath
+        const newPath = resp.namePath
         const newUrl = `/${newPath.join('/')}${id ? `?id=${id}` : ''}`
         browserHistory.push(newUrl)
       })
