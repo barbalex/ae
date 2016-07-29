@@ -11,17 +11,15 @@ function mapStateToProps(state) {
   const {
     fetchingNodes,
     nodes,
+    idPath,
     error,
   } = state.nodes
-  const {
-    path
-  } = state.path
 
   return {
     fetchingNodes,
     nodes,
     error,
-    path,
+    idPath,
   }
 }
 

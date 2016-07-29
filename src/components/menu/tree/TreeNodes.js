@@ -40,14 +40,14 @@ const onClickNode = ({ node, path: previousPath }, event) => {
 const TreeNodes = ({
   nodes,
   object,
-  path,
+  idPath,
 }) => {
   // console.log('TreeNodes, nodes:', nodes)
   let nodesElements = chain(nodes)
     .sortBy((node) => node.data.name)
     .map((node, index) => {
       const level = node.path.length
-      const activeKey = path[level - 1]
+      const activeKey = idPath[level - 1]
       const keyIsActive = node.data.name === activeKey
       const keyIsObjectShown = object !== undefined && node.data.id && object._id === node.data.id
       const glyph = (
@@ -55,7 +55,7 @@ const TreeNodes = ({
         (keyIsObjectShown ? 'forward' : 'triangle-bottom') :
         (node.children && node.children.length > 0 ? 'play' : 'minus')
       )
-      const onClick = onClickNode.bind(this, { node, path })
+      const onClick = onClickNode.bind(this, { node, idPath })
       const showNode = node.children
       const styles = StyleSheet.create({
         ul: {
@@ -108,7 +108,7 @@ const TreeNodes = ({
             <TreeNodes
               nodes={node.children}
               object={object}
-              path={path}
+              idPath={idPath}
             />
           }
         </li>
@@ -136,7 +136,7 @@ TreeNodes.propTypes = {
   nodes: React.PropTypes.array,  // = hierarchy objects OF THIS LEVEL
   activeKey: React.PropTypes.string,
   object: React.PropTypes.object,
-  path: React.PropTypes.array
+  idPath: React.PropTypes.array
 }
 
 export default TreeNodes

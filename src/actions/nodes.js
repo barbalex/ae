@@ -9,62 +9,6 @@ import getApiBaseUrl from '../modules/getApiBaseUrl.js'
 import isGuid from '../modules/isGuid'
 import getUrlParameterByName from '../modules/getUrlParameterByName'
 
-export const PATH_SET = 'PATH_SET'
-export const setPath = ({
-  path,
-  id,
-  mainComponent,
-}) =>
-  (dispatch) => {
-    console.log('actions/path, path:', path)
-    console.log('actions/path, objectId:', objectId)
-    console.log('actions/path, taxonomyObjectId:', taxonomyObjectId)
-    console.log('actions/path, mainComponent:', mainComponent)
-    // get nodes if main Component is 'object'
-    if (mainComponent === 'object') {
-      // TODO:
-      // send url to db
-      // receive:
-      // - path
-      // - nodes
-      dispatch(nodesActions.nodesGetForUrl({ path, id }))
-
-      // find out type of node
-      let type = objectId ? 'object' : 'taxonomy_object'
-      if (path.length === 1) {
-        type = 'category'
-        const id = path[0]
-        dispatch(nodesActions.nodesGetForUrl({ type, id }))
-      } else if (path.length === 2) {
-        type = 'taxonomy'
-        // TODO: get nodes
-      } else if (objectId) {
-        // this is an object node
-        const id = objectId
-        dispatch(nodesActions.nodesGetForUrl({ type, id }))
-      } else {
-        // this is a taxonomy_node without object
-        // need to get it's id
-      }
-
-      const url = `/${path.join('/')}${objectId ? `?id=${objectId}` : ''}`
-      browserHistory.push(url)
-    }
-    if (objectId) {
-      dispatch(objectActions.objectChange(objectId))
-    }
-    if (!mainComponent) {
-      dispatch(nodesActions.nodesGetInitial())
-    }
-    dispatch({
-      type: PATH_SET,
-      path,
-      objectId,
-      taxonomyObjectId,
-      mainComponent,
-    })
-  }
-
 export const NODES_GET_FOR_URL = 'NODES_GET_FOR_URL'
 export const NODES_GET_FOR_URL_SUCCESS = 'NODES_GET_FOR_URL_SUCCESS'
 export const NODES_GET_FOR_URL_ERROR = 'NODES_GET_FOR_URL_ERROR'
@@ -79,7 +23,9 @@ export const nodesGetForUrl = (location) =>
       search,
     } = location
     const pathString = pathname === '/' ? [] : pathname.split('/').slice(1)
+    console.log('actions/node: pathString:', pathString)
     const path = pathString.map((p) => decodeURIComponent(p))
+    console.log('actions/node: path:', path)
     let id = getUrlParameterByName('id', search)
     let mainComponent = null
 
@@ -112,7 +58,8 @@ export const nodesGetForUrl = (location) =>
       mainComponent = 'home'
     }
 
-    const pathEncoded = path.map((n) => encodeURIComponent(n))
+    const pathEncoded = JSON.stringify(path.map((n) => encodeURIComponent(n)))
+    console.log('actions/node: pathEncoded:', pathEncoded)
     let url = `${getApiBaseUrl()}/node/${pathEncoded}/${id}`
     if (!id) {
       url = `${getApiBaseUrl()}/node/${pathEncoded}`
@@ -124,9 +71,12 @@ export const nodesGetForUrl = (location) =>
           type: NODES_GET_FOR_URL_SUCCESS,
           nodes: resp.nodes,
           object: resp.object,
-          urlPath: resp.urlPath,
+          namePath: resp.namePath,
+          idPath: resp.idPath,
         })
-        setPath()
+        const newPath = resp.idPath
+        const newUrl = `/${newPath.join('/')}${id ? `?id=${id}` : ''}`
+        browserHistory.push(newUrl)
       })
       .catch((error) => dispatch({
         type: NODES_GET_FOR_URL_ERROR,

@@ -9,7 +9,7 @@ export default React.createClass({
   propTypes: {
     nodes: React.PropTypes.object,
     object: React.PropTypes.object,
-    path: React.PropTypes.array,
+    idPath: React.PropTypes.array,
     windowHeight: React.PropTypes.number,
     windowWidth: React.PropTypes.number
   },
@@ -39,7 +39,7 @@ export default React.createClass({
     const {
       nodes,
       object,
-      path,
+      idPath,
     } = this.props
     const { windowHeight, windowWidth } = this.state
 
@@ -77,7 +77,7 @@ export default React.createClass({
           <Nodes
             nodes={nodes.children}
             object={object}
-            path={path}
+            idPath={idPath}
           />
         }
       </div>

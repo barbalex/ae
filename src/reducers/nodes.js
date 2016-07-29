@@ -23,8 +23,8 @@ const standardState = {
   nodes: null,
   object: null,
   error: null,
-  urlPath: [],
-  path: [],
+  namePath: [],
+  idPath: [],
   taxonomyObjectId: null,
   mainComponent: null
 }
@@ -43,6 +43,8 @@ const nodes = (state = standardState, action) => {
         fetchingNodes: false,
         nodes: buildNodes(action.nodes),
         object: action.object,
+        namePath: action.namePath,
+        idPath: action.idPath,
       }
     case NODES_GET_FOR_URL_ERROR:
       return {

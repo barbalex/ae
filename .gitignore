@@ -76,7 +76,7 @@ $RECYCLE.BIN/
 
 node_modules
 public
-npm-debug.log
+npm-debug.log*
 ae.sublime-workspace
 sftpPass.json
 couchPass.json
