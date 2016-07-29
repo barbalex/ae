@@ -50,7 +50,7 @@ const TreeNodes = ({
     .map((node, index) => {
       const level = node.path.length
       const activeKey = idPath[level - 1]
-      const keyIsActive = node.data.name === activeKey
+      const keyIsActive = node.data.id === activeKey
       const keyIsObjectShown = object !== undefined && node.data.id && object.id === node.data.id
       const glyph = (
         keyIsActive ?
