@@ -1,6 +1,7 @@
 import React from 'react'
 import { debounce } from 'lodash'
 import { StyleSheet, css } from 'aphrodite'
+import { Scrollbars } from 'react-custom-scrollbars'
 import Nodes from './TreeNodes.js'
 
 export default React.createClass({
@@ -60,14 +61,8 @@ export default React.createClass({
       rootDiv: {
       },
       tree: {
-        float: 'left',
-        clear: 'both',
-        width: '100%',
         marginBottom: 5,
-        overflow: 'auto',
-        overflowX: 'hidden',
-        paddingRight: 15,
-        maxHeight
+        paddingRight: 10,
       }
     })
 
@@ -77,15 +72,26 @@ export default React.createClass({
         className={css(styles.tree)}
         style={treeStyle}
       >
-        {
-          nodes &&
-          nodes.children &&
-          <Nodes
-            nodes={nodes.children}
-            object={object}
-            idPath={idPath}
-          />
-        }
+        <Scrollbars
+          style={{
+            float: 'left',
+            clear: 'both',
+            width: '100%',
+          }}
+          autoHide
+          autoHeight
+          autoHeightMax={maxHeight}
+        >
+          {
+            nodes &&
+            nodes.children &&
+            <Nodes
+              nodes={nodes.children}
+              object={object}
+              idPath={idPath}
+            />
+          }
+        </Scrollbars>
       </div>
     )
   }
