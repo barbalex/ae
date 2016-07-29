@@ -44,6 +44,7 @@ export default React.createClass({
     const { windowHeight, windowWidth } = this.state
 
     console.log('Tree.js, render, nodes:', nodes)
+    console.log('Tree.js, render, nodes.children:', nodes.children)
     console.log('Tree.js, render, object:', object)
     console.log('Tree.js, render, idPath:', idPath)
 
@@ -78,6 +79,7 @@ export default React.createClass({
       >
         {
           nodes &&
+          nodes.children &&
           <Nodes
             nodes={nodes.children}
             object={object}

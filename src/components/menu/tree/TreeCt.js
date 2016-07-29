@@ -11,6 +11,7 @@ function mapStateToProps(state) {
   const {
     fetchingNodes,
     nodes,
+    object,
     idPath,
     error,
   } = state.nodes
@@ -18,6 +19,7 @@ function mapStateToProps(state) {
   return {
     fetchingNodes,
     nodes,
+    object,
     error,
     idPath,
   }

@@ -20,8 +20,8 @@ import buildNodes from '../modules/buildNodes'
 const standardState = {
   fetchingNodes: false,
   fetchingObject: false,
-  nodes: null,
-  object: null,
+  nodes: {},
+  object: {},
   error: null,
   namePath: [],
   idPath: [],
@@ -42,9 +42,9 @@ const nodes = (state = standardState, action) => {
         ...state,
         fetchingNodes: false,
         nodes: buildNodes(action.nodes),
-        object: action.object,
-        namePath: action.namePath,
-        idPath: action.idPath,
+        object: action.object || {},
+        namePath: action.namePath || [],
+        idPath: action.idPath || [],
         mainComponent: action.mainComponent,
       }
     case NODES_GET_FOR_URL_ERROR:
