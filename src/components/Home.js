@@ -40,7 +40,7 @@ export default React.createClass({
   displayName: 'Home',
 
   propTypes: {
-    nodes: React.PropTypes.object,
+    nodes: React.PropTypes.array,
     gruppe: React.PropTypes.string,
     path: React.PropTypes.array,
     synonymObjects: React.PropTypes.array,
@@ -75,7 +75,6 @@ export default React.createClass({
     } = this.props
 
     return {
-      nodes: [],
       path,
       synonymObjects: [],
       object: undefined,
@@ -268,7 +267,7 @@ export default React.createClass({
     } = this.state
 
     const showFilter = filterOptions.length > 0 || loadingFilterOptions
-    const showTree = nodes
+    const showTree = nodes && nodes.length > 0
     const showMain = (
       object !== undefined ||
       !!mainComponent

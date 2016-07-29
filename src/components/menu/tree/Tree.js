@@ -2,15 +2,14 @@ import React from 'react'
 import { debounce } from 'lodash'
 import { StyleSheet, css } from 'aphrodite'
 import { Scrollbars } from 'react-custom-scrollbars'
-import Nodes from './TreeNodes.js'
+import Nodes from './TreeNodesCt.js'
+import buildNodes from '../../../modules/buildNodes'
 
 export default React.createClass({
-  displayName: 'TreeLevel1',
+  displayName: 'Tree',
 
   propTypes: {
-    nodes: React.PropTypes.object,
-    object: React.PropTypes.object,
-    idPath: React.PropTypes.array,
+    nodes: React.PropTypes.array,
     windowHeight: React.PropTypes.number,
     windowWidth: React.PropTypes.number
   },
@@ -37,16 +36,14 @@ export default React.createClass({
   },
 
   render() {
-    const {
-      nodes,
-      object,
-      idPath,
-    } = this.props
+    const { nodes } = this.props
+    console.log('Tree.js, nodes passed in props:', nodes)
+    const nodesBuild = buildNodes(nodes)
+    console.log('Tree.js, nodes after building:', nodesBuild)
     const { windowHeight, windowWidth } = this.state
 
     // console.log('Tree.js, render, nodes:', nodes)
     // console.log('Tree.js, render, nodes.children:', nodes.children)
-    // console.log('Tree.js, render, object:', object)
     // console.log('Tree.js, render, idPath:', idPath)
 
     // calculate max height of tree
@@ -63,6 +60,8 @@ export default React.createClass({
       tree: {
         marginBottom: 5,
         paddingRight: 10,
+        float: 'left',
+        clear: 'both',
       }
     })
 
@@ -74,8 +73,6 @@ export default React.createClass({
       >
         <Scrollbars
           style={{
-            float: 'left',
-            clear: 'both',
             width: '100%',
           }}
           autoHide
@@ -83,12 +80,10 @@ export default React.createClass({
           autoHeightMax={maxHeight}
         >
           {
-            nodes &&
-            nodes.children &&
+            nodesBuild &&
+            nodesBuild.children &&
             <Nodes
-              nodes={nodes.children}
-              object={object}
-              idPath={idPath}
+              nodes={nodesBuild.children}
             />
           }
         </Scrollbars>

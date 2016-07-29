@@ -9,6 +9,37 @@ import getApiBaseUrl from '../modules/getApiBaseUrl.js'
 import isGuid from '../modules/isGuid'
 import getUrlParameterByName from '../modules/getUrlParameterByName'
 
+export const NODE_CHILDREN_REMOVE = 'NODE_CHILDREN_REMOVE'
+export const nodeChildrenRemove = (node) => ({
+  type: NODE_CHILDREN_REMOVE,
+  node
+})
+
+export const NODE_CHILDREN_ADD = 'NODE_CHILDREN_ADD'
+export const NODE_CHILDREN_ADD_SUCCESS = 'NODE_CHILDREN_ADD_SUCCESS'
+export const NODE_CHILDREN_ADD_ERROR = 'NODE_CHILDREN_ADD_ERROR'
+export const nodeChildrenAdd = (node) =>
+  (dispatch, getState) => {
+    fetch(`${getApiBaseUrl()}/nodes/${node.data.type}/${node.id}/children`)
+      .then((response) => response.json())
+      .then((children) => {
+        dispatch({
+          type: NODE_CHILDREN_ADD_SUCCESS,
+          node,
+          children,
+        })
+        // TODO: if node.data.object_id, fetch object
+        const namePath = getState().node.namePath
+        const newPath = namePath.push(node.data.name)
+        const newUrl = `/${newPath.join('/')}${node.data.object_id ? `?id=${node.data.object_id}` : ''}`
+        browserHistory.push(newUrl)
+      })
+      .catch((error) => dispatch({
+        type: NODES_GET_FOR_URL_ERROR,
+        error
+      }))
+  }
+
 export const NODES_GET_FOR_URL = 'NODES_GET_FOR_URL'
 export const NODES_GET_FOR_URL_SUCCESS = 'NODES_GET_FOR_URL_SUCCESS'
 export const NODES_GET_FOR_URL_ERROR = 'NODES_GET_FOR_URL_ERROR'

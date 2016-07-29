@@ -1,46 +1,15 @@
-import app from 'ampersand-app'
 import React from 'react'
 import { Glyphicon } from 'react-bootstrap'
-import { chain, clone } from 'lodash'
+import { chain } from 'lodash'
 import { StyleSheet, css } from 'aphrodite'
-import getObjectFromPath from '../../../modules/getObjectFromPath.js'
-
-const onClickNode = ({ node, path: previousPath }, event) => {
-  event.stopPropagation()
-  let guidOfObjectToLoad = node.GUID
-  // check if clicked node was already active:
-  // if path.length is same or shorter as before
-  const pathToLoad = clone(node.data.path)
-  if (previousPath.length <= node.data.path.length) {
-    // and last element is same as before
-    const positionToCheck = node.data.path.length - 1
-    if (previousPath[positionToCheck] === node.data.path[positionToCheck]) {
-      // an already active node was clicked
-      // so remove the last element
-      pathToLoad.pop()
-    }
-  }
-
-  // find guid of last path element
-  getObjectFromPath(pathToLoad)
-    .then((objectToLoad) => {
-      guidOfObjectToLoad = objectToLoad && objectToLoad.id ? objectToLoad.id : null
-      // kick of actions
-      app.Actions.loadActivePath(pathToLoad, guidOfObjectToLoad)
-      app.Actions.loadActiveObject(guidOfObjectToLoad)
-    })
-    .catch((error) =>
-      addError({
-        title: 'treeNodes.js: error getting object from path:',
-        msg: error
-      })
-    )
-}
+import TreeNodesCt from './TreeNodesCt'
 
 const TreeNodes = ({
   nodes,
   object,
   idPath,
+  nodeChildrenRemove,
+  nodeChildrenAdd,
 }) => {
   // console.log('TreeNodes, render, nodes:', nodes)
   // console.log('TreeNodes, render, object:', object)
@@ -57,7 +26,6 @@ const TreeNodes = ({
         (keyIsObjectShown ? 'forward' : 'triangle-bottom') :
         (node.data.object_id ? 'minus' : 'play')
       )
-      const onClick = onClickNode.bind(this, { node, idPath })
       const showNode = node.children
       const styles = StyleSheet.create({
         ul: {
@@ -92,12 +60,28 @@ const TreeNodes = ({
       return (
         <li
           key={index}
-          onClick={onClick}
+          onClick={(e) => {
+            e.preventDefault()
+            console.log('TreeNodes.js, node clicked:', node)
+            console.log('TreeNodes.js, node id:', node.id)
+            if (node.children) {
+              nodeChildrenRemove(node)
+            } else {
+              nodeChildrenAdd(node)
+            }
+          }}
           className={css(styles.li)}
         >
           <Glyphicon
             glyph={glyph}
-            onClick={onClick}
+            onClick={(e) => {
+              e.preventDefault()
+              if (node.children) {
+                nodeChildrenRemove(node)
+              } else {
+                nodeChildrenAdd(node)
+              }
+            }}
             className={css(styles.glyph)}
           />
           <div
@@ -107,10 +91,8 @@ const TreeNodes = ({
           </div>
           {
             showNode &&
-            <TreeNodes
+            <TreeNodesCt
               nodes={node.children}
-              object={object}
-              idPath={idPath}
             />
           }
         </li>
@@ -138,7 +120,9 @@ TreeNodes.propTypes = {
   nodes: React.PropTypes.array,  // = hierarchy objects OF THIS LEVEL
   activeKey: React.PropTypes.string,
   object: React.PropTypes.object,
-  idPath: React.PropTypes.array
+  idPath: React.PropTypes.array,
+  nodeChildrenRemove: React.PropTypes.func,
+  nodeChildrenAdd: React.PropTypes.func,
 }
 
 export default TreeNodes
