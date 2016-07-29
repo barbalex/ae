@@ -42,9 +42,9 @@ const TreeNodes = ({
   object,
   idPath,
 }) => {
-  console.log('TreeNodes, render, nodes:', nodes)
-  console.log('TreeNodes, render, object:', object)
-  console.log('TreeNodes, render, idPath:', idPath)
+  // console.log('TreeNodes, render, nodes:', nodes)
+  // console.log('TreeNodes, render, object:', object)
+  // console.log('TreeNodes, render, idPath:', idPath)
   let nodesElements = chain(nodes)
     .sortBy((node) => node.data.name)
     .map((node, index) => {
@@ -120,7 +120,7 @@ const TreeNodes = ({
 
   const mainStyles = StyleSheet.create({
     ul: {
-      paddingLeft: (nodes.length && nodes[0].data.path.length === 1) ? 4 : 20,
+      paddingLeft: (nodes.length && nodes[0].data.path.length === 1) ? 3 : 12,
       marginBottom: 0
     }
   })
