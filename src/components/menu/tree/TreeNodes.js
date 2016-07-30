@@ -76,6 +76,8 @@ const TreeNodes = ({
             glyph={glyph}
             onClick={(e) => {
               e.preventDefault()
+              console.log('TreeNodes.js, node clicked:', node)
+              console.log('TreeNodes.js, node id:', node.id)
               if (node.children) {
                 nodeChildrenRemove(node)
               } else {

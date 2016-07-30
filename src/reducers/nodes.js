@@ -39,15 +39,15 @@ const nodes = (state = standardState, action) => {
           if (n.path.length === 1) return true
           return !n.path.includes(action.node.id)
         })],
-        namePath: [...state.namePath.filter((n) => n !== action.node.name)],
-        idPath: [...state.idPath.filter((n) => n !== action.node.id)],
+        namePath: action.namePath,
+        idPath: action.idPath,
       }
     case NODE_CHILDREN_ADD_SUCCESS:
       return {
         ...state,
         fetchingNodes: false,
         nodes: state.nodes.concat(action.children),
-        namePath: [...state.namePath, action.node.name],
+        namePath: [...state.namePath, action.node.data.name],
         idPath: [...state.idPath, action.node.id],
       }
     case NODES_GET_FOR_URL:

@@ -10,10 +10,25 @@ import isGuid from '../modules/isGuid'
 import getUrlParameterByName from '../modules/getUrlParameterByName'
 
 export const NODE_CHILDREN_REMOVE = 'NODE_CHILDREN_REMOVE'
-export const nodeChildrenRemove = (node) => ({
-  type: NODE_CHILDREN_REMOVE,
-  node
-})
+export const nodeChildrenRemove = (node) =>
+  (dispatch, getState) => {
+    const { nodes } = getState()
+    // find index of name in path
+    const indexOfNodeInNamePath = nodes.namePath.indexOf(node.data.name)
+    nodes.namePath.length = indexOfNodeInNamePath
+    nodes.idPath.length = indexOfNodeInNamePath
+    // TODO: get object of new active node
+    // then add id to url if necessary
+    const objectId = nodes.idPath[nodes.idPath.length - 1]
+    const newUrl = `/${nodes.namePath.join('/')}`
+    browserHistory.push(newUrl)
+    dispatch({
+      type: NODE_CHILDREN_REMOVE,
+      node,
+      namePath: nodes.namePath,
+      idPath: nodes.idPath,
+    })
+  }
 
 export const NODE_CHILDREN_ADD = 'NODE_CHILDREN_ADD'
 export const NODE_CHILDREN_ADD_SUCCESS = 'NODE_CHILDREN_ADD_SUCCESS'
@@ -23,16 +38,18 @@ export const nodeChildrenAdd = (node) =>
     fetch(`${getApiBaseUrl()}/nodes/${node.data.type}/${node.id}/children`)
       .then((response) => response.json())
       .then((children) => {
+        // TODO: if node.data.object_id, fetch object
+        const { nodes } = getState()
+        const newPath = nodes.namePath.concat(node.data.name)
+        console.log('actions/nodeChildrenAdd, newPath:', newPath)
+        const newUrl = `/${newPath.join('/')}${node.data.object_id ? `?id=${node.data.object_id}` : ''}`
+        console.log('actions/nodeChildrenAdd, newUrl:', newUrl)
+        browserHistory.push(newUrl)
         dispatch({
           type: NODE_CHILDREN_ADD_SUCCESS,
           node,
           children,
         })
-        // TODO: if node.data.object_id, fetch object
-        const namePath = getState().node.namePath
-        const newPath = namePath.push(node.data.name)
-        const newUrl = `/${newPath.join('/')}${node.data.object_id ? `?id=${node.data.object_id}` : ''}`
-        browserHistory.push(newUrl)
       })
       .catch((error) => dispatch({
         type: NODES_GET_FOR_URL_ERROR,
