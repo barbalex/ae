@@ -33,11 +33,15 @@ const nodes = (state = standardState, action) => {
         ...state,
         fetchingNodes: false,
         nodes: [...state.nodes.filter((n) => {
+          const path = n.data ? n.data.path : null
           // root node has no path
-          if (!n.path) return true
+          if (!path) return true
           // dont remove top level nodes
-          if (n.path.length === 1) return true
-          return !n.path.includes(action.node.id)
+          if (path.length === 1) return true
+          return (
+            !path.includes(action.node.id)
+            // || path.indexOf(action.node.id) === (path.length - 1)
+          )
         })],
         namePath: action.namePath,
         idPath: action.idPath,

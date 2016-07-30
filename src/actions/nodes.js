@@ -17,7 +17,7 @@ export const nodeChildrenRemove = (node) =>
     const indexOfNodeInNamePath = nodes.namePath.indexOf(node.data.name)
     nodes.namePath.length = indexOfNodeInNamePath
     nodes.idPath.length = indexOfNodeInNamePath
-    // TODO: get object of new active node
+    // TODO: get object of new active node (Lebensräume)
     // then add id to url if necessary
     const objectId = nodes.idPath[nodes.idPath.length - 1]
     const newUrl = `/${nodes.namePath.join('/')}`

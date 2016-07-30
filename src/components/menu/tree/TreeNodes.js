@@ -56,34 +56,27 @@ const TreeNodes = ({
           cursor: 'pointer'
         }
       })
+      const onClick = (event) => {
+        event.stopPropagation()
+        console.log('TreeNodes.js, node clicked:', node)
+        console.log('TreeNodes.js, node.children:', node.children)
+        console.log('TreeNodes.js, node id:', node.id)
+        if (node.children) {
+          nodeChildrenRemove(node)
+        } else {
+          nodeChildrenAdd(node)
+        }
+      }
 
       return (
         <li
           key={index}
-          onClick={(e) => {
-            e.preventDefault()
-            console.log('TreeNodes.js, node clicked:', node)
-            console.log('TreeNodes.js, node id:', node.id)
-            if (node.children) {
-              nodeChildrenRemove(node)
-            } else {
-              nodeChildrenAdd(node)
-            }
-          }}
+          onClick={onClick}
           className={css(styles.li)}
         >
           <Glyphicon
             glyph={glyph}
-            onClick={(e) => {
-              e.preventDefault()
-              console.log('TreeNodes.js, node clicked:', node)
-              console.log('TreeNodes.js, node id:', node.id)
-              if (node.children) {
-                nodeChildrenRemove(node)
-              } else {
-                nodeChildrenAdd(node)
-              }
-            }}
+            onClick={onClick}
             className={css(styles.glyph)}
           />
           <div
