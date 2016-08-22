@@ -8,6 +8,8 @@ import Router from './router.js'
 import actions from './actions.js'
 import stores from './stores'
 import getGroupsLoadedFromLocalDb from './modules/getGroupsLoadedFromLocalDb.js'
+import 'expose?$!expose?jQuery!jquery'
+import 'bootstrap'
 /**
  * need this polyfill to transform promise.all
  * without it IE11 and lower bark
