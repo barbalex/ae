@@ -38,16 +38,13 @@ export default React.createClass({
     }
   },
 
-  onToggle() {
-    // react-bootstrap wants this to exist...
-  },
-
   toggleDropdown() {
     let { open } = this.state
     open = !open
     this.setState({ open })
     // this is needed to close the menu if user clicks outside of the dropdown
     if (open) document.addEventListener('click', this.onClickDocument)
+    console.log('click')
   },
 
   refreshRoles() {
@@ -78,61 +75,70 @@ export default React.createClass({
 
     if (email) {
       return (
-        <Dropdown
+        <div
+          className="dropdown"
           id="emailDropdown"
-          open={open}
-          onToggle={this.onToggle}
           className={css(styles.dropdown)}
         >
-          <p
-            bsRole="toggle"
+          <button
+            id="emailDropdownButton"
+            type="button"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
             className={css(styles.emailP)}
             onClick={this.toggleDropdown}
           >
             {email}
-          </p>
-          <div
-            bsRole="menu"
+            <span className="caret" />
+          </button>
+          <ul
             className="dropdown-menu dropdown-menu-right"
+            aria-labelledby="emailDropdownButton"
           >
-            <MenuItem
+            <li
               onSelect={this.abmelden}
             >
               abmelden
-            </MenuItem>
-            <MenuItem
+            </li>
+            <li
               onSelect={this.refreshRoles}
             >
               Benutzerrechte aktualisieren
-            </MenuItem>
-          </div>
-        </Dropdown>
+            </li>
+          </ul>
+        </div>
       )
     }
     return (
-      <Dropdown
+      <div
+        className="dropdown"
         id="emailDropdown"
-        open={open}
-        onToggle={this.onToggle}
       >
-        <p
-          bsRole="toggle"
+        <a
+          id="emailDropdownButton"
+          role="button"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
           className={css(styles.emailP)}
           onClick={this.toggleDropdown}
+          data-target="#"
         >
           nicht angemeldet
-        </p>
-        <div
-          bsRole="menu"
+          <span className="caret" />
+        </a>
+        <ul
           className="dropdown-menu"
+          aria-labelledby="emailDropdownButton"
         >
-          <MenuItem
-            onSelect={this.anmelden}
+          <li
+            onClick={this.anmelden}
           >
-            anmelden
-          </MenuItem>
-        </div>
-      </Dropdown>
+            <a href="#">anmelden</a>
+          </li>
+        </ul>
+      </div>
     )
   }
 })
