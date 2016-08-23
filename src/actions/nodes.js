@@ -21,7 +21,7 @@ export const nodeChildrenRemove = (node) =>
     // TODO: get object of new active node (Lebensräume)
     // then add id to url if necessary
     const objectId = nodes.idPath[nodes.idPath.length - 1]
-    const newUrl = `/${nodes.namePath.join('/')}`
+    const newUrl = `/${nodes.namePath.join('/')}${node.data.object_id ? `?id=${node.data.object_id}` : ''}`
     browserHistory.push(newUrl)
     dispatch({
       type: NODE_CHILDREN_REMOVE,
