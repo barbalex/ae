@@ -1,29 +1,12 @@
 import app from 'ampersand-app'
 import React from 'react'
-import { Dropdown, MenuItem } from 'react-bootstrap'
-import { StyleSheet, css } from 'aphrodite'
-
-const styles = StyleSheet.create({
-  emailP: {
-    textDecoration: 'underline',
-    paddingLeft: 5,
-    paddingRight: 5,
-    cursor: 'pointer'
-  }
-})
+import { DropdownButton, MenuItem } from 'react-bootstrap'
 
 export default React.createClass({
   displayName: 'Email',
 
   propTypes: {
-    email: React.PropTypes.string,
-    open: React.PropTypes.bool
-  },
-
-  getInitialState() {
-    return {
-      open: false
-    }
+    email: React.PropTypes.string
   },
 
   /**
@@ -36,18 +19,6 @@ export default React.createClass({
       this.setState({ open })
       document.removeEventListener('click', this.onClickDocument)
     }
-  },
-
-  onToggle() {
-    // react-bootstrap wants this to exist...
-  },
-
-  toggleDropdown() {
-    let { open } = this.state
-    open = !open
-    this.setState({ open })
-    // this is needed to close the menu if user clicks outside of the dropdown
-    if (open) document.addEventListener('click', this.onClickDocument)
   },
 
   refreshRoles() {
@@ -65,6 +36,7 @@ export default React.createClass({
   },
 
   anmelden() {
+    console.log('click')
     const logIn = true
     const email = undefined  // eslint-disable-line
     app.Actions.login({ logIn, email })
@@ -74,65 +46,40 @@ export default React.createClass({
 
   render() {
     const { email } = this.props
-    const { open } = this.state
 
     if (email) {
       return (
-        <Dropdown
+        <DropdownButton
           id="emailDropdown"
-          open={open}
-          onToggle={this.onToggle}
-          className={css(styles.dropdown)}
+          title={email}
+          pullRight
         >
-          <p
-            bsRole="toggle"
-            className={css(styles.emailP)}
-            onClick={this.toggleDropdown}
+          <MenuItem
+            onSelect={this.abmelden}
           >
-            {email}
-          </p>
-          <div
-            bsRole="menu"
-            className="dropdown-menu dropdown-menu-right"
+            abmelden
+          </MenuItem>
+          <MenuItem
+            onSelect={this.refreshRoles}
           >
-            <MenuItem
-              onSelect={this.abmelden}
-            >
-              abmelden
-            </MenuItem>
-            <MenuItem
-              onSelect={this.refreshRoles}
-            >
-              Benutzerrechte aktualisieren
-            </MenuItem>
-          </div>
-        </Dropdown>
+            Benutzerrechte aktualisieren
+          </MenuItem>
+        </DropdownButton>
       )
     }
     return (
-      <Dropdown
-        id="emailDropdown"
-        open={open}
-        onToggle={this.onToggle}
+      <DropdownButton
+        id="dropdownEmail"
+        title="nicht angemeldet"
+        bsStyle="link"
+        pullRight
       >
-        <p
-          bsRole="toggle"
-          className={css(styles.emailP)}
-          onClick={this.toggleDropdown}
+        <MenuItem
+          onSelect={this.anmelden}
         >
-          nicht angemeldet
-        </p>
-        <div
-          bsRole="menu"
-          className="dropdown-menu"
-        >
-          <MenuItem
-            onSelect={this.anmelden}
-          >
-            anmelden
-          </MenuItem>
-        </div>
-      </Dropdown>
+          anmelden
+        </MenuItem>
+      </DropdownButton>
     )
   }
 })
