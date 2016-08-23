@@ -4,29 +4,29 @@
   "env": {
     "browser": true
   },
-    "plugins": [
-        "react"
-    ],
-    "rules": {
-      // this is needed because of an airbnb related error, see "https://github.com/AtomLinter/linter-eslint/issues/579#issuecomment-239143599"
-      "react/require-extension": "off",
-      // another error to be avoided:
-      "linebreak-style": ["error", "windows"],
-      // jsx-sort-props is necessary because otherwise an error occurs
-      "react/jsx-sort-props": 0,
-      // jsx-quotes is necessary because otherwise an error occurs
-      "react/jsx-quotes": 1,
-      "react/jsx-no-bind": 0,
-      "comma-dangle": 0,
-      "no-use-before-define": 0,
-      "consistent-return": 0,
-      "semi": [2, "never"],
-      "quotes": [2, "single"],
-      "strict": 0,
-      "max-len": ["error", 120, 2, {"ignoreUrls": true}],
-      "no-underscore-dangle": ["error", { "allow": ["_id", "_rev", "_attachments"] }],
-      // accept createClass because all are done that way...
-      "react/prefer-es6-class": 0,
-      "no-param-reassign": ["error", { "props": false }]
-    }
+  "plugins": [
+      "react"
+  ],
+  "rules": {
+    // this is needed because of an airbnb related error, see "https://github.com/AtomLinter/linter-eslint/issues/579#issuecomment-239143599"
+    "react/require-extension": "off",
+    // another error to be avoided:
+    "linebreak-style": ["error", "windows"],
+    // jsx-sort-props is necessary because otherwise an error occurs
+    "react/jsx-sort-props": 0,
+    // jsx-quotes is necessary because otherwise an error occurs
+    "react/jsx-quotes": 1,
+    "react/jsx-no-bind": 0,
+    "comma-dangle": 0,
+    "no-use-before-define": 0,
+    "consistent-return": 0,
+    "semi": [2, "never"],
+    "quotes": [2, "single"],
+    "strict": 0,
+    "max-len": ["error", 120, 2, {"ignoreUrls": true}],
+    "no-underscore-dangle": ["error", { "allow": ["_id", "_rev", "_attachments"] }],
+    // accept createClass because all are done that way...
+    "react/prefer-es6-class": 0,
+    "no-param-reassign": ["error", { "props": false }]
+  }
 }
