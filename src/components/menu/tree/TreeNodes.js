@@ -20,7 +20,8 @@ const TreeNodes = ({
       const level = node.data.path.length
       const activeKey = idPath[level - 1]
       const keyIsActive = node.data.id === activeKey
-      const keyIsObjectShown = object !== undefined && node.data.id && object.id === node.data.object_id
+      // const keyIsActive = idPath.includes(node.data.id)
+      const keyIsObjectShown = node.data.id && object.id && object.id === node.data.object_id
       const glyph = (
         keyIsActive ?
         (keyIsObjectShown ? 'forward' : 'triangle-bottom') :
