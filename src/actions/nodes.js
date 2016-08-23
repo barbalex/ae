@@ -8,6 +8,7 @@ import { browserHistory } from 'react-router'
 import getApiBaseUrl from '../modules/getApiBaseUrl.js'
 import isGuid from '../modules/isGuid'
 import getUrlParameterByName from '../modules/getUrlParameterByName'
+import getNamePathFromNodeAndNodes from '../modules/getNamePathFromNodeAndNodes'
 
 export const NODE_CHILDREN_REMOVE = 'NODE_CHILDREN_REMOVE'
 export const nodeChildrenRemove = (node) =>
@@ -40,7 +41,8 @@ export const nodeChildrenAdd = (node) =>
       .then((children) => {
         // TODO: if node.data.object_id, fetch object
         const { nodes } = getState()
-        const newPath = nodes.namePath.concat(node.data.name)
+        // const newPath = nodes.namePath.concat(node.data.name)
+        const newPath = getNamePathFromNodeAndNodes(node, nodes.nodes)
         console.log('actions/nodeChildrenAdd, newPath:', newPath)
         const newUrl = `/${newPath.join('/')}${node.data.object_id ? `?id=${node.data.object_id}` : ''}`
         console.log('actions/nodeChildrenAdd, newUrl:', newUrl)
