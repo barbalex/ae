@@ -76,8 +76,8 @@ $RECYCLE.BIN/
 
 node_modules
 public
-npm-debug.log*
-ae.sublime-workspace
+# turn off because atom find does not work any more with this setting!!!
+#npm-debug.log*
 sftpPass.json
 couchPass.json
 ae_mac.sublime-workspace

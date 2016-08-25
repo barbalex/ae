@@ -1,0 +1,1146 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"err",
+				"errorActions"
+			],
+			[
+				"ERR",
+				"ERROR_REMOVE"
+			],
+			[
+				"E",
+				"ERROR_REMOVE"
+			],
+			[
+				"rem",
+				"remoteDb"
+			],
+			[
+				"get",
+				"getGroupsLoadedFromLocalDb"
+			],
+			[
+				"fet",
+				"fetchingRoles"
+			],
+			[
+				"rcs",
+				"rcsOfActiveError"
+			],
+			[
+				"pcsOf",
+				"pcsOfActiveError"
+			],
+			[
+				"fetch",
+				"fetchingPcsOfActive"
+			],
+			[
+				"tcs",
+				"tcsOfActiveError"
+			],
+			[
+				"org",
+				"organizations"
+			],
+			[
+				"DBS",
+				"DBS_INITIALIZE_ERROR"
+			],
+			[
+				"remote",
+				"remoteUsersDb"
+			],
+			[
+				"loc",
+				"localDb"
+			],
+			[
+				"Rout",
+				"Router"
+			],
+			[
+				"val",
+				"validateDiv"
+			],
+			[
+				"ges",
+				"geschaeftValue"
+			],
+			[
+				"filt",
+				"filterValue"
+			],
+			[
+				"ge",
+				"geschaeftValue"
+			],
+			[
+				"data",
+				"dataArrayStringified"
+			],
+			[
+				"ele",
+				"electron-remote"
+			],
+			[
+				"table",
+				"tableNameObject"
+			],
+			[
+				"Rech",
+				"Rechtsmittel-Erledigung"
+			],
+			[
+				"rechts",
+				"rechtsmittelErledigung"
+			],
+			[
+				"this",
+				"thisYear"
+			],
+			[
+				"gesch",
+				"geschaeftsart"
+			],
+			[
+				"wr",
+				"wrapperNarrow"
+			],
+			[
+				"In",
+				"InputGroup"
+			],
+			[
+				"hist",
+				"historyArea"
+			],
+			[
+				"labelE",
+				"labelEntscheidRrb"
+			],
+			[
+				"la",
+				"labelAwel"
+			],
+			[
+				"label",
+				"labelGekoNr"
+			],
+			[
+				"lab",
+				"labelEntscheidRrb"
+			],
+			[
+				"nrOf",
+				"nrOfFieldsBeforeFristen"
+			],
+			[
+				"gK",
+				"gkIFiltered"
+			],
+			[
+				"gk",
+				"gkIFiltered"
+			],
+			[
+				"de",
+				"deleteGlyphiconDiv"
+			],
+			[
+				"int",
+				"interneOptions"
+			],
+			[
+				"interne",
+				"interneKuerzelOptions"
+			],
+			[
+				"o",
+				"optionsArray"
+			],
+			[
+				"ver",
+				"verantwortlich"
+			],
+			[
+				"kurz",
+				"kurzzeichen"
+			],
+			[
+				"vera",
+				"verantwortlichData"
+			],
+			[
+				"sta",
+				"statusFristInText"
+			],
+			[
+				"REa",
+				"ReactDOM"
+			],
+			[
+				"vl",
+				"value2"
+			],
+			[
+				"dat",
+				"datumEingangAwel"
+			],
+			[
+				"yyyy",
+				"YYYY-MM-DD"
+			],
+			[
+				"react",
+				"react-datepicker"
+			],
+			[
+				"show",
+				"showGeschaefteStuff"
+			],
+			[
+				"area",
+				"areaParlVorst"
+			],
+			[
+				"are",
+				"areaNummern"
+			],
+			[
+				"tabl",
+				"tableLayout"
+			],
+			[
+				"tab",
+				"tableLayout"
+			],
+			[
+				"Ges",
+				"GeschaefteLayout"
+			],
+			[
+				"tableL",
+				"tableLayoutState"
+			],
+			[
+				"Ge",
+				"GeschaefteLayout"
+			],
+			[
+				"g",
+				"geschaefteGefiltert"
+			],
+			[
+				"ac",
+				"action"
+			],
+			[
+				"fil",
+				"filterValue"
+			],
+			[
+				"foo",
+				"footerHeight"
+			],
+			[
+				"is",
+				"isRequired"
+			],
+			[
+				"Re",
+				"ReactDOM"
+			],
+			[
+				"buil",
+				"buildingPages"
+			],
+			[
+				"nav",
+				"navbarVisible"
+			],
+			[
+				"na",
+				"navbarVisible"
+			],
+			[
+				"desi",
+				"desiredPageHeight"
+			],
+			[
+				"gescha",
+				"geschaefte"
+			],
+			[
+				"page",
+				"pageIndex"
+			],
+			[
+				"tableR",
+				"tableRows"
+			],
+			[
+				"gesc",
+				"geschaefte"
+			],
+			[
+				"in",
+				"inputPagesTitle"
+			],
+			[
+				"onK",
+				"onKeyPressTitle"
+			],
+			[
+				"on",
+				"onKeyPressTitle"
+			],
+			[
+				"satis",
+				"satisfiesFilter"
+			],
+			[
+				"con",
+				"containsFilter"
+			],
+			[
+				"filter",
+				"filterFulltext"
+			],
+			[
+				"onC",
+				"onChangeFilterFulltext"
+			],
+			[
+				"res",
+				"resizeSingleTextarea"
+			],
+			[
+				"op",
+				"options"
+			],
+			[
+				"P",
+				"PARLVORSTOSS_OPTIONS_HOLEN_FEHLER"
+			],
+			[
+				"IN",
+				"INTEGER"
+			],
+			[
+				"com",
+				"componentDidMount"
+			],
+			[
+				"acti",
+				"activeId"
+			],
+			[
+				"en",
+				"entferneGeschaeftNicht"
+			],
+			[
+				"marg",
+				"margin-bottom"
+			],
+			[
+				"class",
+				"className"
+			],
+			[
+				"backgro",
+				"background-color"
+			],
+			[
+				"inl",
+				"inline-block"
+			],
+			[
+				"onR",
+				"onResizePane"
+			],
+			[
+				"Gesch",
+				"geschaefteList"
+			],
+			[
+				"border-bo",
+				"border-bottom-style"
+			],
+			[
+				"getG",
+				"getGeschaefteWithFieldFilter"
+			],
+			[
+				"whe",
+				"whereString"
+			],
+			[
+				"wh",
+				"whereArray"
+			],
+			[
+				"gesh",
+				"geschaefte"
+			],
+			[
+				"rou",
+				"routes"
+			],
+			[
+				"Ap",
+				"ApArtId"
+			],
+			[
+				"beob",
+				"beobId"
+			],
+			[
+				"pro",
+				"programmAp"
+			],
+			[
+				"J",
+				"JBerJahr"
+			],
+			[
+				"node",
+				"nodeText2"
+			],
+			[
+				"date",
+				"date1"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "/D/Google Drive/artendb/push.txt",
+			"settings":
+			{
+				"buffer_size": 7315,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "package.json",
+			"settings":
+			{
+				"buffer_size": 2636,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/components/main/object/FieldTextarea.js",
+			"settings":
+			{
+				"buffer_size": 1498,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/components/Home.js",
+			"settings":
+			{
+				"buffer_size": 8532,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 146.0,
+		"last_filter": "remove",
+		"selected_items":
+		[
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"linter settings",
+				"Preferences: SublimeLinter Settings – Default"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"remo",
+				"Package Control: Remove Package"
+			]
+		],
+		"width": 424.0
+	},
+	"console":
+	{
+		"height": 576.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Users/alex/ae",
+		"/C/Users/alex/ae/src",
+		"/C/Users/alex/ae/src/components"
+	],
+	"file_history":
+	[
+		"/C/Users/alex/ae/webpack.config.js",
+		"/C/Users/alex/ae/src/reducers/index.js",
+		"/C/Users/alex/ae/src/stores/object.js",
+		"/C/Users/alex/ae/src/modules/getItemsFromLocalDb.js",
+		"/C/Users/alex/ae/src/components/main/export/panel4/Panel4.js",
+		"/C/Users/alex/ae/src/stores/exportData.js",
+		"/C/Users/alex/ae/src/stores/activeObject.js",
+		"/C/Users/alex/ae/src/components/main/object/TaxRcs.js",
+		"/C/Users/alex/ae/src/components/main/object/Taxonomy.js",
+		"/C/Users/alex/ae/src/components/main/object/RelationPartners.js",
+		"/C/Users/alex/ae/src/components/main/object/RelationFields.js",
+		"/C/Users/alex/ae/src/components/main/object/RcsOfSynonyms.js",
+		"/C/Users/alex/ae/src/components/main/object/Rcs.js",
+		"/C/Users/alex/ae/src/components/main/object/Rc.js",
+		"/C/Users/alex/ae/src/components/main/object/PcsOfSynonyms.js",
+		"/C/Users/alex/ae/src/components/main/object/Pcs.js",
+		"/C/Users/alex/ae/src/components/main/login/Login.js",
+		"/C/Users/alex/ae/src/components/main/object/Field.js",
+		"/C/Users/alex/ae/src/components/main/object/PcDescription.js",
+		"/C/Users/alex/ae/src/components/main/object/Pc.js",
+		"/C/Users/alex/ae/src/components/main/object/Object.js",
+		"/C/Users/alex/ae/src/components/main/object/FieldBoolean.js",
+		"/C/Users/alex/ae/src/components/main/Main.js",
+		"/C/Users/alex/ae/src/components/Home.js",
+		"/C/Users/alex/ae/src/components/main/object/TextLink.js",
+		"/C/Users/alex/ae/src/components/main/organizations/Organizations.js",
+		"/C/Users/alex/ae/src/components/main/organizations/CollectionList.js",
+		"/C/Users/alex/ae/src/components/main/export/panel1/GroupsToExport.js",
+		"/C/Users/alex/ae/src/app.js",
+		"/C/Users/alex/ae/src/actions.js",
+		"/C/Users/alex/ae/src/modules/rebuildRedundantData.js",
+		"/C/Users/alex/ae/src/modules/loadGroupFromRemote.js",
+		"/C/Users/alex/ae/src/modules/getHierarchyFromLocalDb.js",
+		"/C/Users/alex/ae/src/components/main/importRc/panel4/Panel4.js",
+		"/C/Users/alex/ae/src/components/main/importRc/panel1/Panel1.js",
+		"/C/Users/alex/ae/src/components/main/importRc/AlertFirst5Imported.js",
+		"/C/Users/alex/ae/src/components/main/importPc/panel4/Panel4.js",
+		"/C/Users/alex/ae/src/components/main/importPc/panel1/Panel1.js",
+		"/C/Users/alex/ae/src/components/main/importPc/AlertFirst5Imported.js",
+		"/C/Users/alex/ae/src/components/main/importRc/AlertFirst5Deleted.js",
+		"/C/Users/alex/ae/src/components/main/importPc/AlertFirst5Deleted.js",
+		"/C/Users/alex/ae/src/reducers/fields.js",
+		"/C/Users/alex/ae/src/actions/fields.js",
+		"/C/Users/alex/ae/src/stores/taxonomyCollections.js",
+		"/C/Users/alex/ae/src/stores/relationCollections.js",
+		"/C/Users/alex/ae/src/stores/propertyCollections.js",
+		"/C/Users/alex/ae/src/stores/objectsRcs.js",
+		"/C/Users/alex/ae/src/stores/objectsPcs.js",
+		"/C/Users/alex/ae/src/stores/fields.js",
+		"/C/Users/alex/ae/src/queries/tcs.js",
+		"/C/Users/alex/ae/src/queries/rcs.js",
+		"/C/Users/alex/ae/src/queries/pcs.js",
+		"/C/Users/alex/ae/src/queries/objectsIdsByRcsName.js",
+		"/C/Users/alex/ae/src/queries/objectsIdsByPcsName.js",
+		"/C/Users/alex/ae/src/queries/mooseById.js",
+		"/C/Users/alex/ae/src/queries/macromycetesById.js",
+		"/C/Users/alex/ae/src/queries/floraById.js",
+		"/C/Users/alex/ae/src/queries/fieldsOfGroup.js",
+		"/C/Users/alex/ae/src/queries/faunaById.js",
+		"/C/Users/alex/ae/src/modules/getGuidsById.js",
+		"/C/Users/alex/ae/src/components/menu/menuButton/ObjectDerivedDataMenuItem.js",
+		"/C/Users/alex/ae/src/components/menu/menuButton/MenuButton.js",
+		"/C/Users/alex/ae/src/components/menu/menuButton/InputIndexes.js",
+		"/C/Users/alex/ae/src/components/main/export/panel2/Fields.js",
+		"/C/Users/alex/ae/src/components/main/importRc/ImportRc.js",
+		"/C/Users/alex/ae/src/components/main/importPc/ImportPc.js",
+		"/C/Users/alex/ae/src/components/main/exportAlt/ExportAlt.js",
+		"/C/Users/alex/ae/src/components/main/export/Export.js",
+		"/C/Users/alex/ae/src/components/main/importRc/panel1/InputNameBestehend.js",
+		"/C/Users/alex/ae/src/components/main/importPc/panel1/InputNameBestehend.js",
+		"/C/Users/alex/ae/src/components/main/export/panel2/Panel2.js",
+		"/C/Users/alex/ae/src/components/main/export/panel1/Panel1.js",
+		"/C/Users/alex/ae/src/stores/loadingGroups.js",
+		"/C/Users/alex/ae/src/stores.js",
+		"/C/Users/alex/ae/src/components/menu/tree/Tree.js",
+		"/C/Users/alex/ae/src/components/main/importRc/AlertLoadAllGroups.js",
+		"/C/Users/alex/ae/src/components/main/importPc/panel1/AlertLoadAllGroups.js",
+		"/C/Users/alex/ae/src/components/symbols/Symbols.js",
+		"/C/Users/alex/ae/src/components/symbols/Email.js",
+		"/C/Users/alex/ae/src/components/symbols/FieldsQuerying.js",
+		"/C/Users/alex/ae/src/components/symbols/EmailCt.js",
+		"/C/Users/alex/ae/src/components/HomeCt.js",
+		"/C/Users/alex/ae/src/components/ErrorsCt.js",
+		"/C/Users/alex/ae/src/components/Errors.js",
+		"/C/Users/alex/ae/src/components/Error.js",
+		"/C/Users/alex/ae/src/router.js",
+		"/C/Users/alex/ae/src/containers/Home.js",
+		"/C/Users/alex/ae/src/stores/error.js",
+		"/C/Users/alex/ae/src/actions/errors.js",
+		"/C/Users/alex/ae/src/components/main/object/LinksToSameGroup.js",
+		"/C/Users/alex/ae/src/components/menu/tree/TreeNodes.js",
+		"/C/Users/alex/ae/src/modules/buildFilterOptions.js",
+		"/C/Users/alex/ae/src/modules/kickOffStores.js",
+		"/C/Users/alex/ae/src/stores/filterOptions.js",
+		"/C/Users/alex/ae/src/stores/organizations.js",
+		"/C/Users/alex/ae/src/stores/path.js",
+		"/C/Users/alex/ae/src/stores/replicateFromRemoteDb.js",
+		"/C/Users/alex/ae/src/stores/replicateToRemoteDb.js",
+		"/C/Users/alex/ae/src/stores/user.js",
+		"/C/Users/alex/ae/src/reducers/errors.js",
+		"/C/Users/alex/ae/src/containers/Errors.js",
+		"/C/Users/alex/ae/src/searchWikipediaArticles.js",
+		"/C/Users/alex/ae/src/actions/app.js",
+		"/C/Users/alex/ae/src/modules/getGroupsLoadedFromLocalDb.js",
+		"/C/Users/alex/ae/src/searchGoogleImages.js",
+		"/C/Users/alex/ae/src/reducers/app.js",
+		"/C/Users/alex/ae/src/actions/user.js",
+		"/C/Users/alex/ae/src/reducers/user.js",
+		"/C/Users/alex/ae/src/reducers/groups.js",
+		"/C/Users/alex/ae/src/reducers/organizations.js",
+		"/C/Users/alex/ae/src/modules/getUserFromLocalDb.js",
+		"/C/Users/alex/ae/src/modules/addGroupsLoadedToLocalDb.js",
+		"/C/Users/alex/ae/src/modules/addPathsFromItemsToLocalDb.js",
+		"/C/Users/alex/ae/src/modules/addRolesToUser.js",
+		"/C/Users/alex/ae/src/modules/buildFilterOptionsFromObject.js",
+		"/C/Users/alex/ae/src/modules/buildGoogleImageLink.js",
+		"/C/Users/alex/ae/src/modules/buildHierarchy.js",
+		"/C/Users/alex/ae/src/modules/buildHierarchyObjectFromObjectForTaxonomy.js",
+		"/C/Users/alex/ae/src/modules/buildRcFirstLevel.js",
+		"/C/Users/alex/ae/src/modules/buildWikipediaLink.js",
+		"/C/Users/alex/ae/src/modules/changePathOfObjectInLocalDb.js",
+		"/C/Users/alex/ae/src/modules/convertValue.js",
+		"/C/Users/alex/ae/src/modules/doesUserExist.js",
+		"/C/Users/alex/ae/src/modules/extractInfoFromPath.js",
+		"/C/Users/alex/ae/src/modules/getCouchBaseUrl.js",
+		"/C/Users/alex/ae/src/modules/getCouchUrl.js",
+		"/C/Users/alex/ae/src/modules/getFieldsForGroupsToExportByCollectionType.js",
+		"/C/Users/alex/ae/src/modules/getGroupsFromRemoteDb.js"
+	],
+	"find":
+	{
+		"height": 48.0
+	},
+	"find_in_files":
+	{
+		"height": 136.0,
+		"where_history":
+		[
+			"C:\\Users\\alex\\ae",
+			"C:\\Users\\alex\\kapla, -app.asar, -release\\*",
+			"C:\\Users\\alex\\kapla, -app.asar, -C:\\Users\\alex\\kapla\\release",
+			"C:\\Users\\alex\\kapla, -app.asar, -release",
+			"C:\\Users\\alex\\kapla, -app.asar",
+			"C:\\Users\\alex\\kapla",
+			"C:\\Users\\alex\\apflora_api",
+			"C:\\Users\\alex\\apflora_api\\test",
+			"C:\\Users\\alex\\apflora_api\\src\\routes",
+			"C:\\Users\\alex\\apflora_api",
+			"C:\\Users\\alex\\artendb",
+			"C:\\Users\\alex\\ae"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"offsetHeight",
+			"react-textarea-autosize",
+			"buildExportData",
+			"getObjects",
+			"collectionIsEditing",
+			"pcType",
+			"onSaveObjectField",
+			"removeObject",
+			"addNewObject",
+			"toggleEditObjects",
+			"editObjects",
+			"userRoles",
+			"synonymObjects",
+			"onSaveObjectField",
+			"collectionIsEditing",
+			"onSaveObjectField",
+			"pcsOfSynonyms",
+			"PcsOfSynonyms",
+			"Taxonomy",
+			"Taxonomy.js",
+			"taxRcs",
+			"TaxonomicRelationCollections",
+			"TaxRcs",
+			"TextLink",
+			"gruppe",
+			"CollectionList",
+			"orgName",
+			"collections",
+			"orgName",
+			"activeOrganization",
+			"nonLrTcs",
+			"CollectionList",
+			"loadingFilterOptions",
+			"options",
+			"editObjects",
+			"object",
+			"synonymObjects",
+			"hierarchy",
+			"errors",
+			"rcsOfActiveOrganization",
+			"pcsOfActiveOrganization",
+			"tcsOfActiveOrganization",
+			"activeOrganization",
+			"organizations",
+			"relationFields",
+			"pcFields",
+			"taxonomyFields",
+			"fields",
+			"fieldsQueryingError",
+			"fieldsQuerying",
+			"tcsQuerying",
+			"tcs",
+			"logIn",
+			"loadingFilterOptions",
+			"filterOptions",
+			"guid",
+			"object",
+			"synonymObjects",
+			"gruppe",
+			"path",
+			"gruppe",
+			"hierarchy",
+			"object",
+			"addNewObject",
+			"onChangeActiveOrganization",
+			"organizations",
+			"getHierarchyFromLocalDb",
+			"loadPouchFromLocal",
+			"loadPouchFromRemote",
+			"onLoadPouchFromRemote",
+			"groupsLoaded",
+			"_local/hierarchy",
+			"groupsLoaded",
+			"replicatingToAe",
+			"userRoles",
+			"userIsAdminInOrgs",
+			"object",
+			"userIsEsWriterInOrgs",
+			"userIsAdminInOrgs",
+			"userIsEsWriterInOrgs",
+			"offlineIndexes",
+			"InputIndexes",
+			"offlineIndexes",
+			"groupsLoadedOrLoading",
+			"groupsLoadingObjects",
+			"loadingGroups",
+			"groupsLoadingObjects",
+			"AlertLoadAllGroups",
+			"groupsLoadingObjects",
+			"AlertLoadAllGroups",
+			"groupsLoadingObjects",
+			"showAlertLoadGroups",
+			"groupsLoadingObjects",
+			"showAlertLoadGroups",
+			"groupsLoadingObjects",
+			"replicatingFromAeTime",
+			"rebuildingRedundantData",
+			"tcsQuerying",
+			"GroupsLoading",
+			"app.Actions.showError",
+			"email",
+			"app",
+			"Errors",
+			"error.js",
+			"app.Actions.showError",
+			"catch",
+			"errors",
+			"Errors",
+			"isGroupLoaded",
+			"'use strict'",
+			"'use strict'\n",
+			"'use strict'\n\n",
+			"getUserFromLocalDb",
+			"initializeDbs",
+			"Dbs",
+			"DBS_",
+			"removeRolesFromUser",
+			"doesUserExist",
+			"addRolesToUser",
+			"doesUserExist",
+			"userIsAdminInOrgs",
+			"fetching",
+			"getRolesOfUser",
+			"refreshUserRoles",
+			"getUser",
+			"getLogin",
+			"groups",
+			"Groups"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"groups",
+			"ErrorsCt",
+			"addError",
+			"",
+			"getting",
+			"user",
+			"User",
+			"USER",
+			"getUserFromLocalDb",
+			"USER",
+			"user",
+			"_local/user",
+			"remoteUsersDb",
+			"users",
+			"Users",
+			"reject",
+			"USERS",
+			"Users",
+			"USERS",
+			"users",
+			"",
+			"ORGANIZATION_TOGGLE_ACTIVE",
+			"GROUP_TOGGLE_ACTIVE",
+			"active",
+			"_map",
+			"",
+			"{this.props.email}",
+			"Nutzungsbedingungen:",
+			"className={css(styles.line)}",
+			"bsStyle=\"primary\"",
+			"",
+			"{css(styles.symbolDiv)}",
+			"rootDiv",
+			"",
+			"tabsToAdd",
+			"",
+			"filterFields[index]",
+			"geschaeft[filterField.field]",
+			"exceljs",
+			"navActive",
+			"exportGeschaefteRechtsmittelVorjahre",
+			"exportGeschaefteAll",
+			"areaVernehmlassungTitle",
+			"statusVernehmlassung",
+			"",
+			"RECHTSMITTEL_INSTANZ",
+			"STATUS_VERNEHMLASSUNG",
+			"RECHTSMITTEL_INSTANZ",
+			"STATUS_VERNEHMLASSUNG",
+			"statusVernehmlassung",
+			"RECHTSMITTEL_INSTANZ",
+			"rechtsmittelInstanz",
+			"rechtsmittelErledigung",
+			"rechtsmittelerledigungOptions",
+			"areaForGeschaeftsart",
+			"AreaRechtsmittel",
+			"createOptions",
+			"blur",
+			"change",
+			"AreaGeschaeft",
+			"blur",
+			"change",
+			"AreaNummern",
+			"validateDate",
+			"onChangeDatePicker",
+			"getDateValidationStateDate",
+			"blur",
+			"change",
+			"AreaFristen",
+			"blur",
+			"change",
+			"AreaParlVorstoss",
+			"AreaPersonen",
+			"AreaHistory",
+			"AreaZuletztMutiert",
+			"areaZuletztMutiert",
+			"AreaParlVorstoss",
+			"areaParlVorstoss",
+			"areaHistory",
+			"areaZuletztMutiert",
+			"",
+			"labelEntscheidAwel",
+			"addNachgeschaefteToHistory",
+			"addVorgeschaefteToHistory",
+			"",
+			"GeschaefteLayoutContainer",
+			"externe",
+			"Extern",
+			"EXTERN",
+			"Extern",
+			"geschaeftKontaktInternNewCreate",
+			"geschaefteKontakteIntern",
+			"geschaeftKontaktInternToggleActivated",
+			"geschaefteKontakteIntern",
+			"GESCHAEFTE_KONTAKTE_INTERN",
+			"GESCHAEFT_KONTAKTE_INTERN",
+			"geschaeftKontaktIntern",
+			"GESCHAEFT_KONTAKT_INTERN",
+			"GESCHAEFTE_KONTAKTE_INTERN",
+			"geschaefteKontakteIntern",
+			"GESCHAEFT_KONTAKT_INTERN_REMOVE_DELETE_INTENDED",
+			"GESCHAEFT_KONTAKT_INTERN_SET_DELETE_INTENDED",
+			"GESCHAEFT_KONTAKT_INTERN_NEW_ERROR",
+			"GESCHAEFT_KONTAKT_INTERN_NEW",
+			"GESCHAEFTE_KONTAKTE_INTERN_GET_ERROR",
+			"GESCHAEFTE_KONTAKTE_INTERN_GET_SUCCESS",
+			"GESCHAEFTE_KONTAKTE_INTERN_GET",
+			"geschaeftKontaktInternNew",
+			"geschaeftKontaktInternNewError",
+			"geschaeftKontaktInternSetDeleteIntended",
+			"geschaeftKontaktInternRemoveDeleteIntended",
+			"geschaeftKontaktInternDelete",
+			"geschaeftKontaktInternDeleteError",
+			"GESCHAEFT_KONTAKT_INTERN_DELETE",
+			"GESCHAEFT_KONTAKT_INTERN_DELETE_ERROR",
+			"GESCHAEFTE_KONTAKTE_INTERN_CHANGE_STATE",
+			"GESCHAEFTE_KONTAKTE_INTERN_CHANGE_DB_ERROR",
+			"GESCHAEFT_KONTAKT_INTERN_TOGGLE_ACTIVATED",
+			"geschaeftKontaktInternToggleActivated",
+			"GeschaeftKontaktIntern",
+			"geschaefteKontakteIntern",
+			"GeschaefteKontakteIntern",
+			"getGeschaefteKontakteInternFromDb",
+			"geschaefteKontakteInternFromDb",
+			"geschaefteKontakteExtern",
+			"areaTitle",
+			"getDateValidationStateDate",
+			"EXTERNE_OPTIONS_GET_ERROR"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": true,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 3,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/D/Google Drive/artendb/push.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 7315,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "package.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2636,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2068,
+								1895
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 573.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/components/main/object/FieldTextarea.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1498,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								471,
+								471
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 161.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/components/Home.js",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 8532,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 999.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 42.0
+	},
+	"input":
+	{
+		"height": 50.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 232.0
+	},
+	"pinned_build_system": "",
+	"project": "ae.sublime-project",
+	"replace":
+	{
+		"height": 92.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 404.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
