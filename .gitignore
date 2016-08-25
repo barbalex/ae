@@ -78,6 +78,7 @@ node_modules
 public
 # turn off because atom find does not work any more with this setting!!!
 #npm-debug.log*
+npm-debug*
 sftpPass.json
 couchPass.json
 ae_mac.sublime-workspace
