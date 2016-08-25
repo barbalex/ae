@@ -10,9 +10,9 @@ import {
   NODES_GET_FOR_URL,
   NODES_GET_FOR_URL_SUCCESS,
   NODES_GET_FOR_URL_ERROR,
-  OBJECT_CHANGE,
-  OBJECT_CHANGE_SUCCESS,
-  OBJECT_CHANGE_ERROR,
+  OBJECT_GET,
+  OBJECT_GET_SUCCESS,
+  OBJECT_GET_ERROR,
 } from '../actions/user'
 
 const standardState = {
@@ -78,19 +78,19 @@ const nodes = (state = standardState, action) => {
         fetchingNodes: false,
         error: action.error,
       }
-    case OBJECT_CHANGE:
+    case OBJECT_GET:
       return {
         ...state,
         fetchingObject: true,
         object: null,
       }
-    case OBJECT_CHANGE_SUCCESS:
+    case OBJECT_GET_SUCCESS:
       return {
         ...state,
         fetchingObject: false,
         object: action.object,
       }
-    case OBJECT_CHANGE_ERROR:
+    case OBJECT_GET_ERROR:
       return {
         ...state,
         fetchingObject: false,

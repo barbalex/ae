@@ -21,7 +21,7 @@ const TreeNodes = ({
       const activeKey = idPath[level - 1]
       const keyIsActive = node.data.id === activeKey
       // const keyIsActive = idPath.includes(node.data.id)
-      const keyIsObjectShown = node.data.id && object.id && object.id === node.data.object_id
+      const keyIsObjectShown = node.data.id && object && object.id && object.id === node.data.object_id
       const glyph = (
         keyIsActive ?
         (keyIsObjectShown ? 'forward' : 'triangle-bottom') :
@@ -61,7 +61,7 @@ const TreeNodes = ({
         event.stopPropagation()
         console.log('TreeNodes.js, node clicked:', node)
         console.log('TreeNodes.js, node.children:', node.children)
-        console.log('TreeNodes.js, node id:', node.id)
+        // console.log('TreeNodes.js, node id:', node.id)
         if (node.children) {
           nodeChildrenRemove(node)
         } else {

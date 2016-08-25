@@ -33,6 +33,10 @@ export const NODE_CHILDREN_ADD_SUCCESS = 'NODE_CHILDREN_ADD_SUCCESS'
 export const NODE_CHILDREN_ADD_ERROR = 'NODE_CHILDREN_ADD_ERROR'
 export const nodeChildrenAdd = (node) =>
   (dispatch, getState) => {
+    console.log('node.data.object_id:', node.data.object_id)
+    if (node.data.object_id) {
+      dispatch(objectGet({ id: node.data.object_id }))
+    }
     fetch(`${getApiBaseUrl()}/nodes/${node.data.type}/${node.id}/children`)
       .then((response) => response.json())
       .then((children) => {
@@ -131,30 +135,30 @@ export const nodesGetForUrl = (location) =>
       }))
   }
 
-export const OBJECT_CHANGE = 'OBJECT_CHANGE'
-export const OBJECT_CHANGE_SUCCESS = 'OBJECT_CHANGE_SUCCESS'
-export const OBJECT_CHANGE_ERROR = 'OBJECT_CHANGE_ERROR'
-export const objectChange = ({
+export const OBJECT_GET = 'OBJECT_GET'
+export const OBJECT_GET_SUCCESS = 'OBJECT_GET_SUCCESS'
+export const OBJECT_GET_ERROR = 'OBJECT_GET_ERROR'
+export const objectGet = ({
   id,
 }) =>
   (dispatch) => {
     dispatch({
-      type: OBJECT_CHANGE,
+      type: OBJECT_GET,
     })
     if (id) {
       fetch(`${getApiBaseUrl()}/object/${id}`)
         .then((response) => response.json())
         .then((object) => dispatch({
-          type: OBJECT_CHANGE_SUCCESS,
+          type: OBJECT_GET_SUCCESS,
           object
         }))
         .catch((error) => dispatch({
-          type: OBJECT_CHANGE_ERROR,
+          type: OBJECT_GET_ERROR,
           error
         }))
     } else {
       dispatch({
-        type: OBJECT_CHANGE_SUCCESS,
+        type: OBJECT_GET_SUCCESS,
         id: null,
       })
     }
