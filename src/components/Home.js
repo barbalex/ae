@@ -7,7 +7,7 @@ import MenuButton from './menu/menuButton/MenuButton.js'
 import ResizeButton from './menu/ResizeButton.js'
 import Filter from './menu/Filter.js'
 import Symbols from './symbols/Symbols.js'
-import Main from './main/Main.js'
+import Main from './main/MainCt.js'
 import Tree from './menu/tree/TreeCt.js'
 import ErrorsCt from './ErrorsCt.js'
 import Login from './main/login/Login.js'
@@ -44,7 +44,6 @@ export default React.createClass({
     gruppe: React.PropTypes.string,
     path: React.PropTypes.array,
     synonymObjects: React.PropTypes.array,
-    object: React.PropTypes.object,
     editObjects: React.PropTypes.bool,
     guid: React.PropTypes.string,
     loadingFilterOptions: React.PropTypes.bool,
@@ -77,7 +76,6 @@ export default React.createClass({
     return {
       path,
       synonymObjects: [],
-      object: undefined,
       editObjects: false,
       guid,
       filterOptions: [],
@@ -197,7 +195,7 @@ export default React.createClass({
     fieldValue,
     save
   ) {
-    const { object } = this.state
+    const { nodes, object } = this.props
     const pcTypeHash = {
       Taxonomie: 'Taxonomien',
       Datensammlung: 'Eigenschaftensammlungen',
@@ -252,9 +250,9 @@ export default React.createClass({
   render() {
     const {
       nodes,
+      object,
     } = this.props
     const {
-      object,
       filterOptions,
       loadingFilterOptions,
       mainComponent,
@@ -269,9 +267,10 @@ export default React.createClass({
     const showFilter = filterOptions.length > 0 || loadingFilterOptions
     const showTree = nodes && nodes.length > 0
     const showMain = (
-      object !== undefined ||
-      !!mainComponent
+      object !== undefined
+      || !!mainComponent
     )
+    console.log('Home.js, render, showMain:', showMain)
     const showLogin = logIn && !email
     let homeStyle = {}
     if (pcsQuerying || rcsQuerying || fieldsQuerying) {

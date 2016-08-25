@@ -65,9 +65,10 @@ export default React.createClass({
     const { formHorizontal } = this.state
     const showObject = (
       object &&
-      Object.keys(object).length > 0 &&
-      !mainComponent
+      Object.keys(object).length > 0
+      // && !mainComponent
     )
+    console.log('Main.js, render, showObject:', showObject)
 
     return (
       <Form
