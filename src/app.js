@@ -4,10 +4,6 @@
 import app from 'ampersand-app'
 import React from 'react'
 import { render } from 'react-dom'
-import Router from './router.js'
-import actions from './actions.js'
-import stores from './stores'
-import getGroupsLoadedFromLocalDb from './modules/getGroupsLoadedFromLocalDb.js'
 import 'expose?$!expose?jQuery!jquery'
 import 'bootstrap'
 /**
@@ -21,14 +17,19 @@ import 'babel-polyfill'
  * http://caniuse.com/#feat=promises
  */
 import 'es6-promise'
+
+import Router from './router.js'
+import actions from './actions.js'
+import stores from './stores'
+import getGroupsLoadedFromLocalDb from './modules/getGroupsLoadedFromLocalDb.js'
 // make webpack import styles
 import './styles/main.styl'
 // make webpack import server.js
-import 'file?name=server.js!../server.js'
+import 'file?name=server.js!../server.js' // eslint-disable-line
 // this lib can not be imported directly - need to load it as a global using https://github.com/webpack/script-loader
-import 'script!../node_modules/xlsx/dist/xlsx.core.min.js'
+import 'script!../node_modules/xlsx/dist/xlsx.core.min.js' // eslint-disable-line
 // load favicon
-require('file?name=favicon.ico!../favicon.ico')
+require('file?name=favicon.ico!../favicon.ico') // eslint-disable-line
 
 /**
  * expose 'app' to the browser console
